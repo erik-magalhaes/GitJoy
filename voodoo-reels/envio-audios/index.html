@@ -21,6 +21,7 @@ p { margin: 0; }
 .card { background: var(--panel); border: 2px solid var(--line); border-radius: 18px; padding: 16px; display: grid; gap: 10px; min-width: 0; }
 .how ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
 .how b, .card b { color: var(--fg); }
+.how a { color: var(--lime); }
 .progress { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; }
 .bar { flex: 1 1 200px; height: 12px; background: var(--line); border-radius: 999px; overflow: hidden; }
 .bar i { display: block; height: 100%; width: 0; background: var(--lime); transition: width .3s; }
@@ -57,13 +58,11 @@ p { margin: 0; }
   <section class="card how">
     <h2>Como gravar</h2>
     <ol>
-      <li>Abra o <b>gravador de voz</b> do celular (Gravador, Memos de Voz ou até o WhatsApp).</li>
-      <li>Grave <b>uma frase por áudio</b> e envie no botão da frase. Pode regravar quantas vezes quiser: o último envio vale.</li>
-      <li>Prefere gravar tudo de uma vez? Leia o roteiro inteiro com <b>2 segundos de pausa entre as frases</b> e use o botão <b>Enviar gravação completa</b>.</li>
-      <li>Não precisa acertar o tempo do vídeo. Fale no seu ritmo que o Claude ajusta as cenas à sua voz.</li>
-      <li>Quando terminar, é só avisar no chat.</li>
+      <li>Abra o <a href="https://raw.githack.com/erik-magalhaes/GitJoy/claude/voodoo-stop-motion-video-rni4kj/voodoo-reels/gravador/index.html" target="_blank" rel="noopener"><b>Gravador Vudú</b></a> no navegador do celular (Chrome ou Safari). Nele o botão <b>● Gravar</b> grava de verdade, frase por frase.</li>
+      <li>No fim, toque em <b>Salvar narração</b> e envie o arquivo aqui em <b>Enviar gravação completa</b>.</li>
+      <li>Também vale gravar no gravador de voz do celular e enviar cada frase no botão dela.</li>
+      <li>Não precisa acertar o tempo do vídeo: o Claude ajusta as cenas à sua voz. Quando terminar, é só avisar no chat.</li>
     </ol>
-    <p>No Android, o botão <b>Gravar agora</b> costuma abrir o gravador direto. No iPhone, grave no Memos de Voz, toque em compartilhar → <b>Salvar em Arquivos</b> e depois escolha o arquivo aqui.</p>
   </section>
 
   <section class="card warn" id="offline" hidden>
@@ -121,8 +120,7 @@ LINES.forEach(([say, cue], i) => {
     <div class="body">
       <span class="say">${say}</span>${cue ? `<span class="cue">${cue}</span>` : ""}
       <div class="row">
-        <label class="btn main">🎙 Gravar agora<input type="file" accept="audio/*" capture data-slot="${id}"></label>
-        <label class="btn">⬆ Escolher arquivo<input type="file" accept="audio/*,video/*" data-slot="${id}"></label>
+        <label class="btn">⬆ Enviar áudio<input type="file" accept="audio/*,video/*" data-slot="${id}"></label>
         <button class="btn" data-play="${id}" hidden>▶ Ouvir</button>
       </div>
       <span class="state" data-state="${id}">Ainda não enviado</span>
