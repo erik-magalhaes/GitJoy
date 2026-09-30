@@ -1,0 +1,232 @@
+<title>Teleprompter Vudú</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Figtree:wght@400;600;800&display=swap">
+<style>
+/* Layout: palco escuro — vídeo 9:16 à esquerda, roteiro rolando à direita; empilha no celular */
+:root {
+  --bg: #17101f;
+  --panel: #231832;
+  --line: #3a2a4d;
+  --fg: #f4ecff;
+  --muted: #a896bd;
+  --lime: #b6e84a;
+  --gold: #ffcf3a;
+  --red: #ff5a4f;
+  --display: "Luckiest Guy", "Arial Black", Impact, sans-serif;
+  --body: "Figtree", "Segoe UI", system-ui, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px;
+  padding-inline: 16px; padding-block: 20px 40px;
+}
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; gap: 20px; }
+header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px; }
+h1 { font-family: var(--display); font-weight: 400; font-size: clamp(28px, 5vw, 42px); letter-spacing: .02em; margin: 0; color: var(--lime); text-wrap: balance; }
+h1 span { color: var(--fg); }
+.sub { color: var(--muted); margin: 0; }
+.stage { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 760px) { .stage { grid-template-columns: minmax(0, 1fr); } .vidbox { max-width: 280px; margin: 0 auto; } }
+.vidbox { position: relative; width: 100%; aspect-ratio: 9 / 16; max-width: 100%; background: #000; border-radius: 14px; overflow: hidden; border: 2px solid var(--line); }
+video { width: 100%; height: 100%; display: block; object-fit: cover; }
+.count { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--display); font-size: 120px; color: var(--gold); background: rgba(10, 5, 15, .55); text-shadow: 0 6px 0 #000; }
+.clock { font-variant-numeric: tabular-nums; font-weight: 800; color: var(--gold); }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; }
+button, .file {
+  font: 600 15px var(--body); color: var(--fg); background: var(--panel); border: 2px solid var(--line);
+  border-radius: 999px; padding: 10px 16px; cursor: pointer;
+}
+button:hover, .file:hover { border-color: var(--muted); }
+button:focus-visible, .file:focus-within, input:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+button.go { background: var(--lime); color: #1a1022; border-color: var(--lime); font-weight: 800; }
+.prompter { background: var(--panel); border: 2px solid var(--line); border-radius: 18px; padding: 18px; min-width: 0; }
+.bar { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.lines { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; max-height: 62vh; overflow-y: auto; scroll-behavior: smooth; }
+.lines li { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 12px; padding: 10px 12px; border-radius: 12px; cursor: pointer; transition: background .2s, opacity .2s; opacity: .55; }
+.lines li:hover { background: rgba(255, 255, 255, .04); opacity: .85; }
+.lines li.now { background: #2f2143; opacity: 1; }
+.lines li.next { opacity: .8; }
+.t { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 13px; padding-top: 6px; }
+.say { font-size: clamp(19px, 2.3vw, 26px); line-height: 1.35; font-weight: 600; }
+.lines li.now .say { font-size: clamp(23px, 3vw, 34px); }
+.say b { color: var(--gold); font-weight: 800; }
+.cue { display: block; font-size: 13px; color: var(--muted); font-weight: 400; margin-top: 4px; letter-spacing: .01em; }
+.sync { display: grid; gap: 12px; background: var(--panel); border: 2px dashed var(--line); border-radius: 18px; padding: 18px; }
+.sync h2, .how h2 { font-family: var(--display); font-weight: 400; font-size: 24px; margin: 0; color: var(--gold); letter-spacing: .02em; }
+.sync p, .how p, .how li { color: var(--muted); margin: 0; line-height: 1.5; }
+.row { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+.file input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.file { position: relative; display: inline-block; }
+input[type=range] { width: min(320px, 100%); accent-color: var(--lime); }
+.status { color: var(--lime); font-weight: 600; }
+.how { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.how > div { background: var(--panel); border-radius: 18px; padding: 18px; display: grid; gap: 8px; align-content: start; }
+.how ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+@media (prefers-reduced-motion: reduce) { .lines { scroll-behavior: auto; } .lines li { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Vudú <span>· teleprompter</span></h1>
+    <p class="sub">Reels da Sua Vez · 1:08 · a linha acesa é a que você fala agora</p>
+  </header>
+
+  <section class="stage">
+    <div class="vidbox">
+      <video id="vid" src="video.mp4" playsinline muted preload="auto"></video>
+      <div class="count" id="count" hidden>3</div>
+    </div>
+
+    <div class="prompter">
+      <div class="bar">
+        <div class="controls">
+          <button class="go" id="start">▶ Começar com contagem</button>
+          <button id="pause">Pausar</button>
+          <button id="rew">Voltar ao início</button>
+          <button id="snd" aria-pressed="false">Som do vídeo: desligado</button>
+        </div>
+        <span class="clock" id="clock">0:00.0</span>
+      </div>
+      <ol class="lines" id="lines"></ol>
+    </div>
+  </section>
+
+  <section class="sync">
+    <h2>Teste de sincronia</h2>
+    <p>Já gravou? Carregue o áudio aqui para ouvir a sua voz junto com o vídeo. Se a voz estiver adiantada ou atrasada, ajuste o deslocamento e me diga o valor na hora de mixar.</p>
+    <div class="row">
+      <label class="file">Carregar minha narração<input type="file" id="voice" accept="audio/*,video/*"></label>
+      <button id="test" disabled>▶ Tocar voz + vídeo</button>
+      <span class="status" id="vstatus">Nenhum áudio carregado</span>
+    </div>
+    <div class="row">
+      <label for="offset">Deslocamento da voz</label>
+      <input type="range" id="offset" min="-1.5" max="1.5" step="0.1" value="0">
+      <span class="clock" id="offv">0,0 s</span>
+    </div>
+  </section>
+
+  <section class="how">
+    <div>
+      <h2>Gravar no CapCut</h2>
+      <ol>
+        <li>Novo projeto com o arquivo <b>vudu_limpo.mp4</b>.</li>
+        <li><b>Áudio → Narração</b>, segure o microfone e fale.</li>
+        <li>Deixe esta página aberta no computador ou em outro celular e aperte <b>Começar</b> junto.</li>
+        <li>Abaixe o som original do vídeo para uns 40%.</li>
+      </ol>
+    </div>
+    <div>
+      <h2>Gravar separado</h2>
+      <ol>
+        <li>Abra o gravador de voz do celular e comece a gravar.</li>
+        <li>Aperte <b>Começar com contagem</b> aqui e leia a linha acesa.</li>
+        <li>Mande o arquivo para o Claude: ele mistura a voz com a música e gera o vídeo final.</li>
+      </ol>
+    </div>
+    <div>
+      <h2>Dicas de voz</h2>
+      <p>Sorria enquanto fala. Faça pausinhas nas reticências. As palavras em amarelo são as que merecem ênfase. Grave num cômodo com cortinas ou sofá, com o celular a um palmo da boca.</p>
+    </div>
+  </section>
+</div>
+
+<script>
+const LINES = [
+  [0.2, "E se você pudesse <b>amaldiçoar</b> seus amigos...", "Gancho: o boneco entra pulando"],
+  [2.5, "...e ainda ganhar <b>pontos</b> com isso?", "Zap no boneco"],
+  [5.1, "Esse é o <b>Vudú</b>: o jogo em que você é um feiticeiro perverso...", "A caixa cai na mesa"],
+  [7.9, "...e a sua galera vira vítima.", "O boneco espia"],
+  [11.2, "Na sua vez, você rola <b>cinco dados</b> de ingredientes.", "Dados rolando"],
+  [14.3, "Não gostou? Guarda os que servem e rola de novo...", "Três dados sobem"],
+  [17.3, "...mas cada nova rolagem <b>custa um dado</b>.", "Um dado vai embora"],
+  [22.3, "Juntou os ingredientes da carta?", "A carta vira"],
+  [25.4, "<b>Lança a maldição</b> em alguém da mesa e marca pontos.", "Dados entram na carta"],
+  [30.1, "E aí começa o <b>caos</b>!", "Carta Kapoera"],
+  [31.8, "Na <b>Kapoera</b>, a vítima não pode encostar os pés no chão...", "Boneco flutuando"],
+  [37.6, "Na <b>Tutakobraço</b>, tem que ficar com os braços esticados...", "Boneco esticado"],
+  [42.6, "...e tem maldição <b>muito pior</b>.", "Tom de suspense"],
+  [45.3, "Esqueceu da maldição?", "Carimbo ESQUECEU!"],
+  [48.0, "Quem lançou ganha <b>ainda mais pontos</b>.", "Caveira avança"],
+  [52.2, "Quem chegar primeiro nos <b>onze pontos</b> vence.", "Caveira no 11"],
+  [54.9, "De duas a oito pessoas, em uns trinta minutos.", "Selos de informação"],
+  [58.2, "Quer amaldiçoar sua galera no fim de semana?", "Logo da Sua Vez"],
+  [60.9, "<b>Aluga o Vudú na Sua Vez</b>: link na bio!", "Chamada principal"],
+  [63.4, "E comenta aqui: qual maldição você jogaria no seu <b>melhor amigo</b>?", "Pergunta final, voz sorrindo"],
+];
+const $ = (id) => document.getElementById(id);
+const vid = $("vid"), list = $("lines"), clock = $("clock");
+const fmt = (s) => { const m = Math.floor(s / 60); const r = (s - m * 60).toFixed(1).padStart(4, "0"); return `${m}:${r}`; };
+
+LINES.forEach(([t, say, cue], i) => {
+  const li = document.createElement("li");
+  li.innerHTML = `<span class="t">${fmt(t)}</span><span class="say">${say}<span class="cue">${cue}</span></span>`;
+  li.addEventListener("click", () => { vid.currentTime = Math.max(0, t - 0.2); update(); });
+  list.appendChild(li);
+});
+const items = [...list.children];
+let last = -1;
+function update() {
+  const t = vid.currentTime;
+  clock.textContent = fmt(t);
+  let cur = -1;
+  LINES.forEach(([s], i) => { if (t >= s - 0.15) cur = i; });
+  if (cur !== last) {
+    items.forEach((li, i) => { li.classList.toggle("now", i === cur); li.classList.toggle("next", i === cur + 1); });
+    const el = items[Math.max(0, cur)];
+    if (el) list.scrollTo({ top: el.offsetTop - list.offsetTop - 60 });
+    last = cur;
+  }
+}
+function loop() { update(); if (!vid.paused) requestAnimationFrame(loop); }
+vid.addEventListener("play", () => requestAnimationFrame(loop));
+vid.addEventListener("seeked", update);
+
+let wake = null;
+async function keepAwake() { try { wake = await navigator.wakeLock?.request("screen"); } catch (e) { wake = null; } }
+
+let counting = false;
+$("start").addEventListener("click", () => {
+  if (counting) return;
+  counting = true; keepAwake();
+  vid.pause(); vid.currentTime = 0; update();
+  const c = $("count"); let n = 3; c.textContent = n; c.hidden = false;
+  const tick = setInterval(() => {
+    n -= 1;
+    if (n > 0) { c.textContent = n; return; }
+    clearInterval(tick); c.hidden = true; counting = false;
+    vid.play().catch(() => {});
+  }, 1000);
+});
+$("pause").addEventListener("click", () => { vid.pause(); if (voice) voice.pause(); });
+$("rew").addEventListener("click", () => { vid.pause(); vid.currentTime = 0; if (voice) { voice.pause(); voice.currentTime = 0; } update(); });
+$("snd").addEventListener("click", (e) => {
+  vid.muted = !vid.muted;
+  e.currentTarget.textContent = "Som do vídeo: " + (vid.muted ? "desligado" : "ligado");
+  e.currentTarget.setAttribute("aria-pressed", String(!vid.muted));
+});
+
+let voice = null, offset = 0;
+$("voice").addEventListener("change", (e) => {
+  const f = e.target.files && e.target.files[0];
+  if (!f) return;
+  if (voice) { voice.pause(); URL.revokeObjectURL(voice.src); }
+  voice = new Audio(URL.createObjectURL(f));
+  $("vstatus").textContent = "Carregado: " + f.name;
+  $("test").disabled = false;
+});
+$("offset").addEventListener("input", (e) => {
+  offset = parseFloat(e.target.value);
+  $("offv").textContent = (offset > 0 ? "+" : "") + offset.toFixed(1).replace(".", ",") + " s";
+});
+$("test").addEventListener("click", async () => {
+  if (!voice) return;
+  vid.pause(); voice.pause();
+  vid.currentTime = Math.max(0, offset); voice.currentTime = Math.max(0, -offset);
+  update();
+  try { await Promise.all([vid.play(), voice.play()]); } catch (e) { $("vstatus").textContent = "Não consegui tocar esse arquivo. Tente .mp3 ou .m4a."; }
+});
+update();
+</script>
