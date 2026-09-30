@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gravador Vudú</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Figtree:wght@400;600;800&display=swap">
+<style>
+/* Palco escuro: vídeo 9:16 à esquerda, frases com botões de gravação à direita; empilha no celular */
+:root {
+  --bg: #17101f; --panel: #231832; --line: #3a2a4d; --fg: #f4ecff; --muted: #a896bd;
+  --lime: #b6e84a; --gold: #ffcf3a; --red: #ff5a4f;
+  --display: "Luckiest Guy", "Arial Black", Impact, sans-serif;
+  --body: "Figtree", "Segoe UI", system-ui, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; padding-inline: 16px; padding-block: 20px 60px; }
+.wrap { max-width: 1160px; margin: 0 auto; display: grid; gap: 18px; }
+h1 { font-family: var(--display); font-weight: 400; font-size: clamp(28px, 5vw, 42px); margin: 0; color: var(--lime); letter-spacing: .02em; }
+h1 span { color: var(--fg); }
+h2 { font-family: var(--display); font-weight: 400; font-size: 22px; margin: 0; color: var(--gold); letter-spacing: .02em; }
+p { margin: 0; line-height: 1.5; color: var(--muted); }
+.stage { display: grid; grid-template-columns: minmax(0, 330px) minmax(0, 1fr); gap: 18px; align-items: start; }
+@media (max-width: 780px) { .stage { grid-template-columns: minmax(0, 1fr); } .side { max-width: 300px; margin: 0 auto; width: 100%; } }
+.side { display: grid; gap: 12px; position: sticky; top: 12px; }
+.vidbox { position: relative; width: 100%; aspect-ratio: 9 / 16; background: #000; border-radius: 14px; overflow: hidden; border: 2px solid var(--line); }
+video { width: 100%; height: 100%; display: block; object-fit: cover; }
+.count { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--display); font-size: 120px; color: var(--gold); background: rgba(10,5,15,.55); }
+.rec-dot { position: absolute; top: 12px; left: 12px; background: var(--red); color: #fff; font-weight: 800; font-size: 13px; padding: 4px 10px; border-radius: 999px; }
+.meter { height: 10px; border-radius: 999px; background: var(--line); overflow: hidden; }
+.meter i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--lime), var(--gold), var(--red)); transition: width .06s; }
+.clock { font-variant-numeric: tabular-nums; font-weight: 800; color: var(--gold); }
+.row { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; }
+button { font: 700 15px var(--body); color: var(--fg); background: var(--panel); border: 2px solid var(--line); border-radius: 999px; padding: 9px 15px; cursor: pointer; }
+button:hover:not(:disabled) { border-color: var(--muted); }
+button:disabled { opacity: .45; cursor: not-allowed; }
+button:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+button.go { background: var(--lime); color: #1a1022; border-color: var(--lime); }
+button.rec { background: var(--red); border-color: var(--red); color: #fff; }
+button.small { font-size: 13px; padding: 6px 11px; }
+.card { background: var(--panel); border: 2px solid var(--line); border-radius: 18px; padding: 16px; display: grid; gap: 12px; min-width: 0; }
+.notice { border-color: var(--gold); }
+.lines { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.lines li { display: grid; grid-template-columns: 54px minmax(0, 1fr); gap: 12px; padding: 12px; border-radius: 14px; border: 2px solid transparent; background: rgba(255,255,255,.02); }
+.lines li.now { border-color: var(--lime); background: #2f2143; }
+.lines li.done .t::after { content: " ✔"; color: var(--lime); }
+.t { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 13px; padding-top: 4px; }
+.say { font-size: clamp(18px, 2.2vw, 24px); line-height: 1.35; font-weight: 600; }
+.say b { color: var(--gold); }
+.cue { font-size: 13px; color: var(--muted); }
+.body { display: grid; gap: 8px; min-width: 0; }
+.status { font-weight: 600; color: var(--lime); }
+.err { color: var(--red); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="row" style="justify-content:space-between">
+    <h1>Vudú <span>· gravador de narração</span></h1>
+    <span class="clock" id="clock">0:00.0</span>
+  </header>
+
+  <div class="card notice" id="intro">
+    <h2>Como usar</h2>
+    <p>1. Use fone de ouvido (ou deixe o som do vídeo desligado) e clique em <b>Ativar microfone</b>.
+    2. Grave frase por frase com o botão ● de cada linha, ou grave tudo de uma vez.
+    3. Ouça o resultado junto com o vídeo e regrave o que não gostar.
+    4. Clique em <b>Baixar narração</b>: sai um arquivo .wav de 1:08 já no tempo do vídeo, pronto para o CapCut ou para mandar ao Claude.</p>
+    <div class="row">
+      <button class="go" id="mic">🎙 Ativar microfone</button>
+      <span id="micstatus" class="status"></span>
+    </div>
+  </div>
+
+  <section class="stage">
+    <div class="side">
+      <div class="vidbox">
+        <video id="vid" src="__VIDEO__" playsinline muted preload="auto"></video>
+        <div class="count" id="count" hidden>3</div>
+        <div class="rec-dot" id="recdot" hidden>● GRAVANDO</div>
+      </div>
+      <div class="meter" aria-label="Volume do microfone"><i id="lvl"></i></div>
+      <div class="card">
+        <div class="row">
+          <button class="rec" id="full" disabled>● Gravar tudo de uma vez</button>
+          <button id="stop" disabled>■ Parar</button>
+        </div>
+        <div class="row">
+          <button id="listen" disabled>▶ Ouvir com o vídeo</button>
+          <button id="snd">Som do vídeo: desligado</button>
+        </div>
+        <button class="go" id="export" disabled>⬇ Baixar narração (.wav)</button>
+        <span id="status" class="status"></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Frases</h2>
+      <p>O botão ● toca o trecho do vídeo com contagem de 3 segundos e grava só aquela frase. Frases sem gravação própria usam a gravação completa, se você tiver feito uma.</p>
+      <ol class="lines" id="lines"></ol>
+    </div>
+  </section>
+</div>
+
+<script>
+const DUR = 68.0;
+const LINES = [
+  [0.2, "E se você pudesse <b>amaldiçoar</b> seus amigos...", "Gancho: o boneco entra pulando"],
+  [2.5, "...e ainda ganhar <b>pontos</b> com isso?", "Zap no boneco"],
+  [5.1, "Esse é o <b>Vudú</b>: o jogo em que você é um feiticeiro perverso...", "A caixa cai na mesa"],
+  [7.9, "...e a sua galera vira vítima.", "O boneco espia"],
+  [11.2, "Na sua vez, você rola <b>cinco dados</b> de ingredientes.", "Dados rolando"],
+  [14.3, "Não gostou? Guarda os que servem e rola de novo...", "Três dados sobem"],
+  [17.3, "...mas cada nova rolagem <b>custa um dado</b>.", "Um dado vai embora"],
+  [22.3, "Juntou os ingredientes da carta?", "A carta vira"],
+  [25.4, "<b>Lança a maldição</b> em alguém da mesa e marca pontos.", "Dados entram na carta"],
+  [30.1, "E aí começa o <b>caos</b>!", "Carta Kapoera"],
+  [31.8, "Na <b>Kapoera</b>, a vítima não pode encostar os pés no chão...", "Boneco flutuando"],
+  [37.6, "Na <b>Tutakobraço</b>, tem que ficar com os braços esticados...", "Boneco esticado"],
+  [42.6, "...e tem maldição <b>muito pior</b>.", "Tom de suspense"],
+  [45.3, "Esqueceu da maldição?", "Carimbo ESQUECEU!"],
+  [48.0, "Quem lançou ganha <b>ainda mais pontos</b>.", "Caveira avança"],
+  [52.2, "Quem chegar primeiro nos <b>onze pontos</b> vence.", "Caveira no 11"],
+  [54.9, "De duas a oito pessoas, em uns trinta minutos.", "Selos de informação"],
+  [58.2, "Quer amaldiçoar sua galera no fim de semana?", "Logo da Sua Vez"],
+  [60.9, "<b>Aluga o Vudú na Sua Vez</b>: link na bio!", "Chamada principal"],
+  [63.4, "E comenta aqui: qual maldição você jogaria no seu <b>melhor amigo</b>?", "Pergunta final, voz sorrindo"],
+];
+const endOf = (i) => (i + 1 < LINES.length ? LINES[i + 1][0] : DUR);
+const $ = (id) => document.getElementById(id);
+const vid = $("vid");
+const fmt = (s) => { const m = Math.floor(s / 60); return `${m}:${(s - m * 60).toFixed(1).padStart(4, "0")}`; };
+
+let stream = null, actx = null, analyser = null;
+let recorder = null, chunks = [], recTarget = null, stopAt = null;
+const takes = new Map();      // índice da frase -> {blob, buf}
+let full = null;              // gravação completa {blob, buf}
+let mixed = null;             // AudioBuffer final
+let playSrc = null;
+
+// ---------------------------------------------------------------- lista de frases
+const items = LINES.map(([t, say, cue], i) => {
+  const li = document.createElement("li");
+  li.innerHTML = `<span class="t">${fmt(t)}</span>
+    <div class="body"><span class="say">${say}</span><span class="cue">${cue}</span>
+    <div class="row">
+      <button class="rec small" data-rec="${i}" disabled>● Gravar frase</button>
+      <button class="small" data-play="${i}" disabled>▶ Ouvir</button>
+      <button class="small" data-del="${i}" disabled>Apagar</button>
+    </div></div>`;
+  $("lines").appendChild(li);
+  return li;
+});
+$("lines").addEventListener("click", (e) => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.rec) recordLine(+b.dataset.rec);
+  if (b.dataset.play) playLine(+b.dataset.play);
+  if (b.dataset.del) { takes.delete(+b.dataset.del); refresh(); }
+});
+
+function refresh() {
+  items.forEach((li, i) => {
+    const has = takes.has(i);
+    li.classList.toggle("done", has);
+    li.querySelector("[data-rec]").disabled = !stream || !!recorder;
+    li.querySelector("[data-rec]").textContent = has ? "● Regravar" : "● Gravar frase";
+    li.querySelector("[data-play]").disabled = !has && !full;
+    li.querySelector("[data-del]").disabled = !has;
+  });
+  const any = takes.size > 0 || full;
+  $("full").disabled = !stream || !!recorder;
+  $("full").textContent = full ? "● Regravar tudo" : "● Gravar tudo de uma vez";
+  $("stop").disabled = !recorder;
+  $("listen").disabled = !any || !!recorder;
+  $("export").disabled = !any || !!recorder;
+  const n = takes.size;
+  $("status").textContent = (full ? "Gravação completa ok. " : "") + (n ? `${n} de ${LINES.length} frases gravadas.` : "");
+}
+
+// ---------------------------------------------------------------- vídeo e teleprompter
+function highlight() {
+  const t = vid.currentTime; $("clock").textContent = fmt(t);
+  let cur = -1; LINES.forEach(([s], i) => { if (t >= s - 0.15) cur = i; });
+  items.forEach((li, i) => li.classList.toggle("now", i === cur));
+  if (recorder && items[cur] && !items[cur].dataset.seen) {
+    items.forEach((li) => delete li.dataset.seen);
+    items[cur].dataset.seen = "1";
+    items[cur].scrollIntoView({ block: "center", behavior: "smooth" });
+  }
+  if (stopAt !== null && t >= stopAt) stopRec();
+}
+(function tick() { highlight(); requestAnimationFrame(tick); })();
+$("snd").addEventListener("click", (e) => {
+  vid.muted = !vid.muted;
+  e.currentTarget.textContent = "Som do vídeo: " + (vid.muted ? "desligado" : "ligado");
+});
+vid.addEventListener("ended", () => { if (recorder) stopRec(); });
+
+// ---------------------------------------------------------------- microfone
+$("mic").addEventListener("click", async () => {
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
+    actx = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = actx.createAnalyser(); analyser.fftSize = 1024;
+    actx.createMediaStreamSource(stream).connect(analyser);
+    const data = new Uint8Array(analyser.fftSize);
+    (function meter() {
+      analyser.getByteTimeDomainData(data);
+      let peak = 0; for (const v of data) peak = Math.max(peak, Math.abs(v - 128));
+      $("lvl").style.width = Math.min(100, peak / 128 * 160) + "%";
+      requestAnimationFrame(meter);
+    })();
+    $("micstatus").textContent = "Microfone ativo. Fale algo e veja a barra de volume mexer.";
+    $("mic").disabled = true;
+    refresh();
+  } catch (err) {
+    $("micstatus").className = "err";
+    $("micstatus").textContent = "Não consegui acessar o microfone. Permita o acesso no ícone de cadeado da barra de endereço e tente de novo (use Chrome, Edge ou Safari).";
+  }
+});
+
+function pickType() {
+  for (const t of ["audio/webm;codecs=opus", "audio/webm", "audio/mp4", "audio/ogg"])
+    if (window.MediaRecorder && MediaRecorder.isTypeSupported(t)) return t;
+  return "";
+}
+
+function countdown() {
+  return new Promise((res) => {
+    const c = $("count"); let n = 3; c.textContent = n; c.hidden = false;
+    const iv = setInterval(() => { n -= 1; if (n > 0) c.textContent = n; else { clearInterval(iv); c.hidden = true; res(); } }, 1000);
+  });
+}
+
+async function startRec(target, from, until) {
+  stopPlayback();
+  if (actx.state === "suspended") await actx.resume();
+  vid.pause(); vid.currentTime = from;
+  recorder = "counting"; refresh();
+  await countdown();
+  const type = pickType();
+  const rec = new MediaRecorder(stream, type ? { mimeType: type } : undefined);
+  chunks = []; recTarget = target;
+  rec.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };
+  rec.onstop = onRecStop;
+  recorder = rec; stopAt = until;
+  clearTimeout(stopTimer);
+  stopTimer = setTimeout(stopRec, (until - from) * 1000 + 400);  // garante a parada mesmo se o vídeo travar
+  rec.start();
+  vid.play().catch(() => {});
+  $("recdot").hidden = false;
+  refresh();
+}
+let stopTimer = null;
+function stopRec() {
+  stopAt = null; clearTimeout(stopTimer);
+  if (recorder && recorder !== "counting" && recorder.state === "recording") recorder.stop();
+  vid.pause();
+}
+async function onRecStop() {
+  $("recdot").hidden = true;
+  const blob = new Blob(chunks, { type: recorder.mimeType || "audio/webm" });
+  recorder = null;
+  try {
+    const buf = await actx.decodeAudioData(await blob.arrayBuffer());
+    if (recTarget === "full") full = { blob, buf }; else takes.set(recTarget, { blob, buf });
+    mixed = null;
+  } catch (e) {
+    $("status").textContent = "A gravação falhou ao ser lida. Tente de novo.";
+  }
+  refresh();
+}
+$("full").addEventListener("click", () => startRec("full", 0, DUR));
+$("stop").addEventListener("click", stopRec);
+function recordLine(i) { startRec(i, LINES[i][0], endOf(i) + 0.3); }
+
+// ---------------------------------------------------------------- montagem e escuta
+function place(ctx, buf, when, offset, dur) {
+  const s = ctx.createBufferSource(); s.buffer = buf; s.connect(ctx.destination);
+  s.start(when, offset, dur);
+}
+async function buildMix() {
+  if (mixed) return mixed;
+  const sr = 44100;
+  const off = new OfflineAudioContext(1, Math.ceil(DUR * sr), sr);
+  LINES.forEach(([s], i) => {
+    const dur = endOf(i) - s + 0.3;
+    if (takes.has(i)) place(off, takes.get(i).buf, s, 0, dur);
+    else if (full) place(off, full.buf, s, s, endOf(i) - s);
+  });
+  mixed = await off.startRendering();
+  return mixed;
+}
+function stopPlayback() { if (playSrc) { try { playSrc.stop(); } catch (e) {} playSrc = null; } }
+$("listen").addEventListener("click", async () => {
+  stopPlayback(); await actx.resume();
+  const buf = await buildMix();
+  vid.pause(); vid.currentTime = 0;
+  const s = actx.createBufferSource(); s.buffer = buf; s.connect(actx.destination);
+  await new Promise((r) => { vid.addEventListener("seeked", r, { once: true }); });
+  s.start(); vid.play().catch(() => {}); playSrc = s;
+});
+vid.addEventListener("pause", () => { if (!recorder) stopPlayback(); });
+function playLine(i) {
+  stopPlayback(); actx.resume();
+  const s = actx.createBufferSource();
+  if (takes.has(i)) { s.buffer = takes.get(i).buf; s.connect(actx.destination); s.start(); }
+  else if (full) { s.buffer = full.buf; s.connect(actx.destination); s.start(0, LINES[i][0], endOf(i) - LINES[i][0]); }
+  vid.currentTime = LINES[i][0]; vid.play().catch(() => {});
+  playSrc = s;
+  s.onended = () => vid.pause();
+}
+
+// ---------------------------------------------------------------- exportar .wav
+function toWav(buf) {
+  const d = buf.getChannelData(0), n = d.length;
+  let peak = 0; for (let i = 0; i < n; i++) peak = Math.max(peak, Math.abs(d[i]));
+  const g = peak > 0 ? Math.min(4, 0.89 / peak) : 1;   // normaliza o volume
+  const out = new DataView(new ArrayBuffer(44 + n * 2));
+  const w = (o, s) => { for (let i = 0; i < s.length; i++) out.setUint8(o + i, s.charCodeAt(i)); };
+  w(0, "RIFF"); out.setUint32(4, 36 + n * 2, true); w(8, "WAVE"); w(12, "fmt ");
+  out.setUint32(16, 16, true); out.setUint16(20, 1, true); out.setUint16(22, 1, true);
+  out.setUint32(24, buf.sampleRate, true); out.setUint32(28, buf.sampleRate * 2, true);
+  out.setUint16(32, 2, true); out.setUint16(34, 16, true); w(36, "data"); out.setUint32(40, n * 2, true);
+  for (let i = 0; i < n; i++) out.setInt16(44 + i * 2, Math.max(-1, Math.min(1, d[i] * g)) * 32767, true);
+  return new Blob([out], { type: "audio/wav" });
+}
+$("export").addEventListener("click", async () => {
+  const buf = await buildMix();
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(toWav(buf)); a.download = "narracao_vudu.wav";
+  document.body.appendChild(a); a.click(); a.remove();
+  $("status").textContent = "Arquivo narracao_vudu.wav baixado. Ele começa em 0:00 junto com o vídeo.";
+});
+refresh();
+</script>
+</body>
+</html>
