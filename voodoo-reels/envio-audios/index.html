@@ -1,0 +1,229 @@
+<title>Narração Vudú</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Figtree:wght@400;600;800&display=swap">
+<style>
+/* Layout: coluna única estilo roteiro — cada frase é um cartão com botão de enviar áudio */
+:root {
+  --bg: #17101f; --panel: #231832; --line: #3a2a4d; --fg: #f4ecff; --muted: #a896bd;
+  --lime: #b6e84a; --gold: #ffcf3a; --red: #ff6a5f;
+  --display: "Luckiest Guy", "Arial Black", Impact, sans-serif;
+  --body: "Figtree", "Segoe UI", system-ui, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; padding-inline: 16px; padding-block: 20px 60px; }
+.wrap { max-width: 760px; margin: 0 auto; display: grid; gap: 16px; }
+h1 { font-family: var(--display); font-weight: 400; font-size: clamp(30px, 7vw, 44px); margin: 0; color: var(--lime); letter-spacing: .02em; }
+h1 span { color: var(--fg); }
+h2 { font-family: var(--display); font-weight: 400; font-size: 22px; margin: 0; color: var(--gold); letter-spacing: .02em; }
+p, li { line-height: 1.5; color: var(--muted); }
+p { margin: 0; }
+.card { background: var(--panel); border: 2px solid var(--line); border-radius: 18px; padding: 16px; display: grid; gap: 10px; min-width: 0; }
+.how ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+.how b, .card b { color: var(--fg); }
+.progress { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; }
+.bar { flex: 1 1 200px; height: 12px; background: var(--line); border-radius: 999px; overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: var(--lime); transition: width .3s; }
+.count { font-weight: 800; font-variant-numeric: tabular-nums; color: var(--lime); }
+.lines { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.item { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 12px; background: var(--panel); border: 2px solid var(--line); border-radius: 16px; padding: 14px; }
+.item.done { border-color: color-mix(in srgb, var(--lime) 60%, var(--line)); }
+.num { font-family: var(--display); font-size: 24px; color: var(--muted); line-height: 1.1; }
+.item.done .num { color: var(--lime); }
+.body { display: grid; gap: 8px; min-width: 0; }
+.say { font-size: clamp(18px, 4.4vw, 22px); line-height: 1.35; font-weight: 600; color: var(--fg); }
+.say b { color: var(--gold); }
+.cue { font-size: 13px; color: var(--muted); }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.btn { position: relative; display: inline-flex; align-items: center; gap: 6px; font: 700 15px var(--body); color: var(--fg); background: transparent; border: 2px solid var(--line); border-radius: 999px; padding: 9px 15px; cursor: pointer; }
+.btn:hover { border-color: var(--muted); }
+.btn.main { background: var(--lime); color: #1a1022; border-color: var(--lime); }
+.btn input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+.btn:focus-within, button.btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.state { font-size: 14px; font-weight: 600; color: var(--muted); overflow-wrap: anywhere; }
+.state.ok { color: var(--lime); }
+.state.err { color: var(--red); }
+.warn { border-color: var(--red); }
+.warn p { color: var(--fg); }
+@media (prefers-reduced-motion: reduce) { .bar i { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Vudú <span>· narração</span></h1>
+    <p>Reels da Sua Vez. Grave, envie aqui e o Claude encaixa a sua voz no vídeo.</p>
+  </header>
+
+  <section class="card how">
+    <h2>Como gravar</h2>
+    <ol>
+      <li>Abra o <b>gravador de voz</b> do celular (Gravador, Memos de Voz ou até o WhatsApp).</li>
+      <li>Grave <b>uma frase por áudio</b> e envie no botão da frase. Pode regravar quantas vezes quiser: o último envio vale.</li>
+      <li>Prefere gravar tudo de uma vez? Leia o roteiro inteiro com <b>2 segundos de pausa entre as frases</b> e use o botão <b>Enviar gravação completa</b>.</li>
+      <li>Não precisa acertar o tempo do vídeo. Fale no seu ritmo que o Claude ajusta as cenas à sua voz.</li>
+      <li>Quando terminar, é só avisar no chat.</li>
+    </ol>
+    <p>No Android, o botão <b>Gravar agora</b> costuma abrir o gravador direto. No iPhone, grave no Memos de Voz, toque em compartilhar → <b>Salvar em Arquivos</b> e depois escolha o arquivo aqui.</p>
+  </section>
+
+  <section class="card warn" id="offline" hidden>
+    <p id="offmsg">Esta página não conseguiu se conectar ao armazenamento. Abra pelo link do Claude, logado na sua conta, para enviar os áudios.</p>
+  </section>
+
+  <section class="card">
+    <div class="progress">
+      <h2>Gravação completa</h2>
+      <span class="count" id="count">0 de 20 frases</span>
+    </div>
+    <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+    <div class="row">
+      <label class="btn main">⬆ Enviar gravação completa<input type="file" accept="audio/*,video/*" data-slot="full"></label>
+      <button class="btn" data-play="full" hidden>▶ Ouvir</button>
+      <span class="state" data-state="full">Opcional: um único áudio com o roteiro todo.</span>
+    </div>
+  </section>
+
+  <ol class="lines" id="lines"></ol>
+</div>
+
+<script>
+const LINES = [
+  ["E se você pudesse <b>amaldiçoar</b> seus amigos...", "Gancho, voz de travessura"],
+  ["...e ainda ganhar <b>pontos</b> com isso?", "Pergunta, subindo o tom"],
+  ["Esse é o <b>Vudú</b>: o jogo em que você é um feiticeiro perverso...", "Apresentando o jogo"],
+  ["...e a sua galera vira vítima.", "Risadinha no final"],
+  ["Na sua vez, você rola <b>cinco dados</b> de ingredientes.", "Explicando, animado"],
+  ["Não gostou? Guarda os que servem e rola de novo...", ""],
+  ["...mas cada nova rolagem <b>custa um dado</b>.", "Tom de alerta"],
+  ["Juntou os ingredientes da carta?", ""],
+  ["<b>Lança a maldição</b> em alguém da mesa e marca pontos.", "Com energia"],
+  ["E aí começa o <b>caos</b>!", "Empolgado"],
+  ["Na <b>Kapoera</b>, a vítima não pode encostar os pés no chão...", "Divertido"],
+  ["Na <b>Tutakobraço</b>, tem que ficar com os braços esticados...", "Divertido"],
+  ["...e tem maldição <b>muito pior</b>.", "Suspense, mais baixo"],
+  ["Esqueceu da maldição?", "Provocando"],
+  ["Quem lançou ganha <b>ainda mais pontos</b>.", ""],
+  ["Quem chegar primeiro nos <b>onze pontos</b> vence.", ""],
+  ["De duas a oito pessoas, em uns trinta minutos.", "Informativo, rápido"],
+  ["Quer amaldiçoar sua galera no fim de semana?", "Convite"],
+  ["<b>Aluga o Vudú na Sua Vez</b>: link na bio!", "A frase mais importante, bem clara"],
+  ["E comenta aqui: qual maldição você jogaria no seu <b>melhor amigo</b>?", "Sorrindo"],
+];
+const slotId = (i) => "l" + String(i + 1).padStart(2, "0");
+const $ = (s, el = document) => el.querySelector(s);
+const list = $("#lines");
+
+LINES.forEach(([say, cue], i) => {
+  const id = slotId(i);
+  const li = document.createElement("li");
+  li.className = "item"; li.dataset.item = id;
+  li.innerHTML = `<span class="num">${i + 1}</span>
+    <div class="body">
+      <span class="say">${say}</span>${cue ? `<span class="cue">${cue}</span>` : ""}
+      <div class="row">
+        <label class="btn main">🎙 Gravar agora<input type="file" accept="audio/*" capture data-slot="${id}"></label>
+        <label class="btn">⬆ Escolher arquivo<input type="file" accept="audio/*,video/*" data-slot="${id}"></label>
+        <button class="btn" data-play="${id}" hidden>▶ Ouvir</button>
+      </div>
+      <span class="state" data-state="${id}">Ainda não enviado</span>
+    </div>`;
+  list.appendChild(li);
+});
+
+let db = null, assets = null;
+const takes = {};          // slot -> dados salvos no banco
+const localUrls = {};      // slot -> áudio escolhido nesta visita
+let player = null;
+
+function setState(slot, text, cls) {
+  const el = $(`[data-state="${slot}"]`);
+  el.textContent = text; el.className = "state" + (cls ? " " + cls : "");
+}
+function render() {
+  let n = 0;
+  LINES.forEach((_, i) => {
+    const id = slotId(i), t = takes[id];
+    const item = $(`[data-item="${id}"]`);
+    item.classList.toggle("done", !!t);
+    if (t) { n++; setState(id, `✔ Enviado: ${t.name}`, "ok"); }
+    $(`[data-play="${id}"]`).hidden = !t && !localUrls[id];
+  });
+  if (takes.full) setState("full", `✔ Enviado: ${takes.full.name}`, "ok");
+  $(`[data-play="full"]`).hidden = !takes.full && !localUrls.full;
+  $("#count").textContent = `${n} de ${LINES.length} frases` + (takes.full ? " · completa enviada" : "");
+  $("#bar").style.width = (n / LINES.length * 100) + "%";
+}
+
+function toBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(String(r.result).split(",")[1] || "");
+    r.onerror = () => rej(r.error);
+    r.readAsDataURL(file);
+  });
+}
+
+async function send(slot, file) {
+  localUrls[slot] && URL.revokeObjectURL(localUrls[slot]);
+  localUrls[slot] = URL.createObjectURL(file);
+  render();
+  if (!db || !assets) { setState(slot, "Sem conexão com o armazenamento: abra a página pelo link do Claude.", "err"); return; }
+  if (file.size > 14 * 1024 * 1024) { setState(slot, "Arquivo grande demais (máx. 14 MB). Grave um trecho menor.", "err"); return; }
+  setState(slot, "Enviando…");
+  try {
+    const data = await toBase64(file);
+    const payload = new Blob([JSON.stringify({ slot, name: file.name, type: file.type || "", data })], { type: "application/json" });
+    const up = await assets.upload(payload, { type: "application/json" });
+    const old = takes[slot];
+    await db.doc("takes/" + slot).set({ asset: up.id, name: file.name || "audio", type: file.type || "", size: file.size, at: new Date().toISOString() });
+    if (old && old.asset && old.asset !== up.id) assets.delete(old.asset).catch(() => {});
+  } catch (e) {
+    const code = e && e.code;
+    const msg = code === "quota_or_state" || code === "quota_exceeded" ? "O espaço de armazenamento encheu. Avise o Claude no chat."
+      : code === "not_granted" ? "Você precisa permitir o armazenamento para enviar."
+      : "Não deu para enviar. Tente de novo em instantes.";
+    setState(slot, msg, "err");
+  }
+}
+
+document.addEventListener("change", (e) => {
+  const inp = e.target.closest("input[type=file]");
+  if (!inp || !inp.files || !inp.files[0]) return;
+  send(inp.dataset.slot, inp.files[0]);
+  inp.value = "";
+});
+
+document.addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-play]"); if (!b) return;
+  const slot = b.dataset.play;
+  if (player) { player.pause(); player = null; }
+  let src = localUrls[slot];
+  if (!src && takes[slot]) {
+    try {
+      const j = await (await fetch("/_blob/" + takes[slot].asset)).json();
+      const bin = Uint8Array.from(atob(j.data), (c) => c.charCodeAt(0));
+      src = localUrls[slot] = URL.createObjectURL(new Blob([bin], { type: j.type || "audio/mp4" }));
+    } catch (err) { setState(slot, "Não consegui carregar esse áudio para ouvir, mas ele está salvo.", "err"); return; }
+  }
+  if (!src) return;
+  player = new Audio(src);
+  player.play().catch(() => setState(slot, "Seu navegador não toca esse formato aqui, mas o arquivo foi salvo.", "err"));
+});
+
+render();
+(async () => {
+  const c = window.claude;
+  if (!c || !c.use) { $("#offline").hidden = false; return; }
+  [db, assets] = await Promise.all([c.use("db"), c.use("assets")]);
+  if (!db || !assets) {
+    $("#offline").hidden = false;
+    if (db && !assets) $("#offmsg").textContent = "Só o dono da página pode enviar áudios. Abra pelo link do Claude na sua conta.";
+    return;
+  }
+  db.collection("takes").onSnapshot((snap) => {
+    for (const k of Object.keys(takes)) delete takes[k];
+    snap.docs.forEach((d) => { takes[d.id] = d.data(); });
+    render();
+  }, () => { $("#offline").hidden = false; });
+})();
+</script>
