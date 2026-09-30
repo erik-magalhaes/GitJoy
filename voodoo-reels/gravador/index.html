@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gravador Vudú</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Figtree:wght@400;600;800&display=swap">
+<style>
+/* Coluna única de roteiro: cada frase tem Gravar/Parar, Ouvir; barra fixa embaixo com o envio */
+:root {
+  --bg: #17101f; --panel: #231832; --line: #3a2a4d; --fg: #f4ecff; --muted: #a896bd;
+  --lime: #b6e84a; --gold: #ffcf3a; --red: #ff5a4f;
+  --display: "Luckiest Guy", "Arial Black", Impact, sans-serif;
+  --body: "Figtree", "Segoe UI", system-ui, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; padding-inline: 16px; padding-block: 20px 140px; }
+.wrap { max-width: 720px; margin: 0 auto; display: grid; gap: 14px; }
+h1 { font-family: var(--display); font-weight: 400; font-size: clamp(30px, 8vw, 44px); margin: 0; color: var(--lime); letter-spacing: .02em; }
+h1 span { color: var(--fg); }
+h2 { font-family: var(--display); font-weight: 400; font-size: 21px; margin: 0; color: var(--gold); letter-spacing: .02em; }
+p { margin: 0; line-height: 1.5; color: var(--muted); }
+p b { color: var(--fg); }
+.card { background: var(--panel); border: 2px solid var(--line); border-radius: 18px; padding: 16px; display: grid; gap: 10px; }
+.card.err { border-color: var(--red); }
+.card.err p { color: var(--fg); }
+.meter { height: 10px; border-radius: 999px; background: var(--line); overflow: hidden; }
+.meter i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--lime), var(--gold), var(--red)); }
+.lines { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.item { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 12px; background: var(--panel); border: 2px solid var(--line); border-radius: 16px; padding: 14px; }
+.item.done { border-color: #5d7a2a; }
+.item.rec { border-color: var(--red); }
+.num { font-family: var(--display); font-size: 24px; color: var(--muted); }
+.item.done .num { color: var(--lime); }
+.body { display: grid; gap: 8px; min-width: 0; }
+.say { font-size: clamp(19px, 4.8vw, 23px); line-height: 1.35; font-weight: 600; }
+.say b { color: var(--gold); }
+.cue { font-size: 13px; color: var(--muted); }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+button { font: 800 16px var(--body); color: var(--fg); background: transparent; border: 2px solid var(--line); border-radius: 999px; padding: 11px 18px; cursor: pointer; }
+button:disabled { opacity: .4; cursor: not-allowed; }
+button:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+button.rec { background: var(--red); border-color: var(--red); color: #fff; }
+button.stop { background: #fff; border-color: #fff; color: #b3261e; animation: pulse 1s infinite; }
+button.go { background: var(--lime); border-color: var(--lime); color: #1a1022; }
+@keyframes pulse { 50% { opacity: .7; } }
+.time { font-variant-numeric: tabular-nums; font-weight: 800; color: var(--gold); font-size: 14px; }
+.dock { position: fixed; left: 0; right: 0; bottom: 0; background: #0f0a16; border-top: 2px solid var(--line); padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px)); }
+.dock .in { max-width: 720px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; justify-content: space-between; }
+.count { font-weight: 800; color: var(--lime); font-variant-numeric: tabular-nums; }
+.msg { color: var(--muted); font-size: 14px; width: 100%; }
+a { color: var(--lime); }
+@media (prefers-reduced-motion: reduce) { button.stop { animation: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Vudú <span>· gravar narração</span></h1>
+    <p>Reels da Sua Vez. Grave cada frase no seu ritmo: o Claude encaixa a sua voz no vídeo depois.</p>
+  </header>
+
+  <section class="card" id="start">
+    <h2>Antes de começar</h2>
+    <p>Toque em <b>Ativar microfone</b> e permita o acesso. Depois toque em <b>● Gravar</b> na frase, fale e toque em <b>■ Parar</b>. Não gostou? Toque em <b>Regravar</b>.</p>
+    <div class="row"><button class="go" id="mic">🎙 Ativar microfone</button></div>
+    <div class="meter" aria-label="Volume do microfone"><i id="lvl"></i></div>
+  </section>
+
+  <section class="card err" id="miciss" hidden>
+    <p id="micmsg"></p>
+  </section>
+
+  <ol class="lines" id="lines"></ol>
+</div>
+
+<div class="dock">
+  <div class="in">
+    <span class="count" id="count">0 de 20 gravadas</span>
+    <button class="go" id="export" disabled>⬇ Salvar narração</button>
+    <span class="msg" id="msg">Quando terminar, salve o arquivo e envie na página <a href="https://claude.ai/artifact/XiFiUjaFncpBHnrCHyLsNH" target="_blank" rel="noopener">Narração Vudú</a> (botão "Enviar gravação completa").</span>
+  </div>
+</div>
+
+<script>
+const LINES = [
+  ["E se você pudesse <b>amaldiçoar</b> seus amigos...", "Gancho, voz de travessura"],
+  ["...e ainda ganhar <b>pontos</b> com isso?", "Pergunta, subindo o tom"],
+  ["Esse é o <b>Vudú</b>: o jogo em que você é um feiticeiro perverso...", "Apresentando o jogo"],
+  ["...e a sua galera vira vítima.", "Risadinha no final"],
+  ["Na sua vez, você rola <b>cinco dados</b> de ingredientes.", "Explicando, animado"],
+  ["Não gostou? Guarda os que servem e rola de novo...", ""],
+  ["...mas cada nova rolagem <b>custa um dado</b>.", "Tom de alerta"],
+  ["Juntou os ingredientes da carta?", ""],
+  ["<b>Lança a maldição</b> em alguém da mesa e marca pontos.", "Com energia"],
+  ["E aí começa o <b>caos</b>!", "Empolgado"],
+  ["Na <b>Kapoera</b>, a vítima não pode encostar os pés no chão...", "Divertido"],
+  ["Na <b>Tutakobraço</b>, tem que ficar com os braços esticados...", "Divertido"],
+  ["...e tem maldição <b>muito pior</b>.", "Suspense, mais baixo"],
+  ["Esqueceu da maldição?", "Provocando"],
+  ["Quem lançou ganha <b>ainda mais pontos</b>.", ""],
+  ["Quem chegar primeiro nos <b>onze pontos</b> vence.", ""],
+  ["De duas a oito pessoas, em uns trinta minutos.", "Informativo, rápido"],
+  ["Quer amaldiçoar sua galera no fim de semana?", "Convite"],
+  ["<b>Aluga o Vudú na Sua Vez</b>: link na bio!", "A frase mais importante, bem clara"],
+  ["E comenta aqui: qual maldição você jogaria no seu <b>melhor amigo</b>?", "Sorrindo"],
+];
+const MAX_SEC = 25, GAP = 1.5, SR = 44100;
+const $ = (s) => document.querySelector(s);
+let stream = null, actx = null, recorder = null, recIdx = -1, chunks = [], t0 = 0, timer = null, autoStop = null;
+const takes = [];            // índice -> AudioBuffer
+let player = null;
+
+const items = LINES.map(([say, cue], i) => {
+  const li = document.createElement("li");
+  li.className = "item";
+  li.innerHTML = `<span class="num">${i + 1}</span><div class="body">
+    <span class="say">${say}</span>${cue ? `<span class="cue">${cue}</span>` : ""}
+    <div class="row">
+      <button class="rec" data-rec="${i}" disabled>● Gravar</button>
+      <button data-play="${i}" hidden>▶ Ouvir</button>
+      <span class="time" data-time="${i}"></span>
+    </div></div>`;
+  $("#lines").appendChild(li);
+  return li;
+});
+
+function refresh() {
+  let n = 0;
+  items.forEach((li, i) => {
+    const b = li.querySelector("[data-rec]"), has = !!takes[i], rec = recIdx === i;
+    if (has) n++;
+    li.classList.toggle("done", has && !rec);
+    li.classList.toggle("rec", rec);
+    b.disabled = !stream || (recIdx !== -1 && !rec);
+    b.className = rec ? "stop" : "rec";
+    b.textContent = rec ? "■ Parar" : has ? "● Regravar" : "● Gravar";
+    li.querySelector("[data-play]").hidden = !has || rec;
+    li.querySelector("[data-play]").disabled = recIdx !== -1;
+    if (has && !rec) li.querySelector("[data-time]").textContent = takes[i].duration.toFixed(1) + " s";
+  });
+  $("#count").textContent = `${n} de ${LINES.length} gravadas`;
+  $("#export").disabled = n === 0 || recIdx !== -1;
+}
+
+function showErr(text) { $("#miciss").hidden = false; $("#micmsg").textContent = text; }
+
+$("#mic").addEventListener("click", async () => {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) {
+    showErr("Este navegador não permite gravar. Abra este link no Chrome (Android) ou no Safari (iPhone), fora de outros apps.");
+    return;
+  }
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
+  } catch (e) {
+    showErr("O microfone foi bloqueado. Toque no cadeado ou no \"aA\" da barra de endereço, permita o microfone e recarregue a página.");
+    return;
+  }
+  actx = new (window.AudioContext || window.webkitAudioContext)();
+  const an = actx.createAnalyser(); an.fftSize = 1024;
+  actx.createMediaStreamSource(stream).connect(an);
+  const d = new Uint8Array(an.fftSize);
+  (function meter() {
+    an.getByteTimeDomainData(d);
+    let p = 0; for (const v of d) p = Math.max(p, Math.abs(v - 128));
+    $("#lvl").style.width = Math.min(100, p / 128 * 170) + "%";
+    requestAnimationFrame(meter);
+  })();
+  $("#mic").textContent = "✔ Microfone ativo";
+  $("#mic").disabled = true;
+  $("#miciss").hidden = true;
+  refresh();
+});
+
+function pickType() {
+  for (const t of ["audio/webm;codecs=opus", "audio/mp4", "audio/webm", "audio/ogg"])
+    if (MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t)) return t;
+  return "";
+}
+
+function startRec(i) {
+  if (player) { player.stop(); player = null; }
+  actx.resume();
+  const type = pickType();
+  recorder = new MediaRecorder(stream, type ? { mimeType: type } : undefined);
+  chunks = []; recIdx = i;
+  recorder.ondataavailable = (e) => { if (e.data && e.data.size) chunks.push(e.data); };
+  recorder.onstop = async () => {
+    const idx = recIdx; recIdx = -1;
+    clearInterval(timer); clearTimeout(autoStop);
+    const blob = new Blob(chunks, { type: recorder.mimeType || type || "audio/webm" });
+    try { takes[idx] = await actx.decodeAudioData(await blob.arrayBuffer()); }
+    catch (e) { items[idx].querySelector("[data-time]").textContent = "Não gravou, tente de novo"; }
+    refresh();
+  };
+  recorder.start(250);
+  t0 = performance.now();
+  const tEl = items[i].querySelector("[data-time]");
+  timer = setInterval(() => { tEl.textContent = ((performance.now() - t0) / 1000).toFixed(1) + " s"; }, 100);
+  autoStop = setTimeout(() => recorder && recorder.state === "recording" && recorder.stop(), MAX_SEC * 1000);
+  refresh();
+}
+
+document.addEventListener("click", (e) => {
+  const r = e.target.closest("[data-rec]");
+  if (r) {
+    const i = +r.dataset.rec;
+    if (recIdx === i) recorder.stop(); else if (recIdx === -1) startRec(i);
+    return;
+  }
+  const p = e.target.closest("[data-play]");
+  if (p && takes[+p.dataset.play]) {
+    if (player) player.stop();
+    actx.resume();
+    player = actx.createBufferSource(); player.buffer = takes[+p.dataset.play];
+    player.connect(actx.destination); player.start();
+  }
+});
+
+// Junta as frases em ordem, com 1,5 s de silêncio entre elas, e anota onde cada uma começa.
+function buildWav() {
+  const parts = [], marks = [];
+  let pos = Math.round(0.5 * SR);
+  LINES.forEach((_, i) => {
+    const b = takes[i]; if (!b) return;
+    const data = resample(b);
+    marks.push({ frase: i + 1, inicio: +(pos / SR).toFixed(3), duracao: +(data.length / SR).toFixed(3) });
+    parts.push([pos, data]);
+    pos += data.length + Math.round(GAP * SR);
+  });
+  const n = pos, mix = new Float32Array(n);
+  let peak = 0;
+  for (const [at, d] of parts) { mix.set(d, at); for (const v of d) peak = Math.max(peak, Math.abs(v)); }
+  const g = peak > 0 ? Math.min(4, 0.89 / peak) : 1;
+  const note = new TextEncoder().encode(JSON.stringify({ roteiro: "vudu-suavez", frases: marks }));
+  const icmt = note.length + 1 + ((note.length + 1) % 2);
+  const listLen = 4 + 8 + icmt;
+  const buf = new DataView(new ArrayBuffer(44 + n * 2 + 8 + listLen));
+  const w = (o, s) => { for (let k = 0; k < s.length; k++) buf.setUint8(o + k, s.charCodeAt(k)); };
+  w(0, "RIFF"); buf.setUint32(4, 36 + n * 2 + 8 + listLen, true); w(8, "WAVE");
+  w(12, "fmt "); buf.setUint32(16, 16, true); buf.setUint16(20, 1, true); buf.setUint16(22, 1, true);
+  buf.setUint32(24, SR, true); buf.setUint32(28, SR * 2, true); buf.setUint16(32, 2, true); buf.setUint16(34, 16, true);
+  w(36, "data"); buf.setUint32(40, n * 2, true);
+  for (let k = 0; k < n; k++) buf.setInt16(44 + k * 2, Math.max(-1, Math.min(1, mix[k] * g)) * 32767, true);
+  let o = 44 + n * 2;
+  w(o, "LIST"); buf.setUint32(o + 4, listLen, true); w(o + 8, "INFO"); w(o + 12, "ICMT"); buf.setUint32(o + 16, icmt, true);
+  note.forEach((v, k) => buf.setUint8(o + 20 + k, v));
+  return new Blob([buf], { type: "audio/wav" });
+}
+function resample(b) {
+  const src = b.getChannelData(0);
+  if (b.sampleRate === SR) return src.slice();
+  const ratio = b.sampleRate / SR, out = new Float32Array(Math.floor(src.length / ratio));
+  for (let k = 0; k < out.length; k++) {
+    const x = k * ratio, i0 = Math.floor(x), f = x - i0;
+    out[k] = src[i0] * (1 - f) + (src[i0 + 1] || 0) * f;
+  }
+  return out;
+}
+
+$("#export").addEventListener("click", async () => {
+  const blob = buildWav();
+  const file = new File([blob], "narracao_vudu.wav", { type: "audio/wav" });
+  if (navigator.canShare && navigator.canShare({ files: [file] }) && /iPhone|iPad|Android/i.test(navigator.userAgent)) {
+    try { await navigator.share({ files: [file], title: "Narração Vudú" }); $("#msg").innerHTML = "Pronto! Agora envie esse arquivo na página <a href=\"https://claude.ai/artifact/XiFiUjaFncpBHnrCHyLsNH\" target=\"_blank\" rel=\"noopener\">Narração Vudú</a>."; return; }
+    catch (e) { if (e && e.name === "AbortError") return; }
+  }
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = "narracao_vudu.wav";
+  document.body.appendChild(a); a.click(); a.remove();
+  $("#msg").innerHTML = "Arquivo <b>narracao_vudu.wav</b> salvo. Agora envie na página <a href=\"https://claude.ai/artifact/XiFiUjaFncpBHnrCHyLsNH\" target=\"_blank\" rel=\"noopener\">Narração Vudú</a> (botão \"Enviar gravação completa\").";
+});
+refresh();
+</script>
+</body>
+</html>
