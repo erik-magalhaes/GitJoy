@@ -261,7 +261,14 @@ LOGO_PATH = os.path.join(ASSETS, "logo_suavez.png")
 @lru_cache(None)
 def logo():
     if os.path.exists(LOGO_PATH):
-        return Image.open(LOGO_PATH).convert("RGBA")
+        # logo oficial sobre um cartão branco, para ler bem nos fundos escuros
+        lg = Image.open(LOGO_PATH).convert("RGBA")
+        pad = int(lg.width * 0.06)
+        card = Image.new("RGBA", (lg.width + pad * 2, lg.height + pad * 2), (0, 0, 0, 0))
+        ImageDraw.Draw(card).rounded_rectangle((0, 0, card.width - 1, card.height - 1),
+                                               radius=pad * 2, fill=(255, 255, 255, 255))
+        card.alpha_composite(lg, (pad, pad))
+        return card
     # marcador provisório até chegar o logo oficial
     S = 600
     im = Image.new("RGBA", (S, S), (0, 0, 0, 0))
@@ -278,7 +285,7 @@ def logo():
 @lru_cache(None)
 def watermark():
     lg = logo()
-    w = 140
+    w = 200
     im = lg.resize((w, int(lg.height * w / lg.width)), Image.LANCZOS)
     im.putalpha(im.getchannel("A").point(lambda v: int(v * 0.62)))
     return im
@@ -635,7 +642,7 @@ def s_cta(ctx):
     s = pop(lt, 0.2)
     if s:
         lg = logo()
-        place(c, ctx, lg.resize((480, int(lg.height * 480 / lg.width)), Image.LANCZOS), 540, 440,
+        place(c, ctx, lg.resize((760, int(lg.height * 760 / lg.width)), Image.LANCZOS), 540, 450,
               sc=s, rot=math.sin(lt * 3) * 2, shadow=0.7)
     if lt < 5.0:
         headline(c, ctx, "ALUGUE O VUDÚ", 1.1, y=790, size=100)

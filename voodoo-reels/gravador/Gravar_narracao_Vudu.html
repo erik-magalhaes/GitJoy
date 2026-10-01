@@ -46,11 +46,17 @@ const list=document.getElementById('list');
 LINES.forEach((t,i)=>{const d=document.createElement('div');d.className='line';d.id='l'+i;
  d.innerHTML=`<div class="t"><span class="n">${i+1}.</span>${t}</div><div class="row"><button class="rec">● Gravar</button><div class="meter"><i></i></div><audio controls style="display:none"></audio><span class="st"></span></div>`;
  d.querySelector('.rec').onclick=()=>toggle(i);list.appendChild(d)});
+function micMsg(e){const n=(e&&e.name)||'';
+ if(!navigator.mediaDevices)return 'Este navegador não libera o microfone aqui. Abra o arquivo no Google Chrome (no computador), não dentro do app do Claude, do WhatsApp ou do e-mail.';
+ if(n==='NotAllowedError'||n==='SecurityError')return 'O microfone foi bloqueado.\n\n1) Clique no ícone à esquerda do endereço (cadeado/ícone de página) → Microfone → Permitir, e recarregue.\n2) Windows: Configurações → Privacidade → Microfone → ative "Permitir que aplicativos da área de trabalho acessem o microfone".\n3) Mac: Ajustes do Sistema → Privacidade e Segurança → Microfone → ative o Google Chrome.\n\n(código: '+n+')';
+ if(n==='NotFoundError')return 'Nenhum microfone foi encontrado. Conecte um fone com microfone ou verifique se o microfone está ligado. (código: '+n+')';
+ if(n==='NotReadableError')return 'O microfone está sendo usado por outro programa (Zoom, Meet, WhatsApp…). Feche o outro programa e tente de novo. (código: '+n+')';
+ return 'Não consegui acessar o microfone. (código: '+(n||'desconhecido')+')'}
 async function ensure(){if(stream)return;stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:true,autoGainControl:true}});
  const ac=new AudioContext();an=ac.createAnalyser();an.fftSize=512;ac.createMediaStreamSource(stream).connect(an)}
 function meter(i){const a=new Uint8Array(an.fftSize),bar=document.querySelector(`#l${i} .meter i`);const loop=()=>{an.getByteTimeDomainData(a);let m=0;for(const v of a)m=Math.max(m,Math.abs(v-128));bar.style.width=Math.min(100,m/1.1)+'%';raf=requestAnimationFrame(loop)};loop()}
 async function toggle(i){
- try{await ensure()}catch(e){alert('Não consegui acessar o microfone. Verifique a permissão do navegador.');return}
+ try{await ensure()}catch(e){alert(micMsg(e));return}
  const d=document.getElementById('l'+i),b=d.querySelector('.rec'),st=d.querySelector('.st');
  if(rec&&curIdx===i){rec.stop();return}
  if(rec)return;
