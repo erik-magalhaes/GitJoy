@@ -23,10 +23,10 @@ audio{height:36px}
 .meter{height:8px;border-radius:4px;background:#3b2342;overflow:hidden;width:160px}.meter i{display:block;height:100%;width:0;background:var(--ok)}
 </style></head><body><div class="wrap">
 <h1>🎙️ Gravar narração – Vudú</h1>
-<p class="sub">Clique em <b>Gravar</b>, leia a frase com calma e clique em <b>Parar</b>. Ouça, regrave se quiser, e no fim clique em <b>Baixar todas</b>. Os arquivos vão para a sua pasta Downloads.</p>
+<p class="sub">Clique em <b>Gravar</b>, leia a frase com calma e clique em <b>Parar</b>. Ouça, regrave se quiser, e no fim toque em <b>Baixar / enviar todas</b>: no celular abre a tela de compartilhar (mande direto para o chat do Claude ou salve em Arquivos); no computador os arquivos vão para a pasta Downloads.</p>
 <div class="tips"><b>Dicas:</b> lugar silencioso · microfone ou celular a um palmo da boca · fale sorrindo, como se contasse um segredo 😉 · pode mudar palavras se ficar mais natural pra você. Na primeira gravação o navegador vai pedir permissão para usar o microfone: clique em <b>Permitir</b>.</div>
 <div id="list"></div>
-<div class="all"><button class="big" id="dl">⬇️ Baixar todas as gravações</button> <span class="st" id="cnt"></span></div>
+<div class="all"><button class="big" id="dl">⬇️ Baixar / enviar todas as gravações</button> <span class="st" id="cnt"></span></div>
 </div>
 <script>
 const LINES=[
@@ -69,6 +69,8 @@ async function toggle(i){
  rec.start();b.textContent='■ Parar';b.classList.add('on');st.textContent='gravando…';meter(i)}
 function upd(){document.getElementById('cnt').textContent=`${blobs.filter(Boolean).length} de ${LINES.length} frases gravadas`}
 document.getElementById('dl').onclick=async()=>{const n=blobs.filter(Boolean).length;if(!n){alert('Grave pelo menos uma frase.');return}
+ const files=[];blobs.forEach((bl,i)=>{if(!bl)return;const ext=bl.type.includes('ogg')?'ogg':bl.type.includes('mp4')?'m4a':'webm';files.push(new File([bl],`suavez_narracao_${String(i+1).padStart(2,'0')}.${ext}`,{type:bl.type||'audio/webm'}))});
+ if(/Android|iPhone|iPad/i.test(navigator.userAgent)&&navigator.canShare&&navigator.canShare({files})){try{await navigator.share({files,title:'Narração Vudú'});return}catch(e){if(e&&e.name==='AbortError')return}}
  for(let i=0;i<blobs.length;i++){if(!blobs[i])continue;const ext=blobs[i].type.includes('ogg')?'ogg':blobs[i].type.includes('mp4')?'m4a':'webm';const a=document.createElement('a');a.href=URL.createObjectURL(blobs[i]);a.download=`suavez_narracao_${String(i+1).padStart(2,'0')}.${ext}`;document.body.appendChild(a);a.click();a.remove();await new Promise(r=>setTimeout(r,400))}
  alert('Pronto! Os arquivos estão na pasta Downloads (suavez_narracao_01, 02...). Pode me avisar no chat.')};
 upd();
