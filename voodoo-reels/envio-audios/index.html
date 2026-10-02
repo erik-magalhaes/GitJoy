@@ -56,12 +56,11 @@ p { margin: 0; }
   </header>
 
   <section class="card how">
-    <h2>Como gravar</h2>
+    <h2>Enviar as gravações</h2>
     <ol>
-      <li>Abra o <a href="https://raw.githack.com/erik-magalhaes/GitJoy/claude/voodoo-stop-motion-video-rni4kj/voodoo-reels/gravador/index.html" target="_blank" rel="noopener"><b>Gravador Vudú</b></a> no navegador do celular (Chrome ou Safari). Nele o botão <b>● Gravar</b> grava de verdade, frase por frase.</li>
-      <li>No fim, toque em <b>Salvar narração</b> e envie o arquivo aqui em <b>Enviar gravação completa</b>.</li>
-      <li>Também vale gravar no gravador de voz do celular e enviar cada frase no botão dela.</li>
-      <li>Não precisa acertar o tempo do vídeo: o Claude ajusta as cenas à sua voz. Quando terminar, é só avisar no chat.</li>
+      <li>Toque em <b>Enviar todas de uma vez</b> logo abaixo.</li>
+      <li>Escolha os arquivos <b>suavez_narracao_01</b> até <b>11</b> (no iPhone: Arquivos → Downloads; no Android: pasta Downloads). Dá para marcar vários de uma vez.</li>
+      <li>Cada arquivo cai sozinho na frase certa pelo número do nome. Espere todos ficarem com ✔ e avise no chat.</li>
     </ol>
   </section>
 
@@ -71,14 +70,15 @@ p { margin: 0; }
 
   <section class="card">
     <div class="progress">
-      <h2>Gravação completa</h2>
-      <span class="count" id="count">0 de 20 frases</span>
+      <h2>Suas gravações</h2>
+      <span class="count" id="count">0 de 11 frases</span>
     </div>
     <div class="bar" aria-hidden="true"><i id="bar"></i></div>
     <div class="row">
-      <label class="btn main">⬆ Enviar gravação completa<input type="file" accept="audio/*,video/*" data-slot="full"></label>
+      <label class="btn main">⬆ Enviar todas de uma vez<input type="file" accept="audio/*,video/*,.webm,.m4a,.ogg" multiple data-multi="1"></label>
+      <label class="btn">⬆ Gravação completa (um áudio só)<input type="file" accept="audio/*,video/*,.webm,.m4a,.ogg" data-slot="full"></label>
       <button class="btn" data-play="full" hidden>▶ Ouvir</button>
-      <span class="state" data-state="full">Opcional: um único áudio com o roteiro todo.</span>
+      <span class="state" data-state="full"></span>
     </div>
   </section>
 
@@ -87,26 +87,17 @@ p { margin: 0; }
 
 <script>
 const LINES = [
-  ["E se você pudesse <b>amaldiçoar</b> seus amigos...", "Gancho, voz de travessura"],
-  ["...e ainda ganhar <b>pontos</b> com isso?", "Pergunta, subindo o tom"],
-  ["Esse é o <b>Vudú</b>: o jogo em que você é um feiticeiro perverso...", "Apresentando o jogo"],
-  ["...e a sua galera vira vítima.", "Risadinha no final"],
-  ["Na sua vez, você rola <b>cinco dados</b> de ingredientes.", "Explicando, animado"],
-  ["Não gostou? Guarda os que servem e rola de novo...", ""],
-  ["...mas cada nova rolagem <b>custa um dado</b>.", "Tom de alerta"],
-  ["Juntou os ingredientes da carta?", ""],
-  ["<b>Lança a maldição</b> em alguém da mesa e marca pontos.", "Com energia"],
-  ["E aí começa o <b>caos</b>!", "Empolgado"],
-  ["Na <b>Kapoera</b>, a vítima não pode encostar os pés no chão...", "Divertido"],
-  ["Na <b>Tutakobraço</b>, tem que ficar com os braços esticados...", "Divertido"],
-  ["...e tem maldição <b>muito pior</b>.", "Suspense, mais baixo"],
-  ["Esqueceu da maldição?", "Provocando"],
-  ["Quem lançou ganha <b>ainda mais pontos</b>.", ""],
-  ["Quem chegar primeiro nos <b>onze pontos</b> vence.", ""],
-  ["De duas a oito pessoas, em uns trinta minutos.", "Informativo, rápido"],
-  ["Quer amaldiçoar sua galera no fim de semana?", "Convite"],
-  ["<b>Aluga o Vudú na Sua Vez</b>: link na bio!", "A frase mais importante, bem clara"],
-  ["E comenta aqui: qual maldição você jogaria no seu <b>melhor amigo</b>?", "Sorrindo"],
+  ["E se você pudesse <b>amaldiçoar</b> seus amigos... e ainda ganhar <b>pontos</b> com isso?", ""],
+  ["Esse é o <b>Vudú</b>: o jogo em que você é um feiticeiro perverso... e a sua galera vira vítima.", ""],
+  ["Na sua vez, você rola <b>cinco dados</b> de ingredientes.", ""],
+  ["Não gostou? Guarda os que servem e rola de novo... mas cada nova rolagem <b>custa um dado</b>.", ""],
+  ["Juntou os ingredientes da carta? <b>Lança a maldição</b> em alguém da mesa e marca pontos.", ""],
+  ["E aí começa o <b>caos</b>! Na <b>Kapoera</b>, a vítima não pode encostar os pés no chão...", ""],
+  ["Na <b>Tutakobraço</b>, tem que ficar com os braços esticados... e tem maldição <b>muito pior</b>.", ""],
+  ["Esqueceu da maldição? Quem lançou ganha <b>ainda mais pontos</b>.", ""],
+  ["Quem chegar primeiro nos <b>onze pontos</b> vence. De duas a oito pessoas, em uns trinta minutos.", ""],
+  ["Quer amaldiçoar sua galera no fim de semana? <b>Aluga o Vudú na Sua Vez</b>: link na bio!", ""],
+  ["E comenta aqui: qual maldição você jogaria no seu <b>melhor amigo</b>?", ""],
 ];
 const slotId = (i) => "l" + String(i + 1).padStart(2, "0");
 const $ = (s, el = document) => el.querySelector(s);
@@ -120,7 +111,7 @@ LINES.forEach(([say, cue], i) => {
     <div class="body">
       <span class="say">${say}</span>${cue ? `<span class="cue">${cue}</span>` : ""}
       <div class="row">
-        <label class="btn">⬆ Enviar áudio<input type="file" accept="audio/*,video/*" data-slot="${id}"></label>
+        <label class="btn">⬆ Enviar áudio<input type="file" accept="audio/*,video/*,.webm,.m4a,.ogg" data-slot="${id}"></label>
         <button class="btn" data-play="${id}" hidden>▶ Ouvir</button>
       </div>
       <span class="state" data-state="${id}">Ainda não enviado</span>
@@ -184,9 +175,20 @@ async function send(slot, file) {
   }
 }
 
-document.addEventListener("change", (e) => {
+document.addEventListener("change", async (e) => {
   const inp = e.target.closest("input[type=file]");
   if (!inp || !inp.files || !inp.files[0]) return;
+  if (inp.dataset.multi) {
+    const fs = [...inp.files]; inp.value = "";
+    const loose = [];
+    for (const f of fs) {
+      const m = f.name.match(/narracao\D{0,3}(\d{1,2})/i) || f.name.replace(/\.[^.]*$/, "").match(/(\d{1,2})/);
+      const n = m ? parseInt(m[1], 10) : 0;
+      if (n >= 1 && n <= LINES.length) await send(slotId(n - 1), f); else loose.push(f.name);
+    }
+    if (loose.length) setState("full", "Não reconheci o número da frase em: " + loose.join(", ") + ". Envie esses no botão da frase.", "err");
+    return;
+  }
   send(inp.dataset.slot, inp.files[0]);
   inp.value = "";
 });
