@@ -117,6 +117,38 @@ def bg(which, ctx, red=0.0, progress=0.0):
     return im
 
 
+
+@lru_cache(None)
+def polaroid(name, width=640, caption=""):
+    """Foto real do jogo como polaroide (borda branca + legenda escrita à mão)."""
+    ph = piece(name).convert("RGB")
+    ph = ph.resize((width, int(ph.height * width / ph.width)), Image.LANCZOS)
+    b, bottom = 24, 110 if caption else 24
+    card = Image.new("RGBA", (width + 2 * b, ph.height + b + bottom), (250, 248, 240, 255))
+    card.paste(ph, (b, b))
+    if caption:
+        f = R.font(54)
+        d = ImageDraw.Draw(card)
+        d.text((card.width / 2, ph.height + b + bottom / 2), caption, font=f, fill=(40, 30, 60, 255), anchor="mm")
+    return card
+
+
+def drop_photo(c, ctx, lt, t0, t1, name, x, y, rot, caption="", width=640):
+    """A foto cai na mesa em poucas poses, fica e depois é puxada para fora."""
+    if lt < t0 or lt >= t1 + 0.5:
+        return
+    u = seg(lt, t0, t0 + 0.45)
+    out = seg(lt, t1, t1 + 0.5)
+    yy = lerp(-800, y, ease_out(u)) if u < 1 else y
+    xx = x + (W + 700) * ease_io(out)
+    sx = sy = 1.0
+    k = int((lt - t0 - 0.45) * FPS)
+    if 0 <= k < 3:
+        sx, sy = [(1.04, 0.95), (0.98, 1.02), (1, 1)][k]
+    place(c, ctx, polaroid(name, width, caption), xx, yy, rot=rot + (1 - u) * 25 + out * 20, sx=sx, sy=sy,
+          lift=(1 - u) * 300 + out * 150)
+
+
 DICE = ["d1.png", "d2.png", "d3.png", "d4.png", "d5.png", "d6.png"]
 CATS = ["cat_l.png", "cat_m.png", "cat_r.png"]
 
@@ -207,6 +239,7 @@ def s_board(ctx):
                 a = j * math.pi / 2 + 0.4
                 place(c, ctx, star(60, YELLOW), 540 + WINDOWS[i] * rw * 1.4 + math.cos(a) * (60 + k * 18),
                       1080 + math.sin(a) * (60 + k * 18), rot=k * 30, shadow=0.2)
+    drop_photo(c, ctx, lt, 4.6, 6.6, "board_photo.jpg", 540, 1180, -5, "O TABULEIRO DO COSMOS", 720)
     headline(c, ctx, "TODA RODADA", 0.1, y=280, size=70, color=CYAN)
     headline(c, ctx, "CADA UM EMBARCA UM GATO", 0.4, y=420, size=84, color=GOLD, rot=-2)
     return c
@@ -252,6 +285,7 @@ def s_dice(ctx):
             x0, y0 = SLOTS[k]
             place(c, ctx, die_img(FINAL[k]), lerp(x0, 700, ease_io(u)), lerp(y0, 880, ease_io(u)) - math.sin(u * math.pi) * 200,
                   sc=lerp(1, 0.3, u), rot=u * 300, lift=math.sin(u * math.pi) * 200)
+    drop_photo(c, ctx, lt, 6.6, 8.6, "dice_photo.jpg", 540, 1000, 6, "OS DADOS DO JOGO", 700)
     headline(c, ctx, "O CAPITÃO ROLA 6 DADOS", 0.1, y=260, size=84, color=GOLD)
     if 2.2 <= lt < 4.0:
         place(c, ctx, sticker("ESCOLHE UM GRUPO", 76, CYAN), 540, 1580, rot=-2, sc=pop(lt, 2.2))
