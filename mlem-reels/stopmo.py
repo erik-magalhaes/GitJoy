@@ -150,7 +150,24 @@ def drop_photo(c, ctx, lt, t0, t1, name, x, y, rot, caption="", width=640):
 
 
 DICE = ["d1.png", "d2.png", "d3.png", "d4.png", "d5.png", "d6.png"]
-CATS = ["cat_l.png", "cat_m.png", "cat_r.png"]
+TOKENS = ["tok_yellow.png", "tok_cyan.png", "tok_blue.png", "tok_yellow.png"]
+GRAY_CAT = "gray_cat.png"
+TRIO = "cats.png"
+
+
+@lru_cache(None)
+def cutout(name, width, border=12):
+    """Recorte com borda branca de papel (esconde as sobras do recorte, como um adesivo)."""
+    im = scaled(name, width)
+    pad = border + 4
+    big = Image.new("RGBA", (im.width + pad * 2, im.height + pad * 2), (0, 0, 0, 0))
+    big.paste(im, (pad, pad), im)
+    a = big.getchannel("A").point(lambda v: 255 if v > 90 else 0)
+    edge = a.filter(ImageFilter.MaxFilter(border * 2 + 1)).filter(ImageFilter.GaussianBlur(1.2))
+    paper = Image.new("RGBA", big.size, (252, 250, 244, 0))
+    paper.putalpha(edge)
+    paper.alpha_composite(big)
+    return paper
 
 
 def die_img(name, w=190):
@@ -196,14 +213,11 @@ def s_hook(ctx):
 def s_intro(ctx):
     lt = ctx.lt
     c = bg("box", ctx)
-    # gatos entram pulando dos lados
-    for i, (name, x, w) in enumerate(((CATS[0], 210, 390), (CATS[2], 880, 420), (CATS[1], 540, 400))):
-        t0 = 1.6 + i * 0.35
-        if lt >= t0:
-            u = seg(lt, t0, t0 + 0.6)
-            sx0 = -300 if x < 540 else (W + 300 if x > 540 else 540)
-            px, py, lift = bounce_path(u, (sx0, 2000 if x == 540 else 1500), (x, 1430), 260, 2)
-            place(c, ctx, scaled(name, w), px, py, rot=math.sin(lt * 5 + i) * 3, lift=lift)
+    # o trio da caixa entra pulando, inteiro, como na arte original
+    if lt >= 1.6:
+        u = seg(lt, 1.6, 2.3)
+        px, py, lift = bounce_path(u, (540, 2300), (540, 1500), 300, 2)
+        place(c, ctx, cutout(TRIO, 980), px, py, rot=math.sin(lt * 4) * 2, lift=lift)
     u = seg(lt, 0.1, 0.55)
     sx = sy = 1.0
     if 0 <= lt - 0.55 < 0.35:
@@ -228,11 +242,10 @@ def s_board(ctx):
         t0 = 1.0 + i * 0.7
         u = seg(lt, t0, t0 + 0.55)
         if 0 < u < 1:
-            name = CATS[i % 3]
             sx0 = -250 if i % 2 == 0 else W + 250
             tx = 540 + WINDOWS[i] * rw * 1.4
             px, py, lift = bounce_path(u, (sx0, 700), (tx, 1080), 300, 1)
-            place(c, ctx, scaled(name, 300), px, py, sc=lerp(1.0, 0.25, u), rot=u * 30, lift=lift)
+            place(c, ctx, cutout(TOKENS[i], 260), px, py, sc=lerp(1.0, 0.35, u), rot=u * 30, lift=lift)
         if t0 + 0.55 <= lt < t0 + 0.9:
             k = int((lt - t0 - 0.55) * FPS)
             for j in range(4):
@@ -310,7 +323,7 @@ def s_decide(ctx):
     u = seg(lt, 2.6, 3.3)
     if u > 0:
         px, py, lift = bounce_path(u, (rx, ry), (250, 760), 300, 1)
-        place(c, ctx, scaled(CATS[0], lerp(120, 230, u)), px, py, rot=(1 - u) * 40, lift=lift)
+        place(c, ctx, cutout(GRAY_CAT, 260), px, py, sc=lerp(0.5, 1.0, u), rot=(1 - u) * 40, lift=lift)
     headline(c, ctx, "PULA OU CONTINUA?", 0.1, y=270, size=96, color=GOLD)
     if lt < 4.8:
         place(c, ctx, sticker("PULAR NA LUA", 66, CYAN), 290, 1420, rot=-4, sc=pop(lt, 0.8))
@@ -353,12 +366,12 @@ def s_crash(ctx):
         if lt < 2.55:
             c = Image.blend(c, Image.new("RGB", c.size, (255, 240, 200)), 0.6)
         headline(c, ctx, "FALHA CÓSMICA!", 2.5, y=280, size=118, color=RED)
-        for i, name in enumerate(CATS):  # os gatos caem de volta
+        for i, name in enumerate(TOKENS[:3]):  # as fichas de gato caem de volta
             u = seg(lt, 2.7 + i * 0.12, 4.6 + i * 0.12)
             if u > 0:
                 x = 540 + (i - 1) * 300 * ease_out(u)
                 y = 640 - 200 * math.sin(min(1, u * 1.6) * math.pi / 2) + 1500 * u * u
-                place(c, ctx, scaled(name, 260), x, y, rot=u * 520 * (1 if i % 2 else -1), lift=200)
+                place(c, ctx, cutout(name, 240), x, y, rot=u * 520 * (1 if i % 2 else -1), lift=200)
         if lt >= 3.6:
             place(c, ctx, sticker("QUEM FICOU NO FOGUETE NÃO PONTUA", 58, CREAM), 540, 1520, rot=2, sc=pop(lt, 3.6))
     return c
@@ -382,7 +395,7 @@ def s_engage(ctx):
     lt = ctx.lt
     c = bg("table", ctx)
     bob = abs(math.sin(lt * 3)) * 30
-    place(c, ctx, scaled(CATS[1], 330), 540, 1330 - bob, rot=math.sin(lt * 4) * 5, lift=bob)
+    place(c, ctx, cutout(GRAY_CAT, 440), 540, 1380 - bob, rot=math.sin(lt * 4) * 5, lift=bob)
     headline(c, ctx, "E VOCÊ?", 0.1, y=320, size=170, color=GOLD)
     headline(c, ctx, "PULA NA PRIMEIRA LUA", 0.8, y=620, size=80, color=CYAN, rot=-3)
     headline(c, ctx, "OU", 1.2, y=740, size=70, color=CREAM)
@@ -406,7 +419,7 @@ def s_cta(ctx):
     s = pop(lt, 1.8)
     if s:
         place(c, ctx, scaled("box.png", 360), 300, 1270, rot=-8, sc=s)
-        place(c, ctx, scaled(CATS[0], 300), 820, 1290, rot=math.sin(lt * 8) * 7, sc=s)
+        place(c, ctx, cutout(GRAY_CAT, 320), 820, 1290, rot=math.sin(lt * 8) * 7, sc=s)
     s = pop(lt, 2.7)
     if s:
         place(c, ctx, sticker("LINK NA BIO", 90, CYAN), 540, 1540 + abs(math.sin(lt * 5)) * 12, rot=2, sc=s)
