@@ -1,0 +1,250 @@
+{
+ "duracao": 62.74,
+ "cenas": [
+  [
+   0.0,
+   6.0,
+   0.0,
+   5.1
+  ],
+  [
+   6.0,
+   12.0,
+   5.1,
+   11.21
+  ],
+  [
+   12.0,
+   20.0,
+   11.21,
+   17.58
+  ],
+  [
+   20.0,
+   25.0,
+   17.58,
+   21.39
+  ],
+  [
+   25.0,
+   32.0,
+   21.39,
+   29.34
+  ],
+  [
+   32.0,
+   38.0,
+   29.34,
+   35.13
+  ],
+  [
+   38.0,
+   47.0,
+   35.13,
+   46.88
+  ],
+  [
+   47.0,
+   57.0,
+   46.88,
+   54.07
+  ],
+  [
+   57.0,
+   66.0,
+   54.07,
+   62.74
+  ]
+ ],
+ "voz": [
+  {
+   "frase": 1,
+   "arquivo": "narracao/frase_01.wav",
+   "inicio": 0.3
+  },
+  {
+   "frase": 2,
+   "arquivo": "narracao/frase_02.wav",
+   "inicio": 5.4
+  },
+  {
+   "frase": 3,
+   "arquivo": "narracao/frase_03.wav",
+   "inicio": 11.51
+  },
+  {
+   "frase": 4,
+   "arquivo": "narracao/frase_04.wav",
+   "inicio": 17.88
+  },
+  {
+   "frase": 5,
+   "arquivo": "narracao/frase_05.wav",
+   "inicio": 21.69
+  },
+  {
+   "frase": 6,
+   "arquivo": "narracao/frase_06.wav",
+   "inicio": 29.64
+  },
+  {
+   "frase": 7,
+   "arquivo": "narracao/frase_07.wav",
+   "inicio": 35.43
+  },
+  {
+   "frase": 8,
+   "arquivo": "narracao/frase_08.wav",
+   "inicio": 47.18
+  },
+  {
+   "frase": 9,
+   "arquivo": "narracao/frase_09.wav",
+   "inicio": 54.37
+  }
+ ],
+ "legendas": [
+  [
+   0.3,
+   1.36,
+   "Pizza é um tipo de sanduíche?"
+  ],
+  [
+   1.36,
+   2.82,
+   "Pensa rápido..."
+  ],
+  [
+   2.82,
+   4.45,
+   "e responde girando o ponteiro."
+  ],
+  [
+   5.4,
+   7.64,
+   "Esse é o Sintonia, o jogo de ler a mente"
+  ],
+  [
+   7.64,
+   10.25,
+   "dos amigos, eleito o melhor party game de 2019."
+  ],
+  [
+   11.51,
+   13.8,
+   "Cada rodada tem uma carta com dois extremos,"
+  ],
+  [
+   13.85,
+   15.91,
+   "mas só o psíquico vê onde está o alvo..."
+  ],
+  [
+   15.91,
+   16.76,
+   "e o esconde."
+  ],
+  [
+   17.88,
+   19.69,
+   "E aí ele tem que dar uma dica."
+  ],
+  [
+   19.84,
+   20.49,
+   "Tipo: minhas chaves!"
+  ],
+  [
+   21.69,
+   24.51,
+   "O time discute, briga, tá mais pra defender"
+  ],
+  [
+   24.51,
+   25.33,
+   "a sua opinião..."
+  ],
+  [
+   25.33,
+   28.6,
+   "e gira o ponteiro onde acha que a dica se encaixa."
+  ],
+  [
+   29.64,
+   31.18,
+   "Então o psíquico revela:"
+  ],
+  [
+   31.18,
+   34.21,
+   "quanto mais perto do centro, mais pontos o time faz."
+  ],
+  [
+   35.43,
+   37.57,
+   "E cada rodada vira uma discussão absurda,"
+  ],
+  [
+   37.57,
+   38.41,
+   "tipo: água tem cor?"
+  ],
+  [
+   38.41,
+   40.05,
+   "Claro que não! Claro que sim!"
+  ],
+  [
+   40.05,
+   41.72,
+   "Claro que não! Claro que sim!"
+  ],
+  [
+   41.73,
+   44.64,
+   "Claro que não! Enfim, é um jogo pra galera,"
+  ],
+  [
+   44.79,
+   46.0,
+   "e quanto mais gente, melhor."
+  ],
+  [
+   47.18,
+   48.29,
+   "E agora é com você!"
+  ],
+  [
+   48.46,
+   50.73,
+   "Lugar silencioso ou barulhento?"
+  ],
+  [
+   50.9,
+   52.57,
+   "Que dica você daria pra esse alvo?"
+  ],
+  [
+   52.66,
+   53.31,
+   "Comenta aqui!"
+  ],
+  [
+   54.37,
+   56.06,
+   "Teste a conexão com a sua galera:"
+  ],
+  [
+   56.11,
+   58.94,
+   "aluga o Sintonia na Sua Vez, o link está na bio!"
+  ]
+ ],
+ "claro": [
+  39.01,
+  39.69,
+  40.45,
+  41.01,
+  41.73
+ ]
+}

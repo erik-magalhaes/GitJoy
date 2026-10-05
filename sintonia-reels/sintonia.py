@@ -538,6 +538,14 @@ def s_quick(cr, t, d):
             text(cr, a, 0, -26, 54, NAVY, F_BLACK, maxw=820)
             text(cr, b, 0, 36, 46, NAVY, F_SEMI, maxw=820)
             cr.restore()
+    # "Claro que não! Claro que sim!" no ritmo da narração
+    for i, tc in enumerate(CLARO_LOCAL):
+        nxt = CLARO_LOCAL[i + 1] if i + 1 < len(CLARO_LOCAL) else tc + 0.9
+        if tc <= t < nxt + 0.15:
+            sim = i % 2 == 1
+            sc = appear(t, tc, 0.25, nxt, 0.15)
+            bubble(cr, "CLARO QUE SIM!" if sim else "CLARO QUE NÃO!", 760 if sim else 320, 900 if sim else 820,
+                   sc, "right" if sim else "left", 58, 600, MUSTARD if sim else WHITE)
     chips = [("2 A 12 PESSOAS", NAVY), ("30 A 45 MIN", CORAL), ("14+", BLUE)]
     for i, (s_, c) in enumerate(chips):
         chip(cr, s_, 540, 1300 + i * 100, appear(t, 3.8 + i * 0.25), c, CREAM, 46)
@@ -624,6 +632,10 @@ if os.path.exists(TIMELINE_PATH):
 else:
     PLAY = [(t0, t1, fn, 1.0, t1 - t0) for t0, t1, fn in SCENES]
 CTA_START = PLAY[-1][0]
+CLARO_LOCAL = [2.2, 2.8, 3.4, 4.0, 4.6]
+if TIMELINE and TIMELINE.get("claro"):
+    o0, o1, n0, n1 = TIMELINE["cenas"][6]
+    CLARO_LOCAL = [(c - n0) * (o1 - o0) / (n1 - n0) for c in TIMELINE["claro"]]
 
 
 def warp(t_orig):
