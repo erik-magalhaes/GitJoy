@@ -175,7 +175,7 @@ def image_surf(name, width):
 
 def blit(cr, surf_wh, x, y, sc=1.0, rot=0.0, alpha=1.0, anchor=(0.5, 0.5)):
     surf, w, h = surf_wh
-    if sc <= 0.001 or alpha <= 0.001:
+    if sc <= 0.03 or alpha <= 0.01:
         return
     cr.save()
     cr.translate(x, y)
@@ -326,7 +326,7 @@ def dial(cr, cx, cy, R, needle=0.0, target=0.0, cover=0.0, left="", right="", gl
     stars(cr, cx, cy, R * 1.1)
     cr.restore()
     # carta com os dois extremos
-    if left and card_pop > 0:
+    if left and card_pop > 0.03:
         cw, ch = R * 1.25, R * 0.44
         cr.save()
         cr.translate(cx, cy + R * 0.34)
@@ -368,7 +368,7 @@ def dial(cr, cx, cy, R, needle=0.0, target=0.0, cover=0.0, left="", right="", gl
 
 
 def bubble(cr, s, x, y, sc=1.0, tail="left", size=54, maxw=640, color=WHITE, ink=NAVY):
-    if sc <= 0.01:
+    if sc <= 0.03:
         return
     surf = text_surf(s, size, ink, F_XBOLD, 0, maxw, 1.05)
     w, h = surf[1] + 70, surf[2] + 50
@@ -387,7 +387,7 @@ def bubble(cr, s, x, y, sc=1.0, tail="left", size=54, maxw=640, color=WHITE, ink
 
 
 def chip(cr, s, x, y, sc, c=NAVY, ink=CREAM, size=50):
-    if sc <= 0.01:
+    if sc <= 0.03:
         return
     surf = text_surf(s, size, ink, F_XBOLD, 0, 900, 1.0)
     w, h = surf[1] + 64, surf[2] + 26
@@ -432,7 +432,7 @@ def s_intro(cr, t, d):
     text(cr, "O JOGO DE LER A MENTE DOS AMIGOS", 540, 430, 44, CORAL, F_XBOLD, sc=appear(t, 1.3))
     # selo
     s = appear(t, 2.2, 0.5)
-    if s:
+    if s > 0.03:
         cr.save()
         cr.translate(850, 1380)
         cr.rotate(math.radians(12 + math.sin(t * 3) * 3))
@@ -463,7 +463,7 @@ def s_how(cr, t, d):
         a = appear(t, 2.7, 0.4, 6.0)
         chip(cr, "SÓ O PSÍQUICO VÊ ONDE ESTÁ O ALVO", 540, 1560, a, NAVY, CREAM, 44)
         # "olhinho" espiando
-        if a > 0:
+        if a > 0.03:
             cr.save()
             cr.translate(540, 500)
             cr.scale(a, a)
@@ -528,7 +528,7 @@ def s_quick(cr, t, d):
         s = appear(t, t0, 0.45)
         y = 640 + i * 210
         x = 540 + (-1 if i % 2 else 1) * 30
-        if s:
+        if s > 0.03:
             cr.save()
             cr.translate(x, y)
             cr.rotate(math.radians((-3, 2.5, -2)[i]))
