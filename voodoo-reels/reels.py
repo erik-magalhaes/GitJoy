@@ -694,6 +694,31 @@ SUBS = [
 ]
 
 
+# ---------------------------------------------------------------- narração gravada
+TIMELINE_PATH = os.path.join(ROOT, "narracao", "timeline.json")
+TIMELINE = None
+if os.path.exists(TIMELINE_PATH):
+    import json
+    TIMELINE = json.load(open(TIMELINE_PATH, encoding="utf-8"))
+    DUR = TIMELINE["duracao"]
+    SUBS = [tuple(x) for x in TIMELINE["legendas"]]
+    # cada cena é esticada/encurtada para caber a fala: (início_novo, fim_novo, função, duração_original)
+    PLAY = [(n0, n1, fn, (o1 - o0) / (n1 - n0)) for (o0, o1, n0, n1), (_, _, fn) in zip(TIMELINE["cenas"], SCENES)]
+else:
+    PLAY = [(t0, t1, fn, 1.0) for t0, t1, fn in SCENES]
+CTA_START = PLAY[-1][0]
+
+
+def warp(t_orig):
+    """Converte um instante da linha do tempo original para a nova (efeitos sonoros)."""
+    if TIMELINE is None:
+        return t_orig
+    for o0, o1, n0, n1 in TIMELINE["cenas"]:
+        if o0 <= t_orig < o1:
+            return n0 + (t_orig - o0) * (n1 - n0) / (o1 - o0)
+    return t_orig - TIMELINE["cenas"][-1][1] + TIMELINE["cenas"][-1][3]
+
+
 @lru_cache(None)
 def sub_img(text):
     fnt = font(54)
@@ -732,15 +757,16 @@ def render_frame(args):
     fi, subs = args
     ctx = Ctx(fi)
     t = ctx.t
-    for t0, t1, fn in SCENES:
+    for t0, t1, fn, k in PLAY:
         if t0 <= t < t1:
-            ctx.lt = t - t0
+            ctx.lt = (t - t0) * k
             img = fn(ctx)
             break
     else:
-        ctx.lt = t - SCENES[-1][0]
-        img = SCENES[-1][2](ctx)
-    if t < 58.0:
+        t0, _, fn, k = PLAY[-1]
+        ctx.lt = (t - t0) * k
+        img = fn(ctx)
+    if t < CTA_START:
         wm = watermark()
         img.paste(wm, (W - wm.width - 34, 96), wm)
     if subs:
@@ -806,7 +832,8 @@ def main():
         Image.frombytes("RGB", (W, H), fr).save(os.path.join(OUT, "frame.png"))
         return
     wav = os.path.join(OUT, "trilha.wav")
-    audio.build(wav, DUR)
+    voz = [(os.path.join(ROOT, v["arquivo"]), v["inicio"]) for v in TIMELINE["voz"]] if TIMELINE else None
+    audio.build(wav, DUR, warp=warp, voz=voz)
     write_srt(os.path.join(ROOT, "legendas.srt"))
     if a.only != "limpo":
         render(os.path.join(OUT, "vudu_preview.mp4"), wav, subs=True)

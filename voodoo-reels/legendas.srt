@@ -1,80 +1,104 @@
 1
-00:00:00,200 --> 00:00:02,500
-E se você pudesse amaldiçoar seus amigos...
+00:00:00,300 --> 00:00:02,060
+E se você pudesse amaldiçoar seus amigos
 
 2
-00:00:02,500 --> 00:00:04,900
-...e ainda ganhar pontos com isso?
+00:00:02,060 --> 00:00:04,310
+e ainda ganhar pontos com isso?
 
 3
-00:00:05,100 --> 00:00:07,900
-Esse é o Vudú: o jogo em que você é um feiticeiro perverso...
+00:00:05,390 --> 00:00:07,330
+Esse é o Vudú, o joguinho em que você vira
 
 4
-00:00:07,900 --> 00:00:10,900
-...e a sua galera vira vítima.
+00:00:07,330 --> 00:00:09,560
+um bruxão... e a sua galera vira vítima.
 
 5
-00:00:11,200 --> 00:00:14,300
-Na sua vez, você rola cinco dados de ingredientes.
+00:00:10,600 --> 00:00:11,590
+E é super simples:
 
 6
-00:00:14,300 --> 00:00:17,300
-Não gostou? Guarda os que servem e rola de novo...
+00:00:11,640 --> 00:00:14,190
+na sua vez, você rola 5 dados de ingredientes.
 
 7
-00:00:17,300 --> 00:00:21,800
-...mas cada nova rolagem custa um dado.
+00:00:14,590 --> 00:00:15,670
+Não gostou do que rolou?
 
 8
-00:00:22,300 --> 00:00:25,400
-Juntou os ingredientes da carta?
+00:00:15,670 --> 00:00:16,480
+Não tem problema!
 
 9
-00:00:25,400 --> 00:00:29,700
-Lança a maldição em alguém da mesa e marca pontos.
+00:00:16,690 --> 00:00:19,000
+Você guarda o que quer usar e rola de novo.
 
 10
-00:00:30,100 --> 00:00:31,800
-E aí começa o caos!
+00:00:19,190 --> 00:00:21,980
+Mas cuidado, porque cada nova rolagem custa um dado.
 
 11
-00:00:31,800 --> 00:00:37,300
-Na Kapoera, a vítima não pode encostar os pés no chão...
+00:00:23,160 --> 00:00:25,040
+Quando você juntar todos os ingredientes
 
 12
-00:00:37,600 --> 00:00:42,600
-Na Tutakobraço, tem que ficar com os braços esticados...
+00:00:25,040 --> 00:00:26,880
+da carta, é hora de lançar sua maldição em
 
 13
-00:00:42,600 --> 00:00:44,900
-...e tem maldição muito pior.
+00:00:26,880 --> 00:00:29,110
+alguém da mesa e assim marcar seus pontos.
 
 14
-00:00:45,300 --> 00:00:48,000
-Esqueceu da maldição?
+00:00:30,290 --> 00:00:32,890
+E aí que começa todo o caos!
 
 15
-00:00:48,000 --> 00:00:51,800
-Quem lançou ganha ainda mais pontos.
+00:00:32,890 --> 00:00:34,910
+Por exemplo: na Kapoera, a vítima não pode
 
 16
-00:00:52,200 --> 00:00:54,900
-Quem chegar primeiro nos 11 pontos vence.
+00:00:34,910 --> 00:00:36,120
+encostar os pés no chão.
 
 17
-00:00:54,900 --> 00:00:57,900
-De 2 a 8 pessoas, em uns 30 minutos.
+00:00:37,080 --> 00:00:39,240
+Na Tutakobraço, tem que ficar com os braços
 
 18
-00:00:58,200 --> 00:01:00,900
-Quer amaldiçoar sua galera no fim de semana?
+00:00:39,240 --> 00:00:41,750
+esticados... e tem maldição muito pior.
 
 19
-00:01:00,900 --> 00:01:03,400
-Aluga o Vudú na Sua Vez: link na bio!
+00:00:42,950 --> 00:00:45,050
+E preste bastante atenção, porque se você
 
 20
-00:01:03,400 --> 00:01:07,800
-E comenta: qual maldição você jogaria no seu melhor amigo?
+00:00:45,050 --> 00:00:47,170
+esquecer de fazer uma maldição, quem lançou
+
+21
+00:00:47,170 --> 00:00:48,800
+ela ganha ainda mais pontos.
+
+22
+00:00:50,040 --> 00:00:52,230
+E vence quem chegar aos 11 pontos primeiro.
+
+23
+00:00:52,240 --> 00:00:55,250
+Um jogo super rápido e caótico, para até 8 pessoas.
+
+24
+00:00:56,570 --> 00:00:58,170
+E aí, quer amaldiçoar a sua galera no final
+
+25
+00:00:58,170 --> 00:01:00,450
+de semana? Aluga o Vudú na Sua Vez:
+
+26
+00:01:00,450 --> 00:01:01,460
+o link está na bio!
 

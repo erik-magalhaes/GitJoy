@@ -1,3 +1,5 @@
 voodoo-reels/out/
 __pycache__/
-voodoo-reels/narracao/*.wav
+voodoo-reels/narracao/raw/*.wav
+voodoo-reels/narracao/*_bruto.wav
+voodoo-reels/narracao/n01*.wav

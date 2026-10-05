@@ -265,15 +265,36 @@ def cue_list():
     return c
 
 
-def build(path, dur):
+def read_wav(path):
+    with wave.open(path) as w:
+        a = np.frombuffer(w.readframes(w.getnframes()), np.int16).astype(np.float64) / 32768
+        if w.getnchannels() == 2:
+            a = a.reshape(-1, 2).mean(1)
+    return a
+
+
+def build(path, dur, warp=None, voz=None):
+    warp = warp or (lambda t: t)
     m = music(dur)
     m = m / (np.abs(m).max() + 1e-9) * 0.30
     s = np.zeros_like(m)
     for t, name, g in cue_list():
-        add(s, FX[name](), t, g)
-    mix = m + s * 0.55
-    mix = np.tanh(mix * 1.2) / np.tanh(1.2)
-    mix = mix / (np.abs(mix).max() + 1e-9) * 0.89
+        add(s, FX[name](), warp(t), g)
+    bed = m + s * 0.55
+    bed = np.tanh(bed * 1.2) / np.tanh(1.2) * 0.62
+    if voz:
+        v = np.zeros_like(bed)
+        for arq, t0 in voz:
+            add(v, read_wav(arq), t0, 1.0)
+        # música abaixa enquanto a voz fala (ducking suave)
+        act = lp(np.abs(v), 8)
+        act = np.clip(act / (act.max() * 0.15 + 1e-9), 0, 1)
+        duck = 1 - 0.62 * lp(lp(act, 3), 3)
+        mix = bed * duck + v * 0.95
+    else:
+        mix = bed
+    mix = np.tanh(mix * 1.1) / np.tanh(1.1)
+    mix = mix / (np.abs(mix).max() + 1e-9) * 0.71  # ~-14 LUFS, padrão de Reels/TikTok
     pcm = (mix * 32767).astype(np.int16)
     st = np.repeat(pcm[:, None], 2, 1)
     with wave.open(path, "wb") as w:
