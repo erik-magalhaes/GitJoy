@@ -6,8 +6,17 @@ import wave
 import numpy as np
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "voodoo-reels"))
-from audio import (SR, add, env, hp, lp, noise, note, t_, read_wav,  # noqa: E402
+from audio import (SR, add, env, hp, lp, noise, t_, read_wav,  # noqa: E402
                    fx_pop, fx_whoosh, fx_ding, fx_fanfare, fx_boing, fx_chime)
+
+
+SEMI = {"C": -9, "C#": -8, "Db": -8, "D": -7, "Eb": -6, "E": -5, "F": -4, "F#": -3, "G": -2,
+        "Ab": -1, "A": 0, "Bb": 1, "B": 2}
+
+
+def note(name):
+    n, o = name[:-1], int(name[-1])
+    return 440 * 2 ** ((SEMI[n] + 12 * (o - 4)) / 12)
 
 
 def kick():
