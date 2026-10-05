@@ -1,68 +1,108 @@
 1
-00:00:00,200 --> 00:00:02,600
+00:00:00,300 --> 00:00:01,360
 Pizza é um tipo de sanduíche?
 
 2
-00:00:02,600 --> 00:00:05,800
-Pensa rápido... e responde girando um ponteiro.
+00:00:01,360 --> 00:00:02,820
+Pensa rápido...
 
 3
-00:00:06,200 --> 00:00:09,000
-Esse é o Sintonia: o jogo de ler a mente dos amigos,
+00:00:02,820 --> 00:00:04,450
+e responde girando o ponteiro.
 
 4
-00:00:09,000 --> 00:00:11,800
-eleito o melhor party game de 2019.
+00:00:05,400 --> 00:00:07,640
+Esse é o Sintonia, o jogo de ler a mente
 
 5
-00:00:12,200 --> 00:00:15,600
-Cada rodada tem uma carta com dois extremos.
+00:00:07,640 --> 00:00:10,250
+dos amigos, eleito o melhor party game de 2019.
 
 6
-00:00:15,600 --> 00:00:19,800
-Só o psíquico vê onde está o alvo... e esconde.
+00:00:11,510 --> 00:00:13,800
+Cada rodada tem uma carta com dois extremos,
 
 7
-00:00:20,200 --> 00:00:24,800
-Aí ele dá uma única dica. Tipo: minhas chaves!
+00:00:13,850 --> 00:00:15,910
+mas só o psíquico vê onde está o alvo...
 
 8
-00:00:25,200 --> 00:00:28,600
-O time discute, briga, defende sua opinião...
+00:00:15,910 --> 00:00:16,760
+e o esconde.
 
 9
-00:00:28,600 --> 00:00:31,800
-e gira o ponteiro onde acha que a dica se encaixa.
+00:00:17,880 --> 00:00:19,690
+E aí ele tem que dar uma dica.
 
 10
-00:00:32,200 --> 00:00:35,000
-Revela! Quanto mais perto do centro,
+00:00:19,840 --> 00:00:20,490
+Tipo: minhas chaves!
 
 11
-00:00:35,000 --> 00:00:37,800
-mais pontos o time faz.
+00:00:21,690 --> 00:00:24,510
+O time discute, briga, tá mais pra defender
 
 12
-00:00:38,200 --> 00:00:42,600
-E cada rodada vira uma discussão absurda: água tem cor?
+00:00:24,510 --> 00:00:25,330
+a sua opinião...
 
 13
-00:00:42,600 --> 00:00:46,800
-Dá pra jogar de 2 a 12 pessoas, em uns 40 minutos.
+00:00:25,330 --> 00:00:28,600
+e gira o ponteiro onde acha que a dica se encaixa.
 
 14
-00:00:47,200 --> 00:00:51,400
-Agora é com você: lugar silencioso ou barulhento.
+00:00:29,640 --> 00:00:31,180
+Então o psíquico revela:
 
 15
-00:00:51,400 --> 00:00:56,800
-Que dica você daria pra esse alvo? Comenta aqui!
+00:00:31,180 --> 00:00:34,210
+quanto mais perto do centro, mais pontos o time faz.
 
 16
-00:00:57,200 --> 00:01:01,000
-Quer testar a sintonia da sua galera?
+00:00:35,430 --> 00:00:37,570
+E cada rodada vira uma discussão absurda,
 
 17
-00:01:01,000 --> 00:01:05,600
-Aluga o Sintonia na Sua Vez: link na bio!
+00:00:37,570 --> 00:00:38,410
+tipo: água tem cor?
+
+18
+00:00:38,410 --> 00:00:40,050
+Claro que não! Claro que sim!
+
+19
+00:00:40,050 --> 00:00:41,720
+Claro que não! Claro que sim!
+
+20
+00:00:41,730 --> 00:00:44,640
+Claro que não! Enfim, é um jogo pra galera,
+
+21
+00:00:44,790 --> 00:00:46,000
+e quanto mais gente, melhor.
+
+22
+00:00:47,180 --> 00:00:48,290
+E agora é com você!
+
+23
+00:00:48,460 --> 00:00:50,730
+Lugar silencioso ou barulhento?
+
+24
+00:00:50,900 --> 00:00:52,570
+Que dica você daria pra esse alvo?
+
+25
+00:00:52,660 --> 00:00:53,310
+Comenta aqui!
+
+26
+00:00:54,370 --> 00:00:56,060
+Teste a conexão com a sua galera:
+
+27
+00:00:56,110 --> 00:00:58,940
+aluga o Sintonia na Sua Vez, o link está na bio!
 
