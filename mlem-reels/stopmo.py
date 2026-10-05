@@ -67,6 +67,60 @@ def rocket_up(width):
     return scaled("rocket.png", width).rotate(90, expand=True, resample=Image.BICUBIC)
 
 
+@lru_cache(None)
+def rocket_img(height):
+    """Tabuleiro de foguete de verdade (foto), em pé."""
+    im = piece("rocket_full.png")
+    return im.resize((int(im.width * height / im.height), int(height)), Image.LANCZOS)
+
+
+SLOT_XY = [(291, 224), (273, 324), (251, 402), (233, 486)]  # janelas no rocket_full.png (rosa, verde, azul, amarelo)
+
+
+@lru_cache(None)
+def slot_patch(i):
+    """Ficha de miaustronauta tirada da própria foto do foguete cheio (encaixa perfeito na janela)."""
+    full = piece("rocket_full.png")
+    x, y = SLOT_XY[i]
+    box = (x - 66, y - 64, x + 66, y + 60)
+    p = full.crop(box)
+    m = Image.new("L", p.size, 0)
+    ImageDraw.Draw(m).ellipse((4, 4, p.width - 4, p.height - 4), fill=255)
+    m = m.filter(ImageFilter.GaussianBlur(5))
+    p.putalpha(m)
+    return p, box
+
+
+@lru_cache(None)
+def rocket_partial(n):
+    """Foguete vazio com as n primeiras fichas já encaixadas."""
+    im = piece("rocket_empty.png").copy()
+    for i in range(n):
+        p, box = slot_patch(i)
+        im.alpha_composite(p, (box[0], box[1]))
+    return im
+
+
+@lru_cache(None)
+def launch_photo():
+    im = piece("launch_photo.jpg").convert("RGB")
+    s = H / im.height
+    im = im.resize((int(im.width * s), H), Image.LANCZOS)
+    x0 = int(im.width * 0.5 - W / 2)
+    return im.crop((x0, 0, x0 + W, H))
+
+
+def launch_bg(ctx, u):
+    """Foto real do foguete decolando, com zoom em degraus e tremida."""
+    im = launch_photo()
+    z = 1.0 + 0.18 * u
+    w, h = int(W / z), int(H / z)
+    sh = int(ctx.j(10))
+    x0 = (W - w) // 2 + sh
+    y0 = (H - h) // 2 + int(ctx.j(10))
+    return im.crop((x0, y0, x0 + w, y0 + h)).resize((W, H), Image.BILINEAR)
+
+
 # ---------------------------------------------------------------- fundos (foto do tabuleiro, como no Vudú)
 @lru_cache(None)
 def bg_table():
@@ -150,8 +204,7 @@ def drop_photo(c, ctx, lt, t0, t1, name, x, y, rot, caption="", width=640):
 
 
 DICE = ["d1.png", "d2.png", "d3.png", "d4.png", "d5.png", "d6.png"]
-TOKENS = ["tok_yellow.png", "tok_cyan.png", "tok_blue.png", "tok_yellow.png"]
-GRAY_CAT = "gray_cat.png"
+EXP = ["exp_token0.png", "exp_token1.png", "exp_token2.png", "exp_token3.png"]  # fichas de expedição (gatos)
 TRIO = "cats.png"
 
 
@@ -190,21 +243,16 @@ def flame(c, ctx, x, y, k=1.0):
 # ---------------------------------------------------------------- cenas
 def s_hook(ctx):
     lt = ctx.lt
-    c = bg("table", ctx)
-    launch = seg(lt, 2.4, 4.8)
-    ry = lerp(1300, -800, ease_io(launch) ** 1.3)
-    shake = math.sin(lt * 40) * 8 * (1 - launch) if lt > 1.8 else 0
-    place(c, ctx, rocket_up(720), 540 + shake, ry, lift=40 + 400 * launch)
-    if lt > 2.2:
-        flame(c, ctx, 540 + shake, ry + 380, 1.5)
     if lt < 2.4:
+        c = bg("table", ctx)
+        shake = math.sin(lt * 40) * 7 if lt > 1.6 else 0
+        place(c, ctx, rocket_img(1000), 540 + shake, 1230, lift=40)
         n = 3 - int(lt / 0.8)
-        place(c, ctx, sticker(str(n), 300, YELLOW), 540, 560, rot=(-6, 4, -3)[3 - n], sc=pop(lt, (3 - n) * 0.8))
-    if lt > 2.3:
-        for i in range(6):  # fumaça de algodão na base
-            k = seg(lt, 2.3, 3.8)
-            place(c, ctx, star(140, (235, 235, 245)), 540 + (i - 2.5) * 140 * (0.5 + k), 1700 - k * 60,
-                  rot=i * 30, sc=0.6 + k * 0.8, alpha=1 - k, shadow=0.2)
+        place(c, ctx, sticker(str(n), 300, YELLOW), 540, 480, rot=(-6, 4, -3)[3 - n], sc=pop(lt, (3 - n) * 0.8))
+    else:
+        c = launch_bg(ctx, seg(lt, 2.4, 5.5))
+        if lt < 2.55:
+            c = Image.blend(c, Image.new("RGB", c.size, (255, 240, 210)), 0.5)
     headline(c, ctx, "GATOS NO ESPAÇO.", 2.6, y=1080, size=104, color=GOLD)
     headline(c, ctx, "O QUE PODERIA DAR ERRADO?", 3.4, y=1230, size=74, color=CREAM, rot=-2)
     return c
@@ -229,29 +277,39 @@ def s_intro(ctx):
     return c
 
 
-WINDOWS = [-0.20, -0.07, 0.06, 0.19]  # posição (fração do comprimento) das janelas no foguete
+RK_H, RK_X, RK_Y = 1120, 540, 1130   # foguete do embarque
+
+
+def slot_screen(i):
+    full = piece("rocket_full.png")
+    sc = RK_H / full.height
+    x, y = SLOT_XY[i]
+    return RK_X + (x - full.width / 2) * sc, RK_Y + (y - full.height / 2) * sc, sc
 
 
 def s_board(ctx):
     lt = ctx.lt
     c = bg("table", ctx)
-    rw = 1000
-    rk = scaled("rocket.png", rw)
-    place(c, ctx, rk, 540, 1120, rot=8)
-    for i in range(4):
-        t0 = 1.0 + i * 0.7
-        u = seg(lt, t0, t0 + 0.55)
-        if 0 < u < 1:
-            sx0 = -250 if i % 2 == 0 else W + 250
-            tx = 540 + WINDOWS[i] * rw * 1.4
-            px, py, lift = bounce_path(u, (sx0, 700), (tx, 1080), 300, 1)
-            place(c, ctx, cutout(TOKENS[i], 260), px, py, sc=lerp(1.0, 0.35, u), rot=u * 30, lift=lift)
-        if t0 + 0.55 <= lt < t0 + 0.9:
-            k = int((lt - t0 - 0.55) * FPS)
+    times = [1.0 + i * 0.75 for i in range(4)]
+    placed = sum(1 for t0 in times if lt >= t0 + 0.5)
+    rk = rocket_partial(placed)
+    rk = rk.resize((int(rk.width * RK_H / rk.height), RK_H), Image.LANCZOS)
+    place(c, ctx, rk, RK_X, RK_Y, rot=0, jitter=0.6)
+    for i, t0 in enumerate(times):
+        u = seg(lt, t0, t0 + 0.5)
+        if 0 < u < 1:  # a mão traz a ficha e encaixa na janela
+            tx, ty, sc = slot_screen(i)
+            p, _ = slot_patch(i)
+            sx0 = -150 if i % 2 == 0 else W + 150
+            px, py, lift = bounce_path(u, (sx0, ty - 500), (tx, ty), 250, 1)
+            place(c, ctx, p, px, py, sc=sc * lerp(1.8, 1.0, ease_out(u)), rot=(1 - u) * 40, lift=lift)
+        if t0 + 0.5 <= lt < t0 + 0.85:
+            tx, ty, _ = slot_screen(i)
+            k = int((lt - t0 - 0.5) * FPS)
             for j in range(4):
                 a = j * math.pi / 2 + 0.4
-                place(c, ctx, star(60, YELLOW), 540 + WINDOWS[i] * rw * 1.4 + math.cos(a) * (60 + k * 18),
-                      1080 + math.sin(a) * (60 + k * 18), rot=k * 30, shadow=0.2)
+                place(c, ctx, star(56, YELLOW), tx + math.cos(a) * (70 + k * 18), ty + math.sin(a) * (60 + k * 16),
+                      rot=k * 30, shadow=0.2)
     drop_photo(c, ctx, lt, 4.6, 6.6, "board_photo.jpg", 540, 1180, -5, "O TABULEIRO DO COSMOS", 720)
     headline(c, ctx, "TODA RODADA", 0.1, y=280, size=70, color=CYAN)
     headline(c, ctx, "CADA UM EMBARCA UM GATO", 0.4, y=420, size=84, color=GOLD, rot=-2)
@@ -283,7 +341,7 @@ def s_dice(ctx):
     lt = ctx.lt
     adv = ease_out(seg(lt, 4.0, 5.2))
     c = bg("track", ctx, progress=0.05 + 0.10 * adv)
-    place(c, ctx, rocket_up(260), lerp(700, 560, adv), lerp(880, 560, adv), rot=-10, lift=60)
+    place(c, ctx, rocket_img(420), lerp(700, 560, adv), lerp(880, 560, adv), rot=-10, lift=60)
     if adv > 0 and lt < 5.4:
         flame(c, ctx, lerp(700, 560, adv) - 10, lerp(880, 560, adv) + 160, 0.7)
     skip = PICK if lt >= 3.0 else ()
@@ -316,14 +374,14 @@ def s_decide(ctx):
     place(c, ctx, sticker("+3", 110, YELLOW), 250, 610, rot=8, sc=pop(lt, 0.3))
     climb = ease_out(seg(lt, 5.2, 6.4))
     rx, ry = lerp(760, 760, climb), lerp(900, 520, climb)
-    place(c, ctx, rocket_up(300), rx, ry, rot=-6, lift=80)
+    place(c, ctx, rocket_img(480), rx, ry, rot=-6, lift=80)
     if 5.0 < lt < 6.6:
         flame(c, ctx, rx, ry + 190, 0.8)
     # o gato da esquerda pula do foguete para a lua
     u = seg(lt, 2.6, 3.3)
     if u > 0:
         px, py, lift = bounce_path(u, (rx, ry), (250, 760), 300, 1)
-        place(c, ctx, cutout(GRAY_CAT, 260), px, py, sc=lerp(0.5, 1.0, u), rot=(1 - u) * 40, lift=lift)
+        place(c, ctx, scaled("exp_token0.png", 240), px, py, sc=lerp(0.5, 1.0, u), rot=(1 - u) * 40, lift=lift)
     headline(c, ctx, "PULA OU CONTINUA?", 0.1, y=270, size=96, color=GOLD)
     if lt < 4.8:
         place(c, ctx, sticker("PULAR NA LUA", 66, CYAN), 290, 1420, rot=-4, sc=pop(lt, 0.8))
@@ -346,7 +404,7 @@ def s_crash(ctx):
     boom = seg(lt, 2.4, 3.4)
     if lt < 2.4:
         sh = math.sin(lt * 50) * (4 + 14 * seg(lt, 1.2, 2.4))
-        place(c, ctx, rocket_up(320), 540 + sh, 640, rot=sh * 0.6, lift=80)
+        place(c, ctx, rocket_img(520), 540 + sh, 640, rot=sh * 0.6, lift=80)
     dice_throw(c, ctx, lt, 0.3, ["d1.png", "d1.png"], [(400, 1250), (690, 1250)], [10, -15])
     if 1.4 <= lt:
         for x in (400, 690):
@@ -366,12 +424,12 @@ def s_crash(ctx):
         if lt < 2.55:
             c = Image.blend(c, Image.new("RGB", c.size, (255, 240, 200)), 0.6)
         headline(c, ctx, "FALHA CÓSMICA!", 2.5, y=280, size=118, color=RED)
-        for i, name in enumerate(TOKENS[:3]):  # as fichas de gato caem de volta
+        for i, name in enumerate(EXP[:3]):  # os gatos (fichas de expedição) caem de volta
             u = seg(lt, 2.7 + i * 0.12, 4.6 + i * 0.12)
             if u > 0:
                 x = 540 + (i - 1) * 300 * ease_out(u)
                 y = 640 - 200 * math.sin(min(1, u * 1.6) * math.pi / 2) + 1500 * u * u
-                place(c, ctx, cutout(name, 240), x, y, rot=u * 520 * (1 if i % 2 else -1), lift=200)
+                place(c, ctx, scaled(name, 260), x, y, rot=u * 520 * (1 if i % 2 else -1), lift=200)
         if lt >= 3.6:
             place(c, ctx, sticker("QUEM FICOU NO FOGUETE NÃO PONTUA", 58, CREAM), 540, 1520, rot=2, sc=pop(lt, 3.6))
     return c
@@ -384,7 +442,7 @@ def s_info(ctx):
     place(c, ctx, scaled("player_board_cut.png", 860), lerp(-600, 540, u), 760, rot=lerp(-20, -4, u))
     headline(c, ctx, "CADA GATO TEM UM PODER", 0.1, y=260, size=84, color=GOLD)
     if lt >= 2.6:
-        place(c, ctx, scaled("tokens_pile.png", 420), 260, 1290, rot=-6, sc=pop(lt, 2.6))
+        place(c, ctx, scaled("exploration_pile.png", 440), 260, 1290, rot=-6, sc=pop(lt, 2.6))
         place(c, ctx, sticker("PLANETAS PREMIAM QUEM TEM MAIS GATOS", 60, CYAN, maxw=560), 730, 1290, rot=3, sc=pop(lt, 2.9))
     place(c, ctx, sticker("2 A 5 JOGADORES", 64, CREAM), 290, 1560, rot=-3, sc=pop(lt, 4.0))
     place(c, ctx, sticker("30 A 60 MIN", 64, YELLOW), 800, 1560, rot=3, sc=pop(lt, 4.3))
@@ -395,7 +453,8 @@ def s_engage(ctx):
     lt = ctx.lt
     c = bg("table", ctx)
     bob = abs(math.sin(lt * 3)) * 30
-    place(c, ctx, cutout(GRAY_CAT, 440), 540, 1380 - bob, rot=math.sin(lt * 4) * 5, lift=bob)
+    place(c, ctx, scaled("exp_token1.png", 380), 300, 1380 - bob, rot=math.sin(lt * 4) * 5 - 6, lift=bob)
+    place(c, ctx, scaled("exp_token3.png", 360), 790, 1400 - abs(math.sin(lt * 3 + 1.5)) * 30, rot=math.sin(lt * 4 + 1) * 5 + 6)
     headline(c, ctx, "E VOCÊ?", 0.1, y=320, size=170, color=GOLD)
     headline(c, ctx, "PULA NA PRIMEIRA LUA", 0.8, y=620, size=80, color=CYAN, rot=-3)
     headline(c, ctx, "OU", 1.2, y=740, size=70, color=CREAM)
@@ -419,7 +478,7 @@ def s_cta(ctx):
     s = pop(lt, 1.8)
     if s:
         place(c, ctx, scaled("box.png", 360), 300, 1270, rot=-8, sc=s)
-        place(c, ctx, cutout(GRAY_CAT, 320), 820, 1290, rot=math.sin(lt * 8) * 7, sc=s)
+        place(c, ctx, scaled("exp_token2.png", 330), 820, 1290, rot=math.sin(lt * 8) * 7, sc=s)
     s = pop(lt, 2.7)
     if s:
         place(c, ctx, sticker("LINK NA BIO", 90, CYAN), 540, 1540 + abs(math.sin(lt * 5)) * 12, rot=2, sc=s)
