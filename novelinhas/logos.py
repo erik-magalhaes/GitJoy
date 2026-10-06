@@ -56,6 +56,12 @@ def gradiente(w, h, c1, c2, radial=False):
     return im
 
 
+def com_margem(camada, m=70):
+    out = Image.new("RGBA", (camada.width + 2 * m, camada.height + 2 * m), (0, 0, 0, 0))
+    out.alpha_composite(camada, (m, m))
+    return out
+
+
 def sombra(camada, raio=18, desloc=(0, 14), alfa=110):
     a = camada.split()[-1].filter(ImageFilter.GaussianBlur(raio))
     sh = Image.new("RGBA", camada.size, (0, 0, 0, 0))
@@ -203,12 +209,41 @@ def logo_print_vazado():
     return im.convert("RGB")
 
 
+# ---------------------------------------------------------------- opção 7 (nome atual da página)
+def logo_compartilhado():
+    """Celular com conversa + seta grande de encaminhar; faixa preta COMPARTILHADO."""
+    im = gradiente(S, S, (255, 214, 0), (255, 170, 0), radial=True).convert("RGBA")
+    cel = Image.new("RGBA", (400, 610), (0, 0, 0, 0))
+    dc = ImageDraw.Draw(cel)
+    dc.rounded_rectangle((0, 0, 399, 609), 58, fill=(20, 20, 20))
+    dc.rounded_rectangle((18, 18, 381, 591), 44, fill=(11, 20, 26))
+    for i, (lado, w) in enumerate([("e", 220), ("d", 250), ("e", 180), ("d", 260), ("e", 210)]):
+        y = 66 + i * 96
+        cor = (32, 44, 51) if lado == "e" else (0, 92, 75)
+        x0 = 42 if lado == "e" else 358 - w
+        dc.rounded_rectangle((x0, y, x0 + w, y + 64), 22, fill=cor)
+    cel = cel.rotate(-8, resample=Image.BICUBIC, expand=True)
+    im.alpha_composite(sombra(com_margem(cel), 24, (10, 22), 140), (210 - 70, 60 - 70))
+    # seta de encaminhar saindo do celular (círculo branco com a seta preta)
+    sel = Image.new("RGBA", (330, 330), (0, 0, 0, 0))
+    ds = ImageDraw.Draw(sel)
+    ds.ellipse((0, 0, 329, 329), fill=(255, 255, 255))
+    seta_encaminhar(ds, 70, 120, 1.25, (20, 20, 20))
+    im.alpha_composite(sombra(com_margem(sel), 18, (6, 16), 130), (600 - 70, 300 - 70))
+    tarja = Image.new("RGBA", (1300, 150), (20, 20, 20, 255))
+    texto_centro(ImageDraw.Draw(tarja), 650, 75, "COMPARTILHADO", fonte("Inter.ttf", 92, 900), (255, 214, 0))
+    tarja = tarja.rotate(6, resample=Image.BICUBIC, expand=True)
+    im.alpha_composite(sombra(tarja, 14, (0, 12), 120), ((S - tarja.width) // 2, 640))
+    return im.convert("RGB")
+
+
 OPCOES = [("Novela no Zap", logo_novela_no_zap),
           ("Visto por Último", logo_visto_por_ultimo),
           ("Tracinho Azul", logo_tracinho_azul),
           ("Mensagem Apagada", logo_mensagem_apagada),
           ("Encaminhada", logo_encaminhada),
-          ("Print Vazado", logo_print_vazado)]
+          ("Print Vazado", logo_print_vazado),
+          ("Compartilhado", logo_compartilhado)]
 
 
 def redondo(im, tam):
@@ -248,4 +283,15 @@ if __name__ == "__main__":
         os.path.join(OUT, "logos_comparacao.jpg"), quality=90)
     comparacao(logos[3:], [4, 5, 6], "Nomes menos manjados: 4, 5 ou 6").save(
         os.path.join(OUT, "logos_comparacao_2.jpg"), quality=90)
+    final = logos[6]
+    final.save(os.path.join(OUT, "logo_compartilhado.png"))
+    # prévia: quadrado + bolinha do perfil
+    c = Image.new("RGB", (1400, 620), (245, 242, 238))
+    c.paste(final.resize((560, 560), Image.LANCZOS), (30, 30))
+    av = redondo(final, 300)
+    c.paste(av, (700, 160), av)
+    d = ImageDraw.Draw(c)
+    d.text((1020, 270), "Compartilhado", font=fonte("Inter.ttf", 40, 800), fill=(30, 30, 30))
+    d.text((1020, 330), "assim no TikTok", font=fonte("Inter.ttf", 28, 500), fill=(120, 120, 120))
+    c.save(os.path.join(OUT, "logo_compartilhado_previa.jpg"), quality=90)
     print("ok")

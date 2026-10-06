@@ -21,6 +21,7 @@ import zap
 FOTOS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets", "fotos")
 
 TITULO = "A Sogra Tem a Chave"
+CHAMADA = "Segue e manda pra quem tem sogra 👀"
 
 PERSONAGENS = {
     "camila": dict(nome="Camila", cor=(216, 27, 96)),

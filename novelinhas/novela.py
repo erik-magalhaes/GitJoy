@@ -410,8 +410,10 @@ class Ep:
             im.alpha_composite(tj, (round((W - tj.width) / 2), round(860 - tj.height / 2)))
         logo = self._logo(240)
         im.alpha_composite(logo, ((W - 240) // 2, 1130))
-        d.text((W / 2, 1430), marca.ARROBA, font=zap.inter(56, 800), fill=(255, 255, 255), anchor="mm")
-        d.text((W / 2, 1500), "Segue pra não perder", font=zap.inter(40, 500), fill=(200, 200, 200), anchor="mm")
+        d.text((W / 2, 1430), marca.NOME_FIM, font=zap.inter(60, 800), fill=(255, 255, 255), anchor="mm")
+        chamada = getattr(self.mod, "CHAMADA", "Segue e compartilha!")
+        fc = zap.inter(42, 600)
+        zap.desenha_linha(im, (W - zap.larg_linha(zap.tokens(chamada), fc)) / 2, 1520, zap.tokens(chamada), fc, C["amarelo"])
         return im.convert("RGB")
 
     def _zoom_img(self, img):
