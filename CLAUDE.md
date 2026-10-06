@@ -158,6 +158,14 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   (`assets/manual.pdf`) é todo vetorial. `vetor_hs.py` redesenha só os traços escolhidos e gera recortes PERFEITOS em qualquer
   resolução: os mascotes do pódio (`p_*.png`), a torcida sem o QR da editora (`v_torcida_limpa.png`) e os bilhetes. Os bonecos
   de vinil da foto oficial (Shopify da CMYK, 6000 px) recortam bem por chave de verde (`recortes_hs.py`). **Conceito escolhido:
-  2, Arquibancada** (arte do jogo: torcida, pista verde, confete, placas). O teste de 10 s do gancho (`hs.py --teste`) foi
-  mandado para aprovação. O rascunho do roteiro está no chat.
+  2, Arquibancada** (arte do jogo: torcida, pista verde, confete, placas). Teste e roteiro aprovados ("Sim").
+  **Vídeo completo em `hs.py`** (66 s, 9 cenas): gancho com torcida e Hurley; largada com nomes; guichê de bilhetes
+  (creme com borda vermelha e lâmpadas); bilhete virando de "Safe" para "Risky"; telão com a ilustração das cartas
+  secretas e a carta entrando no baralho; corrida com casas, cartas virando embaixo (o Dealer) e legendas; DQ por queda
+  dupla e por sair da pista; pilhas de dinheiro e tela VS para o "Comenta aqui!"; CTA com a caixa recortada
+  (`recortes_hs.caixa()`, foto em fundo vermelho). As cartas de corrida do PDF são imagens de 151 px (pixeladas), então
+  `hs.carta()` redesenha as cartas no estilo do jogo. Trilha própria: `som_hs.py` (galope, corneta, caixa registradora,
+  buzina de DQ). Transição: bandeira quadriculada. A prévia foi mandada e estamos esperando os 9 áudios
+  (`hs_narracao_NN`). Gravador:
+  `https://raw.githack.com/erik-magalhaes/GitJoy/259fb14e1ec97386031f27e0e6789c8539ecd75d/hotstreak-reels/gravador/Gravar_narracao_HotStreak.html`.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
