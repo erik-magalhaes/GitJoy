@@ -123,4 +123,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Ao receber: copie os áudios para `architects-reels/narracao/raw/`, trate (`tratar_narracao.py`), revise o `TEXTO` em
   `narracao.py`, rode `python3 narracao.py` e depois `python3 stopmo.py`, suba o volume e mande as duas versões.
   O kit de imprensa não está no repositório. Se precisar das peças de novo, baixe o zip BR e rode `pecas_oficiais.py <pasta>`.
+- **Nekojima (planejado, aguardando escolha do conceito):** jogo de destreza (postes de madeira com fios, gatinhos
+  pendurados; 1–5 jogadores, 15–30 min, 7+; David Carmona e Karen Nguyen, Unfriendly Games/Hachette). Fotos oficiais em
+  fundo branco + caixa 3D: `https://hachetteboardgames.com/products/nekojima.json` (Shopify). Os fios são finos e
+  difíceis de recortar, então prefira conceitos que usam a foto inteira. Conceitos propostos: (1, recomendado) transmissão
+  esportiva ao vivo com locutor, placar, medidor de tensão e replay da queda; (2) anime/Japão; (3) "alta tensão".
+  O rascunho do roteiro em 9 falas foi mandado no chat (gancho: "Essa torre vai cair... e a culpa vai ser sua!").
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
