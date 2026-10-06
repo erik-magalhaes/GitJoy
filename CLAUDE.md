@@ -134,6 +134,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   (`neko_narracao_NN`). Gravador:
   `https://raw.githack.com/erik-magalhaes/GitJoy/363f36067a019067175e2815c7d6d7a7648fc1e4/nekojima-reels/gravador/Gravar_narracao_Nekojima.html`.
   **Lição:** quando ele disser o número da opção que prefere, use exatamente essa e confirme antes de produzir.
+  **Versão atual: `anime_rec.py`.** Ele gostou do anime, mas reclamou que as fotos inteiras deixam o vídeo parado e "com cara
+  de foto da internet". Agora as peças são recortadas (`recortes_neko.py`: torre, gato, poste, marcador de nível, faces dos dados
+  e textura de madeira) e se mexem: a torre balança e desaba, os dados quicam, o gato voa até o fio e balança, o poste cai e
+  encaixa e os cubos pulam. **Regra geral:** prefira peças recortadas em movimento a fotos paradas com efeito por cima.
+  A face especial do dado é **preta com adaga** (o torii roxo é um bairro).
 - **Arte de promoção** (`promo/promo_3jogos.py`): "3 jogos = 7 dias para todos", em feed e story, com as cores e a fonte do site.
   Ele achou estranha a frase "em vez de 5, sem pagar nada a mais"; a que ficou foi "+2 dias de presente, pelo mesmo preço!".
   Os preços variam por jogo (exemplos do carrinho: Bad Company R$ 45, Art Society R$ 30 por 5 dias).
