@@ -171,5 +171,5 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   `hs.carta()` redesenha as cartas no estilo do jogo. Trilha própria: `som_hs.py` (galope, corneta, caixa registradora,
   buzina de DQ). Transição: bandeira quadriculada. A prévia foi mandada e estamos esperando os 9 áudios
   (`hs_narracao_NN`). Gravador:
-  `https://raw.githack.com/erik-magalhaes/GitJoy/259fb14e1ec97386031f27e0e6789c8539ecd75d/hotstreak-reels/gravador/Gravar_narracao_HotStreak.html`.
+  `https://raw.githack.com/erik-magalhaes/GitJoy/24baf7085f0f95b8c9618b54b379541b9fecb2b5/hotstreak-reels/gravador/Gravar_narracao_HotStreak.html`.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
