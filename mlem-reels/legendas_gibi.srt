@@ -1,56 +1,120 @@
 1
-00:00:02,600 --> 00:00:05,200
-Gatos no espaço. O que poderia dar errado?
+00:00:00,300 --> 00:00:02,800
+Imagina mandar seus gatos pro espaço...
 
 2
-00:00:05,700 --> 00:00:09,000
-Esse é o MLEM: cada jogador comanda
+00:00:02,800 --> 00:00:05,300
+e torcer pro foguete não explodir.
 
 3
-00:00:09,000 --> 00:00:11,800
-uma agência espacial de gatos miaustronautas.
+00:00:05,800 --> 00:00:07,300
+Esse é o MLEM:
 
 4
-00:00:12,200 --> 00:00:18,800
-Toda rodada, cada um coloca um gato no foguete.
+00:00:07,300 --> 00:00:08,800
+Agência Espacial.
 
 5
-00:00:19,200 --> 00:00:23,400
-O capitão rola seis dados e escolhe um grupo...
+00:00:08,800 --> 00:00:10,300
+Cada jogador comanda uma equipe de gatos
 
 6
-00:00:23,400 --> 00:00:27,800
-o foguete avança, mas os dados usados saem da rodada.
+00:00:10,300 --> 00:00:11,800
+astronautas.
 
 7
-00:00:28,200 --> 00:00:33,200
-A cada parada, você decide: pula numa lua e garante pontos...
+00:00:12,300 --> 00:00:15,550
+Toda rodada, cada um coloca um gato
 
 8
-00:00:33,200 --> 00:00:37,800
-ou continua, porque quanto mais longe, mais pontos.
+00:00:15,550 --> 00:00:18,800
+no foguete.
 
 9
-00:00:38,200 --> 00:00:40,600
-Mas se nenhum dado servir...
+00:00:19,300 --> 00:00:22,133
+Aí o capitão rola os dados, escolhe
 
 10
-00:00:40,600 --> 00:00:44,800
-BOOM! Falha cósmica, e quem ficou no foguete não pontua.
+00:00:22,133 --> 00:00:24,967
+um número, e o foguete avança.
 
 11
-00:00:45,200 --> 00:00:49,000
-Cada gato tem um poder, e os planetas premiam quem tiver mais gatos.
+00:00:24,967 --> 00:00:27,800
+Os dados usados ficam de fora.
 
 12
-00:00:49,000 --> 00:00:52,800
-De 2 a 5 jogadores, em uns 40 minutos.
+00:00:28,300 --> 00:00:30,675
+A cada parada, você decide:
 
 13
-00:00:53,200 --> 00:00:58,200
-E você, pula na primeira lua ou arrisca até o fim? Comenta!
+00:00:30,675 --> 00:00:33,050
+desce agora e garante os pontos...
 
 14
-00:00:58,700 --> 00:01:05,600
-Aluga o MLEM na Sua Vez: link na bio!
+00:00:33,050 --> 00:00:35,425
+ou continua, porque quanto mais longe,
+
+15
+00:00:35,425 --> 00:00:37,800
+mais vale.
+
+16
+00:00:38,300 --> 00:00:39,925
+Mas a cada rolagem sobram menos dados.
+
+17
+00:00:39,925 --> 00:00:41,550
+Se nenhum servir...
+
+18
+00:00:41,550 --> 00:00:43,175
+BOOM!
+
+19
+00:00:43,175 --> 00:00:44,800
+Quem ficou no foguete sai sem nada.
+
+20
+00:00:45,300 --> 00:00:49,050
+Ganha quem souber a hora certa de pular.
+
+21
+00:00:49,050 --> 00:00:52,800
+De 2 a 5 jogadores, em uns 40 minutos.
+
+22
+00:00:53,300 --> 00:00:54,550
+E você:
+
+23
+00:00:54,550 --> 00:00:55,800
+pula na primeira lua ou arrisca até
+
+24
+00:00:55,800 --> 00:00:57,050
+explodir?
+
+25
+00:00:57,050 --> 00:00:58,300
+Comenta aí!
+
+26
+00:00:58,800 --> 00:01:00,200
+Quer testar com a sua galera antes de
+
+27
+00:01:00,200 --> 00:01:01,600
+comprar?
+
+28
+00:01:01,600 --> 00:01:03,000
+Aluga o MLEM na Sua Vez por 5 dias:
+
+29
+00:01:03,000 --> 00:01:04,400
+reserva no link da bio e retira aqui
+
+30
+00:01:04,400 --> 00:01:05,800
+em Mauá.
 
