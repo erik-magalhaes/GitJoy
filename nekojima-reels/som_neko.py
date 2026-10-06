@@ -60,6 +60,52 @@ def music(dur):
     return out
 
 
+def lead(f, d):
+    t = t_(d)
+    x = np.sign(np.sin(2 * np.pi * f * t)) * 0.5 + saw(f * 2, t) * 0.25
+    vib = 1 + 0.004 * np.sin(2 * np.pi * 6 * t) * np.minimum(1, t / 0.15)
+    x = np.sign(np.sin(2 * np.pi * np.cumsum(f * vib) / SR)) * 0.5 + 0.25 * saw(f * 2, t)
+    return lp(x, 4200) * env(d, d * 0.8, 0.006)
+
+
+def music_anime(dur):
+    """Abertura de anime: J-pop rápido em pentatônica, com arpejo brilhante e bateria de quatro."""
+    out = np.zeros(int(dur * SR))
+    beat = 60 / 150
+    bar = beat * 4
+    prog = [["F4", "A4", "C5"], ["G4", "B4", "D5"], ["E4", "G4", "B4"], ["A4", "C5", "E5"]]  # IV V iii vi
+    roots = ["F2", "G2", "E2", "A2"]
+    mel = [["A5", "C6", "D6", None, "C6", "A5", "G5", None], ["G5", "A5", "B5", None, "D6", "B5", "A5", "G5"],
+           ["E5", "G5", "A5", None, "B5", "A5", "G5", "E5"], ["A5", None, "C6", "E6", "D6", "C6", "A5", None]]
+    t, b = 0.0, 0
+    while t < dur - 1.0:
+        calm = t < 2.6
+        ch = [note(n) for n in prog[b % 4]]
+        for k in range(16):  # arpejo em semicolcheias
+            f = ch[k % 3] * (2 if (k // 3) % 2 else 1)
+            add(out, brass([f], beat * 0.22) * 0.6, t + beat * k / 4, 0.18 if not calm else 0.1)
+        if not calm:
+            for k in range(4):
+                add(out, kick(), t + beat * k, 0.8)
+            for k in (1, 3):
+                add(out, clap(), t + beat * k, 0.5)
+            for k in range(8):
+                add(out, hat(k % 2 == 1), t + beat * k / 2, 0.2)
+            r = note(roots[b % 4])
+            for k in range(8):
+                add(out, bass(r * (2 if k % 2 else 1), beat * 0.45), t + beat * k / 2, 0.45)
+            if b % 2 == 1 or t > 40:
+                for k, n in enumerate(mel[b % 4]):
+                    if n:
+                        add(out, lead(note(n), beat * 0.48), t + beat * k / 2, 0.16)
+        t += bar
+        b += 1
+    add(out, brass([note("F4"), note("A4"), note("C5"), note("F5")], 1.0), dur - 1.0, 0.8)
+    n = int(0.5 * SR)
+    out[-n:] *= np.linspace(1, 0, n)
+    return out
+
+
 def fx_hit():
     o = np.zeros(int(0.7 * SR))
     add(o, fx_thud(), 0, 0.8)
@@ -126,9 +172,9 @@ FX = {"pop": fx_pop, "swoosh": lambda: fx_whoosh(0.3), "hit": fx_hit, "stinger":
       "wood": fx_clack, "zap": fx_zap, "var": fx_var, "ding": fx_ding, "meow": fx_meow}
 
 
-def build(path, dur, warp=None, voz=None, cues=()):
+def build(path, dur, warp=None, voz=None, cues=(), estilo="esporte"):
     warp = warp or (lambda t: t)
-    m = music(dur)
+    m = music_anime(dur) if estilo == "anime" else music(dur)
     m = m / (np.abs(m).max() + 1e-9) * 0.28
     s = np.zeros_like(m)
     for t, name, g in cues:
