@@ -767,7 +767,11 @@ def scene_frame(i, t):
     img = img.convert("RGB")
     if z > 1.001 or dx or dy:
         cw, ch = W / z, H / z
-        box = (W / 2 - cw / 2 + dx, H / 2 - ch / 2 + dy, W / 2 + cw / 2 + dx, H / 2 + ch / 2 + dy)
+        if dx or dy:  # o tremor precisa de margem dentro da imagem
+            cw, ch = min(cw, W - 30), min(ch, H - 30 * H / W)
+        x0 = min(max(0.0, W / 2 - cw / 2 + dx), W - cw)
+        y0 = min(max(0.0, H / 2 - ch / 2 + dy), H - ch)
+        box = (x0, y0, x0 + cw, y0 + ch)
         img = img.resize((W, H), Image.BICUBIC, box=box)
     return img
 
