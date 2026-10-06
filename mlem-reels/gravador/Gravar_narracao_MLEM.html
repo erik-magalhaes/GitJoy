@@ -22,7 +22,7 @@ audio{height:36px}
 .big{background:var(--y);color:#111;font-size:20px;padding:16px 24px}
 .meter{height:8px;border-radius:4px;background:#3b2342;overflow:hidden;width:160px}.meter i{display:block;height:100%;width:0;background:var(--ok)}
 </style></head><body><div class="wrap">
-<h1>🎙️ Gravar narração – MLEM</h1>
+<h1>🎙️ Gravar narração – MLEM (gibi)</h1>
 <p class="sub">Clique em <b>Gravar</b>, leia a frase com calma e clique em <b>Parar</b>. Ouça, regrave se quiser, e no fim toque em <b>Baixar / enviar todas</b>: no celular abre a tela de compartilhar (mande direto para o chat do Claude ou salve em Arquivos); no computador os arquivos vão para a pasta Downloads.</p>
 <div class="tips"><b>Dicas:</b> lugar silencioso · microfone ou celular a um palmo da boca · fale sorrindo, como se contasse um segredo 😉 · pode mudar palavras se ficar mais natural pra você. Na primeira gravação o navegador vai pedir permissão para usar o microfone: clique em <b>Permitir</b>.</div>
 <div id="list"></div>
@@ -30,15 +30,15 @@ audio{height:36px}
 </div>
 <script>
 const LINES=[
-"Gatos... no espaço. O que poderia dar errado?",
-"Esse é o MLEM, do Reiner Knizia: cada jogador comanda uma agência espacial de gatos miaustronautas.",
+"Imagina mandar seus gatos pro espaço... e torcer pro foguete não explodir.",
+"Esse é o MLEM: Agência Espacial. Cada jogador comanda uma equipe de gatos astronautas.",
 "Toda rodada, cada um coloca um gato no foguete.",
-"O capitão rola seis dados, escolhe um grupo e o foguete avança. Mas os dados usados saem da rodada.",
-"A cada parada, você decide: pula numa lua e garante pontos... ou continua, porque quanto mais longe, mais pontos.",
-"Mas se nenhum dado servir... BOOM! Falha cósmica, e quem ficou no foguete não pontua.",
-"Cada gato tem um poder especial, e os planetas premiam quem tiver mais gatos. De 2 a 5 jogadores, em uns 40 minutos.",
-"E você? Pula na primeira lua ou arrisca até o fim? Comenta aqui!",
-"Aluga o MLEM na Sua Vez: link na bio!"];
+"Aí o capitão rola os dados, escolhe um número, e o foguete avança. Os dados usados ficam de fora.",
+"A cada parada, você decide: desce agora e garante os pontos... ou continua, porque quanto mais longe, mais vale.",
+"Mas a cada rolagem sobram menos dados. Se nenhum servir... BOOM! Quem ficou no foguete sai sem nada.",
+"Ganha quem souber a hora certa de pular. De 2 a 5 jogadores, em uns 40 minutos.",
+"E você: pula na primeira lua ou arrisca até explodir? Comenta aí!",
+"Quer testar com a sua galera antes de comprar? Aluga o MLEM na Sua Vez por 5 dias: reserva no link da bio e retira aqui em Mauá."];
 const blobs=Array(LINES.length).fill(null);let stream=null,rec=null,curIdx=-1,chunks=[],an=null,raf=0;
 const list=document.getElementById('list');
 LINES.forEach((t,i)=>{const d=document.createElement('div');d.className='line';d.id='l'+i;

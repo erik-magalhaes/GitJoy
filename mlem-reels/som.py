@@ -124,12 +124,12 @@ def cue_list():
     return c
 
 
-def build(path, dur, warp=None, voz=None):
+def build(path, dur, warp=None, voz=None, cues=None):
     warp = warp or (lambda t: t)
     m = music(dur)
     m = m / (np.abs(m).max() + 1e-9) * 0.30
     s = np.zeros_like(m)
-    for t, name, g in cue_list():
+    for t, name, g in (cues if cues is not None else cue_list()):
         add(s, FX[name](), warp(t), g)
     bed = m + s * 0.55
     bed = np.tanh(bed * 1.2) / np.tanh(1.2) * 0.62
