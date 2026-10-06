@@ -1,0 +1,238 @@
+{
+ "duracao": 65.913,
+ "cenas": [
+  [
+   0.0,
+   5.5,
+   0.0,
+   6.724
+  ],
+  [
+   5.5,
+   12.0,
+   6.724,
+   12.435
+  ],
+  [
+   12.0,
+   19.0,
+   12.435,
+   17.335
+  ],
+  [
+   19.0,
+   28.0,
+   17.335,
+   26.426
+  ],
+  [
+   28.0,
+   38.0,
+   26.426,
+   35.309
+  ],
+  [
+   38.0,
+   45.0,
+   35.309,
+   43.932
+  ],
+  [
+   45.0,
+   53.0,
+   43.932,
+   51.27
+  ],
+  [
+   53.0,
+   58.5,
+   51.27,
+   57.266
+  ],
+  [
+   58.5,
+   66.0,
+   57.266,
+   65.913
+  ]
+ ],
+ "voz": [
+  {
+   "frase": 1,
+   "arquivo": "narracao/frase_01.wav",
+   "inicio": 0.3
+  },
+  {
+   "frase": 2,
+   "arquivo": "narracao/frase_02.wav",
+   "inicio": 7.024
+  },
+  {
+   "frase": 3,
+   "arquivo": "narracao/frase_03.wav",
+   "inicio": 12.735
+  },
+  {
+   "frase": 4,
+   "arquivo": "narracao/frase_04.wav",
+   "inicio": 17.635
+  },
+  {
+   "frase": 5,
+   "arquivo": "narracao/frase_05.wav",
+   "inicio": 26.726
+  },
+  {
+   "frase": 6,
+   "arquivo": "narracao/frase_06.wav",
+   "inicio": 35.609
+  },
+  {
+   "frase": 7,
+   "arquivo": "narracao/frase_07.wav",
+   "inicio": 44.232
+  },
+  {
+   "frase": 8,
+   "arquivo": "narracao/frase_08.wav",
+   "inicio": 51.57
+  },
+  {
+   "frase": 9,
+   "arquivo": "narracao/frase_09.wav",
+   "inicio": 57.566
+  }
+ ],
+ "legendas": [
+  [
+   0.3,
+   2.86,
+   "Alguém falou em mandar gatos pro espaço e"
+  ],
+  [
+   2.86,
+   4.55,
+   "torcer pro foguete não explodir?"
+  ],
+  [
+   4.58,
+   5.95,
+   "Olha o MLEM!"
+  ],
+  [
+   7.02,
+   8.45,
+   "Conheçam o MLEM:"
+  ],
+  [
+   8.54,
+   10.82,
+   "aqui cada jogador comanda uma equipe de gatos"
+  ],
+  [
+   10.82,
+   11.73,
+   "astronautas."
+  ],
+  [
+   12.73,
+   15.38,
+   "Toda rodada, cada jogador coloca um gato no foguete."
+  ],
+  [
+   17.63,
+   20.41,
+   "Em seguida, o capitão rola os dados, escolhe"
+  ],
+  [
+   20.41,
+   21.96,
+   "os números e o foguete avança."
+  ],
+  [
+   22.17,
+   24.33,
+   "Mas cuidado, porque os dados escolhidos ficam"
+  ],
+  [
+   24.33,
+   25.74,
+   "de fora da próxima rolagem."
+  ],
+  [
+   26.73,
+   28.3,
+   "E a cada parada você decide:"
+  ],
+  [
+   28.39,
+   30.78,
+   "ou você desce pra garantir os seus pontos,"
+  ],
+  [
+   31.01,
+   33.22,
+   "ou você continua, porque quanto mais longe,"
+  ],
+  [
+   33.25,
+   34.62,
+   "mais pontos você pode ganhar."
+  ],
+  [
+   35.61,
+   37.69,
+   "Mas tome cuidado, porque a cada nova rolagem"
+  ],
+  [
+   37.69,
+   38.88,
+   "sobram menos dados."
+  ],
+  [
+   39.05,
+   40.14,
+   "E se nenhum servir..."
+  ],
+  [
+   40.49,
+   43.22,
+   "BOOM! Quem ficou no foguete sai sem nada."
+  ],
+  [
+   44.23,
+   45.95,
+   "No final, ganha quem souber a hora certa"
+  ],
+  [
+   45.95,
+   49.11,
+   "de pular. É um jogo de 2 a 5 jogadores e"
+  ],
+  [
+   49.11,
+   50.5,
+   "demora uns 40 minutinhos."
+  ],
+  [
+   51.57,
+   54.13,
+   "E você, pularia na primeira lua ou arriscaria"
+  ],
+  [
+   54.13,
+   56.6,
+   "até o infinito e além? Comenta aí!"
+  ],
+  [
+   57.57,
+   59.39,
+   "E aí, quer testar antes de comprar?"
+  ],
+  [
+   59.39,
+   62.2,
+   "Aluga com a gente, o link tá na bio."
+  ]
+ ]
+}
