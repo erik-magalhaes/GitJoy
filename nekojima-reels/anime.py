@@ -93,6 +93,16 @@ def speed_lines(i, k, cx=540, cy=900):
 
 
 @lru_cache(None)
+def panel_layers(tilt):
+    """Máscaras da borda branca, contorno e sombra do painel (caras de calcular: uma vez por inclinação)."""
+    m = panel_mask(tilt)
+    border = m.filter(ImageFilter.MaxFilter(25))
+    outer = border.filter(ImageFilter.MaxFilter(9))
+    sh_ = outer.filter(ImageFilter.GaussianBlur(14)).point(lambda v: int(v * 0.5))
+    return border, outer, sh_
+
+
+@lru_cache(None)
 def panel_mask(tilt):
     m = Image.new("L", (W, H), 0)
     d = ImageDraw.Draw(m)
@@ -121,10 +131,8 @@ def panel(img, i, t, name=None, z=None, focus=None, shake=0.0):
     layer.paste(view, (PX0, PY0))
     m = panel_mask(tilt)
     # sombra + borda branca grossa + contorno escuro, estilo cut-in de anime
-    border = m.filter(ImageFilter.MaxFilter(25))
-    outer = border.filter(ImageFilter.MaxFilter(9))
-    sh_ = outer.filter(ImageFilter.GaussianBlur(14))
-    img.paste((20, 10, 30), (14, 22), sh_.point(lambda v: int(v * 0.5)))
+    border, outer, sh_ = panel_layers(tilt)
+    img.paste((20, 10, 30), (14, 22), sh_)
     img.paste(INK, (0, 0), outer)
     img.paste(WHITE, (0, 0), border)
     img.paste(layer, (0, 0), m)

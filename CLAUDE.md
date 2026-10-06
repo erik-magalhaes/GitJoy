@@ -125,11 +125,15 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Ao receber: copie os áudios para `architects-reels/narracao/raw/`, trate (`tratar_narracao.py`), revise o `TEXTO` em
   `narracao.py`, rode `python3 narracao.py` e depois `python3 stopmo.py`, suba o volume e mande as duas versões.
   O kit de imprensa não está no repositório. Se precisar das peças de novo, baixe o zip BR e rode `pecas_oficiais.py <pasta>`.
-- **Nekojima (`nekojima-reels/neko.py`):** a prévia no conceito "transmissão esportiva ao vivo" (Campeonato de Mão Firme)
-  foi mandada. Tem câmera quadrada com as fotos oficiais inteiras, placar, medidor de tensão, telestrador, VAR, replay e
-  enquete. Está esperando a aprovação e os 9 áudios (`neko_narracao_NN`). Gravador:
+- **Nekojima:** o conceito escolhido foi o **ANIME** (opção 2). Eu fiz por engano a "transmissão esportiva"
+  (`neko.py`, rejeitada), e a versão certa é `nekojima-reels/anime.py`. Ela reaproveita o roteiro, as cenas, as legendas e a
+  narração do `neko.py`, e tem: painel inclinado de borda branca, linhas de velocidade a 12 poses/s, onomatopeias japonesas
+  (fonte Dela Gothic One), sakura, quadro de impacto, card "猫島 Episódio 1", tela VS e trilha de abertura de anime
+  (`som_neko.build(estilo="anime")`). A prévia foi mandada. Ofereci também deixar as fotos com cara de desenho (cel-shading:
+  bilateral + k-means + contorno), e o teste está em `out/teste_fotos_anime.jpg`; falta a resposta. Esperando os 9 áudios
+  (`neko_narracao_NN`). Gravador:
   `https://raw.githack.com/erik-magalhaes/GitJoy/363f36067a019067175e2815c7d6d7a7648fc1e4/nekojima-reels/gravador/Gravar_narracao_Nekojima.html`.
-  As fotos vêm do Shopify da Hachette (`/products/nekojima.json`) e do BigCommerce da GameNerdz. A arte da capa veio da Board Game Bliss.
+  **Lição:** quando ele disser o número da opção que prefere, use exatamente essa e confirme antes de produzir.
 - **Arte de promoção** (`promo/promo_3jogos.py`): "3 jogos = 7 dias para todos", em feed e story, com as cores e a fonte do site.
   Ele achou estranha a frase "em vez de 5, sem pagar nada a mais"; a que ficou foi "+2 dias de presente, pelo mesmo preço!".
   Os preços variam por jogo (exemplos do carrinho: Bad Company R$ 45, Art Society R$ 30 por 5 dias).
