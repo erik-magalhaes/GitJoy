@@ -16,6 +16,7 @@ from multiprocessing import Pool
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
+import marca
 import som
 import vozes
 import zap
@@ -377,7 +378,7 @@ class Ep:
         for k in range(-H, W + H, 120):
             d.line([(k, 0), (k + H, H)], fill=(255, 205, 0), width=40)
         p = ease(dt / 0.45)
-        t1 = zap.tarja("PRINT VAZADO", 54, cor_txt=C["amarelo"], ang=4)
+        t1 = zap.tarja(marca.NOME, 54, cor_txt=C["amarelo"], ang=4)
         im.alpha_composite(t1, (round((W - t1.width) / 2), 360))
         t2 = zap.tarja(self.mod.TITULO.upper(), 104, maxw=880, ang=-3)
         x = round((W - t2.width) / 2 - (1 - p) * W)
@@ -409,7 +410,7 @@ class Ep:
             im.alpha_composite(tj, (round((W - tj.width) / 2), round(860 - tj.height / 2)))
         logo = self._logo(240)
         im.alpha_composite(logo, ((W - 240) // 2, 1130))
-        d.text((W / 2, 1430), "@printvazado", font=zap.inter(56, 800), fill=(255, 255, 255), anchor="mm")
+        d.text((W / 2, 1430), marca.ARROBA, font=zap.inter(56, 800), fill=(255, 255, 255), anchor="mm")
         d.text((W / 2, 1500), "Segue pra não perder", font=zap.inter(40, 500), fill=(200, 200, 200), anchor="mm")
         return im.convert("RGB")
 
@@ -430,7 +431,7 @@ class Ep:
     def _logo(self, tam):
         if not hasattr(self, "_logo_c"):
             import logos
-            self._logo_c = logos.logo_print_vazado()
+            self._logo_c = getattr(logos, marca.LOGO)()
         im = self._logo_c.resize((tam, tam), Image.LANCZOS).convert("RGBA")
         m = Image.new("L", (tam * 3, tam * 3), 0)
         ImageDraw.Draw(m).ellipse((0, 0, tam * 3, tam * 3), fill=255)

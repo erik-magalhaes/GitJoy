@@ -16,7 +16,7 @@ FONTES = os.path.join(AQUI, "assets", "fonts")
 W, H = 1080, 1920
 
 # layout vertical
-BANDA = 120                  # faixa da marca PRINT VAZADO
+BANDA = 120                  # faixa com o nome da página
 STATUS_Y = BANDA             # barra de status do celular
 HEADER_Y = BANDA + 52
 HEADER_H = 138
@@ -581,8 +581,9 @@ def banda_marca(im, titulo, parte):
     d.rectangle((0, 0, W, BANDA), fill=C["preto"])
     d.rectangle((0, BANDA - 8, W, BANDA), fill=C["amarelo"])
     f = inter(44, 900)
-    d.text((40, 62), "PRINT VAZADO", font=f, fill=C["amarelo"], anchor="lm")
-    x = 40 + f.getlength("PRINT VAZADO") + 26
+    import marca
+    d.text((40, 62), marca.NOME, font=f, fill=C["amarelo"], anchor="lm")
+    x = 40 + f.getlength(marca.NOME) + 26
     d.text((x, 62), f"{titulo} · {parte}", font=inter(30, 600), fill=(235, 235, 235), anchor="lm")
 
 
