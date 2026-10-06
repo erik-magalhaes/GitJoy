@@ -263,7 +263,7 @@ def logo_card(width):
 # elementos de cada página: (t0 na linha do tempo original, tipo, args, x, y, rot)
 EL1 = [
     (0.9, "caption", ("ENQUANTO ISSO, NO ESPAÇO...", 620, 60), 440, 450, -1),
-    (2.1, "burst", ("VRUUUM!", 120, YELLOW, RED, 20, 1.0), 300, 1000, -8),
+    (2.1, "burst", ("VRUUUM!", 120, YELLOW, RED, 20, 1.0), 330, 1020, -8, 3.3),
     (3.4, "burst", ("GATOS NO ESPAÇO?!", 88, (255, 255, 255), RED, 24, 1.0), 600, 860, 4),
     (4.2, "balloon", ("O QUE PODERIA DAR ERRADO?", 560, 58, (-0.3, 1.0)), 560, 1300, 0),
     (6.0, "caption", ("CADA JOGADOR COMANDA UMA EQUIPE DE GATOS ASTRONAUTAS", 800, 50), 1600, 450, -1),
@@ -595,8 +595,9 @@ def element_img(kind, args):
 
 
 def draw_elements(page, els, t):
-    for t0, kind, args, x, y, rot in els:
-        if t < t0:
+    for e in els:
+        t0, kind, args, x, y, rot = e[:6]
+        if t < t0 or (len(e) > 6 and t >= e[6]):
             continue
         u = seg(t, t0, t0 + 0.32)
         sc = max(0.05, out_back(u)) if u < 1 else 1.0
@@ -608,27 +609,6 @@ def draw_elements(page, els, t):
         if rot:
             im = im.rotate(rot, expand=True, resample=Image.BICUBIC)
         page.paste(im, (int(x - im.width / 2), int(y - im.height / 2)), im)
-
-
-# ---------------------------------------------------------------- câmera
-def fit(rect, margin=1.10, cx=None, w=None):
-    """Enquadra um quadro. Nos quadros largos, cx/w miram no ponto de interesse."""
-    x0, y0, x1, y1 = rect
-    ww = w or max(x1 - x0, (y1 - y0) * W / H) * margin
-    return (cx or (x0 + x1) / 2, (y0 + y1) / 2, min(ww, PW))
-
-
-FULL = (PW / 2, PH / 2, PW)
-P1, P2 = panels_of(1), panels_of(2)
-# quadros-chave (tempo na linha original, enquadramento)
-CAM1 = [(0.0, FULL), (0.6, FULL), (1.4, fit(P1[0])), (5.5, fit(P1[0])), (6.2, fit(P1[1])), (12.0, fit(P1[1])),
-        (12.7, fit(P1[2])), (19.0, fit(P1[2])), (19.7, fit(P1[3])), (26.0, fit(P1[3])),
-        (26.6, FULL), (28.0, FULL), (28.7, fit(P1[4], cx=1150, w=1600)), (37.0, fit(P1[4], cx=1150, w=1600)),
-        (37.6, FULL), (40.0, FULL)]
-CAM2 = [(0.0, FULL), (38.6, FULL), (39.3, fit(P2[0], cx=1100, w=1400)), (45.0, fit(P2[0], cx=1100, w=1400)),
-        (45.7, fit(P2[1])), (53.0, fit(P2[1])), (53.7, fit(P2[2])), (58.5, fit(P2[2])),
-        (59.2, fit(P2[3], cx=1080, w=1500)), (62.8, fit(P2[3], cx=1080, w=1500)), (63.8, FULL), (99.0, FULL)]
-TURN = (37.6, 38.6)  # virada de página
 
 
 def camera(keys, t):
@@ -644,12 +624,101 @@ def camera(keys, t):
 
 
 def view(page, cam):
+    """Recorta o enquadramento da câmera. Pode passar da borda da página: o fundo amarelo continua."""
     cx, cy, w = cam
     h = w * H / W
-    cx = min(max(cx, w / 2), PW - w / 2)
-    cy = min(max(cy, h / 2), PH - h / 2)
+    if w >= PW - 1:  # página inteira: centraliza
+        cx, cy = PW / 2, PH / 2
     box = (int(cx - w / 2), int(cy - h / 2), int(cx + w / 2), int(cy + h / 2))
-    return page.crop(box).resize((W, H), Image.BICUBIC)
+    if box[0] >= 0 and box[1] >= 0 and box[2] <= PW and box[3] <= PH:
+        crop = page.crop(box)
+    else:
+        crop = Image.new("RGB", (box[2] - box[0], box[3] - box[1]), YELLOW)
+        crop.paste(page, (-box[0], -box[1]))
+    return crop.resize((W, H), Image.BICUBIC)
+
+
+SCENES = [(0.0, 5.5), (5.5, 12.0), (12.0, 19.0), (19.0, 28.0), (28.0, 38.0), (38.0, 45.0), (45.0, 53.0),
+          (53.0, 58.5), (58.5, 66.0)]
+
+
+# ---------------------------------------------------------------- câmera
+def fit(rect, margin=1.10, cx=None, w=None):
+    """Enquadra um quadro. Nos quadros largos, cx/w miram no ponto de interesse."""
+    x0, y0, x1, y1 = rect
+    ww = w or max(x1 - x0, (y1 - y0) * W / H) * margin
+    return (cx or (x0 + x1) / 2, (y0 + y1) / 2, min(ww, PW))
+
+
+FULL = (PW / 2, PH / 2, PW)
+P1, P2 = panels_of(1), panels_of(2)
+# quadros-chave (tempo na linha original, enquadramento)
+def scene_of(t0):
+    for i, (a, b) in enumerate(SCENES):
+        if a <= t0 < b:
+            return i
+    return len(SCENES) - 1
+
+
+def element_box(e):
+    t0, kind, args, x, y, rot = e[:6]
+    im = element_img(kind, args)
+    w, h = im.width, im.height
+    if kind == "balloon":  # o sprite do balão tem margem para o rabinho
+        w, h = w * 0.8, h * 0.8
+    return (x - w / 2, y - h / 2, x + w / 2, y + h / 2)
+
+
+# objetos animados que também precisam aparecer em cada cena (página, cena) → retângulos
+EXTRA = {
+    3: [(R4[0] - 110, R4[1] - 180, R4[0] + 110, R4[1] + 180)],
+    4: [(R5[0] - 120, R5[1] - 210, R5[0] + 120, R5[1] + 210), (300, 3300, 520, 3520)],
+    5: [(R6[0] - 260, R6[1] - 420, R6[0] + 260, R6[1] + 420), (320, 1050, 740, 1320)],
+}
+SAFE_TOP, SAFE_BOT = 240, 1590   # área livre do vídeo (acima: logo; abaixo: legendas)
+
+
+def auto_cam(i, panel):
+    """Enquadra o quadro + todos os balões/legendas da cena, centralizados na área livre do vídeo."""
+    els = [e for e in (EL1 + EL2) if scene_of(e[0]) == i]
+    boxes = [element_box(e) for e in els] + EXTRA.get(i, [])
+    if panel[2] - panel[0] < 1300:   # quadro estreito: mostra o quadro inteiro
+        boxes.append(panel)
+    else:                            # quadro largo: mira na área dos balões, com a altura do quadro
+        bx0, bx1 = min(b[0] for b in boxes), max(b[2] for b in boxes)
+        boxes.append((bx0, panel[1], bx1, panel[3]))
+    x0 = min(b[0] for b in boxes) - 30
+    y0 = min(b[1] for b in boxes) - 30
+    x1 = max(b[2] for b in boxes) + 30
+    y1 = max(b[3] for b in boxes) + 30
+    frac = (SAFE_BOT - SAFE_TOP) / H
+    vh = max((y1 - y0) / frac, (x1 - x0) * H / W)
+    vw = min(PW, vh * W / H)
+    vh = vw * H / W
+    cx = (x0 + x1) / 2
+    if (y1 - y0) / frac >= (x1 - x0) * H / W:   # limitado pela altura: centraliza na área livre
+        mid = (SAFE_TOP + SAFE_BOT) / 2 / H
+        cy = (y0 + y1) / 2 + (0.5 - mid) * vh
+    else:                                        # limitado pela largura: encosta logo acima das legendas
+        cy = y1 - (SAFE_BOT / H - 0.5) * vh
+    # evita mostrar além da página quando der, sem tirar o conteúdo da área livre
+    lo = y1 - (SAFE_BOT / H - 0.5) * vh          # menor cy que mantém o conteúdo acima das legendas
+    hi = y0 - (SAFE_TOP / H - 0.5) * vh          # maior cy que mantém o conteúdo abaixo do logo
+    if cy - vh / 2 < 0:
+        cy = min(hi, max(lo, vh / 2))
+    if cy + vh / 2 > PH:
+        cy = max(lo, min(hi, PH - vh / 2))
+    return (cx, cy, vw)
+
+
+A = [auto_cam(i, (P1 + P2)[i]) for i in range(9)]
+CAM1 = [(0.0, FULL), (0.6, FULL), (1.4, A[0]), (5.5, A[0]), (6.2, A[1]), (12.0, A[1]),
+        (12.7, A[2]), (19.0, A[2]), (19.7, A[3]), (26.0, A[3]),
+        (26.6, FULL), (28.0, FULL), (28.7, A[4]), (37.0, A[4]), (37.6, FULL), (40.0, FULL)]
+CAM2 = [(0.0, FULL), (38.6, FULL), (39.3, A[5]), (45.0, A[5]), (45.7, A[6]), (53.0, A[6]), (53.7, A[7]), (58.5, A[7]),
+        (59.2, A[8]), (62.8, A[8]), (63.8, FULL), (99.0, FULL)]
+TURN = (37.6, 38.6)  # virada de página
+
 
 
 def page_at(n, t):
@@ -660,8 +729,6 @@ def page_at(n, t):
 
 
 # ---------------------------------------------------------------- narração (opcional)
-SCENES = [(0.0, 5.5), (5.5, 12.0), (12.0, 19.0), (19.0, 28.0), (28.0, 38.0), (38.0, 45.0), (45.0, 53.0),
-          (53.0, 58.5), (58.5, 66.0)]
 ROTEIRO = [
     "Imagina mandar seus gatos pro espaço... e torcer pro foguete não explodir.",
     "Esse é o MLEM: Agência Espacial. Cada jogador comanda uma equipe de gatos astronautas.",
