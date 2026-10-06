@@ -8,7 +8,8 @@ tudo antes de começar um vídeo novo: aqui está o que funcionou, o que não fu
 - **Sua Vez – Locação de Jogos de Tabuleiro**, Mauá e ABC (SP). Site: https://suavez.acervodejogos.com.br/
   (o logo veio de lá: `*/assets/logo_suavez.png`). Instagram: **@suavez_bg**.
 - Aluguel de **5 dias**, com reserva online e **retirada em Mauá ou entrega em casa** (existe uma pequena taxa de entrega,
-  mas ele pediu para **não citar a taxa** nas artes; o frete é combinado no checkout). Promoção: alugando **3 jogos, todos ficam 7 dias** sem custo extra.
+  mas ele pediu para **não citar a taxa** nas artes; o frete é combinado no checkout). Promoção de **prazo progressivo** (vale para todos os jogos do carrinho, pelo mesmo preço):
+  **3 jogos = 7 dias, 5 jogos = 10 dias, 7 jogos = 15 dias** (arte em `promo/promo_progressivo.py`).
   CTA padrão: "aluga na Sua Vez, o link tá na bio". Não escreva só "retire em Mauá": cite também a entrega.
 - O dono fala português do Brasil, usa **o celular** para quase tudo e grava a narração ele mesmo.
 
@@ -147,7 +148,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **Regra geral:** recorte só funciona com material oficial (peças com transparência) ou foto feita para isso (fundo liso
   e contrastante). Antes de animar recortes, mande um quadro de teste e espere o ok dele.
   A face especial do dado é **preta com adaga** (o torii roxo é um bairro).
-- **Arte de promoção** (`promo/promo_3jogos.py`): "3 jogos = 7 dias para todos", em feed e story, com as cores e a fonte do site.
+- **Arte de promoção** (`promo/promo_progressivo.py` é a atual, com os degraus 3/5/7 jogos; a antiga é `promo/promo_3jogos.py`): "3 jogos = 7 dias para todos", em feed e story, com as cores e a fonte do site.
   Ele achou estranha a frase "em vez de 5, sem pagar nada a mais"; a que ficou foi "+2 dias de presente, pelo mesmo preço!".
   Os preços variam por jogo (exemplos do carrinho: Bad Company R$ 45, Art Society R$ 30 por 5 dias).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
