@@ -85,3 +85,32 @@ def caixa():
     full = cv2.GaussianBlur(cv2.erode(full, np.ones((3, 3), np.uint8)), (5, 5), 0)
     rgba = Image.fromarray(np.dstack([cv2.cvtColor(img, cv2.COLOR_BGR2RGB), full]), "RGBA")
     rgba.crop(rgba.getbbox()).save(os.path.join(P, "caixa.png"))
+
+
+def bilhetes_br(urso="Gluglu"):
+    """Bilhetes com os nomes da edição brasileira: troca "Gobbler" pelo nome do urso e "YES" por "SIM"."""
+    from PIL import ImageDraw, ImageFont
+    fn = os.path.join(ROOT, "assets", "fonts")
+    for lado in ("safe", "risky"):
+        im = Image.open(os.path.join(P, f"ticket_gobbler_{lado}.png")).convert("RGBA")
+        d = ImageDraw.Draw(im)
+        mag = im.getpixel((70, 550))[:3]
+        txt = im.getpixel((150, 95))[:3]
+        d.rounded_rectangle((52, 58, 283, 142), radius=18, fill=mag)
+        d.rounded_rectangle((52, 500, 283, 612), radius=18, fill=mag)
+        f = ImageFont.truetype(os.path.join(fn, "AlfaSlabOne-Regular.ttf"), 56)
+        d.text((167, 100), urso, font=f, fill=txt, anchor="mm")
+        f2 = ImageFont.truetype(os.path.join(fn, "AlfaSlabOne-Regular.ttf"), 40)
+        d.text((167, 556), "O Urso", font=f2, fill=txt, anchor="mm")
+        im.save(os.path.join(P, f"ticket_urso_{lado}.png"))
+        im = Image.open(os.path.join(P, f"ticket_yes_{lado}.png")).convert("RGBA")
+        d = ImageDraw.Draw(im)
+        painel = im.getpixel((60, 330))[:3]
+        verde = im.getpixel((100, 300))[:3]
+        d.rounded_rectangle((52, 62, 288, 628), radius=20, fill=painel)
+        lay = Image.new("RGBA", (566, 236), (0, 0, 0, 0))
+        ImageDraw.Draw(lay).text((283, 118), "SIM", font=ImageFont.truetype(os.path.join(fn, "Bungee-Regular.ttf"),
+                                                                             190), fill=verde, anchor="mm")
+        lay = lay.rotate(90, expand=True)
+        im.alpha_composite(lay, (52, 62))
+        im.save(os.path.join(P, f"ticket_sim_{lado}.png"))

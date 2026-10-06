@@ -409,7 +409,8 @@ def chuva_de_notas(img, t, t0, n=14, seed=4, x=540, y=1500, alcance=1.0):
 
 # ---------------------------------------------------------------- cenas
 SCENES = [(0.0, 5.6), (5.6, 12.6), (12.6, 19.6), (19.6, 26.6), (26.6, 34.0), (34.0, 42.0), (42.0, 49.0),
-          (49.0, 57.4), (57.4, 66.0)]
+          (49.0, 57.4), (57.4, 63.0), (63.0, 69.6)]
+CTA = len(SCENES) - 1
 DUR = SCENES[-1][1]
 TR = 0.4  # bandeirada entre as cenas
 
@@ -443,7 +444,7 @@ def cena_gancho(img, t):
         cola(img, estouro("UHUU!", 280, (255, 255, 255)), 190, 1000, -12, pop(t, 4.1) * k)
 
 
-NOMES = ["HURLEY", "GOBBLER", "DANGLE", "RAINHA MUM"]
+NOMES = ["JIBA", "GLUGLU", "BRINCO", "RAINHA MONA"]  # nomes da edição brasileira
 
 
 def cena_largada(img, t):
@@ -560,10 +561,10 @@ def cena_bilhetes(img, t):
     u = t - a
     fundo_guiche(img, t, "BILHETES DE APOSTA")
     cola(img, placa("2 POR CORRIDA!", 56, YEL, RED), 540, 420, 3, pop(t, a + 0.5))
-    ticket(img, "ticket_gobbler_safe.png", 540, 680, 820, t, a + 0.8, 1, -4)
+    ticket(img, "ticket_urso_safe.png", 540, 680, 820, t, a + 0.8, 1, -4)
     if 1.4 <= u < 3.6:
         cola(img, placa("NO MASCOTE...", 56, WHITE, INK), 540, 960, -3, pop(t, a + 1.4))
-    ticket(img, "ticket_yes_safe.png", 560, 1160, 640, t, a + 3.0, -1, 4)
+    ticket(img, "ticket_sim_safe.png", 560, 1160, 640, t, a + 3.0, -1, 4)
     if u >= 3.6:
         cola(img, placa("...OU EM COISA BIZARRA!", 56, WHITE, INK), 540, 920, 3, pop(t, a + 3.6))
     if u >= 4.6:
@@ -589,7 +590,7 @@ def cena_risco(img, t):
     u = t - a
     fundo_guiche(img, t, "SEGURA OU ARRISCADA?")
     tf = a + 2.2
-    flip_ticket(img, "ticket_gobbler_safe.png", "ticket_gobbler_risky.png", 540, 680, 860, t, tf)
+    flip_ticket(img, "ticket_urso_safe.png", "ticket_urso_risky.png", 540, 680, 860, t, tf)
     if u < 2.2:
         cola(img, placa("SEGURA", 64, (40, 140, 70), WHITE), 290, 470, -6, pop(t, a + 0.3))
     else:
@@ -599,7 +600,7 @@ def cena_risco(img, t):
         if u >= 3.0:
             cola(img, estouro("PAGA\nMAIS!", 250), 880, 480, 10, pop(t, tf + 0.8))
     if u >= 0.0:
-        flip_ticket(img, "ticket_yes_safe.png", "ticket_yes_risky.png", 540, 1170, 700, t, a + 3.8, 3)
+        flip_ticket(img, "ticket_sim_safe.png", "ticket_sim_risky.png", 540, 1170, 700, t, a + 3.8, 3)
         if u < 3.8:
             cola(img, placa("SEGURA", 50, (40, 140, 70), WHITE), 300, 1440, -4, pop(t, a + 0.6))
         circulo(img, 540 - 350 + 700 * 0.78, 1170, 80, 120, seg(t, a + 4.4, a + 4.8), RED, 12)
@@ -721,9 +722,9 @@ CORRIDA = {
     "p_mum.png": {"pos": [(0, 2, 3), (39.8, 2, 3), (40.2, 3, 3), (40.6, 3, 2)]},
 }
 # cartas viradas pelo Dealer: (tempo, carta, legenda)
-FLIPS = [(35.0, "g3", "GOBBLER\nANDA 3!"), (36.5, "h_cai", "HURLEY\nCAIU!"), (38.0, "d_volta", "DANGLE DEU\nMEIA-VOLTA!"),
-         (39.5, "m_desvia", "A RAINHA\nDESVIOU!"), (42.3, "d_cai", "DANGLE CAIU\nDE NOVO!"),
-         (44.5, "h_desvia", "HURLEY\nDESVIOU!")]
+FLIPS = [(35.0, "g3", "GLUGLU\nANDA 3!"), (36.5, "h_cai", "JIBA\nCAIU!"), (38.0, "d_volta", "BRINCO DEU\nMEIA-VOLTA!"),
+         (39.5, "m_desvia", "A MONA\nDESVIOU!"), (42.3, "d_cai", "BRINCO CAIU\nDE NOVO!"),
+         (44.5, "h_desvia", "JIBA\nDESVIOU!")]
 
 
 def posicao(nome, t):
@@ -880,41 +881,128 @@ def cena_final_corrida(img, t):
             cola(img, placa("MAIS DINHEIRO\nVENCE!", 80, RED, YEL), 540, 560, 3, pop(t, a + 2.2))
             chuva_de_notas(img, t, a + 2.2, 14, 9, 540, topos[1] - 60, 0.8)
         return
-    # tela VS: cachorro-quente ou rainha?
-    v = ease(seg(t, a + 3.9, a + 4.3))
+    # PAUSA: em quem você aposta? (a corridinha vem logo depois)
     d = ImageDraw.Draw(img)
     d.rectangle((0, 0, W, H), fill=(30, 20, 30))
-    off = (1 - v) * 1200
-    d.polygon([(-off, 0), (W * 0.62 - off, 0), (W * 0.38 - off, H), (-off, H)], fill=(225, 55, 50))
-    d.polygon([(W * 0.62 + off, 0), (W + off, 0), (W + off, H), (W * 0.38 + off, H)], fill=(120, 30, 90))
-    for k in range(14):  # riscos de velocidade
-        y = (k * 157 + pose(t) * 900) % H
-        d.line((0 - off, y, W * 0.4 - off, y - 40), fill=(255, 120, 100), width=5)
-        d.line((W * 0.6 + off, H - y, W + off, H - y - 40), fill=(170, 70, 140), width=5)
-    jx, jy, jr = jit(t, 3, 21)
-    cola(img, com_sombra("p_hurley.png", 760), 290 - off + jx, 1090 + jy, -6 + jr)
-    cola(img, com_sombra("p_mum.png", 760, True), 800 + off - jx, 1070 - jy, 6 - jr)
-    if u >= 4.1:
-        cola(img, placa("VOCÊ APOSTARIA NO...", 66, WHITE, INK), 540, 300, -2, pop(t, a + 4.1))
-    if u >= 4.6:
-        cola(img, placa("CACHORRO-QUENTE", 52, YEL, RED), 280, 520, -6, pop(t, a + 4.6))
-    if u >= 5.0:
-        cola(img, estouro("OU", 220), 540, 900, 0, pop(t, a + 5.0) * (1 + 0.05 * math.sin(pose(t) * 12)))
-    if u >= 5.4:
-        cola(img, placa("OU NA RAINHA?", 52, YEL, PURPLE), 800, 640, 6, pop(t, a + 5.4))
-    if u >= 6.4:
+    for k in range(-H, W + H, 120):  # listras de placar
+        d.line((k, 0, k - H * 0.5, H), fill=(50, 32, 52), width=50)
+    cores = [(225, 55, 50), (240, 106, 42), (40, 58, 120), (150, 30, 70)]
+    for k, nome in enumerate(MASC):
+        cx, cy = (290, 790)[k % 2], (720, 1150)[k // 2]
+        p = pop(t, a + 4.3 + k * 0.2)
+        if p <= 0:
+            continue
+        pn = painel_mascote(cores[k])
+        jx, jy, jr = jit(t, 2, 40 + k)
+        cola(img, pn, cx + jx, cy + jy, [-3, 2, 3, -2][k] + jr, p)
+        cola(img, com_sombra(nome, 330), cx + jx, cy - 20 + jy, [-3, 2, 3, -2][k] + jr, p)
+        cola(img, placa(NOMES[k].split()[-1], 50, YEL, INK), cx, cy + 175, [-3, 2, 3, -2][k], p)
+    v = pop(t, a + 3.95, 0.25)
+    if u < 4.6:  # ícone de pausa
+        cola(img, icone_pausa(), 540, 900, 0, v)
+    cola(img, placa("PARA TUDO!", 90, YEL, RED), 540, 290, -3, pop(t, a + 4.0))
+    if u >= 4.8:
+        cola(img, placa("EM QUEM VOCÊ APOSTA?", 64, WHITE, INK), 540, 430, 2, pop(t, a + 4.8))
+    if u >= 6.2:
         b = 1 + 0.06 * abs(math.sin(pose(t) * 6))
-        cola(img, placa("COMENTA AQUI!", 100, RED, YEL), 540, 1470, -3, pop(t, a + 6.4) * b)
+        cola(img, placa("COMENTA AQUI!", 100, RED, YEL), 540, 1450, -3, pop(t, a + 6.2) * b)
 
 
-# --- CTA (cena 9)
+@lru_cache(None)
+def painel_mascote(cor):
+    im = Image.new("RGBA", (420, 400), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    d.rounded_rectangle((0, 0, 419, 399), radius=34, fill=cor, outline=WHITE, width=10)
+    return sombra(im, 12, (8, 14), 0.5, (0, 0, 0))
+
+
+@lru_cache(None)
+def icone_pausa():
+    im = Image.new("RGBA", (360, 360), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    d.ellipse((0, 0, 359, 359), fill=(255, 255, 255, 235))
+    d.rounded_rectangle((105, 90, 160, 270), radius=12, fill=INK)
+    d.rounded_rectangle((200, 90, 255, 270), radius=12, fill=INK)
+    return sombra(im, 12, (6, 12), 0.5, (0, 0, 0))
+
+
+# --- corridinha final (cena 9): quem acertou a aposta?
+CORRIDINHA = {  # x ao longo do tempo (s desde o início da cena)
+    "p_hurley.png": [(0, 240), (1.5, 560), (3.0, 520), (4.0, 580), (4.5, 600)],
+    "p_gobbler.png": [(0, 240), (1.2, 480), (2.5, 610)],
+    "p_dangle.png": [(0, 240), (1.5, 420), (3.0, 440), (3.7, 500), (4.45, 860)],
+    "p_mum.png": [(0, 240), (1.5, 500), (3.0, 640), (4.0, 650), (4.5, 660)],
+}
+TOMBO_URSO = 2.5  # o Gluglu tropeça e fica para trás
+CHEGADA = 4.45
+
+
+def keys_x(ks, u):
+    if u <= ks[0][0]:
+        return ks[0][1]
+    for (t0, x0), (t1, x1) in zip(ks, ks[1:]):
+        if t0 <= u < t1:
+            return lerp(x0, x1, ease((u - t0) / (t1 - t0)))
+    return ks[-1][1]
+
+
+def cena_corridinha(img, t):
+    a = SCENES[8][0]
+    u = t - a
+    uf = min(u, CHEGADA)  # na chegada a imagem congela (foto de chegada)
+    tc = torcida()
+    bob = 8 * abs(math.sin(pose(t) * 9))
+    img.paste(tc, (int((W - tc.width) / 2), int(-510 - bob)), tc)
+    py = 730
+    scroll = uf * 950
+    desenha_pista(img, py, scroll)
+    if u >= 3.6:  # linha de chegada chegando
+        fx = lerp(W + 60, 760, ease(seg(u, 3.6, CHEGADA)))
+        d = ImageDraw.Draw(img)
+        q = 22
+        for j in range(int(880 / q) + 1):
+            for i in range(3):
+                d.rectangle((fx + i * q, py + j * q, fx + (i + 1) * q, py + (j + 1) * q),
+                            fill=INK if (i + j) % 2 else WHITE)
+    lanes_y = [py + 220 * (k + 1) - 26 for k in range(4)]
+    for k, nome in enumerate(MASC):
+        if nome == "p_gobbler.png" and uf >= TOMBO_URSO:
+            v = ease(seg(uf, TOMBO_URSO, TOMBO_URSO + 0.3))
+            x = keys_x(CORRIDINHA[nome], TOMBO_URSO) - (uf - TOMBO_URSO) * 500
+            cola(img, com_sombra(nome, 300), x + 120 * v, lanes_y[k] - 150 + 90 * v, -88 * v)
+            if TOMBO_URSO <= u < TOMBO_URSO + 0.8:
+                cola(img, estouro("CAPOTOU!", 230, (255, 255, 255)), x + 160, lanes_y[k] - 250, 8,
+                     pop(t, a + TOMBO_URSO))
+            continue
+        x = keys_x(CORRIDINHA[nome], uf)
+        corredor(img, nome, x, lanes_y[k], 300, a + uf, fase=k * 1.3, vel=1.0 if u < CHEGADA else 0.0)
+    if u < 0.9:
+        cola(img, placa("VALENDO!", 120, YEL, RED), 540, 300, -3, pop(t, a + 0.05))
+    elif u < CHEGADA:
+        cola(img, placa("QUEM LEVA?", 100, RED, YEL), 540, 300, 3, pop(t, a + 0.9))
+    if u >= CHEGADA:
+        if u < CHEGADA + 0.12:
+            img.alpha_composite(Image.new("RGBA", (W, H), (255, 255, 255, int(200 * (1 - (u - CHEGADA) / 0.12)))))
+        d = ImageDraw.Draw(img)
+        for (x0, y0, sx, sy) in ((60, 140, 1, 1), (W - 60, 140, -1, 1), (60, 1580, 1, -1), (W - 60, 1580, -1, -1)):
+            d.line((x0, y0, x0 + sx * 90, y0), fill=WHITE, width=10)  # cantos de câmera
+            d.line((x0, y0, x0, y0 + sy * 90), fill=WHITE, width=10)
+        cola(img, placa("FOTO DE CHEGADA", 46, WHITE, INK), 290, 220, -3, pop(t, a + CHEGADA + 0.05))
+        cola(img, placa("O BRINCO GANHOU!", 96, RED, YEL), 540, 380, -2, pop(t, a + CHEGADA + 0.25))
+        cola(img, estouro("1º!", 240), 900, lanes_y[2] - 330, 10, pop(t, a + CHEGADA + 0.4))
+        confete(img, t, 80, 12, 0, 1580)
+        if u >= CHEGADA + 0.7:
+            cola(img, placa("ACERTOU?", 80, YEL, RED), 540, 560, 3, pop(t, a + CHEGADA + 0.7))
+
+
+# --- CTA (cena 10)
 @lru_cache(None)
 def caixa_img(w):
     return sombra(peca_w("caixa.png", w), 18, (12, 24), 0.55, (0, 0, 0))
 
 
 def cena_cta(img, t):
-    a = SCENES[8][0]
+    a = SCENES[CTA][0]
     img.paste(torcida_fundo(0.45, 3), (0, 0))
     confete(img, t, 60, 8)
     cola(img, logo_card(420), 540, 220, 0, pop(t, a + 0.1))
@@ -937,7 +1025,7 @@ def cena_cta(img, t):
 
 # ---------------------------------------------------------------- montagem
 CENAS = [cena_gancho, cena_largada, cena_bilhetes, cena_risco, cena_secreta, cena_corre, cena_dq,
-         cena_final_corrida, cena_cta]
+         cena_final_corrida, cena_corridinha, cena_cta]
 
 
 @lru_cache(None)
@@ -995,15 +1083,17 @@ ROTEIRO = [
     "Começou! As cartas viram uma a uma: o mascote corre, tropeça, dá meia-volta, invade a raia do outro "
     "e derruba geral!",
     "Caiu de novo quando já tava no chão, ou saiu da pista? Desclassificado! E a gritaria na mesa é garantida.",
-    "Depois de três corridas, quem tiver mais dinheiro ganha. E aí, você apostaria no cachorro-quente "
-    "ou na rainha? Comenta aqui!",
+    "Depois de três corridas, ganha quem tiver mais dinheiro. Agora para tudo: em quem você aposta? Comenta aqui!",
     "Aluga o Hot Streak na Sua Vez e chama a galera pra apostar! O link tá na bio.",
 ]
 
 
+FALA_CENA = [0, 1, 2, 3, 4, 5, 6, 7, 9]  # cena de cada fala (a corridinha, cena 8, não tem fala)
+
+
 def default_subs():
     out = []
-    for (a, b), txt in zip(SCENES, ROTEIRO):
+    for (a, b), txt in zip([SCENES[i] for i in FALA_CENA], ROTEIRO):
         chunks, cur = [], []
         for w in txt.split():
             cur.append(w)
@@ -1070,9 +1160,13 @@ def _cues():
           (45.5, "buzzer", 0.8), (47.0, "aah", 1.0), (47.7, "whistle", 0.7)]
     a = SCENES[7][0]
     c += [(a + 0.2, "pop", 0.5), (a + 0.6, "cash", 0.6), (a + 2.0, "ding", 0.5), (a + 2.2, "cash", 0.9),
-          (a + 3.9, "stinger", 0.7), (a + 4.6, "pop", 0.4), (a + 5.0, "hit", 0.6), (a + 5.4, "pop", 0.4),
-          (a + 6.4, "pop", 0.6)]
+          (a + 3.95, "buzzer", 0.5), (a + 4.0, "hit", 0.6)] + [(a + 4.3 + k * 0.2, "pop", 0.35) for k in range(4)]
+    c += [(a + 4.8, "pop", 0.5), (a + 6.2, "pop", 0.6), (a + 6.3, "crowd", 0.5)]
     a = SCENES[8][0]
+    c += [(a - 0.5, "bugle", 0.8), (a + 0.05, "whistle", 0.8), (a + 0.1, "crowd", 0.8), (a + 0.9, "pop", 0.4),
+          (a + TOMBO_URSO, "tombo", 0.8), (a + 3.6, "aah", 0.8), (a + CHEGADA, "flip", 0.9), (a + CHEGADA, "ding", 0.6),
+          (a + CHEGADA + 0.25, "hit", 0.6), (a + CHEGADA + 0.3, "crowd", 0.9), (a + CHEGADA + 0.7, "pop", 0.5)]
+    a = SCENES[CTA][0]
     c += [(a + 0.1, "pop", 0.5), (a + 0.4, "swoosh", 0.6), (a + 0.9, "pop", 0.5), (a + 1.5, "pop", 0.35),
           (a + 1.8, "pop", 0.35), (a + 2.3, "pop", 0.35), (a + 2.7, "pop", 0.35), (a + 3.2, "cash", 0.7),
           (a + 7.5, "crowd", 0.6)]

@@ -15,8 +15,8 @@ NAR = os.path.join(ROOT, "narracao")
 
 # cenas originais (início, fim) na mesma ordem do hs.SCENES
 ORIG = [(0.0, 5.6), (5.6, 12.6), (12.6, 19.6), (19.6, 26.6), (26.6, 34.0), (34.0, 42.0), (42.0, 49.0),
-        (49.0, 57.4), (57.4, 66.0)]
-FALAS_POR_CENA = [[1], [2], [3], [4], [5], [6], [7], [8], [9]]
+        (49.0, 57.4), (57.4, 63.0), (63.0, 69.6)]
+FALAS_POR_CENA = [[1], [2], [3], [4], [5], [6], [7], [8], [], [9]]  # a corridinha final não tem fala
 LEAD, GAP, TAIL = 0.3, 0.45, 0.6
 MIN_FRAC = 0.7  # cena nunca encolhe abaixo de 70% do original (animações respiram)
 CTA_HOLD = 3.6  # tempo do logo na tela depois da última fala (garante mais de 1 minuto)
@@ -29,7 +29,7 @@ TEXTO = {
     5: 'Aí vem a malandragem: cada jogador coloca uma carta secreta no baralho da corrida pra puxar a sardinha pro seu lado.',
     6: 'Começou! As cartas viram uma a uma: o mascote corre, tropeça, dá meia-volta, invade a raia do outro e derruba geral!',
     7: 'Caiu de novo quando já tava no chão, ou saiu da pista? Desclassificado! E a gritaria na mesa é garantida.',
-    8: 'Depois de três corridas, quem tiver mais dinheiro ganha. E aí, você apostaria no cachorro-quente ou na rainha? Comenta aqui!',
+    8: 'Depois de três corridas, ganha quem tiver mais dinheiro. Agora para tudo: em quem você aposta? Comenta aqui!',
     9: 'Aluga o Hot Streak na Sua Vez e chama a galera pra apostar! O link tá na bio.',
 }
 
@@ -80,6 +80,8 @@ def main():
             cur += d + GAP
         end = cur - GAP + (CTA_HOLD if o1 == ORIG[-1][1] else TAIL)
         end = max(end, start + MIN_FRAC * (o1 - o0))
+        if not falas:  # cena sem fala (corridinha): mantém a duração original
+            end = start + (o1 - o0)
         scenes.append([o0, o1, round(start, 3), round(end, 3)])
         t = end
     # legendas não se sobrepõem

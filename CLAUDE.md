@@ -154,7 +154,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
 - **Hot Streak (`hotstreak-reels/`):** é da CMYK, com 4 mascotes (Hurley, o cachorro-quente; Gobbler, o urso; Dangle,
   o peixe-pescador; Mum, a rainha). São 3 corridas, 2 bilhetes por corrida em draft cobra, aposta segura ou arriscada,
   apostas paralelas SIM/NÃO e uma carta secreta de cada jogador no baralho. Mascote cai, dá meia-volta, desvia de raia e bate;
-  é desclassificado se cair já caído ou sair da pista; vence quem tiver mais dinheiro. **Material:** o manual em PDF
+  é desclassificado se cair já caído ou sair da pista; vence quem tiver mais dinheiro. **Nomes da edição brasileira (Galápagos), confirmados pelo dono:** **Jiba** (a salsicha), **Gluglu** (o urso),
+  **Brinco** (o peixe) e **Mona** (a rainha). Nunca use os nomes em inglês. Os bilhetes foram adaptados por
+  `recortes_hs.bilhetes_br()` ("Gluglu" e "SIM"). Final pedido por ele: "PARA TUDO! Em quem você aposta? Comenta aqui!",
+  seguido de uma corridinha (cena 9, sem fala) em que o Gluglu capota e o **Brinco ganha** na foto de chegada.
+  **Material:** o manual em PDF
   (`assets/manual.pdf`) é todo vetorial. `vetor_hs.py` redesenha só os traços escolhidos e gera recortes PERFEITOS em qualquer
   resolução: os mascotes do pódio (`p_*.png`), a torcida sem o QR da editora (`v_torcida_limpa.png`) e os bilhetes. Os bonecos
   de vinil da foto oficial (Shopify da CMYK, 6000 px) recortam bem por chave de verde (`recortes_hs.py`). **Conceito escolhido:
