@@ -54,7 +54,7 @@ def music(dur):
                 add(out, brass(ch), t + beat * k, 0.35)
         t += bar
         b += 1
-    add(out, brass([note("E4"), note("G#4"), note("B4"), note("E5")], 1.0), dur - 1.0, 0.8)
+    add(out, brass([note("E4"), note("Ab4"), note("B4"), note("E5")], 1.0), dur - 1.0, 0.8)
     n = int(0.5 * SR)
     out[-n:] *= np.linspace(1, 0, n)
     return out
