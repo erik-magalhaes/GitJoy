@@ -22,6 +22,9 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 import trilha_arq as som  # noqa: E402
+import temas  # noqa: E402
+
+TEMA = temas.TEMA if os.environ.get("TEMA") else "vudu"
 
 OF = os.path.join(ROOT, "assets", "oficial")
 PE = os.path.join(ROOT, "assets", "pecas")
@@ -136,8 +139,11 @@ def place(canvas, ctx, im, x, y, rot=0.0, sc=1.0, sx=1.0, lift=0.0, shadow=0.55,
         sm.paste(a.point(lambda v: int(v * op)), (pad, pad))
         sm = sm.filter(ImageFilter.GaussianBlur(blur))
         ox, oy = int(10 + lift * 0.3), int(16 + lift * 0.7)
-        canvas.paste((6, 6, 12), (px - pad + ox, py - pad + oy), sm)
+        canvas.paste(SH_COLOR, (px - pad + ox, py - pad + oy), sm)
     canvas.paste(im, (px, py), im)
+
+
+SH_COLOR = (6, 6, 12) if TEMA == "vudu" else temas.SHADOW[TEMA][0]
 
 
 def hop(u, p0, p1, height):
@@ -201,6 +207,10 @@ def sticker(text, size=92, color=CREAM, maxw=930, ink=INK, paper=(255, 255, 255)
     return out
 
 
+def lab(text, size, color):
+    return sticker(text, size, color) if TEMA == "vudu" else temas.label(text, size, color)
+
+
 @lru_cache(None)
 def logo_suavez(width):
     lg = Image.open(os.path.join(ROOT, "assets", "logo_suavez.png")).convert("RGBA")
@@ -241,7 +251,7 @@ def bg_capa():
     im = im.resize((int(im.width * s) + 1, int(im.height * s) + 1), Image.LANCZOS)
     x0 = (im.width - W) // 2
     im = im.crop((x0, 0, x0 + W, H)).filter(ImageFilter.GaussianBlur(9))
-    a = np.asarray(im, np.float32) * np.array([0.40, 0.42, 0.52])
+    a = np.asarray(im, np.float32) * (np.array([0.40, 0.42, 0.52]) if TEMA == "vudu" else np.array([0.78, 0.74, 0.70]))
     return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
 
 
@@ -359,7 +369,7 @@ def draw_stickers(canvas, ctx, t, i):
         t0, txt, size, col, x, y, rot = e[:7]
         t1 = e[7] if len(e) > 7 else b
         if a <= t0 < b and t0 <= t < t1:
-            place(canvas, ctx, sticker(txt, size, col), x, y, rot, pop(t, t0), shadow=0.6)
+            place(canvas, ctx, lab(txt, size, col), x, y, rot, pop(t, t0), shadow=0.6)
 
 
 # ---------------------------------------------------------------- cenas
@@ -418,10 +428,10 @@ def s3(c, ctx, t):
         u = seg(t, 20.4, 21.0)
         x, y, lift = hop(u, (-250, 1100), (320, 1040), 120)
         place(c, ctx, by_h("carta_pedra.png", 640), x, y, -4, lift=lift)
-    for k, ((name, lab), (x, y)) in enumerate(zip(MATS, MAT_XY)):
+    for k, ((name, nome), (x, y)) in enumerate(zip(MATS, MAT_XY)):
         s = pop(t, 21.0 + k * 0.55)
         place(c, ctx, by_h(name, 160), x, y, 0, s)
-        place(c, ctx, sticker(lab, 34), x, y + 112, 0, s, shadow=0.4)
+        place(c, ctx, lab(nome, 34, CREAM), x, y + 112, 0, s, shadow=0.4)
     if t >= 24.2:
         u = seg(t, 24.2, 24.8)
         x, y, lift = hop(u, (1350, 1100), (790, 1040), 120)
@@ -519,7 +529,7 @@ def s7(c, ctx, t):
             dust(c, ctx, t, tb + 0.4, 540 - 430 + (px + pw / 2) * s, y0 + (py + ph) * s, pw * s * 0.5)
         return
     for k, ((nome, x, y, r), col) in enumerate(zip(NOMES, NOME_COR)):
-        place(c, ctx, sticker(nome, 62, col), x, y, r, pop(t, 54.8 + k * 0.18))
+        place(c, ctx, lab(nome, 62, col), x, y, r, pop(t, 54.8 + k * 0.18))
 
 
 def s8(c, ctx, t):
@@ -538,7 +548,7 @@ SCENE_BG = ["capa", "mesa", "mesa", "mesa", "mesa", "mesa", "mesa", "mesa", "cap
 def vignette():
     y, x = np.mgrid[0:H, 0:W].astype(np.float32)
     r = np.sqrt(((x - W / 2) / (W / 2)) ** 2 + ((y - H / 2) / (H / 2)) ** 2) / 1.414
-    return (1 - 0.5 * np.clip(r, 0, 1) ** 2.2)[..., None]
+    return (1 - (0.5 if TEMA == "vudu" else temas.VIGNETTE[TEMA]) * np.clip(r, 0, 1) ** 2.2)[..., None]
 
 
 def post(img, ctx, shake=0.0):
@@ -553,7 +563,8 @@ def post(img, ctx, shake=0.0):
 
 def frame_at(to, ctx):
     i = scene_of(to)
-    img = (bg_capa() if SCENE_BG[i] == "capa" else bg_mesa()).copy()
+    mesa = bg_mesa if TEMA == "vudu" else temas.bg
+    img = (bg_capa() if SCENE_BG[i] == "capa" else mesa()).copy()
     SCENE_FN[i](img, ctx, to)
     draw_stickers(img, ctx, to, i)
     return img, i
