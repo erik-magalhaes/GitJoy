@@ -141,7 +141,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   em fundo branco não funciona para este jogo: os fios finos (sobretudo os brancos) somem, a torre fica falhada, o gato fica
   serrilhado, e os dados "montados" com a textura e as faces parecem falsos. **Não insista nesse caminho.** O Nekojima não tem
   kit de imprensa público (o site da Unfriendly Games dá 502 pelo proxy). Propus que ele mesmo fotografe as peças (stop motion
-  real com o jogo da loja) ou que eu volte ao anime com as fotos inteiras e mais movimento de câmera. Falta a resposta.
+  real com o jogo da loja) ou que eu volte ao anime com as fotos inteiras. **Decisão: ficou o `anime.py` (fotos inteiras),
+  como estava.** A única mudança foi corrigir o texto da face especial do dado ("FACE PRETA? QUEM ESCOLHE É O DA DIREITA!").
+  `anime_rec.py` (recortes) está rejeitado.
   **Regra geral:** recorte só funciona com material oficial (peças com transparência) ou foto feita para isso (fundo liso
   e contrastante). Antes de animar recortes, mande um quadro de teste e espere o ok dele.
   A face especial do dado é **preta com adaga** (o torii roxo é um bairro).

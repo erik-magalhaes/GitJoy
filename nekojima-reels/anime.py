@@ -223,7 +223,7 @@ ELS = [
     (12.4, "title", ("ROLA OS DOIS DADOS!", 54, PINK), 540, 215, -2),
     (13.2, "sfx", ("コロコロ", 110, YELLOW), 820, 640, 10, 15.8),
     (14.2, "tag", ("= OS BAIRROS DOS POSTES", 40, YELLOW, INK), 420, 1140, 0),
-    (16.2, "title", ("TORII PRETO? O DA DIREITA ESCOLHE!", 46, PURPLE, 1000), 540, 1590, 0),
+    (16.2, "title", ("FACE PRETA? QUEM ESCOLHE É O DA DIREITA!", 46, PURPLE), 540, 1590, 0),
     (19.4, "title", ("TIRA UM CUBO DO SAQUINHO!", 54, TEAL), 540, 215, 2),
     (26.4, "title", ("UM POSTE EM CADA BAIRRO", 54, PINK), 540, 215, -2),
     (28.6, "tag", ("PODE EMPILHAR!", 46, YELLOW, INK), 330, 640, -6, 31.0),
@@ -392,8 +392,8 @@ def frame_at(t):
             circle_mark(img, to_s(185, 545), 95, seg(t, 13.4, 13.9))
             circle_mark(img, to_s(352, 530), 95, seg(t, 13.6, 14.1), PINK)
             sparkles(img, t, *to_s(270, 540), 160)
-            if t >= 16.2:
-                torii(img, 860, 1180, 120 * min(1, out_back(seg(t, 16.2, 16.5))))
+            if t >= 16.2:  # a face especial do dado é preta com adaga
+                circle_mark(img, to_s(388, 607), 70 + 6 * math.sin(t * 10), 1.0, RED)
         if i == 3:
             circle_mark(img, to_s(760, 670), 140, seg(t, 20.0, 20.5))
             for kk, (col, lab) in enumerate(((PINK, "ROSA = FIO CURTO"), (WHITE, "BRANCO = FIO MÉDIO"),
