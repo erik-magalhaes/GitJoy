@@ -160,9 +160,8 @@ def arte(W, H, story):
         text_c(d, (W / 2, y + 42 * s), "Monte o carrinho com 3 jogos no site:", f(SB, int(34 * s)), (21, 101, 52))
         text_c(d, (W / 2, y + 86 * s), "o prazo extra entra sozinho!", f(XB, int(38 * s)), (21, 101, 52))
         y += 150 * s
-    text_c(d, (W / 2, y + 10 * s), "RETIRE EM MAUÁ OU RECEBA EM CASA", f(XB, int(36 * s)), NAVY)
-    text_c(d, (W / 2, y + 52 * s), "a entrega tem só uma pequena taxa", f(SB, int(28 * s)), NAVY)
-    text_c(d, (W / 2, y + 100 * s), "suavez.acervodejogos.com.br  ·  @suavez_bg", f(SB, int(32 * s)), ORANGE_D)
+    text_c(d, (W / 2, y + 20 * s), "RETIRE EM MAUÁ OU RECEBA EM CASA", f(XB, int(36 * s)), NAVY)
+    text_c(d, (W / 2, y + 75 * s), "suavez.acervodejogos.com.br  ·  @suavez_bg", f(SB, int(32 * s)), ORANGE_D)
     return img.convert("RGB")
 
 
