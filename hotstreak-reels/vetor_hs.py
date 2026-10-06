@@ -141,3 +141,36 @@ def torcida_sem_qr(dpi=300, faixa=None):
         cx, cy = (r.x0 + r.x1) / 2, (r.y0 + r.y1) / 2
         return not (i > sign and sr.x0 <= cx <= sr.x1 and sr.y0 <= cy <= sr.y1 and r.width < sr.width)
     return replay(pg, keep, dpi=dpi), sr, sign, len(dr)
+
+
+def sem_verde(lim=0.9):
+    """Descarta os quadrados de grama (fundo verde grande) das ilustrações."""
+    def f(i, d):
+        c = d.get("fill")
+        return not (c and c[1] > c[0] * 1.2 and c[1] > c[2] * 1.2 and d["rect"].width > 60)
+    return f
+
+
+# As cartas de corrida do manual são imagens pequenas (151x203 px) e ficam pixeladas; por isso o hs.py
+# redesenha as cartas (função carta) com o mascote vetorial no meio.
+
+
+def extrai_cartas():
+    doc = pymupdf.open(MANUAL)
+    # cachorro-quente caído (página 21) e o que tropeça (página 25), sem a grama
+    p = doc[20]
+    replay(p, dentro(p, (42, 200, 150, 300), sem_verde()), clip=pymupdf.Rect(42, 200, 150, 300),
+           dpi=1600).save(os.path.join(P, "v_hurley_caido.png"))
+    replay(p, dentro(p, (165, 195, 245, 300), sem_verde()), clip=pymupdf.Rect(165, 195, 245, 300),
+           dpi=1600).save(os.path.join(P, "v_hurley_pe.png"))
+    p = doc[24]
+    replay(p, dentro(p, (340, 20, 405, 82)), clip=pymupdf.Rect(340, 20, 405, 82),
+           dpi=1600).save(os.path.join(P, "v_dq.png"))
+    for n in ("v_hurley_caido", "v_hurley_pe"):
+        limpa(os.path.join(P, n + ".png"), 0.02)
+    # as duas ilustrações das cartas secretas, sem a faixa de texto
+    for pg, nome in ((9, "v_secreta1"), (10, "v_secreta2")):
+        p = doc[pg]
+        replay(p, lambda i, d: not ((d.get("fill_opacity") or 1) < 0.99 and d["rect"].width > 300),
+               dpi=400).save(os.path.join(P, nome + ".png"))
+    print("ok")

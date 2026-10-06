@@ -60,3 +60,28 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+def caixa():
+    """Caixa do jogo (foto oficial em fundo vermelho liso): GrabCut com o fundo marcado pela cor."""
+    img = cv2.imread(os.path.join(F, "HS4378_2.jpg"))
+    lab = cv2.cvtColor(img, cv2.COLOR_BGR2LAB).astype(np.float32)
+    ref = np.median(np.concatenate([lab[:60].reshape(-1, 3), lab[-60:].reshape(-1, 3)]), 0)
+    dist = np.linalg.norm(lab - ref, axis=2)
+    # fundo e também a sombra (mesmo tom de vermelho, só mais escura)
+    dab = np.linalg.norm(lab[..., 1:] - ref[1:], axis=2)
+    bg = (dist < 14) | ((dab < 12) & (lab[..., 0] < ref[0] + 6))
+    mask = np.where(bg, cv2.GC_PR_BGD, cv2.GC_PR_FGD).astype(np.uint8)
+    mask[cv2.erode(bg.astype(np.uint8), np.ones((21, 21), np.uint8)) > 0] = cv2.GC_BGD
+    mask[cv2.erode((~bg).astype(np.uint8), np.ones((31, 31), np.uint8)) > 0] = cv2.GC_FGD
+    bgm, fgm = np.zeros((1, 65), np.float64), np.zeros((1, 65), np.float64)
+    cv2.grabCut(img, mask, None, bgm, fgm, 4, cv2.GC_INIT_WITH_MASK)
+    m = np.isin(mask, (cv2.GC_FGD, cv2.GC_PR_FGD)).astype(np.uint8)
+    n, labs, st, _ = cv2.connectedComponentsWithStats(m)
+    m = (labs == 1 + np.argmax(st[1:, 4])).astype(np.uint8)
+    cs, _ = cv2.findContours(m, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    full = np.zeros_like(m)
+    cv2.drawContours(full, cs, -1, 255, -1)
+    full = cv2.GaussianBlur(cv2.erode(full, np.ones((3, 3), np.uint8)), (5, 5), 0)
+    rgba = Image.fromarray(np.dstack([cv2.cvtColor(img, cv2.COLOR_BGR2RGB), full]), "RGBA")
+    rgba.crop(rgba.getbbox()).save(os.path.join(P, "caixa.png"))
