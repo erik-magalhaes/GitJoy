@@ -7,7 +7,9 @@ tudo antes de começar um vídeo novo: aqui está o que funcionou, o que não fu
 
 - **Sua Vez – Locação de Jogos de Tabuleiro**, Mauá e ABC (SP). Site: https://suavez.acervodejogos.com.br/
   (o logo veio de lá: `*/assets/logo_suavez.png`). Instagram: **@suavez_bg**.
-- Aluguel de **5 dias**, com reserva online e retirada em Mauá. CTA padrão: "aluga na Sua Vez, o link tá na bio".
+- Aluguel de **5 dias**, com reserva online e **retirada em Mauá ou entrega em casa** (a entrega tem uma pequena taxa;
+  o frete é combinado no checkout). Promoção: alugando **3 jogos, todos ficam 7 dias** sem custo extra.
+  CTA padrão: "aluga na Sua Vez, o link tá na bio". Não escreva só "retire em Mauá": cite também a entrega.
 - O dono fala português do Brasil, usa **o celular** para quase tudo e grava a narração ele mesmo.
 
 ## O que todo vídeo precisa ter
