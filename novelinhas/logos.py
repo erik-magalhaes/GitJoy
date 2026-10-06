@@ -134,9 +134,81 @@ def logo_tracinho_azul():
     return im.convert("RGB")
 
 
+# ---------------------------------------------------------------- opção 4
+def logo_mensagem_apagada():
+    """O aviso cinza de mensagem apagada, o momento mais suspeito do zap."""
+    im = gradiente(S, S, (24, 24, 30), (8, 8, 12), radial=True).convert("RGBA")
+    b = balao(800, 330, (32, 44, 51, 255), "dir", r=60)
+    d = ImageDraw.Draw(b)
+    cx, cy, r = 150, 205, 62
+    cinza = (140, 150, 156)
+    d.ellipse((cx - r, cy - r, cx + r, cy + r), outline=cinza, width=13)
+    d.line([(cx - 42, cy + 42), (cx + 42, cy - 42)], fill=cinza, width=13)
+    texto_centro(d, 500, 160, "Esta mensagem", fonte("PlayfairDisplay-Italic.ttf", 68, 500), cinza)
+    texto_centro(d, 500, 245, "foi apagada", fonte("PlayfairDisplay-Italic.ttf", 68, 500), cinza)
+    im.alpha_composite(sombra(b, 24, (0, 16), 160), (72, 130))
+    d = ImageDraw.Draw(im)
+    texto_centro(d, S / 2, 660, "MENSAGEM", fonte("Inter.ttf", 118, 900), (255, 255, 255))
+    texto_centro(d, S / 2, 800, "APAGADA", fonte("Inter.ttf", 150, 900), (235, 64, 82))
+    return im.convert("RGB")
+
+
+def seta_encaminhar(d, x, y, esc, cor):
+    """Seta curva do 'encaminhar' do WhatsApp: quarto de círculo subindo e ponta para a direita."""
+    R, w = 70 * esc, int(24 * esc)
+    d.arc((x, y, x + 2 * R, y + 2 * R), 180, 270, fill=cor, width=w)
+    d.rectangle((x + R, y, x + R + 40 * esc, y + w), fill=cor)
+    d.polygon([(x + R + 36 * esc, y - 34 * esc), (x + R + 100 * esc, y + w / 2),
+               (x + R + 36 * esc, y + w + 34 * esc)], fill=cor)
+    d.ellipse((x, y + R - w / 2, x + w, y + R + w / 2), fill=cor)  # ponta arredondada
+
+
+# ---------------------------------------------------------------- opção 5
+def logo_encaminhada():
+    """'Encaminhada com frequência': a etiqueta do zap para fofoca que rodou o grupo todo."""
+    im = gradiente(S, S, (236, 229, 221), (214, 204, 192), radial=True).convert("RGBA")
+    d = ImageDraw.Draw(im)
+    verde = (7, 94, 84)
+    seta_encaminhar(d, 200, 230, 1.5, verde)
+    seta_encaminhar(d, 470, 230, 1.5, verde)
+    texto_centro(d, S / 2, 590, "Encaminhada", fonte("Pacifico-Regular.ttf", 150), (20, 20, 20))
+    f = fonte("Inter.ttf", 58, 800)
+    tag = Image.new("RGBA", (720, 110), (0, 0, 0, 0))
+    ImageDraw.Draw(tag).rounded_rectangle((0, 0, 719, 109), 55, fill=(37, 211, 102))
+    texto_centro(ImageDraw.Draw(tag), 360, 55, "COM FREQUÊNCIA", f, (255, 255, 255))
+    im.alpha_composite(sombra(tag, 10, (0, 8), 90), (152, 760))
+    return im.convert("RGB")
+
+
+# ---------------------------------------------------------------- opção 6
+def logo_print_vazado():
+    """Um print de conversa 'vazando' da tela do celular."""
+    im = gradiente(S, S, (255, 214, 0), (255, 170, 0), radial=True).convert("RGBA")
+    cel = Image.new("RGBA", (420, 640), (0, 0, 0, 0))
+    dc = ImageDraw.Draw(cel)
+    dc.rounded_rectangle((0, 0, 419, 639), 60, fill=(20, 20, 20))
+    dc.rounded_rectangle((18, 18, 401, 621), 46, fill=(11, 20, 26))
+    for i, (lado, w) in enumerate([("e", 230), ("d", 260), ("e", 190), ("d", 280), ("e", 220)]):
+        y = 70 + i * 100
+        cor = (32, 44, 51) if lado == "e" else (0, 92, 75)
+        x0 = 44 if lado == "e" else 376 - w
+        dc.rounded_rectangle((x0, y, x0 + w, y + 68), 22, fill=cor)
+    cel = cel.rotate(-10, resample=Image.BICUBIC, expand=True)
+    im.alpha_composite(sombra(cel, 24, (10, 22), 140), (300, 40))
+    # tarja de "vazou"
+    tarja = Image.new("RGBA", (1300, 160), (20, 20, 20, 255))
+    texto_centro(ImageDraw.Draw(tarja), 650, 80, "PRINT VAZADO", fonte("Inter.ttf", 104, 900), (255, 214, 0))
+    tarja = tarja.rotate(6, resample=Image.BICUBIC, expand=True)
+    im.alpha_composite(sombra(tarja, 14, (0, 12), 120), ((S - tarja.width) // 2, 600))
+    return im.convert("RGB")
+
+
 OPCOES = [("Novela no Zap", logo_novela_no_zap),
           ("Visto por Último", logo_visto_por_ultimo),
-          ("Tracinho Azul", logo_tracinho_azul)]
+          ("Tracinho Azul", logo_tracinho_azul),
+          ("Mensagem Apagada", logo_mensagem_apagada),
+          ("Encaminhada", logo_encaminhada),
+          ("Print Vazado", logo_print_vazado)]
 
 
 def redondo(im, tam):
@@ -147,20 +219,21 @@ def redondo(im, tam):
     return im
 
 
-def comparacao(logos):
+def comparacao(logos, numeros, titulo):
     W, H = 1800, 980
     c = Image.new("RGB", (W, H), (245, 242, 238))
     d = ImageDraw.Draw(c)
-    texto_centro(d, W / 2, 70, "Nome e logo do perfil: escolha 1, 2 ou 3", fonte("Inter.ttf", 54, 800), (30, 30, 30))
-    for i, ((nome, _), im) in enumerate(zip(OPCOES, logos)):
+    texto_centro(d, W / 2, 70, titulo, fonte("Inter.ttf", 54, 800), (30, 30, 30))
+    for i, (n, im) in enumerate(zip(numeros, logos)):
+        nome = OPCOES[n - 1][0]
         cx = 300 + i * 600
         c.paste(im.resize((480, 480), Image.LANCZOS), (cx - 240, 150))
         av = redondo(im, 170)
         c.paste(av, (cx - 200, 680), av)
-        texto_centro(d, cx + 100, 730, f"@{nome.lower().replace(' ', '').replace('ú', 'u')}",
-                     fonte("Inter.ttf", 30, 700), (30, 30, 30))
-        texto_centro(d, cx + 100, 775, "assim no TikTok", fonte("Inter.ttf", 24, 500), (120, 120, 120))
-        texto_centro(d, cx, 910, f"{i + 1}. {nome}", fonte("Inter.ttf", 50, 800), (30, 30, 30))
+        d.text((cx - 10, 712), f"@{nome.lower().replace(' ', '').replace('ú', 'u')}",
+               font=fonte("Inter.ttf", 30, 700), fill=(30, 30, 30))
+        d.text((cx - 10, 760), "assim no TikTok", font=fonte("Inter.ttf", 24, 500), fill=(120, 120, 120))
+        texto_centro(d, cx, 910, f"{n}. {nome}", fonte("Inter.ttf", 50, 800), (30, 30, 30))
     return c
 
 
@@ -171,5 +244,8 @@ if __name__ == "__main__":
         im = fn()
         im.save(os.path.join(OUT, f"logo_{i}.png"))
         logos.append(im)
-    comparacao(logos).save(os.path.join(OUT, "logos_comparacao.jpg"), quality=90)
+    comparacao(logos[:3], [1, 2, 3], "Nome e logo do perfil: escolha 1, 2 ou 3").save(
+        os.path.join(OUT, "logos_comparacao.jpg"), quality=90)
+    comparacao(logos[3:], [4, 5, 6], "Nomes menos manjados: 4, 5 ou 6").save(
+        os.path.join(OUT, "logos_comparacao_2.jpg"), quality=90)
     print("ok")
