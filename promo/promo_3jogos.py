@@ -140,7 +140,7 @@ def arte(W, H, story):
     d.rounded_rectangle((60 * s, y, W - 60 * s, y + band_h), radius=int(36 * s), fill=ORANGE)
     text_c(d, (W / 2, y + band_h / 2 + 4), "TODOS FICAM 7 DIAS!", f(BLACK, int(84 * s)), WHITE)
     y += band_h + 24 * s
-    text_c(d, (W / 2, y + 30 * s), "em vez de 5, sem pagar nada a mais", f(SB, int(46 * s)), NAVY)
+    text_c(d, (W / 2, y + 30 * s), "+2 dias de presente, pelo mesmo preço!", f(SB, int(46 * s)), NAVY)
     y += (100 if story else 80) * s
     # caixas em leque com o selo
     bh = int((430 if story else 300) * s)
