@@ -120,3 +120,24 @@ def extrai_podio():
         replay(pg, dentro(pg, (x0, 0, x1, 93)), dpi=2400).save(os.path.join(P, nome + ".png"))
         limpa(os.path.join(P, nome + ".png"), 0.02)
     print("ok")
+
+
+def torcida_sem_qr(dpi=300, faixa=None):
+    """Capa (torcida + placas HOT/STREAK) sem a placa amarela "VIDEO RULES" com o QR da editora.
+    faixa=(i0, i1) renderiza só os traços nesse intervalo da ordem de pintura (para camadas)."""
+    doc = pymupdf.open(MANUAL)
+    pg = doc[0]
+    dr = pg.get_drawings()
+    sign = next(i for i, d in enumerate(dr) if d.get("fill") and abs(d["fill"][0] - 1.0) < 0.02
+                and abs(d["fill"][1] - 0.77) < 0.02 and d["rect"].width > 120)
+    sr = dr[sign]["rect"]
+
+    def keep(i, d):
+        if faixa and not (faixa[0] <= i < faixa[1]):
+            return False
+        if i == sign:
+            return False
+        r = d["rect"]
+        cx, cy = (r.x0 + r.x1) / 2, (r.y0 + r.y1) / 2
+        return not (i > sign and sr.x0 <= cx <= sr.x1 and sr.y0 <= cy <= sr.y1 and r.width < sr.width)
+    return replay(pg, keep, dpi=dpi), sr, sign, len(dr)
