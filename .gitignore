@@ -7,3 +7,6 @@ sintonia-reels/out/
 sintonia-reels/narracao/raw/*.wav
 mlem-reels/out/
 mlem-reels/narracao/raw/*.wav
+architects-reels/out/
+architects-reels/narracao/raw/*.wav
+architects-reels/narracao/tmp_*.wav
