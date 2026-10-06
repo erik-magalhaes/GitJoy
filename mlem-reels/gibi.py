@@ -277,9 +277,9 @@ EL1 = [
     (22.8, "balloon", ("ESCOLHO OS 2!", 380, 56, (0.2, 1.0), BLUE), 330, 2000, 2),
     (24.6, "burst", ("+4!", 130, YELLOW, RED, 16, 1.2), 640, 1880, 8),
     (25.2, "chip", ("DADO USADO FICA DE FORA", 46, RED, WHITE), 560, 2530, 1),
-    (28.6, "caption", ("DESCE AGORA... OU CONTINUA?", 860, 62), 760, 2760, 1),
-    (31.0, "balloon", ("DESÇO! PONTOS GARANTIDOS!", 470, 56, (0.3, 1.0), BLUE), 560, 3120, -2),
-    (33.4, "balloon", ("EU CONTINUO! LONGE VALE MAIS!", 470, 54, (-0.4, 1.0), RED), 1120, 3420, 2),
+    (28.6, "caption", ("DESCE AGORA... OU CONTINUA?", 860, 62), 1400, 2700, 1),
+    (31.0, "balloon", ("DESÇO! PONTOS GARANTIDOS!", 420, 56, (0.35, -1.0), BLUE), 920, 3080, -2),
+    (33.4, "balloon", ("EU CONTINUO! LONGE VALE MAIS!", 470, 54, (0.3, -1.0), RED), 1460, 3380, 2),
 ]
 EL2 = [
     (38.9, "caption", ("A CADA ROLAGEM, MENOS DADOS...", 900, 60), 640, 430, -1),
@@ -465,13 +465,13 @@ def r1_path(t):
 
 
 # --- quadro 4 → 5: o foguete atravessa a página
-R4, R5 = (860, 1880), (1520, 3200)
+R4, R5 = (860, 1880), (1560, 2940)  # pousa no começo da trilha
 FLY = (26.6, 27.9)
 
 
 def fly_path(t):
     u = ease(seg(t, *FLY))
-    return bezier(R4, (1700, 2200), R5, u)
+    return bezier(R4, (1900, 2250), R5, u)
 
 
 DICE_SLOTS = [(200, 2160), (380, 2250), (560, 2150), (740, 2260), (290, 2400), (620, 2410)]
@@ -541,11 +541,12 @@ def anim_page1(page, t):
             u = seg(t, 30.4, 31.0)
             if u > 0:
                 p, _ = slot_patch(3)
-                x = lerp(R5[0], 380, ease(u))
-                y = lerp(R5[1], 3420, ease(u)) - math.sin(u * math.pi) * 300
+                x = lerp(R5[0], HOP[0], ease(u))
+                y = lerp(R5[1], HOP[1], ease(u)) - math.sin(u * math.pi) * 260
                 paste_c(page, p, x, y, rot=(1 - u) * 60, scale=0.9)
 
 
+HOP = (1110, 2810)  # 1ª lua da trilha (planeta da patinha)
 R6 = (1450, 900)
 
 
@@ -672,7 +673,7 @@ def element_box(e):
 # objetos animados que também precisam aparecer em cada cena (página, cena) → retângulos
 EXTRA = {
     3: [(R4[0] - 110, R4[1] - 180, R4[0] + 110, R4[1] + 180)],
-    4: [(R5[0] - 120, R5[1] - 210, R5[0] + 120, R5[1] + 210), (300, 3300, 520, 3520)],
+    4: [(R5[0] - 120, R5[1] - 210, R5[0] + 120, R5[1] + 210), (HOP[0] - 110, HOP[1] - 110, HOP[0] + 110, HOP[1] + 110)],
     5: [(R6[0] - 260, R6[1] - 420, R6[0] + 260, R6[1] + 420), (320, 1050, 740, 1320)],
 }
 SAFE_TOP, SAFE_BOT = 240, 1590   # área livre do vídeo (acima: logo; abaixo: legendas)

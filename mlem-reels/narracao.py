@@ -22,7 +22,7 @@ MIN_FRAC = 0.7  # cena nunca encolhe abaixo de 70% do original (animações resp
 CTA_HOLD = 3.6  # tempo do logo na tela depois da última fala (garante mais de 1 minuto)
 
 TEXTO = {
-    1: "Alguém falou em mandar gatos pro espaço e torcer pro foguete não explodir? Olha o MLEM!",
+    1: "Alguém falou em mandar gatos pro espaço e torcer pro foguete não explodir? Ô, Luisa Mell!",
     2: "Conheçam o MLEM: aqui cada jogador comanda uma equipe de gatos astronautas.",
     3: "Toda rodada, cada jogador coloca um gato no foguete.",
     4: "Em seguida, o capitão rola os dados, escolhe os números e o foguete avança. "
