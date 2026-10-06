@@ -137,7 +137,13 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **Versão atual: `anime_rec.py`.** Ele gostou do anime, mas reclamou que as fotos inteiras deixam o vídeo parado e "com cara
   de foto da internet". Agora as peças são recortadas (`recortes_neko.py`: torre, gato, poste, marcador de nível, faces dos dados
   e textura de madeira) e se mexem: a torre balança e desaba, os dados quicam, o gato voa até o fio e balança, o poste cai e
-  encaixa e os cubos pulam. **Regra geral:** prefira peças recortadas em movimento a fotos paradas com efeito por cima.
+  encaixa e os cubos pulam. **Resultado: ele achou HORRÍVEL** ("os recortes estão horríveis"). Recortar de foto de produto
+  em fundo branco não funciona para este jogo: os fios finos (sobretudo os brancos) somem, a torre fica falhada, o gato fica
+  serrilhado, e os dados "montados" com a textura e as faces parecem falsos. **Não insista nesse caminho.** O Nekojima não tem
+  kit de imprensa público (o site da Unfriendly Games dá 502 pelo proxy). Propus que ele mesmo fotografe as peças (stop motion
+  real com o jogo da loja) ou que eu volte ao anime com as fotos inteiras e mais movimento de câmera. Falta a resposta.
+  **Regra geral:** recorte só funciona com material oficial (peças com transparência) ou foto feita para isso (fundo liso
+  e contrastante). Antes de animar recortes, mande um quadro de teste e espere o ok dele.
   A face especial do dado é **preta com adaga** (o torii roxo é um bairro).
 - **Arte de promoção** (`promo/promo_3jogos.py`): "3 jogos = 7 dias para todos", em feed e story, com as cores e a fonte do site.
   Ele achou estranha a frase "em vez de 5, sem pagar nada a mais"; a que ficou foi "+2 dias de presente, pelo mesmo preço!".
