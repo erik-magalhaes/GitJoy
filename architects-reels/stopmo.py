@@ -24,7 +24,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 import trilha_arq as som  # noqa: E402
 import temas  # noqa: E402
 
-TEMA = temas.TEMA if os.environ.get("TEMA") else "vudu"
+TEMA = os.environ.get("TEMA", "prancheta")  # "vudu" = visual antigo (mesa escura e adesivos)
 
 OF = os.path.join(ROOT, "assets", "oficial")
 PE = os.path.join(ROOT, "assets", "pecas")
@@ -309,8 +309,8 @@ SCENES = [(0.0, 6.0), (6.0, 12.5), (12.5, 20.0), (20.0, 27.0), (27.0, 35.0), (35
 
 # adesivos: (t0, texto, tamanho, cor, x, y, rot[, t1])
 STK = [
-    (0.4, "CONSTRUIR UMA MARAVILHA DO MUNDO...", 74, CREAM, 540, 330, -2),
-    (1.6, "EM 25 MINUTOS?!", 120, GOLD, 540, 520, 2),
+    (0.4, "CONSTRUIR UMA MARAVILHA DO MUNDO...", 56, CREAM, 540, 280, -2),
+    (1.6, "EM 25 MINUTOS?!", 110, GOLD, 540, 500, 2),
     (4.4, "2 A 7 JOGADORES", 62, CREAM, 540, 1560, -2),
     (7.0, "CADA JOGADOR CONSTRÓI UMA MARAVILHA", 60, CREAM, 540, 1480, -1, 10.5),
     (10.6, "MAIS PONTOS NO FINAL VENCE!", 64, GOLD, 540, 1480, 2),
@@ -321,13 +321,13 @@ STK = [
     (18.2, "SEM VER!", 70, GOLD, 560, 600, -10),
     (20.2, "CINZAS = MATERIAIS", 88, CREAM, 540, 320, -2),
     (24.9, "CORINGA!", 84, GOLD, 790, 1380, -10),
-    (25.5, "O OURO VALE QUALQUER UM", 46, CREAM, 790, 1505, 2),
+    (25.5, "O OURO VALE QUALQUER UM", 46, CREAM, 640, 1505, 2),
     (27.2, "JUNTOU? CONSTRÓI!", 96, CREAM, 540, 320, -2),
     (28.4, "2 DIFERENTES", 64, GOLD, 540, 1500, 2, 31.0),
     (30.2, "+3!", 110, GOLD, 860, 1240, 8, 31.4),
     (31.2, "2 IGUAIS", 64, GOLD, 540, 1500, -2, 33.4),
-    (32.8, "PODER ESPECIAL!", 62, GOLD, 830, 900, 6),
-    (33.6, "CADA ETAPA = PONTOS + PODER", 52, CREAM, 540, 1500, 0),
+    (32.8, "PODER ESPECIAL!", 62, GOLD, 740, 880, 6),
+    (33.6, "CADA ETAPA = PONTOS + PODER", 62, CREAM, 540, 1500, 0),
     (35.1, "VERMELHAS = ESCUDOS", 84, CREAM, 540, 320, -2),
     (37.3, "CORNETA? A FICHA VIRA!", 46, CREAM, 300, 1140, -2),
     (39.6, "GUERRA!", 170, RED, 540, 1240, -6, 40.9),
@@ -389,7 +389,7 @@ def s0(c, ctx, t):
 
 def s1(c, ctx, t):
     place(c, ctx, by_w("logo_jogo.png", 860), 540, 330, 0, pop(t, 6.1), shadow=0.5)
-    efeso(c, ctx, 540, 940, 840, t, chegada={"1": 6.9, "2": 7.3, "3": 7.7, "4": 8.1, "5": 8.6})
+    efeso(c, ctx, 540, 990, 760, t, chegada={"1": 6.9, "2": 7.3, "3": 7.7, "4": 8.1, "5": 8.6})
 
 
 DK = {"esq": (200, 790), "meio": (540, 790), "dir": (880, 790)}
@@ -420,7 +420,7 @@ def s2(c, ctx, t):
 
 MATS = [("ic_pedra.png", "PEDRA"), ("ic_madeira.png", "MADEIRA"), ("ic_tijolo.png", "TIJOLO"),
         ("ic_papiro.png", "PAPIRO"), ("ic_vidro.png", "VIDRO")]
-MAT_XY = [(140, 600), (340, 545), (540, 525), (740, 545), (940, 600)]
+MAT_XY = [(140, 560), (340, 505), (540, 485), (740, 505), (940, 560)]
 
 
 def s3(c, ctx, t):
@@ -431,7 +431,7 @@ def s3(c, ctx, t):
     for k, ((name, nome), (x, y)) in enumerate(zip(MATS, MAT_XY)):
         s = pop(t, 21.0 + k * 0.55)
         place(c, ctx, by_h(name, 160), x, y, 0, s)
-        place(c, ctx, lab(nome, 34, CREAM), x, y + 112, 0, s, shadow=0.4)
+        place(c, ctx, lab(nome, 34, CREAM), x, y + 105, 0, s, shadow=0.4)
     if t >= 24.2:
         u = seg(t, 24.2, 24.8)
         x, y, lift = hop(u, (1350, 1100), (790, 1040), 120)
