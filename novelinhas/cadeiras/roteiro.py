@@ -152,7 +152,7 @@ EPISODIOS = [
         ("msg", "leo", "Ele. De calcinha."),
         ("msg", "rafa", "EU NÃO TÔ BEM 😭😭😭", dict(dig=0.2)),
         ("msg", "teco", "Calcinha de que cor?", dict(dig=0.4)),
-        ("msg", "leo", "TECO."),
+        ("msg", "leo", "TECO, PELO AMOR DE DEUS."),
         ("chat", "bia", "21:20", "HOJE"),
         ("msg", "bia", "Cheguei, amor! Me empresta o seu celular? O meu descarregou."),
         ("rascunho", "Agora não, amor", 1.2),

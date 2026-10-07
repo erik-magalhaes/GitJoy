@@ -96,6 +96,12 @@ class Ep:
 
     def voz(self, quem, texto, t0, filtro=None):
         a, pal = vozes.fala(quem, texto)
+        efeito = getattr(self.mod, "EFEITO_VOZ", {}).get(quem)   # ex.: voz distorcida do assassino
+        if filtro is None and efeito:
+            n0 = len(a)
+            a = getattr(som, efeito)(a)
+            k = len(a) / max(1, n0)
+            pal = [(s * k, e * k, w) for s, e, w in pal]
         if filtro:
             a = filtro(a)
         self.vozes.append((t0, a))

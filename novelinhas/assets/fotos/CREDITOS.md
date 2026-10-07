@@ -9,3 +9,4 @@ Fotos em domínio público / CC0 (busca no Openverse com license=cc0,pdm):
 - fone.jpg, relogio_bolso.jpg: Flickr via Openverse (cc0/pdm), "Koss headphones" e "Another Old Pocket Watch"
 - armario.jpg: StockSnap via Openverse (cc0), "Wardrobe Closet"
 - cadeira.jpg (StockSnap), mesa.jpg (rawpixel), sofa.jpg e comoda.jpg (Flickr): Openverse, cc0/pdm
+- casas_noite.jpg (rawpixel, "Town night") e pezinho.jpg (StockSnap, "Baby Foot"): Openverse, cc0/pdm

@@ -248,3 +248,17 @@ def fantasma(x):
     rnd = np.random.default_rng(13)
     out += 0.012 * _hp(rnd.standard_normal(n), 2000)
     return out * 0.85
+
+
+def mascara(x):
+    """Voz de assassino de filme: mais grave e lenta (reamostrada), áspera e com um eco curto."""
+    n = len(x)
+    k = 1.22   # 22% mais lenta e mais grave
+    xi = np.interp(np.arange(int(n * k)) / k, np.arange(n), x)
+    y = _bp(xi, 90, 3400, 2)
+    y = np.tanh(y * 3.0) / np.tanh(3.0)
+    out = np.zeros(len(y) + int(0.3 * SR))
+    out[:len(y)] += y
+    i = int(0.07 * SR)
+    out[i:i + len(y)] += 0.3 * _lp(y, 1800)
+    return out * 0.85
