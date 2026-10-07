@@ -17,6 +17,7 @@ TITULO = "O Irmão do Meio"
 
 THALITA = ("pt-BR-ThalitaMultilingualNeural", "+0%", "+0Hz")
 ANTONIO = ("pt-BR-AntonioNeural", "+0%", "+0Hz")
+PRONUNCIA = {r"\bbuffet\b": "bufê", r"\bBuffet\b": "Bufê"}
 VOZES = {"sonia": THALITA, "mariana": THALITA, "lia": THALITA,
          "tiago": ANTONIO, "gustavo": ANTONIO, "raul": ANTONIO}
 
@@ -156,14 +157,14 @@ EPISODIOS = [
         ("msg", "tiago", "Família, um aviso."),
         ("msg", "tiago", "A partir de amanhã, cada um paga as próprias contas."),
         ("msg", "mariana", "Ué, que contas? 😂", dict(dig=0.3)),
-        ("msg", "gustavo", "Ele tá bêbado, gente. Ignora."),
+        ("msg", "gustavo", "Ele tá bêbado, gente. Pode ignorar."),
         ("digitando", "raul", 1.8),
         ("pausa", 2.4),
     ]),
     # ---------------------------------------------------------------------------------------------- 4
     dict(parte=4, nome="As contas", eventos=[
         ("chat", "familia", "10:00", "HOJE", (("chip", "ONTEM"), ("tiago", "A partir de amanhã, cada um paga as próprias contas.", "23:30"),
-                                              ("gustavo", "Ele tá bêbado, gente. Ignora.", "23:31"))),
+                                              ("gustavo", "Ele tá bêbado, gente. Pode ignorar.", "23:31"))),
         ("msg", "mariana", "GENTE. A faculdade mandou e-mail. A minha matrícula foi cancelada por falta de pagamento??"),
         ("msg", "mariana", "Mãe, você não pagou o boleto?"),
         ("msg", "sonia", "Quem paga é o Gustavo, filha!", dict(dig=0.4)),
