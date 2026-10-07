@@ -195,3 +195,56 @@ def telefone(x):
     y = _bp(x, 220, 5200, 2)
     y = np.tanh(y * 1.6) / np.tanh(1.6)
     return y * 0.9
+
+
+def trilha_terror(dur, seed=1):
+    """Cama de terror: pedal grave que "bate", vento, sino distante desafinado, assobio agudo e coração lento."""
+    n = int(dur * SR) + SR
+    t = np.arange(n) / SR
+    rnd = np.random.default_rng(seed + 100)
+    out = np.zeros(n)
+    # pedal grave com batimento (duas frequências quase iguais)
+    out += 0.22 * _lp(np.sin(2 * np.pi * 49 * t) + np.sin(2 * np.pi * 49.6 * t) + 0.5 * saw(73.4, t), 300)
+    # vento: ruído filtrado que sobe e desce
+    vento = _bp(rnd.standard_normal(n), 300, 1400)
+    out += 0.05 * vento * (0.4 + 0.6 * np.sin(2 * np.pi * t / 11.0) ** 2)
+    # coração lento
+    k = 0.0
+    while k < dur + 1:
+        for off, g in ((0.0, 1.0), (0.26, 0.65)):
+            i = int((k + off) * SR)
+            tt = _t(0.3)
+            s_ = np.sin(2 * np.pi * (45 + 25 * np.exp(-tt / 0.03)) * tt) * np.exp(-tt / 0.1)
+            out[i:i + len(s_)] += 0.34 * g * s_[:max(0, n - i)]
+        k += 1.6
+    # sino distante, inarmônico
+    tp = 3.0
+    while tp < dur:
+        i = int(tp * SR)
+        tt = _t(3.0)
+        f0 = rnd.choice([220.0, 233.1, 207.7])
+        s_ = sum(a * np.sin(2 * np.pi * f0 * r * tt) for r, a in ((1, 1), (2.76, 0.5), (5.4, 0.25), (8.9, 0.12)))
+        s_ *= np.exp(-tt / 1.1)
+        out[i:i + len(s_)] += 0.06 * s_[:max(0, n - i)]
+        tp += rnd.uniform(7, 12)
+    # assobio agudo que desliza (aparece e some)
+    f = 1500 + 300 * np.sin(2 * np.pi * t / 9.0)
+    assobio = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.clip(np.sin(2 * np.pi * t / 13.0 - 2.0), 0, 1) ** 2
+    out += 0.012 * assobio
+    return out[:int(dur * SR)]
+
+
+def fantasma(x):
+    """Áudio "do além": voz mais baixa e abafada, com eco longo, tremor lento e chiado de fundo."""
+    y = _bp(x, 180, 3800, 2) * 0.8
+    n = len(y) + int(1.2 * SR)
+    out = np.zeros(n)
+    out[:len(y)] += y
+    for k, (dl, g) in enumerate(((0.09, 0.45), (0.17, 0.35), (0.29, 0.28), (0.47, 0.2), (0.71, 0.14))):
+        i = int(dl * SR)
+        out[i:i + len(y)] += g * _lp(y, 2500 - 300 * k)
+    t = np.arange(n) / SR
+    out *= 0.85 + 0.15 * np.sin(2 * np.pi * 4.5 * t)
+    rnd = np.random.default_rng(13)
+    out += 0.012 * _hp(rnd.standard_normal(n), 2000)
+    return out * 0.85

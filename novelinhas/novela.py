@@ -69,6 +69,8 @@ class Ep:
         # cada novela pode ter as próprias vozes (VOZES = {personagem: (voz, velocidade, tom)})
         vozes.ELENCO.update(getattr(self.mod, "VOZES", {}))
         vozes.PRONUNCIA.update(getattr(self.mod, "PRONUNCIA", {}))
+        if getattr(self.mod, "TEMA", "claro") != "claro":
+            zap.usar_tema(self.mod.TEMA)
         self.serie, self.n = serie, n
         self.dados = self.mod.EPISODIOS[n - 1]
         self.p = self.mod.PERSONAGENS
@@ -223,7 +225,8 @@ class Ep:
                                        voz=op.get("voz", quem), enc=op.get("enc", False),
                                        transcricao=op.get("transcricao", True))))
         if op.get("tocar", True):
-            self.vozes.append((t_play, som.telefone(a) * 0.95))
+            efeito = som.fantasma if op.get("efeito") == "fantasma" else som.telefone
+            self.vozes.append((t_play, efeito(a) * 0.95))
             self.t = t_play + dur + 0.3
         else:
             self.t += op.get("pausa", 1.2)
@@ -324,7 +327,7 @@ class Ep:
                 s = som.EFEITOS[nome]()
             i = int(t0 * SR)
             fx[i:i + len(s)] += g * s[:max(0, n - i)]
-        mus = som.trilha(self.dur + 0.5, seed=self.n)
+        mus = (som.trilha_terror if getattr(self.mod, "TRILHA", "") == "terror" else som.trilha)(self.dur + 0.5, seed=self.n)
         mus = np.pad(mus, (0, max(0, n - len(mus))))[:n]
         # ducking pela envoltória da voz
         env = np.abs(voz)

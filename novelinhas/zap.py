@@ -33,8 +33,18 @@ C = dict(
     sub=(102, 119, 129), verde=(0, 168, 132), in_=(255, 255, 255), out=(217, 253, 211),
     texto=(17, 27, 33), hora=(102, 119, 129), azul=(83, 189, 235), cinza_check=(140, 150, 156),
     chip=(255, 255, 255), teclado=(206, 210, 217), tecla=(255, 255, 255), amarelo=(255, 214, 0),
-    preto=(18, 18, 18),
+    preto=(18, 18, 18), pilula=(255, 255, 255), chip_txt=(84, 101, 111), linha=(225, 225, 225), tecla_txt=(30, 30, 30),
+    icone=(84, 101, 111), sistema=(255, 245, 196),
 )
+
+# tema escuro do WhatsApp (usado no terror)
+ESCURO = dict(
+    fundo=(11, 20, 26), doodle=(19, 29, 35), header=(31, 44, 51), titulo=(233, 237, 239),
+    sub=(134, 150, 160), in_=(32, 44, 51), out=(0, 92, 75), texto=(233, 237, 239), hora=(134, 150, 160),
+    chip=(24, 34, 40), teclado=(28, 28, 30), tecla=(70, 70, 74), pilula=(42, 57, 66), chip_txt=(134, 150, 160),
+    linha=(42, 57, 66), tecla_txt=(235, 235, 235), icone=(174, 186, 193), sistema=(24, 34, 40),
+)
+
 
 CORES_NOME = [(6, 147, 227), (229, 57, 53), (142, 36, 170), (0, 137, 123), (245, 124, 0), (57, 73, 171), (194, 24, 91)]
 
@@ -239,7 +249,7 @@ def barra_status(im, hora, escuro=False):
 def cabecalho(im, nome, sub, cor_av, grupo=False, sub_verde=False):
     d = ImageDraw.Draw(im)
     d.rectangle((0, HEADER_Y, W, CHAT_Y0), fill=C["header"])
-    d.line([(0, CHAT_Y0 - 1), (W, CHAT_Y0 - 1)], fill=(225, 225, 225), width=2)
+    d.line([(0, CHAT_Y0 - 1), (W, CHAT_Y0 - 1)], fill=C["linha"], width=2)
     cy = HEADER_Y + HEADER_H // 2
     g = C["titulo"]
     d.line([(58, cy), (34, cy), (46, cy - 13)], fill=g, width=5, joint="curve")
@@ -260,7 +270,7 @@ def cabecalho(im, nome, sub, cor_av, grupo=False, sub_verde=False):
         d.text((tx, cy + 38), sub_v, font=f2, fill=C["verde"] if sub_verde else C["sub"], anchor="ls")
     else:
         desenha_linha(im, tx, cy + 14, tokens(nome_v), f1, g)
-    ic = (84, 101, 111)
+    ic = C["icone"]
     # câmera
     x = 790
     d.rounded_rectangle((x, cy - 15, x + 38, cy + 15), 6, outline=ic, width=4)
@@ -279,7 +289,7 @@ def barra_entrada(im, rascunho="", cursor=False):
     d = ImageDraw.Draw(im)
     y = INPUT_Y + 14
     d.rectangle((0, INPUT_Y, W, TECLADO_Y), fill=C["fundo"])
-    d.rounded_rectangle((18, y, 900, y + 78), 39, fill=(255, 255, 255))
+    d.rounded_rectangle((18, y, 900, y + 78), 39, fill=C["pilula"])
     ic = (130, 140, 146)
     d.ellipse((42, y + 21, 78, y + 57), outline=ic, width=4)
     d.arc((52, y + 32, 68, y + 48), 20, 160, fill=ic, width=3)
@@ -319,7 +329,7 @@ def _teclado():
         for j, ch in enumerate(ln):
             x = x0 + j * (kw + gap)
             d.rounded_rectangle((x, y0, x + kw, y0 + kh), 12, fill=C["tecla"])
-            d.text((x + kw / 2, y0 + kh / 2 + 2), ch, font=f, fill=(30, 30, 30), anchor="mm")
+            d.text((x + kw / 2, y0 + kh / 2 + 2), ch, font=f, fill=C["tecla_txt"], anchor="mm")
     return im
 
 
@@ -558,8 +568,8 @@ def chip_data(txt):
     w = round(f.getlength(txt)) + 44
     im = Image.new("RGBA", (w + 8, 56), (0, 0, 0, 0))
     d = ImageDraw.Draw(im)
-    d.rounded_rectangle((4, 4, w + 4, 52), 14, fill=(255, 255, 255, 235))
-    d.text((w / 2 + 4, 29), txt, font=f, fill=(84, 101, 111), anchor="mm")
+    d.rounded_rectangle((4, 4, w + 4, 52), 14, fill=C["chip"] + (235,))
+    d.text((w / 2 + 4, 29), txt, font=f, fill=C["chip_txt"], anchor="mm")
     return im
 
 
@@ -570,8 +580,8 @@ def chip_sistema(txt):
     w = min(860, round(f.getlength(txt)) + 44)
     im = Image.new("RGBA", (w + 8, 58), (0, 0, 0, 0))
     d = ImageDraw.Draw(im)
-    d.rounded_rectangle((4, 4, w + 4, 54), 14, fill=(255, 245, 196, 245))
-    d.text((w / 2 + 4, 30), txt, font=f, fill=(84, 101, 111), anchor="mm")
+    d.rounded_rectangle((4, 4, w + 4, 54), 14, fill=C["sistema"] + (245,))
+    d.text((w / 2 + 4, 30), txt, font=f, fill=C["chip_txt"] if C["sistema"] != (255, 245, 196) else (84, 101, 111), anchor="mm")
     return im
 
 
@@ -621,3 +631,11 @@ def banda_parte(im, texto):
     d = ImageDraw.Draw(im)
     d.rectangle((0, 0, W, BANDA), fill=(0, 0, 0))
     d.text((W / 2, BANDA / 2 + 6), texto, font=inter(40, 700), fill=(255, 255, 255), anchor="mm")
+
+
+def usar_tema(nome):
+    """Troca as cores (claro/escuro) e limpa os caches das peças já desenhadas."""
+    if nome == "escuro":
+        C.update(ESCURO)
+    for fn in (papel_parede, _teclado, balao_texto, balao_apagada, chip_data, chip_sistema):
+        fn.cache_clear()
