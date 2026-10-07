@@ -29,6 +29,7 @@ PRONUNCIA = {
     r"\blouça\b": "lôssa",
     r"\bLouça\b": "Lôssa",
     r"\bPIX\b": "píquis",
+    r"\benquete\b": "enquête",
 }
 
 EMOJI = re.compile("[\U0001F000-\U0001FAFF☀-➿⬀-⯿️‍]")

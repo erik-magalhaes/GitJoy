@@ -47,7 +47,7 @@ CHATS = {
 def enquete():
     """Enquete da Sueli no grupo (cartão no estilo do WhatsApp)."""
     w, h = 760, 640
-    im = Image.new("RGB", (w, h), (255, 255, 255))
+    im = Image.new("RGBA", (w, h), (255, 255, 255, 255))
     d = ImageDraw.Draw(im)
     zap.texto_rico(im, 36, 30, "ENQUETE: Quem é o perfumado do prédio? 👀", zap.inter(38, 750), (17, 27, 33), maxw=690)
     d.text((36, 150), "Selecione uma opção", font=zap.inter(26, 450), fill=(120, 130, 136))
@@ -62,7 +62,7 @@ def enquete():
         d.rounded_rectangle((100, y + 56, 100 + (w - 136) * v / total, y + 66), 5, fill=(0, 168, 132))
         y += 100
     d.text((w / 2, h - 30), "32 votos", font=zap.inter(28, 600), fill=(0, 150, 120), anchor="mm")
-    return im
+    return im.convert("RGB")
 
 
 @functools.lru_cache(None)
@@ -120,7 +120,7 @@ EPISODIOS = [
         ("msg", "marcelo", "Hoje ela dormiu cedo.", dict(dig=0.5)),
         ("msg", "bruna", "Então sobe 😏"),
         ("msg", "marcelo", "Você é perigosa 🔥", dict(dig=0.4)),
-        ("chat", "cond", "23:47", "HOJE", (("chip", "HOJE"),
+        ("chat", "cond", "23:47", None, (("chip", "HOJE"),
                                            ("vera", "Lembrando: a manutenção do elevador é amanhã às 8h.", "19:00"),
                                            ("osvaldo", "Obrigado, síndica. Boa noite a todos 🌹", "19:30"))),
         ("msg", "bruna", "Ainda tô sentindo o seu perfume... Amanhã a porta fica destrancada de novo 😏🔥"),
@@ -239,7 +239,7 @@ EPISODIOS = [
     # ---------------------------------------------------------------------------------------------- 5
     dict(parte=5, nome="Assembleia extraordinária", fim_texto="Fim", eventos=[
         ("chat", "m", "23:00", None, (("chip", "HOJE"), ("marcelo", "Ela foi dormir.", "22:58"), ("marcelo", "Posso subir? 😏", "22:58"))),
-        ("msg", "bruna", "Pode. Porta destrancada 😏"),
+        ("msg", "bruna", "Pode sim. Porta destrancada 😏"),
         ("msg", "marcelo", "Tô subindo 🔥", dict(dig=0.3)),
         ("chat", "vera_b", "23:01"),
         ("msg", "bruna", "Ele tá subindo."),
