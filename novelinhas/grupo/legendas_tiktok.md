@@ -9,11 +9,11 @@ Quem é o perfumado do prédio? 👀 Parte 2
 #novelinha #grupodocondominio #historiasdowhatsapp #fy #drama
 
 **Parte 3**
-A síndica tem a câmera 📹 Parte 3
+Um número desconhecido sabe de tudo 🌹 Parte 3
 #novelinha #grupodocondominio #historiasdowhatsapp #fy #drama
 
 **Parte 4**
-A esposa tem um plano 😌 Parte 4
+Quem manda rosa no grupo? 🌹 Parte 4
 #novelinha #grupodocondominio #historiasdowhatsapp #fy #drama
 
 **Parte 5**
