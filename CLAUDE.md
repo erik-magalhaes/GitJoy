@@ -216,3 +216,9 @@ O nome "Print Vazado" fazia o **TikTok bloquear a conta**, então evite nomes co
 - **3:33 (`terror/`, terror, pronta):** a Vó Cida morreu há 10 dias e foi enterrada com o celular, mas manda mensagens às 3h33 avisando do
   homem escondido no sótão. Usa `TEMA = "escuro"` (WhatsApp no modo escuro, `zap.usar_tema`), `TRILHA = "terror"` e áudio com
   `efeito="fantasma"`. A cantiga é "Nana, neném" (domínio público).
+- **Novelinha de frutas (pausada):** ele quer as "pessoas-fruta" das novelas virais (Moranguete, Abacatudo, Fruit Love Island),
+  com corpo humano realista e pele/cabeça de fruta. Esses vídeos são feitos com geradores de vídeo por IA (Veo 3, Kling, ~R$ 90/mês),
+  que não temos aqui. As frutas 3D feitas no Blender (`frutas/f3d.py`, `pip install bpy`, Cycles a ~10 s/quadro) foram **rejeitadas**
+  ("frutas esquisitas"). Se ele voltar ao assunto: ele assina a ferramenta, eu escrevo os prompts por cena (ficha fixa de cada personagem)
+  e monto o episódio. A história proposta foi "Moranga, Mãe Solo" (Moranga, a filha Uvinha, o pai Abacaxi e a avó Dona Banana).
+  **Por enquanto, só novelas de WhatsApp.**
