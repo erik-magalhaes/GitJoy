@@ -21,3 +21,23 @@ Ela chamou QUEM pra festa?? 😳 Parte 4
 **Parte 5**
 O áudio que a família inteira ouviu 🎧 Parte 5
 #novelinha #sogra #historiasdowhatsapp #fy #drama
+
+**Parte 6**
+Ela pagava aluguel… de um apê emprestado 😳 Parte 6
+#novelinha #sogra #historiasdowhatsapp #fy #drama
+
+**Parte 7**
+Onde foi parar o dinheiro? 💸 Parte 7
+#novelinha #sogra #historiasdowhatsapp #fy #drama
+
+**Parte 8**
+A tia contou TUDO 👀 Parte 8
+#novelinha #sogra #historiasdowhatsapp #fy #drama
+
+**Parte 9**
+O áudio que era pra outra pessoa 😬 Parte 9
+#novelinha #sogra #historiasdowhatsapp #fy #drama
+
+**Parte 10**
+O final que ninguém esperava 🥹 Parte 10
+#novelinha #sogra #historiasdowhatsapp #fy #drama
