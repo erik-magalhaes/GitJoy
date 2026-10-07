@@ -34,8 +34,9 @@ GREEN, BLUE, GRAY = (22, 163, 74), (44, 120, 200), (110, 112, 122)
 KRAFT, KRAFT_D, INK = (214, 178, 128), (120, 82, 44), (52, 32, 18)
 LUCKY, POP, POPB, SEMI = "LuckiestGuy-Regular.ttf", "Poppins-ExtraBold.ttf", "Poppins-Black.ttf", \
     "Poppins-SemiBold.ttf"
+ACERVO = open(os.path.join(ROOT, "assets", "acervo_bons.txt")).read().split()  # caixas bem recortadas
 TODAS = ["7_wonders_duel", "azul_duel", "camel_up_second_edition", "cartographers", "clank_catacombs", "dixit",
-         "everdell_duo", "flamecraft", "harmonies", "hive", "hot_streak", "king_of_tokyo", "marvel_united",
+         "everdell_duo", "flamecraft", "harmonies", "hive", "hot_streak", "king_of_tokyo",
          "mlem_space_agency", "nekojima", "root", "santorini", "ticket_to_ride", "wingspan"]
 
 
@@ -84,7 +85,10 @@ def font(n, s):
 
 @lru_cache(None)
 def caixa(n, h):
-    im = Image.open(os.path.join(C, n + ".png")).convert("RGBA")
+    p = os.path.join(C, n + ".png")
+    if not os.path.exists(p):  # caixas menores do acervo inteiro (parede do final)
+        p = os.path.join(ROOT, "assets", "acervo", n + ".png")
+    im = Image.open(p).convert("RGBA")
     return im.resize((max(2, int(im.width * h / im.height)), int(h)), Image.LANCZOS)
 
 
@@ -424,7 +428,7 @@ def cena_modernos(img, t):
     selo_tag(img, "todos", "NINGUÉM É ELIMINADO", 540, 1500, t, a + 3.8, GREEN, 50, balanco(t, a + 3.8, 6))
 
 
-TIPOS = [("dixit", "FESTA", "risada", ORANGE), ("marvel_united", "COOPERATIVO", "maos", BLUE),
+TIPOS = [("dixit", "FESTA", "risada", ORANGE), ("the_goonies_never_say_die", "COOPERATIVO", "maos", BLUE),
          ("root", "ESTRATÉGIA", "cerebro", GREEN)]
 
 
@@ -578,11 +582,12 @@ def parede_cheia():
     img = parede().copy()
     d = ImageDraw.Draw(img)
     rng = np.random.default_rng(7)
+    fila = list(rng.permutation(ACERVO))  # cada caixa aparece uma vez só
     for r in range(8):
         y = 300 + r * 230
         x = 20 + rng.uniform(-40, 0)
         while x < W:
-            n = TODAS[int(rng.integers(len(TODAS)))]
+            n = fila.pop()
             b = caixa_s(n, 180)
             img.alpha_composite(b, (int(x), int(y - 180 - 18)))
             x += caixa(n, 180).width - 8
