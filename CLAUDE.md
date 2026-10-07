@@ -205,3 +205,8 @@ O nome "Print Vazado" fazia o **TikTok bloquear a conta**, então evite nomes co
   (o erro dele é **mentir**, não ser gay). A Débora é irmã da Pati. A amiga ia se chamar "Ju", mas a voz Ava não pronuncia "Ju", então virou Juli.
   O dono **sempre** percebe personagem que aparece sem apresentação: apresente todo mundo antes de usar.
   `VOZES` e `PRONUNCIA` podem ser definidos por novela no `roteiro.py`.
+- **Lote com 3 novelas (5 partes cada, prontas):** **Amigo Secreto** (`amigo/`, Thalita e Antonio; o 🎅 fala com voz de homem
+  como disfarce; o Papai Noel é a estagiária Bianca, porque o gerente roubou a campanha dela; pista: 17:59), **Match** (`match/`, Ava e Brian;
+  o match de costas na praia é o novo chefe; ele pede transferência) e **Grupo das Mães** (`maes/`, Francisca e Antonio; a tesoureira
+  Jaqueline usou a vaquinha da festa junina no aniversário do filho, e o Marcos, o único pai do grupo, entrega sem querer).
+  Use `("chip", "DOMINGO")` para trocar o dia no meio da conversa. Foto com legenda e `zoom=True` fica na tela enquanto a legenda é lida.
