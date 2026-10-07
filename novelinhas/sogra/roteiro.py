@@ -86,7 +86,7 @@ def orcamento():
         d.text((70, 370 + i * 64), "•  " + l, font=zap.inter(38, 450), fill=(40, 40, 40))
     d.line([(50, 715), (w - 50, 715)], fill=(220, 220, 220), width=3)
     d.text((50, 740), "TOTAL", font=zap.inter(40, 700), fill=(20, 20, 20))
-    d.text((w - 50, 740), "R$ 4.850,00", font=zap.inter(40, 800), fill=(20, 20, 20), anchor="ra")
+    d.text((w - 50, 740), "R$ 4.850,00", font=zap.inter(40, 800), fill=(20, 20, 20), anchor="ra")
     d.rounded_rectangle((50, 840, w - 50, 960), 18, fill=(255, 235, 238))
     zap.texto_rico(im, 80, 868, "🤫 SURPRESA: não contar pro aniversariante!", zap.inter(36, 750), (198, 40, 40))
     return im.convert("RGB")
@@ -143,7 +143,7 @@ def print_conversa(titulo, cor, msgs, hora="10:29", dono="neide"):
 def print_golpe():
     return print_conversa("Recupera Já 💰", (46, 125, 50), (
         ("golpe", "Sra. Neide, ÓTIMA NOTÍCIA! Conseguimos recuperar o seu investimento 💰", "10:21"),
-        ("golpe", "Para liberar o valor, pague a taxa de R$ 3.000,00 via PIX até as 12h. Depois disso o valor é perdido.", "10:21"),
+        ("golpe", "Para liberar o valor, pague a taxa de R$ 3.000,00 via PIX até as 12h. Depois disso o valor é perdido.", "10:21"),
         ("neide", "Graças a Deus!! Vou fazer agora", "10:28"),
     ))
 
@@ -158,7 +158,7 @@ def escritura():
     d.text((w / 2, 90), "ESCRITURA DE COMPRA E VENDA", font=zap.inter(40, 800), fill=(60, 50, 30), anchor="mm")
     d.text((w / 2, 140), "2º Tabelionato de Notas", font=zap.inter(28, 450), fill=(110, 95, 70), anchor="mm")
     linhas = [("Imóvel:", "Apartamento 52, Bloco B"), ("", "Residencial Jardim das Flores"),
-              ("Valor:", "R$ 280.000,00"), ("Data:", "15 de março de 2024")]
+              ("Valor:", "R$ 280.000,00"), ("Data:", "15 de março de 2024")]
     y = 230
     for a, b in linhas:
         d.text((70, y), a, font=zap.inter(32, 700), fill=(60, 50, 30))
@@ -399,10 +399,10 @@ EPISODIOS += [
         ("chat", "bia", "12:30", "HOJE"),
         ("msg", "camila", "Bia, a gente vai ter que se mudar em 30 dias 😭"),
         ("msg", "bia", "Já tô procurando! Olha esse:", dict(dig=0.4)),
-        ("foto", "bia", "ape1.jpg", "2 quartos, perto do metrô. R$ 2.300"),
+        ("foto", "bia", "ape1.jpg", "2 quartos, perto do metrô. R$ 2.300"),
         ("msg", "camila", "Bonito! Mas é mais caro que a parcela..."),
         ("msg", "bia", "E esse aqui?"),
-        ("foto", "bia", "ape2.jpg", "Esse tem até lareira kkkk R$ 9.800"),
+        ("foto", "bia", "ape2.jpg", "Esse tem até lareira kkkk R$ 9.800"),
         ("msg", "camila", "Bia, eu tô falando sério 😑"),
         ("msg", "bia", "Brincadeira! Amanhã a gente visita o primeiro."),
         ("chat", "rafa", "18:05", "HOJE"),

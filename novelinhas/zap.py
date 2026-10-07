@@ -82,7 +82,7 @@ def tokens(txt):
         if EMO_RE.fullmatch(parte):
             out.append(("e", parte))
         else:
-            for w in re.split(r"(\s+)", parte):
+            for w in re.split(r"([ \t\n]+)", parte):   # espaço inseparável (R$ 10) não quebra linha
                 if w:
                     out.append(("t", w))
     return out
