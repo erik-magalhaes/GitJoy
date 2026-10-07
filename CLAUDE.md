@@ -186,6 +186,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **Correções pedidas:** (1) recortes com sobra laranja (Flamecraft): resolvido "descascando" de fora para dentro as regiões
   com cor de fundo/sombra ligadas à borda antes do casco convexo; (2) **não dizer "jogo bom é caro"** (existe jogo bom e barato).
   A fala ficou "os jogos modernos costumam ser caros... por isso alugar faz tanto sentido".
+  (3) Marvel United saía torto porque a foto do site é só a arte da capa, sem a caixa 3D (vale para todos os Marvel United):
+  trocado por The Goonies (cooperativo). (4) A parede do final repetia caixas: agora usa `assets/acervo/` (105 caixas
+  diferentes e bem recortadas, de 161; a lista está em `assets/acervo_bons.txt`, escolhida no olho, porque a medida
+  automática `sobra_laranja` confunde arte laranja com sobra). Recorte em lote: `python3 recortes_caixas.py acervo`.
   **Fotos das caixas:** o site da Sua Vez (`/boardgames?page=N`) tem renders 3D de 1024 px em fundo laranja liso;
   `recortes_caixas.py` recorta com GrabCut + modelo do degradê + remoção da sombra + casco convexo. Caixas laranja
   (Cores com Dicas, Patchwork, Sushi Go, Splendor, Dinosaur Island) saem com sobra e foram descartadas.
