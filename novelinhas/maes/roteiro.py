@@ -185,7 +185,7 @@ EPISODIOS = [
         ("msg", "renata", "Paula. A Jaqueline mentiu. O envelope ficou com ela o tempo todo."),
         ("msg", "paula", "Eu sabia que tinha coisa! Mas cadê o dinheiro?", dict(dig=0.3)),
         ("msg", "renata", "Não sei. Ela disse que a decoração ainda não foi comprada..."),
-        ("msg", "paula", "Disse, né? 🤔"),
+        ("msg", "paula", "Ela disse, né? 🤔"),
         ("chat", "grupo", "09:00", "HOJE"),
         ("msg", "marcos", "Bom dia! Ontem o Pedro foi no aniversário do Enzo, filho da Jaqueline."),
         ("msg", "marcos", "Que decoração linda! Igualzinha à da festa junina 🤠🎉", dict(dig=0.8)),
