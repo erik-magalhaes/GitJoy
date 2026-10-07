@@ -40,6 +40,12 @@ def recorta(path):
     bgm, fgm = np.zeros((1, 65), np.float64), np.zeros((1, 65), np.float64)
     cv2.grabCut(img, mask, None, bgm, fgm, 5, cv2.GC_INIT_WITH_MASK)
     m = np.isin(mask, (cv2.GC_FGD, cv2.GC_PR_FGD)).astype(np.uint8) & ~sombra
+    # descasca de fora para dentro tudo que tem cor de fundo/sombra e está ligado ao fundo
+    # (é o que deixava pedaços laranja grudados na caixa, como no Flamecraft)
+    descasca = (sombra | (dist < 14)).astype(np.uint8)
+    n_, lab2, _, _ = cv2.connectedComponentsWithStats(descasca, connectivity=4)
+    externos = set(np.unique(np.r_[lab2[0], lab2[-1], lab2[:, 0], lab2[:, -1]])) - {0}
+    m = m & ~np.isin(lab2, list(externos))
     m = cv2.morphologyEx(m.astype(np.uint8), cv2.MORPH_OPEN, np.ones((7, 7), np.uint8))
     n, lab_, st, _ = cv2.connectedComponentsWithStats(m)
     m = (lab_ == 1 + np.argmax(st[1:, 4])).astype(np.uint8)
@@ -54,6 +60,6 @@ def recorta(path):
 
 if __name__ == "__main__":
     os.makedirs(P, exist_ok=True)
-    for f in sorted(glob.glob(os.path.join(F, "*.jpg"))):
+    for f in sorted(glob.glob(os.path.join(F, "*.jpg"))):  # (as caixas laranja já foram descartadas)
         recorta(f)
     print("ok")

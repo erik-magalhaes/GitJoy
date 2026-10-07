@@ -483,9 +483,9 @@ def cena_caro(img, t):
     jx, jy, jr = jit(t, 2, 30)
     v = ease(seg(t, a, a + 0.6))
     cola(img, caixa_s("wingspan", 760), 540 + jx, lerp(1500, 860, v) + jy, -4 + jr)
-    cola(img, titulo("SÓ QUE TEM UM PORÉM...", 80), 540, 220, -2, pop(t, a + 0.1))
+    cola(img, titulo("SÓ QUE TEM UM DETALHE...", 80), 540, 220, -2, pop(t, a + 0.1))
     if u >= 2.0:
-        cola(img, titulo("JOGO BOM É CARO!", 96, (255, 215, 60), (120, 20, 20)), 540, 360, 2, pop(t, a + 2.0))
+        cola(img, titulo("NA LOJA, COSTUMA\nSAIR CARO!", 84, (255, 215, 60), (120, 20, 20)), 540, 395, 2, pop(t, a + 2.0))
     if u >= 3.4:
         cola_topo(img, preco("NA LOJA", "R$ 400", GRAY, 420), 770, 1180, balanco(t, a + 3.4, 16), pop(t, a + 3.4))
         cola(img, kraft("a partir de R$ 377 nas lojas online", 30, CREAM, INK), 400, 1500, -2, pop(t, a + 3.8))
@@ -499,11 +499,11 @@ def cena_aluga(img, t):
     jx, jy, jr = jit(t, 2, 30)
     cola(img, caixa_s("wingspan", 760), 540 + jx, 860 + jy, -4 + jr)
     cola_topo(img, preco("NA LOJA", "R$ 400", GRAY, 420, riscado=u >= 1.6), 770, 1180, balanco(t, a + 1.6, 10))
-    cola(img, titulo("NA SUA VEZ:", 100, WHITE, ORANGE_D), 540, 230, -2, pop(t, a + 0.1))
+    cola(img, titulo("POR ISSO, ALUGA!", 100, WHITE, ORANGE_D), 540, 230, -2, pop(t, a + 0.1))
     if u >= 1.0:
         cola_topo(img, preco("5 DIAS", "R$ 45", ORANGE, 440), 330, 1260, balanco(t, a + 1.0, 18), pop(t, a + 1.0))
     if u >= 4.2:
-        cola(img, kraft("GOSTOU? COMPRA SABENDO\nQUE VALE A PENA!", 46, (40, 140, 70), WHITE), 540, 400, 2,
+        cola(img, kraft("GOSTOU? AÍ VOCÊ COMPRA\nSEM MEDO DE ERRAR!", 46, (40, 140, 70), WHITE), 540, 400, 2,
              pop(t, a + 4.2))
         cola(img, icone("ok", 60, GREEN), 880, 330, 0, pop(t, a + 4.5))
 
@@ -665,8 +665,8 @@ ROTEIRO = [
     "Os jogos modernos são outra coisa: regras simples, partidas rápidas, e ninguém fica eliminado esperando a vez.",
     "Tem jogo de festa pra dar risada, cooperativo pra jogar junto, e estratégia pra quem gosta de pensar.",
     "Tem até jogo pra dois, perfeito pro casal... e jogo pra jogar sozinho.",
-    "Só que tem um porém: jogo bom é caro! Um Wingspan sai por uns 400 reais na loja.",
-    "Na Sua Vez, você aluga ele por 45 reais e joga 5 dias. Gostou? Aí compra sabendo que vale a pena.",
+    "Só que os jogos modernos costumam ser caros: um Wingspan, por exemplo, sai por uns 400 reais na loja.",
+    "Por isso alugar faz tanto sentido: na Sua Vez, ele sai por 45 reais, com 5 dias pra jogar. Gostou? Aí você compra sem medo de errar.",
     "E quanto mais jogos, mais dias: 3 jogos, 7 dias. 5, 10. E 7 jogos, 15 dias, pelo mesmo preço!",
     "São mais de 160 jogos no acervo. E aí, qual desses você jogaria primeiro? Comenta aqui!",
     "Reserva online, retira em Mauá ou recebe em casa: aluga na Sua Vez, o link tá na bio!",
