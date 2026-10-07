@@ -660,7 +660,38 @@ def frame_at(t):
 # ---------------------------------------------------------------- narração, legendas e render
 TIMELINE_PATH = os.path.join(ROOT, "narracao", "timeline.json")
 TIMELINE = json.load(open(TIMELINE_PATH, encoding="utf-8")) if os.path.exists(TIMELINE_PATH) else None
-SUBS = []
+ROTEIRO = [
+    "Jogo de tabuleiro é só Banco Imobiliário e Detetive? Então senta aí, que você tá perdendo muita coisa!",
+    "Os jogos modernos são outra coisa: regras simples, partidas rápidas, e ninguém fica eliminado esperando a vez.",
+    "Tem jogo de festa pra dar risada, cooperativo pra jogar junto, e estratégia pra quem gosta de pensar.",
+    "Tem até jogo pra dois, perfeito pro casal... e jogo pra jogar sozinho.",
+    "Só que tem um porém: jogo bom é caro! Um Wingspan sai por uns 400 reais na loja.",
+    "Na Sua Vez, você aluga ele por 45 reais e joga 5 dias. Gostou? Aí compra sabendo que vale a pena.",
+    "E quanto mais jogos, mais dias: 3 jogos, 7 dias. 5, 10. E 7 jogos, 15 dias, pelo mesmo preço!",
+    "São mais de 160 jogos no acervo. E aí, qual desses você jogaria primeiro? Comenta aqui!",
+    "Reserva online, retira em Mauá ou recebe em casa: aluga na Sua Vez, o link tá na bio!",
+]
+
+
+def default_subs():
+    """Legendas do roteiro distribuídas pela cena (prévia sem voz)."""
+    out = []
+    for (a, b), txt in zip(SCENES, ROTEIRO):
+        chunks, cur = [], []
+        for w in txt.split():
+            cur.append(w)
+            if len(" ".join(cur)) > 34 or w[-1] in ".?!:":
+                chunks.append(" ".join(cur))
+                cur = []
+        if cur:
+            chunks.append(" ".join(cur))
+        span = (b - a - 0.6) / len(chunks)
+        for k, ch in enumerate(chunks):
+            out.append((a + 0.3 + k * span, a + 0.3 + (k + 1) * span, ch))
+    return out
+
+
+SUBS = default_subs()
 if TIMELINE:
     DUR = TIMELINE["duracao"]
     SUBS = [tuple(x) for x in TIMELINE["legendas"]]

@@ -24,7 +24,7 @@ def trim(a, sr, thr_db=-38, pad=0.08):
     return a
 
 
-def encurta_pausas(a, sr, thr_db=-40, maxp=0.3):
+def encurta_pausas(a, sr, thr_db=-40, maxp=0.45):
     """Pausas internas longas (vírgula/ponto da voz sintetizada) viram no máximo maxp segundos."""
     win = int(0.02 * sr)
     e = np.sqrt(np.convolve(a ** 2, np.ones(win) / win, "same"))
