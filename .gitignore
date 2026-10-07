@@ -19,3 +19,5 @@ hotstreak-reels/out_vetor_teste.png
 hotstreak-reels/narracao/raw/*.wav
 hotstreak-reels/narracao/tmp_*.wav
 hobby-reels/out/
+hobby-reels/narracao/raw/*.mp3
+hobby-reels/narracao/tmp_*.wav

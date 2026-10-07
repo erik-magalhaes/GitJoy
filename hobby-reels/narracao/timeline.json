@@ -1,0 +1,228 @@
+{
+ "duracao": 64.687,
+ "cenas": [
+  [
+   0.0,
+   7.0,
+   0.0,
+   6.696
+  ],
+  [
+   7.0,
+   14.0,
+   6.696,
+   13.71
+  ],
+  [
+   14.0,
+   20.5,
+   13.71,
+   20.09
+  ],
+  [
+   20.5,
+   26.0,
+   20.09,
+   25.309
+  ],
+  [
+   26.0,
+   32.2,
+   25.309,
+   31.396
+  ],
+  [
+   32.2,
+   40.0,
+   31.396,
+   39.123
+  ],
+  [
+   40.0,
+   49.5,
+   39.123,
+   48.59
+  ],
+  [
+   49.5,
+   56.4,
+   48.59,
+   55.346
+  ],
+  [
+   56.4,
+   65.4,
+   55.346,
+   64.687
+  ]
+ ],
+ "voz": [
+  {
+   "frase": 1,
+   "arquivo": "narracao/frase_01.wav",
+   "inicio": 0.3
+  },
+  {
+   "frase": 2,
+   "arquivo": "narracao/frase_02.wav",
+   "inicio": 6.996
+  },
+  {
+   "frase": 3,
+   "arquivo": "narracao/frase_03.wav",
+   "inicio": 14.01
+  },
+  {
+   "frase": 4,
+   "arquivo": "narracao/frase_04.wav",
+   "inicio": 20.39
+  },
+  {
+   "frase": 5,
+   "arquivo": "narracao/frase_05.wav",
+   "inicio": 25.609
+  },
+  {
+   "frase": 6,
+   "arquivo": "narracao/frase_06.wav",
+   "inicio": 31.696
+  },
+  {
+   "frase": 7,
+   "arquivo": "narracao/frase_07.wav",
+   "inicio": 39.423
+  },
+  {
+   "frase": 8,
+   "arquivo": "narracao/frase_08.wav",
+   "inicio": 48.89
+  },
+  {
+   "frase": 9,
+   "arquivo": "narracao/frase_09.wav",
+   "inicio": 55.646
+  }
+ ],
+ "legendas": [
+  [
+   0.3,
+   2.32,
+   "Jogo de tabuleiro é só Banco Imobiliário"
+  ],
+  [
+   2.32,
+   5.16,
+   "e Detetive? Então senta aí, que você tá perdendo"
+  ],
+  [
+   5.16,
+   5.97,
+   "muita coisa!"
+  ],
+  [
+   7.0,
+   8.81,
+   "Os jogos modernos são outra coisa:"
+  ],
+  [
+   8.96,
+   11.44,
+   "regras simples, partidas rápidas, e ninguém"
+  ],
+  [
+   11.44,
+   12.95,
+   "fica eliminado esperando a vez."
+  ],
+  [
+   14.01,
+   16.41,
+   "Tem jogo de festa pra dar risada, cooperativo"
+  ],
+  [
+   16.41,
+   19.3,
+   "pra jogar junto, e estratégia pra quem gosta de pensar."
+  ],
+  [
+   20.39,
+   23.06,
+   "Tem até jogo pra dois, perfeito pro casal..."
+  ],
+  [
+   23.19,
+   24.58,
+   "e jogo pra jogar sozinho."
+  ],
+  [
+   25.61,
+   26.8,
+   "Só que tem um porém:"
+  ],
+  [
+   26.91,
+   28.27,
+   "jogo bom é caro!"
+  ],
+  [
+   28.27,
+   30.78,
+   "Um Wingspan sai por uns 400 reais na loja."
+  ],
+  [
+   31.7,
+   34.08,
+   "Na Sua Vez, você aluga ele por 45 reais e"
+  ],
+  [
+   34.08,
+   36.49,
+   "joga 5 dias. Gostou?"
+  ],
+  [
+   36.68,
+   38.41,
+   "Aí compra sabendo que vale a pena."
+  ],
+  [
+   39.42,
+   41.29,
+   "E quanto mais jogos, mais dias:"
+  ],
+  [
+   41.46,
+   43.13,
+   "3 jogos, 7 dias."
+  ],
+  [
+   43.36,
+   47.81,
+   "5, 10. E 7 jogos, 15 dias, pelo mesmo preço!"
+  ],
+  [
+   48.89,
+   51.41,
+   "São mais de 160 jogos no acervo."
+  ],
+  [
+   51.41,
+   53.58,
+   "E aí, qual desses você jogaria primeiro?"
+  ],
+  [
+   53.81,
+   54.64,
+   "Comenta aqui!"
+  ],
+  [
+   55.65,
+   58.05,
+   "Reserva online, retira em Mauá ou recebe"
+  ],
+  [
+   58.05,
+   61.0,
+   "em casa: aluga na Sua Vez, o link tá na bio!"
+  ]
+ ]
+}

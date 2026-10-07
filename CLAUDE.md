@@ -67,6 +67,7 @@ tudo antes de começar um vídeo novo: aqui está o que funcionou, o que não fu
 | `sintonia-reels/` | Sintonia | **Motion graphics vetorial**, com os balões "CLARO!" na hora da discussão | Aprovado, 1:03 |
 | `mlem-reels/` (`gibi.py`) | MLEM: Agência Espacial | **Gibi**: página de quadrinhos em que a câmera dá zoom num quadro por vez e o foguete atravessa os quadros com fumaça | Aprovado, 1:06 |
 | `architects-reels/` (`stopmo.py`) | 7 Wonders Arquitetos | **Stop motion** com as peças oficiais sobre **papel quadriculado** (tema "prancheta"), com textos em fita crepe escritos à mão | Prévia aprovada; falta a narração |
+| `hobby-reels/` (`ludoteca.py`) | Institucional: o que são jogos modernos + preço loja × aluguel + prazo progressivo | **Estante da ludoteca** (opção 1): caixas do acervo em prateleiras de madeira, caixas saindo em stop motion, etiquetas kraft e de preço | Narração **sintetizada** (pedido dele) |
 
 Comandos comuns: `python3 <script>.py --frame T [T2 ...]` (quadros de teste em `out/frames.jpg`), `--only preview`
 e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **não vai pro git**.
@@ -172,4 +173,15 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   buzina de DQ). Transição: bandeira quadriculada. A prévia foi mandada e estamos esperando os 9 áudios
   (`hs_narracao_NN`). Gravador:
   `https://raw.githack.com/erik-magalhaes/GitJoy/24baf7085f0f95b8c9618b54b379541b9fecb2b5/hotstreak-reels/gravador/Gravar_narracao_HotStreak.html`.
+- **Reels do hobby (`hobby-reels/`):** ele pediu um vídeo explicando os jogos modernos para quem não conhece o hobby,
+  com a comparação de preço (loja × aluguel) e a promoção progressiva. Escolheu o visual 1 (estante) e pediu que **eu mesmo
+  fizesse a narração, "sem cara de IA"**. Voz: `pt-BR-AntonioNeural` (edge-tts), gerada por `gerar_voz.py`. O edge-tts
+  funciona pelo proxy com o CA `/root/.ccr/ca-bundle.crt` (veja `tts.py`). Para soar natural: velocidade +12–16% e tom
+  variando por fala, pausas internas cortadas para ≤0,3 s (`tratar_narracao.encurta_pausas`) e escrita fonética
+  ("Uíngspan"). Amostras das vozes (Antonio, Thalita, Francisca) foram mandadas e ele ficou com a primeira.
+  **Fotos das caixas:** o site da Sua Vez (`/boardgames?page=N`) tem renders 3D de 1024 px em fundo laranja liso;
+  `recortes_caixas.py` recorta com GrabCut + modelo do degradê + remoção da sombra + casco convexo. Caixas laranja
+  (Cores com Dicas, Patchwork, Sushi Go, Splendor, Dinosaur Island) saem com sobra e foram descartadas.
+  **Preços (out/2026):** aluguel de R$ 15, 30, 45 ou 60 por 5 dias, com 160 jogos no acervo; Wingspan a partir de R$ 377 nas lojas
+  (Compara Jogos) e R$ 45 no aluguel; Clank! Catacombs a partir de R$ 422 (R$ 45); Hot Streak a partir de R$ 279 (R$ 30).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
