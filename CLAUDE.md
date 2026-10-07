@@ -189,3 +189,6 @@ O nome "Print Vazado" fazia o **TikTok bloquear a conta**, então evite nomes co
 - O certificado do proxy precisa estar no certifi (`/root/.ccr/ca-bundle.crt`) para o edge-tts funcionar.
 - As fotos são de domínio público, buscadas pela API do Openverse com `license=cc0,pdm` (veja `assets/fotos/CREDITOS.md`). Pexels e Unsplash bloqueiam.
 - O fim de cada parte precisa ser **claro**: na versão antiga, a Parte 1 terminava em "achei uma coisa" e ele não entendeu. Mostre o que foi achado (o print) e deixe o gancho.
+- **2ª temporada (Partes 6 a 10), ideia do dono:** o apartamento é da Dona Neide, que deixa o casal morar **de graça**, mas o Rafael
+  cobrava da Camila metade de um "aluguel" falso para pagar escondido a dívida do golpe que a mãe sofreu. Termina com a Camila grávida.
+  As legendas do TikTok (curtas, com 5 tags) estão em `sogra/legendas_tiktok.md`. Mande a legenda junto de cada parte.
