@@ -181,7 +181,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   ("Uíngspan"). Amostras das vozes (Antonio, Thalita, Francisca) foram mandadas e ele ficou com a primeira.
   **Resultado: ele achou as vozes "muito robóticas" e decidiu narrar ele mesmo.** Não ofereça voz sintetizada de novo
   sem ele pedir. A versão sintetizada ficou guardada em `narracao_tts/`. O fluxo voltou ao normal: prévia sem voz +
-  gravador `gravador/Gravar_narracao_Hobby.html` (arquivos `hobby_narracao_NN`).
+  gravador `gravador/Gravar_narracao_Hobby.html` (arquivos `hobby_narracao_NN`):
+  `https://raw.githack.com/erik-magalhaes/GitJoy/2c131099f2a86bfa7996b301d34477809fefcbec/hobby-reels/gravador/Gravar_narracao_Hobby.html`.
   **Fotos das caixas:** o site da Sua Vez (`/boardgames?page=N`) tem renders 3D de 1024 px em fundo laranja liso;
   `recortes_caixas.py` recorta com GrabCut + modelo do degradê + remoção da sombra + casco convexo. Caixas laranja
   (Cores com Dicas, Patchwork, Sushi Go, Splendor, Dinosaur Island) saem com sobra e foram descartadas.
