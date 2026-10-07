@@ -34,7 +34,7 @@ C = dict(
     texto=(17, 27, 33), hora=(102, 119, 129), azul=(83, 189, 235), cinza_check=(140, 150, 156),
     chip=(255, 255, 255), teclado=(206, 210, 217), tecla=(255, 255, 255), amarelo=(255, 214, 0),
     preto=(18, 18, 18), pilula=(255, 255, 255), chip_txt=(84, 101, 111), linha=(225, 225, 225), tecla_txt=(30, 30, 30),
-    icone=(84, 101, 111), sistema=(255, 245, 196),
+    icone=(84, 101, 111), sistema=(255, 245, 196), transcricao=(70, 82, 90),
 )
 
 # tema escuro do WhatsApp (usado no terror)
@@ -43,6 +43,7 @@ ESCURO = dict(
     sub=(134, 150, 160), in_=(32, 44, 51), out=(0, 92, 75), texto=(233, 237, 239), hora=(134, 150, 160),
     chip=(24, 34, 40), teclado=(28, 28, 30), tecla=(70, 70, 74), pilula=(42, 57, 66), chip_txt=(134, 150, 160),
     linha=(42, 57, 66), tecla_txt=(235, 235, 235), icone=(174, 186, 193), sistema=(24, 34, 40),
+    transcricao=(200, 208, 212),
 )
 
 
@@ -495,10 +496,10 @@ def balao_audio(hora, saida, rabo, dur, prog, quem, cor_av, transcricao=None, no
     x0 = pad + (30 if not saida else 128)
     cy = y + 52
     if tocando:
-        d.rectangle((x0, cy - 20, x0 + 10, cy + 20), fill=(84, 101, 111))
-        d.rectangle((x0 + 20, cy - 20, x0 + 30, cy + 20), fill=(84, 101, 111))
+        d.rectangle((x0, cy - 20, x0 + 10, cy + 20), fill=C["icone"])
+        d.rectangle((x0 + 20, cy - 20, x0 + 30, cy + 20), fill=C["icone"])
     else:
-        d.polygon([(x0, cy - 22), (x0 + 34, cy), (x0, cy + 22)], fill=(84, 101, 111))
+        d.polygon([(x0, cy - 22), (x0 + 34, cy), (x0, cy + 22)], fill=C["icone"])
     ox = x0 + 58
     barras = _onda(hash(quem + hora) % 1000)
     larg_onda = 380
@@ -519,7 +520,7 @@ def balao_audio(hora, saida, rabo, dur, prog, quem, cor_av, transcricao=None, no
         yt = y + 128
         d.line([(pad + 26, yt - 4), (pad + w - 26, yt - 4)], fill=(230, 230, 230), width=2)
         for i, ln in enumerate(linhas_tr):
-            desenha_linha(im, pad + 28, yt + round(f_tr.size * 1.0) + i * lh, ln, f_tr, (70, 82, 90))
+            desenha_linha(im, pad + 28, yt + round(f_tr.size * 1.0) + i * lh, ln, f_tr, C["transcricao"])
     return im, pad
 
 

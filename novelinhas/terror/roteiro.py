@@ -52,14 +52,7 @@ def _assombrar(nome, brilho=0.45, seed=1):
 @functools.lru_cache(None)
 def foto_dormindo():
     """A foto da Júlia dormindo, tirada do corredor."""
-    im = _assombrar("corredor.jpg", 0.55, 3)
-    d = ImageDraw.Draw(im)
-    # silhueta da cama e de alguém deitado, no fundo do quarto
-    w, h = im.size
-    d.rectangle((w * 0.55, h * 0.62, w * 0.92, h * 0.80), fill=(38, 40, 38))
-    d.ellipse((w * 0.57, h * 0.56, w * 0.64, h * 0.66), fill=(60, 62, 58))
-    d.rectangle((w * 0.62, h * 0.60, w * 0.90, h * 0.66), fill=(70, 72, 66))
-    return im.filter(ImageFilter.GaussianBlur(1.0))
+    return _assombrar("corredor.jpg", 0.55, 3).filter(ImageFilter.GaussianBlur(0.8))
 
 
 @functools.lru_cache(None)
