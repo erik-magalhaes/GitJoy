@@ -34,6 +34,8 @@ PERSONAGENS = {
     "jessica": dict(nome="Jéssica", cor=(194, 24, 91)),
     "narrador": dict(nome="Narrador", cor=(0, 0, 0)),
     "golpe": dict(nome="Recupera Já", cor=(46, 125, 50)),
+    "celia": dict(nome="Dona Célia", cor=(239, 108, 0)),
+    "consultor": dict(nome="Consultor Júnior", cor=(21, 101, 192)),
 }
 
 MEMBROS = "Dona Neide, Tia Rosana, Diego, Rafa, Você"
@@ -49,6 +51,9 @@ CHATS = {
     "rosana": dict(dono="neide", titulo="Rosana irmã 🙏", com="rosana", sub="online"),
     "jessica": dict(dono="camila", titulo="+55 11 98472-3310", com="jessica", sub="online"),
     "rosana_c": dict(dono="camila", titulo="Tia Rosana", com="rosana", sub="online"),
+    "mae_c": dict(dono="camila", titulo="Mãe 💕", com="celia", sub="online"),
+    "familia2": dict(dono="camila", titulo="Família Souza 🙏", grupo=True,
+                     sub="Dona Neide, Dona Célia, Tia Rosana, Diego, Rafa, Você"),
 }
 
 
@@ -174,6 +179,69 @@ def escritura():
     d.ellipse((cx - 110, cy - 110, cx + 110, cy + 110), outline=(170, 40, 40), width=8)
     d.text((cx, cy - 16), "REGISTRADO", font=zap.inter(30, 800), fill=(170, 40, 40), anchor="mm")
     d.text((cx, cy + 24), "CARTÓRIO", font=zap.inter(24, 600), fill=(170, 40, 40), anchor="mm")
+    return im
+
+
+@functools.lru_cache(None)
+def print_consultor():
+    """O contato que aplicou o golpe na Neide (o número é o do Diego)."""
+    return print_conversa("+55 11 97733-1029", (21, 101, 192), (
+        ("consultor", "Dona Neide, aqui é o Júnior, consultor de investimentos 💼", "14:02"),
+        ("consultor", "Investimento garantido: o seu dinheiro DOBRA em 30 dias 💰", "14:02"),
+        ("neide", "Que bênção! Pra onde eu faço o PIX?", "14:10"),
+        ("consultor", "Pra conta da nossa parceira: Rosa Bela Cosméticos 🙏", "14:11"),
+    ), hora="14:12")
+
+
+@functools.lru_cache(None)
+def comprovante_pix():
+    """Comprovante do PIX do golpe que a Bia consegue no banco."""
+    w, h = 820, 1080
+    im = Image.new("RGB", (w, h), (255, 255, 255))
+    d = ImageDraw.Draw(im)
+    d.rectangle((0, 0, w, 140), fill=(50, 50, 60))
+    d.text((w / 2, 70), "Comprovante de transferência", font=zap.inter(42, 700), fill=(255, 255, 255), anchor="mm")
+    d.text((60, 190), "PIX enviado", font=zap.inter(34, 500), fill=(110, 110, 110))
+    d.text((60, 240), "R$ 48.000,00", font=zap.inter(76, 800), fill=(20, 20, 20))
+    d.text((60, 345), "12 de março de 2024 · 14:15", font=zap.inter(30, 450), fill=(110, 110, 110))
+    d.line([(60, 410), (w - 60, 410)], fill=(225, 225, 225), width=3)
+    y = 450
+    for rotulo, valor, destaque in (("De", "NEIDE APARECIDA SOUZA", False), ("Para", "ROSA BELA COSMÉTICOS LTDA", True),
+                                    ("CNPJ", "41.552.870/0001-63", False), ("Chave PIX", "rosabela.cosmeticos@gmail.com", False)):
+        d.text((60, y), rotulo, font=zap.inter(28, 500), fill=(120, 120, 120))
+        if destaque:
+            d.rounded_rectangle((50, y + 40, w - 50, y + 100), 10, fill=(255, 241, 118))
+        d.text((60, y + 46), valor, font=zap.inter(36, 750), fill=(20, 20, 20))
+        y += 135
+    d.text((w / 2, h - 50), "ID: E1234567820240312141500XA9", font=zap.inter(24, 400), fill=(150, 150, 150), anchor="mm")
+    return im
+
+
+@functools.lru_cache(None)
+def ultrassom():
+    """Ultrassom estilizado (leque escuro com ruído e o bebê sugerido)."""
+    import numpy as np
+    w, h = 900, 680
+    rnd = np.random.default_rng(4)
+    yy, xx = np.mgrid[0:h, 0:w]
+    cx, cy = w / 2, -80
+    r = np.hypot(xx - cx, yy - cy)
+    ang = np.degrees(np.arctan2(xx - cx, yy - cy))
+    leque = (r > 160) & (r < 720) & (np.abs(ang) < 38)
+    base = rnd.normal(70, 40, (h, w)).clip(0, 255)
+    base = base * (0.6 + 0.4 * np.sin(r / 9) ** 2)
+    # bolsa escura e o bebê (cabeça + corpo) mais claros
+    bolsa = ((xx - 450) / 230) ** 2 + ((yy - 360) / 170) ** 2 < 1
+    base[bolsa] *= 0.25
+    cab = ((xx - 380) / 70) ** 2 + ((yy - 340) / 64) ** 2 < 1
+    corpo = ((xx - 500) / 105) ** 2 + ((yy - 395) / 62) ** 2 < 1
+    base[cab | corpo] = rnd.normal(190, 30, (cab | corpo).sum()).clip(0, 255)
+    img = np.where(leque, base, 0).astype(np.uint8)
+    im = Image.fromarray(img).filter(ImageFilter.GaussianBlur(1.6)).convert("RGB")
+    d = ImageDraw.Draw(im)
+    d.text((24, 20), "BEBÊ SOUZA", font=zap.inter(30, 700), fill=(230, 230, 230))
+    d.text((24, 60), "12 SEMANAS", font=zap.inter(26, 500), fill=(200, 200, 200))
+    d.text((w - 24, 20), "♀", font=zap.inter(44, 700), fill=(255, 140, 190), anchor="ra")
     return im
 
 
@@ -504,6 +572,156 @@ EPISODIOS += [
         ("msg", "camila", "Eu tô grávida."),
         ("msg", "bia", "QUÊ????? 😱😱", dict(dig=0.3)),
         ("msg", "bia", "A DONA NEIDE VAI SER AVÓ?? 😂", dict(dig=0.6)),
+        ("pausa", 2.6),
+    ]),
+]
+
+
+# ------------------------------------------------------------------ 3ª temporada (final): as avós e os golpistas
+# A gravidez é real; a Dona Célia (mãe da Camila) chega e briga com a Dona Neide; a Bia descobre que o dinheiro do golpe
+# foi para a Rosa Bela Cosméticos, da Tia Rosana, e que o "consultor" que ligava para a Neide era o Diego.
+MEMBROS2 = (("chip", "ONTEM"), ("neide", "Eu levo o arroz. Bem soltinho 🌻", "18:05"))
+EPISODIOS += [
+    # ---------------------------------------------------------------------------------------------- 11
+    dict(parte=11, nome="Vai ser vó", eventos=[
+        ("chat", "rafa", "18:20", "HOJE", (("chip", "ONTEM"), ("rafael", "Te amo. Obrigado por tudo ❤️", "23:40"))),
+        ("msg", "camila", "Amor, vem cedo pra casa hoje. Tenho uma surpresa."),
+        ("msg", "rafael", "Surpresa boa ou ruim? 😅", dict(dig=0.4)),
+        ("msg", "camila", "Boa. A melhor de todas."),
+        ("msg", "camila", "Você vai ser pai ❤️", dict(dig=0)),
+        ("digitando", "rafael", 1.6),
+        ("msg", "rafael", "É SÉRIO???", dict(dig=0.2)),
+        ("msg", "rafael", "Tô saindo do trabalho AGORA 😭😭", dict(dig=0.3)),
+        ("msg", "rafael", "Eu vou ser o melhor pai do mundo, amor."),
+        ("chat", "familia", "20:10", "HOJE"),
+        ("msg", "rafael", "Família, a gente tem uma notícia: a Camila tá grávida! 👶"),
+        ("msg", "neide", "EU VOU SER AVÓ 😭🙏", dict(dig=0.3)),
+        ("msg", "neide", "Já vou começar o enxoval amanhã!"),
+        ("msg", "rosana", "Que bênção!! Eu já quero ser a madrinha ❤️"),
+        ("msg", "diego", "Parabéns, primo! 🍼"),
+        ("chat", "rosana_c", "20:25"),
+        ("msg", "rosana", "Camila, querida, parabéns de novo! 🥰"),
+        ("msg", "rosana", "Vou te dar um kit da Rosa Bela Cosméticos de presente. É a minha marca, sabia? 💄"),
+        ("msg", "camila", "Que fofa, tia! Obrigada ❤️"),
+        ("chat", "mae_c", "21:02", "HOJE", (("chip", "DOMINGO"), ("celia", "Filha, me liga quando puder 💕", "10:15"))),
+        ("msg", "celia", "FILHA???", dict(dig=0.3)),
+        ("msg", "celia", "Eu vou ser avó e fiquei sabendo pelo STATUS da sua sogra??"),
+        ("msg", "camila", "Mãe, eu ia te ligar agora! Ela foi mais rápida 🤦‍♀️"),
+        ("msg", "celia", "Ah, é assim? Pois amanhã eu pego o ônibus. Vou ficar um mês aí pra ajudar."),
+        ("chat", "neide", "21:30", None, MEMBROS2),
+        ("msg", "neide", "Camila, a sua mãe vem ficar aí?", dict(dig=0.6)),
+        ("msg", "neide", "UM MÊS??", dict(dig=0.4)),
+        ("msg", "neide", "Quem vai cuidar do MEU neto sou eu 🙏", dict(dig=0.8)),
+        ("pausa", 2.4),
+    ]),
+    # ---------------------------------------------------------------------------------------------- 12
+    dict(parte=12, nome="As duas avós", eventos=[
+        ("chat", "familia2", "10:05", "HOJE"),
+        ("sistema", "Camila adicionou Dona Célia"),
+        ("msg", "celia", "Bom dia, família! Cheguei pra ajudar a minha filha 💕"),
+        ("msg", "neide", "Seja bem-vinda, Célia. Já comprei o berço 🙏"),
+        ("msg", "celia", "Não precisava, Neide. Eu trouxe o berço que era da Camila. Tem valor sentimental."),
+        ("msg", "neide", "Se for menino, vai se chamar Rafael Júnior."),
+        ("msg", "celia", "Nada disso. Vai ser João, o nome do meu pai."),
+        ("msg", "neide", "E o quarto vai ser azul."),
+        ("msg", "celia", "Rosa, Neide. ROSA."),
+        ("msg", "diego", "kkkkkkkk briga de avó", dict(dig=0.3, ler=False, pausa=0.8)),
+        ("msg", "rafael", "Gente, quem escolhe o nome somos nós dois 🙏"),
+        ("chat", "bia", "11:40", "HOJE"),
+        ("msg", "camila", "Bia, tem DUAS avós brigando dentro da minha casa. Socorro."),
+        ("msg", "bia", "KKKKKK eu avisei que avó em dobro é guerra", dict(dig=0.3, ler=False, pausa=0.8)),
+        ("msg", "camila", "Agora uma quer fazer chá de bebê e a outra quer fazer chá revelação. No mesmo dia."),
+        ("msg", "bia", "Amiga, muda de assunto um pouco. Tenho uma novidade."),
+        ("msg", "bia", "Consegui no banco os comprovantes dos PIX do golpe da Dona Neide."),
+        ("msg", "camila", "Sério?? Dá pra saber quem recebeu?"),
+        ("msg", "bia", "Dá. E eu acho que você não vai gostar."),
+        ("msg", "camila", "Fala logo, Bia!"),
+        ("digitando", "bia", 1.8),
+        ("msg", "bia", "Amiga...", dict(dig=0.3)),
+        ("msg", "bia", "Você conhece alguma \"Rosa Bela Cosméticos\"?", dict(dig=0.8)),
+        ("pausa", 2.6),
+    ]),
+    # ---------------------------------------------------------------------------------------------- 13
+    dict(parte=13, nome="Rosa Bela", eventos=[
+        ("chat", "bia", "11:44", None, (("chip", "HOJE"), ("bia", "Consegui no banco os comprovantes dos PIX do golpe da Dona Neide.", "11:42"),
+                                        ("bia", "Você conhece alguma \"Rosa Bela Cosméticos\"?", "11:43"))),
+        ("msg", "camila", "Conheço."),
+        ("msg", "camila", "É a marca da Tia Rosana. Ela me ofereceu um kit semana passada."),
+        ("foto", "bia", comprovante_pix, None, dict(pausa=3.6, h_max=760, zoom=True)),
+        ("msg", "bia", "Todos os PIX do golpe foram pra essa conta. Quarenta e oito mil reais."),
+        ("msg", "bia", "Eu pesquisei o CNPJ. A dona da empresa é Rosana Aparecida Souza."),
+        ("msg", "camila", "Não pode ser. Foi ela que me CONTOU do golpe!"),
+        ("msg", "bia", "Exatamente. Quem conta a história primeiro, ninguém desconfia."),
+        ("msg", "camila", "Meu Deus... \"A Neide não pode saber que fui eu.\""),
+        ("chat", "familia2", "15:30", "HOJE"),
+        ("msg", "neide", "O chá revelação vai ser sábado, lá em casa 💙💗"),
+        ("msg", "celia", "Sábado é o chá de bebê, Neide. Já mandei os convites."),
+        ("msg", "neide", "Então a gente faz junto. Mas o bolo é meu 🙏"),
+        ("msg", "celia", "Combinado. Mas a decoração é minha 💕"),
+        ("msg", "celia", "E a madrinha vai ser a minha irmã."),
+        ("msg", "neide", "A madrinha já é a Rosana!"),
+        ("msg", "rosana", "Eu levo os lembrancinhas da Rosa Bela! 💄"),
+        ("chat", "rosana_c", "16:10", None, (("chip", "SEXTA"), ("rosana", "Vou te dar um kit da Rosa Bela Cosméticos de presente. É a minha marca, sabia? 💄", "20:25"))),
+        ("audio", "rosana", "Camila, querida! Fiquei sabendo que a Bia foi no banco essa semana, né? Ela descobriu alguma coisa "
+                            "sobre o golpe da Neide? Me conta, viu? Eu tô tão preocupada..."),
+        ("rascunho", "Não, tia. Nada ainda", 1.2),
+        ("pausa", 2.4),
+    ]),
+    # ---------------------------------------------------------------------------------------------- 14
+    dict(parte=14, nome="O rapaz do telefone", eventos=[
+        ("chat", "rosana_c", "16:12", None, (("chip", "HOJE"),
+                                             ("rosana", "Me conta, viu? Eu tô tão preocupada... 🙏", "16:10"))),
+        ("msg", "camila", "Ainda não, tia. O banco tá demorando."),
+        ("msg", "rosana", "Ah, que pena. Qualquer coisa me avisa primeiro, tá? 😘"),
+        ("chat", "rafa", "19:00", "HOJE"),
+        ("msg", "camila", "Amor, preciso te mostrar uma coisa. É sobre a sua tia."),
+        ("msg", "camila", "O dinheiro do golpe foi pra empresa dela. A Rosa Bela."),
+        ("digitando", "rafael", 1.8),
+        ("msg", "rafael", "A Tia Rosana me criou junto com a minha mãe. Não pode ser.", dict(dig=0.3)),
+        ("msg", "camila", "Lembra do áudio dela? \"Um rapaz falou com a Neide pelo celular.\""),
+        ("msg", "camila", "Eu pedi pra sua mãe o print da conversa com o tal consultor."),
+        ("foto", "camila", print_consultor, None, dict(pausa=3.8, h_max=760, w=700, zoom=True)),
+        ("msg", "camila", "Esse número. Você conhece?"),
+        ("digitando", "rafael", 2.2),
+        ("msg", "rafael", "É o número do Diego.", dict(dig=0.3)),
+        ("msg", "rafael", "O meu primo. Meu Deus, Camila."),
+        ("msg", "rafael", "Ele almoçou na casa da minha mãe todo domingo nesses dois anos."),
+        ("msg", "camila", "Enquanto gastava o dinheiro dela."),
+        ("msg", "rafael", "O que a gente faz?"),
+        ("msg", "camila", "A Bia já tá preparando tudo pra levar na delegacia."),
+        ("msg", "camila", "Sábado, no chá, a família inteira vai estar lá."),
+        ("msg", "rafael", "Inclusive eles."),
+        ("msg", "camila", "Então é lá que a gente conta."),
+        ("chat", "rosana_c", "22:15"),
+        ("msg", "rosana", "Camila, sábado eu vou levar o Diego no chá, tá? Ele tá tão animado pra ser tio 😘"),
+        ("rascunho", "Pode trazer, tia", 1.2),
+        ("pausa", 2.4),
+    ]),
+    # ---------------------------------------------------------------------------------------------- 15
+    dict(parte=15, nome="O chá revelação", fim_texto="Fim", eventos=[
+        ("chat", "familia2", "16:00", "SÁBADO"),
+        ("msg", "neide", "Família, o chá começa às cinco! 💙💗"),
+        ("msg", "camila", "Antes do chá, a família precisa saber de uma coisa."),
+        ("foto", "camila", comprovante_pix, None, dict(pausa=3.0, h_max=620, zoom=True)),
+        ("msg", "camila", "O dinheiro do golpe da Dona Neide foi pra Rosa Bela Cosméticos. A empresa da Tia Rosana."),
+        ("msg", "camila", "E o \"consultor\" que ligava pra ela era o Diego."),
+        ("msg", "rosana", "Isso é mentira!!", dict(dig=0.3)),
+        ("apagar", "rosana"),
+        ("msg", "diego", "mãe eu te falei que ia dar ruim", dict(dig=0.3)),
+        ("apagar", "diego"),
+        ("msg", "celia", "Diego... a gente leu, meu filho.", dict(dig=0.5)),
+        ("msg", "rafael", "Tia, a senhora comeu na mesa da minha mãe por dois anos. Com o dinheiro dela."),
+        ("sistema", "Tia Rosana saiu"),
+        ("sistema", "Diego saiu"),
+        ("msg", "bia", "Eu já levei tudo pra delegacia. O dinheiro vai voltar, Dona Neide."),
+        ("audio", "neide", "A minha própria irmã... Camila, você salvou essa família de novo. Você é a filha que eu não tive."),
+        ("msg", "celia", "Neide, conta comigo. Desculpa a briga do berço ❤️"),
+        ("msg", "neide", "Fica o seu berço, Célia. E o chá é das duas 🙏"),
+        ("chat", "familia2", "17:40"),
+        ("foto", "rafael", ultrassom, "É uma MENINA! 💗"),
+        ("msg", "neide", "😭😭😭", dict(dig=0.3, ler=False, pausa=0.8)),
+        ("msg", "camila", "E o nome dela vai ser... Neide Célia ❤️"),
+        ("msg", "celia", "Agora EU vou chorar 😭", dict(dig=0.3)),
         ("pausa", 2.6),
     ]),
 ]

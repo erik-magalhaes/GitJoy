@@ -21,7 +21,7 @@ MULHER = ("pt-BR-ThalitaMultilingualNeural", "+0%", "+0Hz")
 HOMEM = ("pt-BR-AntonioNeural", "+0%", "+0Hz")
 ELENCO = {
     "narrador": HOMEM, "camila": MULHER, "neide": MULHER, "rafael": HOMEM, "bia": MULHER,
-    "rosana": MULHER, "diego": HOMEM, "lucas": HOMEM, "jessica": MULHER,
+    "rosana": MULHER, "diego": HOMEM, "lucas": HOMEM, "jessica": MULHER, "celia": MULHER, "consultor": HOMEM,
 }
 
 # Palavras que a voz pronuncia errado: a tela mostra a grafia certa, a voz lê a outra.
