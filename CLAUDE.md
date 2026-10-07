@@ -182,7 +182,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **Resultado: ele achou as vozes "muito robóticas" e decidiu narrar ele mesmo.** Não ofereça voz sintetizada de novo
   sem ele pedir. A versão sintetizada ficou guardada em `narracao_tts/`. O fluxo voltou ao normal: prévia sem voz +
   gravador `gravador/Gravar_narracao_Hobby.html` (arquivos `hobby_narracao_NN`):
-  `https://raw.githack.com/erik-magalhaes/GitJoy/2c131099f2a86bfa7996b301d34477809fefcbec/hobby-reels/gravador/Gravar_narracao_Hobby.html`.
+  `https://raw.githack.com/erik-magalhaes/GitJoy/bfa6b27128ef7ce4e1690c26d256c9957c564344/hobby-reels/gravador/Gravar_narracao_Hobby.html`.
+  **Correções pedidas:** (1) recortes com sobra laranja (Flamecraft): resolvido "descascando" de fora para dentro as regiões
+  com cor de fundo/sombra ligadas à borda antes do casco convexo; (2) **não dizer "jogo bom é caro"** (existe jogo bom e barato).
+  A fala ficou "os jogos modernos costumam ser caros... por isso alugar faz tanto sentido".
   **Fotos das caixas:** o site da Sua Vez (`/boardgames?page=N`) tem renders 3D de 1024 px em fundo laranja liso;
   `recortes_caixas.py` recorta com GrabCut + modelo do degradê + remoção da sombra + casco convexo. Caixas laranja
   (Cores com Dicas, Patchwork, Sushi Go, Splendor, Dinosaur Island) saem com sobra e foram descartadas.
