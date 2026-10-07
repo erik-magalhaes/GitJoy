@@ -12,7 +12,7 @@ F = os.path.join(ROOT, "assets", "caixas_foto")
 P = os.path.join(ROOT, "assets", "caixas")
 
 
-def recorta(path):
+def recorta(path, destino=None, altura=None):
     img = cv2.imread(path)
     h, w = img.shape[:2]
     lab = cv2.cvtColor(cv2.GaussianBlur(img, (5, 5), 0), cv2.COLOR_BGR2LAB).astype(np.float32)
@@ -55,10 +55,56 @@ def recorta(path):
     cv2.fillConvexPoly(full, cv2.convexHull(pts), 255)
     full = cv2.GaussianBlur(cv2.erode(full, np.ones((3, 3), np.uint8)), (3, 3), 0)
     rgba = Image.fromarray(np.dstack([cv2.cvtColor(img, cv2.COLOR_BGR2RGB), full]), "RGBA")
-    rgba.crop(rgba.getbbox()).save(os.path.join(P, os.path.basename(path)[:-4] + ".png"))
+    rgba = rgba.crop(rgba.getbbox())
+    if altura and rgba.height > altura:
+        rgba = rgba.resize((int(rgba.width * altura / rgba.height), altura), Image.LANCZOS)
+    out = os.path.join(destino or P, os.path.basename(path)[:-4] + ".png")
+    rgba.save(out)
+    return out
+
+
+def sobra_laranja(png):
+    """Fração da borda do recorte (faixa de 6 px por dentro) com cor de fundo laranja: >~4% é recorte ruim."""
+    im = np.asarray(Image.open(png).convert("RGBA"))
+    a = (im[..., 3] > 128).astype(np.uint8)
+    borda = a - cv2.erode(a, np.ones((13, 13), np.uint8))
+    if borda.sum() == 0:
+        return 1.0
+    hsv = cv2.cvtColor(np.ascontiguousarray(im[..., :3]), cv2.COLOR_RGB2HSV)
+    laranja = (hsv[..., 0] >= 5) & (hsv[..., 0] <= 22) & (hsv[..., 1] > 120) & (hsv[..., 2] > 110)
+    return float((laranja & (borda > 0)).sum() / borda.sum())
+
+
+def _lote(args):
+    f, destino = args
+    try:
+        out = recorta(f, destino, 420)
+        return os.path.basename(out), sobra_laranja(out), Image.open(out).size
+    except Exception as e:  # noqa: BLE001
+        return os.path.basename(f), 1.0, str(e)
+
+
+def acervo():
+    """Recorta todas as caixas do acervo (assets/acervo_foto -> assets/acervo, 420 px) e lista a qualidade."""
+    import json
+    from multiprocessing import Pool
+    src = os.path.join(ROOT, "assets", "acervo_foto")
+    dst = os.path.join(ROOT, "assets", "acervo")
+    os.makedirs(dst, exist_ok=True)
+    fs = sorted(glob.glob(os.path.join(src, "*.jpg")))
+    with Pool(4) as p:
+        res = p.map(_lote, [(f, dst) for f in fs])
+    q = {n: {"sobra": round(s, 4), "tam": t} for n, s, t in res}
+    json.dump(q, open(os.path.join(ROOT, "assets", "acervo_qualidade.json"), "w"), indent=0)
+    return q
 
 
 if __name__ == "__main__":
+    import sys
+    if sys.argv[1:] == ["acervo"]:
+        acervo()
+        print("ok")
+        sys.exit()
     os.makedirs(P, exist_ok=True)
     for f in sorted(glob.glob(os.path.join(F, "*.jpg"))):  # (as caixas laranja já foram descartadas)
         recorta(f)
