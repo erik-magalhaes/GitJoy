@@ -66,6 +66,8 @@ class Chat:
 class Ep:
     def __init__(self, serie, n):
         self.mod = importlib.import_module(f"{serie}.roteiro")
+        # cada novela pode ter as próprias vozes (VOZES = {personagem: (voz, velocidade, tom)})
+        vozes.ELENCO.update(getattr(self.mod, "VOZES", {}))
         self.serie, self.n = serie, n
         self.dados = self.mod.EPISODIOS[n - 1]
         self.p = self.mod.PERSONAGENS
