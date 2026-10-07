@@ -101,12 +101,15 @@ class Ep:
 
     # -------------------------------------------- roteiro -> linha do tempo
     def _monta(self):
+        self.t_fim = None
         for ev in self.dados["eventos"]:
             args, op = list(ev[1:]), {}
             if args and isinstance(args[-1], dict):
                 op = args.pop()
             getattr(self, "ev_" + ev[0])(*args, **op)
         self.dur = self.t
+        if self.t_fim is None:
+            self.t_fim = self.dur + 10
 
     def ev_gancho(self, titulo, texto, hora, narr):
         self.tela("bloqueio", hora)
@@ -147,14 +150,21 @@ class Ep:
             for h in historico:
                 if h[0] == "chip":
                     ch.itens.append(Item("chip", -1e9, texto=h[1]))
+                elif h[0] == "foto":
+                    _, quem, img, hh = h[:4]
+                    if isinstance(img, str):
+                        img = os.path.join(AQUI, "assets", "fotos", img)
+                    self._add(Item("foto", -1e9, quem, "", hh, quem == ch.dono,
+                                   extra=dict(img=img, h_max=h[4] if len(h) > 4 else 560, w=h[5] if len(h) > 5 else 600)))
                 else:
                     quem, txt, hh = h
                     self._add(Item("texto", -1e9, quem, txt, hh, quem == ch.dono, t_lido=-1e9))
         if chip:
             ch.itens.append(Item("chip", self.t + 0.3, texto=chip))
-        self.sfx.append((self.t, "whoosh", 0.5))
+        if self.telas:
+            self.sfx.append((self.t, "whoosh", 0.35))
         self.tela("chat", cid)
-        self.t += 0.5
+        self.t += 0.6 if len(self.telas) > 1 else 0.4
 
     def _add(self, it):
         ch = self.chat()
@@ -233,6 +243,18 @@ class Ep:
         else:
             self.t += op.get("pausa", 1.8)
 
+    def ev_rascunho(self, texto, segura=1.0):
+        """O dono do celular digita, hesita e apaga (sem enviar)."""
+        ch = self.chat()
+        dig = min(0.9, 0.25 + 0.03 * len(texto))
+        apaga = 0.5
+        ch.rascunhos.append((self.t, self.t + dig, texto))
+        ch.rascunhos.append((self.t + dig, self.t + dig + segura, texto + "\x00"))
+        ch.rascunhos.append((self.t + dig + segura, self.t + dig + segura + apaga, texto + "\x01"))
+        self.sfx.append((self.t, "teclas:%.2f" % dig, 0.6))
+        self.sfx.append((self.t + dig + segura, "teclas:%.2f" % apaga, 0.4))
+        self.t += dig + segura + apaga + 0.3
+
     def ev_digitando(self, quem, dur):
         self._digitando(quem, dur)
         self.t += dur + 0.15
@@ -300,7 +322,7 @@ class Ep:
         # a trilha some na tela final (fica só o tan-tan-tan) e entra suave no começo
         t = np.arange(n) / SR
         fade = np.clip(t / 1.5, 0, 1) * np.clip((self.t_fim - t) / 0.8 + 1, 0, 1)
-        mix = voz * 1.0 + fx * 0.55 + mus * 0.5 * duck * fade
+        mix = voz * 1.0 + fx * 0.5 + mus * 0.32 * duck * fade
         return mix.astype(np.float32)
 
     # -------------------------------------------- vídeo
@@ -527,10 +549,17 @@ class Ep:
         rasc = ""
         for t0, t1, s in ch.rascunhos:
             if t0 <= t < t1:
-                rasc = s[:max(1, int(len(s) * (t - t0) / (t1 - t0 - 0.12)))]
+                if s.endswith("\x00"):      # parado, cursor piscando
+                    rasc = s[:-1]
+                elif s.endswith("\x01"):    # apagando
+                    s = s[:-1]
+                    rasc = s[:max(0, int(len(s) * (1 - (t - t0) / (t1 - t0))))]
+                else:
+                    rasc = s[:max(1, int(len(s) * (t - t0) / (t1 - t0 - 0.12)))]
         zap.barra_entrada(im, rasc, cursor=bool(rasc) and int(t * 3) % 2 == 0)
         zap.teclado(im)
-        zap.banda_marca(im, self.mod.TITULO, f"Parte {self.dados['parte']}/5")
+        fim = self.dados.get("fim_texto", "Continua na Parte %d" % (self.dados["parte"] + 1))
+        zap.banda_parte(im, fim if t >= self.dur - 2.4 else f"Parte {self.dados['parte']}")
         return im.convert("RGB")
 
     # ---- camadas por cima: narrador e notificação

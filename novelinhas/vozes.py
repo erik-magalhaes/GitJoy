@@ -16,17 +16,18 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 CACHE = os.path.join(AQUI, "out", "cache")
 CA = "/root/.ccr/ca-bundle.crt"
 
-# Elenco: voz, velocidade e tom de cada personagem.
+# Elenco: só duas vozes, na velocidade e no tom naturais (acelerar ou mudar o tom deixa com cara de robô).
+MULHER = ("pt-BR-ThalitaMultilingualNeural", "+0%", "+0Hz")
+HOMEM = ("pt-BR-AntonioNeural", "+0%", "+0Hz")
 ELENCO = {
-    "narrador": ("pt-BR-AntonioNeural", "+12%", "-12Hz"),
-    "camila": ("pt-BR-ThalitaMultilingualNeural", "+22%", "+0Hz"),
-    "neide": ("pt-BR-FranciscaNeural", "+12%", "-10Hz"),
-    "rafael": ("pt-BR-AntonioNeural", "+20%", "+4Hz"),
-    "bia": ("pt-BR-FranciscaNeural", "+26%", "+14Hz"),
-    "rosana": ("pt-BR-FranciscaNeural", "+8%", "-22Hz"),
-    "diego": ("pt-BR-AntonioNeural", "+24%", "+16Hz"),
-    "lucas": ("pt-BR-AntonioNeural", "+20%", "+10Hz"),
-    "jessica": ("pt-BR-ThalitaMultilingualNeural", "+14%", "+12Hz"),
+    "narrador": HOMEM, "camila": MULHER, "neide": MULHER, "rafael": HOMEM, "bia": MULHER,
+    "rosana": MULHER, "diego": HOMEM, "lucas": HOMEM, "jessica": MULHER,
+}
+
+# Palavras que a voz pronuncia errado: a tela mostra a grafia certa, a voz lê a outra.
+PRONUNCIA = {
+    r"\blouça\b": "lôssa",
+    r"\bLouça\b": "Lôssa",
 }
 
 EMOJI = re.compile("[\U0001F000-\U0001FAFF☀-➿⬀-⯿️‍]")
@@ -36,7 +37,16 @@ def limpa(txt):
     """Texto que a voz lê: sem emoji, sem 'kkkk' repetido demais."""
     t = EMOJI.sub("", txt)
     t = re.sub(r"\b[kK]{4,}\b", "kkkk", t)
+    # palavra em CAIXA ALTA (grito no zap) a voz às vezes soletra: lê em minúsculas
+    t = re.sub(r"\b[A-ZÀ-Ý]{2,}\b", lambda m: m.group(0).lower(), t)
+    for a, b in PRONUNCIA.items():
+        t = re.sub(a, b, t)
     return re.sub(r"\s+", " ", t).strip()
+
+
+# Vozes multilíngues adivinham o idioma pela frase; em frase curta erram (leem "Neide" como "Night").
+# Então a fala é gerada com uma frase em português antes, que depois é cortada pelo tempo das palavras.
+PREFIXO = "Então, a mensagem que chegou diz assim:"
 
 
 def _gera(voz, rate, pitch, texto, mp3):
@@ -70,14 +80,23 @@ def fala(quem, texto):
     voz, rate, pitch = ELENCO[quem]
     texto = limpa(texto)
     os.makedirs(CACHE, exist_ok=True)
-    h = hashlib.md5(f"{voz}|{rate}|{pitch}|{texto}".encode()).hexdigest()[:16]
+    pre = PREFIXO if "Multilingual" in voz else ""
+    h = hashlib.md5(f"{voz}|{rate}|{pitch}|{pre}|{texto}".encode()).hexdigest()[:16]
     wav, js = os.path.join(CACHE, h + ".f32"), os.path.join(CACHE, h + ".json")
     if not os.path.exists(js):
         mp3 = os.path.join(CACHE, h + ".mp3")
-        palavras = _gera(voz, rate, pitch, texto, mp3)
+        multi = "Multilingual" in voz
+        palavras = _gera(voz, rate, pitch, (PREFIXO + " " + texto) if multi else texto, mp3)
         pcm = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", mp3, "-f", "f32le", "-ac", "1", "-ar", str(SR), "-"],
                              capture_output=True, check=True).stdout
         a = np.frombuffer(pcm, np.float32)
+        if multi:
+            n_pre = len(PREFIXO.split())
+            fim_pre = palavras[n_pre - 1][1]
+            ini_txt = palavras[n_pre][0] if len(palavras) > n_pre else fim_pre
+            corte = (fim_pre + ini_txt) / 2 if ini_txt - fim_pre > 0.05 else ini_txt - 0.02
+            a = a[int(corte * SR):]
+            palavras = [(s - corte, e - corte, w) for s, e, w in palavras[n_pre:]]
         # corta o silêncio do começo e do fim (o TTS deixa ~100 ms)
         env = np.abs(a) > 0.01
         ini = max(0, int(np.argmax(env)) - int(0.02 * SR)) if env.any() else 0

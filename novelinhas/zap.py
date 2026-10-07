@@ -614,3 +614,10 @@ def tarja(txt, tam=64, cor_txt=None, cor_fundo=None, maxw=900, destaque=None, an
     if ang:
         im = im.rotate(ang, resample=Image.BICUBIC, expand=True)
     return im
+
+
+def banda_parte(im, texto):
+    """Faixa preta discreta no topo com 'Parte N' (como nos perfis de série)."""
+    d = ImageDraw.Draw(im)
+    d.rectangle((0, 0, W, BANDA), fill=(0, 0, 0))
+    d.text((W / 2, BANDA / 2 + 6), texto, font=inter(40, 700), fill=(255, 255, 255), anchor="mm")
