@@ -195,3 +195,8 @@ O nome "Print Vazado" fazia o **TikTok bloquear a conta**, então evite nomes co
 - **3ª temporada (Partes 11 a 15, final):** gravidez real, a Dona Célia (mãe da Camila) entra para brigar com a Dona Neide, e o plot twist
   (ideia do dono) é que a **Tia Rosana** (pela empresa Rosa Bela Cosméticos) e o **Diego** (o "consultor" ao telefone) eram os golpistas. Termina no
   chá revelação: é uma menina, Neide Célia. **A Sogra Tem a Chave terminou nas 15 partes.** A próxima novela é uma história nova.
+- **Grupo Errado (`grupo/`, 5 partes, pronta):** a Bruna (74), que sabe que é amante, manda sem querer uma mensagem picante no grupo do
+  condomínio. O Marcelo (casado) está no grupo e desconversa marcando a esposa ("mudando de assunto... @Vera Síndica, e o elevador?").
+  A ideia da chantagem foi do dono: o Seu Osvaldo (51), ex-síndico com a senha das câmeras e devendo R$ 15 mil, chantageia a Bruna e
+  revela que a esposa é a síndica. A pista é a 🌹. Vozes próprias (ele escolheu **Ava e Brian multilíngues**, em `VOZES` no roteiro).
+  Tom picante **só na insinuação**. O dono presta atenção à coerência: nome e cargo de cada personagem, quem sabe o quê e quem está no grupo.
