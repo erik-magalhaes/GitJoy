@@ -87,7 +87,7 @@ def fala(quem, texto):
     voz, rate, pitch = ELENCO[quem]
     texto = limpa(texto)
     os.makedirs(CACHE, exist_ok=True)
-    pre = PREFIXO if "Multilingual" in voz else ""
+    pre = (PREFIXO + "|v2") if "Multilingual" in voz else ""
     h = hashlib.md5(f"{voz}|{rate}|{pitch}|{pre}|{texto}".encode()).hexdigest()[:16]
     wav, js = os.path.join(CACHE, h + ".f32"), os.path.join(CACHE, h + ".json")
     if not os.path.exists(js):
@@ -101,7 +101,8 @@ def fala(quem, texto):
             n_pre = len(PREFIXO.split())
             fim_pre = palavras[n_pre - 1][1]
             ini_txt = palavras[n_pre][0] if len(palavras) > n_pre else fim_pre
-            corte = (fim_pre + ini_txt) / 2 if ini_txt - fim_pre > 0.05 else ini_txt - 0.02
+            # corta logo depois do prefixo (o tempo da palavra seguinte vem um pouco atrasado e comia a consoante inicial)
+            corte = fim_pre + 0.25 * (ini_txt - fim_pre) if ini_txt - fim_pre > 0.05 else max(fim_pre, ini_txt - 0.08)
             a = a[int(corte * SR):]
             palavras = [(s - corte, e - corte, w) for s, e, w in palavras[n_pre:]]
         # corta o silêncio do começo e do fim (o TTS deixa ~100 ms)

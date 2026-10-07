@@ -1,7 +1,7 @@
 """Carlos Mecânico: novela em 5 partes do Compartilhado.
 
 A Pati vê no celular do marido (Ricardo) um "Carlos Mecânico 🔧" mandando coração. A temporada inteira as provas
-apontam para a melhor amiga, a Ju (brinco no carro, encontro no café, story "dia de oficina"). Na verdade a Ju
+apontam para a melhor amiga, a Juli (brinco no carro, encontro no café, story "dia de oficina"). Na verdade a Juli
 descobriu tudo por acaso e cobrava do Ricardo que contasse. O Carlos é mecânico de verdade, e o Ricardo se
 apaixonou por ele. O erro do Ricardo é mentir e trair, não gostar de um homem.
 """
@@ -17,18 +17,19 @@ TITULO = "Carlos Mecânico"
 
 AVA = ("en-US-AvaMultilingualNeural", "+0%", "+0Hz")
 BRIAN = ("en-US-BrianMultilingualNeural", "+0%", "+0Hz")
+PRONUNCIA = {r"Acácias, 120": "Acácias, número cento e vinte"}
 VOZES = {"pati": AVA, "ju": AVA, "debora": AVA, "ricardo": BRIAN, "carlos": BRIAN}
 
 PERSONAGENS = {
     "pati": dict(nome="Pati", cor=(194, 24, 91)),
     "ricardo": dict(nome="Ricardo", cor=(21, 101, 192)),
-    "ju": dict(nome="Ju", cor=(251, 140, 0)),
+    "ju": dict(nome="Juli", cor=(251, 140, 0)),
     "debora": dict(nome="Débora", cor=(123, 31, 162)),
     "carlos": dict(nome="Carlos", cor=(84, 110, 122)),
 }
 
 CHATS = {
-    "ju": dict(dono="pati", titulo="Ju 💛", com="ju", sub="online"),
+    "ju": dict(dono="pati", titulo="Juli 💛", com="ju", sub="online"),
     "rico": dict(dono="pati", titulo="Rico ❤️", com="ricardo", sub="online"),
     "de": dict(dono="pati", titulo="Dé (irmã) 💜", com="debora", sub="online"),
     "carlos_p": dict(dono="pati", titulo="+55 11 97310-5582", com="carlos", sub="online"),
@@ -94,7 +95,7 @@ def mapa():
 
 @functools.lru_cache(None)
 def story_ju():
-    """Story da Ju: 'Dia de oficina 🔧'."""
+    """Story da Juli: 'Dia de oficina 🔧'."""
     w, h = 720, 1280
     ft = Image.open(os.path.join(FOTOS, "oficina.jpg")).convert("RGB")
     fundo = ft.resize((round(ft.width * h / ft.height), h), Image.LANCZOS)
@@ -106,9 +107,9 @@ def story_ju():
     for i in range(2):
         x = 16 + i * (w - 32) / 2
         d.rounded_rectangle((x + 3, 20, x + (w - 32) / 2 - 3, 26), 3, fill=(255, 255, 255, 255 if i == 0 else 110))
-    av = zap.avatar("Ju", PERSONAGENS["ju"]["cor"], 64)
+    av = zap.avatar("Juli", PERSONAGENS["ju"]["cor"], 64)
     im.paste(av, (20, 44), av)
-    d.text((98, 86), "ju.martins", font=zap.inter(30, 700), fill=(255, 255, 255), anchor="ls")
+    d.text((98, 86), "juli.martins", font=zap.inter(30, 700), fill=(255, 255, 255), anchor="ls")
     d.text((262, 86), "5 h", font=zap.inter(28, 450), fill=(230, 230, 230), anchor="ls")
     txt = "Dia de oficina 🔧"
     f = zap.inter(50, 800)
@@ -124,8 +125,8 @@ EPISODIOS = [
     dict(parte=1, nome="O Carlos", eventos=[
         ("chat", "ju", "23:42", None, (("chip", "ONTEM"), ("ju", "Amanhã academia? 💪", "19:00"), ("pati", "Bora! 7h", "19:05"),
                                        ("chip", "HOJE"))),
-        ("msg", "pati", "Ju, tá acordada?"),
-        ("msg", "ju", "Tô. Que foi?", dict(dig=0.4)),
+        ("msg", "pati", "Juli, tá acordada?"),
+        ("msg", "ju", "Tô sim. Que foi?", dict(dig=0.4)),
         ("foto", "pati", notificacao, "Olha o que apareceu no celular do Rico agora 😳", dict(zoom=True, pausa=1.0, h_max=700, w=520)),
         ("digitando", "ju", 2.0),
         ("msg", "ju", "Carlos Mecânico?", dict(dig=0.3)),
@@ -133,8 +134,8 @@ EPISODIOS = [
         ("msg", "pati", "Brincadeira com coração?"),
         ("msg", "pati", "Ele saiu do banho, pegou o celular correndo e apagou a notificação na minha frente."),
         ("msg", "ju", "Amiga... conversa com ele amanhã. Com calma.", dict(dig=0.8)),
-        ("msg", "pati", "Você tá estranha, Ju."),
-        ("msg", "ju", "Tô com sono, só isso. Relaxa, o Rico te ama. Vou dormir, beijo!"),
+        ("msg", "pati", "Você tá estranha, Juli."),
+        ("msg", "ju", "Tô com sono, só isso. Relaxa, que o Rico te ama. Vou dormir, beijo!"),
         ("status", "visto por último hoje às 23:44"),
         ("chat", "rico", "08:10", "HOJE", (("chip", "ONTEM"), ("ricardo", "Chego tarde hoje, amor. Muito trabalho 😓", "18:20"))),
         ("msg", "pati", "Amor, quem é Carlos Mecânico?"),
@@ -142,7 +143,7 @@ EPISODIOS = [
         ("msg", "ricardo", "O cara que tá arrumando o meu carro, ué.", dict(dig=0.3)),
         ("msg", "pati", "E ele te manda coração?"),
         ("msg", "ricardo", "Ele é brincalhão, manda pra todo cliente 😂"),
-        ("msg", "pati", "Hum."),
+        ("msg", "pati", "Hum.", dict(ler=False, pausa=0.8)),
         ("msg", "ricardo", "Tá desconfiando de mim, Pati? Dez anos de casamento..."),
         ("msg", "pati", "Só perguntei, Ricardo."),
         ("chat", "carlos_p", "08:30"),
@@ -193,41 +194,41 @@ EPISODIOS = [
         ("msg", "pati", "Na oficina do CARLOS?"),
         ("digitando", "ju", 2.0),
         ("msg", "ju", "Que Carlos? Amiga, tô atrasada, depois a gente fala!", dict(dig=0.3)),
-        ("msg", "pati", "Ju??"),
+        ("msg", "pati", "Juli??"),
         ("status", "visto por último hoje às 14:09"),
         ("chat", "de", "15:10", "SÁBADO"),
         ("foto", "pati", mapa, "Localização dele agora: Café Grão Fino.", dict(zoom=True, pausa=1.0, h_max=640)),
         ("msg", "debora", "Tô a duas quadras. Vou lá.", dict(dig=0.4)),
         ("digitando", "debora", 2.4),
         ("foto", "debora", "cafe.jpg", "Tirei pela janela...", dict(zoom=True, pausa=1.0)),
-        ("msg", "debora", "Pati. Ele tá com a JU.", dict(dig=0.6)),
-        ("msg", "pati", "A JU?? Não pode ser. Olha direito, Dé!"),
+        ("msg", "debora", "Pati. Ele tá com a JULI.", dict(dig=0.6)),
+        ("msg", "pati", "A JULI?? Não pode ser. Olha direito, Dé!"),
         ("msg", "debora", "Sentados juntos. Ela segurando a mão dele."),
         ("msg", "pati", "Fica aí, Dé. Vê se mais alguém chega."),
         ("msg", "debora", "Não dá, o meu Uber chegou. Mas Pati... ele tava nervoso. E ela falando sem parar."),
         ("msg", "debora", "E olha o story que ela postou hoje cedo:"),
         ("foto", "debora", story_ju, None, dict(zoom=True, pausa=3.0, w=430, h_max=760)),
         ("msg", "pati", "Dia de oficina. Carlos MECÂNICO."),
-        ("msg", "pati", "Dé... a Ju é o Carlos. Ela tem outro número."),
+        ("msg", "pati", "Dé... a Juli é o Carlos. Ela tem outro número."),
         ("msg", "debora", "Meu Deus, Pati. A sua madrinha de casamento.", dict(dig=0.4)),
         ("pausa", 2.4),
     ]),
     # ---------------------------------------------------------------------------------------------- 4
     dict(parte=4, nome="A madrinha", eventos=[
         ("chat", "ju", "21:00", "HOJE"),
-        ("msg", "pati", "Ju. Para de mentir. Você é o Carlos Mecânico."),
+        ("msg", "pati", "Juli. Para de mentir. Você é o Carlos Mecânico."),
         ("digitando", "ju", 2.2),
-        ("msg", "ju", "O QUÊ?", dict(dig=0.2)),
+        ("msg", "ju", "O QUÊ?? Tá doida, Pati?", dict(dig=0.2)),
         ("msg", "pati", "O brinco no carro. O café. O story da oficina. A mão dele na sua."),
         ("msg", "ju", "Pati, eu não sou o Carlos."),
         ("msg", "ju", "Mas eu sei quem é.", dict(dig=0.8)),
-        ("msg", "pati", "Então fala! Quem é, Ju??"),
+        ("msg", "pati", "Então fala! Quem é, Juli??"),
         ("audio", "ju", "Amiga, eu descobri isso sem querer, faz um mês. Eu juro que pedi pra ele te contar. Hoje no café eu fui "
                         "justamente cobrar isso dele. Mas não sou eu que tenho que te contar, Pati. Tem que ser ele."),
-        ("msg", "pati", "Você é a minha madrinha de casamento, Ju!"),
+        ("msg", "pati", "Você é a minha madrinha de casamento, Juli!"),
         ("msg", "ju", "Por isso mesmo. Vai até a oficina. Rua das Acácias, 120."),
         ("chat", "rico", "21:30", "HOJE"),
-        ("msg", "pati", "Ricardo, eu sei que você se encontrou com a Ju hoje."),
+        ("msg", "pati", "Ricardo, eu sei que você se encontrou com a Juli hoje."),
         ("msg", "ricardo", "Pati, não é nada disso que você tá pensando.", dict(dig=0.5)),
         ("msg", "pati", "Então o que é??"),
         ("digitando", "ricardo", 2.0),
@@ -254,14 +255,14 @@ EPISODIOS = [
                              "Te enganar foi o meu erro. Você não merecia isso."),
         ("msg", "pati", "Dez anos, Ricardo. Eu só queria a verdade."),
         ("msg", "ricardo", "Eu sei. Eu vou sair de casa hoje."),
-        ("msg", "pati", "E a Ju?"),
-        ("msg", "ricardo", "A Ju só tentou me fazer te contar. Ela nunca fez nada de errado."),
+        ("msg", "pati", "E a Juli?"),
+        ("msg", "ricardo", "A Juli só tentou me fazer te contar. Ela nunca fez nada de errado."),
         ("chat", "ju", "20:00", "HOJE"),
-        ("msg", "pati", "Ju... me desculpa. Eu achei que era você."),
+        ("msg", "pati", "Juli... me desculpa. Eu achei que era você."),
         ("msg", "ju", "Eu entendo, amiga. Eu também teria achado.", dict(dig=0.5)),
         ("msg", "ju", "Como você tá?"),
         ("msg", "pati", "Destruída. Mas pelo menos agora eu sei a verdade."),
-        ("msg", "ju", "Vinho hoje? 🍷", dict(dig=0.4)),
+        ("msg", "ju", "Bora tomar um vinho hoje? 🍷", dict(dig=0.4)),
         ("msg", "pati", "Duas garrafas."),
         ("sistema", "Você alterou o nome do contato \"Rico ❤️\" para \"Ricardo\""),
         ("pausa", 2.4),

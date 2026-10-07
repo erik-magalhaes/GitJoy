@@ -68,6 +68,7 @@ class Ep:
         self.mod = importlib.import_module(f"{serie}.roteiro")
         # cada novela pode ter as próprias vozes (VOZES = {personagem: (voz, velocidade, tom)})
         vozes.ELENCO.update(getattr(self.mod, "VOZES", {}))
+        vozes.PRONUNCIA.update(getattr(self.mod, "PRONUNCIA", {}))
         self.serie, self.n = serie, n
         self.dados = self.mod.EPISODIOS[n - 1]
         self.p = self.mod.PERSONAGENS
@@ -237,12 +238,16 @@ class Ep:
         self._add(Item("foto", self.t, quem, legenda or "", op.get("hora") or self._hora(), saida,
                        extra=dict(img=img, h_max=op.get("h_max", 560), w=op.get("w", 600))))
         if op.get("zoom"):
-            self.zooms.append((self.t + 0.45, self.t + op.get("pausa", 1.8) + 0.1, img))
             self.sfx.append((self.t + 0.45, "whoosh", 0.4))
         if legenda:
             d, _ = self.voz(quem, legenda, self.t + 0.45)
+            if op.get("zoom"):  # com legenda, o zoom fica na tela enquanto ela é lida (mais um respiro)
+                self.zooms.append((self.t + 0.45, self.t + 0.45 + d + op.get("pausa", 1.0) + 0.8, img))
+                self.t += op.get("pausa", 1.0) + 0.8
             self.t += 0.45 + d + 0.25
         else:
+            if op.get("zoom"):
+                self.zooms.append((self.t + 0.45, self.t + op.get("pausa", 1.8) + 0.1, img))
             self.t += op.get("pausa", 1.8)
 
     def ev_rascunho(self, texto, segura=1.0):

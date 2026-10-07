@@ -43,6 +43,7 @@ for quem, texto in falas:
     vistos.add((quem, texto))
     a, _ = _orig(quem, texto)
     a16 = resample_poly(a, 160, 441).astype("float32")
+    a16 = __import__("numpy").concatenate([__import__("numpy").zeros(8000, "float32"), a16])  # sem pausa o Whisper engole a 1ª palavra
     segs, _ = w.transcribe(a16, language="pt", beam_size=5)
     ouvido = " ".join(s.text for s in segs)
     esp, ouv = norm(texto), norm(ouvido)
