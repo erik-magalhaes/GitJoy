@@ -216,6 +216,19 @@ O nome "Print Vazado" fazia o **TikTok bloquear a conta**, então evite nomes co
 - **3:33 (`terror/`, terror, pronta):** a Vó Cida morreu há 10 dias e foi enterrada com o celular, mas manda mensagens às 3h33 avisando do
   homem escondido no sótão. Usa `TEMA = "escuro"` (WhatsApp no modo escuro, `zap.usar_tema`), `TRILHA = "terror"` e áudio com
   `efeito="fantasma"`. A cantiga é "Nana, neném" (domínio público).
+- **A Festa Surpresa (`festa/`, Thalita e Antonio, pronta):** somem coisas da Carol (fone com 🌼, perfume, relógio de bolso do avô);
+  o namorado Bruno culpa o melhor amigo Vini (que tem a chave reserva). Ela faz festa surpresa no apê do Vini (com a Dani, que mora com
+  ele) e acha uma caixa com tudo. Reviravolta: o Bruno vendia as coisas no site "Desapega Já" e o Vini comprou de volta (PIX R$ 1.530).
+- **As Cadeiras (`cadeiras/`, comédia, causo real do dono, pronta):** o Léo compra cadeiras usadas; o Seu Valdir mostra um nude no
+  celular e depois manda foto de calcinha no meio dos móveis. A Bia (esposa) pega o celular e ele apaga todos os móveis, menos a calcinha.
+  Partes 4 e 5 inventadas: a Sônia (esposa do Valdir, voz Francisca) diz que a calcinha é dela, o Teco também recebeu, e ela vende tudo.
+  Foto proibida nunca aparece: `censurada()` (borrada + 🙈). `("apagar", quem, dict(pular=N))` poupa as N mensagens mais recentes.
+- **Número Desconhecido (`anonimo/`, terror estilo Pânico, modo escuro):** a turma do 3ºB, um ano depois do vídeo que humilhou o Enzo.
+  Assassinos: a Lari (irmã dele, finge ser a 1ª vítima) e o Pedro (namorado da Nina). Violência só implícita. A voz do número
+  desconhecido é distorcida com `EFEITO_VOZ = {"anonimo": "mascara"}` (`som.mascara`). Termina com "Fim?".
+- **O Portão (`pai/`, drama do pai ausente):** o Roberto sumiu quando o Gabriel tinha 7 anos (ele esperou no portão no aniversário de 8),
+  volta ao ver o neto Miguel no Facebook; tem leucemia; a Manu (meia-irmã) mostra as notas que ele nunca mandou; o Gabriel doa a medula.
+  Fim: "O portão vai estar aberto." / "Dessa vez eu chego."
 - **Novelinha de frutas (pausada):** ele quer as "pessoas-fruta" das novelas virais (Moranguete, Abacatudo, Fruit Love Island),
   com corpo humano realista e pele/cabeça de fruta. Esses vídeos são feitos com geradores de vídeo por IA (Veo 3, Kling, ~R$ 90/mês),
   que não temos aqui. As frutas 3D feitas no Blender (`frutas/f3d.py`, `pip install bpy`, Cycles a ~10 s/quadro) foram **rejeitadas**
