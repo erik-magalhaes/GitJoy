@@ -210,3 +210,9 @@ O nome "Print Vazado" fazia o **TikTok bloquear a conta**, então evite nomes co
   o match de costas na praia é o novo chefe; ele pede transferência) e **Grupo das Mães** (`maes/`, Francisca e Antonio; a tesoureira
   Jaqueline usou a vaquinha da festa junina no aniversário do filho, e o Marcos, o único pai do grupo, entrega sem querer).
   Use `("chip", "DOMINGO")` para trocar o dia no meio da conversa. Foto com legenda e `zoom=True` fica na tela enquanto a legenda é lida.
+- **O Irmão do Meio (`irmao/`, drama pesado, pronta):** o Tiago, desprezado pela família, pagava em silêncio o plano do pai, a faculdade
+  da Mari e o buffet das bodas, enquanto o Gustavo levava o crédito. Ele avisa "cada um paga as próprias contas", o pai sempre soube, e ele
+  compra uma casa. Voz: "buffet" é lido "bufê" (`PRONUNCIA` no roteiro).
+- **3:33 (`terror/`, terror, pronta):** a Vó Cida morreu há 10 dias e foi enterrada com o celular, mas manda mensagens às 3h33 avisando do
+  homem escondido no sótão. Usa `TEMA = "escuro"` (WhatsApp no modo escuro, `zap.usar_tema`), `TRILHA = "terror"` e áudio com
+  `efeito="fantasma"`. A cantiga é "Nana, neném" (domínio público).
