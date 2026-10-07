@@ -41,3 +41,23 @@ O áudio que era pra outra pessoa 😬 Parte 9
 **Parte 10**
 O final que ninguém esperava 🥹 Parte 10
 #novelinha #sogra #historiasdowhatsapp #fy #drama
+
+**Parte 11**
+Ela vai ser vó… e a outra avó também 👵👵 Parte 11
+#novelinha #sogra #historiasdowhatsapp #fy #drama
+
+**Parte 12**
+Duas avós, um berço 😤 Parte 12
+#novelinha #sogra #historiasdowhatsapp #fy #drama
+
+**Parte 13**
+Pra onde foi o dinheiro do golpe? 😱 Parte 13
+#novelinha #sogra #historiasdowhatsapp #fy #drama
+
+**Parte 14**
+O número era de quem?? 📱 Parte 14
+#novelinha #sogra #historiasdowhatsapp #fy #drama
+
+**Parte 15 (final)**
+O chá revelação que revelou TUDO 💙💗 Último capítulo
+#novelinha #sogra #historiasdowhatsapp #fy #drama

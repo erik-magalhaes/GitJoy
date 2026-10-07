@@ -28,6 +28,7 @@ ELENCO = {
 PRONUNCIA = {
     r"\blouça\b": "lôssa",
     r"\bLouça\b": "Lôssa",
+    r"\bPIX\b": "píquis",
 }
 
 EMOJI = re.compile("[\U0001F000-\U0001FAFF☀-➿⬀-⯿️‍]")

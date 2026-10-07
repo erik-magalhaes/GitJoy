@@ -375,7 +375,7 @@ def balao_texto(texto, hora, saida, rabo, nome=None, cor_nome=None, lido=True, e
     w_txt = max(ws) if ws else 0
     so_emoji = len(linhas) == 1 and all(t[0] == "e" or t[1].isspace() for t in linhas[0]) and len(linhas[0]) <= 3
     if so_emoji:  # emoji sozinho fica grande e sem balão
-        im = Image.new("RGBA", (300, 150), (0, 0, 0, 0))
+        im = Image.new("RGBA", (140 * len(linhas[0]) + 40, 150), (0, 0, 0, 0))
         f2 = inter(100)
         x = desenha_linha(im, 10, 118, linhas[0], f2, (0, 0, 0))
         im = im.crop((0, 0, round(x) + 20, 150))
