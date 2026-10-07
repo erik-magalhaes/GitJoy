@@ -55,15 +55,30 @@ def _cobre(im, w, h):
 
 @functools.lru_cache(None)
 def fone_margarida():
-    """O fone da Carol: a foto com o adesivo de margarida colado na concha."""
+    """O fone da Carol: adesivo de margarida (com borda branca de vinil) colado na concha esquerda, em perspectiva."""
     im = _foto("fone.jpg").convert("RGBA")
-    flor = zap.emoji_img("🌼", 150).rotate(-18, expand=True, resample=Image.BICUBIC)
-    sombra = Image.new("RGBA", flor.size, (0, 0, 0, 0))
-    sombra.putalpha(flor.getchannel("A").point(lambda a: a * 0.35))
-    sombra = sombra.filter(ImageFilter.GaussianBlur(5))
-    x, y = 585, 455
-    im.alpha_composite(sombra, (x + 5, y + 7))
-    im.alpha_composite(flor, (x, y))
+    flor = zap.emoji_img("🌼", 118)
+    # borda branca do adesivo: dilata o alfa
+    pad = 10
+    base = Image.new("RGBA", (flor.width + 2 * pad, flor.height + 2 * pad), (0, 0, 0, 0))
+    base.paste(flor, (pad, pad), flor)
+    a = base.getchannel("A").point(lambda v: 255 if v > 30 else 0).filter(ImageFilter.MaxFilter(15))
+    adesivo = Image.new("RGBA", base.size, (250, 250, 248, 0))
+    adesivo.putalpha(a)
+    adesivo.alpha_composite(base)
+    # perspectiva da concha (achatada na horizontal e levemente girada), e um pouco mais escuro (sombra do ambiente)
+    adesivo = adesivo.resize((round(adesivo.width * 0.7), adesivo.height), Image.LANCZOS).rotate(8, expand=True,
+                                                                                                 resample=Image.BICUBIC)
+    r, g, b, al = adesivo.split()
+    escurece = lambda c: c.point(lambda v: int(v * 0.88))
+    adesivo = Image.merge("RGBA", (escurece(r), escurece(g), escurece(b), al))
+    sombra = Image.new("RGBA", adesivo.size, (0, 0, 0, 0))
+    sombra.putalpha(adesivo.getchannel("A").point(lambda v: v * 0.4))
+    sombra = sombra.filter(ImageFilter.GaussianBlur(3))
+    cx, cy = 425, 568   # centro da concha esquerda (sobre o logo)
+    x, y = cx - adesivo.width // 2, cy - adesivo.height // 2
+    im.alpha_composite(sombra, (x + 3, y + 4))
+    im.alpha_composite(adesivo, (x, y))
     return im.convert("RGB")
 
 
