@@ -155,7 +155,7 @@ EPISODIOS = [
         ("apagar", "bruna"),
         ("msg", "sueli", "Apagou não adianta, eu li 👀👀", dict(dig=0.4)),
         ("msg", "osvaldo", "Boa noite. Que porta?"),
-        ("msg", "marcelo", "@Vera Síndica deu tudo certo com o técnico do elevador?"),
+        ("msg", "marcelo", "Bom, mudando de assunto... @Vera Síndica deu tudo certo com o técnico do elevador?"),
         ("msg", "vera", "Deu sim. Amanhã às 8h volta a funcionar."),
         ("msg", "sueli", "Ninguém quer saber de elevador agora kkkk"),
         ("msg", "sueli", "Quem é o perfumado do prédio??"),
