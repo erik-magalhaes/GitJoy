@@ -200,3 +200,8 @@ O nome "Print Vazado" fazia o **TikTok bloquear a conta**, então evite nomes co
   A ideia da chantagem foi do dono: o Seu Osvaldo (51), ex-síndico com a senha das câmeras e devendo R$ 15 mil, chantageia a Bruna e
   revela que a esposa é a síndica. A pista é a 🌹. Vozes próprias (ele escolheu **Ava e Brian multilíngues**, em `VOZES` no roteiro).
   Tom picante **só na insinuação**. O dono presta atenção à coerência: nome e cargo de cada personagem, quem sabe o quê e quem está no grupo.
+- **Carlos Mecânico (`mecanico/`, 5 partes, pronta):** a Pati passa a temporada desconfiando da melhor amiga, a **Juli**. As provas falsas são
+  o brinco no carro, o café de mãos dadas e o story "dia de oficina". No fim o Carlos é mesmo o mecânico, e o Ricardo se apaixonou por ele
+  (o erro dele é **mentir**, não ser gay). A Débora é irmã da Pati. A amiga ia se chamar "Ju", mas a voz Ava não pronuncia "Ju", então virou Juli.
+  O dono **sempre** percebe personagem que aparece sem apresentação: apresente todo mundo antes de usar.
+  `VOZES` e `PRONUNCIA` podem ser definidos por novela no `roteiro.py`.
