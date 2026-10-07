@@ -36,9 +36,14 @@ EMOJI = re.compile("[\U0001F000-\U0001FAFF☀-➿⬀-⯿️‍]")
 def limpa(txt):
     """Texto que a voz lê: sem emoji, sem 'kkkk' repetido demais."""
     t = EMOJI.sub("", txt)
-    t = re.sub(r"\b[kK]{4,}\b", "kkkk", t)
+    t = re.sub(r"\b[kK]{3,}\b", "", t)   # risada escrita a voz lê "ká-ká-ká": não lê
+    # dinheiro: "R$ 2.300" -> "dois mil e trezentos reais"
+    from num2words import num2words
+    t = re.sub(r"R\$\s?([\d.]+)(?:,(\d\d))?",
+               lambda m: num2words(int(m.group(1).replace(".", "")), lang="pt_BR") + " reais", t)
     # palavra em CAIXA ALTA (grito no zap) a voz às vezes soletra: lê em minúsculas
-    t = re.sub(r"\b[A-ZÀ-Ý]{2,}\b", lambda m: m.group(0).lower(), t)
+    siglas = {"CPF", "PIX", "MED", "DJ", "BO"}
+    t = re.sub(r"\b[A-ZÀ-Ý]{2,}\b", lambda m: m.group(0) if m.group(0) in siglas else m.group(0).lower(), t)
     for a, b in PRONUNCIA.items():
         t = re.sub(a, b, t)
     return re.sub(r"\s+", " ", t).strip()
