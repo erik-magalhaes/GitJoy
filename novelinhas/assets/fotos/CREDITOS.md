@@ -4,3 +4,4 @@ Fotos em domínio público / CC0 (busca no Openverse com license=cc0,pdm):
 - brinde.jpg, bolo.jpg, velas.jpg: rawpixel (domínio público)
 - ape1.jpg, ape2.jpg: Openverse (cc0/pdm), salas de apartamento
 - cafe.jpg, oficina.jpg: Openverse (cc0/pdm)
+- leo_praia.jpg, lanterna_chita.jpg, bandeirinhas.jpg: Openverse (cc0/pdm)
