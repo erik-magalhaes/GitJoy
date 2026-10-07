@@ -269,9 +269,11 @@ class Ep:
         self._digitando(quem, dur)
         self.t += dur + 0.15
 
-    def ev_apagar(self, quem):
+    def ev_apagar(self, quem, pular=0):
+        """Apaga a última mensagem de quem ainda não foi apagada (pular=N poupa as N mais recentes)."""
         ch = self.chat()
-        it = next(i for i in reversed(ch.itens) if i.quem == quem and i.tipo != "chip")
+        vivas = [i for i in reversed(ch.itens) if i.quem == quem and i.tipo != "chip" and i.t_apaga >= 1e9]
+        it = vivas[pular]
         it.t_apaga = self.t
         self.sfx.append((self.t, "apaga", 0.8))
         self.t += 0.8
