@@ -192,3 +192,6 @@ O nome "Print Vazado" fazia o **TikTok bloquear a conta**, então evite nomes co
 - **2ª temporada (Partes 6 a 10), ideia do dono:** o apartamento é da Dona Neide, que deixa o casal morar **de graça**, mas o Rafael
   cobrava da Camila metade de um "aluguel" falso para pagar escondido a dívida do golpe que a mãe sofreu. Termina com a Camila grávida.
   As legendas do TikTok (curtas, com 5 tags) estão em `sogra/legendas_tiktok.md`. Mande a legenda junto de cada parte.
+- **3ª temporada (Partes 11 a 15, final):** gravidez real, a Dona Célia (mãe da Camila) entra para brigar com a Dona Neide, e o plot twist
+  (ideia do dono) é que a **Tia Rosana** (pela empresa Rosa Bela Cosméticos) e o **Diego** (o "consultor" ao telefone) eram os golpistas. Termina no
+  chá revelação: é uma menina, Neide Célia. **A Sogra Tem a Chave terminou nas 15 partes.** A próxima novela é uma história nova.
