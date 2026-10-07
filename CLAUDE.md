@@ -173,3 +173,19 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   (`hs_narracao_NN`). Gravador:
   `https://raw.githack.com/erik-magalhaes/GitJoy/24baf7085f0f95b8c9618b54b379541b9fecb2b5/hotstreak-reels/gravador/Gravar_narracao_HotStreak.html`.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
+
+## Projeto separado: novelinhas de WhatsApp para o TikTok (`novelinhas/`)
+
+Não tem relação com a Sua Vez. Página **Compartilhado** (o logo está em `logos.py`, `logo_compartilhado`, e o nome em `marca.py`).
+O nome "Print Vazado" fazia o **TikTok bloquear a conta**, então evite nomes com cara de vazamento ou exposição.
+- Primeira novela: **A Sogra Tem a Chave**, 5 partes (`sogra/roteiro.py`), cada uma com **pelo menos 1:05**. Render: `python3 novela.py sogra N`
+  (`--frame T ...` gera quadros de teste e `--dur` mostra a duração). As vozes ficam em cache em `out/cache`.
+- **Formato que ele quer:** só a conversa passando e alguém lendo. Ele **rejeitou** narrador, tela de bloqueio, cartão de título,
+  tela final, "comenta aí" e a faixa da marca, porque deixavam o vídeo "com cara de IA". No topo fica só "Parte N" e, no fim, "Continua na Parte N+1".
+- **Vozes:** edge-tts com só duas vozes, `pt-BR-ThalitaMultilingualNeural` (que ele escolheu) para as mulheres e `pt-BR-AntonioNeural`
+  para os homens, **sem acelerar e sem mudar o tom**. Isso deixava a voz robótica e ele reclamou. A Thalita é multilíngue e erra o idioma em
+  frase curta ("louça" virava "louco" e "Neide" virava "Night"). Por isso `vozes.py` gera a fala com um prefixo em português e corta esse trecho, e há um
+  dicionário `PRONUNCIA`. Antes de renderizar, rode `python3 conferir_voz.py sogra 1 2 3 4 5` (Whisper). "Neide" sair como "Nade" é erro do Whisper, não da voz.
+- O certificado do proxy precisa estar no certifi (`/root/.ccr/ca-bundle.crt`) para o edge-tts funcionar.
+- As fotos são de domínio público, buscadas pela API do Openverse com `license=cc0,pdm` (veja `assets/fotos/CREDITOS.md`). Pexels e Unsplash bloqueiam.
+- O fim de cada parte precisa ser **claro**: na versão antiga, a Parte 1 terminava em "achei uma coisa" e ele não entendeu. Mostre o que foi achado (o print) e deixe o gancho.
