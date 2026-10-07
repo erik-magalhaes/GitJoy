@@ -37,7 +37,7 @@ EMOJI = re.compile("[\U0001F000-\U0001FAFF☀-➿⬀-⯿️‍]")
 
 def limpa(txt):
     """Texto que a voz lê: sem emoji, sem 'kkkk' repetido demais."""
-    t = EMOJI.sub("", txt)
+    t = EMOJI.sub("", txt).replace("@", "")   # menção (@Fulano) a voz lê só o nome
     t = re.sub(r"\b[kK]{3,}\b", "", t)   # risada escrita a voz lê "ká-ká-ká": não lê
     # dinheiro: "R$ 2.300" -> "dois mil e trezentos reais"
     from num2words import num2words

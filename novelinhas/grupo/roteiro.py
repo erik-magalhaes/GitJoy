@@ -1,7 +1,9 @@
 """Grupo Errado: novela em 5 partes do Compartilhado.
 
 A Bruna (74) manda sem querer no grupo do condomínio uma mensagem picante para o amante, o Marcelo (casado).
-Ela não sabe que a esposa dele é a própria síndica, a Vera (que na verdade se chama Verônica).
+Ela sabe que ele é casado, mas não sabe que a esposa é a própria síndica, a Vera (Verônica).
+Quem conta é um chantagista anônimo: o Seu Osvaldo (51), ex-síndico que ainda tem a senha das câmeras e deve
+R$ 15 mil de condomínio (a Vera quer leiloar o apartamento dele). A pista é a rosa 🌹 que ele usa em tudo.
 Tom picante só na insinuação; nada explícito (o TikTok derruba).
 """
 import functools
@@ -17,7 +19,7 @@ TITULO = "Grupo Errado"
 AVA = ("en-US-AvaMultilingualNeural", "+0%", "+0Hz")      # voz 2 da amostra (mulheres)
 BRIAN = ("en-US-BrianMultilingualNeural", "+0%", "+0Hz")  # voz 7 da amostra (homens)
 VOZES = {"bruna": AVA, "vera": AVA, "sueli": AVA, "tati": AVA,
-         "marcelo": BRIAN, "osvaldo": BRIAN, "novo": BRIAN}
+         "marcelo": BRIAN, "osvaldo": BRIAN, "novo": BRIAN, "anon": BRIAN}
 
 PERSONAGENS = {
     "bruna": dict(nome="Bruna", cor=(233, 30, 99)),
@@ -27,6 +29,7 @@ PERSONAGENS = {
     "osvaldo": dict(nome="Osvaldo", cor=(0, 121, 107)),
     "tati": dict(nome="Tati", cor=(216, 27, 96)),
     "novo": dict(nome="Novo", cor=(30, 136, 229)),
+    "anon": dict(nome="?", cor=(120, 120, 120)),
 }
 
 GRUPO_NOMES = {"vera": "Vera Síndica", "sueli": "Sueli 32", "osvaldo": "Osvaldo 51", "marcelo": "Marcelo 11"}
@@ -39,6 +42,7 @@ CHATS = {
     "vera_b": dict(dono="bruna", titulo="Vera Síndica", com="vera", sub="online"),
     "veronica": dict(dono="marcelo", titulo="Verônica 💍", com="vera", sub="online"),
     "novo": dict(dono="bruna", titulo="+55 11 98820-4471", com="novo", sub="online"),
+    "anon": dict(dono="bruna", titulo="+55 11 99104-2207", com="anon", sub="online"),
 }
 
 
@@ -111,6 +115,28 @@ def print_grupo():
     ), hora="23:48", dono="sueli")
 
 
+@functools.lru_cache(None)
+def inadimplentes():
+    """Lista de inadimplentes que a síndica colou no elevador."""
+    w, h = 760, 820
+    im = Image.new("RGB", (w, h), (252, 250, 240))
+    d = ImageDraw.Draw(im)
+    d.rectangle((0, 0, w, 120), fill=(94, 53, 177))
+    d.text((w / 2, 60), "CONDOMÍNIO JARDIM PRIMAVERA", font=zap.inter(36, 800), fill=(255, 255, 255), anchor="mm")
+    d.text((w / 2, 180), "UNIDADES EM ATRASO", font=zap.inter(44, 800), fill=(30, 30, 30), anchor="mm")
+    y = 260
+    for apto, valor, alerta in (("Apto 22", "R$ 640,00", False), ("Apto 51", "R$ 15.320,00", True),
+                                ("Apto 93", "R$ 1.280,00", False), ("Apto 104", "R$ 410,00", False)):
+        if alerta:
+            d.rounded_rectangle((40, y - 14, w - 40, y + 66), 10, fill=(255, 241, 118))
+        d.text((70, y), apto, font=zap.inter(40, 700), fill=(30, 30, 30))
+        d.text((w - 70, y), valor, font=zap.inter(40, 700 if alerta else 450), fill=(198, 40, 40) if alerta else (30, 30, 30), anchor="ra")
+        y += 110
+    d.text((70, h - 150), "Apto 51: em processo de leilão.", font=zap.inter(32, 700), fill=(198, 40, 40))
+    d.text((70, h - 90), "A Administração (Vera, síndica)", font=zap.inter(30, 450), fill=(90, 90, 90))
+    return im
+
+
 # ------------------------------------------------------------------ episódios
 EPISODIOS = [
     # ---------------------------------------------------------------------------------------------- 1
@@ -129,10 +155,10 @@ EPISODIOS = [
         ("apagar", "bruna"),
         ("msg", "sueli", "Apagou não adianta, eu li 👀👀", dict(dig=0.4)),
         ("msg", "osvaldo", "Boa noite. Que porta?"),
-        ("msg", "marcelo", "Gente, alguém sabe se o elevador volta a funcionar amanhã?"),
-        ("msg", "sueli", "Marcelo, ninguém quer saber de elevador agora kkkk"),
+        ("msg", "marcelo", "@Vera Síndica deu tudo certo com o técnico do elevador?"),
+        ("msg", "vera", "Deu sim. Amanhã às 8h volta a funcionar."),
+        ("msg", "sueli", "Ninguém quer saber de elevador agora kkkk"),
         ("msg", "sueli", "Quem é o perfumado do prédio??"),
-        ("msg", "marcelo", "Deve ter sido engano, Sueli. Vamos dormir, pessoal 😅"),
         ("msg", "vera", "Lembrando que o grupo é para assuntos do condomínio. Boa noite."),
         ("chat", "tati", "23:52", "HOJE"),
         ("msg", "bruna", "TATI. Eu mandei a mensagem do M no grupo do PRÉDIO"),
@@ -151,7 +177,7 @@ EPISODIOS = [
     ]),
     # ---------------------------------------------------------------------------------------------- 2
     dict(parte=2, nome="Quem é o perfumado?", eventos=[
-        ("chat", "cond", "09:10", "HOJE", (("chip", "ONTEM"), ("marcelo", "Deve ter sido engano, Sueli. Vamos dormir, pessoal 😅", "23:49"),
+        ("chat", "cond", "09:10", "HOJE", (("chip", "ONTEM"), ("sueli", "Quem é o perfumado do prédio??", "23:49"),
                                            ("vera", "Lembrando que o grupo é para assuntos do condomínio. Boa noite.", "23:50"))),
         ("msg", "sueli", "Bom dia, vizinhos! Fiz uma enquete 😇"),
         ("foto", "sueli", enquete, None, dict(pausa=3.4, h_max=600, zoom=True)),
@@ -175,91 +201,97 @@ EPISODIOS = [
         ("msg", "vera", "Às onze da noite?"),
         ("msg", "marcelo", "Coisa do trabalho. Volta a dormir 😘"),
         ("msg", "vera", "São dez da manhã, Marcelo."),
-        ("chat", "vera_b", "19:00"),
-        ("msg", "vera", "Boa noite, Bruna. Aqui é a Vera, a síndica."),
-        ("msg", "vera", "Preciso falar com você sobre a mensagem de ontem. Em particular.", dict(dig=0.8)),
+        ("chat", "anon", "19:00"),
+        ("msg", "anon", "Boa noite, perfumada 🌹", dict(dig=0.8)),
+        ("msg", "anon", "Gostei da sua mensagem de ontem no grupo."),
+        ("msg", "anon", "Amanhã a gente conversa 🌹", dict(dig=0.8)),
         ("pausa", 2.4),
     ]),
     # ---------------------------------------------------------------------------------------------- 3
-    dict(parte=3, nome="A síndica", eventos=[
-        ("chat", "vera_b", "19:01", None, (("chip", "HOJE"), ("vera", "Boa noite, Bruna. Aqui é a Vera, a síndica.", "19:00"),
-                                           ("vera", "Preciso falar com você sobre a mensagem de ontem. Em particular.", "19:00"))),
-        ("msg", "bruna", "Boa noite, Dona Vera. Que mensagem?"),
-        ("msg", "vera", "Não se faça de boba. A Sueli me mandou o print."),
-        ("foto", "vera", print_grupo, None, dict(pausa=3.0, h_max=560, w=700, zoom=True)),
-        ("msg", "bruna", "Dona Vera, isso é a minha vida pessoal. Não tem nada a ver com o condomínio."),
-        ("msg", "vera", "Teria, se não fosse no MEU prédio."),
-        ("msg", "vera", "E tem mais uma coisa."),
-        ("foto", "vera", camera, None, dict(pausa=3.4, h_max=600, zoom=True)),
-        ("msg", "vera", "A câmera do corredor mostra um homem entrando no 74 às onze da noite."),
-        ("digitando", "vera", 1.6),
-        ("msg", "vera", "Esse homem é o MEU marido.", dict(dig=0.3)),
-        ("rascunho", "Dona Vera, eu", 1.0),
-        ("msg", "bruna", "O Marcelo... é casado com a senhora?"),
-        ("msg", "vera", "Ele te disse que a mulher dele se chamava Verônica, não disse?"),
-        ("msg", "vera", "Pois é. Verônica sou eu. Vera é apelido.", dict(dig=0.8)),
-        ("chat", "tati", "19:20", "HOJE"),
-        ("msg", "bruna", "Tati. A mulher do M é a SÍNDICA do meu prédio."),
-        ("msg", "tati", "A VERA?? A que manda multa por vaso na varanda??", dict(dig=0.3)),
-        ("msg", "bruna", "Essa mesma. E ela tem o vídeo da câmera."),
-        ("msg", "tati", "Amiga, eu avisei que isso ia dar ruim 😬"),
-        ("msg", "bruna", "O pior é que eu sabia que ele era casado. Só não sabia com QUEM."),
-        ("msg", "tati", "E agora?"),
-        ("msg", "bruna", "Agora eu tô com medo de sair no corredor 😭"),
+    dict(parte=3, nome="O número desconhecido", eventos=[
+        ("chat", "anon", "19:02", None, (("chip", "ONTEM"), ("anon", "Boa noite, perfumada 🌹", "19:00"),
+                                         ("anon", "Gostei da sua mensagem de ontem no grupo.", "19:00"),
+                                         ("anon", "Amanhã a gente conversa 🌹", "19:01"), ("chip", "HOJE"))),
+        ("msg", "bruna", "Quem é você?"),
+        ("msg", "anon", "Alguém que tem acesso às câmeras do prédio 🌹", dict(dig=0.8)),
+        ("foto", "anon", camera, None, dict(pausa=3.4, h_max=600, zoom=True)),
+        ("msg", "anon", "Bonito esse perfumado entrando no 74 às onze da noite, né?"),
+        ("msg", "bruna", "Isso não é da sua conta."),
+        ("msg", "anon", "Sabe quem é a esposa dele?"),
+        ("digitando", "anon", 1.6),
+        ("msg", "anon", "A síndica. A Dona Vera 😉", dict(dig=0.3)),
+        ("rascunho", "Mentira, ele disse que", 1.0),
+        ("msg", "anon", "Cinco mil reais até sexta. Ou o grupo inteiro vê esse vídeo. Inclusive ela 🌹"),
+        ("chat", "m", "19:15", "HOJE"),
+        ("msg", "bruna", "Marcelo. A sua mulher é a SÍNDICA??"),
+        ("msg", "marcelo", "Calma. Quem te falou isso?", dict(dig=0.4)),
+        ("msg", "bruna", "Alguém tá me chantageando. Tem o vídeo da câmera. Quer cinco mil."),
+        ("digitando", "marcelo", 1.6),
+        ("msg", "marcelo", "Paga. Pelo amor de Deus, paga. Depois eu te devolvo.", dict(dig=0.3)),
+        ("msg", "bruna", "Você nunca me disse que ela era a síndica!"),
+        ("msg", "marcelo", "Você nunca perguntou 😅"),
+        ("msg", "bruna", "MARCELO."),
+        ("msg", "marcelo", "Se ela descobrir, eu tô ferrado. Paga, por favor."),
+        ("msg", "bruna", "E se eu não pagar?"),
+        ("digitando", "marcelo", 1.4),
+        ("status", "visto por último hoje às 19:17"),
+        ("chat", "anon", "19:30"),
+        ("msg", "anon", "Tic tac, perfumada 🌹", dict(dig=0.8)),
         ("pausa", 2.4),
     ]),
     # ---------------------------------------------------------------------------------------------- 4
-    dict(parte=4, nome="A esposa", eventos=[
-        ("chat", "m", "19:25", "HOJE"),
-        ("msg", "bruna", "MARCELO. A sua mulher é a SÍNDICA??"),
-        ("msg", "marcelo", "Calma. Quem te falou isso?", dict(dig=0.4)),
-        ("msg", "bruna", "ELA. Ela tem o vídeo da câmera, Marcelo!"),
-        ("digitando", "marcelo", 1.6),
-        ("msg", "marcelo", "Nega tudo. Diz que eu fui consertar o seu chuveiro.", dict(dig=0.3)),
-        ("msg", "bruna", "Às onze da noite?? De perfume??"),
-        ("msg", "marcelo", "Eu vou dar um jeito. Confia em mim 🙏"),
-        ("msg", "bruna", "Confiar? Você nunca me disse que a sua mulher era a síndica!"),
-        ("msg", "marcelo", "Você nunca perguntou 😅"),
-        ("msg", "bruna", "MARCELO."),
-        ("chat", "vera_b", "21:00", "HOJE"),
-        ("msg", "vera", "Bruna. Eu não vou fazer escândalo."),
-        ("audio", "vera", "Eu sou casada com o Marcelo há doze anos. Eu já desconfiava faz tempo. Você não é a primeira, viu? "
-                          "Só foi a primeira a mandar no grupo do prédio."),
-        ("msg", "bruna", "Dona Vera... me desculpa. Eu sabia que ele era casado. Eu não devia."),
-        ("msg", "vera", "Não devia mesmo. Mas agora eu preciso de você."),
-        ("msg", "vera", "Me ajuda a pegar ele no flagra. Na frente de todo mundo."),
-        ("msg", "bruna", "Como?"),
-        ("msg", "vera", "Hoje ele vai te mandar mensagem. Responde normal. Eu cuido do resto 😌"),
-        ("chat", "m", "22:58"),
-        ("msg", "marcelo", "Ela foi dormir.", dict(dig=0.4)),
-        ("msg", "marcelo", "Posso subir? 😏", dict(dig=0.6)),
-        ("rascunho", "Não sobe, ela sabe", 1.2),
+    dict(parte=4, nome="A rosa", eventos=[
+        ("chat", "tati", "20:00", "HOJE"),
+        ("msg", "bruna", "Tati, tô sendo chantageada. Cinco mil. A pessoa tem o vídeo da câmera do corredor."),
+        ("msg", "tati", "QUÊ?? Quem tem acesso às câmeras do seu prédio?", dict(dig=0.3)),
+        ("msg", "bruna", "A síndica, o porteiro... sei lá."),
+        ("msg", "tati", "Se fosse a síndica, ela não ia querer dinheiro. Ia querer o seu pescoço."),
+        ("msg", "tati", "Presta atenção no jeito que essa pessoa escreve."),
+        ("msg", "bruna", "Ele termina tudo com uma rosa. 🌹"),
+        ("msg", "tati", "E quem do seu grupo manda rosa?"),
+        ("chat", "cond", "20:20", None, (("chip", "ONTEM"), ("osvaldo", "Obrigado, síndica. Boa noite a todos 🌹", "19:30"),
+                                         ("chip", "HOJE"))),
+        ("msg", "osvaldo", "Boa noite a todos 🌹", dict(pausa=1.4)),
+        ("msg", "vera", "Lembrando: amanhã vence o boleto do condomínio."),
+        ("chat", "sueli_b", "20:30", "HOJE"),
+        ("msg", "bruna", "Sueli, me tira uma dúvida. Quem tem a senha das câmeras do prédio?"),
+        ("msg", "sueli", "Oficialmente? A Vera e o porteiro."),
+        ("msg", "sueli", "Mas o Seu Osvaldo foi síndico por vinte anos e nunca devolveu a senha 👀"),
+        ("msg", "bruna", "O Seu Osvaldo??"),
+        ("msg", "sueli", "E ele tá devendo quinze mil de condomínio. Olha a lista que a Vera colou no elevador:"),
+        ("foto", "sueli", inadimplentes, None, dict(pausa=3.2, h_max=640, zoom=True)),
+        ("msg", "bruna", "Então ele precisa de dinheiro..."),
+        ("msg", "sueli", "Por que a pergunta, vizinha? 👀"),
+        ("chat", "anon", "22:00"),
+        ("msg", "anon", "O prazo acaba amanhã, perfumada 🌹", dict(dig=0.8)),
+        ("msg", "bruna", "Boa noite, Seu Osvaldo."),
+        ("digitando", "anon", 2.2),
+        ("status", "visto por último hoje às 22:01"),
         ("pausa", 2.4),
     ]),
     # ---------------------------------------------------------------------------------------------- 5
     dict(parte=5, nome="Assembleia extraordinária", fim_texto="Fim", eventos=[
-        ("chat", "m", "23:00", None, (("chip", "HOJE"), ("marcelo", "Ela foi dormir.", "22:58"), ("marcelo", "Posso subir? 😏", "22:58"))),
-        ("msg", "bruna", "Pode sim. Porta destrancada 😏"),
-        ("msg", "marcelo", "Tô subindo 🔥", dict(dig=0.3)),
-        ("chat", "vera_b", "23:01"),
-        ("msg", "bruna", "Ele tá subindo."),
-        ("msg", "vera", "Ótimo. Eu e o porteiro estamos no corredor 😌", dict(dig=0.4)),
+        ("chat", "vera_b", "22:10", "HOJE"),
+        ("msg", "bruna", "Dona Vera, boa noite. É a Bruna, do 74. Eu preciso te contar uma coisa. E vai doer."),
+        ("msg", "vera", "Pode falar.", dict(dig=0.4)),
+        ("msg", "bruna", "A mensagem do perfume no grupo fui eu que mandei. Era pro seu marido."),
+        ("digitando", "vera", 2.0),
+        ("msg", "bruna", "E tem alguém me chantageando com o vídeo da câmera. É o Seu Osvaldo."),
+        ("audio", "vera", "Eu já desconfiava do Marcelo faz tempo. E o Osvaldo nunca aceitou ter perdido a eleição. "
+                          "Amanhã eu resolvo os dois de uma vez."),
         ("chat", "cond", "08:00", "HOJE"),
         ("msg", "vera", "📢 ASSEMBLEIA EXTRAORDINÁRIA hoje, às 19h, no salão de festas."),
-        ("msg", "vera", "Pauta: troca da fechadura do apartamento 11 e a saída de um morador."),
-        ("msg", "sueli", "QUEM VAI SAIR?? 👀", dict(dig=0.3)),
-        ("msg", "osvaldo", "Vai ter bolo?"),
-        ("msg", "vera", "O Marcelo, Sueli. Meu marido. Ex-marido, a partir de hoje."),
-        ("msg", "vera", "As malas dele estão na portaria."),
-        ("msg", "sueli", "EU SABIA!! O PERFUMADO 😱", dict(dig=0.3)),
+        ("msg", "vera", "Pauta 1: troca da senha das câmeras. Alguém andou usando pra chantagear moradora. Né, Seu Osvaldo?"),
+        ("msg", "sueli", "EU SABIA QUE ERA ELE 😱", dict(dig=0.3)),
+        ("msg", "osvaldo", "Eu só queria salvar o meu apartamento..."),
+        ("msg", "vera", "Pauta 2: a saída do Marcelo. Meu ex-marido. As malas estão na portaria."),
         ("msg", "marcelo", "Vera, a gente pode conversar em casa?"),
         ("msg", "vera", "Que casa?"),
         ("sistema", "Vera Síndica removeu Marcelo 11"),
         ("msg", "osvaldo", "Então não vai ter bolo?"),
         ("chat", "vera_b", "19:40", "HOJE"),
-        ("msg", "vera", "Obrigada, Bruna. Doeu, mas foi libertador."),
-        ("msg", "bruna", "Desculpa por tudo, Dona Vera."),
-        ("msg", "vera", "Pode me chamar de Vera. E da próxima vez, confere o grupo antes de mandar 😉"),
+        ("msg", "vera", "Obrigada, Bruna. O Osvaldo vai parcelar a dívida e eu tô livre."),
+        ("msg", "vera", "E da próxima vez, confere o grupo antes de mandar 😉"),
         ("chat", "novo", "22:30", "HOJE"),
         ("msg", "novo", "Oi, vizinha 😏", dict(dig=0.6)),
         ("msg", "novo", "Sou o novo morador do 52. Me disseram que a porta do 74 tem fama de ficar destrancada...", dict(dig=0.9)),
