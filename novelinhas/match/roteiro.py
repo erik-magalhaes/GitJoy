@@ -77,7 +77,7 @@ EPISODIOS = [
     dict(parte=1, nome="Deu match", eventos=[
         ("chat", "nanda", "22:10", "HOJE", (("chip", "ONTEM"), ("nanda", "Baixou o app que eu falei? 👀", "21:00"),
                                             ("carol", "Baixei. Só tem doido kkk", "21:30"))),
-        ("foto", "carol", match_card, "NANDA. Olha esse match 😳", dict(zoom=True, pausa=0.8, h_max=700, w=520)),
+        ("foto", "carol", match_card, "NANDA. Olha só esse match 😳", dict(zoom=True, pausa=0.8, h_max=700, w=520)),
         ("msg", "nanda", "Foto de costas na praia? Clássico de quem esconde alguma coisa 🤨", dict(dig=0.4)),
         ("msg", "carol", "Ele é engraçado. E a voz dele, amiga... 🔥"),
         ("msg", "nanda", "Já tá mandando áudio?? Me conta tudo!"),
@@ -132,7 +132,7 @@ EPISODIOS = [
     # ---------------------------------------------------------------------------------------------- 3
     dict(parte=3, nome="Segunda-feira", eventos=[
         ("chat", "leo", "21:40", "HOJE", (("chip", "HOJE"), ("leo", "Logo, logo você vai saber tudo sobre mim 😉", "18:05"))),
-        ("msg", "carol", "Amanhã eu começo no emprego novo! Tô nervosa 😬"),
+        ("msg", "carol", "Amanhã eu começo no emprego novo! Tô muito nervosa 😬"),
         ("msg", "leo", "Que demais! Onde?", dict(dig=0.4)),
         ("msg", "carol", "Na Vértice Comercial, na Paulista."),
         ("digitando", "leo", 2.6),
