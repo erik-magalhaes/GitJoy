@@ -283,6 +283,11 @@ class Ep:
         self.sfx.append((self.t, "receb", 0.5))
         self.t += 1.4
 
+    def ev_chip(self, texto):
+        """Separador de dia no meio da conversa (ex.: DOMINGO)."""
+        self.chat().itens.append(Item("chip", self.t, texto=texto))
+        self.t += 0.5
+
     def ev_pausa(self, s):
         self.t += s
 
