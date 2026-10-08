@@ -56,11 +56,20 @@ def planos(clipes, cortes):
     return pl
 
 
-def grade(antes):
-    """Antes: cor um pouco lavada e fria (sem graça); depois: cores vivas e mais luz."""
+def grade(i, antes, flash=False):
+    """Tratamento de luz e cor (o "tchan" que ele pediu). Grava de dentro de casa fica escura e amarelada:
+    tira ruído, estica os níveis (normalize), curva em S, corrige o amarelo da lâmpada e dá nitidez.
+    Antes: cor um pouco contida. Depois: cores vivas (vibrance), brilho suave (bloom) e um flash branco no "tchan"."""
+    base = ("hqdn3d=2:1.5:4:4,normalize=blackpt=black:whitept=white:smoothing=20:independence=0.4:strength={s}")
     if antes:
-        return "eq=saturation=0.75:brightness=-0.02:contrast=0.95,colorbalance=bs=0.04:rs=-0.02"
-    return "eq=saturation=1.25:brightness=0.03:contrast=1.06,unsharp=5:5:0.4"
+        return (base.format(s=0.8) + ",curves=all='0/0 0.3/0.34 0.7/0.78 1/1',eq=saturation=0.92,"
+                "colorbalance=rm=-0.04:bm=0.04:rh=-0.02:bh=0.03,unsharp=5:5:0.7")
+    f = (base.format(s=0.9) + ",curves=all='0/0 0.25/0.24 0.5/0.58 0.75/0.85 1/1',vibrance=intensity=0.35,"
+         f"eq=saturation=1.1,colorbalance=rm=-0.03:bm=0.02:rh=0.04:gh=0.02,split[a{i}][b{i}];"
+         f"[b{i}]gblur=sigma=18[g{i}];[a{i}][g{i}]blend=all_mode=screen:all_opacity=0.16,unsharp=5:5:0.9,vignette=PI/7")
+    if flash:
+        f += ",fade=t=in:st=0:d=0.3:color=white"
+    return f
 
 
 def texto_png(path):
@@ -99,7 +108,8 @@ def main():
     for i, (c, ini, d) in enumerate(pl):
         args += ["-ss", f"{ini:.3f}", "-t", f"{d * a.rapido + 0.2:.3f}", "-i", c]
         filt.append(f"[{i}:v]setpts=(PTS-STARTPTS)/{a.rapido},fps={FPS},scale={W}:{H}:force_original_aspect_ratio=increase,"
-                    f"crop={W}:{H},setsar=1,{grade(i < len(CORTES_ANTES) - 1)},trim=duration={d:.3f},setpts=PTS-STARTPTS[v{i}]")
+                    f"crop={W}:{H},setsar=1,trim=duration={d:.3f},setpts=PTS-STARTPTS,"
+                    f"{grade(i, i < len(CORTES_ANTES) - 1, i == len(CORTES_ANTES) - 1)}[v{i}]")
     n = len(pl)
     args += ["-i", over, "-ss", "0", "-t", f"{FIM:.3f}", "-i", REF]
     filt.append("".join(f"[v{i}]" for i in range(n)) + f"concat=n={n}:v=1:a=0[cat]")

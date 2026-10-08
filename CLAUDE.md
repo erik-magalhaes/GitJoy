@@ -248,7 +248,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **Feito (1ª versão):** ele gravou 5 clipes no celular (HEVC 1080p girado; em `referencia/clipes/`, fora do git):
   c1 Quest e c2 Imagem & Ação (antigos), c3 Santorini, c4 Luxor e c5 Hot Streak (modernos). Comando usado:
   `python3 efeito.py --planos c1.mp4:2.0 c2.mp4:0.5 c3.mp4:0.3 c4.mp4:1.6 c4.mp4:4.6 c5.mp4:2.0` (os caminhos estão em
-  referencia/clipes). Cor: antes lavada e fria, depois viva (`grade()`). Saída com e sem música, 22 s, ~26 MB.
+  referencia/clipes). Cor (`grade()`, pedido dele "dar um tchanzão"): denoise + normalize + curva em S + correção do amarelo
+  da lâmpada + nitidez nos dois; no depois, vibrance, bloom suave, vinheta leve e flash branco de 0,3 s no "tchan". Saída com e sem música, 22 s, ~26 MB.
   Fotos: Banco Imobiliário aberto do site da Estrela (`estrela.fbitsstatic.net/img/p/banco-imobiliario-150398/336914-1.jpg`),
   Ticket to Ride Lendas do Oeste da Gameology (Shopify), Hot Streak `hotstreak-reels/assets/fotos/HS4751.jpg`.
   Código comum dos três: `comum/motor.py` (animação, textos, legendas, render, prévia) e `comum/som.py` (trilhas
