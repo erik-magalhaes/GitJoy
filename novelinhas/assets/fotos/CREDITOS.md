@@ -10,3 +10,4 @@ Fotos em domínio público / CC0 (busca no Openverse com license=cc0,pdm):
 - armario.jpg: StockSnap via Openverse (cc0), "Wardrobe Closet"
 - cadeira.jpg (StockSnap), mesa.jpg (rawpixel), sofa.jpg e comoda.jpg (Flickr): Openverse, cc0/pdm
 - casas_noite.jpg (rawpixel, "Town night") e pezinho.jpg (StockSnap, "Baby Foot"): Openverse, cc0/pdm
+- carro_vermelho.jpg (WordPress Photo Directory, CC0) e drink_praia.jpg (rawpixel, CC0): Openverse
