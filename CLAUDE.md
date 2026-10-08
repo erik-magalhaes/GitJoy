@@ -69,7 +69,7 @@ tudo antes de começar um vídeo novo: aqui está o que funcionou, o que não fu
 | `architects-reels/` (`stopmo.py`) | 7 Wonders Arquitetos | **Stop motion** com as peças oficiais sobre **papel quadriculado** (tema "prancheta"), com textos em fita crepe escritos à mão | Prévia aprovada; falta a narração |
 | `hobby-reels/` (`ludoteca.py`) | Institucional: o que são jogos modernos + preço loja × aluguel + prazo progressivo | **Estante da ludoteca** (opção 1): caixas do acervo em prateleiras de madeira, caixas saindo em stop motion, etiquetas kraft e de preço | Prévia mandada; esperando a narração dele |
 | `quiz-reels/` (`zoom.py`) | Quiz "Que jogo é esse?" (5 caixas do acervo pelo zoom) | **Lupa de game show** nas cores do site, contagem 5-4-3-2-1, revelação com confete; SEM narração, para a música em alta | Mandado (para_musica + com_trilha) |
-| `byebye-reels/` (`byebye.py`) | "BYE BYE..." para a trend da música American Pie | **Retrô anos 70**: raios de sol, letras com sombra 3D, polaroides com emoji que dão tchau e voam; "OI, SUA VEZ!" | Mandado (para_musica + com_trilha) |
+| `byebye-reels/` (`curto.py`) | Trend "bye, bye, Miss American Pie": Banco Imobiliário → jogos modernos | **Vídeo curto (12 s, sem som)**: Banco Imobiliário aberto na mesa de madeira, com cor lavada, passando; no "tchan" (3,0 s) flash e vira para o Hot Streak (foto oficial) e o Ticket to Ride: Lendas do Oeste, e fecha com a Sua Vez. A versão longa com polaroides (`byebye.py`) foi REJEITADA ("ficou horrível") | Mandado |
 | `tipos-reels/` (`tipos.py`) | Os 7 tipos de jogador que todo grupo tem | **Cartas colecionáveis** com raridade, status, habilidade e jogo favorito; pacotinho rasgando, carta virando, brilho holográfico | Prévia mandada; esperando a narração |
 | `marvel-reels/` (`portais.py`) | Os 9 Marvel United do acervo + Multiverse chegando | **Portais do multiverso** (opção 1) com pegada de **filme de herói**: arte da capa dentro de portais de faíscas, caixas 3D e miniaturas recortadas saindo dos portais, holofote, brilho de lente, faixas de cinema e acabamento limpo em HD (sem granulado), trilha de trailer | Prévia mandada; esperando a narração |
 
@@ -237,7 +237,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   em duas versões: `_para_musica` (só efeitos, ele põe o áudio da trend no Instagram) e `_com_trilha` (reserva).
   No quiz ele pediu jogos **mais difíceis** e escolheu a lista: Ticket to Ride, King of Tokyo, Codinomes (no acervo é o
   **Código Secreto Imagens**), Deep Regrets e Segue o Fluxo. O zoom nunca pode mostrar o título nem a borda da caixa.
-  Não achei o que é o "efeito Suíça" da trend American Pie: se ele mandar o link, ajuste o ritmo do `byebye.py`.
+  Trend: vídeo de trend é CURTO (ele disse que não precisa de 1 minuto) e a ação tem que bater com a música; a ideia boa
+  foi dele: jogo antigo → "tchan" → jogo moderno. Eu não tenho acesso à música (direitos autorais): ele põe o áudio no
+  Instagram. Se ele mandar o áudio da trend (gravação de tela), dá para achar o tempo exato do "tchan" e mudar `VIRADA`.
+  Fotos: Banco Imobiliário aberto do site da Estrela (`estrela.fbitsstatic.net/img/p/banco-imobiliario-150398/336914-1.jpg`),
+  Ticket to Ride Lendas do Oeste da Gameology (Shopify), Hot Streak `hotstreak-reels/assets/fotos/HS4751.jpg`.
   Código comum dos três: `comum/motor.py` (animação, textos, legendas, render, prévia) e `comum/som.py` (trilhas
   gameshow/travessa/retro70 e efeitos). Emojis coloridos: Noto Color Emoji (`motor.emoji`). Vídeos de animação a 1080p
   ficam com < 30 MB, então dá para mandar o 1080p direto no chat.
