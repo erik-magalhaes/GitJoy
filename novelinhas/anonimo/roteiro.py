@@ -72,14 +72,14 @@ def foto_casa():
 @functools.lru_cache(None)
 def foto_corredor():
     """O corredor da casa da Nina, por dentro."""
-    return _escuro("corredor.jpg", 0.6, 5)
+    return _escuro("porta_escura.jpg", 1.0, 5)
 
 
 @functools.lru_cache(None)
 def video_formatura():
     """Miniatura do vídeo que viralizou (borrado, com o botão de play e as visualizações)."""
     w, h = 720, 900
-    base = Image.open(os.path.join(FOTOS, "brinde.jpg")).convert("RGB")
+    base = Image.open(os.path.join(FOTOS, "salao_festa.jpg")).convert("RGB")
     esc = max(w / base.width, h / base.height)
     base = base.resize((round(base.width * esc), round(base.height * esc)))
     base = base.crop(((base.width - w) // 2, (base.height - h) // 2, (base.width - w) // 2 + w, (base.height - h) // 2 + h))

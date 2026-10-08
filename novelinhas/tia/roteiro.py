@@ -8,7 +8,7 @@ com a Kelly, e meses depois a tia aparece bonitona, viajando sozinha.
 import functools
 import os
 
-from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image, ImageDraw
 
 import zap
 
@@ -55,10 +55,12 @@ def _foto(nome):
 def notificacao():
     """Foto (tirada pelo Jean) da tela de bloqueio da Kelly com a notificação do 'Val 🔧'."""
     w, h = 720, 760
-    fundo = _foto("drink_praia.jpg").resize((w, round(w * 1280 / 1920)))
     im = Image.new("RGB", (w, h), (20, 20, 30))
-    im.paste(fundo.resize((w, h)).filter(ImageFilter.GaussianBlur(14)), (0, 0))
-    im = im.point(lambda v: int(v * 0.55)).convert("RGBA")
+    d0 = ImageDraw.Draw(im)
+    for y in range(h):   # papel de parede em degradê (roxo para azul)
+        k = y / h
+        d0.line([(0, y), (w, y)], fill=(int(70 - 40 * k), int(40 + 10 * k), int(110 + 30 * k)))
+    im = im.convert("RGBA")
     d = ImageDraw.Draw(im)
     d.text((w // 2, 120), "21:12", font=zap.inter(110, 300), fill=(255, 255, 255), anchor="mm")
     d.text((w // 2, 200), "domingo, 17 de agosto", font=zap.inter(30, 500), fill=(235, 235, 235), anchor="mm")
@@ -103,7 +105,7 @@ EPISODIOS = [
     # ---------------------------------------------------------------------------------------------- 1
     dict(parte=1, nome="15 anos", eventos=[
         ("chat", "familia", "08:00", "HOJE"),
-        ("foto", "sandra", "brinde.jpg", "15 anos com o amor da minha vida 💛"),
+        ("foto", "sandra", "rosas.jpg", "15 anos com o amor da minha vida 💛"),
         ("msg", "lucia", "Parabéns, mana! Casal abençoado 🥰", dict(dig=0.3)),
         ("msg", "kelly", "Que lindos 🥹 O tio Val é tudo", dict(dig=0.3)),
         ("msg", "igor", "Parabéns, tia e tio! 🎉", dict(dig=0.3)),

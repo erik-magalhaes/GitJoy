@@ -42,7 +42,7 @@ CHATS = {
 @functools.lru_cache(None)
 def foto_aniversario():
     """A foto do aniversário de 8 anos: o bolo, com cara de foto antiga (amarelada, com borda branca)."""
-    im = Image.open(os.path.join(FOTOS, "bolo.jpg")).convert("RGB")
+    im = Image.open(os.path.join(FOTOS, "bolo_infantil.jpg")).convert("RGB")
     im.thumbnail((760, 760))
     im = ImageEnhance.Color(im).enhance(0.55)
     sepia = ImageOps.colorize(ImageOps.grayscale(im), (60, 40, 20), (255, 236, 200))

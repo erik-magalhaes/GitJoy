@@ -11,3 +11,5 @@ Fotos em domínio público / CC0 (busca no Openverse com license=cc0,pdm):
 - cadeira.jpg (StockSnap), mesa.jpg (rawpixel), sofa.jpg e comoda.jpg (Flickr): Openverse, cc0/pdm
 - casas_noite.jpg (rawpixel, "Town night") e pezinho.jpg (StockSnap, "Baby Foot"): Openverse, cc0/pdm
 - carro_vermelho.jpg (WordPress Photo Directory, CC0) e drink_praia.jpg (rawpixel, CC0): Openverse
+- rosas.jpg, porta_escura.jpg (rawpixel, CC0); bolo_chocolate.jpg (WordPress Photo Directory, CC0); baloes.jpg, salao_festa.jpg (StockSnap, CC0); bolo_infantil.jpg (Flickr, CC0): Openverse
+- Regra: cada foto aparece em UMA novela só (o dono reclamou de fotos repetidas).
