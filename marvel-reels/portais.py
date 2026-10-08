@@ -25,7 +25,7 @@ MI = os.path.join(ROOT, "assets", "minis")
 FN = os.path.join(ROOT, "assets", "fonts")
 OUT = os.path.join(ROOT, "out")
 W, H, FPS = 1080, 1920, 30
-POSE = 12
+POSE = 30  # movimento liso (estilo cinema, sem as poses de stop motion)
 
 WHITE, GOLD, RED = (255, 255, 255), (255, 200, 70), (220, 30, 50)
 AZUL, LARANJA, ROXO = (90, 170, 255), (255, 150, 40), (150, 80, 255)
@@ -64,8 +64,10 @@ def pop(t, t0, d=0.35):
 
 
 def jit(t, a=2.0, seed=0):
-    r = np.random.default_rng(int(t * POSE) * 31 + seed)
-    return r.uniform(-a, a), r.uniform(-a, a), r.uniform(-a * 0.4, a * 0.4)
+    """Flutuação lenta e suave (câmera de cinema), sem tremidinho."""
+    f = 0.35 + (seed % 7) * 0.04
+    return (a * math.sin(t * f * 2 * math.pi + seed), a * 0.8 * math.cos(t * f * 1.7 * math.pi + seed * 1.3),
+            a * 0.15 * math.sin(t * f * math.pi + seed * 0.7))
 
 
 @lru_cache(None)
@@ -74,31 +76,47 @@ def font(n, s):
 
 
 @lru_cache(None)
-def peca(nome, h, pasta="cx"):
+def original(nome, pasta="cx"):
+    """Recorte limpo: tira os bloquinhos de JPEG das fotos de loja e realça o detalhe (HD)."""
+    import cv2
     p = os.path.join(CX if pasta == "cx" else MI, nome + ".png")
     im = Image.open(p).convert("RGBA")
+    rgb = np.ascontiguousarray(np.asarray(im)[..., :3])
+    rgb = cv2.fastNlMeansDenoisingColored(rgb, None, 5, 5, 5, 15)
+    out = Image.fromarray(rgb).filter(ImageFilter.UnsharpMask(radius=1.6, percent=70, threshold=2)).convert("RGBA")
+    out.putalpha(im.getchannel("A"))
+    return out
+
+
+@lru_cache(None)
+def peca(nome, h, pasta="cx"):
+    im = original(nome, pasta)
     return im.resize((max(2, int(im.width * h / im.height)), int(h)), Image.LANCZOS)
 
 
 @lru_cache(None)
 def peca_w(nome, w, pasta="cx"):
-    p = os.path.join(CX if pasta == "cx" else MI, nome + ".png")
-    im = Image.open(p).convert("RGBA")
+    im = original(nome, pasta)
     return im.resize((int(w), max(2, int(im.height * w / im.width))), Image.LANCZOS)
 
 
 @lru_cache(None)
 def rim(nome, h, pasta="cx", cor=AZUL, w=12):
-    """Peça com luz de recorte (rim light) colorida atrás, como em pôster de filme."""
+    """Peça com luz de recorte de cinema: contorno fino e nítido + brilho bem leve atrás (sem halo borrado)."""
     im = peca(nome, h, pasta)
     pad = w * 3
     big = Image.new("RGBA", (im.width + pad * 2, im.height + pad * 2), (0, 0, 0, 0))
     big.alpha_composite(im, (pad, pad))
-    a = big.getchannel("A").filter(ImageFilter.MaxFilter((w // 2) * 2 + 1)).filter(ImageFilter.GaussianBlur(w))
+    a0 = big.getchannel("A")
+    brilho = a0.filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.GaussianBlur(w * 1.6)).point(lambda v: int(v * 0.35))
     g = Image.new("RGBA", big.size, cor + (255,))
-    g.putalpha(a.point(lambda v: int(v * 0.85)))
+    g.putalpha(brilho)
+    borda = np.asarray(a0.filter(ImageFilter.MaxFilter(5))).astype(int) - np.asarray(a0).astype(int)
+    linha = Image.new("RGBA", big.size, tuple(min(255, c + 90) for c in cor) + (255,))
+    linha.putalpha(Image.fromarray(np.clip(borda, 0, 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(0.8)))
     out = Image.new("RGBA", big.size, (0, 0, 0, 0))
     out.alpha_composite(g)
+    out.alpha_composite(linha)
     out.alpha_composite(big)
     return out
 
@@ -312,21 +330,18 @@ def flare(img, x, y, s=1.0, a=1.0):
 
 
 @lru_cache(None)
-def grao_frames():
-    out = []
-    for k in range(6):
-        rng = np.random.default_rng(k)
-        n = np.clip(rng.normal(128, 10, (H // 3, W // 3)), 0, 255).astype(np.uint8)
-        g = Image.fromarray(n).resize((W, H), Image.BILINEAR)
-        out.append(np.asarray(g).astype(np.int16) - 128)
-    return out
+def vinheta():
+    yy, xx = np.mgrid[0:H, 0:W]
+    r = np.hypot((xx - W / 2) / (W * 0.75), (yy - H / 2) / (H * 0.62))
+    a = np.clip((r - 0.55) * 0.9, 0, 0.55) * 255
+    v = Image.new("RGBA", (W, H), (0, 0, 0, 255))
+    v.putalpha(Image.fromarray(a.astype(np.uint8)))
+    return v
 
 
 def cinema(img, t):
-    """Granulado de filme (12 poses/s) e faixas pretas."""
-    a = np.asarray(img.convert("RGB")).astype(np.int16)
-    a += grao_frames()[int(t * POSE) % 6][..., None]
-    img = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)).convert("RGBA")
+    """Acabamento de cinema limpo: vinheta suave e faixas pretas (sem granulado)."""
+    img.alpha_composite(vinheta())
     d = ImageDraw.Draw(img)
     d.rectangle((0, 0, W, 70), fill=(0, 0, 0))
     d.rectangle((0, H - 70, W, H), fill=(0, 0, 0))
@@ -441,6 +456,15 @@ ELENCO_FRENTE = [("heroi_4", 130, 330), ("heroi_1", 300, 380), ("heroi_2", 540, 
                  ("heroi_6", 950, 340)]
 
 
+@lru_cache(None)
+def nevoa():
+    a = np.zeros((520, W))
+    a += np.sin(np.linspace(0, math.pi, 520))[:, None] * 70
+    im = Image.new("RGBA", (W, 520), (4, 4, 18, 255))
+    im.putalpha(Image.fromarray(a.astype(np.uint8)))
+    return im
+
+
 def cena_gancho(img, t):
     """O elenco inteiro sai do portal do multiverso e forma a "foto de pôster" na frente dele."""
     a = SCENES[0][0]
@@ -453,11 +477,8 @@ def cena_gancho(img, t):
     portal(img, 540, 820, 330, t, 1, LARANJA, None, (120, 80, 255), abre)
     for k, (n, x, h) in enumerate(ELENCO_FUNDO):  # fileira de trás (mais escura e menor)
         sai_do_portal(img, n, 540, 820, x, CHAO - 230, h, t, a + 0.8 + k * 0.18, 0.45)
-    escuro = Image.new("RGBA", (W, H), (0, 0, 10, 0))
-    if u > 0.8:
-        d = ImageDraw.Draw(escuro)
-        d.rectangle((0, CHAO - 600, W, CHAO - 220), fill=(0, 0, 10, 60))
-        img.alpha_composite(escuro)
+    if u > 0.8:  # névoa escura suave entre a fileira de trás e a da frente (profundidade)
+        img.alpha_composite(nevoa(), (0, CHAO - 640))
     for k, (n, x, h) in enumerate(ELENCO_FRENTE):
         sai_do_portal(img, n, 540, 820, x, CHAO, h, t, a + 1.9 + k * 0.22, 0.45)
     flare(img, 760, 600, 1.0, 0.8 * seg(t, a + 3.2, a + 3.6))
@@ -808,8 +829,8 @@ def ffmpeg():
 
 def encode(out_path, wav, n, args):
     cmd = [ffmpeg(), "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}",
-           "-framerate", str(FPS), "-i", "-", "-i", wav, "-c:v", "libx264", "-preset", "medium", "-crf", "20",
-           "-maxrate", "8M", "-bufsize", "16M", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-shortest",
+           "-framerate", str(FPS), "-i", "-", "-i", wav, "-c:v", "libx264", "-preset", "medium", "-crf", "16", "-tune", "film",
+           "-maxrate", "14M", "-bufsize", "28M", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-shortest",
            "-movflags", "+faststart", out_path]
     p = subprocess.Popen(cmd, stdin=subprocess.PIPE)
     with Pool(4) as pool:
