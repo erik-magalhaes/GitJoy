@@ -240,6 +240,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Trend: vídeo de trend é CURTO (ele disse que não precisa de 1 minuto) e a ação tem que bater com a música; a ideia boa
   foi dele: jogo antigo → "tchan" → jogo moderno. Eu não tenho acesso à música (direitos autorais): ele põe o áudio no
   Instagram. Se ele mandar o áudio da trend (gravação de tela), dá para achar o tempo exato do "tchan" e mudar `VIRADA`.
+  **A trend é o "efeito Suíça"** (referência em `byebye-reels/referencia/`, fora do git): "antes" feio (calçada esburacada)
+  até o silêncio da música, e no "tchan" (a música volta em 10,16 s; corte em 10,10 s) vira o "depois" bonito (Suíça), com
+  o texto fixo 'O efeito "Suíça" 🇨🇭' (branco, contorno preto, y≈660). Cortes medidos: antes 0 / 4,67; depois 10,10 / 12,47 /
+  14,40 / 16,43; fim 22,17. `byebye-reels/efeito.py --antigo ... --moderno ...` monta tudo com os clipes dele e o áudio da
+  referência ('O efeito "jogos modernos" 🎲'), em versão com e sem música.
   **Próximo passo combinado:** ele vai gravar 2 vídeos (passando por um jogo antigo e depois por um moderno) e mandar
   a música e um vídeo de referência da trend. Eu edito copiando os cortes da referência no tempo da música (achar o "tchan"
   pelo áudio: onset/energia) e entrego com a música e sem a música (para ele usar o áudio do Instagram).
