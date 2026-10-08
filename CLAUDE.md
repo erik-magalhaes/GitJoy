@@ -243,6 +243,10 @@ O nome "Print Vazado" fazia o **TikTok bloquear a conta**, então evite nomes co
   Parte 1 refeita pelo celular da Mel (`grupo_mel`/`malu_mel`, dono "mel"): o wifi cai e o socorro fica `dict(falha=True)`
   ("não entregue" em vermelho); o assassino apaga o socorro e manda "tá tudo certo" (`dict(saida=True)`), por isso os amigos sobem.
   Assobio do assassino: `("assobio", dur, vol)` ou `audio ... dict(assobio=True)`. EFEITO_VOZ agora vale também nos áudios. "Theo" precisa de `PRONUNCIA` ("Téo").
+- **A Esquisita do 3ºA (`esquisita/`, teen estilo Betty, a Feia):** a Lorena vira meme (coruja) pela Valentina; o Lucca (vôlei)
+  pede aula de física; print da aposta de R$ 500 (ideia da Valentina, ele já tinha cancelado); o Cadu e a irmã Nanda fazem a
+  transformação "pra mim, não pra ele"; no baile ela arrasa e o balde de tinta da Valentina é descoberto. Emoji em nome de
+  remetente (NOMES) não renderiza: use nomes sem emoji.
 - **Novelinha de frutas (pausada):** ele quer as "pessoas-fruta" das novelas virais (Moranguete, Abacatudo, Fruit Love Island),
   com corpo humano realista e pele/cabeça de fruta. Esses vídeos são feitos com geradores de vídeo por IA (Veo 3, Kling, ~R$ 90/mês),
   que não temos aqui. As frutas 3D feitas no Blender (`frutas/f3d.py`, `pip install bpy`, Cycles a ~10 s/quadro) foram **rejeitadas**
