@@ -48,7 +48,7 @@ def dado(n):
     im = Image.new("RGB", (w, w), (24, 20, 40))
     d = ImageDraw.Draw(im)
     import math
-    cx, cy, r = w / 2, w / 2, 210
+    cx, cy, r = w / 2, w / 2 + 40, 180
     hexa = [(cx + r * math.cos(math.radians(90 + 60 * k)), cy - r * math.sin(math.radians(90 + 60 * k))) for k in range(6)]
     cor = (255, 196, 0) if n == 20 else ((198, 40, 40) if n <= 5 else (94, 53, 177))
     d.polygon(hexa, fill=cor)
@@ -59,10 +59,10 @@ def dado(n):
         for q in tri:
             d.line([p, q], fill=(30, 20, 50), width=4)
     d.polygon(hexa, outline=(30, 20, 50), width=6)
-    d.text((cx, cy + 30), str(n), font=zap.inter(120, 900), fill=(255, 255, 255), anchor="mm", stroke_width=6,
+    d.text((cx, cy + 25), str(n), font=zap.inter(110, 900), fill=(255, 255, 255), anchor="mm", stroke_width=6,
            stroke_fill=(30, 20, 50))
     if n == 20:
-        d.text((cx, w - 30), "CRÍTICO!", font=zap.inter(44, 900), fill=(255, 214, 0), anchor="mm")
+        d.text((cx, 50), "CRÍTICO!", font=zap.inter(48, 900), fill=(255, 214, 0), anchor="mm")
     return im
 
 
@@ -156,7 +156,7 @@ EPISODIOS = [
         ("msg", "lia", "Breno, acorda! Eu cheguei na caverna do dragão sozinha!"),
         ("msg", "breno", "Lia, segura aí! Eu tô tentando voltar, juro.", dict(dig=0.4)),
         ("msg", "breno", "É que aqui no castelo... tá difícil sair agora 😬", dict(dig=0.4)),
-        ("chat", "guilda", "20:45", "SÁBADO"),
+        ("chat", "guilda", "20:45"),
         ("msg", "mestre", "A caverna está quente. Pilhas de ouro brilham no escuro. E algo enorme respira.", dict(dig=0.6)),
         ("msg", "mestre", "Dois olhos amarelos se abrem.", dict(dig=0.8)),
         ("audio", "mestre", "Curandeira tola. Você veio sozinha até o meu ninho. Eu sou Ignarok. E esta é a sua última noite."),
@@ -183,12 +183,12 @@ EPISODIOS = [
         ("chat", "mae", "21:30", "SÁBADO"),
         ("msg", "mae", "Lia, já são nove e meia. Desliga esse jogo e vem jantar, que a lasanha esfriou!", dict(dig=0.3)),
         ("msg", "lia", "Já vou, mãe! A gente acabou de matar o dragão 😂"),
-        ("chat", "guilda", "21:31", "SÁBADO"),
+        ("chat", "guilda", "21:31"),
         ("msg", "breno", "Mestre, melhor sessão de RPG da vida 🙌", dict(dig=0.3)),
         ("msg", "kael", "Semana que vem eu volto com um anão. Que não seja traidor 😂", dict(dig=0.3)),
         ("msg", "mestre", "Sessão encerrada. Sábado que vem, mesmo horário. E Breno: faz a lição de matemática antes, senão sua mãe confisca o carregador de novo 😂",
          dict(dig=0.4)),
-        ("sistema", "Mestre mudou o nome do grupo para \"RPG da 8ª série 🎲\""),
+        ("sistema", "Mestre mudou o nome do grupo para \"RPG da 8ª série\""),
         ("foto", "lia", "dados_rpg.jpg", "Meus dados da sorte 🎲💜", dict(pausa=0.8)),
         ("pausa", 2.4),
     ]),
