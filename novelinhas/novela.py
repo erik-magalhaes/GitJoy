@@ -340,7 +340,11 @@ class Ep:
         # ducking pela envoltória da voz
         env = np.abs(voz)
         k = int(0.25 * SR)
-        env = np.convolve(env, np.ones(k) / k, mode="same")
+        # média móvel por soma acumulada (o np.convolve com janela de 0,25 s ficava lentíssimo)
+        cs = np.concatenate([[0.0], np.cumsum(env)])
+        ini = np.clip(np.arange(n) - k // 2, 0, n)
+        fim = np.clip(np.arange(n) - k // 2 + k, 0, n)
+        env = (cs[fim] - cs[ini]) / k
         duck = 1.0 - 0.62 * np.clip(env / 0.02, 0, 1)
         # a trilha some na tela final (fica só o tan-tan-tan) e entra suave no começo
         t = np.arange(n) / SR
