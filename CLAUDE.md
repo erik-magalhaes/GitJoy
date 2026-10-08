@@ -68,7 +68,7 @@ tudo antes de começar um vídeo novo: aqui está o que funcionou, o que não fu
 | `mlem-reels/` (`gibi.py`) | MLEM: Agência Espacial | **Gibi**: página de quadrinhos em que a câmera dá zoom num quadro por vez e o foguete atravessa os quadros com fumaça | Aprovado, 1:06 |
 | `architects-reels/` (`stopmo.py`) | 7 Wonders Arquitetos | **Stop motion** com as peças oficiais sobre **papel quadriculado** (tema "prancheta"), com textos em fita crepe escritos à mão | Prévia aprovada; falta a narração |
 | `hobby-reels/` (`ludoteca.py`) | Institucional: o que são jogos modernos + preço loja × aluguel + prazo progressivo | **Estante da ludoteca** (opção 1): caixas do acervo em prateleiras de madeira, caixas saindo em stop motion, etiquetas kraft e de preço | Prévia mandada; esperando a narração dele |
-| `marvel-reels/` (`portais.py`) | Os 9 Marvel United do acervo + Multiverse chegando | **Portais do multiverso** (opção 1) com pegada de **filme de herói**: arte da capa dentro de portais de faíscas, caixas 3D e miniaturas recortadas saindo dos portais, holofote, brilho de lente, granulado e faixas de cinema, trilha de trailer | Prévia mandada; esperando a narração |
+| `marvel-reels/` (`portais.py`) | Os 9 Marvel United do acervo + Multiverse chegando | **Portais do multiverso** (opção 1) com pegada de **filme de herói**: arte da capa dentro de portais de faíscas, caixas 3D e miniaturas recortadas saindo dos portais, holofote, brilho de lente, faixas de cinema e acabamento limpo em HD (sem granulado), trilha de trailer | Prévia mandada; esperando a narração |
 
 Comandos comuns: `python3 <script>.py --frame T [T2 ...]` (quadros de teste em `out/frames.jpg`), `--only preview`
 e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **não vai pro git**.
@@ -216,6 +216,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   foto (cada foto de loja tem um zoom diferente). Fotos de miniaturas em fundo branco da Zatu (Shopify, 1024 px): Deadpool,
   Blue Team, Gold Team e Multiverse. A Zatu também tinha a caixa 3D oficial do Gold Team. As miniaturas do Multiverse saem do
   portal gigante na cena "vem aí".
+  **4ª rodada:** as fichas de seta e de soco (recortadas em ângulo de uma foto da Bravo) ficaram tortas e ruins. Agora uso os
+  **ícones oficiais de ação** do manual da CMON (`https://cmon-files.s3.amazonaws.com/pdf/assets_item/resource/202/Marvel_United_Rulebook.pdf`,
+  pág. 8): `icones_oficiais.py` troca a textura de papel do fundo por uma imagem transparente e renderiza a página com alfa a 1000 dpi
+  (os ícones têm degradê, então o redesenho traço a traço do Hot Streak não serve). Resultado: `icone_{mover,atacar,heroica,coringa}.png`.
+  **Dica geral:** para símbolos de jogo, o manual oficial em PDF é a melhor fonte.
   Gravador: `https://raw.githack.com/erik-magalhaes/GitJoy/3d0afc99e9c3cdc65a416b73ad54dfbbcbe784b3/marvel-reels/gravador/Gravar_narracao_Marvel.html`.
 - **Qualidade de imagem (lição do Marvel United):** ele NÃO gosta de granulado de filme nem de nada que pareça ruído ou
   pixel ("quero HDzão de cinema"). Use acabamento limpo: vinheta suave, movimento liso a 30 fps no estilo trailer (sem tremidinho),

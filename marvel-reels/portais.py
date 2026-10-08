@@ -121,6 +121,26 @@ def rim(nome, h, pasta="cx", cor=AZUL, w=12):
     return out
 
 
+@lru_cache(None)
+def icone(nome, w):
+    """Ícone oficial de ação (vetorial do manual da CMON, ver icones_oficiais.py): reto, com borda branca
+    fina para o contorno preto não sumir no fundo escuro."""
+    im = Image.open(os.path.join(MI, f"icone_{nome}.png")).convert("RGBA")
+    im = im.resize((int(w), int(im.height * w / im.width)), Image.LANCZOS)
+    pad = 24
+    big = Image.new("RGBA", (im.width + pad * 2, im.height + pad * 2), (0, 0, 0, 0))
+    big.alpha_composite(im, (pad, pad))
+    a0 = big.getchannel("A")
+    brilho = Image.new("RGBA", big.size, (255, 230, 150, 255))
+    brilho.putalpha(a0.filter(ImageFilter.MaxFilter(9)).filter(ImageFilter.GaussianBlur(14)).point(lambda v: int(v * 0.5)))
+    borda = Image.new("RGBA", big.size, (255, 255, 255, 255))
+    borda.putalpha(a0.filter(ImageFilter.MaxFilter(9)).filter(ImageFilter.GaussianBlur(0.8)))
+    out = Image.new("RGBA", big.size, (0, 0, 0, 0))
+    for camada in (brilho, borda, big):
+        out.alpha_composite(camada)
+    return out
+
+
 def cola(img, im, x, y, rot=0.0, sc=1.0, alpha=1.0):
     if sc <= 0.02 or alpha <= 0.01:
         return
@@ -574,19 +594,22 @@ def cena_combo(img, t):
     v = ease(seg(t, a + 0.3, a + 0.9))
     jx, jy, jr = jit(t, 1.5, 7)
     cola(img, peca_w("mao_cartas", 1000, "mi"), 540 + jx, lerp(2200, 1400, v) + jy, -3 + jr)
-    # duas fichas de símbolo se juntam: a sua + a do amigo
+    # dois símbolos de ação (ícones oficiais do manual) se juntam: o da sua carta + o da carta do amigo
     sx = ease(seg(t, a + 2.0, a + 2.6))
-    cola(img, peca_w("simbolo_2", 340, "mi"), lerp(-300, 330, sx), 760, -6, 1.0)
-    cola(img, peca_w("simbolo_1", 340, "mi"), lerp(1400, 760, sx), 760, 6, 1.0)
+    cola(img, icone("atacar", 280), lerp(-300, 300, sx), 770)
+    cola(img, icone("mover", 300), lerp(1400, 790, sx), 770)
+    if u >= 2.6:
+        cola(img, selo("ATACAR", 30, (200, 30, 40)), 300, 925, 0, pop(t, a + 2.6))
+        cola(img, selo("MOVER", 30, (30, 140, 60)), 790, 925, 0, pop(t, a + 2.7))
     if u >= 2.0:
-        cola(img, selo("SUA CARTA", 34, (30, 110, 220)), 330, 600, -4, pop(t, a + 2.2))
-        cola(img, selo("CARTA DO AMIGO", 34, (120, 60, 200)), 760, 600, 4, pop(t, a + 2.5))
+        cola(img, selo("SUA CARTA", 34, (30, 110, 220)), 300, 590, 0, pop(t, a + 2.2))
+        cola(img, selo("CARTA DO AMIGO", 34, (120, 60, 200)), 790, 590, 0, pop(t, a + 2.5))
     if u >= 2.7:
-        estouro(img, 545, 760, 260, t, a + 2.7)
-        cola(img, letreiro("+", 140, WHITE, (255, 200, 80)), 545, 760, 0, pop(t, a + 2.7))
+        estouro(img, 545, 770, 200, t, a + 2.7)
+        cola(img, letreiro("+", 140, WHITE, (255, 200, 80)), 545, 770, 0, pop(t, a + 2.7))
     if u >= 3.6:
         b = 1 + 0.05 * abs(math.sin(pose(t) * 6))
-        cola(img, hq("UM HERÓI AJUDA O OUTRO!", 80), 540, 1000, 2, pop(t, a + 3.6) * b)
+        cola(img, hq("UM HERÓI AJUDA O OUTRO!", 80), 540, 1060, 2, pop(t, a + 3.6) * b)
 
 
 def cena_vilao(img, t):
