@@ -435,18 +435,32 @@ def sai_do_portal(img, nome, px, py, x, chao, h, t, t0, d=0.5, pasta="mi", cor=A
         cola_pe(img, im, x + jx, chao, 1.0, rot + jr)
 
 
+ELENCO_FUNDO = [("xmen_1", 250, 300), ("panther_2", 470, 290), ("aranha_1", 640, 330), ("xmen_3", 840, 300),
+                ("civil_2", 110, 220), ("civil_5", 980, 220)]
+ELENCO_FRENTE = [("heroi_4", 130, 330), ("heroi_1", 300, 380), ("heroi_2", 540, 480), ("heroi_3", 770, 390),
+                 ("heroi_6", 950, 340)]
+
+
 def cena_gancho(img, t):
+    """O elenco inteiro sai do portal do multiverso e forma a "foto de pôster" na frente dele."""
     a = SCENES[0][0]
     u = t - a
     fundo(img, t)
     holofote(img, 540)
     piso(img, CHAO)
-    abre = out_back(seg(t, a + 0.15, a + 0.8)) if u < 0.8 else 1.0
-    portal(img, 540, 900, 300, t, 1, LARANJA, "base", ROXO, abre)
-    luz(img, 540, 900, 380, (255, 140, 40), int(60 * abre))
-    for k, (n, x, h) in enumerate((("heroi_1", 300, 360), ("heroi_3", 780, 380), ("heroi_2", 540, 470))):
-        sai_do_portal(img, n, 540, 900, x, CHAO, h, t, a + 1.2 + k * 0.5)
-    flare(img, 760, 640, 1.0, 0.8 * seg(t, a + 1.0, a + 1.5))
+    abre = out_back(seg(t, a + 0.1, a + 0.7)) if u < 0.7 else 1.0
+    luz(img, 540, 820, 420, (120, 90, 255), int(70 * abre))
+    portal(img, 540, 820, 330, t, 1, LARANJA, None, (120, 80, 255), abre)
+    for k, (n, x, h) in enumerate(ELENCO_FUNDO):  # fileira de trás (mais escura e menor)
+        sai_do_portal(img, n, 540, 820, x, CHAO - 230, h, t, a + 0.8 + k * 0.18, 0.45)
+    escuro = Image.new("RGBA", (W, H), (0, 0, 10, 0))
+    if u > 0.8:
+        d = ImageDraw.Draw(escuro)
+        d.rectangle((0, CHAO - 600, W, CHAO - 220), fill=(0, 0, 10, 60))
+        img.alpha_composite(escuro)
+    for k, (n, x, h) in enumerate(ELENCO_FRENTE):
+        sai_do_portal(img, n, 540, 820, x, CHAO, h, t, a + 1.9 + k * 0.22, 0.45)
+    flare(img, 760, 600, 1.0, 0.8 * seg(t, a + 3.2, a + 3.6))
     cola(img, hq("JÁ IMAGINOU OS HERÓIS\nDA MARVEL NA SUA MESA?", 96), 540, 330, -2, pop(t, a + 0.0, 0.25))
 
 
@@ -455,7 +469,7 @@ def cena_coop(img, t):
     u = t - a
     fundo(img, t)
     piso(img, CHAO)
-    portal(img, 260, 760, 170, t, 2, AZUL, "xmen", (40, 120, 255), out_back(seg(t, a, a + 0.5)))
+    portal(img, 260, 760, 170, t, 2, AZUL, "base", (40, 120, 255), out_back(seg(t, a, a + 0.5)))
     portal(img, 820, 760, 170, t, 3, (255, 60, 60), None, (200, 30, 40), out_back(seg(t, a + 2.2, a + 2.7)))
     cola(img, hq("MARVEL UNITED", 120, WHITE, (20, 60, 160)), 540, 250, -2, pop(t, a + 0.2))
     if u >= 0.8:

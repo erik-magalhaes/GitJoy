@@ -115,17 +115,55 @@ def minis(src, prefixo, min_frac=0.004):
     return feitos
 
 
+def caixa_no_molde(capa_path, molde_png, dst, frente, lado):
+    """Aplica uma capa oficial na foto 3D oficial de outra caixa do MESMO formato (luz e quinas de verdade).
+    frente/lado = quinas (TL, TR, BR, BL) da face na foto do molde, em pixels."""
+    molde = np.asarray(Image.open(molde_png).convert("RGBA")).copy()
+    h, w = molde.shape[:2]
+    capa = np.asarray(apara_capa(capa_path).convert("RGB"))
+    ch, cw = capa.shape[:2]
+
+    def warp(src, quad):
+        sh, sw = src.shape[:2]
+        M = cv2.getPerspectiveTransform(np.float32([[0, 0], [sw, 0], [sw, sh], [0, sh]]), np.float32(quad))
+        img = cv2.warpPerspective(src, M, (w, h), flags=cv2.INTER_CUBIC)
+        mk = cv2.warpPerspective(np.full((sh, sw), 255, np.uint8), M, (w, h))
+        return img, mk
+
+    # sombreamento da foto original (luz da face), para manter o volume
+    luz = cv2.cvtColor(molde[..., :3], cv2.COLOR_RGB2GRAY).astype(float)
+    f_img, f_m = warp(capa, frente)
+    lado_src = cv2.resize(capa[:, :int(cw * 0.14)], (int(cw * 0.14), ch))
+    l_img, l_m = warp((lado_src * 0.72).astype(np.uint8), lado)
+    out = molde.copy()
+    for img, mk in ((l_img, l_m), (f_img, f_m)):
+        sel = (mk > 128) & (molde[..., 3] > 0)
+        out[sel, :3] = img[sel]
+    rgba = Image.fromarray(out, "RGBA")
+    rgba.save(dst)
+
+
 def main():
     os.makedirs(CX, exist_ok=True)
     os.makedirs(MI, exist_ok=True)
-    for n in ("base", "xmen", "civil_war", "blue_team"):
+    for n in ("base", "xmen", "civil_war", "blue_team"):  # fotos 3D da Bravo (Civil War: a oficial tem lateral branca)
         caixa_foto(os.path.join(F, f"caixa_{n}.jpg"), os.path.join(CX, f"{n}.png"))
     caixa_foto(os.path.join(F, "mv_1736429485827.jpg"), os.path.join(CX, "multiverse.png"))
-    for n in ("deadpool", "enter-the-spider-verse", "rise-of-the-black-panther", "spider-geddon", "x-men-gold-team"):
-        caixa_montada(apara_capa(os.path.join(F, f"capa_{n}.jpg")), os.path.join(CX, n.replace("-", "_") + ".png"))
+    # fotos 3D oficiais (Spin Master/CMON) das lojas: muito melhores que montar a caixa a partir da capa
+    for n, arq in (("deadpool", "oficial_deadpool"),
+                   ("spider_geddon", "oficial_spider_geddon"), ("rise_of_the_black_panther", "oficial_black_panther"),
+                   ("enter_the_spider_verse", "oficial_spider_verse")):
+        caixa_foto(os.path.join(F, arq + ".jpg"), os.path.join(CX, n + ".png"))
+    # Gold Team: só existe a capa; aplicada na foto 3D oficial da Blue Team (mesmo formato de caixa)
+    caixa_no_molde(os.path.join(F, "capa_x-men-gold-team.jpg"), os.path.join(CX, "blue_team.png"),
+                   os.path.join(CX, "x_men_gold_team.png"),
+                   [(196, 126), (1320, 27), (1259, 1241), (195, 1597)], [(3, 121), (196, 126), (195, 1597), (73, 1484)])
     minis(os.path.join(F, "minis_herois_base.jpg"), "heroi")
     minis(os.path.join(F, "minis_viloes_base.jpg"), "vilao")
     minis(os.path.join(F, "minis_xmen.jpg"), "xmen")
+    minis(os.path.join(F, "minis_black_panther.jpg"), "panther")
+    minis(os.path.join(F, "minis_spider_verse.jpg"), "aranha")
+    minis(os.path.join(F, "minis_civil_war.jpg"), "civil", 0.0015)
     # folha de teste em fundo escuro
     fs = sorted(glob.glob(os.path.join(CX, "*.png"))) + sorted(glob.glob(os.path.join(MI, "*.png")))
     sheet = Image.new("RGB", (6 * 300, ((len(fs) + 5) // 6) * 320), (14, 16, 30))
