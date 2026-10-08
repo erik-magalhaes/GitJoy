@@ -251,7 +251,7 @@ O nome "Print Vazado" fazia o **TikTok bloquear a conta**, então evite nomes co
   da Cami e da Dandara; o feitiço põe a Paula no hospital; o diário da mãe (Helena) revela que a "quarta" é a oferenda da lua cheia;
   a Cami troca as velas e o feitiço volta para a Íris. Magia pelo celular: mensagem antes de digitar, hora travada em 00:00
   (`dict(hora="00:00")`), áudio `efeito="fantasma"`, diário que escreve sozinho.
-- **Próxima ideia do dono:** aventura medieval com dragão que no fim se revela uma partida de RPG (proposta mandada, esperando ok).
+- **A Guilda do Dragão (`rpg/`):** aventura medieval no grupo "A Guilda ⚔️" (Mestre, Sir Breno, Kael, Lia e o "Dado Mágico"); no fim, a mãe chama a Lia pra jantar e o grupo vira "RPG da 8ª série 🎲". `dado(n)` desenha um d20.
 - **Novelinha de frutas (pausada):** ele quer as "pessoas-fruta" das novelas virais (Moranguete, Abacatudo, Fruit Love Island),
   com corpo humano realista e pele/cabeça de fruta. Esses vídeos são feitos com geradores de vídeo por IA (Veo 3, Kling, ~R$ 90/mês),
   que não temos aqui. As frutas 3D feitas no Blender (`frutas/f3d.py`, `pip install bpy`, Cycles a ~10 s/quadro) foram **rejeitadas**
