@@ -22,3 +22,6 @@ hobby-reels/out/
 hobby-reels/narracao/raw/*.mp3
 hobby-reels/narracao/tmp_*.wav
 hobby-reels/assets/acervo_foto/
+marvel-reels/out/
+marvel-reels/narracao/raw/
+marvel-reels/narracao/tmp_*.wav
