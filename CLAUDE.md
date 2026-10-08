@@ -245,9 +245,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   o texto fixo 'O efeito "Suíça" 🇨🇭' (branco, contorno preto, y≈660). Cortes medidos: antes 0 / 4,67; depois 10,10 / 12,47 /
   14,40 / 16,43; fim 22,17. `byebye-reels/efeito.py --antigo ... --moderno ...` monta tudo com os clipes dele e o áudio da
   referência ('O efeito "jogos modernos" 🎲'), em versão com e sem música.
-  **Próximo passo combinado:** ele vai gravar 2 vídeos (passando por um jogo antigo e depois por um moderno) e mandar
-  a música e um vídeo de referência da trend. Eu edito copiando os cortes da referência no tempo da música (achar o "tchan"
-  pelo áudio: onset/energia) e entrego com a música e sem a música (para ele usar o áudio do Instagram).
+  **Feito (1ª versão):** ele gravou 5 clipes no celular (HEVC 1080p girado; em `referencia/clipes/`, fora do git):
+  c1 Quest e c2 Imagem & Ação (antigos), c3 Santorini, c4 Luxor e c5 Hot Streak (modernos). Comando usado:
+  `python3 efeito.py --planos c1.mp4:2.0 c2.mp4:0.5 c3.mp4:0.3 c4.mp4:1.6 c4.mp4:4.6 c5.mp4:2.0` (os caminhos estão em
+  referencia/clipes). Cor: antes lavada e fria, depois viva (`grade()`). Saída com e sem música, 22 s, ~26 MB.
   Fotos: Banco Imobiliário aberto do site da Estrela (`estrela.fbitsstatic.net/img/p/banco-imobiliario-150398/336914-1.jpg`),
   Ticket to Ride Lendas do Oeste da Gameology (Shopify), Hot Streak `hotstreak-reels/assets/fotos/HS4751.jpg`.
   Código comum dos três: `comum/motor.py` (animação, textos, legendas, render, prévia) e `comum/som.py` (trilhas

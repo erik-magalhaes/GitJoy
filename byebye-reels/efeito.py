@@ -56,6 +56,13 @@ def planos(clipes, cortes):
     return pl
 
 
+def grade(antes):
+    """Antes: cor um pouco lavada e fria (sem graça); depois: cores vivas e mais luz."""
+    if antes:
+        return "eq=saturation=0.75:brightness=-0.02:contrast=0.95,colorbalance=bs=0.04:rs=-0.02"
+    return "eq=saturation=1.25:brightness=0.03:contrast=1.06,unsharp=5:5:0.4"
+
+
 def texto_png(path):
     """Texto do jeito do TikTok: branco com contorno preto fino, e o emoji de dado no fim."""
     f = font("Poppins-ExtraBold.ttf", 56)
@@ -75,27 +82,32 @@ def texto_png(path):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--antigo", nargs="+", required=True)
-    ap.add_argument("--moderno", nargs="+", required=True)
+    ap.add_argument("--antigo", nargs="+")
+    ap.add_argument("--moderno", nargs="+")
+    ap.add_argument("--planos", nargs="+", help="um por plano (2 antes + 4 depois): arquivo:inicio, ex. c1.mp4:2.0")
     ap.add_argument("--rapido", type=float, default=1.0, help="acelera os clipes (ex.: 1.3)")
     a = ap.parse_args()
     os.makedirs(OUT, exist_ok=True)
-    pl = planos(a.antigo, CORTES_ANTES) + planos(a.moderno, CORTES_DEPOIS)
+    if a.planos:  # escolha manual do trecho de cada plano
+        cortes = CORTES_ANTES + CORTES_DEPOIS[1:]
+        pl = [(c.rsplit(":", 1)[0], float(c.rsplit(":", 1)[1]), cortes[i + 1] - cortes[i]) for i, c in enumerate(a.planos)]
+    else:
+        pl = planos(a.antigo, CORTES_ANTES) + planos(a.moderno, CORTES_DEPOIS)
     over = os.path.join(OUT, "efeito_texto.png")
     texto_png(over)
     args, filt = [ffmpeg(), "-y", "-loglevel", "error"], []
     for i, (c, ini, d) in enumerate(pl):
         args += ["-ss", f"{ini:.3f}", "-t", f"{d * a.rapido + 0.2:.3f}", "-i", c]
         filt.append(f"[{i}:v]setpts=(PTS-STARTPTS)/{a.rapido},fps={FPS},scale={W}:{H}:force_original_aspect_ratio=increase,"
-                    f"crop={W}:{H},setsar=1,trim=duration={d:.3f},setpts=PTS-STARTPTS[v{i}]")
+                    f"crop={W}:{H},setsar=1,{grade(i < len(CORTES_ANTES) - 1)},trim=duration={d:.3f},setpts=PTS-STARTPTS[v{i}]")
     n = len(pl)
     args += ["-i", over, "-ss", "0", "-t", f"{FIM:.3f}", "-i", REF]
     filt.append("".join(f"[v{i}]" for i in range(n)) + f"concat=n={n}:v=1:a=0[cat]")
-    filt.append(f"[cat][{n}:v]overlay=0:0[vid]")
+    filt.append(f"[cat][{n}:v]overlay=0:0,fps={FPS}[vid]")
     filt.append(f"[{n + 1}:a]afade=t=out:st={FIM - 0.4:.2f}:d=0.4[aud]")
     com = os.path.join(OUT, "efeito_com_musica.mp4")
     subprocess.run(args + ["-filter_complex", ";".join(filt), "-map", "[vid]", "-map", "[aud]", "-c:v", "libx264",
-                           "-crf", "17", "-preset", "medium", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k",
+                           "-crf", "19", "-maxrate", "9M", "-bufsize", "18M", "-preset", "slow", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k",
                            "-movflags", "+faststart", com], check=True)
     sem = os.path.join(OUT, "efeito_sem_musica.mp4")
     subprocess.run([ffmpeg(), "-y", "-loglevel", "error", "-i", com, "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo",
