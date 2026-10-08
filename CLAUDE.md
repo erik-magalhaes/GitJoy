@@ -211,6 +211,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   perspectiva na foto 3D oficial da Blue Team, que tem o mesmo formato (`caixa_no_molde`). O Civil War oficial tem a lateral branca
   e o recorte falha; ficou a foto da Bravo. Cada portal mostra a caixa **de onde saem** as miniaturas (não pôr capa do X-Men com
   as miniaturas do jogo base). O gancho virou um **elenco inteiro** saindo do portal (miniaturas de várias caixas, em duas fileiras).
+  **3ª rodada:** ele quis um **paredão com todas as miniaturas** ("mostrando tamanho, diferença"). Ficou em `paredao()`: 5 degraus de
+  vitrine com ~49 miniaturas de 8 caixas, todas na mesma escala graças à `REF`, que dá a altura de uma miniatura comum em cada
+  foto (cada foto de loja tem um zoom diferente). Fotos de miniaturas em fundo branco da Zatu (Shopify, 1024 px): Deadpool,
+  Blue Team, Gold Team e Multiverse. A Zatu também tinha a caixa 3D oficial do Gold Team. As miniaturas do Multiverse saem do
+  portal gigante na cena "vem aí".
   Gravador: `https://raw.githack.com/erik-magalhaes/GitJoy/3d0afc99e9c3cdc65a416b73ad54dfbbcbe784b3/marvel-reels/gravador/Gravar_narracao_Marvel.html`.
 - **Qualidade de imagem (lição do Marvel United):** ele NÃO gosta de granulado de filme nem de nada que pareça ruído ou
   pixel ("quero HDzão de cinema"). Use acabamento limpo: vinheta suave, movimento liso a 30 fps no estilo trailer (sem tremidinho),
