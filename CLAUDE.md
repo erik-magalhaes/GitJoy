@@ -68,6 +68,9 @@ tudo antes de começar um vídeo novo: aqui está o que funcionou, o que não fu
 | `mlem-reels/` (`gibi.py`) | MLEM: Agência Espacial | **Gibi**: página de quadrinhos em que a câmera dá zoom num quadro por vez e o foguete atravessa os quadros com fumaça | Aprovado, 1:06 |
 | `architects-reels/` (`stopmo.py`) | 7 Wonders Arquitetos | **Stop motion** com as peças oficiais sobre **papel quadriculado** (tema "prancheta"), com textos em fita crepe escritos à mão | Prévia aprovada; falta a narração |
 | `hobby-reels/` (`ludoteca.py`) | Institucional: o que são jogos modernos + preço loja × aluguel + prazo progressivo | **Estante da ludoteca** (opção 1): caixas do acervo em prateleiras de madeira, caixas saindo em stop motion, etiquetas kraft e de preço | Prévia mandada; esperando a narração dele |
+| `quiz-reels/` (`zoom.py`) | Quiz "Que jogo é esse?" (5 caixas do acervo pelo zoom) | **Lupa de game show** nas cores do site, contagem 5-4-3-2-1, revelação com confete; SEM narração, para a música em alta | Mandado (para_musica + com_trilha) |
+| `byebye-reels/` (`byebye.py`) | "BYE BYE..." para a trend da música American Pie | **Retrô anos 70**: raios de sol, letras com sombra 3D, polaroides com emoji que dão tchau e voam; "OI, SUA VEZ!" | Mandado (para_musica + com_trilha) |
+| `tipos-reels/` (`tipos.py`) | Os 7 tipos de jogador que todo grupo tem | **Cartas colecionáveis** com raridade, status, habilidade e jogo favorito; pacotinho rasgando, carta virando, brilho holográfico | Prévia mandada; esperando a narração |
 | `marvel-reels/` (`portais.py`) | Os 9 Marvel United do acervo + Multiverse chegando | **Portais do multiverso** (opção 1) com pegada de **filme de herói**: arte da capa dentro de portais de faíscas, caixas 3D e miniaturas recortadas saindo dos portais, holofote, brilho de lente, faixas de cinema e acabamento limpo em HD (sem granulado), trilha de trailer | Prévia mandada; esperando a narração |
 
 Comandos comuns: `python3 <script>.py --frame T [T2 ...]` (quadros de teste em `out/frames.jpg`), `--only preview`
@@ -228,4 +231,19 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   (tira os bloquinhos de JPEG das fotos de loja), x264 com `-crf 16 -tune film` e prévia 720p a ~6000k em fundos escuros
   com degradê (a 2800k aparece blocagem). O chat aceita arquivos de no máximo 30 MB: para ~66 s, use x264 em duas passadas
   a ~3300k (`-preset slow -tune film -pass 1/2`), que fica com ~28 MB.
+- **Engajamento (out/2026):** ele reclamou de visualizações e engajamento baixos. Explicar regras não gera marcação nem
+  comentário; os formatos novos são entretenimento: **marcar o amigo** (tipos de jogador), **quiz** (palpite nos comentários,
+  assistir de novo) e **trend com música em alta**. Vídeo para música em alta: SEM narração, tudo escrito na tela, entregue
+  em duas versões: `_para_musica` (só efeitos, ele põe o áudio da trend no Instagram) e `_com_trilha` (reserva).
+  No quiz ele pediu jogos **mais difíceis** e escolheu a lista: Ticket to Ride, King of Tokyo, Codinomes (no acervo é o
+  **Código Secreto Imagens**), Deep Regrets e Segue o Fluxo. O zoom nunca pode mostrar o título nem a borda da caixa.
+  Não achei o que é o "efeito Suíça" da trend American Pie: se ele mandar o link, ajuste o ritmo do `byebye.py`.
+  Código comum dos três: `comum/motor.py` (animação, textos, legendas, render, prévia) e `comum/som.py` (trilhas
+  gameshow/travessa/retro70 e efeitos). Emojis coloridos: Noto Color Emoji (`motor.emoji`). Vídeos de animação a 1080p
+  ficam com < 30 MB, então dá para mandar o 1080p direto no chat.
+  Caixas laranja do site (fundo laranja) recortam mal no automático: Código Secreto e Deep Regrets foram recortados à mão
+  com um polígono de 6 pontos (caixa 3D) em `hobby-reels/assets/caixas/`.
+  **7 tipos:** gravador `tipos-reels/gravador/Gravar_narracao_Tipos.html` (arquivos `tipos_narracao_NN`):
+  `https://raw.githack.com/erik-magalhaes/GitJoy/5da0dc105532cf7d29b3ef270d4c72a131ff5c29/tipos-reels/gravador/Gravar_narracao_Tipos.html`.
+  Ao receber: `narracao/raw/` → tmp_NN.wav (cadeia de voz) → `tratar_narracao.py` → revisar `TEXTO` → `narracao.py` → `tipos.py`.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
