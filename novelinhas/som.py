@@ -262,3 +262,51 @@ def mascara(x):
     i = int(0.07 * SR)
     out[i:i + len(y)] += 0.3 * _lp(y, 1800)
     return out * 0.85
+
+
+def _ola(x, fator, win=1024):
+    """Muda a duração por sobreposição de janelas (sem mudar o tom). fator > 1 encurta."""
+    hs = win // 4
+    ha = int(round(hs * fator))
+    janela = np.hanning(win)
+    n_out = int(len(x) / fator) + win
+    out = np.zeros(n_out)
+    norma = np.zeros(n_out)
+    i_a, i_s = 0, 0
+    while i_a + win < len(x) and i_s + win < n_out:
+        out[i_s:i_s + win] += x[i_a:i_a + win] * janela
+        norma[i_s:i_s + win] += janela
+        i_a += ha
+        i_s += hs
+    return out / np.maximum(norma, 1e-3)
+
+
+def _desce_tom(x, semitons):
+    """Abaixa o tom mantendo a duração: reamostra (fica grave e lento) e depois encurta por OLA."""
+    k = 2 ** (semitons / 12)
+    n = len(x)
+    lento = np.interp(np.arange(int(n * k)) / k, np.arange(n), x)
+    return _ola(lento, k)[:n]
+
+
+def assassino(x):
+    """Voz de assassino de filme: bem grave (-7 semitons), com uma oitava abaixo por baixo,
+    modulação metálica, saturação e um eco curto. Esquisita de propósito."""
+    n = len(x)
+    a = _desce_tom(x, 7)
+    b = _desce_tom(x, 12) * 0.45
+    y = a + b
+    t = np.arange(len(y)) / SR
+    y = y * (0.72 + 0.28 * np.sin(2 * np.pi * 38 * t))     # anel metálico
+    y = _bp(y, 60, 3600, 2)
+    y = np.tanh(y * 3.5) / np.tanh(3.5)
+    rnd = np.random.default_rng(21)
+    sopro = _bp(rnd.standard_normal(len(y)), 1500, 5000) * np.abs(_lp(np.abs(x[:len(y)]), 30)) * 2.2
+    y = y + sopro * 0.25
+    out = np.zeros(len(y) + int(0.35 * SR))
+    out[:len(y)] += y
+    for dl, g in ((0.06, 0.32), (0.13, 0.18)):
+        i = int(dl * SR)
+        out[i:i + len(y)] += g * _lp(y, 2200)
+    out = out[:n + int(0.35 * SR)]
+    return out / (np.abs(out).max() + 1e-9) * 0.9

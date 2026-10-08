@@ -235,6 +235,11 @@ O nome "Print Vazado" fazia o **TikTok bloquear a conta**, então evite nomes co
   a tia fica paranoica ("você sabia?") e um ano depois aparece bonitona. Ele pediu para **não** incluir o filho com drogas nem
   o casal separado hoje. Emoji sozinho numa mensagem quebra o TTS (texto vazio): sempre ponha uma palavra junto.
   `novela.py` agora faz o ducking por soma acumulada (o `np.convolve` travava o render) e renders devem rodar **um por vez**.
+- **A Chácara (`chacara/`, terror, 7 partes):** refaz o "Número Desconhecido", de que ele não gostou (o motivo ficava óbvio logo de
+  cara e as mortes iam rápido demais). Agora: 1ª parte com a "garota da abertura" (a Mel, sozinha na chácara), pânico em tempo real
+  (banheiro, milharal, localização parada), motivo (a Lara, afogada na represa) só a partir da Parte 2/5, e a assassina é a Bel,
+  irmã da Lara, que mandava cada um para onde ia morrer. O assassino escreve do celular da Mel (`quem="assassino"`, nome "Mel").
+  Voz nova `som.assassino` (−7 semitons + oitava abaixo, anel metálico, saturação, eco). "Theo" precisa de `PRONUNCIA` ("Téo").
 - **Novelinha de frutas (pausada):** ele quer as "pessoas-fruta" das novelas virais (Moranguete, Abacatudo, Fruit Love Island),
   com corpo humano realista e pele/cabeça de fruta. Esses vídeos são feitos com geradores de vídeo por IA (Veo 3, Kling, ~R$ 90/mês),
   que não temos aqui. As frutas 3D feitas no Blender (`frutas/f3d.py`, `pip install bpy`, Cycles a ~10 s/quadro) foram **rejeitadas**

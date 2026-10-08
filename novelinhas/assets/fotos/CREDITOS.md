@@ -13,3 +13,4 @@ Fotos em domínio público / CC0 (busca no Openverse com license=cc0,pdm):
 - carro_vermelho.jpg (WordPress Photo Directory, CC0) e drink_praia.jpg (rawpixel, CC0): Openverse
 - rosas.jpg, porta_escura.jpg (rawpixel, CC0); bolo_chocolate.jpg (WordPress Photo Directory, CC0); baloes.jpg, salao_festa.jpg (StockSnap, CC0); bolo_infantil.jpg (Flickr, CC0): Openverse
 - Regra: cada foto aparece em UMA novela só (o dono reclamou de fotos repetidas).
+- milharal_dentro.jpg, casa_chacara.jpg, celeiro.jpg (Flickr); milharal_dia.jpg, estrada_terra.jpg (StockSnap): Openverse, CC0
