@@ -229,6 +229,11 @@ O nome "Print Vazado" fazia o **TikTok bloquear a conta**, então evite nomes co
 - **O Portão (`pai/`, drama do pai ausente):** o Roberto sumiu quando o Gabriel tinha 7 anos (ele esperou no portão no aniversário de 8),
   volta ao ver o neto Miguel no Facebook; tem leucemia; a Manu (meia-irmã) mostra as notas que ele nunca mandou; o Gabriel doa a medula.
   Fim: "O portão vai estar aberto." / "Dessa vez eu chego."
+- **15 Anos (`tia/`, história real da família do dono, nomes trocados):** a Tia Sandra (15 anos casada com o Valmir) descobre
+  pelo Jean que o Valmir tem um caso com a Kelly (sobrinha dela, casada com o Jean, mãe do Arthur). Explode no grupo da família,
+  a tia fica paranoica ("você sabia?") e um ano depois aparece bonitona. Ele pediu para **não** incluir o filho com drogas nem
+  o casal separado hoje. Emoji sozinho numa mensagem quebra o TTS (texto vazio): sempre ponha uma palavra junto.
+  `novela.py` agora faz o ducking por soma acumulada (o `np.convolve` travava o render) e renders devem rodar **um por vez**.
 - **Novelinha de frutas (pausada):** ele quer as "pessoas-fruta" das novelas virais (Moranguete, Abacatudo, Fruit Love Island),
   com corpo humano realista e pele/cabeça de fruta. Esses vídeos são feitos com geradores de vídeo por IA (Veo 3, Kling, ~R$ 90/mês),
   que não temos aqui. As frutas 3D feitas no Blender (`frutas/f3d.py`, `pip install bpy`, Cycles a ~10 s/quadro) foram **rejeitadas**
