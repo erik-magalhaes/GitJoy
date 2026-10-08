@@ -68,6 +68,7 @@ tudo antes de começar um vídeo novo: aqui está o que funcionou, o que não fu
 | `mlem-reels/` (`gibi.py`) | MLEM: Agência Espacial | **Gibi**: página de quadrinhos em que a câmera dá zoom num quadro por vez e o foguete atravessa os quadros com fumaça | Aprovado, 1:06 |
 | `architects-reels/` (`stopmo.py`) | 7 Wonders Arquitetos | **Stop motion** com as peças oficiais sobre **papel quadriculado** (tema "prancheta"), com textos em fita crepe escritos à mão | Prévia aprovada; falta a narração |
 | `hobby-reels/` (`ludoteca.py`) | Institucional: o que são jogos modernos + preço loja × aluguel + prazo progressivo | **Estante da ludoteca** (opção 1): caixas do acervo em prateleiras de madeira, caixas saindo em stop motion, etiquetas kraft e de preço | Prévia mandada; esperando a narração dele |
+| `marvel-reels/` (`portais.py`) | Os 9 Marvel United do acervo + Multiverse chegando | **Portais do multiverso** (opção 1) com pegada de **filme de herói**: arte da capa dentro de portais de faíscas, caixas 3D e miniaturas recortadas saindo dos portais, holofote, brilho de lente, granulado e faixas de cinema, trilha de trailer | Prévia mandada; esperando a narração |
 
 Comandos comuns: `python3 <script>.py --frame T [T2 ...]` (quadros de teste em `out/frames.jpg`), `--only preview`
 e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **não vai pro git**.
@@ -195,4 +196,14 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   (Cores com Dicas, Patchwork, Sushi Go, Splendor, Dinosaur Island) saem com sobra e foram descartadas.
   **Preços (out/2026):** aluguel de R$ 15, 30, 45 ou 60 por 5 dias, com 160 jogos no acervo; Wingspan a partir de R$ 377 nas lojas
   (Compara Jogos) e R$ 45 no aluguel; Clank! Catacombs a partir de R$ 422 (R$ 45); Hot Streak a partir de R$ 279 (R$ 30).
+- **Marvel United (`marvel-reels/`):** ele pediu "bem recortado, numa pegada filme de heróis" e escolheu os **portais** (opção 1).
+  No acervo há **3 jogos base** (Marvel United, X-Men, Spider-Geddon) e **6 expansões** (Civil War, Blue Team, Gold Team,
+  Deadpool, Rise of the Black Panther, Enter the Spider-Verse), todos a R$ 30. Pedido dele: destacar que **1 base + 2 expansões
+  = 3 caixas = 7 dias** (prazo progressivo). O "vilão controlado por jogador" já existe no X-Men (Modo Supervilão), então
+  não é novidade do Multiverse. O Multiverse é da Galápagos (jan/2025, ~R$ 330, 1 a 5 jogadores) e "vem aí" para o acervo.
+  **Material:** as fotos do site da Sua Vez são só a arte da capa (sem caixa 3D). As fotos 3D e das miniaturas em fundo branco
+  vieram da Bravo Jogos (2000 px). As capas das outras expansões vieram do Compara Jogos (`og:image`). `recortes_marvel.py` faz:
+  caixas 3D por flood fill + casco convexo; caixas montadas a partir da capa (frente, lateral e tampa); e miniaturas
+  separadas uma a uma, tirando os vãos brancos fechados. Na mão de cartas, NÃO tire os brancos internos.
+  Gravador: `https://raw.githack.com/erik-magalhaes/GitJoy/3d0afc99e9c3cdc65a416b73ad54dfbbcbe784b3/marvel-reels/gravador/Gravar_narracao_Marvel.html`.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
