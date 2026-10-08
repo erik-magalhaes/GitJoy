@@ -27,23 +27,23 @@ ORANGE = (249, 115, 22)
 ORANGE_D = (214, 84, 6)
 NAVY = (15, 23, 42)
 GREEN = (22, 163, 74)
-DIF = {"FÁCIL": GREEN, "MÉDIO": (44, 120, 200), "DIFÍCIL": (200, 40, 60), "IMPOSSÍVEL": (20, 20, 20)}
+DIF = {"FÁCIL": GREEN, "MÉDIO": (44, 120, 200), "DIFÍCIL": (230, 120, 10), "MUITO DIFÍCIL": (200, 40, 60),
+       "IMPOSSÍVEL": (20, 20, 20)}
 
 # (caixa, nome na tela, dificuldade, centro do zoom em fração da caixa, zoom inicial)
-QUIZ = [
-    ("ticket_to_ride", "Ticket to Ride", "FÁCIL", (0.52, 0.55), 2.6),
-    ("king_of_tokyo", "King of Tokyo", "FÁCIL", (0.44, 0.84), 2.8),
-    ("dixit", "Dixit", "MÉDIO", (0.36, 0.62), 2.8),
-    ("camel_up_second_edition", "Camel Up", "MÉDIO", (0.70, 0.30), 3.0),
-    ("santorini", "Santorini", "DIFÍCIL", (0.30, 0.40), 3.2),
-    ("wingspan", "Wingspan", "IMPOSSÍVEL", (0.80, 0.24), 3.4),
+QUIZ = [  # ordem e jogos escolhidos pelo dono, cada vez mais difícil
+    ("ticket_to_ride", "Ticket to Ride", "FÁCIL", (0.45, 0.66), 3.4),
+    ("king_of_tokyo", "King of Tokyo", "MÉDIO", (0.44, 0.84), 3.4),
+    ("c_digo_secreto_imagens", "Código Secreto Imagens", "DIFÍCIL", (0.83, 0.70), 4.0),
+    ("deep_regrets", "Deep Regrets", "MUITO DIFÍCIL", (0.52, 0.28), 4.2),
+    ("segue_o_fluxo", "Segue o Fluxo", "IMPOSSÍVEL", (0.75, 0.20), 4.6),
 ]
-HOOK, RODADA = 4.0, 9.0
-FIM0 = HOOK + RODADA * len(QUIZ)  # 58
+HOOK, RODADA = 4.0, 10.3
+FIM0 = HOOK + RODADA * len(QUIZ)  # 55.5
 CTA0 = FIM0 + 4.5
 DUR = CTA0 + 5.0
 LX, LY, LR = 540, 960, 390  # lupa
-REVELA = 6.0  # dentro da rodada
+REVELA = 7.0  # dentro da rodada
 
 
 # ---------------------------------------------------------------- peças
@@ -163,7 +163,7 @@ def lupa(img, detalhe, cx, cy, r, rot=0.0):
 def placar(img, k, feitos):
     d = ImageDraw.Draw(img)
     for i in range(len(QUIZ)):
-        x = 540 + (i - 2.5) * 80
+        x = 540 + (i - (len(QUIZ) - 1) / 2) * 80
         if i < feitos:
             d.ellipse((x - 22, 350 - 22, x + 22, 350 + 22), fill=WHITE, outline=WHITE, width=5)
         elif i == k:
@@ -202,7 +202,7 @@ def cena_gancho(img, t):
     some = 1 - ease(seg(t, HOOK - 0.9, HOOK - 0.5))
     cola(img, letreiro("SÓ 1% ACERTA", 120, (255, 230, 90), NAVY, 14), 540, 560, -2, pop(t, -0.3), some)
     b = 1 + 0.05 * abs(math.sin(t * 4))
-    cola(img, letreiro("OS 6!", 190, WHITE, NAVY, 16), 540, 730, 2, pop(t, -0.15) * b, some)
+    cola(img, letreiro("OS 5!", 190, WHITE, NAVY, 16), 540, 730, 2, pop(t, -0.15) * b, some)
     # a lupa passeia por detalhes de todas as caixas (um "trailer")
     k = int(t / 0.55) % len(QUIZ)
     nome, _, _, centro, z0 = QUIZ[k]
@@ -221,17 +221,17 @@ def cena_rodada(img, t, k):
     cabecalho(img, t, k, k)
     cola(img, pilula(f"RODADA {k + 1} · {dif}", 44, DIF[dif]), 540, 450, 0, pop(t, R + 0.05))
     if u < REVELA:
-        z = lerp(z0, max(1.35, z0 * 0.5), ease(seg(u, 0.3, REVELA)))
+        z = lerp(z0, max(1.6, z0 * 0.6), ease(seg(u, 0.3, REVELA)))  # nunca mostra a caixa toda antes da hora
         entra = ease(seg(u, 0, 0.45)) if k > 0 else 1.0
         x = lerp(1500, LX, entra)
         treme = 3 * math.sin(u * 40) * seg(u, REVELA - 1.0, REVELA)  # treme no fim da contagem
         lupa(img, recorte_zoom(nome, centro, z, 2 * LR), x + treme, LY, LR, lerp(20, 0, entra))
-        if u >= 1.0:  # contagem 5..1
-            n = 5 - int(u - 1.0)
-            t0 = R + 1.0 + (5 - n)
+        if u >= 2.0:  # contagem 5..1
+            n = 5 - int(u - 2.0)
+            t0 = R + 2.0 + (5 - n)
             cor = WHITE if n > 2 else (255, 230, 90)
             cola(img, letreiro(str(n), 170, cor, NAVY, 14), 540, 1530, 0, pop(t, t0, 0.25))
-        if 0.3 <= u < 1.0:
+        if 0.3 <= u < 2.0:
             cola(img, letreiro("VALENDO!", 90, (255, 230, 90), NAVY, 12), 540, 1530, -3, pop(t, R + 0.3))
     else:
         v = u - REVELA
@@ -258,8 +258,8 @@ def cena_fim(img, t):
     a = FIM0
     cabecalho(img, t, -1, len(QUIZ))
     cola(img, letreiro("QUANTOS VOCÊ\nACERTOU?", 104, (255, 230, 90), NAVY, 14), 540, 640, -2, pop(t, a + 0.05))
-    linhas = [("0 a 2", "😅", "BORA JOGAR MAIS!"), ("3 a 4", "😎", "JOGADOR DE RESPEITO"),
-              ("5 ou 6", "🧠", "MESTRE DO TABULEIRO")]
+    linhas = [("0 a 1", "😅", "BORA JOGAR MAIS!"), ("2 a 3", "😎", "JOGADOR DE RESPEITO"),
+              ("4 ou 5", "🧠", "MESTRE DO TABULEIRO")]
     for i, (n, e, txt) in enumerate(linhas):
         t0 = a + 0.6 + i * 0.35
         if t >= t0:
@@ -283,9 +283,10 @@ def cena_cta(img, t):
         t0 = a + 0.3 + i * 0.1
         if t >= t0:
             v = quica(t, t0, 0.5)
-            x = 540 + (i - 2.5) * 150
-            y = 700 + abs(i - 2.5) * 22
-            cola(img, sombra(caixa(nome, 330), 14, (6, 14), 0.4, (60, 20, 0)), x, lerp(-400, y, v), (i - 2.5) * 6)
+            m = (len(QUIZ) - 1) / 2
+            x = 540 + (i - m) * 175
+            y = 700 + abs(i - m) * 24
+            cola(img, sombra(caixa(nome, 340), 14, (6, 14), 0.4, (60, 20, 0)), x, lerp(-400, y, v), (i - m) * 6)
     itens = [(1.0, letreiro("ALUGUE ESSES\nE +160 JOGOS!", 76, WHITE, NAVY, 12), 1070),
              (1.4, pilula("5 DIAS DE JOGO · 3 JOGOS = 7 DIAS", 38, NAVY), 1260),
              (1.8, pilula("RESERVE ONLINE · RETIRE EM MAUÁ E ABC", 34, WHITE, NAVY, NAVY), 1375),
@@ -327,11 +328,11 @@ def cues():
     for k in range(len(QUIZ)):
         R = HOOK + RODADA * k
         c += [(R, "whoosh", 0.5), (R + 0.05, "pop", 0.4), (R + 0.3, "pop", 0.4)]
-        c += [(R + 1.0 + j, "relogio", 0.6 + 0.08 * j) for j in range(5)]
+        c += [(R + 2.0 + j, "relogio", 0.6 + 0.08 * j) for j in range(5)]
         c += [(R + REVELA, "reveal", 0.8), (R + REVELA + 0.1, "plateia", 0.5), (R + REVELA + 0.6, "ding", 0.4),
               (R + RODADA - 0.45, "whoosh", 0.4)]
     c += [(FIM0, "pop", 0.5)] + [(FIM0 + 0.6 + i * 0.35, "pop", 0.4) for i in range(3)] + [(FIM0 + 1.9, "boing", 0.5)]
-    c += [(CTA0, "whoosh", 0.4)] + [(CTA0 + 0.3 + i * 0.1 + 0.3, "pop", 0.3) for i in range(6)]
+    c += [(CTA0, "whoosh", 0.4)] + [(CTA0 + 0.3 + i * 0.1 + 0.3, "pop", 0.3) for i in range(len(QUIZ))]
     c += [(CTA0 + x, "pop", 0.4) for x in (1.0, 1.4, 1.8, 2.1)] + [(CTA0 + 2.5, "ding", 0.6)]
     return c
 
