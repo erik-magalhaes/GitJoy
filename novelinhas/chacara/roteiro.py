@@ -27,7 +27,7 @@ ANTONIO = ("pt-BR-AntonioNeural", "+0%", "+0Hz")
 FRANCISCA = ("pt-BR-FranciscaNeural", "+0%", "+0Hz")
 VOZES = {"malu": THALITA, "bel": THALITA, "mel": FRANCISCA, "isa": FRANCISCA,
          "theo": ANTONIO, "breno": ANTONIO, "kaua": ANTONIO, "dito": ANTONIO, "assassino": ANTONIO}
-EFEITO_VOZ = {"assassino": "assassino"}   # quem escreve do celular da Mel depois da Parte 1
+EFEITO_VOZ = {"assassino": "mascara"}   # quem escreve do celular da Mel (a voz do Número Desconhecido, que ele aprovou)
 PRONUNCIA = {r"\bKauã\b": "Cauã", r"\bIsa\b": "Iza", r"\bTheo\b": "Téo"}
 
 PERSONAGENS = {
