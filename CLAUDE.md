@@ -216,5 +216,6 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   pixel ("quero HDzão de cinema"). Use acabamento limpo: vinheta suave, movimento liso a 30 fps no estilo trailer (sem tremidinho),
   luz de recorte fina e nítida (sem halo borrado), recortes passados por `fastNlMeansDenoisingColored` + `UnsharpMask`
   (tira os bloquinhos de JPEG das fotos de loja), x264 com `-crf 16 -tune film` e prévia 720p a ~6000k em fundos escuros
-  com degradê (a 2800k aparece blocagem).
+  com degradê (a 2800k aparece blocagem). O chat aceita arquivos de no máximo 30 MB: para ~66 s, use x264 em duas passadas
+  a ~3300k (`-preset slow -tune film -pass 1/2`), que fica com ~28 MB.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
