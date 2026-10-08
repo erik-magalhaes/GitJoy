@@ -239,7 +239,10 @@ O nome "Print Vazado" fazia o **TikTok bloquear a conta**, então evite nomes co
   cara e as mortes iam rápido demais). Agora: 1ª parte com a "garota da abertura" (a Mel, sozinha na chácara), pânico em tempo real
   (banheiro, milharal, localização parada), motivo (a Lara, afogada na represa) só a partir da Parte 2/5, e a assassina é a Bel,
   irmã da Lara, que mandava cada um para onde ia morrer. O assassino escreve do celular da Mel (`quem="assassino"`, nome "Mel").
-  A voz `som.assassino` (−7 semitons, metálica) foi REJEITADA ("não dá pra entender nada"): use `som.mascara`. "Theo" precisa de `PRONUNCIA` ("Téo").
+  A voz `som.assassino` (−7 semitons, metálica) foi REJEITADA ("não dá pra entender nada"): use `som.mascara`.
+  Parte 1 refeita pelo celular da Mel (`grupo_mel`/`malu_mel`, dono "mel"): o wifi cai e o socorro fica `dict(falha=True)`
+  ("não entregue" em vermelho); o assassino apaga o socorro e manda "tá tudo certo" (`dict(saida=True)`), por isso os amigos sobem.
+  Assobio do assassino: `("assobio", dur, vol)` ou `audio ... dict(assobio=True)`. EFEITO_VOZ agora vale também nos áudios. "Theo" precisa de `PRONUNCIA` ("Téo").
 - **Novelinha de frutas (pausada):** ele quer as "pessoas-fruta" das novelas virais (Moranguete, Abacatudo, Fruit Love Island),
   com corpo humano realista e pele/cabeça de fruta. Esses vídeos são feitos com geradores de vídeo por IA (Veo 3, Kling, ~R$ 90/mês),
   que não temos aqui. As frutas 3D feitas no Blender (`frutas/f3d.py`, `pip install bpy`, Cycles a ~10 s/quadro) foram **rejeitadas**

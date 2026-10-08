@@ -310,3 +310,32 @@ def assassino(x):
         out[i:i + len(y)] += g * _lp(y, 2200)
     out = out[:n + int(0.35 * SR)]
     return out / (np.abs(out).max() + 1e-9) * 0.9
+
+
+def assobio(dur):
+    """Assobio de assassino: uma melodiazinha menor, lenta e afinada demais, com vibrato e sopro."""
+    melodia = [(76, 0.5), (79, 0.5), (78, 0.4), (74, 0.9), (76, 0.5), (71, 1.2), (0, 0.6),
+               (76, 0.5), (79, 0.5), (81, 0.4), (79, 0.4), (78, 1.4), (0, 0.8)]
+    n = int(dur * SR)
+    out = np.zeros(n + SR)
+    t0 = 0.0
+    rnd = np.random.default_rng(31)
+    i = 0
+    while t0 < dur:
+        m, d = melodia[i % len(melodia)]
+        i += 1
+        if m:
+            t = _t(d)
+            f = nota(m) * (1 + 0.012 * np.sin(2 * np.pi * 5.2 * t))   # vibrato
+            fase = 2 * np.pi * np.cumsum(f) / SR
+            env = np.minimum(1, t / 0.06) * np.minimum(1, (d - t) / 0.12)
+            s = np.sin(fase) * env
+            s += 0.15 * _bp(rnd.standard_normal(len(t)), 1800, 4500) * env   # sopro
+            a = int(t0 * SR)
+            out[a:a + len(s)] += s[:len(out) - a]
+        t0 += d
+    rev = np.zeros_like(out)
+    for k, dl in enumerate((0.07, 0.15, 0.24)):
+        j = int(dl * SR)
+        rev[j:] += out[:-j] * (0.35 * 0.7 ** k)
+    return (out + _lp(rev, 3000))[:n] * 0.5

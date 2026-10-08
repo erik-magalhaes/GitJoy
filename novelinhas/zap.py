@@ -340,8 +340,17 @@ def teclado(im, tecla=None):
 
 # ------------------------------------------------------------------ balões
 def _meta(hora, saida, lido=True):
-    """Imagem da hora + tracinhos."""
+    """Imagem da hora + tracinhos. lido="falha": mensagem não entregue (sem sinal), com o aviso em vermelho."""
     f = inter(25, 450)
+    if lido == "falha":
+        txt = "não entregue · " + hora
+        w = round(f.getlength(txt)) + 38
+        im = Image.new("RGBA", (w, 30), (0, 0, 0, 0))
+        d = ImageDraw.Draw(im)
+        d.text((0, 24), txt, font=f, fill=(229, 57, 53), anchor="ls")
+        d.ellipse((w - 26, 3, w - 2, 27), fill=(229, 57, 53))
+        d.text((w - 14, 15), "!", font=inter(20, 800), fill=(255, 255, 255), anchor="mm")
+        return im
     w = round(f.getlength(hora)) + (40 if saida else 0) + 2
     im = Image.new("RGBA", (w, 30), (0, 0, 0, 0))
     d = ImageDraw.Draw(im)

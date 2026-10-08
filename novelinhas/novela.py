@@ -192,7 +192,7 @@ class Ep:
 
     def ev_msg(self, quem, texto, **op):
         ch = self.chat()
-        saida = quem == ch.dono
+        saida = op.get("saida", quem == ch.dono)
         hora = op.get("hora") or self._hora()
         if saida:
             dig = min(0.75, 0.22 + 0.008 * len(texto))
@@ -206,7 +206,8 @@ class Ep:
                 self._digitando(quem, dig)
                 self.t += dig
             self.sfx.append((self.t, "receb", 0.75))
-        it = self._add(Item("texto", self.t, quem, texto, hora, saida, extra=dict(enc=op.get("enc", False))))
+        it = self._add(Item("texto", self.t, quem, texto, hora, saida,
+                            extra=dict(enc=op.get("enc", False), falha=op.get("falha", False))))
         it.t_lido = self.t + 0.6
         if op.get("ler", True):
             d, _ = self.voz(quem, texto, self.t + 0.12)
@@ -217,8 +218,14 @@ class Ep:
 
     def ev_audio(self, quem, texto, **op):
         ch = self.chat()
-        saida = quem == ch.dono
+        saida = op.get("saida", quem == ch.dono)
         a, pal = vozes.fala(op.get("voz", quem), texto)
+        efeito_voz = getattr(self.mod, "EFEITO_VOZ", {}).get(op.get("voz", quem))
+        if efeito_voz:   # antes só as mensagens de texto recebiam o efeito; os áudios saíam com a voz normal
+            n0 = len(a)
+            a = getattr(som, efeito_voz)(a)
+            k = len(a) / max(1, n0)
+            pal = [(s * k, e * k, w) for s, e, w in pal]
         dur = len(a) / SR
         if not saida:
             self.sfx.append((self.t, "receb", 0.75))
@@ -233,6 +240,8 @@ class Ep:
         if op.get("tocar", True):
             efeito = som.fantasma if op.get("efeito") == "fantasma" else som.telefone
             self.vozes.append((t_play, efeito(a) * 0.95))
+            if op.get("assobio"):   # o assassino assobiando por perto, no fundo do áudio
+                self.vozes.append((t_play, efeito(som.assobio(dur + 0.5)) * op.get("assobio_vol", 0.3)))
             self.t = t_play + dur + 0.3
         else:
             self.t += op.get("pausa", 1.2)
@@ -298,6 +307,10 @@ class Ep:
         """Separador de dia no meio da conversa (ex.: DOMINGO)."""
         self.chat().itens.append(Item("chip", self.t, texto=texto))
         self.t += 0.5
+
+    def ev_assobio(self, dur=3.0, vol=0.22):
+        """Assobio do assassino ao fundo, sem mensagem."""
+        self.vozes.append((self.t, som.assobio(dur) * vol))
 
     def ev_pausa(self, s):
         self.t += s
@@ -503,7 +516,8 @@ class Ep:
             return zap.balao_apagada(it.hora, it.saida, it.rabo, nome, cor_nome)
         if it.tipo == "texto":
             return zap.balao_texto(it.texto, it.hora, it.saida, it.rabo, nome, cor_nome,
-                                   lido=t >= it.t_lido, encaminhada=it.extra.get("enc", False))
+                                   lido="falha" if it.extra.get("falha") else t >= it.t_lido,
+                                   encaminhada=it.extra.get("enc", False))
         if it.tipo == "foto":
             return zap.balao_foto(it.extra["img"], it.hora, it.saida, it.rabo, it.texto or None, nome, cor_nome,
                                   h_max=it.extra["h_max"], w=it.extra["w"])
