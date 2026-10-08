@@ -247,6 +247,11 @@ O nome "Print Vazado" fazia o **TikTok bloquear a conta**, então evite nomes co
   pede aula de física; print da aposta de R$ 500 (ideia da Valentina, ele já tinha cancelado); o Cadu e a irmã Nanda fazem a
   transformação "pra mim, não pra ele"; no baile ela arrasa e o balde de tinta da Valentina é descoberto. Emoji em nome de
   remetente (NOMES) não renderiza: use nomes sem emoji.
+- **A Quarta (`bruxa/`, sobrenatural teen, modo escuro):** a Raíssa (problemática, mora com a Tia Glória) entra no círculo da Íris,
+  da Cami e da Dandara; o feitiço põe a Paula no hospital; o diário da mãe (Helena) revela que a "quarta" é a oferenda da lua cheia;
+  a Cami troca as velas e o feitiço volta para a Íris. Magia pelo celular: mensagem antes de digitar, hora travada em 00:00
+  (`dict(hora="00:00")`), áudio `efeito="fantasma"`, diário que escreve sozinho.
+- **Próxima ideia do dono:** aventura medieval com dragão que no fim se revela uma partida de RPG (proposta mandada, esperando ok).
 - **Novelinha de frutas (pausada):** ele quer as "pessoas-fruta" das novelas virais (Moranguete, Abacatudo, Fruit Love Island),
   com corpo humano realista e pele/cabeça de fruta. Esses vídeos são feitos com geradores de vídeo por IA (Veo 3, Kling, ~R$ 90/mês),
   que não temos aqui. As frutas 3D feitas no Blender (`frutas/f3d.py`, `pip install bpy`, Cycles a ~10 s/quadro) foram **rejeitadas**
