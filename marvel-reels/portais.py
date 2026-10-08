@@ -450,39 +450,99 @@ def sai_do_portal(img, nome, px, py, x, chao, h, t, t0, d=0.5, pasta="mi", cor=A
         cola_pe(img, im, x + jx, chao, 1.0, rot + jr)
 
 
-ELENCO_FUNDO = [("xmen_1", 250, 300), ("panther_2", 470, 290), ("aranha_1", 640, 330), ("xmen_3", 840, 300),
-                ("civil_2", 110, 220), ("civil_5", 980, 220)]
-ELENCO_FRENTE = [("heroi_4", 130, 330), ("heroi_1", 300, 380), ("heroi_2", 540, 480), ("heroi_3", 770, 390),
-                 ("heroi_6", 950, 340)]
+# ---------------------------------------------------------------- o paredão: todas as miniaturas do acervo
+# altura em px de UMA miniatura comum em cada foto de loja (cada foto tem um zoom diferente); assim todas ficam
+# na mesma escala e dá para ver a diferença de tamanho (o Hulk e o Juggernaut maiores, por exemplo)
+REF = {"heroi": 500, "vilao": 870, "civil": 210, "blue_a": 430, "blue_b": 520, "aranha": 470, "deadpool": 480,
+       "gold": 480, "panther": 430, "xmen": 440, "multi": 225}
+MINIS_ACERVO = (["heroi_%d" % k for k in range(1, 8)] + ["vilao_%d" % k for k in range(1, 4)] +
+                ["civil_%d" % k for k in range(1, 9)] + ["blue_a_1", "blue_a_2", "blue_a_3", "blue_b_1", "blue_b_2"] +
+                ["aranha_1", "aranha_2", "deadpool_1", "deadpool_2", "gold_1", "gold_2", "panther_1", "panther_2",
+                 "xmen_1", "xmen_2", "xmen_3"])
+
+
+DUPLAS = ()  # (os recortes com duas miniaturas empilhadas já vêm com a altura certa pela REF da foto)
+
+
+def ref_de(nome):
+    return REF[nome.rsplit("_", 1)[0]]
 
 
 @lru_cache(None)
-def nevoa():
-    a = np.zeros((520, W))
-    a += np.sin(np.linspace(0, math.pi, 520))[:, None] * 70
-    im = Image.new("RGBA", (W, 520), (4, 4, 18, 255))
-    im.putalpha(Image.fromarray(a.astype(np.uint8)))
-    return im
+def altura_natural(nome):
+    return Image.open(os.path.join(MI, nome + ".png")).height
+
+
+@lru_cache(None)
+def paredao_layout():
+    """Distribui as miniaturas em 5 degraus (o de trás menor, como numa vitrine vista de frente)."""
+    rng = np.random.default_rng(11)
+    ordem = list(MINIS_ACERVO)
+    rng.shuffle(ordem)
+    # as maiores e mais icônicas vão na frente
+    frente = ["heroi_2", "heroi_1", "heroi_3", "vilao_1", "vilao_2", "heroi_6", "heroi_4"]
+    resto = [n for n in ordem if n not in frente]
+    degraus = [frente, resto[0:7], resto[7:14], resto[14:21], resto[21:]]
+    chao = [1500, 1330, 1175, 1035, 905]  # pé de cada degrau
+    escala = [1.0, 0.82, 0.68, 0.57, 0.48]
+    out = []
+    for k, (nomes, y, s) in enumerate(zip(degraus, chao, escala)):
+        hs = [int(330 * s * min(1.45, altura_natural(n) / ref_de(n)) * (2.0 if n in DUPLAS else 1.0)
+                  / (2.0 if n in DUPLAS else 1.0)) for n in nomes]
+        ws = [peca(n, max(20, h), "mi").width for n, h in zip(nomes, hs)]
+        total = sum(ws) * 0.78
+        f = min(1.0, (W - 60) / total)  # se não couber, encolhe o degrau inteiro (mantém a proporção entre elas)
+        hs = [int(h * f) for h in hs]
+        ws = [int(w * f) for w in ws]
+        x = (W - sum(ws) * 0.78) / 2 + ws[0] * 0.39
+        for j, (n, h, w) in enumerate(zip(nomes, hs, ws)):
+            out.append((k, n, x + rng.uniform(-8, 8), y, h))
+            if j + 1 < len(ws):
+                x += (w + ws[j + 1]) * 0.39
+    return out
+
+
+def degrau_vitrine(img, k, y, alpha=1.0):
+    """Degrau preto brilhante da vitrine, com fio de luz azul na quina."""
+    larg = [1060, 980, 900, 820, 740][k]
+    x0 = (W - larg) / 2
+    d = ImageDraw.Draw(img, "RGBA")
+    d.rectangle((x0, y - 6, x0 + larg, y + 46), fill=(6, 8, 22, int(240 * alpha)))
+    d.line((x0, y - 6, x0 + larg, y - 6), fill=(140, 190, 255, int(200 * alpha)), width=3)
+
+
+def paredao(img, t, t0, chao_extra=0.0, alpha=1.0):
+    """Desenha o paredão: os degraus acendem de trás para a frente e as miniaturas sobem no lugar."""
+    lay = paredao_layout()
+    for k in (4, 3, 2, 1, 0):
+        tk = t0 + (4 - k) * 0.32
+        v = ease(seg(t, tk, tk + 0.5))
+        if v <= 0:
+            continue
+        y = [1500, 1330, 1175, 1035, 905][k] + chao_extra
+        degrau_vitrine(img, k, y, v * alpha)
+        for (kk, n, x, yy, h) in lay:
+            if kk != k:
+                continue
+            im = rim(n, max(20, h), "mi", AZUL if not n.startswith(("vilao", "deadpool_2")) else (255, 90, 70), 8)
+            cola_pe(img, im, x, y - 60 * (1 - v) + 6, 1.0, 0, alpha=v * alpha, reflexo=(k == 0))
 
 
 def cena_gancho(img, t):
-    """O elenco inteiro sai do portal do multiverso e forma a "foto de pôster" na frente dele."""
+    """Abertura: o portal acende e o PAREDÃO com todas as miniaturas do acervo aparece em degraus."""
     a = SCENES[0][0]
     u = t - a
     fundo(img, t)
     holofote(img, 540)
-    piso(img, CHAO)
     abre = out_back(seg(t, a + 0.1, a + 0.7)) if u < 0.7 else 1.0
-    luz(img, 540, 820, 420, (120, 90, 255), int(70 * abre))
-    portal(img, 540, 820, 330, t, 1, LARANJA, None, (120, 80, 255), abre)
-    for k, (n, x, h) in enumerate(ELENCO_FUNDO):  # fileira de trás (mais escura e menor)
-        sai_do_portal(img, n, 540, 820, x, CHAO - 230, h, t, a + 0.8 + k * 0.18, 0.45)
-    if u > 0.8:  # névoa escura suave entre a fileira de trás e a da frente (profundidade)
-        img.alpha_composite(nevoa(), (0, CHAO - 640))
-    for k, (n, x, h) in enumerate(ELENCO_FRENTE):
-        sai_do_portal(img, n, 540, 820, x, CHAO, h, t, a + 1.9 + k * 0.22, 0.45)
-    flare(img, 760, 600, 1.0, 0.8 * seg(t, a + 3.2, a + 3.6))
-    cola(img, hq("JÁ IMAGINOU OS HERÓIS\nDA MARVEL NA SUA MESA?", 96), 540, 330, -2, pop(t, a + 0.0, 0.25))
+    luz(img, 540, 780, 460, (120, 90, 255), int(80 * abre))
+    portal(img, 540, 760, 360, t, 1, LARANJA, None, (120, 80, 255), abre)
+    piso(img, 1546)
+    paredao(img, t, a + 0.5)
+    flare(img, 760, 560, 1.0, 0.8 * seg(t, a + 2.4, a + 2.8))
+    cola(img, hq("JÁ IMAGINOU OS HERÓIS\nDA MARVEL NA SUA MESA?", 96), 540, 300, -2, pop(t, a + 0.0, 0.25))
+    if u >= 3.0:
+        cola(img, selo("+45 MINIATURAS NO ACERVO", 40, RED), 540, 1610 - 40, -2, pop(t, a + 3.0))
 
 
 def cena_coop(img, t):
@@ -640,8 +700,16 @@ def cena_multiverse(img, t):
         cola(img, rim("multiverse", 760, "cx", (130, 200, 255), 16), 540 + jx, 900 + jy, lerp(-20, -3, v), lerp(0.2, 1, v))
         flare(img, 700, 620, 1.2, seg(t, a + 1.6, a + 2.0))
     cola(img, letreiro("VEM AÍ...", 90, WHITE, (120, 180, 255)), 540, 230, 0, pop(t, a + 0.1))
+    if 1.8 <= u < 4.2:  # as miniaturas novas do Multiverse saem do portal e formam um arco embaixo da caixa
+        for k, n in enumerate(["multi_%d" % j for j in range(2, 12)]):
+            ang = math.pi * (0.08 + 0.84 * k / 9)
+            x = 540 - 470 * math.cos(ang)
+            y = 1590 - 120 * math.sin(ang)
+            h = int(215 * min(1.4, altura_natural(n) / REF["multi"]))
+            cor = (255, 90, 70) if k >= 6 else AZUL
+            sai_do_portal(img, n, 540, 880, x, y, h, t, a + 1.8 + k * 0.12, 0.45, cor=cor)
     if 2.0 <= u < 4.2:
-        cola(img, selo("EM BREVE NA SUA VEZ", 44, RED), 540, 1380, -2, pop(t, a + 2.0))
+        cola(img, selo("EM BREVE NA SUA VEZ", 44, RED), 540, 360, -2, pop(t, a + 2.0))
     if u >= 4.2:  # chamada para comentar: dois heróis, um de cada lado
         img.alpha_composite(Image.new("RGBA", (W, H), (0, 0, 0, int(120 * seg(t, a + 4.2, a + 4.6)))))
         sai_do_portal(img, "heroi_1", 540, 880, 220, 1640, 420, t, a + 4.3)

@@ -154,8 +154,9 @@ def main():
                    ("spider_geddon", "oficial_spider_geddon"), ("rise_of_the_black_panther", "oficial_black_panther"),
                    ("enter_the_spider_verse", "oficial_spider_verse")):
         caixa_foto(os.path.join(F, arq + ".jpg"), os.path.join(CX, n + ".png"))
-    # Gold Team: só existe a capa; aplicada na foto 3D oficial da Blue Team (mesmo formato de caixa)
-    caixa_no_molde(os.path.join(F, "capa_x-men-gold-team.jpg"), os.path.join(CX, "blue_team.png"),
+    caixa_foto(os.path.join(F, "oficial_gold_team.jpg"), os.path.join(CX, "x_men_gold_team.png"))
+    if False:  # (antes: capa do Gold Team aplicada na foto 3D da Blue Team, quando não havia foto oficial)
+      caixa_no_molde(os.path.join(F, "capa_x-men-gold-team.jpg"), os.path.join(CX, "blue_team.png"),
                    os.path.join(CX, "x_men_gold_team.png"),
                    [(196, 126), (1320, 27), (1259, 1241), (195, 1597)], [(3, 121), (196, 126), (195, 1597), (73, 1484)])
     minis(os.path.join(F, "minis_herois_base.jpg"), "heroi")
@@ -164,6 +165,11 @@ def main():
     minis(os.path.join(F, "minis_black_panther.jpg"), "panther")
     minis(os.path.join(F, "minis_spider_verse.jpg"), "aranha")
     minis(os.path.join(F, "minis_civil_war.jpg"), "civil", 0.0015)
+    minis(os.path.join(F, "minis_deadpool.jpg"), "deadpool")
+    minis(os.path.join(F, "minis_blue_1.jpg"), "blue_a")
+    minis(os.path.join(F, "minis_blue_2.jpg"), "blue_b")
+    minis(os.path.join(F, "minis_gold.jpg"), "gold")
+    minis(os.path.join(F, "minis_multiverse.jpg"), "multi")
     # folha de teste em fundo escuro
     fs = sorted(glob.glob(os.path.join(CX, "*.png"))) + sorted(glob.glob(os.path.join(MI, "*.png")))
     sheet = Image.new("RGB", (6 * 300, ((len(fs) + 5) // 6) * 320), (14, 16, 30))
