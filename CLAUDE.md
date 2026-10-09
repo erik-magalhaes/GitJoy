@@ -292,6 +292,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Cuckoo), estrelas brilhando (Gravity), pegadas subindo pela direita (Draftosaurus), névoa + fantasma + "ZOINKS!" (Scooby).
   Rosto sem punch-in (o boné cortava). Final: "comenta" → ele falando o CTA ("Todos esses jogos já estão disponíveis lá
   na Sua Vez...") → tela final. 48 s.
+  **6ª rodada:** (1) o gancho começa com ele JÁ mexendo na câmera (1,85 s do 182144), não indo até ela; (2) **nunca
+  começar um corte na puxada de ar**: o início de cada fala é a 1ª palavra, medida pela energia (salto para > −25 dB
+  depois do respiro/estalo); (3) acabamento "HD" sem estourar cor: hqdn3d forte + curva que segura os brancos (estouro
+  ~5% → 0,3%) + unsharp só na luz + vinheta PI/14 + saturação 0,95–0,97 e gamma 1,04 (conferir estouro, saturação e
+  brilho contra o bruto). 45 s, −15,4 LUFS, pico −3 dB.
   Vídeos gravados podem ter menos de 1 minuto.
 - **Final Girl (`finalgirl-reels/`, out/2026):** ele tem a Caixa Base + a 1ª temporada (Hans, Poltergeist, Inkanyamba,
   Geppetto e **Dr. Medo**). Escolheu o **visual 2, Trailer Slasher** (`conceitos.py`): tela escura com névoa lisa, facho
