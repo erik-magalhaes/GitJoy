@@ -138,6 +138,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
 - **Arte de promoção** (`promo/promo_progressivo.py` é a atual, com os degraus 3/5/7 jogos; a antiga é `promo/promo_3jogos.py`): "3 jogos = 7 dias para todos", em feed e story, com as cores e a fonte do site.
   Ele achou estranha a frase "em vez de 5, sem pagar nada a mais"; a que ficou foi "+2 dias de presente, pelo mesmo preço!".
   Os preços variam por jogo (exemplos do carrinho: Bad Company R$ 45, Art Society R$ 30 por 5 dias).
+  **Flyer impresso para evento** (`promo/flyer_evento.py`, out/2026): A5 a 300 dpi (PNG + PDF) e A4 com 2 por folha; logo,
+  "ALUGUE JOGOS DE TABULEIRO / e jogue em casa por 5 dias", 160 jogos a partir de R$ 15, 3 passos (reserve, retire em
+  Mauá ou receba em casa, jogue 5 dias), escada 3/5/7 → 7/10/15 dias, cupom do evento **JOGAMAUA5 = 5% de desconto na
+  locação** (ele disse "Joga Mauá 5") e QR code do site (conferido com o leitor do OpenCV).
 - **Hot Streak (`hotstreak-reels/`):** é da CMYK, com 4 mascotes (Hurley, o cachorro-quente; Gobbler, o urso; Dangle,
   o peixe-pescador; Mum, a rainha). São 3 corridas, 2 bilhetes por corrida em draft cobra, aposta segura ou arriscada,
   apostas paralelas SIM/NÃO e uma carta secreta de cada jogador no baralho. Mascote cai, dá meia-volta, desvia de raia e bate;
