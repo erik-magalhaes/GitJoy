@@ -256,8 +256,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   edição**; imagem por cima só se for **oficial** (nunca recorte do site); o gancho é a cena dele **pertinho do celular
   ajeitando a câmera** (a ÚLTIMA aproximação do `vg.mp4`, 8,45–11,15 s) com `camera()`: aproxima 10% devagar e abre
   rápido com desfoque de movimento quando ele se afasta; depois ele fala "A gente separou quatro ótimos jogos…" e entra
-  uma montagem rápida dos 4 jogos. Voz do celular medida: +8 dB em 120–500 Hz e −14 dB acima de 4 kHz → `VOZ_CADEIA`
-  corta o embolado, devolve presença/ar, gate suave contra o eco e comprime. Rosto com `GRADE_ROSTO` (sem vibrance,
-  que avermelhava a pele). Versão de 39 s entregue (com e sem legenda, 2 passadas a 5200k para caber no chat).
+  uma montagem rápida dos 4 jogos. **1ª versão REJEITADA ("áudio horrível, jogos super estourados, refaz tudo"):**
+  EQ forte na voz (+5 dB de agudo, aexciter, agate) soou artificial, e normalize + curvas + vibrance estouraram os brancos
+  (de ~0% para 5% de pixels ≥250) e a saturação (+60–75%). **2ª versão:** voz só com highpass 75 Hz, −2 dB em 300 Hz,
+  compressão leve 2:1 e loudnorm; cor só com `eq` leve (contraste 1,03, saturação 1,05) + denoise e nitidez fracos;
+  trilha mais baixa (`musica_ganho=0.2`, `duck=0.8` em `som.build`). **Lição: em vídeo gravado, mexa pouco; meça
+  estouro (% ≥250) e saturação contra o bruto antes de mandar.** 39 s, com e sem legenda, 2 passadas a 5200k para o chat.
   Vídeos gravados podem ter menos de 1 minuto.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.

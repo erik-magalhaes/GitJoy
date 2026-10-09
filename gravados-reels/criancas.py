@@ -31,20 +31,13 @@ INK = (20, 16, 30)
 AMARELO = (255, 214, 70)
 # voz: o celular grava "embolado" (+8 dB em 120-500 Hz e -14 dB acima de 4 kHz, medido) e com eco da sala.
 # Tira o grave embolado, devolve presença e ar, segura o eco entre as palavras (gate suave) e comprime.
-VOZ_CADEIA = ("highpass=f=90,afftdn=nr=10:nf=-50:tn=1,"
-              "equalizer=f=180:t=q:w=1.2:g=-2.5,equalizer=f=320:t=q:w=1:g=-4,equalizer=f=650:t=q:w=1.4:g=-1.5,"
-              "equalizer=f=3500:t=q:w=1.2:g=3.5,highshelf=f=6500:g=5,aexciter=amount=1.5:drive=6:freq=6000,"
-              "deesser=i=0.4,agate=threshold=0.012:ratio=2.5:attack=5:release=180:range=0.25,"
-              "acompressor=threshold=-22dB:ratio=3:attack=5:release=120:makeup=3,"
-              "loudnorm=I=-16:TP=-1.5:LRA=5")
-GRADE = ("hqdn3d=2:1.5:4:4,normalize=blackpt=black:whitept=white:smoothing=20:independence=0.4:strength=0.8,"
-         "curves=all='0/0 0.25/0.26 0.5/0.56 0.75/0.82 1/1',vibrance=intensity=0.3,eq=saturation=1.08,"
-         "colorbalance=rm=-0.03:bm=0.03:rh=0.02,unsharp=5:5:0.7")
-
-# no rosto dele: sem vibrance (deixava a pele vermelha), tira um pouco do vermelho dos meios-tons
-GRADE_ROSTO = ("hqdn3d=2:1.5:4:4,normalize=blackpt=black:whitept=white:smoothing=20:independence=0.6:strength=0.6,"
-               "curves=all='0/0 0.25/0.27 0.5/0.55 0.75/0.8 1/1',eq=saturation=0.94,"
-               "colorbalance=rs=-0.02:rm=-0.06:gm=0.01:bm=0.03:rh=-0.02,unsharp=5:5:0.45")
+# 2ª versão (a 1ª ficou "horrível": EQ/realce/gate exagerados na voz e cor estourada nos jogos).
+# Agora é mão leve: a voz do celular quase não é mexida, só limpa o grave e nivela; a imagem só corrige um pouco.
+VOZ_CADEIA = ("highpass=f=75,equalizer=f=300:t=q:w=1:g=-2,"
+              "acompressor=threshold=-24dB:ratio=2:attack=10:release=200:makeup=1.5,"
+              "loudnorm=I=-16:TP=-1.5:LRA=7")
+GRADE = "hqdn3d=1.5:1.5:3:3,eq=contrast=1.03:saturation=1.05:gamma=1.02,colorbalance=rm=-0.02:bm=0.02,unsharp=3:3:0.3"
+GRADE_ROSTO = "hqdn3d=1.5:1.5:3:3,eq=contrast=1.02:saturation=0.98:gamma=1.04,colorbalance=rm=-0.03:bm=0.02,unsharp=3:3:0.25"
 # falas boas (arquivo, início, fim) e o texto que ele falou
 INTRO = ("vg.mp4", (11.15, 16.35), "A gente separou quatro ótimos jogos pra jogar com os pequenos no Dia das Crianças!")
 FALAS = [
@@ -295,7 +288,7 @@ def main():
         folha(ims, os.path.join(OUT, "frames.jpg"))
         return
     wav = os.path.join(OUT, "trilha.wav")
-    som.build(wav, DUR, cues(), musica="travessa", voz=vozes())
+    som.build(wav, DUR, cues(), musica="travessa", voz=vozes(), fx_ganho=0.35, duck=0.8, musica_ganho=0.2)
     compor(base, os.path.join(OUT, "criancas_com_legenda.mp4"), wav, True)
     compor(base, os.path.join(OUT, "criancas_sem_legenda.mp4"), wav, False)
 

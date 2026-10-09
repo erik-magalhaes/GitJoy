@@ -192,13 +192,13 @@ def retro70(dur):
 MUSICAS = {"gameshow": gameshow, "travessa": travessa, "retro70": retro70}
 
 
-def build(path, dur, cues=(), musica="gameshow", warp=None, voz=None, fx_ganho=0.5):
+def build(path, dur, cues=(), musica="gameshow", warp=None, voz=None, fx_ganho=0.5, duck=0.6, musica_ganho=0.3):
     warp = warp or (lambda t: t)
     n = int(dur * SR)
     m = MUSICAS[musica](dur) if musica else np.zeros(n)
     m = m[:n] if len(m) >= n else np.pad(m, (0, n - len(m)))
     if musica:
-        m = m / (np.abs(m).max() + 1e-9) * 0.3
+        m = m / (np.abs(m).max() + 1e-9) * musica_ganho
     s = np.zeros(n)
     for t, name, g in cues:
         add(s, FX[name](), warp(t), g)
@@ -210,7 +210,7 @@ def build(path, dur, cues=(), musica="gameshow", warp=None, voz=None, fx_ganho=0
             add(v, read_wav(arq), t0, 1.0)
         act = lp(np.abs(v), 8)
         act = np.clip(act / (act.max() * 0.15 + 1e-9), 0, 1)
-        duck = 1 - 0.6 * lp(lp(act, 3), 3)
+        duck = 1 - duck * lp(lp(act, 3), 3)
         mix = bed * duck + v * 0.95
     else:
         mix = bed
