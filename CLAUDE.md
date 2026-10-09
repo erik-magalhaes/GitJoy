@@ -271,5 +271,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **Capas da edição ATUAL/brasileira** (ele cobrou): Go Cuckoo é a da **Devir (2023, 5+)**, foto da Bravo Jogos; Draftosaurus
   da **MeepleBR** (site da editora, wp-content); Gravity Superstar (Sit Down!) e Scooby-Doo (CMON) têm a mesma capa da dele.
   Compara Jogos (`/item/<slug>`, og:image) às vezes traz a edição estrangeira: confira contra a caixa que aparece no vídeo dele.
+  **4ª rodada:** ele quer MAIS jogo na tela: o rosto dele só na apresentação (até ~0,9 s depois de dizer o nome) e daí
+  até o fim da fala só as cenas do jogo (2 por jogo) + `RESPIRO` de 0,7 s antes do próximo; sem voltar pro rosto.
+  Giro dele no começo do Scooby: ele disse para DEIXAR ("não ficou horrível"). **Som de microfone de lapela/sem fio dele:**
+  chega muito grave/abafado e muito alto; o que soava "esquisito" era o loudnorm dinâmico bombeando e o `tanh` da
+  mixagem saturando a voz. Receita: EQ moderada (−4 dB em 320 Hz, −2 em 140, +2 em 3,2 kHz, shelf +2 em 6 kHz), ganho
+  FIXO por fala (`nivela`), `som.build(..., satura=False)` e loudnorm LINEAR em 2 passadas no final (`final_loudness`).
   Vídeos gravados podem ter menos de 1 minuto.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
