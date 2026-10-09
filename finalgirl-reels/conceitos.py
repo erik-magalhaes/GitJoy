@@ -115,7 +115,9 @@ def opcao_trailer():
 def opcao_cartaz():
     img = Image.new("RGBA", (W, H), (25, 8, 10, 255))
     d = ImageDraw.Draw(img)
-    # letreiro de cinema com lâmpadas
+    # letreiro de cinema com lâmpadas (desce 100 px para não encostar no logo)
+    letreiro_img = Image.new("RGBA", (W, 560), (0, 0, 0, 0))
+    d = ImageDraw.Draw(letreiro_img)
     d.rounded_rectangle((60, 120, 1020, 520), radius=30, fill=(240, 230, 210), outline=(180, 20, 30), width=16)
     for i in range(22):
         x = 90 + i * 43
@@ -128,6 +130,8 @@ def opcao_cartaz():
     d.text((540, 230), "EM CARTAZ", font=font("Bungee-Regular.ttf", 70), fill=(180, 20, 30), anchor="mm")
     d.text((540, 340), "FINAL GIRL", font=creep(120), fill=(20, 20, 20), anchor="mm")
     d.text((540, 445), "5 FILMES · SÓ 1 SOBREVIVE", font=font("Bungee-Regular.ttf", 40), fill=(20, 20, 20), anchor="mm")
+    img.alpha_composite(letreiro_img, (0, 100))
+    d = ImageDraw.Draw(img)
     luz = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     ImageDraw.Draw(luz).ellipse((140, 560, 940, 1660), fill=(255, 200, 150, 60))
     img.alpha_composite(luz.filter(ImageFilter.GaussianBlur(80)))
