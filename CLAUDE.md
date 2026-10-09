@@ -282,4 +282,18 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   mixagem saturando a voz. Receita: EQ moderada (−4 dB em 320 Hz, −2 em 140, +2 em 3,2 kHz, shelf +2 em 6 kHz), ganho
   FIXO por fala (`nivela`), `som.build(..., satura=False)` e loudnorm LINEAR em 2 passadas no final (`final_loudness`).
   Vídeos gravados podem ter menos de 1 minuto.
+- **Final Girl (`finalgirl-reels/`, out/2026):** ele tem a Caixa Base + a 1ª temporada (Hans, Poltergeist, Inkanyamba,
+  Geppetto e **Dr. Medo**). Escolheu o **visual 2, Trailer Slasher** (`conceitos.py`): tela escura com névoa lisa, facho
+  de lanterna revelando as artes (`no_escuro`), títulos em Creepster vermelho com brilho, relâmpagos, faixas de cinema e
+  trilha de trailer de terror (`som_fg.py`: drone, coração que acelera, braam, trovão, stinger). Script: `trailer.py`.
+  **Edição BRASILEIRA = Ludofun** (store.ludofun.com.br; fotos 1200 px em fundo branco, CDN awsli): Caixa Base, O Terror em
+  Happy Trails (Hans), A Assombração da Mansão Creech (Poltergeist), Massacre nos Bosques (Inkanyamba), Carnificina no
+  Circo (Geppetto) e Terror em Maple Lane (Dr. Medo). Recortes em `recortes_br.py`; a arte de cada assassino vem do
+  tabuleiro oficial da Van Ryder (`FFn-compview.png`, só a arte, sem os textos em inglês) e o Hans grande do verso da caixa.
+  Artes retangulares precisam de borda esfumada (`esfuma`) senão aparece o retângulo no escuro.
+  **Regras conferidas** (manual/Zatu): dados = nível de Horror; 5 ou 6 = sucesso (3–4 = parcial, descartando 2 cartas);
+  cada vítima morta sobe a Sede de Sangue do assassino; o Final é revelado quando o baralho do Terror acaba; vence quem
+  mata o assassino. Caixa: 1 jogador, 20–60 min, 14+. Prévia mandada; gravador (arquivos `finalgirl_narracao_NN`):
+  `https://raw.githack.com/erik-magalhaes/GitJoy/2cdb54d81a82415bb8f545a35b43ad98a6f5dea2/finalgirl-reels/gravador/Gravar_narracao_FinalGirl.html`.
+  Ao receber: `narracao/raw/` → tmp_NN.wav → `tratar_narracao.py` → revisar `TEXTO` → `narracao.py` → `trailer.py`.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
