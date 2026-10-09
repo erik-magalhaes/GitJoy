@@ -77,7 +77,7 @@ def linha_do_tempo():
     a, b = INTRO[1]
     planos.append((0.0, GANCHO + INTRO_ROSTO, GANCHO_ARQ, GANCHO_INI))  # gancho e abertura: mesma tomada
     voz.append((-1, GANCHO, b - a))
-    resto = (b - a) - INTRO_ROSTO
+    resto = (b - a) - INTRO_ROSTO + 0.2  # cobre também a pausa de 0,2 s antes da 1ª fala (sem buraco na imagem)
     for j, (arq, ini) in enumerate(MONTAGEM):
         dd = resto / len(MONTAGEM)
         planos.append((GANCHO + INTRO_ROSTO + j * dd, dd, arq, ini))
