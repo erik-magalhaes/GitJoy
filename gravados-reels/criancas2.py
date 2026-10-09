@@ -523,7 +523,7 @@ def efeitos(img, t):
         elif k == 3:  # Scooby-Doo: névoa no chão e o fantasma passando
             nv = nevoa_faixa()
             off = int((u * 120) % W)
-            img.alpha_composite(nv.crop((off, 0, off + W, 700)).point(lambda v: v), (0, H - 700 - 160))
+            img.alpha_composite(nv.crop((off, 0, off + W, 700)).point(lambda v: v), (0, H - 700))  # névoa vai até o rodapé (sem linha reta no fim)
             x = lerp(1250, -200, ease(seg(u, 0.2, d - 0.2)))
             cola(img, fantasma(240), x, 760 + 40 * math.sin(u * 3), 6 * math.sin(u * 2), 1.0, 0.85 * sai)
         return
