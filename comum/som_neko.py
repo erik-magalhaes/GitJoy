@@ -1,4 +1,5 @@
-"""Trilha do Reels do Nekojima: tema de transmissão esportiva + efeitos (torcida, apito, choque, madeira)."""
+"""Sons base (vieram do Reels do Nekojima, que foi descartado): metais, torcida, apito, choque, madeira + efeitos.
+Usado pelas trilhas do Hot Streak, Marvel United e hobby."""
 import os
 import sys
 import wave

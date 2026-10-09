@@ -7,7 +7,7 @@ import wave
 import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(HERE, "..", "nekojima-reels"))
+sys.path.insert(0, os.path.join(HERE, "..", "comum"))
 import som_neko as sn  # noqa: E402
 from som_neko import SR, add, env, hp, lp, noise, t_, read_wav, note, kick, clap, hat, brass, bass, saw  # noqa: E402
 from audio import fx_boing  # noqa: E402

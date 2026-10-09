@@ -131,28 +131,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Ao receber: copie os áudios para `architects-reels/narracao/raw/`, trate (`tratar_narracao.py`), revise o `TEXTO` em
   `narracao.py`, rode `python3 narracao.py` e depois `python3 stopmo.py`, suba o volume e mande as duas versões.
   O kit de imprensa não está no repositório. Se precisar das peças de novo, baixe o zip BR e rode `pecas_oficiais.py <pasta>`.
-- **Nekojima:** o conceito escolhido foi o **ANIME** (opção 2). Eu fiz por engano a "transmissão esportiva"
-  (`neko.py`, rejeitada), e a versão certa é `nekojima-reels/anime.py`. Ela reaproveita o roteiro, as cenas, as legendas e a
-  narração do `neko.py`, e tem: painel inclinado de borda branca, linhas de velocidade a 12 poses/s, onomatopeias japonesas
-  (fonte Dela Gothic One), sakura, quadro de impacto, card "猫島 Episódio 1", tela VS e trilha de abertura de anime
-  (`som_neko.build(estilo="anime")`). A prévia foi mandada. Ofereci também deixar as fotos com cara de desenho (cel-shading:
-  bilateral + k-means + contorno), e o teste está em `out/teste_fotos_anime.jpg`; falta a resposta. Esperando os 9 áudios
-  (`neko_narracao_NN`). Gravador:
-  `https://raw.githack.com/erik-magalhaes/GitJoy/363f36067a019067175e2815c7d6d7a7648fc1e4/nekojima-reels/gravador/Gravar_narracao_Nekojima.html`.
-  **Lição:** quando ele disser o número da opção que prefere, use exatamente essa e confirme antes de produzir.
-  **Versão atual: `anime_rec.py`.** Ele gostou do anime, mas reclamou que as fotos inteiras deixam o vídeo parado e "com cara
-  de foto da internet". Agora as peças são recortadas (`recortes_neko.py`: torre, gato, poste, marcador de nível, faces dos dados
-  e textura de madeira) e se mexem: a torre balança e desaba, os dados quicam, o gato voa até o fio e balança, o poste cai e
-  encaixa e os cubos pulam. **Resultado: ele achou HORRÍVEL** ("os recortes estão horríveis"). Recortar de foto de produto
-  em fundo branco não funciona para este jogo: os fios finos (sobretudo os brancos) somem, a torre fica falhada, o gato fica
-  serrilhado, e os dados "montados" com a textura e as faces parecem falsos. **Não insista nesse caminho.** O Nekojima não tem
-  kit de imprensa público (o site da Unfriendly Games dá 502 pelo proxy). Propus que ele mesmo fotografe as peças (stop motion
-  real com o jogo da loja) ou que eu volte ao anime com as fotos inteiras. **Decisão: ficou o `anime.py` (fotos inteiras),
-  como estava.** A única mudança foi corrigir o texto da face especial do dado ("FACE PRETA? QUEM ESCOLHE É O DA DIREITA!").
-  `anime_rec.py` (recortes) está rejeitado.
-  **Regra geral:** recorte só funciona com material oficial (peças com transparência) ou foto feita para isso (fundo liso
-  e contrastante). Antes de animar recortes, mande um quadro de teste e espere o ok dele.
-  A face especial do dado é **preta com adaga** (o torii roxo é um bairro).
+- **Nekojima:** o dono não gostou e pediu para **apagar** o vídeo do projeto (out/2026). A pasta `nekojima-reels/` foi removida
+  (fica no histórico do git). Só os sons base foram mantidos, em `comum/som_neko.py`, porque as trilhas do Hot Streak,
+  do Marvel United e do hobby usam esses sons. Lição que fica: recorte só funciona com material oficial (peças com
+  transparência) ou foto feita para isso (fundo liso e contrastante); antes de animar recortes, mande um quadro de teste.
 - **Arte de promoção** (`promo/promo_progressivo.py` é a atual, com os degraus 3/5/7 jogos; a antiga é `promo/promo_3jogos.py`): "3 jogos = 7 dias para todos", em feed e story, com as cores e a fonte do site.
   Ele achou estranha a frase "em vez de 5, sem pagar nada a mais"; a que ficou foi "+2 dias de presente, pelo mesmo preço!".
   Os preços variam por jogo (exemplos do carrinho: Bad Company R$ 45, Art Society R$ 30 por 5 dias).

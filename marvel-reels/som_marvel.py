@@ -9,7 +9,7 @@ import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "voodoo-reels"))
 sys.path.insert(0, os.path.join(HERE, "..", "sintonia-reels"))
-sys.path.insert(0, os.path.join(HERE, "..", "nekojima-reels"))
+sys.path.insert(0, os.path.join(HERE, "..", "comum"))
 sys.path.insert(0, os.path.join(HERE, "..", "hotstreak-reels"))
 from audio import SR, add, env, hp, lp, noise, t_, read_wav, fx_pop, fx_whoosh, fx_ding  # noqa: E402
 from trilha import note, kick  # noqa: E402
