@@ -57,7 +57,9 @@ FALA_ROSTO = 1.3  # ele falando (a capa aparece pequena no canto quando ele diz 
 # fichas → volta pra ele, ainda com a capa no canto (sem tampar o rosto)
 NOMES = [("cuckoo", "go"), ("gravity",), ("draftosaurus",), ("scooby", "scooby-doo")]
 # cada trecho de cena é usado UMA vez só (ele reclamou de cenas repetidas): (arquivo, início)
-CENAS = [("v2.mp4", 1.6), ("v7.mp4", 1.0), ("v8.mp4", 2.2), ("v4.mp4", 1.6)]   # B: jogo em tela cheia
+CENAS = [[("v2.mp4", 1.6), ("v3.mp4", 9.0)], [("v7.mp4", 1.0), ("v6.mp4", 3.5)],  # 2 cenas do jogo por fala,
+         [("v8.mp4", 2.2), ("v8.mp4", 7.0)], [("v4.mp4", 1.6), ("v5.mp4", 3.0)]]  # cada trecho usado uma vez
+RESPIRO = 0.7  # o jogo fica um pouco na tela depois da fala, antes do próximo
 # fichas de cada jogo (edições atuais: Go Cuckoo da Devir 2023, Sit Down!, MeepleBR, CMON)
 INFO = [("2 a 5 jogadores", "a partir de 5 anos", "15 min", "DESTREZA", (236, 72, 153)),
         ("2 a 6 jogadores", "a partir de 7 anos", "20 min", "CORRIDA ESPACIAL", (99, 102, 241)),
@@ -90,15 +92,16 @@ def linha_do_tempo():
         # a capa pequena aparece quando ele FALA o nome do jogo e fica até o fim da fala (só nos planos dele)
         tn = next(w0 for w, w0, _ in pals[k + 1] if w.strip(",.!").lower() in NOMES[k])
         ta = min(max(FALA_ROSTO, tn + 0.9), d - 3.2)
-        tb = (d - ta) * 0.55
-        planos.append((t, ta, arq0, a))                             # ele falando (rosto livre)
-        planos.append((t + ta, tb, *CENAS[k]))                      # o jogo na mesa, com as fichas por cima
-        fichas.append((t + ta, tb, k))
-        td = t + ta + tb
-        planos.append((td, t + d + 0.15 - td, arq0, a + (td - t)))  # volta pra ele (boca sincronizada)
-        caixas.append((t + min(tn, ta - 0.6), t + d + 0.15, k))
-        t += d + 0.15
-    planos.append((t, COMENTA, "v5.mp4", 5.0))
+        planos.append((t, ta, arq0, a))                     # ele apresenta o jogo (rosto livre, capa no canto)
+        caixas.append((t + min(tn, ta - 0.6), t + ta, k))
+        resto = d - ta + RESPIRO                           # daqui até o próximo jogo: SÓ o jogo na mesa
+        (c1, i1), (c2, i2) = CENAS[k]
+        d1 = resto * 0.48
+        planos.append((t + ta, d1, c1, i1))
+        fichas.append((t + ta, resto, k))  # nome e fichas nas duas cenas do jogo
+        planos.append((t + ta + d1, resto - d1, c2, i2))
+        t += d + RESPIRO
+    planos.append((t, COMENTA, "v5.mp4", 5.6))
     t += COMENTA
     planos.append((t, CTA, "mosaico", 0.0))
     t += CTA
@@ -351,7 +354,7 @@ def overlay(t, com_legenda):
         sai = seg(t, GANCHO, GANCHO + 0.4)
         cola(img, letreiro("JOGOS PRO DIA\nDAS CRIANÇAS", 112, AMARELO, INK, 14), 540, 1380, -3, pop(t, -0.3), 1 - sai)
         cola(img, emoji("🎈", 120), 900, 1170, 12 * math.sin(t * 4), pop(t, 0.15), 1 - sai)
-    tc = VOZ[-1][1] + VOZ[-1][2] + 0.15
+    tc = VOZ[-1][1] + VOZ[-1][2] + RESPIRO
     if tc <= t < tc + COMENTA:
         b = 1 + 0.04 * abs(math.sin(t * 6))
         cola(img, letreiro("QUAL SEU FILHO\nIA AMAR?", 104, AMARELO, INK, 14), 540, 760, -2, pop(t, tc))
@@ -401,12 +404,11 @@ def compor(base, saida, wav, com_legenda):
 def cues():
     c = [(0.0, "pop", 0.4), (0.15, "pop", 0.3), (GANCHO - 0.3, "whoosh", 0.6)]
     c += [(GANCHO + INTRO_ROSTO + j * 0.82, "pop", 0.3) for j in range(4)]
-    for k, t0, d in VOZ:
-        c += [(t0 + FALA_ROSTO, "whoosh", 0.3)]
+    c += [(t0, "whoosh", 0.28) for t0, d, arq, _ in PLANOS if t0 > GANCHO + INTRO_ROSTO + 3 and arq not in ("v0.mp4", "mosaico")]
     c += [(t0, "pop", 0.35) for t0, _, _ in CAIXAS_T]
     for t0, d, k in FICHAS:
         c += [(t0 + x, "pop", 0.22) for x in (0.1, 0.3, 0.5, 0.7, 0.9)] + [(t0 + d, "whoosh", 0.3), (t0 + d + 0.05, "ding", 0.3)]
-    tc = VOZ[-1][1] + VOZ[-1][2] + 0.15
+    tc = VOZ[-1][1] + VOZ[-1][2] + RESPIRO
     c += [(tc, "pop", 0.4), (tc + 0.3, "boing", 0.4), (tc + COMENTA, "whoosh", 0.4), (tc + COMENTA + 1.2, "ding", 0.5)]
     return c
 
