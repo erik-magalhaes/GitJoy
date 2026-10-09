@@ -1,140 +1,124 @@
 1
-00:00:00,300 --> 00:00:02,000
-Já apostou dinheiro num cachorro-quente?
+00:00:00,200 --> 00:00:02,390
+Você já pensou em apostar seu dinheiro num
 
 2
-00:00:02,000 --> 00:00:03,700
-Prepara a carteira...
+00:00:02,390 --> 00:00:02,730
+cachorro-quente?
 
 3
-00:00:03,700 --> 00:00:05,400
-e a garganta!
+00:00:02,730 --> 00:00:05,390
+Se não, prepara a carteira!
 
 4
-00:00:05,900 --> 00:00:08,067
-Esse é o Hot Streak:
+00:00:05,890 --> 00:00:08,980
+Esse é o Hot Streak, onde quatro mascotes
 
 5
-00:00:08,067 --> 00:00:10,233
-quatro mascotes trapalhões correm, e
+00:00:08,980 --> 00:00:11,340
+atrapalhados correm e você precisa apostar
 
 6
-00:00:10,233 --> 00:00:12,400
-vocês apostam em quem vai ganhar.
+00:00:11,340 --> 00:00:12,020
+em quem vai ganhar.
 
 7
-00:00:12,900 --> 00:00:14,200
-Antes de cada corrida, cada um pega
+00:00:12,580 --> 00:00:14,810
+E antes de cada corrida, cada jogador pega
 
 8
-00:00:14,200 --> 00:00:15,500
+00:00:14,810 --> 00:00:16,310
 dois bilhetes de aposta:
 
 9
-00:00:15,500 --> 00:00:16,800
-no mascote...
+00:00:16,500 --> 00:00:19,090
+pode ser no mascote, ou em coisas bizarras,
 
 10
-00:00:16,800 --> 00:00:18,100
-ou em coisas bizarras, tipo 'alguém
+00:00:19,090 --> 00:00:20,540
+tipo: alguém vai sair da pista?
 
 11
-00:00:18,100 --> 00:00:19,400
-vai sair da pista?'
+00:00:21,180 --> 00:00:22,390
+E é você que escolhe:
 
 12
-00:00:19,900 --> 00:00:21,525
-E você escolhe:
+00:00:22,390 --> 00:00:24,330
+ou vai na aposta segura, ou na arriscada,
 
 13
-00:00:21,525 --> 00:00:23,150
-aposta segura...
+00:00:24,350 --> 00:00:26,900
+que te paga mais, mas pode te fazer perder dinheiro.
 
 14
-00:00:23,150 --> 00:00:24,775
-ou arriscada, que paga muito mais, mas
+00:00:27,510 --> 00:00:29,210
+E é aí que vem a malandragem:
 
 15
-00:00:24,775 --> 00:00:26,400
-pode até te fazer perder dinheiro!
+00:00:29,210 --> 00:00:31,600
+cada jogador coloca uma carta secreta no
 
 16
-00:00:26,900 --> 00:00:28,625
-Aí vem a malandragem:
+00:00:31,600 --> 00:00:33,740
+baralho da corrida pra puxar a sardinha pro seu lado.
 
 17
-00:00:28,625 --> 00:00:30,350
-cada jogador coloca uma carta secreta
+00:00:34,250 --> 00:00:36,140
+E então começa a corrida:
 
 18
-00:00:30,350 --> 00:00:32,075
-no baralho da corrida pra puxar a sardinha
+00:00:36,140 --> 00:00:38,700
+um dos jogadores vira as cartas uma a uma,
 
 19
-00:00:32,075 --> 00:00:33,800
-pro seu lado.
-
-20
-00:00:34,300 --> 00:00:36,175
-Começou!
-
-21
-00:00:36,175 --> 00:00:38,050
-As cartas viram uma a uma:
-
-22
-00:00:38,050 --> 00:00:39,925
+00:00:38,700 --> 00:00:40,650
 o mascote corre, tropeça, dá meia-volta,
 
-23
-00:00:39,925 --> 00:00:41,800
+20
+00:00:40,800 --> 00:00:42,760
 invade a raia do outro e derruba geral!
 
+21
+00:00:43,350 --> 00:00:45,690
+E aqui tudo pode desclassificar o mascote:
+
+22
+00:00:45,690 --> 00:00:47,750
+saiu da pista, desclassificado!
+
+23
+00:00:47,860 --> 00:00:50,560
+Tropeçou já no chão, desclassificado de novo!
+
 24
-00:00:42,300 --> 00:00:43,925
-Caiu de novo quando já tava no chão,
+00:00:51,160 --> 00:00:53,840
+E depois de três corridas sofridas, ganha
 
 25
-00:00:43,925 --> 00:00:45,550
-ou saiu da pista?
+00:00:53,840 --> 00:00:54,410
+quem tiver mais dinheiro.
 
 26
-00:00:45,550 --> 00:00:47,175
-Desclassificado!
-
-27
-00:00:47,175 --> 00:00:48,800
-E a gritaria na mesa é garantida.
-
-28
-00:00:49,300 --> 00:00:50,880
-Depois de três corridas, ganha quem
-
-29
-00:00:50,880 --> 00:00:52,460
-tiver mais dinheiro.
-
-30
-00:00:52,460 --> 00:00:54,040
+00:00:54,410 --> 00:00:55,650
 Agora para tudo:
 
-31
-00:00:54,040 --> 00:00:55,620
+27
+00:00:55,650 --> 00:00:57,540
 em quem você aposta?
 
-32
-00:00:55,620 --> 00:00:57,200
+28
+00:00:57,670 --> 00:00:58,400
 Comenta aqui!
 
-33
-00:01:03,300 --> 00:01:05,333
-Aluga o Hot Streak na Sua Vez e chama
+29
+00:01:03,090 --> 00:01:05,370
+Aluga o Hot Streak aqui na Sua Vez e chama
 
-34
-00:01:05,333 --> 00:01:07,367
+30
+00:01:05,370 --> 00:01:06,470
 a galera pra apostar!
 
-35
-00:01:07,367 --> 00:01:09,400
+31
+00:01:06,470 --> 00:01:07,200
 O link tá na bio.
 
