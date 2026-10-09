@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Gravar narração – Sua Vez!</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{--bg:#1a0c1c;--card:#2a1430;--tx:#f4eee2;--mut:#bfa9c4;--red:#c4122f;--y:#f5c518;--ok:#2fb37a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,Segoe UI,Arial,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:28px;margin:0 0 6px}.sub{color:var(--mut);margin:0 0 22px;line-height:1.45}
+.tips{background:var(--card);border-radius:12px;padding:14px 18px;margin-bottom:22px;color:var(--mut);line-height:1.5}
+.tips b{color:var(--tx)}
+.line{background:var(--card);border-radius:14px;padding:18px;margin-bottom:14px;border:2px solid transparent}
+.line.cur{border-color:var(--y)}.line.done{border-color:var(--ok)}
+.n{color:var(--y);font-weight:800;margin-right:8px}
+.t{font-size:26px;line-height:1.35;margin:4px 0 14px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+button{font:inherit;font-weight:700;border:0;border-radius:10px;padding:12px 18px;cursor:pointer}
+.rec{background:var(--red);color:#fff}.rec.on{background:#fff;color:var(--red)}
+.sec{background:#3b2342;color:var(--tx)}
+.st{color:var(--mut);font-size:14px}
+audio{height:36px}
+.all{position:sticky;bottom:0;background:linear-gradient(transparent,var(--bg) 30%);padding:26px 0 8px}
+.big{background:var(--y);color:#111;font-size:20px;padding:16px 24px}
+.meter{height:8px;border-radius:4px;background:#3b2342;overflow:hidden;width:160px}.meter i{display:block;height:100%;width:0;background:var(--ok)}
+</style></head><body><div class="wrap">
+<h1>🎙️ Gravar narração – Final Girl</h1>
+<p class="sub">Clique em <b>Gravar</b>, leia a frase com calma e clique em <b>Parar</b>. Ouça, regrave se quiser, e no fim toque em <b>Baixar / enviar todas</b>: no celular abre a tela de compartilhar (mande direto para o chat do Claude ou salve em Arquivos); no computador os arquivos vão para a pasta Downloads.</p>
+<div class="tips"><b>Dicas:</b> lugar silencioso · microfone ou celular a um palmo da boca · fale zoando, como se estivesse descrevendo os amigos da mesa 😂 · pode mudar palavras se ficar mais natural pra você. Na primeira gravação o navegador vai pedir permissão para usar o microfone: clique em <b>Permitir</b>.</div>
+<div id="list"></div>
+<div class="all"><button class="big" id="dl">⬇️ Baixar / enviar todas as gravações</button> <span class="st" id="cnt"></span></div>
+</div>
+<script>
+const LINES=[
+"Você sobreviveria a um filme de terror?",
+"No Final Girl, você é a última sobrevivente, a final girl dos filmes de terror. E joga sozinho!",
+"Cada caixa é um filme diferente, com um assassino e um lugar.",
+"Aqui na Sua Vez tem a primeira temporada inteira: Hans, Poltergeist, Inkanyamba, Geppetto e o Dr. Medo.",
+"No seu turno, o tempo é curto: você corre, procura armas e tenta salvar as vítimas.",
+"Pra atacar ou fugir, você rola os dados: tirou 5 ou 6, deu certo!",
+"Aí é a vez do assassino: ele anda, ataca, e cada vítima que ele pega deixa ele mais forte.",
+"Quando acaba o baralho do Terror, chega o grande final: você contra ele, e só um sai vivo! Qual assassino você enfrentaria primeiro? Comenta!",
+"Aluga o Final Girl na Sua Vez: cinco dias de jogo, retira em Mauá ou recebe em casa. O link tá na bio!"
+];
+const blobs=Array(LINES.length).fill(null);let stream=null,rec=null,curIdx=-1,chunks=[],an=null,raf=0;
+const list=document.getElementById('list');
+LINES.forEach((t,i)=>{const d=document.createElement('div');d.className='line';d.id='l'+i;
+ d.innerHTML=`<div class="t"><span class="n">${i+1}.</span>${t}</div><div class="row"><button class="rec">● Gravar</button><div class="meter"><i></i></div><audio controls style="display:none"></audio><span class="st"></span></div>`;
+ d.querySelector('.rec').onclick=()=>toggle(i);list.appendChild(d)});
+function micMsg(e){const n=(e&&e.name)||'';
+ if(!navigator.mediaDevices)return 'Este navegador não libera o microfone aqui. Abra o arquivo no Google Chrome (no computador), não dentro do app do Claude, do WhatsApp ou do e-mail.';
+ if(n==='NotAllowedError'||n==='SecurityError')return 'O microfone foi bloqueado.\n\n1) Clique no ícone à esquerda do endereço (cadeado/ícone de página) → Microfone → Permitir, e recarregue.\n2) Windows: Configurações → Privacidade → Microfone → ative "Permitir que aplicativos da área de trabalho acessem o microfone".\n3) Mac: Ajustes do Sistema → Privacidade e Segurança → Microfone → ative o Google Chrome.\n\n(código: '+n+')';
+ if(n==='NotFoundError')return 'Nenhum microfone foi encontrado. Conecte um fone com microfone ou verifique se o microfone está ligado. (código: '+n+')';
+ if(n==='NotReadableError')return 'O microfone está sendo usado por outro programa (Zoom, Meet, WhatsApp…). Feche o outro programa e tente de novo. (código: '+n+')';
+ return 'Não consegui acessar o microfone. (código: '+(n||'desconhecido')+')'}
+async function ensure(){if(stream)return;stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:true,autoGainControl:true}});
+ const ac=new AudioContext();an=ac.createAnalyser();an.fftSize=512;ac.createMediaStreamSource(stream).connect(an)}
+function meter(i){const a=new Uint8Array(an.fftSize),bar=document.querySelector(`#l${i} .meter i`);const loop=()=>{an.getByteTimeDomainData(a);let m=0;for(const v of a)m=Math.max(m,Math.abs(v-128));bar.style.width=Math.min(100,m/1.1)+'%';raf=requestAnimationFrame(loop)};loop()}
+async function toggle(i){
+ try{await ensure()}catch(e){alert(micMsg(e));return}
+ const d=document.getElementById('l'+i),b=d.querySelector('.rec'),st=d.querySelector('.st');
+ if(rec&&curIdx===i){rec.stop();return}
+ if(rec)return;
+ document.querySelectorAll('.line').forEach(x=>x.classList.remove('cur'));d.classList.add('cur');
+ chunks=[];rec=new MediaRecorder(stream);curIdx=i;
+ rec.ondataavailable=e=>chunks.push(e.data);
+ rec.onstop=()=>{cancelAnimationFrame(raf);const bl=new Blob(chunks,{type:rec.mimeType});blobs[i]=bl;const au=d.querySelector('audio');au.src=URL.createObjectURL(bl);au.style.display='';
+  b.textContent='↻ Regravar';b.classList.remove('on');st.textContent='✓ gravado';d.classList.add('done');rec=null;curIdx=-1;upd();
+  const nx=document.getElementById('l'+(i+1));if(nx)nx.scrollIntoView({behavior:'smooth',block:'center'})};
+ rec.start();b.textContent='■ Parar';b.classList.add('on');st.textContent='gravando…';meter(i)}
+function upd(){document.getElementById('cnt').textContent=`${blobs.filter(Boolean).length} de ${LINES.length} frases gravadas`}
+document.getElementById('dl').onclick=async()=>{const n=blobs.filter(Boolean).length;if(!n){alert('Grave pelo menos uma frase.');return}
+ const files=[];blobs.forEach((bl,i)=>{if(!bl)return;const ext=bl.type.includes('ogg')?'ogg':bl.type.includes('mp4')?'m4a':'webm';files.push(new File([bl],`finalgirl_narracao_${String(i+1).padStart(2,'0')}.${ext}`,{type:bl.type||'audio/webm'}))});
+ if(/Android|iPhone|iPad/i.test(navigator.userAgent)&&navigator.canShare&&navigator.canShare({files})){try{await navigator.share({files,title:'Narração Vudú'});return}catch(e){if(e&&e.name==='AbortError')return}}
+ for(let i=0;i<blobs.length;i++){if(!blobs[i])continue;const ext=blobs[i].type.includes('ogg')?'ogg':blobs[i].type.includes('mp4')?'m4a':'webm';const a=document.createElement('a');a.href=URL.createObjectURL(blobs[i]);a.download=`finalgirl_narracao_${String(i+1).padStart(2,'0')}.${ext}`;document.body.appendChild(a);a.click();a.remove();await new Promise(r=>setTimeout(r,400))}
+ alert('Pronto! Os arquivos estão na pasta Downloads (finalgirl_narracao_01, 02...). Pode me avisar no chat.')};
+upd();
+</script></body></html>
