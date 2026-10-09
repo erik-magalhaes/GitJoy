@@ -313,9 +313,18 @@ def legenda_viva(img, t):
         if a <= t < b:
             fala_agora = max(j for j, (_, w0, _) in enumerate(g) if w0 <= t or j == 0)
             ims = [palavra_img(w, j == fala_agora) for j, (w, _, _) in enumerate(g)]
-            gap = 22
-            tot = sum(x.width for x in ims) + gap * (len(ims) - 1) - 24 * len(ims)
-            linhas = [ims] if tot <= 980 else [ims[:2], ims[2:]]
+            gap, larg = 22, 960  # quebra por largura real: nenhuma palavra sai da tela
+            ims = [im if im.width - 24 <= larg else im.resize((larg + 24, int(im.height * (larg + 24) / im.width)),
+                                                               Image.LANCZOS) for im in ims]
+            linhas, cur, cw = [], [], 0
+            for im in ims:
+                w_ = im.width - 24
+                if cur and cw + gap + w_ > larg:
+                    linhas.append(cur)
+                    cur, cw = [], 0
+                cw += (gap if cur else 0) + w_
+                cur.append(im)
+            linhas.append(cur)
             sc = 0.85 + 0.15 * ease(min(1.0, (t - a) / 0.12))
             y = 1525 - (len(linhas) - 1) * 110
             for ln in linhas:
