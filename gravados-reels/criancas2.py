@@ -48,22 +48,22 @@ VOZ_CADEIA = ("volume=-9dB,highpass=f=90,equalizer=f=140:t=q:w=1:g=-2,equalizer=
               "equalizer=f=3200:t=q:w=1.4:g=2,highshelf=f=6000:g=2")
 GRADE = "hqdn3d=1.5:1.5:3:3,eq=contrast=1.03:saturation=1.05:gamma=1.02,colorbalance=rm=-0.02:bm=0.02,unsharp=3:3:0.3"
 GRADE_ROSTO = "hqdn3d=1.5:1.5:3:3,eq=contrast=1.02:saturation=0.98:gamma=1.04,colorbalance=rm=-0.03:bm=0.02,unsharp=3:3:0.25"
-# falas boas (arquivo, início, fim) e o texto que ele falou
+# falas boas (arquivo, início, fim) e o texto que ele falou; o início é a 1ª palavra (sem a puxada de ar antes)
 ROSTO = "novos/20261009_182216.mp4"  # tomada com as falas
 HOOK = "novos/20261009_182144.mp4"   # gancho: ele pertinho da câmera e depois a abertura
 ROSTOS = (ROSTO, HOOK)
-INTRO = (HOOK, (3.50, 8.35), "Hoje eu vim te indicar 4 ótimos jogos pra brincar com os piticos no Dia das Crianças!")
+INTRO = (HOOK, (3.64, 8.35), "Hoje eu vim te indicar 4 ótimos jogos pra brincar com os piticos no Dia das Crianças!")
 FALAS = [
-    ("Go Cuckoo!", (ROSTO, 0.95, 7.60), "E o primeiro desses jogos é o Go Cuckoo, um jogo onde a gente precisa criar um "
+    ("Go Cuckoo!", (ROSTO, 1.48, 7.60), "E o primeiro desses jogos é o Go Cuckoo, um jogo onde a gente precisa criar um "
                                          "ninho pra Kiki conseguir colocar os ovos dela."),
-    ("Gravity Superstar", (ROSTO, 14.30, 21.55), "Já o segundo é o Gravity Superstars, um jogo onde viramos aventureiros "
+    ("Gravity Superstar", (ROSTO, 14.56, 21.55), "Já o segundo é o Gravity Superstars, um jogo onde viramos aventureiros "
                                                   "espaciais precisando capturar algumas estrelas."),
-    ("Draftosaurus", (ROSTO, 48.35, 53.50), "Já o terceiro é o Draftosaurus, um jogo onde montamos o nosso próprio parque "
+    ("Draftosaurus", (ROSTO, 48.43, 53.50), "Já o terceiro é o Draftosaurus, um jogo onde montamos o nosso próprio parque "
                                              "dos dinossauros."),
-    ("Scooby-Doo!", (ROSTO, 74.70, 81.45), "E por último, mas não menos importante, separamos o Scooby-Doo, um jogo que une "
+    ("Scooby-Doo!", (ROSTO, 74.84, 81.45), "E por último, mas não menos importante, separamos o Scooby-Doo, um jogo que une "
                                             "toda a família pra derrotar o monstro da semana."),
 ]
-FINAL = (ROSTO, (84.90, 89.75), "Todos esses jogos já estão disponíveis lá na Sua Vez. Corre que o link tá na bio!")
+FINAL = (ROSTO, (85.24, 89.75), "Todos esses jogos já estão disponíveis lá na Sua Vez. Corre que o link tá na bio!")
 FALA_ROSTO = 1.3  # ele falando (a capa aparece pequena no canto quando ele diz o nome) → o jogo na mesa com as
 # fichas → volta pra ele, ainda com a capa no canto (sem tampar o rosto)
 NOMES = [("cuckoo", "go"), ("gravity",), ("draftosaurus",), ("scooby", "scooby-doo")]
@@ -78,7 +78,7 @@ INFO = [("2 a 5 jogadores", "a partir de 5 anos", "15 min", "DESTREZA", (236, 72
         ("2 a 5 jogadores", "a partir de 8 anos", "15 min", "MONTE SEU PARQUE", (22, 163, 74)),
         ("1 a 5 jogadores", "a partir de 10 anos", "30 min", "COOPERATIVO", (14, 165, 233))]
 # gancho (pedido dele): a ÚLTIMA vez que ele chega pertinho da câmera ajeitando, com um movimento de câmera de efeito
-GANCHO_ARQ, GANCHO_INI, GANCHO = HOOK, 0.50, 3.00
+GANCHO_ARQ, GANCHO_INI, GANCHO = HOOK, 1.85, 1.79  # começa ele JÁ mexendo na câmera
 INTRO_ROSTO = 1.9  # na fala de abertura, depois disso entra uma montagem rápida dos 4 jogos
 MONTAGEM = [("v1.mp4", 1.0), ("v6.mp4", 0.5), ("v8.mp4", 11.5), ("v4.mp4", 6.0)]
 COMENTA = 2.6
