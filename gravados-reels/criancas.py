@@ -53,10 +53,10 @@ FALAS = [
     ("Scooby-Doo!", ("v0.mp4", 60.50, 66.40), "E por último, o jogo Scooby-Doo Board Game, onde a família se une pra "
                                                "derrotar o monstro da semana."),
 ]
-FALA_ROSTO = 1.4  # A: ele falando (tela cheia) → B: o jogo em tela cheia → C: volta pra ele com o jogo pequeno na frente
+FALA_ROSTO = 1.3  # ele falando → o jogo na mesa (com as fichas) → a capa oficial → ele de novo
+CAPA = 1.15
 # cada trecho de cena é usado UMA vez só (ele reclamou de cenas repetidas): (arquivo, início)
 CENAS = [("v2.mp4", 1.6), ("v7.mp4", 1.0), ("v8.mp4", 2.2), ("v4.mp4", 1.6)]   # B: jogo em tela cheia
-PIP = [(None, 0.0)] * 4  # C: na frente dele vai a caixa OFICIAL (pedido dele), não a cena gravada
 # fichas de cada jogo (dados oficiais das editoras / lojas: HABA, Sit Down!, Ankama, CMON)
 INFO = [("2 a 5 jogadores", "a partir de 4 anos", "15 min", "DESTREZA", (236, 72, 153)),
         ("2 a 6 jogadores", "a partir de 7 anos", "20 min", "CORRIDA ESPACIAL", (99, 102, 241)),
@@ -81,22 +81,25 @@ def linha_do_tempo():
         dd = resto / len(MONTAGEM)
         planos.append((GANCHO + INTRO_ROSTO + j * dd, dd, arq, ini))
     t = GANCHO + (b - a) + 0.2
-    pips = []
+    fichas = []
     for k, (_, (arq0, a, b), _) in enumerate(FALAS):
         d = b - a
         voz.append((k, t, d))
-        tb = (d - FALA_ROSTO) * 0.45
-        tcc = d - FALA_ROSTO - tb + 0.15
-        planos.append((t, FALA_ROSTO, arq0, a))
-        planos.append((t + FALA_ROSTO, tb, *CENAS[k]))
-        planos.append((t + FALA_ROSTO + tb, tcc, arq0, a + FALA_ROSTO + tb))  # rosto de novo, com a boca sincronizada
-        pips.append((t + FALA_ROSTO + tb, tcc, *PIP[k], k))
+        resto = d - FALA_ROSTO - CAPA
+        tb = resto * 0.62
+        planos.append((t, FALA_ROSTO, arq0, a))                     # ele falando (rosto livre)
+        planos.append((t + FALA_ROSTO, tb, *CENAS[k]))              # o jogo na mesa, com as fichas por cima
+        fichas.append((t + FALA_ROSTO, tb, k))
+        tc = t + FALA_ROSTO + tb
+        planos.append((tc, CAPA, f"capa{k}", 0.0))                  # a capa oficial
+        td = tc + CAPA
+        planos.append((td, t + d + 0.15 - td, arq0, a + (td - t)))  # volta pra ele (boca sincronizada)
         t += d + 0.15
     planos.append((t, COMENTA, "v5.mp4", 5.0))
     t += COMENTA
     planos.append((t, CTA, "mosaico", 0.0))
     t += CTA
-    return planos, voz, t, pips
+    return planos, voz, t, fichas
 
 
 def fala(k):
@@ -107,7 +110,7 @@ def fala(k):
     return arq, a, b, txt
 
 
-PLANOS, VOZ, DUR, PIPS = linha_do_tempo()
+PLANOS, VOZ, DUR, FICHAS = linha_do_tempo()
 
 
 # palavras com os tempos reais (faster-whisper medium, revisadas): palavras.json, uma lista por fala de VOZ
@@ -150,6 +153,14 @@ def base_video(path):
     lst = []
     for i, (t0, d, arq, ini) in enumerate(PLANOS):
         p = os.path.join(tmp, f"p{i:02d}.mp4")
+        if arq.startswith("capa"):
+            png = os.path.join(tmp, f"{arq}.png")
+            tela_capa(int(arq[4:])).save(png)
+            subprocess.run([ffmpeg(), "-y", "-loglevel", "error", "-loop", "1", "-framerate", str(FPS), "-i", png,
+                            "-frames:v", str(nq(t0, d)), "-c:v", "libx264", "-crf", "16", "-preset", "fast", "-pix_fmt",
+                            "yuv420p", p], check=True)
+            lst.append(p)
+            continue
         if arq == "mosaico":
             mosaico(p, nq(t0, d) / FPS)
             lst.append(p)
@@ -214,7 +225,7 @@ def zoom_de(t):
     if arq == "mosaico":
         return 1.0, 0.0
     if arq == "v0.mp4":  # rosto: aberto em A e fechado (punch-in) em C, com empurrão leve
-        z = (1.14 if any(p0 <= t < p0 + pd for p0, pd, *_ in PIPS) else 1.04) + 0.03 * u
+        z = (1.04 if any(abs(t0 - v0) < 0.01 for _, v0, _ in VOZ) else 1.15) + 0.03 * u
     elif arq == "v5.mp4" and i == len(PLANOS) - 2:  # "comenta"
         z = 1.0 + 0.05 * u
     else:  # cenas dos jogos: empurrão lento, alternando entrar/sair
@@ -272,21 +283,32 @@ def legenda_viva(img, t):
 CAIXAS = ["go_cuckoo.png", "gravity_superstar.png", "draftosaurus.png", "scooby_doo.png"]  # fotos OFICIAIS (recortes_oficiais.py)
 
 
-@lru_cache(None)
-def caixa_oficial(k, h=520):
-    """Foto oficial da caixa, sem os bloquinhos de JPEG, na altura pedida (a capa reta do Scooby ganha cantos redondos)."""
+def caixa_oficial(k, h):
+    """Foto oficial da caixa sem os bloquinhos de JPEG (a capa reta do Scooby ganha cantos redondos)."""
     import cv2
     im = Image.open(os.path.join(ROOT, "assets", "oficial", CAIXAS[k])).convert("RGBA")
     rgb = cv2.fastNlMeansDenoisingColored(np.array(im.convert("RGB")), None, 4, 4, 7, 21)
     im = Image.merge("RGBA", (*Image.fromarray(rgb).split(), im.getchannel("A")))
-    h = 640 if im.width < im.height * 0.6 else h
-    larg = min(430, int(im.width * h / im.height))
+    larg = min(820, int(im.width * h / im.height))
     im = im.resize((larg, int(im.height * larg / im.width)), Image.LANCZOS).filter(ImageFilter.UnsharpMask(1.2, 60, 2))
     if k == 3:
         m = Image.new("L", im.size, 0)
-        ImageDraw.Draw(m).rounded_rectangle((0, 0, im.width - 1, im.height - 1), radius=18, fill=255)
+        ImageDraw.Draw(m).rounded_rectangle((0, 0, im.width - 1, im.height - 1), radius=24, fill=255)
         im.putalpha(m)
-    return sombra(im, 18, (10, 22), 0.55)
+    return im
+
+
+def tela_capa(k):
+    """Capa OFICIAL grande no centro, sobre a própria arte desfocada e escurecida."""
+    cx = caixa_oficial(k, 1100)
+    fundo = cx.convert("RGB").resize((W, int(cx.height * W / cx.width)), Image.LANCZOS)
+    if fundo.height < H:
+        fundo = fundo.resize((int(fundo.width * H / fundo.height), H), Image.LANCZOS)
+    fundo = fundo.crop(((fundo.width - W) // 2, (fundo.height - H) // 2, (fundo.width - W) // 2 + W,
+                        (fundo.height - H) // 2 + H)).filter(ImageFilter.GaussianBlur(40))
+    img = Image.blend(fundo, Image.new("RGB", (W, H), (10, 8, 20)), 0.5).convert("RGBA")
+    cola(img, sombra(cx, 30, (14, 30), 0.6), 540, 930)
+    return img.convert("RGB")
 
 
 @lru_cache(None)
@@ -302,38 +324,29 @@ def ficha(txt, ico):
     return im
 
 
-def janela(img, t):
-    """C: a caixa OFICIAL do jogo subindo na frente dele + fichas (jogadores, idade, tempo) entrando uma a uma."""
-    for j, (t0, d, arq, ini, k) in enumerate(PIPS):
+def fichas(img, t):
+    """No vídeo do jogo na mesa: nome do jogo em cima e as fichas (tipo, jogadores, idade, tempo) entrando uma a uma."""
+    for t0, d, k in FICHAS:
         if not (t0 <= t < t0 + d):
             continue
-        sai = seg(t, t0 + d - 0.25, t0 + d)
-        ent = seg(t, t0, t0 + 0.45)
-        y = 1180 + 6 * math.sin((t - t0) * 2.2) + 500 * ease(sai) + 400 * (1 - ease(ent))
-        cola(img, caixa_oficial(k), 845, y, 4 - 8 * (1 - ease(ent)) + 1.2 * math.sin((t - t0) * 1.6), 1.0)
+        cola(img, pilula(f"JOGO {k + 1}/4", 38, INK), 540, 230, 0, pop(t, t0))
+        cola(img, pilula(FALAS[k][0].upper(), 60, (249, 115, 22)), 540, 340, -2, pop(t, t0 + 0.1))
         p, a, tm, tag, cor = INFO[k]
-        itens = [(0.25, pilula(tag, 34, cor)), (0.45, ficha(p, "👥")), (0.65, ficha(a, "🎂")), (0.85, ficha(tm, "⏱️"))]
+        itens = [(0.3, pilula(tag, 36, cor)), (0.5, ficha(p, "👥")), (0.7, ficha(a, "🎂")), (0.9, ficha(tm, "⏱️"))]
         for q, (dt, im) in enumerate(itens):
             if t >= t0 + dt:
-                x = 60 + im.width / 2 - 900 * ease(sai)
-                cola(img, im, x, 1030 + q * 100, 0, pop(t, t0 + dt))
-        return True
-    return False
+                cola(img, im, 60 + im.width / 2, 1040 + q * 100, 0, pop(t, t0 + dt))
+        return
 
 
 def overlay(t, com_legenda):
     """Camada transparente com textos, nomes dos jogos, legenda, logo e CTA."""
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    janela(img, t)
+    fichas(img, t)
     if t < GANCHO + 0.4:
         sai = seg(t, GANCHO, GANCHO + 0.4)
         cola(img, letreiro("JOGOS PRO DIA\nDAS CRIANÇAS", 112, AMARELO, INK, 14), 540, 1380, -3, pop(t, -0.3), 1 - sai)
         cola(img, emoji("🎈", 120), 900, 1170, 12 * math.sin(t * 4), pop(t, 0.15), 1 - sai)
-    for k, t0, d in VOZ:
-        if k >= 0 and t0 <= t < t0 + d:
-            nome = FALAS[k][0]
-            cola(img, pilula(f"JOGO {k + 1}/4", 38, INK), 540, 230, 0, pop(t, t0))
-            cola(img, pilula(nome.upper(), 60, (249, 115, 22)), 540, 340, -2, pop(t, t0 + 0.1))
     tc = VOZ[-1][1] + VOZ[-1][2] + 0.15
     if tc <= t < tc + COMENTA:
         b = 1 + 0.04 * abs(math.sin(t * 6))
@@ -385,9 +398,9 @@ def cues():
     c = [(0.0, "pop", 0.4), (0.15, "pop", 0.3), (GANCHO - 0.3, "whoosh", 0.6)]
     c += [(GANCHO + INTRO_ROSTO + j * 0.82, "pop", 0.3) for j in range(4)]
     for k, t0, d in VOZ:
-        c += [(t0, "pop", 0.3), (t0 + FALA_ROSTO, "whoosh", 0.3)]
-    for t0, d, *_ in PIPS:
-        c += [(t0, "whoosh", 0.25), (t0 + 0.05, "boing", 0.25)] + [(t0 + x, "pop", 0.22) for x in (0.25, 0.45, 0.65, 0.85)]
+        c += [(t0 + FALA_ROSTO, "whoosh", 0.3)]
+    for t0, d, k in FICHAS:
+        c += [(t0 + x, "pop", 0.22) for x in (0.1, 0.3, 0.5, 0.7, 0.9)] + [(t0 + d, "whoosh", 0.3), (t0 + d + 0.05, "ding", 0.3)]
     tc = VOZ[-1][1] + VOZ[-1][2] + 0.15
     c += [(tc, "pop", 0.4), (tc + 0.3, "boing", 0.4), (tc + COMENTA, "whoosh", 0.4), (tc + COMENTA + 1.2, "ding", 0.5)]
     return c
