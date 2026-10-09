@@ -63,7 +63,7 @@ NOMES = [("cuckoo", "go"), ("gravity",), ("draftosaurus",), ("scooby", "scooby-d
 CENAS = [[("v2.mp4", 1.6), ("v3.mp4", 9.0)], [("v7.mp4", 1.0), ("v6.mp4", 3.5)],  # 2 cenas do jogo por fala,
          [("v8.mp4", 2.2), ("v8.mp4", 7.0)], [("v4.mp4", 1.6), ("v5.mp4", 3.0)]]  # cada trecho usado uma vez
 RESPIRO = 0.7  # o jogo fica um pouco na tela depois da fala, antes do próximo
-OLHA = {3: (0.5, "v4.mp4", 0.2)}  # Scooby: em 60,5 s ele ainda está girando; olha pra câmera em ~61,0 s
+OLHA = {}  # ex.: {3: (0.5, "v4.mp4", 0.2)} cobre o giro dele no Scooby; ele pediu para DEIXAR o giro
 # fichas de cada jogo (edições atuais: Go Cuckoo da Devir 2023, Sit Down!, MeepleBR, CMON)
 INFO = [("2 a 5 jogadores", "a partir de 5 anos", "15 min", "DESTREZA", (236, 72, 153)),
         ("2 a 6 jogadores", "a partir de 7 anos", "20 min", "CORRIDA ESPACIAL", (99, 102, 241)),
