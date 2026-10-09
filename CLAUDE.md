@@ -254,6 +254,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   falas boas cortadas da tomada longa (ele erra e repete; uso a última tentativa boa), rosto dele 1,7 s e corte para as cenas
   do jogo com a fala por cima, legenda, "comenta" e CTA com mosaico das cenas dele. Pedidos dele: **qualidade de luz, som e
   edição**; imagem por cima só se for **oficial** (nunca recorte do site); o gancho é a cena dele **pertinho do celular
-  ajeitando a câmera** (com um movimento suave de efeito) e depois se afastando e falando "separamos quatro jogos…".
+  ajeitando a câmera** (a ÚLTIMA aproximação do `vg.mp4`, 8,45–11,15 s) com `camera()`: aproxima 10% devagar e abre
+  rápido com desfoque de movimento quando ele se afasta; depois ele fala "A gente separou quatro ótimos jogos…" e entra
+  uma montagem rápida dos 4 jogos. Voz do celular medida: +8 dB em 120–500 Hz e −14 dB acima de 4 kHz → `VOZ_CADEIA`
+  corta o embolado, devolve presença/ar, gate suave contra o eco e comprime. Rosto com `GRADE_ROSTO` (sem vibrance,
+  que avermelhava a pele). Versão de 39 s entregue (com e sem legenda, 2 passadas a 5200k para caber no chat).
   Vídeos gravados podem ter menos de 1 minuto.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.

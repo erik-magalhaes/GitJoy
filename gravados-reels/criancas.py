@@ -29,45 +29,61 @@ BR = os.path.join(ROOT, "brutos")
 OUT = os.path.join(ROOT, "out")
 INK = (20, 16, 30)
 AMARELO = (255, 214, 70)
-VOZ_CADEIA = ("highpass=f=90,afftdn=nr=14:nf=-42:tn=1,equalizer=f=250:t=q:w=1:g=-3,equalizer=f=3200:t=q:w=1:g=3,"
-              "highshelf=f=9000:g=1.5,deesser=i=0.35,acompressor=threshold=-20dB:ratio=3:attack=6:release=140:makeup=3,"
-              "loudnorm=I=-16:TP=-1.5:LRA=6")
+# voz: o celular grava "embolado" (+8 dB em 120-500 Hz e -14 dB acima de 4 kHz, medido) e com eco da sala.
+# Tira o grave embolado, devolve presença e ar, segura o eco entre as palavras (gate suave) e comprime.
+VOZ_CADEIA = ("highpass=f=90,afftdn=nr=10:nf=-50:tn=1,"
+              "equalizer=f=180:t=q:w=1.2:g=-2.5,equalizer=f=320:t=q:w=1:g=-4,equalizer=f=650:t=q:w=1.4:g=-1.5,"
+              "equalizer=f=3500:t=q:w=1.2:g=3.5,highshelf=f=6500:g=5,aexciter=amount=1.5:drive=6:freq=6000,"
+              "deesser=i=0.4,agate=threshold=0.012:ratio=2.5:attack=5:release=180:range=0.25,"
+              "acompressor=threshold=-22dB:ratio=3:attack=5:release=120:makeup=3,"
+              "loudnorm=I=-16:TP=-1.5:LRA=5")
 GRADE = ("hqdn3d=2:1.5:4:4,normalize=blackpt=black:whitept=white:smoothing=20:independence=0.4:strength=0.8,"
          "curves=all='0/0 0.25/0.26 0.5/0.56 0.75/0.82 1/1',vibrance=intensity=0.3,eq=saturation=1.08,"
          "colorbalance=rm=-0.03:bm=0.03:rh=0.02,unsharp=5:5:0.7")
 
-# falas boas da gravação v0 (início, fim) e o texto que ele falou
+# no rosto dele: sem vibrance (deixava a pele vermelha), tira um pouco do vermelho dos meios-tons
+GRADE_ROSTO = ("hqdn3d=2:1.5:4:4,normalize=blackpt=black:whitept=white:smoothing=20:independence=0.6:strength=0.6,"
+               "curves=all='0/0 0.25/0.27 0.5/0.55 0.75/0.8 1/1',eq=saturation=0.94,"
+               "colorbalance=rs=-0.02:rm=-0.06:gm=0.01:bm=0.03:rh=-0.02,unsharp=5:5:0.45")
+# falas boas (arquivo, início, fim) e o texto que ele falou
+INTRO = ("vg.mp4", (11.15, 16.35), "A gente separou quatro ótimos jogos pra jogar com os pequenos no Dia das Crianças!")
 FALAS = [
-    ("Go Cuckoo!", (4.60, 10.95), "E o primeiro da lista é o Go Cuckoo, um jogo onde a gente precisa montar um ninho perfeito "
-                                  "pra que a Kiki possa botar os seus ovos."),
-    ("Gravity Superstar", (18.55, 24.85), "E o segundo é o Gravity Stars, um jogo onde viramos astronautas em busca de "
-                                          "pequenas estrelas coloridas."),
-    ("Draftosaurus", (51.55, 57.75), "Também separamos o Draftosaurus, o jogo onde a gente monta o nosso próprio parque "
-                                     "de dinossauros. Ótimo para os pequeninos!"),
-    ("Scooby-Doo!", (60.50, 66.40), "E por último, o jogo Scooby-Doo Board Game, onde a família se une pra derrotar o "
-                                    "monstro da semana."),
+    ("Go Cuckoo!", ("v0.mp4", 4.60, 10.95), "E o primeiro da lista é o Go Cuckoo, um jogo onde a gente precisa montar um "
+                                             "ninho perfeito pra que a Kiki possa botar os seus ovos."),
+    ("Gravity Superstar", ("v0.mp4", 18.55, 24.85), "E o segundo é o Gravity Stars, um jogo onde viramos astronautas em "
+                                                     "busca de pequenas estrelas coloridas."),
+    ("Draftosaurus", ("v0.mp4", 51.55, 57.75), "Também separamos o Draftosaurus, o jogo onde a gente monta o nosso "
+                                                "próprio parque de dinossauros. Ótimo para os pequeninos!"),
+    ("Scooby-Doo!", ("v0.mp4", 60.50, 66.40), "E por último, o jogo Scooby-Doo Board Game, onde a família se une pra "
+                                               "derrotar o monstro da semana."),
 ]
 FALA_ROSTO = 1.7  # segundos com ele falando antes de cortar para as cenas do jogo
 # cenas de cada jogo: (arquivo, início) — encaixadas em sequência até o fim da fala
 CENAS = [[("v2.mp4", 1.6), ("v3.mp4", 8.0)], [("v7.mp4", 1.0), ("v6.mp4", 3.5)],
          [("v8.mp4", 2.2), ("v8.mp4", 8.5)], [("v4.mp4", 1.6), ("v5.mp4", 1.8)]]
-GANCHO = 4.3  # ele entrando no quadro e se ajeitando na frente da câmera (pedido dele: é o gancho)
-GANCHO_INI = 0.3
+# gancho (pedido dele): a ÚLTIMA vez que ele chega pertinho da câmera ajeitando, com um movimento de câmera de efeito
+GANCHO_ARQ, GANCHO_INI, GANCHO = "vg.mp4", 8.45, 2.70
+INTRO_ROSTO = 1.9  # na fala de abertura, depois disso entra uma montagem rápida dos 4 jogos
+MONTAGEM = [("v3.mp4", 2.2), ("v7.mp4", 0.6), ("v8.mp4", 4.0), ("v5.mp4", 2.4)]
 COMENTA = 2.6
 CTA = 3.6
 
 
 def linha_do_tempo():
-    """Lista de planos [(t0, dur, arquivo, início no arquivo)] e posições da voz."""
-    planos, voz, t = [], [], 0.0
-    t = GANCHO
-    for k, (_, (a, b), _) in enumerate(FALAS):
+    """Planos [(t0, dur, arquivo, início no arquivo)] e falas [(índice, t0, dur)] (índice -1 = abertura)."""
+    planos, voz = [], []
+    a, b = INTRO[1]
+    planos.append((0.0, GANCHO + INTRO_ROSTO, GANCHO_ARQ, GANCHO_INI))  # gancho e abertura: mesma tomada
+    voz.append((-1, GANCHO, b - a))
+    resto = (b - a) - INTRO_ROSTO
+    for j, (arq, ini) in enumerate(MONTAGEM):
+        dd = resto / len(MONTAGEM)
+        planos.append((GANCHO + INTRO_ROSTO + j * dd, dd, arq, ini))
+    t = GANCHO + (b - a) + 0.2
+    for k, (_, (arq0, a, b), _) in enumerate(FALAS):
         d = b - a
         voz.append((k, t, d))
-        if k == 0:  # o gancho emenda direto na 1ª fala (mesma tomada, sem corte)
-            planos.append((0.0, GANCHO + FALA_ROSTO, "v0.mp4", GANCHO_INI))
-        else:
-            planos.append((t, FALA_ROSTO, "v0.mp4", a))
+        planos.append((t, FALA_ROSTO, arq0, a))
         resto = d - FALA_ROSTO
         cs = CENAS[k]
         for j, (arq, ini) in enumerate(cs):
@@ -81,13 +97,21 @@ def linha_do_tempo():
     return planos, voz, t
 
 
+def fala(k):
+    """(arquivo, início, fim, texto) da fala k (-1 = abertura)."""
+    if k < 0:
+        return INTRO[0], INTRO[1][0], INTRO[1][1], INTRO[2]
+    nome, (arq, a, b), txt = FALAS[k]
+    return arq, a, b, txt
+
+
 PLANOS, VOZ, DUR = linha_do_tempo()
 
 
 def subs():
     out = []
     for k, t0, d in VOZ:
-        txt = FALAS[k][2]
+        txt = fala(k)[3]
         palavras = txt.split()
         partes, cur = [], []
         for w in palavras:
@@ -121,7 +145,8 @@ def base_video(path):
             mosaico(p, d)
             lst.append(p)
             continue
-        vf = f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS},{GRADE}"
+        g = GRADE_ROSTO if arq in ("v0.mp4", "vg.mp4") else GRADE
+        vf = f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS},{g}"
         subprocess.run([ffmpeg(), "-y", "-loglevel", "error", "-ss", f"{ini:.3f}", "-i", os.path.join(BR, arq), "-t",
                         f"{d:.3f}", "-an", "-vf", vf, "-c:v", "libx264", "-crf", "16", "-preset", "fast", "-pix_fmt",
                         "yuv420p", p], check=True)
@@ -150,25 +175,47 @@ def mosaico(p, d):
 
 def vozes():
     arqs = []
-    for k, (_, (a, b), _) in enumerate(FALAS):
-        p = os.path.join(OUT, f"voz_{k + 1}.wav")
+    for i, (k, t0, d) in enumerate(VOZ):
+        arq, a, b, _ = fala(k)
+        p = os.path.join(OUT, f"voz_{i}.wav")
         subprocess.run([ffmpeg(), "-y", "-loglevel", "error", "-ss", f"{a:.3f}", "-t", f"{b - a:.3f}", "-i",
-                        os.path.join(BR, "v0.mp4"), "-vn", "-ac", "1", "-ar", "48000", "-af",
+                        os.path.join(BR, arq), "-vn", "-ac", "1", "-ar", "48000", "-af",
                         VOZ_CADEIA + ",aresample=44100,afade=t=in:d=0.05,afade=t=out:st=%.2f:d=0.12" % (b - a - 0.12),
                         p], check=True)
-        arqs.append((p, VOZ[k][1]))
+        arqs.append((p, t0))
     return arqs
+
+
+def camera(fr, t):
+    """Movimento de câmera do gancho: aproxima devagar enquanto ele ajeita a câmera e, quando ele se afasta,
+    um "zoom-out" rápido com leve desfoque de movimento (efeito, sem ficar estranho)."""
+    if t >= GANCHO + 0.45:
+        return fr
+    u = t / GANCHO
+    z = 1.0 + 0.10 * ease(min(1.0, u / 0.85))  # aproxima 10%
+    sai = seg(t, GANCHO - 0.35, GANCHO + 0.45)
+    z = lerp(z, 1.0, ease(sai))
+    if z <= 1.001:
+        return fr
+    dx = 14 * math.sin(t * 1.3)  # deriva lateral bem leve
+    w, h = W / z, H / z
+    x0 = min(max(0.0, W / 2 - w / 2 + dx), W - w)
+    y0 = (H - h) / 2
+    out = fr.resize((W, H), Image.BICUBIC, box=(x0, y0, x0 + w, y0 + h))
+    if 0.05 < sai < 0.95:  # desfoque de movimento no zoom-out
+        out = Image.blend(out, out.filter(ImageFilter.GaussianBlur(6 * math.sin(sai * math.pi))), 0.6)
+    return out
 
 
 def overlay(t, com_legenda):
     """Camada transparente com textos, nomes dos jogos, legenda, logo e CTA."""
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    if t < GANCHO:
-        cola(img, letreiro("4 JOGOS PRA\nCRIANÇADA", 118, AMARELO, INK, 14), 540, 560, -3, pop(t, -0.3))
-        cola(img, letreiro("largar o celular", 70, WHITE, INK, 10, "Poppins-Black.ttf"), 500, 800, 2, pop(t, 0.1))
-        cola(img, emoji("📵", 100), 900, 800, 0, pop(t, 0.2))
+    if t < GANCHO + 0.4:
+        sai = seg(t, GANCHO, GANCHO + 0.4)
+        cola(img, letreiro("JOGOS PRO DIA\nDAS CRIANÇAS", 112, AMARELO, INK, 14), 540, 1180, -3, pop(t, -0.3), 1 - sai)
+        cola(img, emoji("🎈", 120), 900, 960, 12 * math.sin(t * 4), pop(t, 0.15), 1 - sai)
     for k, t0, d in VOZ:
-        if t0 <= t < t0 + d:
+        if k >= 0 and t0 <= t < t0 + d:
             nome = FALAS[k][0]
             cola(img, pilula(f"{k + 1}/4", 40, INK), 160, 230, 0, pop(t, t0))
             cola(img, pilula(nome.upper(), 54, (249, 115, 22)), 540, 1450, -2, pop(t, t0 + 0.1))
@@ -210,7 +257,7 @@ def compor(base, saida, wav, com_legenda):
         buf = rd.stdout.read(W * H * 3)
         if len(buf) < W * H * 3:
             break
-        fr = Image.frombytes("RGB", (W, H), buf).convert("RGBA")
+        fr = camera(Image.frombytes("RGB", (W, H), buf), n / FPS).convert("RGBA")
         fr.alpha_composite(overlay(n / FPS, com_legenda))
         wr.stdin.write(fr.convert("RGB").tobytes())
         n += 1
@@ -220,7 +267,8 @@ def compor(base, saida, wav, com_legenda):
 
 
 def cues():
-    c = [(0.0, "whoosh", 0.4), (0.0, "pop", 0.4)]
+    c = [(0.0, "pop", 0.4), (0.15, "pop", 0.3), (GANCHO - 0.3, "whoosh", 0.6)]
+    c += [(GANCHO + INTRO_ROSTO + j * 0.82, "pop", 0.3) for j in range(4)]
     for k, t0, d in VOZ:
         c += [(t0, "pop", 0.3), (t0 + FALA_ROSTO, "whoosh", 0.3)]
     tc = VOZ[-1][1] + VOZ[-1][2] + 0.15
@@ -241,7 +289,7 @@ def main():
         for x in a.frame:
             r = subprocess.run([ffmpeg(), "-loglevel", "error", "-ss", f"{x:.3f}", "-i", base, "-frames:v", "1", "-f",
                                 "rawvideo", "-pix_fmt", "rgb24", "-"], capture_output=True)
-            fr = Image.frombytes("RGB", (W, H), r.stdout[:W * H * 3]).convert("RGBA")
+            fr = camera(Image.frombytes("RGB", (W, H), r.stdout[:W * H * 3]), x).convert("RGBA")
             fr.alpha_composite(overlay(x, True))
             ims.append(fr.convert("RGB"))
         folha(ims, os.path.join(OUT, "frames.jpg"))
