@@ -192,7 +192,9 @@ def retro70(dur):
 MUSICAS = {"gameshow": gameshow, "travessa": travessa, "retro70": retro70}
 
 
-def build(path, dur, cues=(), musica="gameshow", warp=None, voz=None, fx_ganho=0.5, duck=0.6, musica_ganho=0.3):
+def build(path, dur, cues=(), musica="gameshow", warp=None, voz=None, fx_ganho=0.5, duck=0.6, musica_ganho=0.3,
+          satura=True):
+    """satura=False: soma linear (voz gravada não pode ser saturada pelo tanh da mixagem)."""
     warp = warp or (lambda t: t)
     n = int(dur * SR)
     m = MUSICAS[musica](dur) if musica else np.zeros(n)
@@ -214,7 +216,8 @@ def build(path, dur, cues=(), musica="gameshow", warp=None, voz=None, fx_ganho=0
         mix = bed * duck + v * 0.95
     else:
         mix = bed
-    mix = np.tanh(mix * 1.1) / np.tanh(1.1)
+    if satura:
+        mix = np.tanh(mix * 1.1) / np.tanh(1.1)
     mix = mix / (np.abs(mix).max() + 1e-9) * (0.71 if musica or voz else 0.5)
     st = np.repeat((mix * 32767).astype(np.int16)[:, None], 2, 1)
     with wave.open(path, "wb") as w:

@@ -36,9 +36,12 @@ AMARELO = (255, 214, 70)
 # Tira o grave embolado, devolve presença e ar, segura o eco entre as palavras (gate suave) e comprime.
 # 2ª versão (a 1ª ficou "horrível": EQ/realce/gate exagerados na voz e cor estourada nos jogos).
 # Agora é mão leve: a voz do celular quase não é mexida, só limpa o grave e nivela; a imagem só corrige um pouco.
-VOZ_CADEIA = ("highpass=f=75,equalizer=f=300:t=q:w=1:g=-2,"
-              "acompressor=threshold=-24dB:ratio=2:attack=10:release=200:makeup=1.5,"
-              "loudnorm=I=-16:TP=-1.5:LRA=7")
+# 3ª versão do som (ele: "o áudio tá esquisito, eu usei microfone"). Medido: o microfone vem muito grave/abafado
+# (+8 a +13 dB em 100–500 Hz e −18 dB acima de 4 kHz, em relação a 500–2000 Hz) e o loudnorm dinâmico "bombeava" o volume.
+# Agora: tira o embolado com mão moderada, devolve um pouco de clareza, SEM compressor/loudnorm dinâmico; o nível de cada
+# fala é ajustado com ganho fixo (nivela()) e a mixagem não satura mais a voz (som.build(..., satura=False)).
+VOZ_CADEIA = ("volume=-9dB,highpass=f=90,equalizer=f=140:t=q:w=1:g=-2,equalizer=f=320:t=q:w=1.3:g=-4,"
+              "equalizer=f=3200:t=q:w=1.4:g=2,highshelf=f=6000:g=2")
 GRADE = "hqdn3d=1.5:1.5:3:3,eq=contrast=1.03:saturation=1.05:gamma=1.02,colorbalance=rm=-0.02:bm=0.02,unsharp=3:3:0.3"
 GRADE_ROSTO = "hqdn3d=1.5:1.5:3:3,eq=contrast=1.02:saturation=0.98:gamma=1.04,colorbalance=rm=-0.03:bm=0.02,unsharp=3:3:0.25"
 # falas boas (arquivo, início, fim) e o texto que ele falou
@@ -60,6 +63,7 @@ NOMES = [("cuckoo", "go"), ("gravity",), ("draftosaurus",), ("scooby", "scooby-d
 CENAS = [[("v2.mp4", 1.6), ("v3.mp4", 9.0)], [("v7.mp4", 1.0), ("v6.mp4", 3.5)],  # 2 cenas do jogo por fala,
          [("v8.mp4", 2.2), ("v8.mp4", 7.0)], [("v4.mp4", 1.6), ("v5.mp4", 3.0)]]  # cada trecho usado uma vez
 RESPIRO = 0.7  # o jogo fica um pouco na tela depois da fala, antes do próximo
+OLHA = {3: (0.5, "v4.mp4", 0.2)}  # Scooby: em 60,5 s ele ainda está girando; olha pra câmera em ~61,0 s
 # fichas de cada jogo (edições atuais: Go Cuckoo da Devir 2023, Sit Down!, MeepleBR, CMON)
 INFO = [("2 a 5 jogadores", "a partir de 5 anos", "15 min", "DESTREZA", (236, 72, 153)),
         ("2 a 6 jogadores", "a partir de 7 anos", "20 min", "CORRIDA ESPACIAL", (99, 102, 241)),
@@ -92,7 +96,12 @@ def linha_do_tempo():
         # a capa pequena aparece quando ele FALA o nome do jogo e fica até o fim da fala (só nos planos dele)
         tn = next(w0 for w, w0, _ in pals[k + 1] if w.strip(",.!").lower() in NOMES[k])
         ta = min(max(FALA_ROSTO, tn + 0.9), d - 3.2)
-        planos.append((t, ta, arq0, a))                     # ele apresenta o jogo (rosto livre, capa no canto)
+        if k in OLHA:  # ele ainda está virado no começo da fala: cobre com o jogo até ele olhar pra câmera
+            off, c0, i0 = OLHA[k]
+            planos.append((t, off, c0, i0))
+            planos.append((t + off, ta - off, arq0, a + off))
+        else:
+            planos.append((t, ta, arq0, a))                 # ele apresenta o jogo (rosto livre, capa no canto)
         caixas.append((t + min(tn, ta - 0.6), t + ta, k))
         resto = d - ta + RESPIRO                           # daqui até o próximo jogo: SÓ o jogo na mesa
         (c1, i1), (c2, i2) = CENAS[k]
@@ -191,6 +200,25 @@ def mosaico(p, d):
                     "-c:v", "libx264", "-crf", "16", "-preset", "fast", "-pix_fmt", "yuv420p", p], check=True)
 
 
+def nivela(p, alvo=-19.0):
+    """Ganho FIXO na fala inteira (sem bombear): RMS das partes com voz no alvo e picos raros arredondados."""
+    import wave
+    with wave.open(p) as w:
+        x = np.frombuffer(w.readframes(w.getnframes()), np.int16).astype(np.float64) / 32768
+    q = int(0.03 * 44100)
+    e = np.sqrt(np.convolve(x ** 2, np.ones(q) / q, "same"))
+    voz = e > e.max() * 0.1
+    g = 10 ** (alvo / 20) / (np.sqrt((x[voz] ** 2).mean()) + 1e-9)
+    y = x * g
+    lim = 0.89
+    y = np.where(np.abs(y) > lim * 0.8, np.sign(y) * (lim * 0.8 + (lim * 0.2) * np.tanh((np.abs(y) - lim * 0.8) / (lim * 0.2))), y)
+    with wave.open(p, "wb") as w:
+        w.setnchannels(1)
+        w.setsampwidth(2)
+        w.setframerate(44100)
+        w.writeframes((y * 32767).astype(np.int16).tobytes())
+
+
 def vozes():
     arqs = []
     for i, (k, t0, d) in enumerate(VOZ):
@@ -200,6 +228,7 @@ def vozes():
                         os.path.join(BR, arq), "-vn", "-ac", "1", "-ar", "44100", "-af",
                         VOZ_CADEIA + ",afade=t=in:d=0.05,afade=t=out:st=%.2f:d=0.12" % (b - a - 0.12),
                         p], check=True)
+        nivela(p)
         arqs.append((p, t0))
     return arqs
 
@@ -379,6 +408,20 @@ def overlay(t, com_legenda):
     return img
 
 
+def final_loudness(wav, alvo=-14.0):
+    """Loudness final com ganho FIXO (loudnorm linear em 2 passadas), pico real ≤ −1 dB."""
+    import json as js
+    r = subprocess.run([ffmpeg(), "-hide_banner", "-i", wav, "-af", f"loudnorm=I={alvo}:TP=-1:LRA=11:print_format=json",
+                        "-f", "null", "-"], capture_output=True, text=True)
+    m = js.loads(r.stderr[r.stderr.rindex("{"):r.stderr.rindex("}") + 1])
+    tmp = wav.replace(".wav", "_n.wav")
+    subprocess.run([ffmpeg(), "-y", "-loglevel", "error", "-i", wav, "-af",
+                    f"loudnorm=I={alvo}:TP=-1:LRA=11:linear=true:measured_I={m['input_i']}:measured_TP={m['input_tp']}:"
+                    f"measured_LRA={m['input_lra']}:measured_thresh={m['input_thresh']}:offset={m['target_offset']}",
+                    "-ar", "44100", tmp], check=True)
+    os.replace(tmp, wav)
+
+
 def compor(base, saida, wav, com_legenda):
     """Lê o vídeo base quadro a quadro, cola a camada de textos e grava com o áudio."""
     rd = subprocess.Popen([ffmpeg(), "-loglevel", "error", "-i", base, "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
@@ -432,7 +475,8 @@ def main():
         folha(ims, os.path.join(OUT, "frames.jpg"))
         return
     wav = os.path.join(OUT, "trilha.wav")
-    som.build(wav, DUR, cues(), musica="travessa", voz=vozes(), fx_ganho=0.35, duck=0.8, musica_ganho=0.2)
+    som.build(wav, DUR, cues(), musica="travessa", voz=vozes(), fx_ganho=0.3, duck=0.8, musica_ganho=0.16, satura=False)
+    final_loudness(wav)
     compor(base, os.path.join(OUT, "criancas_com_legenda.mp4"), wav, True)
     compor(base, os.path.join(OUT, "criancas_sem_legenda.mp4"), wav, False)
 
