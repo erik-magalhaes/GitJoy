@@ -24,7 +24,7 @@ from PIL import Image, ImageDraw, ImageFilter
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(ROOT, "..", "comum"))
-from motor import (W, H, FPS, WHITE, seg, ease, lerp, pop, font, emoji, logo_card, cola, letreiro, pilula,  # noqa
+from motor import (W, H, FPS, WHITE, seg, ease, lerp, pop, quica, font, emoji, logo_card, cola, sombra, letreiro, pilula,  # noqa
                    folha, ffmpeg)
 import som  # noqa: E402
 
@@ -53,14 +53,19 @@ FALAS = [
     ("Scooby-Doo!", ("v0.mp4", 60.50, 66.40), "E por último, o jogo Scooby-Doo Board Game, onde a família se une pra "
                                                "derrotar o monstro da semana."),
 ]
-FALA_ROSTO = 1.7  # segundos com ele falando antes de cortar para as cenas do jogo
-# cenas de cada jogo: (arquivo, início) — encaixadas em sequência até o fim da fala
-CENAS = [[("v2.mp4", 1.6), ("v3.mp4", 8.0)], [("v7.mp4", 1.0), ("v6.mp4", 3.5)],
-         [("v8.mp4", 2.2), ("v8.mp4", 8.5)], [("v4.mp4", 1.6), ("v5.mp4", 1.8)]]
+FALA_ROSTO = 1.4  # A: ele falando (tela cheia) → B: o jogo em tela cheia → C: volta pra ele com o jogo pequeno na frente
+# cada trecho de cena é usado UMA vez só (ele reclamou de cenas repetidas): (arquivo, início)
+CENAS = [("v2.mp4", 1.6), ("v7.mp4", 1.0), ("v8.mp4", 2.2), ("v4.mp4", 1.6)]   # B: jogo em tela cheia
+PIP = [(None, 0.0)] * 4  # C: na frente dele vai a caixa OFICIAL (pedido dele), não a cena gravada
+# fichas de cada jogo (dados oficiais das editoras / lojas: HABA, Sit Down!, Ankama, CMON)
+INFO = [("2 a 5 jogadores", "a partir de 4 anos", "15 min", "DESTREZA", (236, 72, 153)),
+        ("2 a 6 jogadores", "a partir de 7 anos", "20 min", "CORRIDA ESPACIAL", (99, 102, 241)),
+        ("2 a 5 jogadores", "a partir de 8 anos", "15 min", "MONTE SEU PARQUE", (22, 163, 74)),
+        ("1 a 5 jogadores", "a partir de 10 anos", "30 min", "COOPERATIVO", (14, 165, 233))]
 # gancho (pedido dele): a ÚLTIMA vez que ele chega pertinho da câmera ajeitando, com um movimento de câmera de efeito
 GANCHO_ARQ, GANCHO_INI, GANCHO = "vg.mp4", 8.45, 2.70
 INTRO_ROSTO = 1.9  # na fala de abertura, depois disso entra uma montagem rápida dos 4 jogos
-MONTAGEM = [("v3.mp4", 2.2), ("v7.mp4", 0.6), ("v8.mp4", 4.0), ("v5.mp4", 2.4)]
+MONTAGEM = [("v1.mp4", 1.0), ("v6.mp4", 0.5), ("v8.mp4", 11.5), ("v4.mp4", 6.0)]
 COMENTA = 2.6
 CTA = 3.6
 
@@ -76,21 +81,22 @@ def linha_do_tempo():
         dd = resto / len(MONTAGEM)
         planos.append((GANCHO + INTRO_ROSTO + j * dd, dd, arq, ini))
     t = GANCHO + (b - a) + 0.2
+    pips = []
     for k, (_, (arq0, a, b), _) in enumerate(FALAS):
         d = b - a
         voz.append((k, t, d))
+        tb = (d - FALA_ROSTO) * 0.45
+        tcc = d - FALA_ROSTO - tb + 0.15
         planos.append((t, FALA_ROSTO, arq0, a))
-        resto = d - FALA_ROSTO
-        cs = CENAS[k]
-        for j, (arq, ini) in enumerate(cs):
-            dd = resto / len(cs)
-            planos.append((t + FALA_ROSTO + j * dd, dd, arq, ini))
+        planos.append((t + FALA_ROSTO, tb, *CENAS[k]))
+        planos.append((t + FALA_ROSTO + tb, tcc, arq0, a + FALA_ROSTO + tb))  # rosto de novo, com a boca sincronizada
+        pips.append((t + FALA_ROSTO + tb, tcc, *PIP[k], k))
         t += d + 0.15
-    planos.append((t, COMENTA, "v5.mp4", 4.5))
+    planos.append((t, COMENTA, "v5.mp4", 5.0))
     t += COMENTA
     planos.append((t, CTA, "mosaico", 0.0))
     t += CTA
-    return planos, voz, t
+    return planos, voz, t, pips
 
 
 def fala(k):
@@ -101,7 +107,7 @@ def fala(k):
     return arq, a, b, txt
 
 
-PLANOS, VOZ, DUR = linha_do_tempo()
+PLANOS, VOZ, DUR, PIPS = linha_do_tempo()
 
 
 # palavras com os tempos reais (faster-whisper medium, revisadas): palavras.json, uma lista por fala de VOZ
@@ -132,6 +138,11 @@ def subs():
 SUBS = subs()
 
 
+def nq(t0, d):
+    """Quadros exatos do plano (sem acumular arredondamento: a imagem fica presa à voz)."""
+    return round((t0 + d) * FPS) - round(t0 * FPS)
+
+
 def base_video(path):
     """Corta, gira, enquadra em 1080x1920 e trata a cor de cada plano; junta tudo sem áudio."""
     tmp = os.path.join(OUT, "planos")
@@ -140,13 +151,13 @@ def base_video(path):
     for i, (t0, d, arq, ini) in enumerate(PLANOS):
         p = os.path.join(tmp, f"p{i:02d}.mp4")
         if arq == "mosaico":
-            mosaico(p, d)
+            mosaico(p, nq(t0, d) / FPS)
             lst.append(p)
             continue
         g = GRADE_ROSTO if arq in ("v0.mp4", "vg.mp4") else GRADE
         vf = f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS},{g}"
-        subprocess.run([ffmpeg(), "-y", "-loglevel", "error", "-ss", f"{ini:.3f}", "-i", os.path.join(BR, arq), "-t",
-                        f"{d:.3f}", "-an", "-vf", vf, "-c:v", "libx264", "-crf", "16", "-preset", "fast", "-pix_fmt",
+        subprocess.run([ffmpeg(), "-y", "-loglevel", "error", "-ss", f"{ini:.3f}", "-i", os.path.join(BR, arq), "-frames:v",
+                        str(nq(t0, d)), "-an", "-vf", vf, "-c:v", "libx264", "-crf", "16", "-preset", "fast", "-pix_fmt",
                         "yuv420p", p], check=True)
         lst.append(p)
     with open(os.path.join(tmp, "lista.txt"), "w") as f:
@@ -155,7 +166,7 @@ def base_video(path):
                     os.path.join(tmp, "lista.txt"), "-c", "copy", path], check=True)
 
 
-MOSAICO = [("v2.mp4", 4.0), ("v6.mp4", 6.6), ("v8.mp4", 3.0), ("v4.mp4", 3.0)]
+MOSAICO = [("v2.mp4", 5.0), ("v7.mp4", 6.0), ("v3.mp4", 2.0), ("v1.mp4", 3.0)]
 
 
 def mosaico(p, d):
@@ -167,7 +178,7 @@ def mosaico(p, d):
     f = ";".join(f"[{i}:v]scale={w2}:{h2}:force_original_aspect_ratio=increase,crop={w2}:{h2},fps={FPS},{GRADE}[m{i}]"
                  for i in range(4))
     f += ";[m0][m1]hstack[top];[m2][m3]hstack[bot];[top][bot]vstack,eq=brightness=-0.22:saturation=0.85,gblur=sigma=6"
-    subprocess.run([ffmpeg(), "-y", "-loglevel", "error"] + ins + ["-filter_complex", f, "-t", f"{d:.3f}", "-an",
+    subprocess.run([ffmpeg(), "-y", "-loglevel", "error"] + ins + ["-filter_complex", f, "-frames:v", str(round(d * FPS)), "-an",
                     "-c:v", "libx264", "-crf", "16", "-preset", "fast", "-pix_fmt", "yuv420p", p], check=True)
 
 
@@ -202,8 +213,8 @@ def zoom_de(t):
         return lerp(z, 1.0, ease(sai)), (0.05 < sai < 0.95) * math.sin(sai * math.pi)
     if arq == "mosaico":
         return 1.0, 0.0
-    if arq == "v0.mp4":  # rosto: cada fala num enquadramento (aberto / fechado), com empurrão leve
-        z = (1.06 if i % 2 else 1.16) + 0.03 * u
+    if arq == "v0.mp4":  # rosto: aberto em A e fechado (punch-in) em C, com empurrão leve
+        z = (1.14 if any(p0 <= t < p0 + pd for p0, pd, *_ in PIPS) else 1.04) + 0.03 * u
     elif arq == "v5.mp4" and i == len(PLANOS) - 2:  # "comenta"
         z = 1.0 + 0.05 * u
     else:  # cenas dos jogos: empurrão lento, alternando entrar/sair
@@ -247,7 +258,7 @@ def legenda_viva(img, t):
             tot = sum(x.width for x in ims) + gap * (len(ims) - 1) - 24 * len(ims)
             linhas = [ims] if tot <= 980 else [ims[:2], ims[2:]]
             sc = 0.85 + 0.15 * ease(min(1.0, (t - a) / 0.12))
-            y = 1300 - (len(linhas) - 1) * 55
+            y = 1525 - (len(linhas) - 1) * 110
             for ln in linhas:
                 lw = sum(x.width - 24 for x in ln) + gap * (len(ln) - 1)
                 x = 540 - lw / 2
@@ -258,9 +269,62 @@ def legenda_viva(img, t):
             return
 
 
+CAIXAS = ["go_cuckoo.png", "gravity_superstar.png", "draftosaurus.png", "scooby_doo.png"]  # fotos OFICIAIS (recortes_oficiais.py)
+
+
+@lru_cache(None)
+def caixa_oficial(k, h=520):
+    """Foto oficial da caixa, sem os bloquinhos de JPEG, na altura pedida (a capa reta do Scooby ganha cantos redondos)."""
+    import cv2
+    im = Image.open(os.path.join(ROOT, "assets", "oficial", CAIXAS[k])).convert("RGBA")
+    rgb = cv2.fastNlMeansDenoisingColored(np.array(im.convert("RGB")), None, 4, 4, 7, 21)
+    im = Image.merge("RGBA", (*Image.fromarray(rgb).split(), im.getchannel("A")))
+    h = 640 if im.width < im.height * 0.6 else h
+    larg = min(430, int(im.width * h / im.height))
+    im = im.resize((larg, int(im.height * larg / im.width)), Image.LANCZOS).filter(ImageFilter.UnsharpMask(1.2, 60, 2))
+    if k == 3:
+        m = Image.new("L", im.size, 0)
+        ImageDraw.Draw(m).rounded_rectangle((0, 0, im.width - 1, im.height - 1), radius=18, fill=255)
+        im.putalpha(m)
+    return sombra(im, 18, (10, 22), 0.55)
+
+
+@lru_cache(None)
+def ficha(txt, ico):
+    f = font("Poppins-Black.ttf", 44)
+    tw = int(f.getlength(txt))
+    im = Image.new("RGBA", (tw + 130, 84), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    d.rounded_rectangle((0, 0, im.width - 1, 83), radius=42, fill=(255, 255, 255, 240), outline=INK, width=4)
+    e = emoji(ico, 52)
+    im.alpha_composite(e, (18, (84 - e.height) // 2))
+    d.text((92, 42), txt, font=f, fill=INK, anchor="lm")
+    return im
+
+
+def janela(img, t):
+    """C: a caixa OFICIAL do jogo subindo na frente dele + fichas (jogadores, idade, tempo) entrando uma a uma."""
+    for j, (t0, d, arq, ini, k) in enumerate(PIPS):
+        if not (t0 <= t < t0 + d):
+            continue
+        sai = seg(t, t0 + d - 0.25, t0 + d)
+        ent = seg(t, t0, t0 + 0.45)
+        y = 1180 + 6 * math.sin((t - t0) * 2.2) + 500 * ease(sai) + 400 * (1 - ease(ent))
+        cola(img, caixa_oficial(k), 845, y, 4 - 8 * (1 - ease(ent)) + 1.2 * math.sin((t - t0) * 1.6), 1.0)
+        p, a, tm, tag, cor = INFO[k]
+        itens = [(0.25, pilula(tag, 34, cor)), (0.45, ficha(p, "👥")), (0.65, ficha(a, "🎂")), (0.85, ficha(tm, "⏱️"))]
+        for q, (dt, im) in enumerate(itens):
+            if t >= t0 + dt:
+                x = 60 + im.width / 2 - 900 * ease(sai)
+                cola(img, im, x, 1030 + q * 100, 0, pop(t, t0 + dt))
+        return True
+    return False
+
+
 def overlay(t, com_legenda):
     """Camada transparente com textos, nomes dos jogos, legenda, logo e CTA."""
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    janela(img, t)
     if t < GANCHO + 0.4:
         sai = seg(t, GANCHO, GANCHO + 0.4)
         cola(img, letreiro("JOGOS PRO DIA\nDAS CRIANÇAS", 112, AMARELO, INK, 14), 540, 1380, -3, pop(t, -0.3), 1 - sai)
@@ -322,6 +386,8 @@ def cues():
     c += [(GANCHO + INTRO_ROSTO + j * 0.82, "pop", 0.3) for j in range(4)]
     for k, t0, d in VOZ:
         c += [(t0, "pop", 0.3), (t0 + FALA_ROSTO, "whoosh", 0.3)]
+    for t0, d, *_ in PIPS:
+        c += [(t0, "whoosh", 0.25), (t0 + 0.05, "boing", 0.25)] + [(t0 + x, "pop", 0.22) for x in (0.25, 0.45, 0.65, 0.85)]
     tc = VOZ[-1][1] + VOZ[-1][2] + 0.15
     c += [(tc, "pop", 0.4), (tc + 0.3, "boing", 0.4), (tc + COMENTA, "whoosh", 0.4), (tc + COMENTA + 1.2, "ding", 0.5)]
     return c
