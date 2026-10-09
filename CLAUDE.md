@@ -248,4 +248,12 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **7 tipos:** gravador `tipos-reels/gravador/Gravar_narracao_Tipos.html` (arquivos `tipos_narracao_NN`):
   `https://raw.githack.com/erik-magalhaes/GitJoy/5da0dc105532cf7d29b3ef270d4c72a131ff5c29/tipos-reels/gravador/Gravar_narracao_Tipos.html`.
   Ao receber: `narracao/raw/` → tmp_NN.wav (cadeia de voz) → `tratar_narracao.py` → revisar `TEXTO` → `narracao.py` → `tipos.py`.
+- **Vídeos GRAVADOS pelo dono (`gravados-reels/`, out/2026):** ele grava falando para a câmera + cenas dos jogos, eu edito.
+  Arquivo grande: ele sobe numa pasta do **Google Drive** pública e eu baixo com `pip install gdown; python3 -m gdown <link da pasta>`
+  (funciona pelo proxy). Brutos ficam em `gravados-reels/brutos/` (fora do git). `criancas.py` (jogos para crianças, ~35 s):
+  falas boas cortadas da tomada longa (ele erra e repete; uso a última tentativa boa), rosto dele 1,7 s e corte para as cenas
+  do jogo com a fala por cima, legenda, "comenta" e CTA com mosaico das cenas dele. Pedidos dele: **qualidade de luz, som e
+  edição**; imagem por cima só se for **oficial** (nunca recorte do site); o gancho é a cena dele **pertinho do celular
+  ajeitando a câmera** (com um movimento suave de efeito) e depois se afastando e falando "separamos quatro jogos…".
+  Vídeos gravados podem ter menos de 1 minuto.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
