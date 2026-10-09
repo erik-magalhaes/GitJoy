@@ -46,8 +46,12 @@ AMARELO = (255, 214, 70)
 # fala é ajustado com ganho fixo (nivela()) e a mixagem não satura mais a voz (som.build(..., satura=False)).
 VOZ_CADEIA = ("volume=-9dB,highpass=f=90,equalizer=f=140:t=q:w=1:g=-2,equalizer=f=320:t=q:w=1.3:g=-4,"
               "equalizer=f=3200:t=q:w=1.4:g=2,highshelf=f=6000:g=2")
-GRADE = "hqdn3d=1.5:1.5:3:3,eq=contrast=1.03:saturation=1.05:gamma=1.02,colorbalance=rm=-0.02:bm=0.02,unsharp=3:3:0.3"
-GRADE_ROSTO = "hqdn3d=1.5:1.5:3:3,eq=contrast=1.02:saturation=0.98:gamma=1.04,colorbalance=rm=-0.03:bm=0.02,unsharp=3:3:0.25"
+# acabamento "HD" (pedido dele, sem estourar cor): denoise forte para o ruído do celular, curva que segura os brancos
+# (estouro caiu de ~5% para ~0,3%), nitidez só na luz (sem halo de cor), vinheta bem leve e saturação no lugar.
+GRADE = ("hqdn3d=2.5:2:5:5,curves=all='0/0.012 0.25/0.245 0.5/0.52 0.75/0.775 1/0.98',"
+         "eq=contrast=1.02:saturation=0.97:gamma=1.04,unsharp=5:5:0.55:5:5:0.0,vignette=angle=PI/14")
+GRADE_ROSTO = ("hqdn3d=2.5:2:5:5,curves=all='0/0.012 0.25/0.245 0.5/0.52 0.75/0.775 1/0.98',"
+               "eq=contrast=1.02:saturation=0.95:gamma=1.05,unsharp=5:5:0.45:5:5:0.0,vignette=angle=PI/14")
 # falas boas (arquivo, início, fim) e o texto que ele falou; o início é a 1ª palavra (sem a puxada de ar antes)
 ROSTO = "novos/20261009_182216.mp4"  # tomada com as falas
 HOOK = "novos/20261009_182144.mp4"   # gancho: ele pertinho da câmera e depois a abertura
