@@ -53,12 +53,13 @@ FALAS = [
     ("Scooby-Doo!", ("v0.mp4", 60.50, 66.40), "E por último, o jogo Scooby-Doo Board Game, onde a família se une pra "
                                                "derrotar o monstro da semana."),
 ]
-FALA_ROSTO = 1.3  # ele falando → o jogo na mesa (com as fichas) → a capa oficial → ele de novo
-CAPA = 1.15
+FALA_ROSTO = 1.3  # ele falando (a capa aparece pequena no canto quando ele diz o nome) → o jogo na mesa com as
+# fichas → volta pra ele, ainda com a capa no canto (sem tampar o rosto)
+NOMES = [("cuckoo", "go"), ("gravity",), ("draftosaurus",), ("scooby", "scooby-doo")]
 # cada trecho de cena é usado UMA vez só (ele reclamou de cenas repetidas): (arquivo, início)
 CENAS = [("v2.mp4", 1.6), ("v7.mp4", 1.0), ("v8.mp4", 2.2), ("v4.mp4", 1.6)]   # B: jogo em tela cheia
-# fichas de cada jogo (dados oficiais das editoras / lojas: HABA, Sit Down!, Ankama, CMON)
-INFO = [("2 a 5 jogadores", "a partir de 4 anos", "15 min", "DESTREZA", (236, 72, 153)),
+# fichas de cada jogo (edições atuais: Go Cuckoo da Devir 2023, Sit Down!, MeepleBR, CMON)
+INFO = [("2 a 5 jogadores", "a partir de 5 anos", "15 min", "DESTREZA", (236, 72, 153)),
         ("2 a 6 jogadores", "a partir de 7 anos", "20 min", "CORRIDA ESPACIAL", (99, 102, 241)),
         ("2 a 5 jogadores", "a partir de 8 anos", "15 min", "MONTE SEU PARQUE", (22, 163, 74)),
         ("1 a 5 jogadores", "a partir de 10 anos", "30 min", "COOPERATIVO", (14, 165, 233))]
@@ -81,25 +82,27 @@ def linha_do_tempo():
         dd = resto / len(MONTAGEM)
         planos.append((GANCHO + INTRO_ROSTO + j * dd, dd, arq, ini))
     t = GANCHO + (b - a) + 0.2
-    fichas = []
+    fichas, caixas = [], []
+    pals = json.load(open(os.path.join(ROOT, "palavras.json"), encoding="utf-8"))
     for k, (_, (arq0, a, b), _) in enumerate(FALAS):
         d = b - a
         voz.append((k, t, d))
-        resto = d - FALA_ROSTO - CAPA
-        tb = resto * 0.62
-        planos.append((t, FALA_ROSTO, arq0, a))                     # ele falando (rosto livre)
-        planos.append((t + FALA_ROSTO, tb, *CENAS[k]))              # o jogo na mesa, com as fichas por cima
-        fichas.append((t + FALA_ROSTO, tb, k))
-        tc = t + FALA_ROSTO + tb
-        planos.append((tc, CAPA, f"capa{k}", 0.0))                  # a capa oficial
-        td = tc + CAPA
+        # a capa pequena aparece quando ele FALA o nome do jogo e fica até o fim da fala (só nos planos dele)
+        tn = next(w0 for w, w0, _ in pals[k + 1] if w.strip(",.!").lower() in NOMES[k])
+        ta = min(max(FALA_ROSTO, tn + 0.9), d - 3.2)
+        tb = (d - ta) * 0.55
+        planos.append((t, ta, arq0, a))                             # ele falando (rosto livre)
+        planos.append((t + ta, tb, *CENAS[k]))                      # o jogo na mesa, com as fichas por cima
+        fichas.append((t + ta, tb, k))
+        td = t + ta + tb
         planos.append((td, t + d + 0.15 - td, arq0, a + (td - t)))  # volta pra ele (boca sincronizada)
+        caixas.append((t + min(tn, ta - 0.6), t + d + 0.15, k))
         t += d + 0.15
     planos.append((t, COMENTA, "v5.mp4", 5.0))
     t += COMENTA
     planos.append((t, CTA, "mosaico", 0.0))
     t += CTA
-    return planos, voz, t, fichas
+    return planos, voz, t, fichas, caixas
 
 
 def fala(k):
@@ -110,7 +113,7 @@ def fala(k):
     return arq, a, b, txt
 
 
-PLANOS, VOZ, DUR, FICHAS = linha_do_tempo()
+PLANOS, VOZ, DUR, FICHAS, CAIXAS_T = linha_do_tempo()
 
 
 # palavras com os tempos reais (faster-whisper medium, revisadas): palavras.json, uma lista por fala de VOZ
@@ -153,14 +156,6 @@ def base_video(path):
     lst = []
     for i, (t0, d, arq, ini) in enumerate(PLANOS):
         p = os.path.join(tmp, f"p{i:02d}.mp4")
-        if arq.startswith("capa"):
-            png = os.path.join(tmp, f"{arq}.png")
-            tela_capa(int(arq[4:])).save(png)
-            subprocess.run([ffmpeg(), "-y", "-loglevel", "error", "-loop", "1", "-framerate", str(FPS), "-i", png,
-                            "-frames:v", str(nq(t0, d)), "-c:v", "libx264", "-crf", "16", "-preset", "fast", "-pix_fmt",
-                            "yuv420p", p], check=True)
-            lst.append(p)
-            continue
         if arq == "mosaico":
             mosaico(p, nq(t0, d) / FPS)
             lst.append(p)
@@ -225,7 +220,7 @@ def zoom_de(t):
     if arq == "mosaico":
         return 1.0, 0.0
     if arq == "v0.mp4":  # rosto: aberto em A e fechado (punch-in) em C, com empurrão leve
-        z = (1.04 if any(abs(t0 - v0) < 0.01 for _, v0, _ in VOZ) else 1.15) + 0.03 * u
+        z = (1.03 if any(abs(t0 - v0) < 0.01 for _, v0, _ in VOZ) else 1.10) + 0.03 * u
     elif arq == "v5.mp4" and i == len(PLANOS) - 2:  # "comenta"
         z = 1.0 + 0.05 * u
     else:  # cenas dos jogos: empurrão lento, alternando entrar/sair
@@ -298,17 +293,25 @@ def caixa_oficial(k, h):
     return im
 
 
-def tela_capa(k):
-    """Capa OFICIAL grande no centro, sobre a própria arte desfocada e escurecida."""
-    cx = caixa_oficial(k, 1100)
-    fundo = cx.convert("RGB").resize((W, int(cx.height * W / cx.width)), Image.LANCZOS)
-    if fundo.height < H:
-        fundo = fundo.resize((int(fundo.width * H / fundo.height), H), Image.LANCZOS)
-    fundo = fundo.crop(((fundo.width - W) // 2, (fundo.height - H) // 2, (fundo.width - W) // 2 + W,
-                        (fundo.height - H) // 2 + H)).filter(ImageFilter.GaussianBlur(40))
-    img = Image.blend(fundo, Image.new("RGB", (W, H), (10, 8, 20)), 0.5).convert("RGBA")
-    cola(img, sombra(cx, 30, (14, 30), 0.6), 540, 930)
-    return img.convert("RGB")
+@lru_cache(None)
+def capa_canto(k):
+    im = caixa_oficial(k, 600 if k == 0 else 400)
+    if im.width > 340:
+        im = im.resize((340, int(im.height * 340 / im.width)), Image.LANCZOS)
+    return sombra(im, 16, (8, 18), 0.55)
+
+
+def capa_pequena(img, t):
+    """A capa oficial pequena no canto de baixo, à direita (sobre o ombro dele, longe do rosto), só nos planos dele."""
+    if PLANOS[plano(t)[0]][2] != "v0.mp4":
+        return
+    for t0, t1, k in CAIXAS_T:
+        if t0 <= t < t1:
+            sai = seg(t, t1 - 0.25, t1)
+            cx = capa_canto(k)
+            y = 1440 - cx.height / 2 + 4 * math.sin((t - t0) * 2.0) + 600 * ease(sai)
+            cola(img, cx, 1040 - cx.width / 2, y, 5, quica(t, t0, 0.5))
+            return
 
 
 @lru_cache(None)
@@ -343,6 +346,7 @@ def overlay(t, com_legenda):
     """Camada transparente com textos, nomes dos jogos, legenda, logo e CTA."""
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     fichas(img, t)
+    capa_pequena(img, t)
     if t < GANCHO + 0.4:
         sai = seg(t, GANCHO, GANCHO + 0.4)
         cola(img, letreiro("JOGOS PRO DIA\nDAS CRIANÇAS", 112, AMARELO, INK, 14), 540, 1380, -3, pop(t, -0.3), 1 - sai)
@@ -399,6 +403,7 @@ def cues():
     c += [(GANCHO + INTRO_ROSTO + j * 0.82, "pop", 0.3) for j in range(4)]
     for k, t0, d in VOZ:
         c += [(t0 + FALA_ROSTO, "whoosh", 0.3)]
+    c += [(t0, "pop", 0.35) for t0, _, _ in CAIXAS_T]
     for t0, d, k in FICHAS:
         c += [(t0 + x, "pop", 0.22) for x in (0.1, 0.3, 0.5, 0.7, 0.9)] + [(t0 + d, "whoosh", 0.3), (t0 + d + 0.05, "ding", 0.3)]
     tc = VOZ[-1][1] + VOZ[-1][2] + 0.15
