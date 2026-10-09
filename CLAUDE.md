@@ -177,7 +177,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   buzina de DQ). Transição: bandeira quadriculada. A prévia foi mandada e estamos esperando os 9 áudios
   (`hs_narracao_NN`). **Narração recebida (out/2026):** a fala 7 diz "foi atropelado, desclassificado" (pelo manual,
   atropelado de pé só cai). Eu cortei o trecho e ele mandou voltar: **não mexa no que ele falou, mesmo que a regra não
-  bata 100%** (no máximo avise). Voz acelerada 1,086x (atempo 1,06 × 1,025), corridinha a 62% e CTA_HOLD 2,3 → 69,5 s.
+  bata 100%** (no máximo avise). Voz acelerada 1,086x (atempo 1,06 × 1,025), corridinha a 62% e CTA_HOLD 2,3 → 69,5 s. **Narrado e entregue** (com e sem legenda).
   Gravador:
   `https://raw.githack.com/erik-magalhaes/GitJoy/24baf7085f0f95b8c9618b54b379541b9fecb2b5/hotstreak-reels/gravador/Gravar_narracao_HotStreak.html`.
 - **Reels do hobby (`hobby-reels/`):** ele pediu um vídeo explicando os jogos modernos para quem não conhece o hobby,
