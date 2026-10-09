@@ -142,6 +142,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   "ALUGUE JOGOS DE TABULEIRO / e jogue em casa por 5 dias", 160 jogos a partir de R$ 15, 3 passos (reserve, retire em
   Mauá ou receba em casa, jogue 5 dias), escada 3/5/7 → 7/10/15 dias, cupom do evento **JOGAMAUA5 = 5% de desconto na
   locação** (ele disse "Joga Mauá 5") e QR code do site (conferido com o leitor do OpenCV).
+  Ele achou o flyer "detalhado demais" e mandou de referência um cartãozinho de cookie (quadrado, fundo claro, uma cor,
+  enfeites cortados nos cantos). Ficou `promo/cartao_evento.py`: **9 x 9 cm**, logo, "Bora jogar? / Alugue jogos de
+  tabuleiro e jogue em casa por 5 dias!", QR + cupom JOGAMAUA5 5% OFF, @suavez_bg; A4 com 6 cartões e marcas de corte
+  para imprimir em papel comum. Para impressos curtos: pouco texto, QR grande.
 - **Hot Streak (`hotstreak-reels/`):** é da CMYK, com 4 mascotes (Hurley, o cachorro-quente; Gobbler, o urso; Dangle,
   o peixe-pescador; Mum, a rainha). São 3 corridas, 2 bilhetes por corrida em draft cobra, aposta segura ou arriscada,
   apostas paralelas SIM/NÃO e uma carta secreta de cada jogador no baralho. Mascote cai, dá meia-volta, desvia de raia e bate;
