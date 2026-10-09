@@ -67,7 +67,7 @@ tudo antes de começar um vídeo novo: aqui está o que funcionou, o que não fu
 | `sintonia-reels/` | Sintonia | **Motion graphics vetorial**, com os balões "CLARO!" na hora da discussão | Aprovado, 1:03 |
 | `mlem-reels/` (`gibi.py`) | MLEM: Agência Espacial | **Gibi**: página de quadrinhos em que a câmera dá zoom num quadro por vez e o foguete atravessa os quadros com fumaça | Aprovado, 1:06 |
 | `architects-reels/` (`stopmo.py`) | 7 Wonders Arquitetos | **Stop motion** com as peças oficiais sobre **papel quadriculado** (tema "prancheta"), com textos em fita crepe escritos à mão | Prévia aprovada; falta a narração |
-| `hobby-reels/` (`ludoteca.py`) | Institucional: o que são jogos modernos + preço loja × aluguel + prazo progressivo | **Estante da ludoteca** (opção 1): caixas do acervo em prateleiras de madeira, caixas saindo em stop motion, etiquetas kraft e de preço | Prévia mandada; esperando a narração dele |
+| `hobby-reels/` (`ludoteca.py`) | Institucional: o que são jogos modernos + preço loja × aluguel + prazo progressivo | **Estante da ludoteca** (opção 1): caixas do acervo em prateleiras de madeira, caixas saindo em stop motion, etiquetas kraft e de preço | **Narrado e entregue** (1:08, com e sem legenda) |
 | `quiz-reels/` (`zoom.py`) | Quiz "Que jogo é esse?" (5 caixas do acervo pelo zoom) | **Lupa de game show** nas cores do site, contagem 5-4-3-2-1, revelação com confete; SEM narração, para a música em alta | Mandado (para_musica + com_trilha) |
 | `byebye-reels/` (`curto.py`) | Trend "bye, bye, Miss American Pie": Banco Imobiliário → jogos modernos | **Vídeo curto (12 s, sem som)**: Banco Imobiliário aberto na mesa de madeira, com cor lavada, passando; no "tchan" (3,0 s) flash e vira para o Hot Streak (foto oficial) e o Ticket to Ride: Lendas do Oeste, e fecha com a Sua Vez. A versão longa com polaroides (`byebye.py`) foi REJEITADA ("ficou horrível") | Mandado |
 | `tipos-reels/` (`tipos.py`) | Os 7 tipos de jogador que todo grupo tem | **Cartas colecionáveis** com raridade, status, habilidade e jogo favorito; pacotinho rasgando, carta virando, brilho holográfico | Prévia mandada; esperando a narração |
@@ -187,6 +187,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   sem ele pedir. A versão sintetizada ficou guardada em `narracao_tts/`. O fluxo voltou ao normal: prévia sem voz +
   gravador `gravador/Gravar_narracao_Hobby.html` (arquivos `hobby_narracao_NN`):
   `https://raw.githack.com/erik-magalhaes/GitJoy/bfa6b27128ef7ce4e1690c26d256c9957c564344/hobby-reels/gravador/Gravar_narracao_Hobby.html`.
+  **Narração recebida (out/2026):** os 9 .webm vieram SEM nome e na ordem INVERTIDA (o 1º arquivo era a fala 9): sempre
+  transcreva antes para saber de qual vídeo e de qual fala é cada um. A fala dele somou 61 s, então apertei
+  LEAD/GAP/TAIL para 0,2/0,4/0,35 e CTA_HOLD para 3,0 (vídeo de 1:08). O render já sai a ≈ -14 LUFS.
   **Correções pedidas:** (1) recortes com sobra laranja (Flamecraft): resolvido "descascando" de fora para dentro as regiões
   com cor de fundo/sombra ligadas à borda antes do casco convexo; (2) **não dizer "jogo bom é caro"** (existe jogo bom e barato).
   A fala ficou "os jogos modernos costumam ser caros... por isso alugar faz tanto sentido".
