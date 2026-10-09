@@ -285,6 +285,13 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   chega muito grave/abafado e muito alto; o que soava "esquisito" era o loudnorm dinâmico bombeando e o `tanh` da
   mixagem saturando a voz. Receita: EQ moderada (−4 dB em 320 Hz, −2 em 140, +2 em 3,2 kHz, shelf +2 em 6 kHz), ganho
   FIXO por fala (`nivela`), `som.build(..., satura=False)` e loudnorm LINEAR em 2 passadas no final (`final_loudness`).
+  **5ª rodada (`criancas2.py`, gravação nova em `brutos/novos/`):** gancho novo (182144) e todas as falas numa tomada
+  (182216), usando a ÚLTIMA tentativa boa de cada uma (cortes conferidos transcrevendo cada pedaço). Ele: "no celular a
+  100% o som explode, um pouco mais baixo fica bom" → loudness final **−15,5 LUFS com pico −2 dB**. Edição "adulta":
+  sem emoji de balão no gancho; efeitos discretos do jogo por cima das cenas da mesa (`efeitos()`): ovos caindo (Go
+  Cuckoo), estrelas brilhando (Gravity), pegadas subindo pela direita (Draftosaurus), névoa + fantasma + "ZOINKS!" (Scooby).
+  Rosto sem punch-in (o boné cortava). Final: "comenta" → ele falando o CTA ("Todos esses jogos já estão disponíveis lá
+  na Sua Vez...") → tela final. 48 s.
   Vídeos gravados podem ter menos de 1 minuto.
 - **Final Girl (`finalgirl-reels/`, out/2026):** ele tem a Caixa Base + a 1ª temporada (Hans, Poltergeist, Inkanyamba,
   Geppetto e **Dr. Medo**). Escolheu o **visual 2, Trailer Slasher** (`conceitos.py`): tela escura com névoa lisa, facho
