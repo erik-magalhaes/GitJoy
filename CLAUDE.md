@@ -289,7 +289,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   (182216), usando a ÚLTIMA tentativa boa de cada uma (cortes conferidos transcrevendo cada pedaço). Ele: "no celular a
   100% o som explode, um pouco mais baixo fica bom" → loudness final **−15,5 LUFS com pico −2 dB**. Edição "adulta":
   sem emoji de balão no gancho; efeitos discretos do jogo por cima das cenas da mesa (`efeitos()`): ovos caindo (Go
-  Cuckoo), estrelas brilhando (Gravity), pegadas subindo pela direita (Draftosaurus), névoa + fantasma + "ZOINKS!" (Scooby).
+  Cuckoo), estrelas brilhando (Gravity), pegadas subindo pela direita (Draftosaurus), névoa + fantasma (Scooby; ele pediu para TIRAR o "ZOINKS!").
   Rosto sem punch-in (o boné cortava). Final: "comenta" → ele falando o CTA ("Todos esses jogos já estão disponíveis lá
   na Sua Vez...") → tela final. 48 s.
   **6ª rodada:** (1) o gancho começa com ele JÁ mexendo na câmera (1,85 s do 182144), não indo até ela; (2) **nunca

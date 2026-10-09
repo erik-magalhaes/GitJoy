@@ -526,8 +526,6 @@ def efeitos(img, t):
             img.alpha_composite(nv.crop((off, 0, off + W, 700)).point(lambda v: v), (0, H - 700 - 160))
             x = lerp(1250, -200, ease(seg(u, 0.2, d - 0.2)))
             cola(img, fantasma(240), x, 760 + 40 * math.sin(u * 3), 6 * math.sin(u * 2), 1.0, 0.85 * sai)
-            if 0.5 < u < 2.0:
-                cola(img, balao_zoinks(), 760, 620, -8, pop(t, t0 + 0.5), 1 - seg(u, 1.7, 2.0))
         return
 
 
