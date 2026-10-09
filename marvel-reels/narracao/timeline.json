@@ -1,0 +1,238 @@
+{
+ "duracao": 68.066,
+ "cenas": [
+  [
+   0.0,
+   6.0,
+   0.0,
+   4.742
+  ],
+  [
+   6.0,
+   13.0,
+   4.742,
+   11.534
+  ],
+  [
+   13.0,
+   20.0,
+   11.534,
+   18.708
+  ],
+  [
+   20.0,
+   27.0,
+   18.708,
+   26.587
+  ],
+  [
+   27.0,
+   33.5,
+   26.587,
+   33.133
+  ],
+  [
+   33.5,
+   41.0,
+   33.133,
+   44.232
+  ],
+  [
+   41.0,
+   48.5,
+   44.232,
+   52.75
+  ],
+  [
+   48.5,
+   56.5,
+   52.75,
+   61.557
+  ],
+  [
+   56.5,
+   65.5,
+   61.557,
+   68.066
+  ]
+ ],
+ "voz": [
+  {
+   "frase": 1,
+   "arquivo": "narracao/frase_01.wav",
+   "inicio": 0.3
+  },
+  {
+   "frase": 2,
+   "arquivo": "narracao/frase_02.wav",
+   "inicio": 5.042
+  },
+  {
+   "frase": 3,
+   "arquivo": "narracao/frase_03.wav",
+   "inicio": 11.834
+  },
+  {
+   "frase": 4,
+   "arquivo": "narracao/frase_04.wav",
+   "inicio": 19.008
+  },
+  {
+   "frase": 5,
+   "arquivo": "narracao/frase_05.wav",
+   "inicio": 26.887
+  },
+  {
+   "frase": 6,
+   "arquivo": "narracao/frase_06.wav",
+   "inicio": 33.433
+  },
+  {
+   "frase": 7,
+   "arquivo": "narracao/frase_07.wav",
+   "inicio": 44.532
+  },
+  {
+   "frase": 8,
+   "arquivo": "narracao/frase_08.wav",
+   "inicio": 53.05
+  },
+  {
+   "frase": 9,
+   "arquivo": "narracao/frase_09.wav",
+   "inicio": 61.857
+  }
+ ],
+ "legendas": [
+  [
+   0.3,
+   2.34,
+   "Você já imaginou reunir os maiores heróis"
+  ],
+  [
+   2.34,
+   3.95,
+   "da Marvel na mesa da sua casa?"
+  ],
+  [
+   5.04,
+   6.51,
+   "Esse é o Marvel United:"
+  ],
+  [
+   6.68,
+   8.76,
+   "o jogo cooperativo em que vocês são os heróis"
+  ],
+  [
+   8.76,
+   10.91,
+   "contra o vilão que o próprio jogo controla."
+  ],
+  [
+   11.83,
+   14.07,
+   "Na sua vez, você joga uma carta e soma com"
+  ],
+  [
+   14.07,
+   15.32,
+   "os símbolos da carta anterior."
+  ],
+  [
+   15.73,
+   16.68,
+   "É tipo um combo:"
+  ],
+  [
+   16.75,
+   18.0,
+   "um herói ajudando o outro."
+  ],
+  [
+   19.01,
+   21.23,
+   "A cada três cartas dos heróis, o vilão age."
+  ],
+  [
+   21.23,
+   23.43,
+   "E é cumprindo as missões que vocês vão deixar"
+  ],
+  [
+   23.43,
+   25.9,
+   "ele vulnerável… e aí é só partir pra cima!"
+  ],
+  [
+   26.89,
+   29.34,
+   "E aqui na Sua Vez, a gente tem três jogos"
+  ],
+  [
+   29.53,
+   32.48,
+   "base: o Marvel United, o X-Men e o Spider-Geddon."
+  ],
+  [
+   33.43,
+   37.14,
+   "Fora os jogos base, a gente tem seis expansões:"
+  ],
+  [
+   37.19,
+   39.76,
+   "Civil War, Blue Team, Gold Team, Deadpool,"
+  ],
+  [
+   40.01,
+   41.31,
+   "Pantera Negra e Spider-Verse."
+  ],
+  [
+   41.31,
+   43.42,
+   "E dá pra misturar tudo!"
+  ],
+  [
+   44.53,
+   47.39,
+   "E a dica de ouro é pegar um jogo base e duas"
+  ],
+  [
+   47.39,
+   50.99,
+   "expansões: são três caixas e sete dias jogando,"
+  ],
+  [
+   50.99,
+   51.92,
+   "pelo mesmo preço!"
+  ],
+  [
+   53.05,
+   54.94,
+   "E a surpresa é que vem mais um jogo base,"
+  ],
+  [
+   55.01,
+   57.44,
+   "o Multiverse, com heróis de outras dimensões!"
+  ],
+  [
+   57.83,
+   59.9,
+   "E aí, qual dupla de heróis você montaria?"
+  ],
+  [
+   59.95,
+   60.74,
+   "Comenta aqui embaixo!"
+  ],
+  [
+   61.86,
+   64.29,
+   "Aluga aqui na Sua Vez, o link tá na bio!"
+  ]
+ ]
+}

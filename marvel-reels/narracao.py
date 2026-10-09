@@ -20,16 +20,16 @@ LEAD, GAP, TAIL = 0.3, 0.45, 0.6
 MIN_FRAC = 0.7  # cena nunca encolhe abaixo de 70% do original (animações respiram)
 CTA_HOLD = 3.6  # tempo do logo na tela depois da última fala (garante mais de 1 minuto)
 
-TEXTO = {  # o que foi falado (corrigir depois da transcrição)
-    1: 'Já imaginou reunir os maiores heróis da Marvel… na mesa da sua casa?',
-    2: 'Esse é o Marvel United: um jogo cooperativo em que vocês são os heróis contra um vilão que o próprio jogo controla.',
-    3: 'Na sua vez, você joga uma carta e soma os símbolos com a do amigo anterior. É o combo: um herói ajuda o outro!',
-    4: 'A cada três cartas dos heróis, o vilão age. Cumpram as missões pra deixar ele vulnerável… e partam pra cima!',
-    5: 'Aqui na Sua Vez tem três jogos base: o Marvel United, o X-Men e o Spider-Geddon.',
-    6: 'E seis expansões: Civil War, Blue Team, Gold Team, Deadpool, Pantera Negra e Spider-Verse. E dá pra misturar tudo!',
-    7: 'A dica: pega um jogo base e duas expansões, que são três caixas… e você fica sete dias jogando, pelo mesmo preço!',
-    8: 'E vem aí o Multiverse, com heróis de outras dimensões! Qual dupla de heróis você montaria? Comenta aqui!',
-    9: 'Cada caixa sai por 30 reais. Aluga na Sua Vez, o link tá na bio!',
+TEXTO = {  # o que ele FALOU na gravação (out/2026), com a grafia certa
+    1: "Você já imaginou reunir os maiores heróis da Marvel na mesa da sua casa?",
+    2: "Esse é o Marvel United: o jogo cooperativo em que vocês são os heróis contra o vilão que o próprio jogo controla.",
+    3: "Na sua vez, você joga uma carta e soma com os símbolos da carta anterior. É tipo um combo: um herói ajudando o outro.",
+    4: "A cada três cartas dos heróis, o vilão age. E é cumprindo as missões que vocês vão deixar ele vulnerável… e aí é só partir pra cima!",
+    5: "E aqui na Sua Vez, a gente tem três jogos base: o Marvel United, o X-Men e o Spider-Geddon.",
+    6: "Fora os jogos base, a gente tem seis expansões: Civil War, Blue Team, Gold Team, Deadpool, Pantera Negra e Spider-Verse. E dá pra misturar tudo!",
+    7: "E a dica de ouro é pegar um jogo base e duas expansões: são três caixas e sete dias jogando, pelo mesmo preço!",
+    8: "E a surpresa é que vem mais um jogo base, o Multiverse, com heróis de outras dimensões! E aí, qual dupla de heróis você montaria? Comenta aqui embaixo!",
+    9: "Aluga aqui na Sua Vez, o link tá na bio!",
 }
 
 
