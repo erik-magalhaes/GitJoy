@@ -19,6 +19,50 @@ W, H = 1748, 2480  # A5 a 300 dpi
 S = H / 2060  # o layout foi pensado em ~2060 "unidades" de altura
 
 
+# 15 caixas DIFERENTES nas pilhas (fotos oficiais que já temos no projeto; nada de recorte do site)
+PILHAS = [["hotstreak-reels/assets/pecas/caixa.png", "gravados-reels/assets/oficial/draftosaurus.png",
+           "gravados-reels/assets/oficial/gravity_superstar.png"],
+          ["architects-reels/assets/oficial/caixa3d.png", "voodoo-reels/assets/pieces/box.png",
+           "sintonia-reels/assets/pieces/box.png", "gravados-reels/assets/oficial/go_cuckoo.png",
+           "gravados-reels/assets/oficial/scooby_doo.png"],
+          ["marvel-reels/assets/caixas/base.png", "finalgirl-reels/assets/oficial/FG-CoreBox.png",
+           "marvel-reels/assets/caixas/xmen.png", "finalgirl-reels/assets/oficial/FG-FF1-1.png",
+           "marvel-reels/assets/caixas/spider_geddon.png", "finalgirl-reels/assets/oficial/FG-FF4-1.png",
+           "marvel-reels/assets/caixas/deadpool.png"]]
+
+
+def caixas_pilha(larg):
+    """Cada degrau ganha suas caixas (todas diferentes) em fileiras: 3 → 3; 5 → 2+3; 7 → 3+4 (a de trás mais alta)."""
+    repo = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    out = []
+    for grupo in PILHAS:
+        n = len(grupo)
+        filas = [grupo] if n <= 3 else [grupo[:n // 2], grupo[n // 2:]]
+        cols = max(len(f_) for f_ in filas)
+        cel = larg / (cols * 0.86 + 0.14)  # caixas encostadas com ~14% de sobreposição
+        ims_filas = []
+        for fila in filas:
+            ims = []
+            for p in fila:
+                im = Image.open(os.path.join(repo, p)).convert("RGBA")
+                im = im.crop(im.getbbox())
+                sc = min(cel / im.width, cel * 1.15 / im.height)
+                ims.append(im.resize((int(im.width * sc), int(im.height * sc)), Image.LANCZOS))
+            ims_filas.append(ims)
+        alt = max(i.height for i in ims_filas[-1])
+        dy = int(alt * 0.55)
+        H_ = alt + dy * (len(filas) - 1) + 20
+        im_ = Image.new("RGBA", (int(larg), H_), (0, 0, 0, 0))
+        for r, ims in enumerate(ims_filas):
+            x0 = (larg - (len(ims) * cel * 0.86 + cel * 0.14)) / 2
+            for c, im in enumerate(ims):
+                cx = x0 + c * cel * 0.86 + cel / 2
+                y0 = r * dy + (alt - im.height)
+                im_.alpha_composite(shadowed(im, 6, (3, 6), 0.3), (int(cx - im.width / 2), int(y0)))
+        out.append(im_)
+    return out
+
+
 def qr(tam):
     q = qrcode.QRCode(border=1, box_size=10, error_correction=qrcode.constants.ERROR_CORRECT_M)
     q.add_data(SITE)
@@ -90,8 +134,8 @@ def arte():
     # prazo progressivo
     text_c(d, (W / 2, y + 30 * S), "QUANTO MAIS JOGOS, MAIS DIAS!", f(BLACK, int(58 * S)), ORANGE_D)
     y += 80 * S
-    eh = 500 * S
-    paste_c(img, escada(W - 440 * S, eh), W / 2, y + eh / 2)
+    eh = 540 * S
+    paste_c(img, escada(W - 340 * S, eh, caixas_pilha((W - 340 * S) / 3 * 0.94), base=0.40, passo=0.09), W / 2, y + eh / 2)
     y += eh + 26 * S
     text_c(d, (W / 2, y + 16 * S), "O prazo extra vale para todos os jogos do carrinho, pelo mesmo preço!",
            f(XB, int(28 * S)), NAVY)

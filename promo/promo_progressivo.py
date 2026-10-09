@@ -24,7 +24,8 @@ def pilha(n, h):
     return im
 
 
-def escada(width, height):
+def escada(width, height, pilhas=None, base=0.48, passo=0.15):
+    """pilhas: imagens prontas (uma por degrau) no lugar das pilhas em leque; base/passo: altura dos degraus."""
     """Três degraus subindo: quanto mais jogos, mais dias."""
     im = Image.new("RGBA", (int(width), int(height)), (0, 0, 0, 0))
     d = ImageDraw.Draw(im)
@@ -32,7 +33,7 @@ def escada(width, height):
     cw = (width - gap * 2) / 3
     for k, (jogos, dias, cor) in enumerate(FAIXAS):
         x0 = k * (cw + gap)
-        bh = height * (0.48 + 0.15 * k)  # cada degrau mais alto (o topo fica livre para as caixas)
+        bh = height * (base + passo * k)  # cada degrau mais alto (o topo fica livre para as caixas)
         y0 = height - bh
         d.rounded_rectangle((x0 + 8, y0 + 12, x0 + cw + 8, height + 12), radius=int(cw * 0.12), fill=NAVY + (60,))
         d.rounded_rectangle((x0, y0, x0 + cw, height), radius=int(cw * 0.12), fill=cor)
@@ -40,7 +41,7 @@ def escada(width, height):
         d.line((x0 + cw * 0.2, y0 + bh * 0.28, x0 + cw * 0.8, y0 + bh * 0.28), fill=WHITE + (150,), width=4)
         text_c(d, (x0 + cw / 2, y0 + bh * 0.56), str(dias), f(BLACK, int(min(cw * 0.48, bh * 0.4))), WHITE)
         text_c(d, (x0 + cw / 2, y0 + bh * 0.86), "DIAS", f(BLACK, int(cw * 0.17)), WHITE)
-        p = pilha(jogos, int(cw * 0.36))
+        p = pilhas[k] if pilhas else pilha(jogos, int(cw * 0.36))
         p = p.resize((int(min(cw * 0.95, p.width)), int(p.height * min(cw * 0.95, p.width) / p.width)))
         im.alpha_composite(p, (int(x0 + cw / 2 - p.width / 2), int(y0 - p.height + 10)))
     return im
