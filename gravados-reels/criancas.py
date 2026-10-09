@@ -11,18 +11,21 @@ sincronizada) e corta para as cenas do jogo enquanto a fala continua; legenda pe
     python3 criancas.py                     # out/criancas_com_legenda.mp4 e out/criancas_sem_legenda.mp4
 """
 import argparse
+import json
 import math
 import os
 import subprocess
 import sys
 
 import numpy as np
+from functools import lru_cache
+
 from PIL import Image, ImageDraw, ImageFilter
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(ROOT, "..", "comum"))
 from motor import (W, H, FPS, WHITE, seg, ease, lerp, pop, font, emoji, logo_card, cola, letreiro, pilula,  # noqa
-                   legenda, folha, ffmpeg)
+                   folha, ffmpeg)
 import som  # noqa: E402
 
 BR = os.path.join(ROOT, "brutos")
@@ -101,26 +104,28 @@ def fala(k):
 PLANOS, VOZ, DUR = linha_do_tempo()
 
 
+# palavras com os tempos reais (faster-whisper medium, revisadas): palavras.json, uma lista por fala de VOZ
+CORRIGE = {"kiki": "Kiki", "Scooby": "Scooby-Doo", "-Doo": None, "para": "pra"}
+
+
 def subs():
+    """Legenda estilo Reels: 1 a 3 palavras por vez, palavra falada em amarelo (tempos reais da voz)."""
+    pals = json.load(open(os.path.join(ROOT, "palavras.json"), encoding="utf-8"))
     out = []
-    for k, t0, d in VOZ:
-        txt = fala(k)[3]
-        palavras = txt.split()
-        partes, cur = [], []
-        for w in palavras:
+    for (k, t0, d), ws in zip(VOZ, pals):
+        ws = [(CORRIGE.get(w, w), a, b) for w, a, b in ws]
+        ws = [(w, t0 + a, t0 + b) for w, a, b in ws if w]
+        grupos, cur = [], []
+        for w in ws:
             cur.append(w)
-            if len(" ".join(cur)) > 30:
-                partes.append(" ".join(cur))
+            if len(cur) == 3 or len(" ".join(x[0] for x in cur)) > 14 or w[0][-1] in ",.!?":
+                grupos.append(cur)
                 cur = []
         if cur:
-            partes.append(" ".join(cur))
-        tot = sum(len(p) for p in partes)
-        acc = 0
-        for p in partes:
-            a = t0 + 0.1 + (d - 0.2) * acc / tot
-            acc += len(p)
-            b = t0 + 0.1 + (d - 0.2) * acc / tot
-            out.append((a, b, p))
+            grupos.append(cur)
+        for j, g in enumerate(grupos):
+            fim = grupos[j + 1][0][1] if j + 1 < len(grupos) else min(g[-1][2] + 0.3, t0 + d)
+            out.append((g[0][1], fim, g))
     return out
 
 
@@ -172,32 +177,85 @@ def vozes():
         arq, a, b, _ = fala(k)
         p = os.path.join(OUT, f"voz_{i}.wav")
         subprocess.run([ffmpeg(), "-y", "-loglevel", "error", "-ss", f"{a:.3f}", "-t", f"{b - a:.3f}", "-i",
-                        os.path.join(BR, arq), "-vn", "-ac", "1", "-ar", "48000", "-af",
-                        VOZ_CADEIA + ",aresample=44100,afade=t=in:d=0.05,afade=t=out:st=%.2f:d=0.12" % (b - a - 0.12),
+                        os.path.join(BR, arq), "-vn", "-ac", "1", "-ar", "44100", "-af",
+                        VOZ_CADEIA + ",afade=t=in:d=0.05,afade=t=out:st=%.2f:d=0.12" % (b - a - 0.12),
                         p], check=True)
         arqs.append((p, t0))
     return arqs
 
 
+def plano(t):
+    for i, (t0, d, arq, ini) in enumerate(PLANOS):
+        if t0 <= t < t0 + d:
+            return i, t0, d, arq
+    return len(PLANOS) - 1, PLANOS[-1][0], PLANOS[-1][1], PLANOS[-1][2]
+
+
+def zoom_de(t):
+    """Zoom de cada momento (referência: edição de Reels falados — punch-in no rosto alternando o enquadramento,
+    empurrão lento nas cenas, e um zoom rápido com desfoque nos cortes)."""
+    i, t0, d, arq = plano(t)
+    u = (t - t0) / d
+    if i == 0:  # gancho: aproxima devagar enquanto ele ajeita a câmera e abre rápido quando ele se afasta
+        z = 1.0 + 0.10 * ease(min(1.0, t / GANCHO / 0.85))
+        sai = seg(t, GANCHO - 0.35, GANCHO + 0.45)
+        return lerp(z, 1.0, ease(sai)), (0.05 < sai < 0.95) * math.sin(sai * math.pi)
+    if arq == "mosaico":
+        return 1.0, 0.0
+    if arq == "v0.mp4":  # rosto: cada fala num enquadramento (aberto / fechado), com empurrão leve
+        z = (1.06 if i % 2 else 1.16) + 0.03 * u
+    elif arq == "v5.mp4" and i == len(PLANOS) - 2:  # "comenta"
+        z = 1.0 + 0.05 * u
+    else:  # cenas dos jogos: empurrão lento, alternando entrar/sair
+        z = 1.04 + 0.08 * (u if i % 2 else 1 - u)
+    ent = t - t0
+    blur = 0.0
+    if ent < 0.2:  # chicote de zoom na entrada do plano
+        q = ent / 0.2
+        z += 0.12 * (1 - ease(q))
+        blur = 1 - q
+    return z, blur
+
+
 def camera(fr, t):
-    """Movimento de câmera do gancho: aproxima devagar enquanto ele ajeita a câmera e, quando ele se afasta,
-    um "zoom-out" rápido com leve desfoque de movimento (efeito, sem ficar estranho)."""
-    if t >= GANCHO + 0.45:
+    z, blur = zoom_de(t)
+    if z <= 1.001 and blur <= 0.01:
         return fr
-    u = t / GANCHO
-    z = 1.0 + 0.10 * ease(min(1.0, u / 0.85))  # aproxima 10%
-    sai = seg(t, GANCHO - 0.35, GANCHO + 0.45)
-    z = lerp(z, 1.0, ease(sai))
-    if z <= 1.001:
-        return fr
-    dx = 14 * math.sin(t * 1.3)  # deriva lateral bem leve
+    i = plano(t)[0]
+    dx = 14 * math.sin(t * 1.3) if i == 0 else 0.0
     w, h = W / z, H / z
     x0 = min(max(0.0, W / 2 - w / 2 + dx), W - w)
-    y0 = (H - h) / 2
+    y0 = (H - h) * (0.42 if PLANOS[i][2] == "v0.mp4" else 0.5)  # no rosto, sobe um pouco para não cortar a cabeça
     out = fr.resize((W, H), Image.BICUBIC, box=(x0, y0, x0 + w, y0 + h))
-    if 0.05 < sai < 0.95:  # desfoque de movimento no zoom-out
-        out = Image.blend(out, out.filter(ImageFilter.GaussianBlur(6 * math.sin(sai * math.pi))), 0.6)
+    if blur > 0.05:
+        out = Image.blend(out, out.filter(ImageFilter.GaussianBlur(7 * blur)), 0.65 * blur)
     return out
+
+
+@lru_cache(None)
+def palavra_img(txt, amarela):
+    return letreiro(txt.upper(), 92, AMARELO if amarela else WHITE, INK, 12, "Poppins-Black.ttf")
+
+
+def legenda_viva(img, t):
+    """Grupo de 1–3 palavras centrado, a palavra que ele está falando em amarelo e um 'pop' ao entrar."""
+    for a, b, g in SUBS:
+        if a <= t < b:
+            fala_agora = max(j for j, (_, w0, _) in enumerate(g) if w0 <= t or j == 0)
+            ims = [palavra_img(w, j == fala_agora) for j, (w, _, _) in enumerate(g)]
+            gap = 22
+            tot = sum(x.width for x in ims) + gap * (len(ims) - 1) - 24 * len(ims)
+            linhas = [ims] if tot <= 980 else [ims[:2], ims[2:]]
+            sc = 0.85 + 0.15 * ease(min(1.0, (t - a) / 0.12))
+            y = 1300 - (len(linhas) - 1) * 55
+            for ln in linhas:
+                lw = sum(x.width - 24 for x in ln) + gap * (len(ln) - 1)
+                x = 540 - lw / 2
+                for im in ln:
+                    cola(img, im, x + (im.width - 24) / 2, y, 0, sc)
+                    x += im.width - 24 + gap
+                y += 115
+            return
 
 
 def overlay(t, com_legenda):
@@ -205,13 +263,13 @@ def overlay(t, com_legenda):
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     if t < GANCHO + 0.4:
         sai = seg(t, GANCHO, GANCHO + 0.4)
-        cola(img, letreiro("JOGOS PRO DIA\nDAS CRIANÇAS", 112, AMARELO, INK, 14), 540, 1180, -3, pop(t, -0.3), 1 - sai)
-        cola(img, emoji("🎈", 120), 900, 960, 12 * math.sin(t * 4), pop(t, 0.15), 1 - sai)
+        cola(img, letreiro("JOGOS PRO DIA\nDAS CRIANÇAS", 112, AMARELO, INK, 14), 540, 1380, -3, pop(t, -0.3), 1 - sai)
+        cola(img, emoji("🎈", 120), 900, 1170, 12 * math.sin(t * 4), pop(t, 0.15), 1 - sai)
     for k, t0, d in VOZ:
         if k >= 0 and t0 <= t < t0 + d:
             nome = FALAS[k][0]
-            cola(img, pilula(f"{k + 1}/4", 40, INK), 160, 230, 0, pop(t, t0))
-            cola(img, pilula(nome.upper(), 54, (249, 115, 22)), 540, 1450, -2, pop(t, t0 + 0.1))
+            cola(img, pilula(f"JOGO {k + 1}/4", 38, INK), 540, 230, 0, pop(t, t0))
+            cola(img, pilula(nome.upper(), 60, (249, 115, 22)), 540, 340, -2, pop(t, t0 + 0.1))
     tc = VOZ[-1][1] + VOZ[-1][2] + 0.15
     if tc <= t < tc + COMENTA:
         b = 1 + 0.04 * abs(math.sin(t * 6))
@@ -232,8 +290,8 @@ def overlay(t, com_legenda):
     else:
         wm = logo_card(160)
         img.alpha_composite(wm, (W - wm.width - 30, 40))
-    if com_legenda:
-        legenda(img, SUBS, t)
+    if com_legenda and GANCHO + 0.3 <= t < tc:
+        legenda_viva(img, t)
     return img
 
 
