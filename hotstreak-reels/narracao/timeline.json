@@ -1,0 +1,269 @@
+{
+ "duracao": 69.864,
+ "cenas": [
+  [
+   0.0,
+   5.6,
+   0.0,
+   5.686
+  ],
+  [
+   5.6,
+   12.6,
+   5.686,
+   12.381
+  ],
+  [
+   12.6,
+   19.6,
+   12.381,
+   20.983
+  ],
+  [
+   19.6,
+   26.6,
+   20.983,
+   27.306
+  ],
+  [
+   26.6,
+   34.0,
+   27.306,
+   34.053
+  ],
+  [
+   34.0,
+   42.0,
+   34.053,
+   43.148
+  ],
+  [
+   42.0,
+   49.0,
+   43.148,
+   50.961
+  ],
+  [
+   49.0,
+   57.4,
+   50.961,
+   58.686
+  ],
+  [
+   57.4,
+   63.0,
+   58.686,
+   62.886
+  ],
+  [
+   63.0,
+   69.6,
+   62.886,
+   69.864
+  ]
+ ],
+ "voz": [
+  {
+   "frase": 1,
+   "arquivo": "narracao/frase_01.wav",
+   "inicio": 0.2
+  },
+  {
+   "frase": 2,
+   "arquivo": "narracao/frase_02.wav",
+   "inicio": 5.886
+  },
+  {
+   "frase": 3,
+   "arquivo": "narracao/frase_03.wav",
+   "inicio": 12.581
+  },
+  {
+   "frase": 4,
+   "arquivo": "narracao/frase_04.wav",
+   "inicio": 21.183
+  },
+  {
+   "frase": 5,
+   "arquivo": "narracao/frase_05.wav",
+   "inicio": 27.506
+  },
+  {
+   "frase": 6,
+   "arquivo": "narracao/frase_06.wav",
+   "inicio": 34.253
+  },
+  {
+   "frase": 7,
+   "arquivo": "narracao/frase_07.wav",
+   "inicio": 43.348
+  },
+  {
+   "frase": 8,
+   "arquivo": "narracao/frase_08.wav",
+   "inicio": 51.161
+  },
+  {
+   "frase": 9,
+   "arquivo": "narracao/frase_09.wav",
+   "inicio": 63.086
+  }
+ ],
+ "legendas": [
+  [
+   0.2,
+   2.39,
+   "Você já pensou em apostar seu dinheiro num"
+  ],
+  [
+   2.39,
+   2.73,
+   "cachorro-quente?"
+  ],
+  [
+   2.73,
+   5.39,
+   "Se não, prepara a carteira!"
+  ],
+  [
+   5.89,
+   8.98,
+   "Esse é o Hot Streak, onde quatro mascotes"
+  ],
+  [
+   8.98,
+   11.34,
+   "atrapalhados correm e você precisa apostar"
+  ],
+  [
+   11.34,
+   12.02,
+   "em quem vai ganhar."
+  ],
+  [
+   12.58,
+   14.81,
+   "E antes de cada corrida, cada jogador pega"
+  ],
+  [
+   14.81,
+   16.31,
+   "dois bilhetes de aposta:"
+  ],
+  [
+   16.5,
+   19.09,
+   "pode ser no mascote, ou em coisas bizarras,"
+  ],
+  [
+   19.09,
+   20.54,
+   "tipo: alguém vai sair da pista?"
+  ],
+  [
+   21.18,
+   22.39,
+   "E é você que escolhe:"
+  ],
+  [
+   22.39,
+   24.33,
+   "ou vai na aposta segura, ou na arriscada,"
+  ],
+  [
+   24.35,
+   26.9,
+   "que te paga mais, mas pode te fazer perder dinheiro."
+  ],
+  [
+   27.51,
+   29.21,
+   "E é aí que vem a malandragem:"
+  ],
+  [
+   29.21,
+   31.6,
+   "cada jogador coloca uma carta secreta no"
+  ],
+  [
+   31.6,
+   33.74,
+   "baralho da corrida pra puxar a sardinha pro seu lado."
+  ],
+  [
+   34.25,
+   36.14,
+   "E então começa a corrida:"
+  ],
+  [
+   36.14,
+   38.7,
+   "um dos jogadores vira as cartas uma a uma,"
+  ],
+  [
+   38.7,
+   40.65,
+   "o mascote corre, tropeça, dá meia-volta,"
+  ],
+  [
+   40.8,
+   42.76,
+   "invade a raia do outro e derruba geral!"
+  ],
+  [
+   43.35,
+   45.69,
+   "E aqui tudo pode desclassificar o mascote:"
+  ],
+  [
+   45.69,
+   47.75,
+   "saiu da pista, desclassificado!"
+  ],
+  [
+   47.86,
+   50.56,
+   "Tropeçou já no chão, desclassificado de novo!"
+  ],
+  [
+   51.16,
+   53.84,
+   "E depois de três corridas sofridas, ganha"
+  ],
+  [
+   53.84,
+   54.41,
+   "quem tiver mais dinheiro."
+  ],
+  [
+   54.41,
+   55.65,
+   "Agora para tudo:"
+  ],
+  [
+   55.65,
+   57.54,
+   "em quem você aposta?"
+  ],
+  [
+   57.67,
+   58.4,
+   "Comenta aqui!"
+  ],
+  [
+   63.09,
+   65.37,
+   "Aluga o Hot Streak aqui na Sua Vez e chama"
+  ],
+  [
+   65.37,
+   66.47,
+   "a galera pra apostar!"
+  ],
+  [
+   66.47,
+   67.2,
+   "O link tá na bio."
+  ]
+ ]
+}
