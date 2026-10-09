@@ -17,20 +17,20 @@ NAR = os.path.join(ROOT, "narracao")
 ORIG = [(0.0, 7.0), (7.0, 14.0), (14.0, 20.5), (20.5, 26.0), (26.0, 32.2), (32.2, 40.0), (40.0, 49.5),
         (49.5, 56.4), (56.4, 65.4)]
 FALAS_POR_CENA = [[1], [2], [3], [4], [5], [6], [7], [8], [9]]
-LEAD, GAP, TAIL = 0.3, 0.45, 0.6
+LEAD, GAP, TAIL = 0.2, 0.4, 0.35  # mais justo: a fala dele tem 61 s e o vídeo não pode passar de 1:10
 MIN_FRAC = 0.7  # cena nunca encolhe abaixo de 70% do original (animações respiram)
-CTA_HOLD = 3.6  # tempo do logo na tela depois da última fala (garante mais de 1 minuto)
+CTA_HOLD = 3.0  # tempo do logo na tela depois da última fala (garante mais de 1 minuto)
 
-TEXTO = {  # o que a voz fala, com a grafia certa para as legendas
-    1: 'Jogo de tabuleiro é só Banco Imobiliário e Detetive? Então senta aí, que você tá perdendo muita coisa!',
-    2: 'Os jogos modernos são outra coisa: regras simples, partidas rápidas, e ninguém fica eliminado esperando a vez.',
-    3: 'Tem jogo de festa pra dar risada, cooperativo pra jogar junto, e estratégia pra quem gosta de pensar.',
-    4: 'Tem até jogo pra dois, perfeito pro casal... e jogo pra jogar sozinho.',
-    5: 'Só que os jogos modernos costumam ser caros: um Wingspan, por exemplo, sai por uns 400 reais na loja.',
-    6: 'Por isso alugar faz tanto sentido: na Sua Vez, ele sai por 45 reais, com 5 dias pra jogar. Gostou? Aí você compra sem medo de errar.',
-    7: 'E quanto mais jogos, mais dias: 3 jogos, 7 dias. 5, 10. E 7 jogos, 15 dias, pelo mesmo preço!',
-    8: 'São mais de 160 jogos no acervo. E aí, qual desses você jogaria primeiro? Comenta aqui!',
-    9: 'Reserva online, retira em Mauá ou recebe em casa: aluga na Sua Vez, o link tá na bio!',
+TEXTO = {  # o que ele FALOU na gravação (out/2026), com a grafia certa
+    1: "Se você ainda acha que jogo de tabuleiro é só Banco Imobiliário e Detetive, você precisa assistir esse vídeo.",
+    2: "Hoje existe uma variedade muito grande de jogos modernos: regras simples, complexas, partidas longas, partidas rápidas.",
+    3: "E tem jogo de festa pra dar risada, jogo cooperativo pra jogar junto e até de estratégia, pra quem gosta de fritar a cuca.",
+    4: "Tem até jogo pra dois, perfeito pro casal, e claro, pra quem gosta de jogar sozinho.",
+    5: "Só que jogos modernos costumam ser caros: um Wingspan, por exemplo, sai por 400 reais na loja.",
+    6: "E é por isso que alugar faz tanto sentido: na Sua Vez, ele sai por 45 reais, com 5 dias pra jogar. Se você gostou, aí você compra sem medo de errar.",
+    7: "E na Sua Vez, quanto mais jogos você aluga, mais dias você pode ficar com eles. Com 3 jogos você fica 7 dias, com 5 você fica 10 dias e com 7 você fica 15 dias. Tudo pelo mesmo preço!",
+    8: "Conta pra gente aqui nos comentários: qual dos nossos jogos você jogaria primeiro?",
+    9: "Reserve online, retire com a gente ou receba na sua casa. Alugue na Sua Vez, o link tá na bio!",
 }
 
 

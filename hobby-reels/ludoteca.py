@@ -423,9 +423,9 @@ def cena_modernos(img, t):
     cola(img, caixa_s("camel_up_second_edition", 300), lerp(x0, 540, v) + jx, lerp(y0, 760, v) + jy,
          lerp(0, -5, v) + jr, lerp(1, 2.0, v))
     cola(img, titulo("JOGOS MODERNOS", 96, WHITE, ORANGE_D), 540, 210, -2, pop(t, a + 0.3))
-    selo_tag(img, "regras", "REGRAS SIMPLES", 540, 1180, t, a + 1.6, BLUE, 50, balanco(t, a + 1.6, 6))
-    selo_tag(img, "relogio", "PARTIDAS RÁPIDAS", 540, 1340, t, a + 2.6, ORANGE, 50, balanco(t, a + 2.6, 6))
-    selo_tag(img, "todos", "NINGUÉM É ELIMINADO", 540, 1500, t, a + 3.8, GREEN, 50, balanco(t, a + 3.8, 6))
+    selo_tag(img, "todos", "MUITA VARIEDADE", 540, 1180, t, a + 1.6, BLUE, 50, balanco(t, a + 1.6, 6))
+    selo_tag(img, "regras", "SIMPLES OU COMPLEXOS", 540, 1340, t, a + 2.6, ORANGE, 50, balanco(t, a + 2.6, 6))
+    selo_tag(img, "relogio", "RÁPIDOS OU LONGOS", 540, 1500, t, a + 3.8, GREEN, 50, balanco(t, a + 3.8, 6))
 
 
 TIPOS = [("dixit", "FESTA", "risada", ORANGE), ("the_goonies_never_say_die", "COOPERATIVO", "maos", BLUE),

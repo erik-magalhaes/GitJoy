@@ -1,0 +1,243 @@
+{
+ "duracao": 68.835,
+ "cenas": [
+  [
+   0.0,
+   7.0,
+   0.0,
+   6.163
+  ],
+  [
+   7.0,
+   14.0,
+   6.163,
+   13.634
+  ],
+  [
+   14.0,
+   20.5,
+   13.634,
+   20.917
+  ],
+  [
+   20.5,
+   26.0,
+   20.917,
+   26.386
+  ],
+  [
+   26.0,
+   32.2,
+   26.386,
+   32.259
+  ],
+  [
+   32.2,
+   40.0,
+   32.259,
+   41.755
+  ],
+  [
+   40.0,
+   49.5,
+   41.755,
+   54.637
+  ],
+  [
+   49.5,
+   56.4,
+   54.637,
+   59.693
+  ],
+  [
+   56.4,
+   65.4,
+   59.693,
+   68.835
+  ]
+ ],
+ "voz": [
+  {
+   "frase": 1,
+   "arquivo": "narracao/frase_01.wav",
+   "inicio": 0.2
+  },
+  {
+   "frase": 2,
+   "arquivo": "narracao/frase_02.wav",
+   "inicio": 6.363
+  },
+  {
+   "frase": 3,
+   "arquivo": "narracao/frase_03.wav",
+   "inicio": 13.834
+  },
+  {
+   "frase": 4,
+   "arquivo": "narracao/frase_04.wav",
+   "inicio": 21.117
+  },
+  {
+   "frase": 5,
+   "arquivo": "narracao/frase_05.wav",
+   "inicio": 26.586
+  },
+  {
+   "frase": 6,
+   "arquivo": "narracao/frase_06.wav",
+   "inicio": 32.459
+  },
+  {
+   "frase": 7,
+   "arquivo": "narracao/frase_07.wav",
+   "inicio": 41.955
+  },
+  {
+   "frase": 8,
+   "arquivo": "narracao/frase_08.wav",
+   "inicio": 54.837
+  },
+  {
+   "frase": 9,
+   "arquivo": "narracao/frase_09.wav",
+   "inicio": 59.893
+  }
+ ],
+ "legendas": [
+  [
+   0.2,
+   2.1,
+   "Se você ainda acha que jogo de tabuleiro"
+  ],
+  [
+   2.1,
+   4.66,
+   "é só Banco Imobiliário e Detetive, você precisa"
+  ],
+  [
+   4.66,
+   5.71,
+   "assistir esse vídeo."
+  ],
+  [
+   6.36,
+   8.52,
+   "Hoje existe uma variedade muito grande de"
+  ],
+  [
+   8.52,
+   9.48,
+   "jogos modernos:"
+  ],
+  [
+   9.48,
+   12.12,
+   "regras simples, complexas, partidas longas,"
+  ],
+  [
+   12.12,
+   13.11,
+   "partidas rápidas."
+  ],
+  [
+   13.83,
+   15.97,
+   "E tem jogo de festa pra dar risada, jogo"
+  ],
+  [
+   15.97,
+   18.85,
+   "cooperativo pra jogar junto e até de estratégia,"
+  ],
+  [
+   18.85,
+   20.4,
+   "pra quem gosta de fritar a cuca."
+  ],
+  [
+   21.12,
+   22.98,
+   "Tem até jogo pra dois, perfeito pro casal,"
+  ],
+  [
+   22.98,
+   25.93,
+   "e claro, pra quem gosta de jogar sozinho."
+  ],
+  [
+   26.59,
+   28.82,
+   "Só que jogos modernos costumam ser caros:"
+  ],
+  [
+   28.97,
+   31.84,
+   "um Wingspan, por exemplo, sai por 400 reais na loja."
+  ],
+  [
+   32.46,
+   34.65,
+   "E é por isso que alugar faz tanto sentido:"
+  ],
+  [
+   34.74,
+   37.54,
+   "na Sua Vez, ele sai por 45 reais, com 5 dias"
+  ],
+  [
+   37.54,
+   40.42,
+   "pra jogar. Se você gostou, aí você compra"
+  ],
+  [
+   40.42,
+   41.31,
+   "sem medo de errar."
+  ],
+  [
+   41.95,
+   44.24,
+   "E na Sua Vez, quanto mais jogos você aluga,"
+  ],
+  [
+   44.27,
+   46.0,
+   "mais dias você pode ficar com eles."
+  ],
+  [
+   46.15,
+   49.57,
+   "Com 3 jogos você fica 7 dias, com 5 você"
+  ],
+  [
+   49.57,
+   52.54,
+   "fica 10 dias e com 7 você fica 15 dias."
+  ],
+  [
+   52.81,
+   54.14,
+   "Tudo pelo mesmo preço!"
+  ],
+  [
+   54.84,
+   56.9,
+   "Conta pra gente aqui nos comentários:"
+  ],
+  [
+   56.9,
+   59.19,
+   "qual dos nossos jogos você jogaria primeiro?"
+  ],
+  [
+   59.89,
+   62.15,
+   "Reserve online, retire com a gente ou receba"
+  ],
+  [
+   62.15,
+   65.7,
+   "na sua casa. Alugue na Sua Vez, o link tá na bio!"
+  ]
+ ]
+}
