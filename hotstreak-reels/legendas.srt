@@ -1,124 +1,128 @@
 1
-00:00:00,200 --> 00:00:02,390
+00:00:00,200 --> 00:00:02,340
 Você já pensou em apostar seu dinheiro num
 
 2
-00:00:02,390 --> 00:00:02,730
+00:00:02,340 --> 00:00:02,670
 cachorro-quente?
 
 3
-00:00:02,730 --> 00:00:05,390
+00:00:02,670 --> 00:00:05,270
 Se não, prepara a carteira!
 
 4
-00:00:05,890 --> 00:00:08,980
+00:00:05,740 --> 00:00:08,750
 Esse é o Hot Streak, onde quatro mascotes
 
 5
-00:00:08,980 --> 00:00:11,340
+00:00:08,750 --> 00:00:11,060
 atrapalhados correm e você precisa apostar
 
 6
-00:00:11,340 --> 00:00:12,020
+00:00:11,060 --> 00:00:11,720
 em quem vai ganhar.
 
 7
-00:00:12,580 --> 00:00:14,810
+00:00:12,230 --> 00:00:14,410
 E antes de cada corrida, cada jogador pega
 
 8
-00:00:14,810 --> 00:00:16,310
+00:00:14,410 --> 00:00:15,870
 dois bilhetes de aposta:
 
 9
-00:00:16,500 --> 00:00:19,090
+00:00:16,050 --> 00:00:18,580
 pode ser no mascote, ou em coisas bizarras,
 
 10
-00:00:19,090 --> 00:00:20,540
+00:00:18,580 --> 00:00:20,000
 tipo: alguém vai sair da pista?
 
 11
-00:00:21,180 --> 00:00:22,390
+00:00:20,610 --> 00:00:21,790
 E é você que escolhe:
 
 12
-00:00:22,390 --> 00:00:24,330
+00:00:21,790 --> 00:00:23,690
 ou vai na aposta segura, ou na arriscada,
 
 13
-00:00:24,350 --> 00:00:26,900
+00:00:23,700 --> 00:00:26,190
 que te paga mais, mas pode te fazer perder dinheiro.
 
 14
-00:00:27,510 --> 00:00:29,210
+00:00:26,750 --> 00:00:28,410
 E é aí que vem a malandragem:
 
 15
-00:00:29,210 --> 00:00:31,600
+00:00:28,410 --> 00:00:30,740
 cada jogador coloca uma carta secreta no
 
 16
-00:00:31,600 --> 00:00:33,740
+00:00:30,740 --> 00:00:32,830
 baralho da corrida pra puxar a sardinha pro seu lado.
 
 17
-00:00:34,250 --> 00:00:36,140
+00:00:33,310 --> 00:00:35,150
 E então começa a corrida:
 
 18
-00:00:36,140 --> 00:00:38,700
+00:00:35,150 --> 00:00:37,650
 um dos jogadores vira as cartas uma a uma,
 
 19
-00:00:38,700 --> 00:00:40,650
+00:00:37,650 --> 00:00:39,560
 o mascote corre, tropeça, dá meia-volta,
 
 20
-00:00:40,800 --> 00:00:42,760
+00:00:39,700 --> 00:00:41,620
 invade a raia do outro e derruba geral!
 
 21
-00:00:43,350 --> 00:00:45,690
+00:00:42,180 --> 00:00:44,460
 E aqui tudo pode desclassificar o mascote:
 
 22
-00:00:45,690 --> 00:00:47,750
+00:00:44,460 --> 00:00:46,480
 saiu da pista, desclassificado!
 
 23
-00:00:47,860 --> 00:00:50,560
-Tropeçou já no chão, desclassificado de novo!
+00:00:46,620 --> 00:00:48,770
+Foi atropelado, desclassificado!
 
 24
-00:00:51,160 --> 00:00:53,840
-E depois de três corridas sofridas, ganha
+00:00:48,900 --> 00:00:51,530
+Tropeçou já no chão, desclassificado de novo!
 
 25
-00:00:53,840 --> 00:00:54,410
-quem tiver mais dinheiro.
+00:00:52,150 --> 00:00:54,760
+E depois de três corridas sofridas, ganha
 
 26
-00:00:54,410 --> 00:00:55,650
-Agora para tudo:
+00:00:54,760 --> 00:00:55,320
+quem tiver mais dinheiro.
 
 27
-00:00:55,650 --> 00:00:57,540
-em quem você aposta?
+00:00:55,320 --> 00:00:56,530
+Agora para tudo:
 
 28
-00:00:57,670 --> 00:00:58,400
-Comenta aqui!
+00:00:56,530 --> 00:00:58,380
+em quem você aposta?
 
 29
-00:01:03,090 --> 00:01:05,370
-Aluga o Hot Streak aqui na Sua Vez e chama
+00:00:58,500 --> 00:00:59,220
+Comenta aqui!
 
 30
-00:01:05,370 --> 00:01:06,470
-a galera pra apostar!
+00:01:03,140 --> 00:01:05,360
+Aluga o Hot Streak aqui na Sua Vez e chama
 
 31
-00:01:06,470 --> 00:01:07,200
+00:01:05,360 --> 00:01:06,440
+a galera pra apostar!
+
+32
+00:01:06,440 --> 00:01:07,150
 O link tá na bio.
 
