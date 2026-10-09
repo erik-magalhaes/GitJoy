@@ -262,5 +262,14 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   compressão leve 2:1 e loudnorm; cor só com `eq` leve (contraste 1,03, saturação 1,05) + denoise e nitidez fracos;
   trilha mais baixa (`musica_ganho=0.2`, `duck=0.8` em `som.build`). **Lição: em vídeo gravado, mexa pouco; meça
   estouro (% ≥250) e saturação contra o bruto antes de mandar.** 39 s, com e sem legenda, 2 passadas a 5200k para o chat.
+  **3ª rodada ("voz de Darth Vader", "só cortou e colou"):** a voz saía em 48 kHz e `read_wav` toca a 44,1 kHz → 9% mais
+  lenta e grave e fora de sincronia. **Extraia a voz SEMPRE com `-ar 44100`.** Também havia buraco de 0,2 s entre planos
+  (imagem adiantada); cortes agora por quadros exatos (`nq()`). Edição que ele pediu, por jogo: rosto dele LIVRE (nada
+  escrito na frente do rosto) → a capa OFICIAL pequena no canto de baixo à direita quando ele FALA o nome (tempo do
+  Whisper) → o vídeo do jogo na mesa em tela cheia com nome + fichas (tipo, jogadores, idade, tempo) → volta pra ele, ainda
+  com a capa. Cada trecho de cena só UMA vez. Legenda palavra a palavra (1–3 palavras, a falada em amarelo, `palavras.json`).
+  **Capas da edição ATUAL/brasileira** (ele cobrou): Go Cuckoo é a da **Devir (2023, 5+)**, foto da Bravo Jogos; Draftosaurus
+  da **MeepleBR** (site da editora, wp-content); Gravity Superstar (Sit Down!) e Scooby-Doo (CMON) têm a mesma capa da dele.
+  Compara Jogos (`/item/<slug>`, og:image) às vezes traz a edição estrangeira: confira contra a caixa que aparece no vídeo dele.
   Vídeos gravados podem ter menos de 1 minuto.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
