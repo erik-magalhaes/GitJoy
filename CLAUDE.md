@@ -150,7 +150,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   as falas 6 (vermelhas) e 7 (verdes) vieram gravadas trocadas; encaixei pela cena (cena 6 = guerra). A fala dele somou 81 s
   de vídeo: pausas internas ≤0,3 s (`encurta_pausas`), voz 1,10x (`atempo` antes da cadeia), LEAD/GAP/TAIL 0,2/0,4/0,35 e
   CTA_HOLD 2,4 → 69,9 s. A fala 9 virou "Um jogo que funciona pra casal e até 7 jogadores. Aluga o 7 Wonders Arquitetos...".
-  Antes era: esperando os 9 áudios (`arq_narracao_01..09`). Gravador:
+  Tela final ganhou "OU RECEBA EM CASA". Entregue a −15,5 LUFS, 2 passadas a 3000k (~28 MB). Antes era: esperando os 9 áudios. Gravador:
   `https://raw.githack.com/erik-magalhaes/GitJoy/6a9efbbc00e888124e30d4c5bd710ad1c6dd2bf6/architects-reels/gravador/Gravar_narracao_Arquitetos.html`.
   Ao receber: copie os áudios para `architects-reels/narracao/raw/`, trate (`tratar_narracao.py`), revise o `TEXTO` em
   `narracao.py`, rode `python3 narracao.py` e depois `python3 stopmo.py`, suba o volume e mande as duas versões.
