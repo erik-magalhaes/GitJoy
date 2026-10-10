@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Capa do Reels "jogos para crianças" (1080x1920): raios coloridos com confete, ele recortado (quadro sorrindo do
-vídeo, rembg u2net_human_seg) com contorno branco de adesivo, "4 JOGOS PRA CRIANÇADA!" em letras coloridas, logo da
+vídeo, rembg u2net_human_seg) com contorno branco de adesivo, "INDICAÇÃO PRO DIA DAS CRIANÇAS / 4 JOGOS PRA JOGAR COM AS CRIANÇAS!" em letras coloridas, logo da
 Sua Vez e as 4 caixas OFICIAIS. Título e logo ficam dentro da área 4:5 do meio (y 285–1635), que é o que aparece na
 grade do perfil.
 
@@ -120,20 +120,20 @@ def main():
     m.paste(0, (0, pa.height - 160, pa.width, pa.height))
     pa.putalpha(Image.fromarray(__import__("numpy").minimum(__import__("numpy").asarray(pa.getchannel("A")),
                                                              __import__("numpy").asarray(m))))
-    img.alpha_composite(pa, (int(540 - pa.width / 2), 770))
-    for x, y, s, c in ((150, 900, 110, CORES[0]), (930, 860, 90, CORES[4]), (120, 1260, 80, CORES[3]),
-                       (960, 1230, 120, CORES[5])):
+    img.alpha_composite(pa, (int(540 - pa.width / 2), 880))
+    for x, y, s, c in ((150, 1000, 110, CORES[0]), (930, 980, 90, CORES[4]), (120, 1330, 80, CORES[3]),
+                       (960, 1310, 120, CORES[5])):
         cola(img, estrela(s, c), x, y, 0)
     # título e logo (área segura 4:5)
-    cola(img, logo_card(330), 540, 370, -2)
-    cola(img, titulo_colorido("4 JOGOS", 190), 540, 590, -3)
-    cola(img, letreiro("PRA CRIANÇADA!", 96, WHITE, INK, 14, sombra_px=8, cor_sombra=INK), 540, 760, 2)
+    cola(img, logo_card(250), 540, 368, -2)
+    cola(img, pilula("INDICAÇÃO PRO DIA DAS CRIANÇAS", 40, (255, 72, 120), WHITE, WHITE, bw=6), 540, 500, -2)
+    cola(img, titulo_colorido("4 JOGOS", 180), 540, 630, -3)
+    cola(img, letreiro("PRA JOGAR COM\nAS CRIANÇAS!", 78, WHITE, INK, 13, sombra_px=7, cor_sombra=INK), 540, 808, 2)
     # as 4 caixas oficiais na frente do peito
     caixas = [("go_cuckoo.png", -8), ("gravity_superstar.png", -3), ("draftosaurus.png", 3), ("scooby_doo.png", 8)]
     xs = [165, 410, 670, 915]
     for (n, rot), x in zip(caixas, xs):
-        cola(img, caixa(n, 290), x, 1500 + abs(rot) * 4, rot)
-    cola(img, pilula("ESPECIAL DIA DAS CRIANÇAS", 46, (255, 72, 120), WHITE, WHITE, bw=6), 540, 1745, -2)
+        cola(img, caixa(n, 290), x, 1585 + abs(rot) * 4, rot)
     cola(img, pilula("@SUAVEZ_BG", 38, INK, WHITE, WHITE), 540, 1840, 0)
     rgb = img.convert("RGB")
     rgb.save(os.path.join(OUT, "capa_criancas.jpg"), quality=95)

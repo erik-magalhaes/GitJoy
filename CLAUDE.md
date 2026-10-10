@@ -324,7 +324,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Vídeos gravados podem ter menos de 1 minuto.
   **Capa do Reels** (`capa_criancas.py`, pedido dele: "bem colorida, com a nossa logo"): raios coloridos + confete, ele
   recortado do quadro sorrindo (42 s do 182216) com **rembg** (`u2net_human_seg`, recorte de pessoa ótimo; o modelo baixa
-  pelo proxy) e contorno branco de adesivo, "4 JOGOS / PRA CRIANÇADA!" letra a letra colorida, logo e as 4 caixas
+  pelo proxy) e contorno branco de adesivo, faixa "INDICAÇÃO PRO DIA DAS CRIANÇAS" + "4 JOGOS / PRA JOGAR COM AS CRIANÇAS!" (ele pediu para deixar claro que é indicação de jogos para jogar com as crianças no Dia das Crianças), logo e as 4 caixas
   oficiais. Título e logo dentro da área 4:5 do meio (y 285–1635), que aparece na grade do perfil.
 - **Final Girl (`finalgirl-reels/`, out/2026):** ele tem a Caixa Base + a 1ª temporada (Hans, Poltergeist, Inkanyamba,
   Geppetto e **Dr. Medo**). Escolheu o **visual 2, Trailer Slasher** (`conceitos.py`): tela escura com névoa lisa, facho
