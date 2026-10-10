@@ -48,25 +48,25 @@ GRADE = ("hqdn3d=2.5:2:5:5,curves=all='0/0.012 0.25/0.245 0.5/0.52 0.75/0.775 1/
 TRECHOS = [  # início = 1ª palavra (medido pela energia, sem a puxada de ar); fim = última palavra
     ("H", GANCHO_ARQ, 4.38, 6.64, 0),
     ("Q", TOMADA, 2.27, 5.80, 5),
-    ("A", TOMADA, 6.17, 9.50, 5), ("A", TOMADA, 13.30, 14.90, 5),
+    ("A", TOMADA, 6.17, 9.50, 5), ("A", TOMADA, 13.12, 14.90, 5),
     ("Q", TOMADA, 15.98, 18.40, 4),
     ("A", TOMADA, 18.86, 20.15, 4), ("A", TOMADA, 21.12, 23.40, 4),
-    ("A", TOMADA, 25.27, 28.45, 4), ("A", TOMADA, 29.62, 31.62, 4),
+    ("A", TOMADA, 25.27, 28.45, 4), ("A", TOMADA, 29.60, 31.62, 4),
     ("Q", TOMADA, 52.50, 54.55, 3),
-    ("A", TOMADA, 55.12, 57.00, 3), ("A", TOMADA, 57.70, 58.80, 3), ("A", TOMADA, 60.92, 62.00, 3),
+    ("A", TOMADA, 55.12, 57.00, 3), ("A", TOMADA, 57.57, 58.80, 3), ("A", TOMADA, 60.92, 62.00, 3),
     ("Q", TOMADA, 63.29, 65.88, 2),
-    ("A", TOMADA, 67.72, 71.98, 2),
+    ("A", TOMADA, 66.42, 71.98, 2),
     ("Q", TOMADA, 84.64, 89.20, 1),
     ("A", TOMADA, 89.48, 95.15, 1),
 ]
 COMENTA = (TOMADA, 95.30, 3.0, (95.98, 96.62))  # "É isso." por baixo do "comenta"
 CTA = 4.2
 # caixa de cada jogo e o instante (no bruto) em que ele fala o nome
-JOGOS = {5: [("ticket_to_ride", 6.58), ("dixit", 7.46), ("marvel_united", 8.26), ("trio", 13.32), ("flip_7", 14.24)],
-         4: [("king_of_tokyo", 18.90), ("the_resistance", 21.36), ("coup", 22.44), ("boop", 26.84)],
-         3: [("jaipur", 55.44), ("splendor_duel", 57.72), ("azul_duel", 61.08)],
-         2: [("harmonies", 67.78), ("azul", 70.74)],
-         1: [("hitster", 89.78)]}
+JOGOS = {5: [("ticket_to_ride", 6.18), ("dixit", 7.54), ("marvel_united", 8.32), ("trio", 13.13), ("flip_7", 14.29)],
+         4: [("king_of_tokyo", 18.87), ("the_resistance", 21.13), ("coup", 22.23), ("boop", 26.86)],
+         3: [("jaipur", 55.13), ("splendor_duel", 57.58), ("azul_duel", 60.93)],
+         2: [("harmonies", 66.43), ("azul", 70.71)],
+         1: [("hitster", 89.77)]}
 TITULO = {5: "JOGOS PRA QUEM\nNUNCA JOGOU", 4: "JOGOS QUE DESTROEM\nAMIZADES", 3: "JOGOS PRA\nJOGAR A DOIS",
           2: "JOGOS QUE\nNUNCA CANSAM", 1: "JOGO QUE TODO MUNDO\nPRECISA JOGAR"}
 COR = {5: (249, 115, 22), 4: (220, 38, 38), 3: (147, 51, 234), 2: (37, 99, 235), 1: (234, 179, 8)}
@@ -117,7 +117,8 @@ def subs():
     for t0, d, arq, ini, tipo, k in PLANOS:
         if tipo not in "A":
             continue
-        ws = [(CORRIGE.get(w, w), t0 + a - ini, t0 + b - ini) for a, b, w in pals[arq[:-4]] if ini <= a < ini + d]
+        ws = [(CORRIGE.get(w, w), t0 + max(a, ini) - ini, t0 + b - ini) for a, b, w in pals[arq[:-4]]
+              if ini - 0.1 <= a < ini + d]
         grupos, cur = [], []
         for w in ws:
             cur.append(w)
