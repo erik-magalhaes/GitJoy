@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Capa do Reels "jogos para crianças" (1080x1920): raios coloridos com confete, ele recortado (quadro sorrindo do
-vídeo, rembg u2net_human_seg) com contorno branco de adesivo, "INDICAÇÃO PRO DIA DAS CRIANÇAS / 4 JOGOS PRA JOGAR COM AS CRIANÇAS!" em letras coloridas, logo da
+"""Capa do Reels "jogos para crianças" (1080x1920): raios coloridos com confete, as 4 caixas OFICIAIS em destaque (ele pediu
+para tirar a foto dele e deixar só os jogos), "INDICAÇÃO PRO DIA DAS CRIANÇAS / 4 JOGOS PRA JOGAR COM AS CRIANÇAS!" em letras coloridas, logo da
 Sua Vez e as 4 caixas OFICIAIS. Título e logo ficam dentro da área 4:5 do meio (y 285–1635), que é o que aparece na
 grade do perfil.
 
@@ -109,31 +109,19 @@ def caixa(nome, h):
 def main():
     os.makedirs(OUT, exist_ok=True)
     img = fundo()
-    # ele (do peito para cima), recortado, com contorno de adesivo
-    p = Image.open(os.path.join(ROOT, "assets", "capa", "rosto_criancas.png")).convert("RGBA")
-    p = p.resize((int(p.width * 0.80), int(p.height * 0.80)), Image.LANCZOS)
-    pa = adesivo(p, 14)
-    # o peito some por baixo das caixas (sem o corte reto da camiseta)
-    fade = Image.linear_gradient("L").resize((pa.width, 260)).transpose(Image.FLIP_TOP_BOTTOM)
-    m = Image.new("L", pa.size, 255)
-    m.paste(fade, (0, pa.height - 420))
-    m.paste(0, (0, pa.height - 160, pa.width, pa.height))
-    pa.putalpha(Image.fromarray(__import__("numpy").minimum(__import__("numpy").asarray(pa.getchannel("A")),
-                                                             __import__("numpy").asarray(m))))
-    img.alpha_composite(pa, (int(540 - pa.width / 2), 880))
-    for x, y, s, c in ((150, 1000, 110, CORES[0]), (930, 980, 90, CORES[4]), (120, 1330, 80, CORES[3]),
-                       (960, 1310, 120, CORES[5])):
-        cola(img, estrela(s, c), x, y, 0)
+    for x, y, s_, c in ((95, 1000, 90, CORES[0]), (990, 980, 80, CORES[4]), (90, 1700, 100, CORES[3]),
+                        (990, 1690, 110, CORES[5]), (540, 1290, 70, CORES[2])):
+        cola(img, estrela(s_, c), x, y, 0)
     # título e logo (área segura 4:5)
     cola(img, logo_card(250), 540, 368, -2)
     cola(img, pilula("INDICAÇÃO PRO DIA DAS CRIANÇAS", 40, (255, 72, 120), WHITE, WHITE, bw=6), 540, 500, -2)
     cola(img, titulo_colorido("4 JOGOS", 180), 540, 630, -3)
     cola(img, letreiro("PRA JOGAR COM\nAS CRIANÇAS!", 78, WHITE, INK, 13, sombra_px=7, cor_sombra=INK), 540, 808, 2)
-    # as 4 caixas oficiais na frente do peito
-    caixas = [("go_cuckoo.png", -8), ("gravity_superstar.png", -3), ("draftosaurus.png", 3), ("scooby_doo.png", 8)]
-    xs = [165, 410, 670, 915]
-    for (n, rot), x in zip(caixas, xs):
-        cola(img, caixa(n, 290), x, 1585 + abs(rot) * 4, rot)
+    # as 4 caixas oficiais em destaque (2 x 2), tudo dentro da área que aparece na grade
+    caixas = [("go_cuckoo.png", 350, -6, 300, 1100), ("draftosaurus.png", 315, 5, 765, 1100),
+              ("gravity_superstar.png", 315, -4, 300, 1450), ("scooby_doo.png", 315, 6, 770, 1450)]
+    for n, h, rot, x, y in caixas:
+        cola(img, caixa(n, h), x, y, rot)
     cola(img, pilula("@SUAVEZ_BG", 38, INK, WHITE, WHITE), 540, 1840, 0)
     rgb = img.convert("RGB")
     rgb.save(os.path.join(OUT, "capa_criancas.jpg"), quality=95)
