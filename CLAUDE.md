@@ -17,9 +17,9 @@ tudo antes de começar um vídeo novo: aqui está o que funcionou, o que não fu
     na tela 4 o Go Cuckoo foi trocado pelo Gravity porque ele achou a foto "amassada").
   - **Esperando narração dele:** Final Girl e 7 tipos de jogador
     (links nas seções abaixo).
-  - **Esperando gravação dele:** vídeo da trend "5, 4, 3, 2, 1" de jogos de tabuleiro (roteiro mandado: 5 pra quem
-    nunca jogou, 4 que destroem amizades, 3 pra dois, 2 que nunca cansa, 1 que todo mundo precisa jogar; ~30–45 s,
-    números animados + capas oficiais + legenda) e o vídeo de Halloween (roteiro já mandado).
+  - **Trend "5, 4, 3, 2, 1"** (`gravados-reels/lista54321.py`, gravado por ele, brutos no Drive 20261010_102656/102715):
+    editado e mandado (ver seção "5, 4, 3, 2, 1" nas pendências).
+  - **Esperando gravação dele:** vídeo de Halloween (roteiro já mandado).
   - Microfone dele (Kaidi, lapela sem fio): redução de ruído que NÃO desliga, som "robótico"; recomendei gravar com o
     microfone do celular a 30–40 cm em cômodo silencioso.
 
@@ -336,4 +336,16 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   mata o assassino. Caixa: 1 jogador, 20–60 min, 14+. Prévia mandada; gravador (arquivos `finalgirl_narracao_NN`):
   `https://raw.githack.com/erik-magalhaes/GitJoy/2cdb54d81a82415bb8f545a35b43ad98a6f5dea2/finalgirl-reels/gravador/Gravar_narracao_FinalGirl.html`.
   Ao receber: `narracao/raw/` → tmp_NN.wav → `tratar_narracao.py` → revisar `TEXTO` → `narracao.py` → `trailer.py`.
+- **5, 4, 3, 2, 1 (`gravados-reels/lista54321.py`, 10/out/2026):** ele responde, alguém pergunta fora da câmera (o
+  microfone Kaidi está preso numa espátula, de piada). Ele travou no "3" e no "1": usei a última tentativa. Respostas:
+  5 = Ticket to Ride ("Chikichuride" no Whisper), Dixit, Marvel United, Trio, Flip 7 ("Flip Set"); 4 = King of Tokyo,
+  The Resistance, Coup ("Koop"), boop.; 3 = Jaipur, Splendor Duel, Azul Duel; 2 = Harmonies, Azul; 1 = Hitster.
+  Visual "contagem regressiva": número batendo no meio → selo do título, casas "?" que recebem as caixas quando ele
+  fala o nome, no "1" a caixa sozinha com raios dourados; tudo do peito para baixo (o rosto dele fica no alto do quadro).
+  Corte seco alternando aberto / punch-in 6% ancorado no topo. **Caixas oficiais BR:** a loja da Galápagos
+  (`loja.galapagosjogos.com.br/ccstore/v1/search?Ntt=<nome>`, Oracle Commerce; imagem em `product.primaryFullImageURL`
+  + `&height=1600&width=1600`) tem foto 3D oficial de quase tudo dela (Harmonies, Azul, Azul Duel, Splendor Duel,
+  Ticket to Ride — já com a arte nova —, Dixit, Jaipur, The Resistance, Marvel United, Hitster). Flip 7 BR é da Grok
+  (`loja.grokgames.com.br/flip-7`, CDN awsli 2500x2500). King of Tokyo (Devir), Coup (Funbox) e Trio (PaperGames) vieram
+  do Compara Jogos. boop. não tem edição BR: a da loja é a original. Recortes: `recortes_lista.py` → `assets/lista/`.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
