@@ -3,6 +3,26 @@
 Este repositório reúne os vídeos verticais (Reels/TikTok) dos jogos de tabuleiro da **Sua Vez**. Leia
 tudo antes de começar um vídeo novo: aqui está o que funcionou, o que não funcionou e do que o dono gostou.
 
+## Como continuar numa conversa nova (LEIA PRIMEIRO)
+
+- Toda a memória do projeto está **neste arquivo** e no código da branch `claude/voodoo-stop-motion-video-rni4kj`
+  (repositório erik-magalhaes/GitJoy). Numa sessão nova, use o mesmo repositório e a mesma branch: o Claude lê este
+  arquivo sozinho. Brutos de vídeo e `out/` NÃO vão pro git; os brutos gravados estão no Drive dele
+  (https://drive.google.com/drive/folders/1yGgKAxAUrJAipiu4p2687F4TaA8I6yCK, baixar com `python3 -m gdown`).
+- Eu não consigo subir arquivos no Drive dele (só baixar de pasta pública). Entregar pelo chat; se ele conectar o
+  Google Drive em claude.ai → Configurações → Conectores, dá para subir direto.
+- **Estado em 10/out/2026:**
+  - Entregues e aprovados: vídeo do Dia das Crianças v2 (`gravados-reels/criancas2.py`), cartão do evento 9x9
+    (`promo/cartao_evento.py`), carrossel do feed "jogos modernos" (`hobby-reels/carrossel.py`, 8 telas 1080x1350;
+    na tela 4 o Go Cuckoo foi trocado pelo Gravity porque ele achou a foto "amassada").
+  - **Esperando narração dele:** 7 Wonders Arquitetos (link mandado de novo em 10/out), Final Girl e 7 tipos de jogador
+    (links nas seções abaixo).
+  - **Esperando gravação dele:** vídeo da trend "5, 4, 3, 2, 1" de jogos de tabuleiro (roteiro mandado: 5 pra quem
+    nunca jogou, 4 que destroem amizades, 3 pra dois, 2 que nunca cansa, 1 que todo mundo precisa jogar; ~30–45 s,
+    números animados + capas oficiais + legenda) e o vídeo de Halloween (roteiro já mandado).
+  - Microfone dele (Kaidi, lapela sem fio): redução de ruído que NÃO desliga, som "robótico"; recomendei gravar com o
+    microfone do celular a 30–40 cm em cômodo silencioso.
+
 ## A loja
 
 - **Sua Vez – Locação de Jogos de Tabuleiro**, Mauá e ABC (SP). Site: https://suavez.acervodejogos.com.br/
