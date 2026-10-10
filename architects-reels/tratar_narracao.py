@@ -24,6 +24,33 @@ def trim(a, sr, thr_db=-38, pad=0.08):
     return a
 
 
+def encurta_pausas(a, sr, thr_db=-40, maxp=0.45):
+    """Pausas internas longas  viram no máximo maxp segundos."""
+    win = int(0.02 * sr)
+    e = np.sqrt(np.convolve(a ** 2, np.ones(win) / win, "same"))
+    quiet = 20 * np.log10(e + 1e-9) < thr_db
+    out, i, n = [], 0, len(a)
+    while i < n:
+        if quiet[i]:
+            j = i
+            while j < n and quiet[j]:
+                j += 1
+            if j - i > maxp * sr and i > 0 and j < n:
+                keep = int(maxp * sr / 2)
+                out.append(a[i:i + keep])
+                out.append(a[j - keep:j])
+            else:
+                out.append(a[i:j])
+            i = j
+        else:
+            j = i
+            while j < n and not quiet[j]:
+                j += 1
+            out.append(a[i:j])
+            i = j
+    return np.concatenate(out)
+
+
 def main():
     from faster_whisper import WhisperModel
     model = WhisperModel("small", compute_type="int8")
@@ -31,7 +58,7 @@ def main():
     for n in range(1, 10):
         with wave.open(os.path.join(NAR, f"tmp_{n:02d}.wav")) as w:
             a = np.frombuffer(w.readframes(w.getnframes()), np.int16).astype(np.float64) / 32768
-        a = trim(resample_poly(a, 147, 160), 44100)
+        a = encurta_pausas(trim(resample_poly(a, 147, 160), 44100), 44100, maxp=0.3)
         out = os.path.join(NAR, f"frase_{n:02d}.wav")
         with wave.open(out, "wb") as w:
             w.setnchannels(1); w.setsampwidth(2); w.setframerate(44100)

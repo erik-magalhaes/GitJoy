@@ -1,0 +1,258 @@
+{
+ "duracao": 69.946,
+ "cenas": [
+  [
+   0.0,
+   6.0,
+   0.0,
+   4.561
+  ],
+  [
+   6.0,
+   12.5,
+   4.561,
+   11.519
+  ],
+  [
+   12.5,
+   20.0,
+   11.519,
+   18.982
+  ],
+  [
+   20.0,
+   27.0,
+   18.982,
+   26.943
+  ],
+  [
+   27.0,
+   35.0,
+   26.943,
+   34.532
+  ],
+  [
+   35.0,
+   43.0,
+   34.532,
+   44.562
+  ],
+  [
+   43.0,
+   51.0,
+   44.562,
+   53.491
+  ],
+  [
+   51.0,
+   58.5,
+   53.491,
+   61.328
+  ],
+  [
+   58.5,
+   66.0,
+   61.328,
+   69.946
+  ]
+ ],
+ "voz": [
+  {
+   "frase": 1,
+   "arquivo": "narracao/frase_01.wav",
+   "inicio": 0.2
+  },
+  {
+   "frase": 2,
+   "arquivo": "narracao/frase_02.wav",
+   "inicio": 4.761
+  },
+  {
+   "frase": 3,
+   "arquivo": "narracao/frase_03.wav",
+   "inicio": 11.719
+  },
+  {
+   "frase": 4,
+   "arquivo": "narracao/frase_04.wav",
+   "inicio": 19.182
+  },
+  {
+   "frase": 5,
+   "arquivo": "narracao/frase_05.wav",
+   "inicio": 27.143
+  },
+  {
+   "frase": 6,
+   "arquivo": "narracao/frase_06.wav",
+   "inicio": 34.732
+  },
+  {
+   "frase": 7,
+   "arquivo": "narracao/frase_07.wav",
+   "inicio": 44.762
+  },
+  {
+   "frase": 8,
+   "arquivo": "narracao/frase_08.wav",
+   "inicio": 53.691
+  },
+  {
+   "frase": 9,
+   "arquivo": "narracao/frase_09.wav",
+   "inicio": 61.528
+  }
+ ],
+ "legendas": [
+  [
+   0.2,
+   2.18,
+   "Já pensou em construir uma das 7 maravilhas"
+  ],
+  [
+   2.18,
+   3.95,
+   "do mundo em só 25 minutos?"
+  ],
+  [
+   4.76,
+   7.13,
+   "Esse é o 7 Wonders Arquitetos."
+  ],
+  [
+   7.3,
+   9.34,
+   "Cada jogador é o arquiteto de uma maravilha,"
+  ],
+  [
+   9.34,
+   10.93,
+   "e no final vence quem tiver mais pontos."
+  ],
+  [
+   11.72,
+   13.85,
+   "Na sua vez você pega só uma carta:"
+  ],
+  [
+   13.88,
+   15.7,
+   "pode ser do monte da esquerda, do monte da"
+  ],
+  [
+   15.7,
+   17.7,
+   "direita... ou arrisca no monte do meio, mas"
+  ],
+  [
+   17.7,
+   18.45,
+   "sem ver a carta."
+  ],
+  [
+   19.18,
+   21.2,
+   "As cartas cinzas são materiais:"
+  ],
+  [
+   21.2,
+   23.79,
+   "pedra, madeira, tijolo, papiro e vidro."
+  ],
+  [
+   23.9,
+   26.51,
+   "E o ouro vale como qualquer um deles, é o coringa."
+  ],
+  [
+   27.14,
+   29.38,
+   "Conseguiu juntar os materiais que a maravilha"
+  ],
+  [
+   29.38,
+   31.19,
+   "pede? Ótimo, constrói uma etapa!"
+  ],
+  [
+   31.3,
+   33.22,
+   "Cada etapa dá pontos, e algumas ainda dão"
+  ],
+  [
+   33.22,
+   34.07,
+   "um poder especial."
+  ],
+  [
+   34.73,
+   36.66,
+   "As cartas vermelhas são escudos."
+  ],
+  [
+   36.71,
+   38.93,
+   "E quando aparece uma corneta, uma das fichas"
+  ],
+  [
+   38.93,
+   41.46,
+   "vira... e quando todas viram, é guerra!"
+  ],
+  [
+   41.79,
+   44.0,
+   "Quem tem mais escudos que o vizinho ganha pontos."
+  ],
+  [
+   44.76,
+   47.5,
+   "Já as cartas verdes são ciência e dão fichas"
+  ],
+  [
+   47.5,
+   50.3,
+   "de progresso. E as azuis dão pontos direto,"
+  ],
+  [
+   50.3,
+   53.03,
+   "e algumas trazem o gato, que espia o monte do meio."
+  ],
+  [
+   53.69,
+   55.87,
+   "Quando alguém finalmente termina uma maravilha,"
+  ],
+  [
+   55.87,
+   57.94,
+   "o jogo acaba e vence quem tiver mais pontos."
+  ],
+  [
+   58.15,
+   60.1,
+   "E aí, qual maravilha você construiria?"
+  ],
+  [
+   60.19,
+   60.88,
+   "Comenta aqui!"
+  ],
+  [
+   61.53,
+   64.34,
+   "Um jogo que funciona pra casal e até 7 jogadores."
+  ],
+  [
+   64.49,
+   66.58,
+   "Aluga o 7 Wonders Arquitetos na Sua Vez."
+  ],
+  [
+   66.71,
+   67.48,
+   "O link tá na bio!"
+  ]
+ ]
+}

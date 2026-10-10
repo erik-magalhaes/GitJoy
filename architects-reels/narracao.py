@@ -17,20 +17,20 @@ NAR = os.path.join(ROOT, "narracao")
 ORIG = [(0.0, 6.0), (6.0, 12.5), (12.5, 20.0), (20.0, 27.0), (27.0, 35.0), (35.0, 43.0),
         (43.0, 51.0), (51.0, 58.5), (58.5, 66.0)]
 FALAS_POR_CENA = [[1], [2], [3], [4], [5], [6], [7], [8], [9]]
-LEAD, GAP, TAIL = 0.3, 0.45, 0.6
+LEAD, GAP, TAIL = 0.2, 0.4, 0.35
 MIN_FRAC = 0.7  # cena nunca encolhe abaixo de 70% do original (animações respiram)
-CTA_HOLD = 3.6  # tempo do logo na tela depois da última fala (garante mais de 1 minuto)
+CTA_HOLD = 2.4  # tempo do logo na tela depois da última fala (garante mais de 1 minuto)
 
-TEXTO = {
-    1: 'Já pensou construir uma das sete maravilhas do mundo... em só vinte e cinco minutos?',
-    2: 'Esse é o 7 Wonders Arquitetos! Cada jogador é o arquiteto de uma maravilha, e no final vence quem tiver mais pontos.',
-    3: 'Na sua vez, você pega só uma carta: do monte da esquerda, do monte da direita... ou arrisca no monte do meio, sem ver.',
-    4: 'As cartas cinzas são materiais: pedra, madeira, tijolo, papiro e vidro. E o ouro vale como qualquer um deles.',
-    5: 'Juntou os materiais que a maravilha pede? Constrói uma etapa! Cada etapa dá pontos, e algumas ainda dão um poder especial.',
-    6: 'As vermelhas são escudos. Quando aparece a corneta, uma ficha vira... e quando todas viram, é guerra! Quem tem mais escudos que o vizinho ganha pontos.',
-    7: 'As verdes são ciência e dão fichas de progresso. As azuis dão pontos direto, e algumas trazem o gato, que espia o monte do meio.',
-    8: 'Quando alguém termina a maravilha, o jogo acaba e vence quem tiver mais pontos. E aí, qual maravilha você construiria? Comenta aqui!',
-    9: 'Junta a galera, de 2 a 7 jogadores, e aluga o 7 Wonders Arquitetos na Sua Vez. O link tá na bio!',
+TEXTO = {  # o que ele FALOU na gravação (out/2026), não o roteiro
+    1: 'Já pensou em construir uma das 7 maravilhas do mundo em só 25 minutos?',
+    2: 'Esse é o 7 Wonders Arquitetos. Cada jogador é o arquiteto de uma maravilha, e no final vence quem tiver mais pontos.',
+    3: 'Na sua vez você pega só uma carta: pode ser do monte da esquerda, do monte da direita... ou arrisca no monte do meio, mas sem ver a carta.',
+    4: 'As cartas cinzas são materiais: pedra, madeira, tijolo, papiro e vidro. E o ouro vale como qualquer um deles, é o coringa.',
+    5: 'Conseguiu juntar os materiais que a maravilha pede? Ótimo, constrói uma etapa! Cada etapa dá pontos, e algumas ainda dão um poder especial.',
+    6: 'As cartas vermelhas são escudos. E quando aparece uma corneta, uma das fichas vira... e quando todas viram, é guerra! Quem tem mais escudos que o vizinho ganha pontos.',
+    7: 'Já as cartas verdes são ciência e dão fichas de progresso. E as azuis dão pontos direto, e algumas trazem o gato, que espia o monte do meio.',
+    8: 'Quando alguém finalmente termina uma maravilha, o jogo acaba e vence quem tiver mais pontos. E aí, qual maravilha você construiria? Comenta aqui!',
+    9: 'Um jogo que funciona pra casal e até 7 jogadores. Aluga o 7 Wonders Arquitetos na Sua Vez. O link tá na bio!',
 }
 
 

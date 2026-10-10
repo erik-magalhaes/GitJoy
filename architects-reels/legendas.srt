@@ -1,144 +1,120 @@
 1
-00:00:00,300 --> 00:00:02,133
-Já pensou construir uma das sete maravilhas
+00:00:00,200 --> 00:00:02,180
+Já pensou em construir uma das 7 maravilhas
 
 2
-00:00:02,133 --> 00:00:03,967
-do mundo...
+00:00:02,180 --> 00:00:03,950
+do mundo em só 25 minutos?
 
 3
-00:00:03,967 --> 00:00:05,800
-em só vinte e cinco minutos?
+00:00:04,760 --> 00:00:07,130
+Esse é o 7 Wonders Arquitetos.
 
 4
-00:00:06,300 --> 00:00:08,300
-Esse é o 7 Wonders Arquitetos!
-
-5
-00:00:08,300 --> 00:00:10,300
+00:00:07,300 --> 00:00:09,340
 Cada jogador é o arquiteto de uma maravilha,
 
-6
-00:00:10,300 --> 00:00:12,300
+5
+00:00:09,340 --> 00:00:10,930
 e no final vence quem tiver mais pontos.
 
+6
+00:00:11,720 --> 00:00:13,850
+Na sua vez você pega só uma carta:
+
 7
-00:00:12,800 --> 00:00:15,133
-Na sua vez, você pega só uma carta:
+00:00:13,880 --> 00:00:15,700
+pode ser do monte da esquerda, do monte da
 
 8
-00:00:15,133 --> 00:00:17,467
-do monte da esquerda, do monte da direita...
+00:00:15,700 --> 00:00:17,700
+direita... ou arrisca no monte do meio, mas
 
 9
-00:00:17,467 --> 00:00:19,800
-ou arrisca no monte do meio, sem ver.
+00:00:17,700 --> 00:00:18,450
+sem ver a carta.
 
 10
-00:00:20,300 --> 00:00:22,467
+00:00:19,180 --> 00:00:21,200
 As cartas cinzas são materiais:
 
 11
-00:00:22,467 --> 00:00:24,633
+00:00:21,200 --> 00:00:23,790
 pedra, madeira, tijolo, papiro e vidro.
 
 12
-00:00:24,633 --> 00:00:26,800
-E o ouro vale como qualquer um deles.
+00:00:23,900 --> 00:00:26,510
+E o ouro vale como qualquer um deles, é o coringa.
 
 13
-00:00:27,300 --> 00:00:28,800
-Juntou os materiais que a maravilha
+00:00:27,140 --> 00:00:29,380
+Conseguiu juntar os materiais que a maravilha
 
 14
-00:00:28,800 --> 00:00:30,300
-pede?
+00:00:29,380 --> 00:00:31,190
+pede? Ótimo, constrói uma etapa!
 
 15
-00:00:30,300 --> 00:00:31,800
-Constrói uma etapa!
+00:00:31,300 --> 00:00:33,220
+Cada etapa dá pontos, e algumas ainda dão
 
 16
-00:00:31,800 --> 00:00:33,300
-Cada etapa dá pontos, e algumas ainda
+00:00:33,220 --> 00:00:34,070
+um poder especial.
 
 17
-00:00:33,300 --> 00:00:34,800
-dão um poder especial.
+00:00:34,730 --> 00:00:36,660
+As cartas vermelhas são escudos.
 
 18
-00:00:35,300 --> 00:00:36,550
-As vermelhas são escudos.
+00:00:36,710 --> 00:00:38,930
+E quando aparece uma corneta, uma das fichas
 
 19
-00:00:36,550 --> 00:00:37,800
-Quando aparece a corneta, uma ficha
+00:00:38,930 --> 00:00:41,460
+vira... e quando todas viram, é guerra!
 
 20
-00:00:37,800 --> 00:00:39,050
-vira...
+00:00:41,790 --> 00:00:44,000
+Quem tem mais escudos que o vizinho ganha pontos.
 
 21
-00:00:39,050 --> 00:00:40,300
-e quando todas viram, é guerra!
+00:00:44,760 --> 00:00:47,500
+Já as cartas verdes são ciência e dão fichas
 
 22
-00:00:40,300 --> 00:00:41,550
-Quem tem mais escudos que o vizinho
+00:00:47,500 --> 00:00:50,300
+de progresso. E as azuis dão pontos direto,
 
 23
-00:00:41,550 --> 00:00:42,800
-ganha pontos.
+00:00:50,300 --> 00:00:53,030
+e algumas trazem o gato, que espia o monte do meio.
 
 24
-00:00:43,300 --> 00:00:44,800
-As verdes são ciência e dão fichas de
+00:00:53,690 --> 00:00:55,870
+Quando alguém finalmente termina uma maravilha,
 
 25
-00:00:44,800 --> 00:00:46,300
-progresso.
+00:00:55,870 --> 00:00:57,940
+o jogo acaba e vence quem tiver mais pontos.
 
 26
-00:00:46,300 --> 00:00:47,800
-As azuis dão pontos direto, e algumas
-
-27
-00:00:47,800 --> 00:00:49,300
-trazem o gato, que espia o monte do
-
-28
-00:00:49,300 --> 00:00:50,800
-meio.
-
-29
-00:00:51,300 --> 00:00:53,050
-Quando alguém termina a maravilha, o
-
-30
-00:00:53,050 --> 00:00:54,800
-jogo acaba e vence quem tiver mais pontos.
-
-31
-00:00:54,800 --> 00:00:56,550
+00:00:58,150 --> 00:01:00,100
 E aí, qual maravilha você construiria?
 
-32
-00:00:56,550 --> 00:00:58,300
+27
+00:01:00,190 --> 00:01:00,880
 Comenta aqui!
 
-33
-00:00:58,800 --> 00:01:00,550
-Junta a galera, de 2 a 7 jogadores,
+28
+00:01:01,530 --> 00:01:04,340
+Um jogo que funciona pra casal e até 7 jogadores.
 
-34
-00:01:00,550 --> 00:01:02,300
-e aluga o 7 Wonders Arquitetos na Sua
+29
+00:01:04,490 --> 00:01:06,580
+Aluga o 7 Wonders Arquitetos na Sua Vez.
 
-35
-00:01:02,300 --> 00:01:04,050
-Vez.
-
-36
-00:01:04,050 --> 00:01:05,800
+30
+00:01:06,710 --> 00:01:07,480
 O link tá na bio!
 

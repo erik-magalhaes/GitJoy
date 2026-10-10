@@ -15,7 +15,7 @@ tudo antes de começar um vídeo novo: aqui está o que funcionou, o que não fu
   - Entregues e aprovados: vídeo do Dia das Crianças v2 (`gravados-reels/criancas2.py`), cartão do evento 9x9
     (`promo/cartao_evento.py`), carrossel do feed "jogos modernos" (`hobby-reels/carrossel.py`, 8 telas 1080x1350;
     na tela 4 o Go Cuckoo foi trocado pelo Gravity porque ele achou a foto "amassada").
-  - **Esperando narração dele:** 7 Wonders Arquitetos (link mandado de novo em 10/out), Final Girl e 7 tipos de jogador
+  - **Esperando narração dele:** Final Girl e 7 tipos de jogador
     (links nas seções abaixo).
   - **Esperando gravação dele:** vídeo da trend "5, 4, 3, 2, 1" de jogos de tabuleiro (roteiro mandado: 5 pra quem
     nunca jogou, 4 que destroem amizades, 3 pra dois, 2 que nunca cansa, 1 que todo mundo precisa jogar; ~30–45 s,
@@ -86,7 +86,7 @@ tudo antes de começar um vídeo novo: aqui está o que funcionou, o que não fu
 | `voodoo-reels/` | Vudú | **Stop motion** de fotos reais recortadas, 12 poses/s com tremidinho, mesa escura e textos em adesivo branco (LuckiestGuy) | Aprovado, 1:06 |
 | `sintonia-reels/` | Sintonia | **Motion graphics vetorial**, com os balões "CLARO!" na hora da discussão | Aprovado, 1:03 |
 | `mlem-reels/` (`gibi.py`) | MLEM: Agência Espacial | **Gibi**: página de quadrinhos em que a câmera dá zoom num quadro por vez e o foguete atravessa os quadros com fumaça | Aprovado, 1:06 |
-| `architects-reels/` (`stopmo.py`) | 7 Wonders Arquitetos | **Stop motion** com as peças oficiais sobre **papel quadriculado** (tema "prancheta"), com textos em fita crepe escritos à mão | Prévia aprovada; falta a narração |
+| `architects-reels/` (`stopmo.py`) | 7 Wonders Arquitetos | **Stop motion** com as peças oficiais sobre **papel quadriculado** (tema "prancheta"), com textos em fita crepe escritos à mão | **Narrado e entregue** (69,9 s, com e sem legenda) |
 | `hobby-reels/` (`ludoteca.py`) | Institucional: o que são jogos modernos + preço loja × aluguel + prazo progressivo | **Estante da ludoteca** (opção 1): caixas do acervo em prateleiras de madeira, caixas saindo em stop motion, etiquetas kraft e de preço | **Narrado e entregue** (1:08, com e sem legenda) |
 | `quiz-reels/` (`relampago.py`) | Quiz "Que jogo é esse?" (5 caixas do acervo) | **Zoom relâmpago** (opção 3 de `conceitos.py`): detalhe da arte em TELA CHEIA, anel de contagem 3 s, abre rápido para a caixa inteira sobre a própria arte desfocada; 25 s, sem narração. A versão com lupa (`zoom.py`, 1:05) foi REJEITADA: "feio, dinâmica ruim, longo" | Mandado (para_musica + com_trilha) |
 | `byebye-reels/` (`curto.py`) | Trend "bye, bye, Miss American Pie": Banco Imobiliário → jogos modernos | **Vídeo curto (12 s, sem som)**: Banco Imobiliário aberto na mesa de madeira, com cor lavada, passando; no "tchan" (3,0 s) flash e vira para o Hot Streak (foto oficial) e o Ticket to Ride: Lendas do Oeste, e fecha com a Sua Vez. A versão longa com polaroides (`byebye.py`) foi REJEITADA ("ficou horrível") | Mandado |
@@ -146,7 +146,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
 
 ## Pendências
 
-- **7 Wonders Arquitetos:** esperando os 9 áudios (`arq_narracao_01..09`). Gravador:
+- **7 Wonders Arquitetos:** **narração recebida (10/out/2026)**: de novo os 9 .webm vieram SEM nome e na ordem INVERTIDA, e
+  as falas 6 (vermelhas) e 7 (verdes) vieram gravadas trocadas; encaixei pela cena (cena 6 = guerra). A fala dele somou 81 s
+  de vídeo: pausas internas ≤0,3 s (`encurta_pausas`), voz 1,10x (`atempo` antes da cadeia), LEAD/GAP/TAIL 0,2/0,4/0,35 e
+  CTA_HOLD 2,4 → 69,9 s. A fala 9 virou "Um jogo que funciona pra casal e até 7 jogadores. Aluga o 7 Wonders Arquitetos...".
+  Antes era: esperando os 9 áudios (`arq_narracao_01..09`). Gravador:
   `https://raw.githack.com/erik-magalhaes/GitJoy/6a9efbbc00e888124e30d4c5bd710ad1c6dd2bf6/architects-reels/gravador/Gravar_narracao_Arquitetos.html`.
   Ao receber: copie os áudios para `architects-reels/narracao/raw/`, trate (`tratar_narracao.py`), revise o `TEXTO` em
   `narracao.py`, rode `python3 narracao.py` e depois `python3 stopmo.py`, suba o volume e mande as duas versões.
