@@ -125,12 +125,12 @@ def s3():
 def s4():
     img = fundo(0.35)
     cola(img, titulo("E TEM JOGO PRA\nCASAL E ATÉ SOLO", 96, WHITE, ORANGE_D), 540, 240, -2)
-    itens = [("cuckoo", "FAMÍLIA", "a partir de 5 anos", "coracao", ORANGE),
+    itens = [("gravity", "FAMÍLIA", "a partir de 7 anos", "coracao", ORANGE),  # Go Cuckoo saiu (ele achou amassado)
              ("draft", "PRA DOIS", "perfeito pro casal", "todos", BLUE),
              ("finalgirl", "SOLO", "pra jogar sozinho", "pessoa", GREEN)]
     for k, (n, tag, sub, ic, cor) in enumerate(itens):
         x = 190 + k * 350
-        cola(img, caixa(n, 330 if n != "cuckoo" else 380), x, 760)
+        cola(img, caixa(n, 330), x, 760)
         cola(img, icone(ic, 48, cor), x, 1040)
         d = ImageDraw.Draw(img)
         d.text((x, 1125), tag, font=font(POPB, 46), fill=WHITE, anchor="mm", stroke_width=5, stroke_fill=NAVY)
