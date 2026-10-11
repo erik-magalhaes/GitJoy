@@ -353,4 +353,14 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Ticket to Ride — já com a arte nova —, Dixit, Jaipur, The Resistance, Marvel United, Hitster). Flip 7 BR é da Grok
   (`loja.grokgames.com.br/flip-7`, CDN awsli 2500x2500). King of Tokyo (Devir), Coup (Funbox) e Trio (PaperGames) vieram
   do Compara Jogos. boop. não tem edição BR: a da loja é a original. Recortes: `recortes_lista.py` → `assets/lista/`.
+- **"Quando tem novata na loja:" (`gravados-reels/novata.py`, 11/out/2026):** trend da referência que ele mandou
+  (`brutos/perguntas/ref/`, fora do git): pergunta → chicote de câmera → o "culpado" rindo. A novata (com a Lila no colo)
+  pergunta "Eric, quem mandou a novata...?" e corta pro **Eric** rindo. Pares que ELE definiu: Bananagrams (090602) →
+  Eric na prateleira (090022); Uno (090724, 2ª tentativa, com chicote real no fim) → Eric em pé na mesa (090102);
+  tapetes de Marrakech (091548, 2ª tentativa) → Eric andando no corredor com caixas (090212); Coffee Rush (091719) →
+  Eric sentado (090311). Gravaram em takes separados (só eles dois): a transição é um chicote digital (borrão horizontal
+  + deslocamento espelhado, 6 quadros de cada lado), e onde há chicote real o corte cai no meio do borrão. Texto fixo
+  "Quando tem novata na loja:" no alto, legenda só nas perguntas, tela final com as 4 caixas (Bananagrams e Coffee Rush
+  da Galápagos, Marrakech da **Grok** (edição BR), Uno da Mattel pela Ri Happy, VTEX
+  `rihappy.com.br/api/catalog_system/pub/products/search?ft=...`, imagem `ids/<id>-1500-1500/`). 25 s, −15,4 LUFS.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
