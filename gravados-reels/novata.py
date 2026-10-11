@@ -44,9 +44,9 @@ PLANOS = [
     ("20261011_090724", 23.84, 27.40, "Q", "Eric, quem mandou a novata procurar o tabuleiro do Uno?", 26.97),
     ("20261011_090102", 0.85, 3.10, "E", None, None),
     ("20261011_091548", 22.36, 25.30, "Q", "Eric, quem mandou a novata varrer os tapetes de Marrakech?", 25.00),
-    ("20261011_090212", 0.75, 2.95, "E", None, None),
+    ("20261011_090212", 0.75, 3.45, "E", None, None),
     ("20261011_091719", 1.77, 4.95, "Q", "Eric, quem mandou a novata moer os grãos do Coffee Rush?", 4.62),
-    ("20261011_090311", 0.85, 2.80, "E", None, None),
+    ("20261011_090311", 0.85, 3.90, "E", None, None),
 ]
 FIM = 3.2  # tela final
 WHIP = 6   # quadros de borrão em cada lado do corte
