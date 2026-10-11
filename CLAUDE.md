@@ -13,7 +13,7 @@ tudo antes de começar um vídeo novo: aqui está o que funcionou, o que não fu
   Google Drive em claude.ai → Configurações → Conectores, dá para subir direto.
 - **Estado em 10/out/2026:**
   - Entregues e aprovados: vídeo do Dia das Crianças v2 (`gravados-reels/criancas2.py`), cartão do evento 9x9
-    (`promo/cartao_evento.py`), carrossel do feed "jogos modernos" (`hobby-reels/carrossel.py`, 8 telas 1080x1350;
+    (`promo/cartao_evento.py`), carrossel do feed "jogos modernos" (`hobby-reels/carrossel.py`, 8 telas 1080x1350; versão QUADRADA 1080x1080 que ele pediu para o feed em `carrossel_quadrado.py`, mesmas telas reposicionadas;
     na tela 4 o Go Cuckoo foi trocado pelo Gravity porque ele achou a foto "amassada").
   - **Esperando narração dele:** Final Girl e 7 tipos de jogador
     (links nas seções abaixo).
