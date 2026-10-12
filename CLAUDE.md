@@ -363,4 +363,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   "Quando tem novata na loja:" no alto, legenda só nas perguntas, tela final com as 4 caixas (Bananagrams e Coffee Rush
   da Galápagos, Marrakech da **Grok** (edição BR), Uno da Mattel pela Ri Happy, VTEX
   `rihappy.com.br/api/catalog_system/pub/products/search?ft=...`, imagem `ids/<id>-1500-1500/`). 27 s, −15,4 LUFS.
+- **"Monte sua noite de jogos — TIRA PRINT!" (`roleta-reels/`, 12/out/2026):** ideia 3 da lista de conteúdos sem gravar,
+  que ele escolheu. As caixas trocam rápido em 3 casas (PRA AQUECER / O JOGÃO / PRA FECHAR); cada um dá print e cai
+  numa noite diferente ("a minha deu..."); fecha com "aluga os seus 3 = 7 dias". Só caixas OFICIAIS que estão no acervo
+  (lista `CAIXAS` em `conceitos.py`, 24 jogos). 3 visuais mandados para ele escolher (`conceitos.py` → out/conceitos.jpg):
+  1 caça-níquel neon, 2 roda da sorte, 3 cartas na mesa de feltro. Esperando a escolha.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
