@@ -388,7 +388,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   "3 JOGOS = 7 DIAS · LINK NA BIO" na tela durante o giro, sem tela final; toda animação com período que fecha em DUR
   (quadro DUR·FPS idêntico ao quadro 0, conferido). **Regra para trend/print: curto e em loop.** **4ª rodada:** ele pediu para TIRAR as cartas virando
   ("ficar só uma coisa, infinita, sem parecer que tá abrindo e fechando"): cartas sempre abertas, PERIODO [4,3,6] e DUR =
-  168 quadros (5,6 s), múltiplo do ciclo de cada carta (28/24/42), então o loop emenda sem pulo; só o tiquetaque no som.
+  168 quadros (5,6 s), múltiplo do ciclo de cada carta (28/24/42), então o loop emenda sem pulo; só o tiquetaque no som. Depois ele notou o
+  **fade out da música** no fim: `mistica()` virou trilha em loop (sem fade, frequências com ciclos inteiros em DUR,
+  arpejo de passo DUR/18 com o rabo das notas somado no começo) e `som.build(..., DUR + 1e-9, ...)` para não perder a última
+  amostra. **Vídeo em loop = imagem E som emendando** (conferir o último e o primeiro quadro e a amostra final × inicial).
 - **Conteúdo SEM GRAVAR (12/out/2026)** — ele aprovou da minha lista: 3 (roleta "tira print", esperando ele escolher o
   visual), 6, 7, 8, 9 e 11. **Dados reais do site** em `comum/dados/acervo_site.json` (161 jogos: preço por 5 dias,
   jogadores, tempo, peso; raspado de `/boardgames?page=N`) e **menor preço de loja** em `comum/dados/precos_loja.json`

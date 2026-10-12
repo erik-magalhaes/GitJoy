@@ -67,22 +67,25 @@ def fx_tique():
 
 
 def mistica(dur):
-    n = int(dur * SR)
-    out = np.zeros(n)
-    t = t_(dur)
-    pad = sum(np.sin(2 * np.pi * f * t + 0.2 * np.sin(2 * np.pi * 0.3 * t)) for f in (110, 164.8, 220, 246.9))
-    out += lp(pad, 900) * 0.18 * (0.8 + 0.2 * np.sin(2 * np.pi * t / 6))
+    """Trilha mística em LOOP perfeito (ele: "pela música dá pra ver que tá acabando, tem fade out"): sem fade; cada
+    frequência e o vibrato fecham número inteiro de ciclos em dur; o arpejo tem passo dur/18 (6 notas × 3 voltas) e o
+    rabo das notas que passa do fim volta para o começo (soma circular)."""
+    n = int(round(dur * SR))
+    t = np.arange(n) / SR
+    cic = lambda f: round(f * dur) / dur  # noqa: E731  (frequência com ciclos inteiros no loop)
+    pad = sum(np.sin(2 * np.pi * cic(f) * t + 0.2 * np.sin(2 * np.pi * cic(0.3) * t)) for f in (110, 164.8, 220, 246.9))
+    pad = lp(np.tile(pad, 3), 900)[n:2 * n]  # filtra o sinal periódico sem o transiente do começo
+    out = pad * 0.18 * (0.8 + 0.2 * np.sin(2 * np.pi * t / dur))
     arp = [440, 523.3, 659.3, 783.99, 659.3, 523.3]
-    k, tt = 0, 0.2
-    while tt < dur - 0.5:
+    passo = dur / 18
+    longo = np.zeros(n + int(1.0 * SR))
+    for k in range(18):
         d = 0.9
         tp = t_(d)
         f = arp[k % len(arp)]
-        add(out, (np.sin(2 * np.pi * f * tp) + 0.25 * np.sin(4 * np.pi * f * tp)) * env(d, 0.35), tt, 0.12)
-        tt += 0.3
-        k += 1
-    m = int(1.0 * SR)
-    out[-m:] *= np.linspace(1, 0, m)
+        add(longo, (np.sin(2 * np.pi * f * tp) + 0.25 * np.sin(4 * np.pi * f * tp)) * env(d, 0.35), k * passo, 0.12)
+    out += longo[:n]
+    out[:len(longo) - n] += longo[n:]
     return out
 
 
@@ -237,7 +240,7 @@ def main():
     n = int(DUR * FPS)
     for nome, musica in (("com_trilha", "mistica"), ("para_musica", None)):
         wav = os.path.join(OUT, f"taro_{nome}.wav")
-        som.build(wav, DUR, cues(), musica=musica, fx_ganho=0.5, musica_ganho=0.3)
+        som.build(wav, DUR + 1e-9, cues(), musica=musica, fx_ganho=0.5, musica_ganho=0.3)  # +1e-9: amostra exata do loop
         encode(os.path.join(OUT, f"taro_{nome}.mp4"), render_frame, list(range(n)), wav)
 
 
