@@ -390,7 +390,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
     Morgue (imagem oficial pequena) e Deep Regrets (só achei a capa em inglês). `_com_trilha` e `_para_musica`.
   - **7 "Quanto custa comprar tudo isso?"** (`custo-reels/custo.py`, 29 s): CUPOM FISCAL imprimindo; 7 jogos de R$ 30
     (Hot Streak, Ticket to Ride, Coffee Rush, Harmonies, Splendor Duel, Dixit, Marrakech) = R$ 1.616,82 nas lojas ×
-    R$ 210 na Sua Vez por 15 dias (prazo progressivo), economia R$ 1.406,82.
+    R$ 210 na Sua Vez por 15 dias (prazo progressivo), economia R$ 1.406,82. **Ele PEDIU voz de "locutor de mercado"** (aqui
+    voz sintetizada vale, foi pedido dele): amostras em `custo-reels/voz/` (fora do git) com edge-tts Antonio +20–28%,
+    pausas cortadas (silenceremove) e 2 mixagens: A alto-falante de mercado (dim-dom, banda 380–3600 Hz, eco, ruído de loja)
+    e B locutor de rádio de ofertas (voz limpa + trilha gameshow). A voz lê mal nomes em inglês: escrever fonético.
+  - Halloween: ele achou "extenso, não ficou muito legal" e não entendeu se era para narrar (era vídeo de trend, só texto).
   - **Carrosséis 1080x1080** (`feed-posts/carrosseis.py`, visual creme + círculo colorido, cores do site): "O jogo certo
     pra cada rolê" (8 telas), "Curte esse clássico?" (7: UNO→Flip 7 A Vingança, Scrabble→Bananagrams, Imagem &
     Ação→Dixit, Detetive→MicroMacro Full House, Jogo da Velha→boop.; Root saiu porque a da loja é a edição em inglês) e
