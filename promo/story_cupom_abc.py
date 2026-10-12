@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Story do cupom do ABC: quem mora no ABC tem 5% de desconto na locação com o cupom JOGABC5 (pedido dele, 12/out).
+"""Story do cupom do ABC: quem mora no ABC tem 5% de desconto na locação com o cupom JOGAABC5 (pedido dele, 12/out).
 Visual da loja (o das promoções: creme com listras laranja, cartão do logo, Poppins azul-marinho, laranja/verde/azul).
 Deixa um espaço LIVRE (y ~1330–1560) para ele colar o adesivo de link do Instagram, com uma seta apontando.
 
@@ -13,7 +13,7 @@ from promo_3jogos import ORANGE, ORANGE_D, NAVY, GREEN, BLUE, WHITE, BLACK, XB, 
     shadowed, text_c
 
 W, H = 1080, 1920
-CUPOM = "JOGABC5"
+CUPOM = "JOGAABC5"  # "Joga ABC 5" (como o JOGAMAUA5 = "Joga Mauá 5")
 
 
 def ticket(w, h):
@@ -31,7 +31,10 @@ def ticket(w, h):
         d.line((x, h - m, x + 22, h - m), fill=ORANGE, width=5)
         x += 38
     text_c(d, (w / 2, 78), "USE O CUPOM", f(XB, 38), NAVY)
-    text_c(d, (w / 2, h / 2 + 4), CUPOM, f(BLACK, 124), ORANGE_D)
+    s = 124
+    while d.textlength(CUPOM, font=f(BLACK, s)) > w - 150:  # cabe entre os recortes do ticket
+        s -= 4
+    text_c(d, (w / 2, h / 2 + 4), CUPOM, f(BLACK, s), ORANGE_D)
     text_c(d, (w / 2, h - 70), "no carrinho do site", f(SB, 34), NAVY)
     return im
 

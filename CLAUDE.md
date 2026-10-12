@@ -450,7 +450,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   (2) nunca desenhar meeple/peça à mão; (3) data comemorativa = FELICITAÇÃO, sem divulgar jogos (só um empurrão discreto
   pro site). v3: balões e confete nas cores da marca, "FELIZ DIA DAS / CRIANÇAS!" (faixa laranja), "Pra criança que tem
   em casa e pra que mora dentro da gente. / Hoje o dia é de brincar junto!", 4 dados geométricos e o site numa pílula.
-- **Cupons:** JOGAMAUA5 (evento Joga Mauá, 5% na locação) e **JOGABC5 = 5% de desconto para quem mora no ABC**
-  (12/out). Story `promo/story_cupom_abc.py`: visual da loja, "MORA NO ABC? / 5% OFF / na locação dos seus jogos!",
+- **Cupons:** JOGAMAUA5 (evento Joga Mauá, 5% na locação) e **JOGAABC5 = 5% de desconto para quem mora no ABC** ("Joga ABC 5";
+  eu tinha escrito JOGABC5 e ele corrigiu) (12/out). Story `promo/story_cupom_abc.py`: visual da loja, "MORA NO ABC? / 5% OFF / na locação dos seus jogos!",
   ticket com o cupom, "Reserve pelo link:" + seta e espaço livre (y ~1510–1610) para o adesivo de link do Instagram.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
