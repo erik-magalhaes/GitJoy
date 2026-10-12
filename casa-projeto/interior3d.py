@@ -163,22 +163,22 @@ def paredes():
     parede(7.5, 22.0, 18.5, 22.0, EXT, [(8.0, 12.8, "vidro"), (13.8, 17.8, "vidro")], fora=1)
     parede(1.5, 5.0, 1.5, 17.0, EXT, [(7.0, 9.0, "alta"), (10.8, 11.7, "porta"), (13.6, 15.9, "janela")], fora=-1)
     # internas: serviço
-    parede(7.5, 5.0, 7.5, 22.0, INT, [(7.6, 8.4, "porta"), (11.8, 12.5, "porta"),
+    parede(7.5, 5.0, 7.5, 22.0, INT, [(11.8, 12.5, "porta"),
                                       (14.1, 16.9, "vao"), (17.4, 21.6, "vidro")])
     parede(1.5, 10.5, 7.5, 10.5, INT, [(4.6, 5.4, "porta")])
     parede(5.6, 10.5, 5.6, 13.0, INT)
     parede(1.5, 13.0, 7.5, 13.0, INT, [(4.6, 5.4, "porta")])
     parede(1.5, 17.0, 7.5, 17.0, INT, [(4.0, 7.0, "passa")])
     # social: galeria, sala de jogos
-    parede(7.5, 8.5, 14.5, 8.5, INT, [(7.6, 8.9, "vao"), (9.2, 13.1, "vidrofixo"), (13.35, 14.45, "vao")])
-    parede(9.0, 8.5, 9.0, 14.0, INT, [(9.6, 13.4, "vidro")])
+    parede(7.5, 9.0, 18.5, 9.0, INT, [(7.6, 8.9, "vao"), (9.2, 13.1, "vidrofixo"), (13.35, 14.45, "vao")])
+    parede(9.0, 9.0, 9.0, 14.0, INT, [(10.0, 13.4, "vidro")])
     parede(9.0, 14.0, 13.3, 14.0, INT)
     # íntima
-    parede(13.3, 8.5, 13.3, 22.0, INT)
-    parede(14.5, 5.0, 14.5, 17.5, INT, [(6.0, 6.9, "porta"), (8.8, 9.5, "porta"), (11.0, 11.8, "porta")])
-    parede(14.5, 10.7, 18.5, 10.7, INT)
-    parede(14.5, 14.3, 18.5, 14.3, INT)
-    parede(16.2, 14.3, 16.2, 17.5, INT)
+    parede(13.3, 9.0, 13.3, 22.0, INT)
+    parede(14.5, 5.0, 14.5, 17.5, INT, [(7.9, 8.8, "porta"), (9.3, 10.0, "porta"), (11.3, 12.1, "porta")])
+    parede(14.5, 11.0, 18.5, 11.0, INT)
+    parede(14.5, 14.4, 18.5, 14.4, INT)
+    parede(16.2, 14.4, 16.2, 17.5, INT)
     parede(13.3, 17.5, 18.5, 17.5, INT, [(13.4, 14.25, "porta"), (15.0, 15.75, "porta"), (16.4, 17.1, "porta")])
     # varanda gourmet: pilares
     for (x, y) in ((1.65, 21.85), (4.5, 21.85), (1.65, 19.4), (7.4, 21.85)):
@@ -190,10 +190,10 @@ def pisos():
     box(1.4, 18.6, 4.9, 22.1, 0, 0.3, M["pedra"], "embasamento")
     salas = [
         (1.5, 7.5, 5.0, 10.5, "cimento"), (1.5, 5.6, 10.5, 13.0, "piso_banho"), (5.6, 7.5, 10.5, 13.0, "piso_banho"),
-        (1.5, 7.5, 13.0, 17.0, "piso_social"), (1.5, 7.5, 17.0, 22.0, "porcelanato"), (7.5, 14.5, 5.0, 8.5, "piso_social"),
-        (7.5, 9.0, 8.5, 14.0, "piso_social"), (9.0, 13.3, 8.5, 14.0, "assoalho"), (7.5, 13.3, 14.0, 22.0, "piso_social"),
-        (14.5, 18.5, 5.0, 8.5, "assoalho"), (13.3, 14.5, 8.5, 17.5, "assoalho"), (14.5, 18.5, 8.5, 10.7, "piso_banho"),
-        (14.5, 18.5, 10.7, 14.3, "assoalho"), (14.5, 16.2, 14.3, 17.5, "assoalho"), (16.2, 18.5, 14.3, 17.5, "piso_banho"),
+        (1.5, 7.5, 13.0, 17.0, "piso_social"), (1.5, 7.5, 17.0, 22.0, "porcelanato"), (7.5, 14.5, 5.0, 9.0, "piso_social"),
+        (7.5, 9.0, 9.0, 14.0, "piso_social"), (9.0, 13.3, 9.0, 14.0, "assoalho"), (7.5, 13.3, 14.0, 22.0, "piso_social"),
+        (14.5, 18.5, 5.0, 9.0, "assoalho"), (13.3, 14.5, 9.0, 17.5, "assoalho"), (14.5, 18.5, 9.0, 11.0, "piso_banho"),
+        (14.5, 18.5, 11.0, 14.4, "assoalho"), (14.5, 16.2, 14.4, 17.5, "assoalho"), (16.2, 18.5, 14.4, 17.5, "piso_banho"),
         (13.3, 18.5, 17.5, 22.0, "assoalho"),
     ]
     for (x0, x1, y0, y1, m) in salas:
@@ -414,30 +414,32 @@ def moveis():
         cadeira(2.55, y, 3); cadeira(4.25, y, 1)
     cadeira(3.4, 18.25, 0); cadeira(3.4, 21.25, 2)
     sofa(5.6, 7.2, 19.0, 21.4, "x1", M["sofa2"])
-    # hall: vitrine de jogos, aparador, tapete, planta
-    estante_jogos(7.6, 8.0, 5.12, 7.5, "+x", 1.9, 5)
-    bf(12.6, 14.4, 5.12, 5.55, 0, 0.8, M["marcenaria"], "aparador", 0.01)
-    bf(9.0, 12.6, 5.9, 7.9, 0, 0.01, M["tapete2"], "tapete")
-    planta_vaso(14.15, 8.1)
+    # sala de estar (a porta da frente abre direto aqui): vitrine de jogos, sofá, poltronas
+    estante_jogos(7.6, 8.0, 5.12, 8.1, "+x", 1.9, 5)
+    bf(10.6, 14.2, 5.6, 8.6, 0, 0.01, M["tapete2"], "tapete")
+    sofa(11.0, 13.8, 5.15, 6.05, "y0")
+    bf(11.7, 13.1, 6.45, 7.15, 0.0, 0.4, M["marcenaria"], "centro", 0.02)
+    sofa(11.2, 11.95, 7.55, 8.3, "y1", M["sofa2"]); sofa(12.85, 13.6, 7.55, 8.3, "y1", M["sofa2"])
+    planta_vaso(14.15, 5.45)
     # galeria: estante de jogos
-    estante_jogos(7.57, 7.92, 8.62, 11.7, "+x", 1.9, 5)
+    estante_jogos(7.57, 7.92, 9.12, 11.7, "+x", 1.9, 5)
     estante_jogos(7.57, 7.92, 12.6, 13.9, "+x", 1.9, 5)
     # sala de jogos: estantes em L, mesa com feltro, 6 cadeiras, jogo montado
     estante_jogos(9.08, 13.22, 13.52, 13.93, "-y", 1.9, 5)
-    estante_jogos(12.82, 13.23, 8.58, 13.5, "-x", 1.9, 5)
-    bf(9.4, 12.6, 9.4, 12.9, 0, 0.01, M["tapete"], "tapete")
-    mesa(9.9, 12.1, 10.5, 11.7, 0.76, M["marcenaria"])
-    bf(10.02, 11.98, 10.62, 11.58, 0.76, 0.77, M["feltro"], "feltro")
+    estante_jogos(12.82, 13.23, 9.08, 13.5, "-x", 1.9, 5)
+    bf(9.4, 12.6, 9.75, 13.25, 0, 0.01, M["tapete"], "tapete")
+    mesa(9.9, 12.1, 10.85, 12.05, 0.76, M["marcenaria"])
+    bf(10.02, 11.98, 10.97, 11.93, 0.76, 0.77, M["feltro"], "feltro")
     for x in (10.45, 11.55):
-        cadeira(x, 10.05, 0); cadeira(x, 12.15, 2)
-    cadeira(9.45, 11.1, 3); cadeira(12.55, 11.1, 1)
-    bf(10.6, 11.4, 10.8, 11.4, 0.77, 0.785, M["lencol"], "tabuleiro")
+        cadeira(x, 10.4, 0); cadeira(x, 12.5, 2)
+    cadeira(9.45, 11.45, 3); cadeira(12.55, 11.45, 1)
+    bf(10.6, 11.4, 11.15, 11.75, 0.77, 0.785, M["lencol"], "tabuleiro")
     for k in range(18):
-        x, y = random.uniform(10.15, 11.85), random.uniform(10.7, 11.5)
-        if 10.6 < x < 11.4 and 10.8 < y < 11.4:
+        x, y = random.uniform(10.15, 11.85), random.uniform(11.05, 11.85)
+        if 10.6 < x < 11.4 and 11.15 < y < 11.75:
             continue
         bf(x, x + 0.04, y, y + 0.04, 0.77, 0.81, random.choice(MAT_JOGOS[:8]), "peca")
-    for (x, y) in ((10.2, 10.7), (11.6, 11.3)):
+    for (x, y) in ((10.2, 11.05), (11.6, 11.65)):
         bf(x, x + 0.25, y, y + 0.18, 0.77, 0.8, random.choice(MAT_JOGOS), "cartas")
     # jantar (perto da cozinha) e estar (sofá virado para a TV, passagem livre até a varanda gourmet)
     mesa(9.4, 11.6, 15.0, 16.0, 0.76, M["marcenaria"])
@@ -458,30 +460,30 @@ def moveis():
     bf(16.15, 16.25, 5.22, 5.37, 0.75, 0.95, M["preto"], "suporte")
     cadeira(16.2, 6.3, 2, M["preto"])
     sofa(17.6, 18.4, 5.6, 8.3, "x1", M["sofa"])
-    estante_jogos(14.62, 16.7, 8.0, 8.42, "-y", 1.9, 4)
+    estante_jogos(15.2, 17.2, 8.5, 8.92, "-y", 1.9, 4)
     bf(14.9, 17.4, 6.6, 7.8, 0, 0.01, M["tapete2"], "tapete")
     # banho social
-    bancada_pia(15.6, 17.1, 8.56, 9.06, 2)
-    vaso_sanitario(18.1, 9.0, 1)
-    box_chuveiro(17.0, 18.42, 9.5, 10.62, [(16.97, 17.0, 9.5, 10.62)])
+    bancada_pia(15.6, 17.1, 9.06, 9.56, 2)
+    vaso_sanitario(18.1, 9.5, 1)
+    box_chuveiro(17.0, 18.42, 9.9, 10.92, [(16.97, 17.0, 9.9, 10.92)])
     # quarto da filha
-    cama(17.35, 18.4, 11.3, 13.3, "x1", M["rosa"], 1)
-    bf(14.7, 16.9, 13.7, 14.22, 0, 1.9, M["loucas"], "guarda_roupa", 0.01)
-    mesa(15.8, 17.2, 10.78, 11.35, 0.65, M["loucas"])
-    cadeira(16.5, 11.7, 2, M["lilas"])
-    cilindro(15.6, 12.4, F, F + 0.012, 0.6, M["rosa"], 40)
-    for (x, y, m) in ((15.4, 12.2, MAT_JOGOS[2]), (15.8, 12.6, MAT_JOGOS[1]), (15.7, 12.1, MAT_JOGOS[3])):
+    cama(17.35, 18.4, 11.8, 13.8, "x1", M["rosa"], 1)
+    bf(14.7, 16.9, 13.8, 14.32, 0, 1.9, M["loucas"], "guarda_roupa", 0.01)
+    mesa(15.8, 17.2, 11.08, 11.65, 0.65, M["loucas"])
+    cadeira(16.5, 12.0, 2, M["lilas"])
+    cilindro(15.6, 12.7, F, F + 0.012, 0.6, M["rosa"], 40)
+    for (x, y, m) in ((15.4, 12.5, MAT_JOGOS[2]), (15.8, 12.9, MAT_JOGOS[1]), (15.7, 12.4, MAT_JOGOS[3])):
         bf(x, x + 0.18, y, y + 0.18, 0.012, 0.19, m, "brinquedo", 0.02)
     # closet (entra pelo quarto)
     for (x0, x1, y1) in ((14.57, 15.0, 17.42), (15.75, 16.14, 16.6)):
-        bf(x0, x1, 14.38, y1, 0, 1.9, M["marcenaria"], "closet", 0.005)
-        for k in range(int((y1 - 14.5) / 0.17)):
-            y = 14.5 + k * 0.17
+        bf(x0, x1, 14.48, y1, 0, 1.9, M["marcenaria"], "closet", 0.005)
+        for k in range(int((y1 - 14.6) / 0.17)):
+            y = 14.6 + k * 0.17
             bf(x0 + 0.04, x1 - 0.04, y, y + 0.06, 1.0, 1.85,
                random.choice(MAT_JOGOS[:6] + [M["lencol"], M["sofa"]]), "roupa", 0.01)
     # banho suíte (entra pelo quarto)
-    bancada_pia(16.27, 16.75, 14.4, 15.9, 2)
-    box_chuveiro(17.3, 18.42, 14.38, 15.95, [(17.27, 17.3, 14.38, 15.95), (17.3, 18.42, 15.92, 15.95)])
+    bancada_pia(16.27, 16.75, 14.5, 16.0, 2)
+    box_chuveiro(17.3, 18.42, 14.48, 16.0, [(17.27, 17.3, 14.48, 16.0), (17.3, 18.42, 15.97, 16.0)])
     vaso_sanitario(18.1, 16.75, 1)
     # suíte do casal (porta direto do corredor)
     cama(16.4, 18.38, 18.7, 20.7, "x1", M["edredom"], 2)
@@ -495,9 +497,9 @@ def moveis():
 
 ROTULOS = [
     ("Garagem", 4.5, 9.6), ("Lavanderia", 2.8, 11.6), ("Lavabo", 6.6, 11.7), ("Cozinha", 4.6, 13.8),
-    ("Varanda gourmet", 4.5, 20.0), ("Hall", 10.8, 6.9), ("Galeria", 8.3, 12.2), ("Sala de jogos", 11.0, 12.5),
-    ("Jantar", 10.5, 15.5), ("Estar", 9.0, 19.8), ("Home office", 16.2, 7.0), ("Banho", 15.6, 10.0),
-    ("Quarto da filha", 15.8, 12.6), ("Closet", 15.35, 16.6), ("Banho suíte", 17.4, 16.7),
+    ("Varanda gourmet", 4.5, 20.0), ("Sala de estar", 9.6, 7.0), ("Galeria", 8.3, 12.2), ("Sala de jogos", 11.0, 12.9),
+    ("Jantar", 10.5, 15.5), ("Sala de TV", 9.4, 19.8), ("Home office", 16.2, 7.0), ("Banho", 15.6, 10.3),
+    ("Quarto da filha", 15.8, 12.9), ("Closet", 14.9, 15.6), ("Banho suíte", 17.6, 16.9),
     ("Suíte do casal", 15.2, 19.5), ("Deck", 13.0, 23.1), ("Brincar", 11.4, 27.2), ("Cachorro", 2.2, 26.6),
     ("Horta", 17.6, 27.2), ("Varanda", 10.0, 4.2),
 ]
