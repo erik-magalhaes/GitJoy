@@ -517,138 +517,137 @@ def respiro(F, u, z):
 
 # ----------------------------------------------------------------- a casa
 def casa():
+    """Planta v2: garagem | sala/jantar | ala íntima; gourmet nos fundos (cozinha + jantar); suíte no fundo direito."""
     # corpos de parede (lap siding)
     box(1.5, 7.5, 5.0, 13.6, 0, ZE, M["siding"], "ala_garagem")
-    box(12.5, 18.5, 5.0, 13.6, 0, ZE, M["siding"], "ala_office")
-    box(7.5, 12.5, 5.0, 9.0, 0, ZE, M["siding"], "hall")
-    box(7.5, 18.5, 8.5, 22.0, 0, ZE, M["siding"], "corpo")
-    box(1.5, 7.5, 8.5, 17.0, 0, ZE, M["siding"], "cozinha")
-    box(12.5, 18.5, 17.0, 22.0, 0, ZE, M["siding"], "suite")
+    box(13.0, 18.5, 5.0, 13.6, 0, ZE, M["siding"], "ala_office")
+    box(7.5, 13.0, 5.0, 9.0, 0, ZE, M["siding"], "sala")
+    box(7.5, 18.5, 8.5, 18.0, 0, ZE, M["siding"], "corpo")
+    box(1.5, 7.5, 8.5, 18.0, 0, ZE, M["siding"], "cozinha")
+    box(13.0, 18.5, 17.0, 22.0, 0, ZE, M["siding"], "suite")
+    box(1.5, 1.72, 18.0, 22.0, 0, ZE, M["siding"], "parede_churrasqueira")
 
-    # embasamento de pedra (0,9 m) na fachada da frente e nas laterais visíveis
+    # embasamento de pedra (só nas laterais do portão da garagem)
     box(1.45, 1.86, 4.94, 5.0, 0, 0.9, M["pedra"], "pedra")
     box(7.14, 7.55, 4.94, 5.0, 0, 0.9, M["pedra"], "pedra")
-    box(12.45, 18.55, 4.94, 5.0, 0, 0.9, M["pedra"], "pedra")
+    box(12.95, 18.55, 4.94, 5.0, 0, 0.9, M["pedra"], "pedra")
     box(1.44, 1.5, 4.94, 22.0, 0, 0.45, M["pedra"], "pedra")
     box(18.5, 18.56, 4.94, 22.06, 0, 0.45, M["pedra"], "pedra")
-    box(7.5, 18.56, 22.0, 22.06, 0, 0.45, M["pedra"], "pedra")
-    for (x0, x1, y0, y1) in ((1.42, 1.86, 4.92, 4.96), (7.14, 7.58, 4.92, 4.96), (12.42, 18.58, 4.92, 4.96)):
+    box(13.0, 18.56, 22.0, 22.06, 0, 0.45, M["pedra"], "pedra")
+    for (x0, x1, y0, y1) in ((1.42, 1.86, 4.92, 4.96), (7.14, 7.58, 4.92, 4.96), (12.92, 18.58, 4.92, 4.96)):
         box(x0, x1, y0, y1, 0.9, 0.96, M["branco"], "capa_pedra")
 
-    # telhados: corpo principal (cumeeira em x) + alas frontais e de fundo (cumeeira em y)
+    # telhados: corpo principal (cumeeira em x) + oitões da frente e dos fundos (cumeeira em y)
     telhado("x", 8.5, 22.0, 1.5, 18.5, ZE, T28, oe=0.5, og0=0.45, og1=0.45)
     volume_oitao("x", 8.5, 22.0, 1.5, 18.5, ZE, T28)
     telhado("y", 1.5, 7.5, 5.0, 13.6, ZE, T40, og0=0.45, og1=0.0, rake1=False)
     volume_oitao("y", 1.5, 7.5, 5.0, 13.6, ZE, T40)
-    telhado("y", 12.5, 18.5, 5.0, 13.6, ZE, T40, og0=0.45, og1=0.0, rake1=False)
-    volume_oitao("y", 12.5, 18.5, 5.0, 13.6, ZE, T40)
-    # entrada: oitão menor que avança sobre a varanda
-    telhado("y", 7.5, 12.5, 3.3, 12.8, ZE, T40, oe=0.35, og0=0.35, og1=0.0, rake1=False)
-    volume_oitao("y", 7.5, 12.5, 3.3, 12.8, ZE, T40)
-    # fundos: oitões da suíte e da varanda gourmet
-    telhado("y", 12.5, 18.5, 17.0, 22.0, ZE, T40, og0=0.0, og1=0.45, rake0=False)
-    volume_oitao("y", 12.5, 18.5, 17.2, 22.0, ZE, T40)
+    telhado("y", 13.0, 18.5, 5.0, 13.6, ZE, T40, og0=0.45, og1=0.0, rake1=False)
+    volume_oitao("y", 13.0, 18.5, 5.0, 13.6, ZE, T40)
+    telhado("y", 7.5, 13.0, 3.3, 13.2, ZE, T40, oe=0.35, og0=0.35, og1=0.0, rake1=False)
+    volume_oitao("y", 7.5, 13.0, 3.3, 13.2, ZE, T40)
+    telhado("y", 13.0, 18.5, 17.0, 22.0, ZE, T40, og0=0.0, og1=0.45, rake0=False)
+    volume_oitao("y", 13.0, 18.5, 17.2, 22.0, ZE, T40)
     telhado("y", 1.5, 7.5, 17.0, 22.0, ZE, T40, og0=0.0, og1=0.45, rake0=False)
     volume_oitao("y", 1.5, 7.5, 17.2, 22.0, ZE, T40)
 
-    # faixas brancas na base dos oitões e mãos-francesas
-    for (x0, x1, y) in ((1.5, 7.5, 5.0), (12.5, 18.5, 5.0), (7.5, 12.5, 3.3)):
+    # frisos e mãos-francesas
+    for (x0, x1, y) in ((1.5, 7.5, 5.0), (13.0, 18.5, 5.0), (7.5, 13.0, 3.3)):
         box(x0 - 0.06, x1 + 0.06, y - 0.07, y + 0.02, ZE - 0.1, ZE + 0.06, M["branco"], "friso")
         mao_francesa("y", x0 + 0.02, y - 0.45, ZE, -1)
         mao_francesa("y", x1 - 0.02, y - 0.45, ZE, 1)
-    for (x0, x1, y) in ((1.5, 7.5, 22.0), (12.5, 18.5, 22.0)):
+    for (x0, x1, y) in ((1.5, 7.5, 22.0), (13.0, 18.5, 22.0)):
         box(x0 - 0.06, x1 + 0.06, y - 0.02, y + 0.07, ZE - 0.1, ZE + 0.06, M["branco"], "friso")
     for x in (1.5, 18.5):
         sg = -1 if x < 5 else 1
         box(min(x, x + sg * 0.07), max(x, x + sg * 0.07), 8.44, 22.06, ZE - 0.1, ZE + 0.06, M["branco"], "friso")
 
-    # respiros nos oitões
     respiro(fachada("y", 5.0, -1), 4.5, ZE + 1.25)
-    respiro(fachada("y", 5.0, -1), 15.5, ZE + 1.25)
-    respiro(fachada("y", 22.0, 1), 15.5, ZE + 1.25)
+    respiro(fachada("y", 5.0, -1), 15.75, ZE + 1.25)
+    respiro(fachada("y", 22.0, 1), 15.75, ZE + 1.25)
+    respiro(fachada("y", 22.0, 1), 4.5, ZE + 1.25)
     respiro(fachada("x", 1.5, -1), 15.25, ZE + 1.9)
     respiro(fachada("x", 18.5, 1), 15.25, ZE + 1.9)
 
-    # cantoneiras brancas nas quinas
-    for (x, y) in ((1.5, 5.0), (7.5, 5.0), (12.5, 5.0), (18.5, 5.0), (18.5, 22.0), (12.5, 22.0)):
+    for (x, y) in ((1.5, 5.0), (7.5, 5.0), (13.0, 5.0), (18.5, 5.0), (18.5, 22.0), (13.0, 22.0)):
         box(x - 0.07, x + 0.07, y - 0.07, y + 0.07, 0.9 if y == 5.0 else 0.45, ZE, M["branco"], "cantoneira")
 
     # ---- frente
     Ff = fachada("y", 5.0, -1)
     portao_garagem(lambda u, z, d: Ff(u, z, d + 0.05), 2.0, 7.0, 0.0, 2.45)
     luminaria(Ff, 1.75, 2.0); luminaria(Ff, 7.25, 2.0)
-    for u0 in (14.95, 16.0, 17.05):                        # janela tripla do home office
-        janela(Ff, u0, u0 + 0.95, 1.0, 2.6)
-    janela(Ff, 11.2, 12.2, 1.0, 2.6)                       # hall
-    janela(Ff, 13.0, 14.0, 1.0, 2.6)
-    porta_entrada(Ff, 9.7, 10.7, 0.3, 2.55)
-    luminaria(Ff, 9.0, 2.15)
+    janela(Ff, 8.2, 9.3, 1.0, 2.6); janela(Ff, 9.5, 10.6, 1.0, 2.6)           # sala de estar
+    for u0 in (14.6, 15.7, 16.8):                                            # home office
+        janela(Ff, u0, u0 + 1.0, 1.0, 2.6)
+    porta_entrada(Ff, 11.7, 12.6, 0.3, 2.55)
+    luminaria(Ff, 11.0, 2.15)
 
     # ---- lateral direita
     Fd = fachada("x", 18.5, 1)
-    janela(Fd, 5.9, 7.5, 1.0, 2.6, grade=(4, 2))
-    janela(Fd, 9.0, 10.2, 2.0, 2.7, grade=(3, 1), guilhotina=False)
-    janela(Fd, 11.4, 12.5, 1.0, 2.6); janela(Fd, 12.7, 13.8, 1.0, 2.6)
-    janela(Fd, 14.9, 15.9, 2.0, 2.7, grade=(3, 1), guilhotina=False)
-    janela(Fd, 18.3, 19.6, 1.0, 2.6); janela(Fd, 19.9, 21.2, 1.0, 2.6)
+    janela(Fd, 5.8, 8.0, 1.0, 2.6, grade=(4, 2))
+    janela(Fd, 9.6, 10.8, 2.0, 2.7, grade=(3, 1), guilhotina=False)
+    janela(Fd, 11.8, 12.9, 1.0, 2.6); janela(Fd, 13.1, 14.2, 1.0, 2.6)
+    janela(Fd, 14.9, 16.2, 2.0, 2.7, grade=(3, 1), guilhotina=False)
+    janela(Fd, 18.6, 19.9, 1.0, 2.6); janela(Fd, 20.1, 21.4, 1.0, 2.6)
 
     # ---- lateral esquerda
     Fe = fachada("x", 1.5, -1)
     janela(Fe, 7.0, 9.0, 1.7, 2.6, grade=(4, 1), guilhotina=False)
-    janela(Fe, 13.6, 15.9, 1.1, 2.6, grade=(4, 2))
-    porta_correr(Fe, 10.8, 11.7, 0.3, 2.5, folhas=1)
+    janela(Fe, 14.0, 16.5, 1.1, 2.6, grade=(4, 2))
+    porta_correr(Fe, 10.7, 11.6, 0.3, 2.5, folhas=1)
 
-    # ---- fundos
+    # ---- fundos: suíte para o deck; jantar para a gourmet
     Ft = fachada("y", 22.0, 1)
-    porta_correr(Ft, 8.0, 12.8, 0.3, 2.6, folhas=3)
     porta_correr(Ft, 13.8, 17.8, 0.3, 2.6, folhas=3)
-    luminaria(Ft, 7.75, 2.2); luminaria(Ft, 13.3, 2.2)
+    luminaria(Ft, 13.3, 2.2)
+    porta_correr(fachada("y", 18.0, 1), 7.7, 12.8, 0.32, 2.6, folhas=4)
+    janela(fachada("y", 18.0, 1), 3.5, 7.3, 1.15, 2.4, grade=(5, 1), guilhotina=False)
 
     # ---- varanda de entrada
-    box(7.3, 12.7, 3.3, 5.0, 0, 0.3, M["pedra"], "piso_varanda_base")
-    box(7.3, 12.7, 3.3, 5.0, 0.3, 0.33, M["porcelanato"], "piso_varanda")
-    for k, (y0, z) in enumerate(((2.95, 0.1), (3.12, 0.2))):
-        box(9.0, 11.2, y0, 3.3, 0, z, M["pedra"], "degrau")
-    for x in (7.7, 12.3):
+    box(7.3, 13.2, 3.3, 5.0, 0, 0.3, M["pedra"], "piso_varanda_base")
+    box(7.3, 13.2, 3.3, 5.0, 0.3, 0.33, M["porcelanato"], "piso_varanda")
+    for (y0, z) in ((2.95, 0.1), (3.12, 0.2)):
+        box(11.0, 13.0, y0, 3.3, 0, z, M["pedra"], "degrau")
+    for x in (7.7, 12.8):
         coluna(x, 3.65, 0.33, ZE - 0.12)
-    box(7.4, 12.6, 3.45, 3.85, ZE - 0.3, ZE, M["branco"], "viga_varanda")
-    box(7.5, 12.5, 3.3, 5.0, ZE - 0.02, ZE - 0.0, M["forro"], "forro_varanda")
+    box(7.4, 13.1, 3.45, 3.85, ZE - 0.3, ZE, M["branco"], "viga_varanda")
+    box(7.5, 13.0, 3.3, 5.0, ZE - 0.02, ZE - 0.0, M["forro"], "forro_varanda")
 
-    # ---- varanda gourmet aberta (fundos/esquerda)
-    box(1.5, 7.5, 17.0, 22.0, 0, 0.3, M["pedra"], "base_gourmet")
-    box(1.5, 7.5, 17.0, 22.0, 0.3, 0.32, M["porcelanato"], "piso_gourmet")
-    box(1.5, 7.5, 17.0, 22.0, ZE - 0.22, ZE - 0.2, M["forro"], "forro_gourmet")
-    box(1.5, 7.5, 21.75, 22.05, ZE - 0.45, ZE, M["branco"], "viga")
-    box(1.45, 1.75, 17.0, 22.05, ZE - 0.45, ZE, M["branco"], "viga")
-    for (x, y) in ((1.65, 21.85), (4.5, 21.85), (1.65, 19.4)):
-        coluna(x, y, 0.32, ZE - 0.45, base=False)
-    janela(fachada("y", 17.0, 1), 4.2, 7.1, 1.2, 2.4, grade=(4, 1), guilhotina=False)
-    porta_correr(fachada("x", 7.5, -1), 17.4, 21.6, 0.32, 2.6, folhas=3)
-    # churrasqueira de tijolo + chaminé de pedra
-    box(1.75, 3.1, 17.0, 17.75, 0.32, 1.0, M["tijolo"], "churrasqueira")
-    box(1.75, 3.1, 17.0, 17.75, 1.0, 1.06, M["pedra"], "tampo")
-    box(1.95, 2.9, 17.0, 17.55, 1.06, 1.9, M["preto"], "boca")
-    box(1.75, 3.1, 17.0, 17.75, 1.9, ZE - 0.2, M["tijolo"], "coifa")
-    box(1.75, 3.1, 17.0, 17.75, ZE, 7.2, M["pedra"], "chamine")
-    box(1.65, 3.2, 16.9, 17.85, 7.2, 7.32, M["branco"], "capa_chamine")
-    box(2.2, 2.65, 17.2, 17.55, 7.32, 7.55, M["preto"], "chapeu_chamine")
-    box(3.1, 5.4, 17.0, 17.6, 0.32, 1.0, M["branco"], "bancada")
-    box(3.1, 5.4, 17.0, 17.6, 1.0, 1.04, M["pedra"], "tampo")
-    mesa(4.6, 19.6, 1.0, 2.2)
+    # ---- varanda gourmet aberta nos fundos (atrás da cozinha e do jantar)
+    box(1.5, 13.0, 18.0, 22.0, 0, 0.3, M["pedra"], "base_gourmet")
+    box(1.5, 13.0, 18.0, 22.0, 0.3, 0.32, M["porcelanato"], "piso_gourmet")
+    box(1.72, 13.0, 18.0, 22.0, ZE - 0.22, ZE - 0.2, M["forro"], "forro_gourmet")
+    box(1.5, 13.0, 21.75, 22.05, ZE - 0.45, ZE, M["branco"], "viga")
+    for x in (4.5, 7.5, 10.25):
+        coluna(x, 21.85, 0.32, ZE - 0.45, base=False)
+    # churrasqueira de tijolo na parede esquerda + chaminé de pedra
+    box(1.72, 2.45, 18.2, 19.6, 0.32, 1.0, M["tijolo"], "churrasqueira")
+    box(1.72, 2.45, 18.2, 19.6, 1.0, 1.06, M["pedra"], "tampo")
+    box(1.72, 2.3, 18.4, 19.4, 1.06, 1.9, M["preto"], "boca")
+    box(1.72, 2.45, 18.2, 19.6, 1.9, ZE - 0.2, M["tijolo"], "coifa")
+    box(1.75, 2.55, 18.4, 19.4, ZE, 7.2, M["pedra"], "chamine")
+    box(1.65, 2.65, 18.3, 19.5, 7.2, 7.32, M["branco"], "capa_chamine")
+    box(1.95, 2.35, 18.7, 19.1, 7.32, 7.55, M["preto"], "chapeu_chamine")
+    box(1.72, 2.3, 19.7, 21.8, 0.32, 1.0, M["branco"], "bancada")
+    box(1.72, 2.3, 19.7, 21.8, 1.0, 1.04, M["pedra"], "tampo")
+    box(3.5, 7.3, 18.0, 18.5, 0.32, 1.1, M["branco"], "balcao")
+    box(3.45, 7.35, 18.0, 18.6, 1.1, 1.14, M["pedra"], "tampo_balcao")
+    for x in (3.8, 4.6, 5.4, 6.2, 7.0):
+        box(x - 0.18, x + 0.18, 18.7, 19.06, 0.95, 1.0, M["forro"], "banqueta")
+        box(x - 0.03, x + 0.03, 18.85, 18.91, 0.32, 0.95, M["preto"], "pe")
+    box(12.0, 12.9, 18.6, 21.5, 0.32, 0.75, M["tecido"], "sofa_externo")
+    box(12.6, 12.9, 18.6, 21.5, 0.75, 1.15, M["tecido"], "encosto")
+    for y in (19.0, 20.4):
+        box(9.6, 10.4, y, y + 0.8, 0.32, 0.72, M["tecido"], "poltrona")
 
-    # floreiras na frente (canteiros com arbustos)
-    box(1.5, 7.5, 4.2, 4.94, 0, 0.05, M["terra"], "canteiro") if False else None
-    box(12.5, 18.5, 3.9, 4.94, 0, 0.06, M["terra"], "canteiro")
-    for x in (12.9, 13.9, 14.9, 15.9, 16.9, 17.9):
+    # canteiros da frente
+    box(13.0, 18.5, 3.9, 4.94, 0, 0.06, M["terra"], "canteiro")
+    for x in (13.4, 14.4, 15.4, 16.4, 17.4, 18.1):
         arbusto(x, 4.45, 0.45 + random.random() * 0.12)
-    for x in (7.0, 12.95):
-        arbusto(x - 0.0, 3.4, 0.35)
+    arbusto(7.0, 3.4, 0.35); arbusto(13.45, 3.4, 0.35)
     box(1.0, 1.5, 4.0, 10.4, 0, 0.06, M["terra"], "canteiro")
     for y in (4.6, 6.0, 7.4, 8.8):
         arbusto(1.05, y, 0.4)
-    box(7.55, 9.0, 4.0, 4.94, 0, 0.06, M["terra"], "canteiro")
-    box(11.2, 12.45, 4.0, 4.94, 0, 0.06, M["terra"], "canteiro")
-    arbusto(8.0, 4.4, 0.42); arbusto(11.9, 4.4, 0.42)
 
 
 def coluna(x, y, z0, z1, base=True):
@@ -724,10 +723,10 @@ def terreno(arvore_frente=True):
     box(-40, 60, -2.85, -1.0, 0.0, 0.02, M["calcada"], "calcada")
     # entrada de carros e caminho de pedra
     box(1.5, 7.5, -2.85, 5.0, 0.0, 0.025, M["pavers"], "entrada_carros")
-    box(9.5, 10.7, -1.0, 2.95, 0.0, 0.025, M["calcada"], "caminho")
+    box(11.4, 12.6, -1.0, 2.95, 0.0, 0.025, M["calcada"], "caminho")
     # deck dos fundos
-    box(7.5, 18.5, 22.0, 24.2, 0, 0.28, M["deck"], "deck")
-    for x in (8.5, 10.5, 12.5, 14.5, 16.5):
+    box(1.5, 18.5, 22.0, 24.2, 0, 0.28, M["deck"], "deck")
+    for x in (2.5, 4.5, 6.5, 8.5, 10.5, 12.5, 14.5, 16.5):
         box(x, x + 0.06, 24.2, 24.26, 0, 0.28, M["deck"], "testa_deck")
     # cerca de madeira no quintal (laterais e fundo) e portões
     cerca((0.05, 10.5), (0.05, 29.95))
@@ -761,8 +760,8 @@ def terreno(arvore_frente=True):
         arvore(-9 + random.uniform(-1, 1), 6 + k * 6.5, random.uniform(6, 8), random.uniform(2, 2.8))
         arvore(29 + random.uniform(-1, 1), 6 + k * 6.5, random.uniform(6, 8), random.uniform(2, 2.8))
     # caixa de correio americana
-    box(8.55, 8.65, -0.7, -0.6, 0, 1.0, M["branco"], "poste_correio")
-    box(8.45, 8.75, -0.95, -0.45, 1.0, 1.22, M["preto"], "correio")
+    box(10.55, 10.65, -0.7, -0.6, 0, 1.0, M["branco"], "poste_correio")
+    box(10.45, 10.75, -0.95, -0.45, 1.0, 1.22, M["preto"], "correio")
 
 
 def grama_fios(xr, yr, n):

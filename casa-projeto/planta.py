@@ -29,6 +29,7 @@ AMBIENTES = [
     ("Cozinha",                    1.5, 13.0,  7.5, 18.0, "social"),
     ("Sala de estar",              7.5,  5.0, 13.0, 10.5, "social"),
     ("Jantar + jogos",             7.5, 10.5, 13.0, 18.0, "jogos"),
+    ("Passagem",                   7.5, 10.5,  8.7, 14.0, "social"),   # sala -> cozinha sem cruzar o jantar
     ("Varanda gourmet",            1.5, 18.0, 13.0, 22.0, "varanda"),
     ("Home office\n(+ hóspedes)", 13.0,  5.0, 18.5,  9.0, "trabalho"),
     ("",                          13.0,  9.0, 14.2, 18.0, "intimo"),   # corredor íntimo
@@ -50,6 +51,7 @@ def areas():
     for a in AMBIENTES:
         nome = a[0].replace("\n", " ") or "Circulação íntima"
         d[nome] = area(a)
+    d["Jantar + jogos"] -= d["Passagem"]
     return d
 
 
@@ -149,7 +151,7 @@ def desenha(ax):
 
 ROTULO = {
     "Garagem 2 carros": (4.5, 9.6), "Lavanderia + ducha pet": (3.5, 11.9), "Lavabo": (6.6, 11.5),
-    "Cozinha": (3.6, 17.3), "Sala de estar": (11.6, 9.6), "Jantar + jogos": (10.1, 17.3),
+    "Cozinha": (3.6, 17.3), "Sala de estar": (11.6, 9.6), "Jantar + jogos": (10.8, 17.3), "Passagem": (8.1, 12.2),
     "Varanda gourmet": (5.6, 21.3), "Home office (+ hóspedes)": (15.4, 7.6), "Banho": (15.4, 10.4),
     "Quarto da filha": (15.8, 12.7), "Closet": (15.1, 16.8), "Banho suíte": (17.4, 17.4),
     "Suíte do casal": (15.0, 21.3),
@@ -220,13 +222,13 @@ def mobilia(ax):
     r(ax, 12.55, 10.6, 0.4, 7.3, fc="#D3C0E8", ec="#7D5BA6")
     ax.text(12.75, 14.25, "estante da coleção (~350 jogos)", rotation=90, ha="center", va="center", fontsize=4.6,
             color="#5A3E80")
-    r(ax, 9.6, 12.4, 1.2, 3.0, fc="#5E8C61", ec="#3A5A3C", lw=0.9)
-    r(ax, 9.7, 12.5, 1.0, 2.8, fc="#C9A57A", ec="none")
+    r(ax, 10.1, 12.4, 1.2, 3.0, fc="#5E8C61", ec="#3A5A3C", lw=0.9)
+    r(ax, 10.2, 12.5, 1.0, 2.8, fc="#C9A57A", ec="none")
     for k in range(4):
         y = 12.55 + k * 0.75
-        r(ax, 9.1, y, 0.4, 0.44, round_=0.08); r(ax, 10.9, y, 0.4, 0.44, round_=0.08)
-    r(ax, 9.98, 11.9, 0.44, 0.4, round_=0.08); r(ax, 9.98, 15.5, 0.44, 0.4, round_=0.08)
-    ax.text(10.2, 13.9, "mesa 10 lugares\n(jantar e jogos)", ha="center", va="center", fontsize=4.6, color="white",
+        r(ax, 9.6, y, 0.4, 0.44, round_=0.08); r(ax, 11.4, y, 0.4, 0.44, round_=0.08)
+    r(ax, 10.48, 11.9, 0.44, 0.4, round_=0.08); r(ax, 10.48, 15.5, 0.44, 0.4, round_=0.08)
+    ax.text(10.7, 13.9, "mesa 10 lugares\n(jantar e jogos)", ha="center", va="center", fontsize=4.6, color="white",
             rotation=90)
     # varanda gourmet: churrasqueira, pia, balcão com banquetas (sem mesa) e sofá externo
     r(ax, 1.6, 18.2, 0.7, 1.4, fc="#C9B8A6")
@@ -299,7 +301,9 @@ def portas(ax):
     porta(ax, 1.5, 10.7, 0.9, "v", abre=1)                 # lavanderia -> corredor pet
     porta(ax, 1.7, 13.0, 0.8, "h", abre=1)                 # lavanderia -> cozinha
     porta(ax, 7.5, 11.2, 0.7, "v", abre=-1)                # lavabo (abre do jantar)
-    vao(ax, 7.6, 10.5, 12.9, 10.5)                         # sala de estar aberta para o jantar
+    vao(ax, 7.6, 10.5, 8.6, 10.5)                          # sala -> passagem
+    vao(ax, 8.8, 10.5, 12.9, 10.5)                         # sala de estar aberta para o jantar
+    vao(ax, 7.6, 14.0, 8.6, 14.0)                          # passagem -> cozinha / jantar
     vao(ax, 7.5, 13.1, 7.5, 17.9)                          # cozinha aberta para o jantar
     vao(ax, 3.5, 18.0, 7.4, 18.0)                          # balcão cozinha -> gourmet
     vao(ax, 7.6, 18.0, 12.9, 18.0, correr=True)            # jantar -> gourmet (vidro de correr)
@@ -364,7 +368,7 @@ def quadro(ax):
     ar = areas()
     total = sum(ar.values())
     gourmet = ar["Varanda gourmet"]
-    ordem = ["Sala de estar", "Jantar + jogos", "Cozinha", "Varanda gourmet", "Lavabo",
+    ordem = ["Sala de estar", "Passagem", "Jantar + jogos", "Cozinha", "Varanda gourmet", "Lavabo",
              "Home office (+ hóspedes)", "Circulação íntima", "Banho", "Quarto da filha", "Closet",
              "Banho suíte", "Suíte do casal", "Garagem 2 carros", "Lavanderia + ducha pet"]
     linhas = [(n, f"{ar[n]:.1f}") for n in ordem]
