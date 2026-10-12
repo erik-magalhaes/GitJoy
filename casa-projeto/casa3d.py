@@ -526,12 +526,13 @@ def casa():
     box(12.5, 18.5, 17.0, 22.0, 0, ZE, M["siding"], "suite")
 
     # embasamento de pedra (0,9 m) na fachada da frente e nas laterais visíveis
-    box(1.45, 7.55, 4.94, 5.0, 0, 0.9, M["pedra"], "pedra")
+    box(1.45, 1.86, 4.94, 5.0, 0, 0.9, M["pedra"], "pedra")
+    box(7.14, 7.55, 4.94, 5.0, 0, 0.9, M["pedra"], "pedra")
     box(12.45, 18.55, 4.94, 5.0, 0, 0.9, M["pedra"], "pedra")
     box(1.44, 1.5, 4.94, 22.0, 0, 0.45, M["pedra"], "pedra")
     box(18.5, 18.56, 4.94, 22.06, 0, 0.45, M["pedra"], "pedra")
     box(7.5, 18.56, 22.0, 22.06, 0, 0.45, M["pedra"], "pedra")
-    for (x0, x1, y0, y1) in ((1.42, 7.58, 4.92, 4.96), (12.42, 18.58, 4.92, 4.96)):
+    for (x0, x1, y0, y1) in ((1.42, 1.86, 4.92, 4.96), (7.14, 7.58, 4.92, 4.96), (12.42, 18.58, 4.92, 4.96)):
         box(x0, x1, y0, y1, 0.9, 0.96, M["branco"], "capa_pedra")
 
     # telhados: corpo principal (cumeeira em x) + alas frontais e de fundo (cumeeira em y)
@@ -574,7 +575,7 @@ def casa():
 
     # ---- frente
     Ff = fachada("y", 5.0, -1)
-    portao_garagem(Ff, 2.0, 7.0, 0.0, 2.45)
+    portao_garagem(lambda u, z, d: Ff(u, z, d + 0.05), 2.0, 7.0, 0.0, 2.45)
     luminaria(Ff, 1.75, 2.0); luminaria(Ff, 7.25, 2.0)
     for u0 in (13.3, 14.45, 15.6):                         # janela tripla do home office
         janela(Ff, u0, u0 + 1.0, 1.0, 2.6)
@@ -713,7 +714,7 @@ def arbusto(x, y, r):
     esfera("arbusto", (x, y, r * 0.75), r, M["arbusto"], 0.35, 2.5, sub=3, achata=0.85)
 
 
-def terreno():
+def terreno(arvore_frente=True):
     # gramado com grama de verdade (fios) + rua, calçada e guia
     box(-40, 60, -1.0, 60, -0.02, 0.0, M["grama"], "gramado")
     box(-40, 60, -40, -9.0, -0.02, 0.0, M["grama"], "gramado_vizinho")
@@ -749,7 +750,9 @@ def terreno():
         for k in range(6):
             esfera("horta", (16.3 + k * 0.5, y + 0.4, 0.5), 0.16, M["folha2"], 0.4, 3, sub=2)
     # árvores do lote e do entorno
-    arvore(16.0, 1.6, 5.5, 2.0); arvore(7.0, 28.6, 5.2, 1.7)
+    if arvore_frente:
+        arvore(16.0, 1.6, 5.5, 2.0)
+    arvore(7.0, 28.6, 5.2, 1.7)
     arvore(19.3, 19.8, 5.0, 1.5)
     for k in range(14):
         arvore(-14 + k * 3.6 + random.uniform(-0.8, 0.8), 52 + random.uniform(-2, 3), random.uniform(7, 10), random.uniform(2.3, 3.2))
@@ -880,8 +883,9 @@ def render():
     bpy.ops.render.render(write_still=True)
 
 
-casa()
-terreno()
-luz_e_ceu()
-camera(CAM)
-render()
+if __name__ == "__main__":
+    casa()
+    terreno()
+    luz_e_ceu()
+    camera(CAM)
+    render()
