@@ -63,11 +63,13 @@ def main():
     text_c(d, (W / 2, 872), "na locação dos seus jogos!", f(XB, 46), NAVY)
     paste_c(img, shadowed(ticket(820, 380), 16, (6, 12), 0.22), W / 2, 1135, -2)
     d = ImageDraw.Draw(img)
-    text_c(d, (W / 2, 1365), "Reserve pelo link:", f(XB, 42), GREEN)
-    paste_c(img, seta(110, 110, GREEN), W / 2, 1455)
-    # 1510–1610: espaço livre para o adesivo de link do Instagram
-    text_c(d, (W / 2, 1655), "RETIRE EM MAUÁ OU RECEBA EM CASA", f(XB, 34), NAVY)
-    text_c(d, (W / 2, 1702), "@suavez_bg", f(SB, 32), BLUE)
+    d.rounded_rectangle((W / 2 - 230, 1334, W / 2 + 230, 1404), radius=35, fill=NAVY)  # validade (pedido dele)
+    text_c(d, (W / 2, 1370), "VÁLIDO ATÉ 15/10", f(BLACK, 40), WHITE)
+    text_c(d, (W / 2, 1452), "Reserve pelo link:", f(XB, 42), GREEN)
+    paste_c(img, seta(100, 90, GREEN), W / 2, 1525)
+    # 1565–1625: espaço livre para o adesivo de link do Instagram
+    text_c(d, (W / 2, 1690), "RETIRE EM MAUÁ OU RECEBA EM CASA", f(XB, 34), NAVY)
+    text_c(d, (W / 2, 1735), "@suavez_bg", f(SB, 32), BLUE)
     os.makedirs(OUT, exist_ok=True)
     img.convert("RGB").save(os.path.join(OUT, "story_cupom_abc.png"))
     print("ok")
