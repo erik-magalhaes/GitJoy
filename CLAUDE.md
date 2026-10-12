@@ -405,7 +405,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
     visual. Mandei 3 conceitos adultos (`halloween-reels/conceitos.py` → out/conceitos.jpg; fontes Cinzel e Cormorant
     Garamond do google/fonts em `assets/fonts/`): 1 pôster de cinema (preto, luz fria, letreiro serifado espaçado,
     créditos), 2 mansão gótica (retrato em moldura dourada, velas, placa de museu), 3 tabuleiro Ouija (prancheta soletra
-    o nome). Esperando ele escolher.
+    o nome). **Ele escolheu o PÔSTER DE CINEMA** → `halloween-reels/poster.py` (18,8 s): gancho "A SUA VEZ APRESENTA /
+    QUATRO JOGOS PARA NÃO DORMIR / Você tem coragem?"; cada jogo = lâmpada que acende piscando + facho frio, caixa
+    aproximando 4%, título Cinzel com as letras se juntando, frase em Cormorant itálico e créditos; some no escuro entre
+    pôsteres; "QUAL VOCÊ ENCARA PRIMEIRO? / Comenta aqui."; final "EM CARTAZ NA SUA VEZ". `halloween.py` (roxo) ficou
+    como versão rejeitada.
   - **Carrosséis 1080x1080** (`feed-posts/carrosseis.py`, visual creme + círculo colorido, cores do site): "O jogo certo
     pra cada rolê" (8 telas), "Curte esse clássico?" (7: UNO→Flip 7 A Vingança, Scrabble→Bananagrams, Imagem &
     Ação→Dixit, Detetive→MicroMacro Full House, Jogo da Velha→boop.; Root saiu porque a da loja é a edição em inglês) e
