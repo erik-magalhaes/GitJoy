@@ -24,21 +24,19 @@ COR = dict(social="#F6E7C8", intimo="#DCE9F5", servico="#E6E6E6", jogos="#E9DDF3
 # nome, x0, y0, x1, y1, zona
 AMBIENTES = [
     ("Garagem\n2 carros",          1.5,  5.0,  7.5, 10.5, "servico"),
-    ("Lavanderia\n+ ducha pet",    1.5, 10.5,  5.6, 13.0, "servico"),
-    ("Lavabo",                     5.6, 10.5,  7.5, 13.0, "servico"),
-    ("Cozinha",                    1.5, 13.0,  7.5, 17.0, "social"),
-    ("Varanda gourmet",            1.5, 17.0,  7.5, 22.0, "varanda"),
-    ("Sala de estar",              7.5,  5.0, 14.5,  9.0, "social"),
-    ("Galeria",                    7.5,  9.0,  9.0, 14.0, "social"),
-    ("Sala de jogos",              9.0,  9.0, 13.3, 14.0, "jogos"),
-    ("Jantar / TV",                7.5, 14.0, 13.3, 22.0, "social"),
-    ("Home office\n(+ hóspedes)", 14.5,  5.0, 18.5,  9.0, "trabalho"),
-    ("",                          13.3,  9.0, 14.5, 17.5, "intimo"),   # corredor íntimo
-    ("Banho",                     14.5,  9.0, 18.5, 11.0, "servico"),
-    ("Quarto da filha",           14.5, 11.0, 18.5, 14.4, "intimo"),
-    ("Closet",                    14.5, 14.4, 16.2, 17.5, "intimo"),
-    ("Banho suíte",               16.2, 14.4, 18.5, 17.5, "servico"),
-    ("Suíte do casal",            13.3, 17.5, 18.5, 22.0, "intimo"),
+    ("Lavanderia\n+ ducha pet",    1.5, 10.5,  5.5, 13.0, "servico"),
+    ("Lavabo",                     5.5, 10.5,  7.5, 13.0, "servico"),
+    ("Cozinha",                    1.5, 13.0,  7.5, 18.0, "social"),
+    ("Sala de estar",              7.5,  5.0, 13.0, 10.5, "social"),
+    ("Jantar + jogos",             7.5, 10.5, 13.0, 18.0, "jogos"),
+    ("Varanda gourmet",            1.5, 18.0, 13.0, 22.0, "varanda"),
+    ("Home office\n(+ hóspedes)", 13.0,  5.0, 18.5,  9.0, "trabalho"),
+    ("",                          13.0,  9.0, 14.2, 18.0, "intimo"),   # corredor íntimo
+    ("Banho",                     14.2,  9.0, 18.5, 11.3, "servico"),
+    ("Quarto da filha",           14.2, 11.3, 18.5, 14.7, "intimo"),
+    ("Closet",                    14.2, 14.7, 16.0, 18.0, "intimo"),
+    ("Banho suíte",               16.0, 14.7, 18.5, 18.0, "servico"),
+    ("Suíte do casal",            13.0, 18.0, 18.5, 22.0, "intimo"),
 ]
 
 
@@ -71,9 +69,9 @@ def desenha(ax):
     # pisos externos
     ax.add_patch(Rectangle((1.5, -1.6), 6.0, 6.6, fc=COR["piso"], ec="#B9AE98", lw=0.6))     # entrada de carros
     ax.text(4.5, 2.2, "entrada de carros\n(piso drenante)", ha="center", fontsize=6.5, color="#7A6E57")
-    ax.add_patch(Rectangle((9.4, -1.6), 1.3, 6.6, fc=COR["piso"], ec="#B9AE98", lw=0.6))     # caminho
-    ax.add_patch(Rectangle((8.6, 3.8), 3.2, 1.2, fc=COR["deck"], ec="#9C7A4C", lw=0.6))     # marquise
-    ax.text(10.2, 4.4, "marquise", ha="center", va="center", fontsize=6, color="#5E4626")
+    ax.add_patch(Rectangle((11.5, -1.6), 1.3, 6.6, fc=COR["piso"], ec="#B9AE98", lw=0.6))    # caminho
+    ax.add_patch(Rectangle((7.5, 3.3), 5.5, 1.7, fc=COR["deck"], ec="#9C7A4C", lw=0.6))     # varanda de entrada
+    ax.text(9.6, 4.15, "varanda de entrada", ha="center", va="center", fontsize=6, color="#5E4626")
     ax.add_patch(Rectangle((0, 10.5), 1.5, 11.5, fc=COR["piso"], ec="#B9AE98", lw=0.6))     # corredor pet
     ax.text(0.75, 16.2, "corredor do pet", rotation=90, ha="center", va="center", fontsize=6.5, color="#7A6E57")
     ax.add_patch(Rectangle((1.5, 22.0), 17.0, 2.2, fc=COR["deck"], ec="#9C7A4C", lw=0.6))  # deck
@@ -150,11 +148,11 @@ def desenha(ax):
 
 
 ROTULO = {
-    "Garagem 2 carros": (4.5, 9.6), "Lavanderia + ducha pet": (2.6, 11.5), "Lavabo": (6.9, 11.0),
-    "Cozinha": (4.6, 16.55), "Varanda gourmet": (4.5, 21.2), "Sala de estar": (9.6, 8.1), "Galeria": (8.25, 11.6),
-    "Sala de jogos": (11.0, 13.0), "Jantar / TV": (8.8, 19.4), "Home office (+ hóspedes)": (16.2, 7.6),
-    "Banho": (15.6, 10.4), "Quarto da filha": (15.9, 12.8), "Closet": (15.35, 16.4), "Banho suíte": (17.4, 16.7),
-    "Suíte do casal": (15.0, 21.2),
+    "Garagem 2 carros": (4.5, 9.6), "Lavanderia + ducha pet": (3.5, 11.9), "Lavabo": (6.6, 11.5),
+    "Cozinha": (3.6, 17.3), "Sala de estar": (11.6, 9.6), "Jantar + jogos": (10.1, 17.3),
+    "Varanda gourmet": (5.6, 21.3), "Home office (+ hóspedes)": (15.4, 7.6), "Banho": (15.4, 10.4),
+    "Quarto da filha": (15.8, 12.7), "Closet": (15.1, 16.8), "Banho suíte": (17.4, 17.4),
+    "Suíte do casal": (15.0, 21.3),
 }
 
 
@@ -194,85 +192,78 @@ def mobilia(ax):
         r(ax, x, 5.4, 1.9, 4.4, fc="#F4F4F4", round_=0.4, lw=0.8)
         r(ax, x + 0.25, 7.6, 1.4, 1.0, fc="#DCE6EE", round_=0.2, lw=0.4)
     # lavanderia: lava e seca, tanque, ducha pet
-    for x in (1.6, 2.3):
+    for x in (2.7, 3.4):
         r(ax, x, 12.3, 0.65, 0.65, round_=0.05)
         ax.add_patch(Circle((x + 0.32, 12.62), 0.22, fc="none", ec=COR["movel"], lw=0.5))
-    r(ax, 3.1, 12.4, 0.8, 0.55); r(ax, 3.2, 12.48, 0.6, 0.38, round_=0.1)
-    r(ax, 3.4, 10.6, 1.1, 0.9, fc="#D6E8F5", ec="#3D7CB8")
-    ax.text(3.95, 11.05, "ducha\npet", ha="center", va="center", fontsize=4.8, color="#235A8C")
+    r(ax, 4.15, 12.4, 0.8, 0.55); r(ax, 4.25, 12.48, 0.6, 0.38, round_=0.1)
+    r(ax, 2.6, 10.6, 1.1, 0.9, fc="#D6E8F5", ec="#3D7CB8")
+    ax.text(3.15, 11.05, "ducha\npet", ha="center", va="center", fontsize=4.8, color="#235A8C")
     # lavabo
-    vaso(ax, 6.0, 10.85); pia(ax, 5.7, 12.2, 0.45, 0.55)
-    # cozinha
-    r(ax, 1.6, 13.75, 0.6, 3.15, fc="#F7F7F7")
-    pia(ax, 1.65, 14.3, 0.5, 0.7)
-    for y in (15.7, 16.2):
+    vaso(ax, 6.0, 12.55); pia(ax, 6.85, 10.6, 0.55, 0.45)
+    # cozinha: bancada na parede, torre + geladeira, ilha virada para o jantar
+    r(ax, 1.6, 13.8, 0.6, 4.1, fc="#F7F7F7")
+    pia(ax, 1.65, 14.5, 0.5, 0.7)
+    for y in (16.0, 16.5):
         ax.add_patch(Circle((1.9, y + 0.2), 0.15, fc="none", ec=COR["movel"], lw=0.5))
-    r(ax, 1.6, 13.1, 2.4, 0.6, fc="#F7F7F7")
-    ax.text(2.8, 13.4, "torre + geladeira", ha="center", va="center", fontsize=4.3)
-    r(ax, 3.3, 14.6, 2.6, 1.0, fc="#FFFFFF", lw=0.9)
-    for x in (3.6, 4.4, 5.2):
-        ax.add_patch(Circle((x + 0.15, 16.0), 0.2, fc="white", ec=COR["movel"], lw=0.5))
-    ax.text(4.6, 15.1, "ilha", ha="center", va="center", fontsize=5)
-    # varanda gourmet
-    r(ax, 1.6, 17.1, 3.6, 0.6, fc="#F7F7F7")
-    r(ax, 1.6, 17.1, 1.0, 0.6, fc="#C9B8A6")
-    ax.text(2.1, 17.4, "churrasq.", ha="center", va="center", fontsize=4.5)
-    pia(ax, 3.4, 17.15, 0.6, 0.45)
-    r(ax, 2.8, 18.9, 1.0, 2.2, fc="#F2E3CF", lw=0.8)
-    cadeiras(ax, 2.8, 18.9, 1.0, 2.2, 1, cab=False)
-    for y in (19.1, 19.75, 20.4):
-        r(ax, 2.3, y, 0.4, 0.44, round_=0.08); r(ax, 3.9, y, 0.4, 0.44, round_=0.08)
-    # sala de estar (a porta da frente abre direto aqui)
-    r(ax, 7.6, 5.1, 0.4, 3.0, fc="#E9DDF3", ec="#7D5BA6")
-    ax.text(7.8, 6.6, "vitrine", rotation=90, ha="center", va="center", fontsize=4.5, color="#5A3E80")
-    r(ax, 11.0, 5.15, 2.8, 0.9, fc="#C9D7E3", round_=0.15)          # sofá
-    r(ax, 11.7, 6.45, 1.4, 0.7, fc="#F2E3CF", round_=0.1)           # centro
-    r(ax, 11.2, 7.55, 0.75, 0.75, fc="#C9D7E3", round_=0.2)         # poltronas
-    r(ax, 12.85, 7.55, 0.75, 0.75, fc="#C9D7E3", round_=0.2)
-    # galeria: estante de jogos ao longo da parede
-    r(ax, 7.55, 9.1, 0.35, 2.6, fc="#D3C0E8", ec="#7D5BA6")
-    r(ax, 7.55, 12.6, 0.35, 1.3, fc="#D3C0E8", ec="#7D5BA6")
-    # sala de jogos
-    r(ax, 9.1, 13.55, 4.1, 0.4, fc="#D3C0E8", ec="#7D5BA6")
-    r(ax, 12.85, 9.1, 0.4, 4.4, fc="#D3C0E8", ec="#7D5BA6")
-    ax.text(11.0, 13.75, "estantes da coleção (~300 caixas)", ha="center", va="center", fontsize=4.6, color="#5A3E80")
-    r(ax, 9.9, 10.85, 2.2, 1.2, fc="#5E8C61", ec="#3A5A3C", lw=0.9)
-    r(ax, 10.05, 11.0, 1.9, 0.9, fc="#7FB083", ec="none")
-    cadeiras(ax, 9.9, 10.85, 2.2, 1.2, 2)
-    # estar / jantar
-    r(ax, 9.4, 15.0, 2.2, 1.0, fc="#F2E3CF", lw=0.8)
-    cadeiras(ax, 9.4, 15.0, 2.2, 1.0, 3)
-    r(ax, 10.0, 18.3, 0.9, 3.0, fc="#C9D7E3", round_=0.15)          # sofá virado para a TV
-    r(ax, 10.0, 20.4, 1.9, 0.9, fc="#C9D7E3", round_=0.15)          # chaise
-    r(ax, 11.25, 18.9, 0.8, 1.2, fc="#F2E3CF", round_=0.1)
-    r(ax, 11.4, 17.2, 0.7, 0.7, fc="#C9D7E3", round_=0.2)           # poltrona
-    r(ax, 12.85, 18.2, 0.35, 2.6, fc="#555555")
+    r(ax, 2.7, 13.1, 2.4, 0.6, fc="#F7F7F7")
+    ax.text(3.9, 13.4, "torre + geladeira", ha="center", va="center", fontsize=4.3)
+    r(ax, 4.9, 14.4, 1.0, 2.6, fc="#FFFFFF", lw=0.9)
+    ax.text(5.4, 15.7, "ilha", ha="center", va="center", fontsize=5, rotation=90)
+    for y in (14.7, 15.5, 16.3):
+        ax.add_patch(Circle((6.3, y + 0.15), 0.2, fc="white", ec=COR["movel"], lw=0.5))
+    # sala de estar: TV na parede da garagem, sofá em L
+    r(ax, 7.55, 6.4, 0.35, 2.6, fc="#555555")
+    r(ax, 9.9, 6.0, 0.9, 3.4, fc="#C9D7E3", round_=0.15)
+    r(ax, 8.4, 8.5, 1.5, 0.9, fc="#C9D7E3", round_=0.15)
+    r(ax, 8.55, 6.7, 0.9, 1.2, fc="#F2E3CF", round_=0.1)
+    # jantar + jogos: UMA mesa grande (jantar e jogatina) e a parede de jogos
+    r(ax, 12.55, 10.6, 0.4, 7.3, fc="#D3C0E8", ec="#7D5BA6")
+    ax.text(12.75, 14.25, "estante da coleção (~350 jogos)", rotation=90, ha="center", va="center", fontsize=4.6,
+            color="#5A3E80")
+    r(ax, 9.6, 12.4, 1.2, 3.0, fc="#5E8C61", ec="#3A5A3C", lw=0.9)
+    r(ax, 9.7, 12.5, 1.0, 2.8, fc="#C9A57A", ec="none")
+    for k in range(4):
+        y = 12.55 + k * 0.75
+        r(ax, 9.1, y, 0.4, 0.44, round_=0.08); r(ax, 10.9, y, 0.4, 0.44, round_=0.08)
+    r(ax, 9.98, 11.9, 0.44, 0.4, round_=0.08); r(ax, 9.98, 15.5, 0.44, 0.4, round_=0.08)
+    ax.text(10.2, 13.9, "mesa 10 lugares\n(jantar e jogos)", ha="center", va="center", fontsize=4.6, color="white",
+            rotation=90)
+    # varanda gourmet: churrasqueira, pia, balcão com banquetas (sem mesa) e sofá externo
+    r(ax, 1.6, 18.2, 0.7, 1.4, fc="#C9B8A6")
+    ax.text(1.95, 18.9, "churrasq.", rotation=90, ha="center", va="center", fontsize=4.5)
+    r(ax, 1.6, 19.7, 0.6, 2.1, fc="#F7F7F7"); pia(ax, 1.65, 20.4, 0.5, 0.6)
+    r(ax, 3.5, 18.05, 3.8, 0.45, fc="#F7F7F7")
+    ax.text(5.4, 18.27, "balcão (passa-pratos)", ha="center", va="center", fontsize=4.3)
+    for x in (3.8, 4.6, 5.4, 6.2, 7.0):
+        ax.add_patch(Circle((x, 18.85), 0.19, fc="white", ec=COR["movel"], lw=0.5))
+    r(ax, 12.0, 18.6, 0.9, 2.9, fc="#C9D7E3", round_=0.15)
+    r(ax, 9.6, 19.0, 0.8, 0.8, fc="#C9D7E3", round_=0.2); r(ax, 9.6, 20.4, 0.8, 0.8, fc="#C9D7E3", round_=0.2)
     # home office
-    r(ax, 15.0, 5.1, 2.4, 0.7, fc="#F2E3CF")
-    r(ax, 15.9, 5.95, 0.6, 0.55, round_=0.2)
-    r(ax, 17.7, 5.6, 0.7, 2.7, fc="#C9D7E3", round_=0.15)
-    ax.text(18.05, 6.95, "sofá-cama", rotation=90, ha="center", va="center", fontsize=4.5)
-    r(ax, 15.2, 8.55, 2.0, 0.4, fc="#E2F0DA")
+    r(ax, 14.8, 5.1, 2.4, 0.7, fc="#F2E3CF")
+    r(ax, 15.7, 5.95, 0.6, 0.55, round_=0.2)
+    r(ax, 17.7, 5.6, 0.7, 2.8, fc="#C9D7E3", round_=0.15)
+    ax.text(18.05, 7.0, "sofá-cama", rotation=90, ha="center", va="center", fontsize=4.5)
+    r(ax, 14.4, 8.55, 2.0, 0.4, fc="#E2F0DA")
     # banho social
-    pia(ax, 15.7, 9.1, 0.6, 0.42); pia(ax, 16.4, 9.1, 0.6, 0.42)
+    pia(ax, 15.4, 9.1, 0.6, 0.42); pia(ax, 16.1, 9.1, 0.6, 0.42)
     vaso(ax, 18.1, 9.5)
-    r(ax, 17.0, 9.9, 1.4, 1.0, fc="#D6E8F5", ec="#3D7CB8")
-    # quarto da filha
-    r(ax, 17.4, 11.8, 1.0, 2.0, fc="white", lw=0.8); r(ax, 17.5, 13.35, 0.8, 0.35, round_=0.1)
-    r(ax, 14.7, 13.8, 2.2, 0.55, fc="#F7F7F7")
-    r(ax, 15.8, 11.1, 1.4, 0.55, fc="#F2E3CF")
-    ax.add_patch(Circle((15.6, 12.7), 0.55, fc="#FCE4EC", ec="#D48BA4", lw=0.6))
+    r(ax, 17.0, 10.1, 1.4, 1.1, fc="#D6E8F5", ec="#3D7CB8")
+    # quarto da filha: cama, guarda-roupa, cantinho de brincar (sem escrivaninha)
+    r(ax, 17.4, 12.0, 1.0, 2.0, fc="white", lw=0.8); r(ax, 17.5, 13.55, 0.8, 0.35, round_=0.1)
+    r(ax, 14.4, 14.1, 2.2, 0.55, fc="#F7F7F7")
+    ax.add_patch(Circle((15.6, 12.6), 0.65, fc="#FCE4EC", ec="#D48BA4", lw=0.6))
+    ax.text(15.6, 12.6, "brincar", ha="center", va="center", fontsize=4.6)
     # closet
-    r(ax, 14.55, 14.5, 0.45, 2.9, fc="#F7F7F7"); r(ax, 15.75, 14.5, 0.4, 2.1, fc="#F7F7F7")
+    r(ax, 14.25, 14.8, 0.45, 3.1, fc="#F7F7F7"); r(ax, 15.55, 14.8, 0.4, 2.2, fc="#F7F7F7")
     # banho suíte
-    pia(ax, 16.3, 14.5, 0.42, 0.6); pia(ax, 16.3, 15.2, 0.42, 0.6)
-    r(ax, 17.3, 14.5, 1.1, 1.5, fc="#D6E8F5", ec="#3D7CB8")
-    vaso(ax, 18.05, 16.7)
+    pia(ax, 16.05, 14.8, 0.42, 0.6); pia(ax, 16.05, 15.55, 0.42, 0.6)
+    r(ax, 17.3, 14.8, 1.1, 1.5, fc="#D6E8F5", ec="#3D7CB8")
+    vaso(ax, 18.05, 17.2)
     # suíte do casal
-    r(ax, 16.4, 18.7, 2.0, 2.0, fc="white", lw=0.9)
-    r(ax, 17.95, 18.85, 0.35, 0.75, round_=0.1); r(ax, 17.95, 19.8, 0.35, 0.75, round_=0.1)
-    r(ax, 17.9, 18.15, 0.45, 0.45); r(ax, 17.9, 20.8, 0.45, 0.45)
-    r(ax, 13.5, 20.0, 1.0, 1.0, fc="#C9D7E3", round_=0.15)
+    r(ax, 16.4, 19.0, 2.0, 2.0, fc="white", lw=0.9)
+    r(ax, 17.95, 19.15, 0.35, 0.75, round_=0.1); r(ax, 17.95, 20.1, 0.35, 0.75, round_=0.1)
+    r(ax, 17.9, 18.45, 0.45, 0.45); r(ax, 17.9, 21.1, 0.45, 0.45)
+    r(ax, 13.4, 20.6, 0.9, 0.9, fc="#C9D7E3", round_=0.15)
 
 
 
@@ -301,32 +292,28 @@ def vao(ax, x0, y0, x1, y1, correr=False):
 
 
 def portas(ax):
-    porta(ax, 9.6, 5.0, 1.2, "h", abre=1)                  # entrada social (pivotante)
+    porta(ax, 11.6, 5.0, 1.1, "h", abre=1, giro=-1)        # entrada: abre direto na sala de estar
     vao(ax, 2.0, 5.0, 7.0, 5.0)                            # portão garagem
     ax.plot([2.0, 7.0], [5.0, 5.0], color="#888", lw=0.8, ls="--", zorder=6)
-    porta(ax, 4.6, 10.5, 0.8, "h", abre=1)                 # garagem -> lavanderia
-    porta(ax, 1.5, 10.8, 0.9, "v", abre=1)                 # lavanderia -> corredor pet
-    porta(ax, 4.6, 13.0, 0.8, "h", abre=1)                 # lavanderia -> cozinha
-    porta(ax, 7.5, 11.8, 0.7, "v", abre=-1)                # lavabo (abre da galeria)
-    vao(ax, 7.6, 9.0, 8.9, 9.0)                            # sala de estar -> galeria
-    vao(ax, 9.2, 9.0, 13.1, 9.0, correr=True)              # vidro fixo sala de estar | sala de jogos
-    vao(ax, 9.0, 10.0, 9.0, 13.4, correr=True)             # galeria -> sala de jogos (correr)
-    vao(ax, 7.6, 14.0, 8.9, 14.0)                          # galeria -> estar/jantar
-    vao(ax, 7.5, 14.1, 7.5, 16.9)                          # cozinha aberta p/ jantar
-    vao(ax, 4.0, 17.0, 7.0, 17.0)                          # passa-pratos cozinha -> gourmet
-    vao(ax, 7.5, 17.4, 7.5, 21.6, correr=True)             # estar -> gourmet
-    porta(ax, 14.5, 7.9, 0.9, "v", abre=1)                 # office (porta no canto da sala)
-    vao(ax, 13.35, 9.0, 14.45, 9.0)                        # sala de estar -> corredor íntimo
-    porta(ax, 14.5, 9.3, 0.7, "v", abre=1)                 # banho social
-    porta(ax, 14.5, 11.3, 0.8, "v", abre=1)                # quarto da filha
-    porta(ax, 13.4, 17.5, 0.85, "h", abre=1)               # SUÍTE: corredor -> quarto
-    porta(ax, 15.0, 17.5, 0.75, "h", abre=-1)              # quarto -> closet
-    porta(ax, 16.4, 17.5, 0.7, "h", abre=-1, giro=-1)      # quarto -> banho suíte
-    # fundo: aberto para o deck
-    vao(ax, 1.6, 22.0, 7.4, 22.0)
-    for x in (1.5, 4.5, 7.5):
+    porta(ax, 4.4, 10.5, 0.8, "h", abre=1)                 # garagem -> lavanderia
+    porta(ax, 1.5, 10.7, 0.9, "v", abre=1)                 # lavanderia -> corredor pet
+    porta(ax, 1.7, 13.0, 0.8, "h", abre=1)                 # lavanderia -> cozinha
+    porta(ax, 7.5, 11.2, 0.7, "v", abre=-1)                # lavabo (abre do jantar)
+    vao(ax, 7.6, 10.5, 12.9, 10.5)                         # sala de estar aberta para o jantar
+    vao(ax, 7.5, 13.1, 7.5, 17.9)                          # cozinha aberta para o jantar
+    vao(ax, 3.5, 18.0, 7.4, 18.0)                          # balcão cozinha -> gourmet
+    vao(ax, 7.6, 18.0, 12.9, 18.0, correr=True)            # jantar -> gourmet (vidro de correr)
+    porta(ax, 13.0, 7.9, 0.9, "v", abre=1)                 # home office (da sala)
+    vao(ax, 13.0, 9.1, 13.0, 10.4)                         # sala -> corredor íntimo
+    porta(ax, 14.2, 9.3, 0.7, "v", abre=1)                 # banho social
+    porta(ax, 14.2, 11.6, 0.8, "v", abre=1)                # quarto da filha
+    porta(ax, 13.1, 18.0, 0.85, "h", abre=1)               # SUÍTE: corredor -> quarto
+    porta(ax, 14.75, 18.0, 0.75, "h", abre=-1)             # quarto -> closet
+    porta(ax, 16.3, 18.0, 0.7, "h", abre=-1)               # quarto -> banho suíte
+    # gourmet aberta para o deck (pilares)
+    vao(ax, 1.6, 22.0, 12.9, 22.0)
+    for x in (1.5, 4.5, 7.5, 10.25, 13.0):
         ax.add_patch(Rectangle((x - 0.15, 21.85), 0.3, 0.3, fc="#2B2B2B", zorder=7))
-    vao(ax, 8.0, 22.0, 12.8, 22.0, correr=True)            # estar -> deck
     vao(ax, 13.8, 22.0, 17.8, 22.0, correr=True)           # suíte -> deck
 
 
@@ -343,18 +330,15 @@ def janela(ax, x0, y0, x1, y1):
 
 
 def janelas(ax):
-    janela(ax, 14.9, 5.0, 18.0, 5.0)      # office frente
-    janela(ax, 11.2, 5.0, 12.2, 5.0)      # sala de estar
-    janela(ax, 13.0, 5.0, 14.0, 5.0)      # sala de estar
-    janela(ax, 18.5, 5.8, 18.5, 7.6)      # office lateral
-    janela(ax, 18.5, 9.0, 18.5, 10.2)     # banho
-    janela(ax, 18.5, 11.4, 18.5, 13.8)    # quarto filha
-    janela(ax, 18.5, 14.9, 18.5, 15.9)    # banho suíte
-    janela(ax, 18.5, 18.2, 18.5, 21.2)    # suíte lateral
-    janela(ax, 1.5, 13.6, 1.5, 15.9)      # cozinha
+    janela(ax, 8.2, 5.0, 9.3, 5.0); janela(ax, 9.5, 5.0, 10.6, 5.0)   # sala de estar
+    janela(ax, 14.6, 5.0, 17.9, 5.0)      # office frente
+    janela(ax, 18.5, 5.8, 18.5, 8.0)      # office lateral
+    janela(ax, 18.5, 9.6, 18.5, 10.8)     # banho
+    janela(ax, 18.5, 11.8, 18.5, 14.2)    # quarto filha
+    janela(ax, 18.5, 14.9, 18.5, 16.2)    # banho suíte
+    janela(ax, 18.5, 18.6, 18.5, 21.4)    # suíte lateral
+    janela(ax, 1.5, 14.0, 1.5, 16.5)      # cozinha
     janela(ax, 1.5, 7.0, 1.5, 9.0)        # garagem ventilação
-    ax.add_patch(Rectangle((9.7, 10.0), 2.8, 2.8, fc="none", ec="#3D7CB8", lw=0.6, ls=":", zorder=6))
-    ax.text(11.1, 12.55, "claraboia", ha="center", fontsize=4.6, color="#235A8C", zorder=7)
 
 
 
@@ -380,7 +364,7 @@ def quadro(ax):
     ar = areas()
     total = sum(ar.values())
     gourmet = ar["Varanda gourmet"]
-    ordem = ["Sala de estar", "Galeria", "Lavabo", "Jantar / TV", "Cozinha", "Varanda gourmet", "Sala de jogos",
+    ordem = ["Sala de estar", "Jantar + jogos", "Cozinha", "Varanda gourmet", "Lavabo",
              "Home office (+ hóspedes)", "Circulação íntima", "Banho", "Quarto da filha", "Closet",
              "Banho suíte", "Suíte do casal", "Garagem 2 carros", "Lavanderia + ducha pet"]
     linhas = [(n, f"{ar[n]:.1f}") for n in ordem]
@@ -396,7 +380,7 @@ def quadro(ax):
     ax.text(0.0, y - 0.01, "Taxa de ocupação do lote", fontsize=8.5)
     ax.text(0.95, y - 0.01, f"{17 * 17 / 600 * 100:.0f}%", fontsize=8.5, ha="right"); y -= 0.06
     ax.text(0, y, "LEGENDA", fontsize=10, weight="bold"); y -= 0.04
-    for z, nome in [("social", "Social / receber"), ("jogos", "Sala de jogos"), ("trabalho", "Trabalho"),
+    for z, nome in [("social", "Social / receber"), ("jogos", "Jantar + jogos"), ("trabalho", "Trabalho"),
                     ("intimo", "Íntimo"), ("servico", "Serviço / banhos"), ("varanda", "Varanda gourmet")]:
         ax.add_patch(Rectangle((0, y - 0.008), 0.06, 0.022, fc=COR[z], ec="#333", lw=0.5, transform=ax.transAxes))
         ax.text(0.09, y, nome, fontsize=8.5, va="bottom"); y -= 0.026
@@ -413,7 +397,7 @@ def main():
     ax = fig.add_axes([0.02, 0.03, 0.70, 0.90])
     desenha(ax)
     fig.text(0.02, 0.955, "CASA TÉRREA EM CONDOMÍNIO  ·  LOTE 600 m²", fontsize=17, weight="bold")
-    fig.text(0.02, 0.935, "Estudo preliminar de layout — suíte do casal, quarto da filha, home office, sala de jogos, "
+    fig.text(0.02, 0.935, "Estudo preliminar de layout (versão 2) — uma sala só, suíte do casal, quarto da filha, home office, sala de jogos, "
              "área de receber, espaço de brincar e espaço do cachorro", fontsize=9.5, color="#444")
     q = fig.add_axes([0.74, 0.05, 0.24, 0.85])
     quadro(q)
