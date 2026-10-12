@@ -34,7 +34,18 @@
 .degrau { background: #17151c; border: 1px solid #2a2730; border-top: 3px solid var(--cor-principal); }
 @media (min-width: 640px) { .cartaz { flex-basis: 34%; } }
 @media (min-width: 1024px) { .cartaz { flex-basis: 22%; } .fileira { padding-left: 16px; } }
-@media (prefers-reduced-motion: reduce) { .facho, .rota, .carro, .cartao-pg, .pix { animation: none; } .carro { offset-distance: 100%; } }
+.assistente, .assistente h2, .assistente h3, .assistente p { color: #1a1820; }
+.lampadas { position: relative; height: 12px; margin: 0 auto; max-width: 56rem; }
+.lampadas::before, .lampadas::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle 4px at 9px 6px, #ffd28a 0 3px, rgba(245, 158, 11, 0.45) 4px, transparent 6px) 0 0 / 36px 12px repeat-x; animation: acende 1.2s steps(1) infinite; }
+.lampadas::after { background-position: 18px 0; animation-delay: -0.6s; }
+@keyframes acende { 0% { opacity: 1; filter: drop-shadow(0 0 4px #f59e0b); } 50% { opacity: 0.25; filter: none; } }
+.neon { text-shadow: 0 0 10px rgba(249, 115, 22, 0.55), 0 0 26px rgba(249, 115, 22, 0.3); animation: neon 7s linear infinite; }
+@keyframes neon { 0%, 61%, 63.5%, 66%, 100% { text-shadow: 0 0 10px rgba(249, 115, 22, 0.55), 0 0 26px rgba(249, 115, 22, 0.3); } 62%, 65% { text-shadow: none; } }
+.fileiras > div:nth-of-type(2) .neon { animation-delay: -2.4s; }
+.fileiras > div:nth-of-type(3) .neon { animation-delay: -4.1s; }
+.fileiras > div:nth-of-type(4) .neon { animation-delay: -1.2s; }
+.fileiras > div:nth-of-type(5) .neon { animation-delay: -5.6s; }
+@media (prefers-reduced-motion: reduce) { .facho, .rota, .carro, .cartao-pg, .pix, .neon, .lampadas::before, .lampadas::after { animation: none; } .carro { offset-distance: 100%; } }
 </style>
 
 <div class="hw">
@@ -55,6 +66,7 @@
 </section>
 
 <section class="px-4 py-12">
+  <div class="lampadas mb-3" aria-hidden="true"></div>
   <div class="ticket mx-auto flex max-w-4xl flex-col items-center gap-5 rounded-2xl px-8 py-8 text-center text-[#0d0c10] md:flex-row md:justify-between md:px-14 md:text-left">
     <div>
       <p class="text-xs font-extrabold tracking-[0.2em] uppercase">Mora no ABC?</p>
@@ -66,16 +78,17 @@
       <p class="mt-2 text-xs font-bold">Use o cupom ao finalizar a reserva</p>
     </div>
   </div>
+  <div class="lampadas mt-3" aria-hidden="true"></div>
 </section>
 
-<section class="pb-6">
+<section class="fileiras pb-6">
   {% assign lista = jogos.novidades %}
   {% if lista.size > 0 %}
   <div class="mt-14">
     <div class="mx-auto flex max-w-6xl items-end justify-between gap-4 px-4">
       <div>
         <p class="rotulo">Recém-chegados</p>
-        <h2 class="titulo mt-1 text-2xl text-stone-50 md:text-3xl">Novidades</h2>
+        <h2 class="titulo neon mt-1 text-2xl text-stone-50 md:text-3xl">Novidades</h2>
         <p class="mt-1 text-sm text-stone-400 md:text-base">Os últimos jogos que entraram no acervo.</p>
       </div>
       <a class="shrink-0 text-sm font-semibold text-[var(--cor-destaque)] underline underline-offset-4 hover:text-stone-50" href="{{ links.catalogo }}">Ver todos</a>
@@ -103,7 +116,7 @@
     <div class="mx-auto flex max-w-6xl items-end justify-between gap-4 px-4">
       <div>
         <p class="rotulo">Categoria</p>
-        <h2 class="titulo mt-1 text-2xl text-stone-50 md:text-3xl">Família</h2>
+        <h2 class="titulo neon mt-1 text-2xl text-stone-50 md:text-3xl">Família</h2>
         <p class="mt-1 text-sm text-stone-400 md:text-base">Regras rápidas de aprender, para jogar com quem estiver por perto.</p>
       </div>
       <a class="shrink-0 text-sm font-semibold text-[var(--cor-destaque)] underline underline-offset-4 hover:text-stone-50" href="{{ links.catalogo }}">Ver todos</a>
@@ -131,7 +144,7 @@
     <div class="mx-auto flex max-w-6xl items-end justify-between gap-4 px-4">
       <div>
         <p class="rotulo">Categoria</p>
-        <h2 class="titulo mt-1 text-2xl text-stone-50 md:text-3xl">Estratégico</h2>
+        <h2 class="titulo neon mt-1 text-2xl text-stone-50 md:text-3xl">Estratégico</h2>
         <p class="mt-1 text-sm text-stone-400 md:text-base">Para quem gosta de planejar cada jogada.</p>
       </div>
       <a class="shrink-0 text-sm font-semibold text-[var(--cor-destaque)] underline underline-offset-4 hover:text-stone-50" href="{{ links.catalogo }}">Ver todos</a>
@@ -159,7 +172,7 @@
     <div class="mx-auto flex max-w-6xl items-end justify-between gap-4 px-4">
       <div>
         <p class="rotulo">Categoria</p>
-        <h2 class="titulo mt-1 text-2xl text-stone-50 md:text-3xl">Pocket</h2>
+        <h2 class="titulo neon mt-1 text-2xl text-stone-50 md:text-3xl">Pocket</h2>
         <p class="mt-1 text-sm text-stone-400 md:text-base">Caixas pequenas, partidas curtas. Cabem na bolsa.</p>
       </div>
       <a class="shrink-0 text-sm font-semibold text-[var(--cor-destaque)] underline underline-offset-4 hover:text-stone-50" href="{{ links.catalogo }}">Ver todos</a>
@@ -187,7 +200,7 @@
     <div class="mx-auto flex max-w-6xl items-end justify-between gap-4 px-4">
       <div>
         <p class="rotulo">Categoria</p>
-        <h2 class="titulo mt-1 text-2xl text-stone-50 md:text-3xl">Deluxe</h2>
+        <h2 class="titulo neon mt-1 text-2xl text-stone-50 md:text-3xl">Deluxe</h2>
         <p class="mt-1 text-sm text-stone-400 md:text-base">Edições caprichadas, com componentes especiais.</p>
       </div>
       <a class="shrink-0 text-sm font-semibold text-[var(--cor-destaque)] underline underline-offset-4 hover:text-stone-50" href="{{ links.catalogo }}">Ver todos</a>
@@ -213,7 +226,7 @@
 
 <section class="mx-auto max-w-6xl px-4 py-16">
   <p class="rotulo text-center">Como funciona</p>
-  <h2 class="titulo mt-2 text-center text-3xl text-stone-50 md:text-4xl">Entrega e pagamento</h2>
+  <h2 class="titulo neon mt-2 text-center text-3xl text-stone-50 md:text-4xl">Entrega e pagamento</h2>
   <div class="mt-10 grid gap-5 md:grid-cols-2">
     <div class="rounded-3xl border border-[#2a2730] bg-[#17151c] p-6 md:p-8">
       <svg class="w-full" viewBox="0 0 320 110" role="img" aria-label="Trajeto da loja até a sua casa">
@@ -248,8 +261,10 @@
     </div>
   </div>
 
-  <div class="mt-10 flex flex-wrap items-center justify-center gap-3">
+  <div class="assistente mx-auto mt-10 max-w-2xl rounded-3xl bg-[#f5efe4] px-6 py-7 text-center text-[#1a1820] md:px-10">
     {% assistente_de_jogos %}
+  </div>
+  <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
     {% if loja.whatsapp_url %}
       <a class="rounded-full border border-stone-500 px-6 py-3 text-sm font-semibold text-stone-100 hover:border-[var(--cor-principal)] hover:text-[var(--cor-principal)]" href="{{ loja.whatsapp_url }}">Falar no WhatsApp</a>
     {% endif %}
