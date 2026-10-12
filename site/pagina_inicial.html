@@ -34,7 +34,8 @@
 .degrau { background: #17151c; border: 1px solid #2a2730; border-top: 3px solid var(--cor-principal); }
 @media (min-width: 640px) { .cartaz { flex-basis: 34%; } }
 @media (min-width: 1024px) { .cartaz { flex-basis: 22%; } .fileira { padding-left: 16px; } }
-.assistente, .assistente h2, .assistente h3, .assistente p { color: #1a1820; }
+.assistente, .assistente h2, .assistente h3, .assistente h4, .assistente p, .assistente small { color: #f5efe4; }
+.logo { filter: drop-shadow(0 0 1px #f5efe4) drop-shadow(0 0 1px #f5efe4) drop-shadow(0 0 1px #f5efe4) drop-shadow(0 8px 28px rgba(249, 115, 22, 0.25)); }
 .lampadas { position: relative; height: 12px; margin: 0 auto; max-width: 56rem; }
 .lampadas::before, .lampadas::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle 4px at 9px 6px, #ffd28a 0 3px, rgba(245, 158, 11, 0.45) 4px, transparent 6px) 0 0 / 36px 12px repeat-x; animation: acende 1.2s steps(1) infinite; }
 .lampadas::after { background-position: 18px 0; animation-delay: -0.6s; }
@@ -53,7 +54,7 @@
 <section class="hero facho px-4 pt-14 pb-16 text-center md:pt-24 md:pb-24">
   <div class="mx-auto max-w-3xl">
     {% if loja.logo_url %}
-      <img class="mx-auto mb-8 h-16 w-auto rounded-2xl bg-white p-2.5 md:h-20" src="{{ loja.logo_url }}" alt="{{ loja.nome }}">
+      <img class="logo mx-auto mb-8 h-24 w-auto md:h-32" src="{{ loja.logo_url }}" alt="{{ loja.nome }}">
     {% endif %}
     <p class="rotulo">Temporada de Halloween · {{ loja.cidade }}</p>
     <h1 class="titulo mt-4 text-4xl text-stone-50 md:text-6xl">Jogos para as noites de outubro</h1>
@@ -261,7 +262,7 @@
     </div>
   </div>
 
-  <div class="assistente mx-auto mt-10 max-w-2xl rounded-3xl bg-[#f5efe4] px-6 py-7 text-center text-[#1a1820] md:px-10">
+  <div class="assistente mx-auto mt-10 max-w-2xl rounded-3xl border border-[#2a2730] bg-[#17151c] px-6 py-7 text-center text-stone-100 md:px-10">
     {% assistente_de_jogos %}
   </div>
   <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
