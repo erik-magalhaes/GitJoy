@@ -383,7 +383,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   `taro_{com_trilha,para_musica}_final.mp4` (−15,5 LUFS). **2ª rodada (pedido dele: "pouca opção" e "devagar"):** 22 jogos
   (7 + 8 + 7; acrescentei Splito, Flash 10, Dobro, Loser, Art Society, Bad Company, Wandering Towers, Rebirth, Eu Sou uma
   Banana, Dança dos Tronos, Perfil Express e Telma — capas do Compara Jogos conferidas contra a foto do acervo) e troca a cada
-  4/3/5 quadros.
+  4/3/5 quadros. **3ª rodada:** ele achou longo ("esses vídeos acabam e começam sem a pessoa perceber") → **LOOP de 7 s** com os
+  mesmos 22 jogos: as cartas já começam viradas na mesa, desviram (0,25 s), giram até 6,45 s e viram de volta; "comenta" e
+  "3 JOGOS = 7 DIAS · LINK NA BIO" na tela durante o giro, sem tela final; toda animação com período que fecha em DUR
+  (quadro DUR·FPS idêntico ao quadro 0, conferido). **Regra para trend/print: curto e em loop.**
 - **Conteúdo SEM GRAVAR (12/out/2026)** — ele aprovou da minha lista: 3 (roleta "tira print", esperando ele escolher o
   visual), 6, 7, 8, 9 e 11. **Dados reais do site** em `comum/dados/acervo_site.json` (161 jogos: preço por 5 dias,
   jogadores, tempo, peso; raspado de `/boardgames?page=N`) e **menor preço de loja** em `comum/dados/precos_loja.json`
