@@ -1,0 +1,261 @@
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
+.hw { font-family: "Manrope", sans-serif; background: #0d0c10; color: #e7e2d8; }
+.titulo { font-family: "Cinzel", serif; font-weight: 700; letter-spacing: 0.04em; line-height: 1.15; }
+.rotulo { font-size: 12px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cor-destaque); }
+.hero {
+  background:
+    radial-gradient(ellipse 60% 55% at 50% 0%, rgba(249, 115, 22, 0.22), transparent 70%),
+    radial-gradient(ellipse 90% 60% at 50% 110%, rgba(120, 140, 170, 0.12), transparent 70%),
+    #0d0c10;
+}
+.facho { animation: facho 7s ease-in-out infinite; }
+@keyframes facho { 0%, 100% { opacity: 1; } 46% { opacity: 1; } 48% { opacity: 0.75; } 50% { opacity: 1; } 53% { opacity: 0.85; } 56% { opacity: 1; } }
+.ticket {
+  background: linear-gradient(135deg, #f97316, #f59e0b);
+  -webkit-mask: radial-gradient(circle 14px at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 14px at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
+  mask: radial-gradient(circle 14px at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 14px at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
+}
+.codigo { font-family: "Cinzel", serif; letter-spacing: 0.12em; border: 2px dashed rgba(13, 12, 16, 0.55); }
+.fileira { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-left: 16px; padding: 18px 16px 22px; scrollbar-width: thin; scrollbar-color: #3a3640 transparent; }
+.cartaz { flex: 0 0 64%; scroll-snap-align: start; display: block; border-radius: 18px; background: #17151c; border: 1px solid #2a2730; transition: border-color 0.3s ease, transform 0.3s ease; }
+.cartaz:hover { border-color: rgba(249, 115, 22, 0.7); transform: translateY(-3px); }
+.cartaz-capa { position: relative; border-radius: 18px 18px 0 0; background: radial-gradient(ellipse at 50% 30%, #2b2732, #141218 75%); }
+.rota { stroke-dasharray: 6 8; animation: rota 1.6s linear infinite; }
+@keyframes rota { to { stroke-dashoffset: -28; } }
+.carro { offset-path: path("M 30 70 C 90 10, 150 110, 210 50 S 290 40, 290 40"); animation: anda 4.5s ease-in-out infinite; }
+@keyframes anda { 0% { offset-distance: 0%; opacity: 0; } 8% { opacity: 1; } 85% { offset-distance: 100%; opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+.pix, .cartao-pg { transform-box: fill-box; transform-origin: center; }
+.cartao-pg { animation: desliza 5s ease-in-out infinite; }
+@keyframes desliza { 0%, 100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(-6px) rotate(-3deg); } }
+.pix { animation: pulsa 5s ease-in-out infinite; }
+@keyframes pulsa { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+.degrau { background: #17151c; border: 1px solid #2a2730; border-top: 3px solid var(--cor-principal); }
+@media (min-width: 640px) { .cartaz { flex-basis: 34%; } }
+@media (min-width: 1024px) { .cartaz { flex-basis: 22%; } .fileira { padding-left: 16px; } }
+@media (prefers-reduced-motion: reduce) { .facho, .rota, .carro, .cartao-pg, .pix { animation: none; } .carro { offset-distance: 100%; } }
+</style>
+
+<div class="hw">
+
+<section class="hero facho px-4 pt-14 pb-16 text-center md:pt-24 md:pb-24">
+  <div class="mx-auto max-w-3xl">
+    {% if loja.logo_url %}
+      <img class="mx-auto mb-8 h-16 w-auto rounded-2xl bg-white p-2.5 md:h-20" src="{{ loja.logo_url }}" alt="{{ loja.nome }}">
+    {% endif %}
+    <p class="rotulo">Temporada de Halloween · {{ loja.cidade }}</p>
+    <h1 class="titulo mt-4 text-4xl text-stone-50 md:text-6xl">Jogos para as noites de outubro</h1>
+    <p class="mx-auto mt-5 max-w-xl text-base leading-relaxed text-stone-300 md:text-lg">{{ loja.total_jogos }} jogos de tabuleiro para alugar e jogar em casa por 5 dias. Retire na loja ou receba em casa.</p>
+    <a class="mt-8 inline-block rounded-full bg-[var(--cor-principal)] px-8 py-3.5 text-base font-bold text-black hover:bg-[var(--cor-destaque)]" href="{{ links.catalogo }}">Ver o acervo</a>
+    <div class="mx-auto mt-8 max-w-xl text-left">
+      {% busca %}
+    </div>
+  </div>
+</section>
+
+<section class="px-4 py-12">
+  <div class="ticket mx-auto flex max-w-4xl flex-col items-center gap-5 rounded-2xl px-8 py-8 text-center text-[#0d0c10] md:flex-row md:justify-between md:px-14 md:text-left">
+    <div>
+      <p class="text-xs font-extrabold tracking-[0.2em] uppercase">Mora no ABC?</p>
+      <p class="titulo mt-1 text-3xl md:text-4xl">5% de desconto</p>
+      <p class="mt-1 text-sm font-semibold md:text-base">na locação dos seus jogos · válido até 15/10</p>
+    </div>
+    <div class="shrink-0 text-center">
+      <p class="codigo rounded-xl bg-[#fff7ed] px-6 py-3 text-2xl text-[#0d0c10] md:text-3xl">JOGAABC5</p>
+      <p class="mt-2 text-xs font-bold">Use o cupom ao finalizar a reserva</p>
+    </div>
+  </div>
+</section>
+
+<section class="pb-6">
+  {% assign lista = jogos.mais_alugados %}
+  {% if lista.size > 0 %}
+  <div class="mt-14">
+    <div class="mx-auto flex max-w-6xl items-end justify-between gap-4 px-4">
+      <div>
+        <p class="rotulo">Os mais pedidos</p>
+        <h2 class="titulo mt-1 text-2xl text-stone-50 md:text-3xl">Mais alugados</h2>
+        <p class="mt-1 text-sm text-stone-400 md:text-base">O que mais sai da nossa estante.</p>
+      </div>
+      <a class="shrink-0 text-sm font-semibold text-[var(--cor-destaque)] underline underline-offset-4 hover:text-stone-50" href="{{ links.catalogo }}">Ver todos</a>
+    </div>
+    <div class="fileira mx-auto max-w-6xl">
+      {% for jogo in lista limit: 12 %}
+          <a class="cartaz" href="{{ jogo.url }}">
+            <div class="cartaz-capa">
+              <img class="aspect-[3/4] w-full object-contain p-4" src="{{ jogo.imagem_url }}" alt="{{ jogo.nome }}" loading="lazy">
+              {% if jogo.disponivel %}{% else %}<span class="absolute top-3 left-3 rounded-full bg-black/80 px-3 py-1 text-xs font-semibold text-stone-200">Alugado</span>{% endif %}
+            </div>
+            <div class="px-4 pt-3 pb-4">
+              <h3 class="text-base leading-snug font-bold text-stone-50">{{ jogo.nome }}</h3>
+              <p class="mt-1 text-sm text-stone-400">{% if jogo.jogadores %}{{ jogo.jogadores }} jogadores{% endif %}{% if jogo.jogadores and jogo.tempo %} · {% endif %}{% if jogo.tempo %}{{ jogo.tempo }}{% endif %}</p>
+              {% if jogo.preco %}<p class="mt-2 text-lg font-extrabold text-[var(--cor-principal)]">{{ jogo.preco }}{% if jogo.dias %} <span class="text-sm font-medium text-stone-400">/ {{ jogo.dias }} dias</span>{% endif %}</p>{% endif %}
+            </div>
+          </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+  {% assign lista = jogos.da_categoria["Família"] %}
+  {% if lista.size > 0 %}
+  <div class="mt-14">
+    <div class="mx-auto flex max-w-6xl items-end justify-between gap-4 px-4">
+      <div>
+        <p class="rotulo">Categoria</p>
+        <h2 class="titulo mt-1 text-2xl text-stone-50 md:text-3xl">Família</h2>
+        <p class="mt-1 text-sm text-stone-400 md:text-base">Regras rápidas de aprender, para jogar com quem estiver por perto.</p>
+      </div>
+      <a class="shrink-0 text-sm font-semibold text-[var(--cor-destaque)] underline underline-offset-4 hover:text-stone-50" href="{{ links.catalogo }}">Ver todos</a>
+    </div>
+    <div class="fileira mx-auto max-w-6xl">
+      {% for jogo in lista limit: 12 %}
+          <a class="cartaz" href="{{ jogo.url }}">
+            <div class="cartaz-capa">
+              <img class="aspect-[3/4] w-full object-contain p-4" src="{{ jogo.imagem_url }}" alt="{{ jogo.nome }}" loading="lazy">
+              {% if jogo.disponivel %}{% else %}<span class="absolute top-3 left-3 rounded-full bg-black/80 px-3 py-1 text-xs font-semibold text-stone-200">Alugado</span>{% endif %}
+            </div>
+            <div class="px-4 pt-3 pb-4">
+              <h3 class="text-base leading-snug font-bold text-stone-50">{{ jogo.nome }}</h3>
+              <p class="mt-1 text-sm text-stone-400">{% if jogo.jogadores %}{{ jogo.jogadores }} jogadores{% endif %}{% if jogo.jogadores and jogo.tempo %} · {% endif %}{% if jogo.tempo %}{{ jogo.tempo }}{% endif %}</p>
+              {% if jogo.preco %}<p class="mt-2 text-lg font-extrabold text-[var(--cor-principal)]">{{ jogo.preco }}{% if jogo.dias %} <span class="text-sm font-medium text-stone-400">/ {{ jogo.dias }} dias</span>{% endif %}</p>{% endif %}
+            </div>
+          </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+  {% assign lista = jogos.da_categoria["Estratégico"] %}
+  {% if lista.size > 0 %}
+  <div class="mt-14">
+    <div class="mx-auto flex max-w-6xl items-end justify-between gap-4 px-4">
+      <div>
+        <p class="rotulo">Categoria</p>
+        <h2 class="titulo mt-1 text-2xl text-stone-50 md:text-3xl">Estratégico</h2>
+        <p class="mt-1 text-sm text-stone-400 md:text-base">Para quem gosta de planejar cada jogada.</p>
+      </div>
+      <a class="shrink-0 text-sm font-semibold text-[var(--cor-destaque)] underline underline-offset-4 hover:text-stone-50" href="{{ links.catalogo }}">Ver todos</a>
+    </div>
+    <div class="fileira mx-auto max-w-6xl">
+      {% for jogo in lista limit: 12 %}
+          <a class="cartaz" href="{{ jogo.url }}">
+            <div class="cartaz-capa">
+              <img class="aspect-[3/4] w-full object-contain p-4" src="{{ jogo.imagem_url }}" alt="{{ jogo.nome }}" loading="lazy">
+              {% if jogo.disponivel %}{% else %}<span class="absolute top-3 left-3 rounded-full bg-black/80 px-3 py-1 text-xs font-semibold text-stone-200">Alugado</span>{% endif %}
+            </div>
+            <div class="px-4 pt-3 pb-4">
+              <h3 class="text-base leading-snug font-bold text-stone-50">{{ jogo.nome }}</h3>
+              <p class="mt-1 text-sm text-stone-400">{% if jogo.jogadores %}{{ jogo.jogadores }} jogadores{% endif %}{% if jogo.jogadores and jogo.tempo %} · {% endif %}{% if jogo.tempo %}{{ jogo.tempo }}{% endif %}</p>
+              {% if jogo.preco %}<p class="mt-2 text-lg font-extrabold text-[var(--cor-principal)]">{{ jogo.preco }}{% if jogo.dias %} <span class="text-sm font-medium text-stone-400">/ {{ jogo.dias }} dias</span>{% endif %}</p>{% endif %}
+            </div>
+          </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+  {% assign lista = jogos.da_categoria["Pocket"] %}
+  {% if lista.size > 0 %}
+  <div class="mt-14">
+    <div class="mx-auto flex max-w-6xl items-end justify-between gap-4 px-4">
+      <div>
+        <p class="rotulo">Categoria</p>
+        <h2 class="titulo mt-1 text-2xl text-stone-50 md:text-3xl">Pocket</h2>
+        <p class="mt-1 text-sm text-stone-400 md:text-base">Caixas pequenas, partidas curtas. Cabem na bolsa.</p>
+      </div>
+      <a class="shrink-0 text-sm font-semibold text-[var(--cor-destaque)] underline underline-offset-4 hover:text-stone-50" href="{{ links.catalogo }}">Ver todos</a>
+    </div>
+    <div class="fileira mx-auto max-w-6xl">
+      {% for jogo in lista limit: 12 %}
+          <a class="cartaz" href="{{ jogo.url }}">
+            <div class="cartaz-capa">
+              <img class="aspect-[3/4] w-full object-contain p-4" src="{{ jogo.imagem_url }}" alt="{{ jogo.nome }}" loading="lazy">
+              {% if jogo.disponivel %}{% else %}<span class="absolute top-3 left-3 rounded-full bg-black/80 px-3 py-1 text-xs font-semibold text-stone-200">Alugado</span>{% endif %}
+            </div>
+            <div class="px-4 pt-3 pb-4">
+              <h3 class="text-base leading-snug font-bold text-stone-50">{{ jogo.nome }}</h3>
+              <p class="mt-1 text-sm text-stone-400">{% if jogo.jogadores %}{{ jogo.jogadores }} jogadores{% endif %}{% if jogo.jogadores and jogo.tempo %} · {% endif %}{% if jogo.tempo %}{{ jogo.tempo }}{% endif %}</p>
+              {% if jogo.preco %}<p class="mt-2 text-lg font-extrabold text-[var(--cor-principal)]">{{ jogo.preco }}{% if jogo.dias %} <span class="text-sm font-medium text-stone-400">/ {{ jogo.dias }} dias</span>{% endif %}</p>{% endif %}
+            </div>
+          </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+  {% assign lista = jogos.da_categoria["Deluxe"] %}
+  {% if lista.size > 0 %}
+  <div class="mt-14">
+    <div class="mx-auto flex max-w-6xl items-end justify-between gap-4 px-4">
+      <div>
+        <p class="rotulo">Categoria</p>
+        <h2 class="titulo mt-1 text-2xl text-stone-50 md:text-3xl">Deluxe</h2>
+        <p class="mt-1 text-sm text-stone-400 md:text-base">Edições caprichadas, com componentes especiais.</p>
+      </div>
+      <a class="shrink-0 text-sm font-semibold text-[var(--cor-destaque)] underline underline-offset-4 hover:text-stone-50" href="{{ links.catalogo }}">Ver todos</a>
+    </div>
+    <div class="fileira mx-auto max-w-6xl">
+      {% for jogo in lista limit: 12 %}
+          <a class="cartaz" href="{{ jogo.url }}">
+            <div class="cartaz-capa">
+              <img class="aspect-[3/4] w-full object-contain p-4" src="{{ jogo.imagem_url }}" alt="{{ jogo.nome }}" loading="lazy">
+              {% if jogo.disponivel %}{% else %}<span class="absolute top-3 left-3 rounded-full bg-black/80 px-3 py-1 text-xs font-semibold text-stone-200">Alugado</span>{% endif %}
+            </div>
+            <div class="px-4 pt-3 pb-4">
+              <h3 class="text-base leading-snug font-bold text-stone-50">{{ jogo.nome }}</h3>
+              <p class="mt-1 text-sm text-stone-400">{% if jogo.jogadores %}{{ jogo.jogadores }} jogadores{% endif %}{% if jogo.jogadores and jogo.tempo %} · {% endif %}{% if jogo.tempo %}{{ jogo.tempo }}{% endif %}</p>
+              {% if jogo.preco %}<p class="mt-2 text-lg font-extrabold text-[var(--cor-principal)]">{{ jogo.preco }}{% if jogo.dias %} <span class="text-sm font-medium text-stone-400">/ {{ jogo.dias }} dias</span>{% endif %}</p>{% endif %}
+            </div>
+          </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</section>
+
+<section class="mx-auto max-w-6xl px-4 py-16">
+  <p class="rotulo text-center">Como funciona</p>
+  <h2 class="titulo mt-2 text-center text-3xl text-stone-50 md:text-4xl">Entrega e pagamento</h2>
+  <div class="mt-10 grid gap-5 md:grid-cols-2">
+    <div class="rounded-3xl border border-[#2a2730] bg-[#17151c] p-6 md:p-8">
+      <svg class="w-full" viewBox="0 0 320 110" role="img" aria-label="Trajeto da loja até a sua casa">
+        <path class="rota" d="M 30 70 C 90 10, 150 110, 210 50 S 290 40, 290 40" fill="none" stroke="#5b5563" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="30" cy="70" r="9" fill="#f97316"/>
+        <circle cx="30" cy="70" r="3.5" fill="#0d0c10"/>
+        <polygon points="278,40 290,29 302,40" fill="#f59e0b"/>
+        <rect x="281" y="40" width="18" height="14" rx="2" fill="#f59e0b"/>
+        <rect x="287" y="46" width="6" height="8" fill="#0d0c10"/>
+        <g class="carro"><rect x="-9" y="-6" width="18" height="12" rx="3" fill="#e7e2d8"/><circle cx="-5" cy="7" r="2.5" fill="#e7e2d8"/><circle cx="5" cy="7" r="2.5" fill="#e7e2d8"/></g>
+      </svg>
+      <h3 class="mt-4 text-xl font-bold text-stone-50">Retire ou receba em casa</h3>
+      <p class="mt-2 leading-relaxed text-stone-300">Retire na loja em {{ loja.cidade }} ou receba em casa. A taxa de entrega depende da sua região e aparece ao finalizar a reserva.</p>
+    </div>
+    <div class="rounded-3xl border border-[#2a2730] bg-[#17151c] p-6 md:p-8">
+      <svg class="w-full" viewBox="0 0 320 110" role="img" aria-label="Pagamento com Pix ou cartão">
+        <g transform="translate(95 55)"><g class="pix"><rect x="-26" y="-26" width="52" height="52" rx="10" transform="rotate(45)" fill="none" stroke="#f97316" stroke-width="4"/><rect x="-9" y="-9" width="18" height="18" rx="3" transform="rotate(45)" fill="#f97316"/></g></g>
+        <g transform="translate(220 55)"><g class="cartao-pg"><rect x="-48" y="-30" width="96" height="60" rx="8" fill="#f59e0b"/><rect x="-48" y="-18" width="96" height="10" fill="#0d0c10"/><rect x="-38" y="6" width="28" height="6" rx="2" fill="#0d0c10" opacity="0.6"/><rect x="-38" y="16" width="44" height="4" rx="2" fill="#0d0c10" opacity="0.4"/></g></g>
+      </svg>
+      <h3 class="mt-4 text-xl font-bold text-stone-50">Pix ou cartão</h3>
+      <p class="mt-2 leading-relaxed text-stone-300">Pague a locação como preferir: Pix ou cartão.</p>
+    </div>
+  </div>
+
+  <div class="mt-5 rounded-3xl border border-[#2a2730] bg-[#17151c] p-6 md:p-8">
+    <h3 class="text-xl font-bold text-stone-50">Mais jogos, mais dias</h3>
+    <p class="mt-2 text-stone-300">O prazo vale para todos os jogos do carrinho, pelo mesmo preço.</p>
+    <div class="mt-6 grid grid-cols-3 gap-3 text-center md:gap-5">
+      <div class="degrau rounded-2xl px-2 py-5"><p class="text-sm text-stone-300">3 jogos</p><p class="titulo mt-1 text-3xl text-stone-50 md:text-4xl">7 dias</p></div>
+      <div class="degrau rounded-2xl px-2 py-5"><p class="text-sm text-stone-300">5 jogos</p><p class="titulo mt-1 text-3xl text-stone-50 md:text-4xl">10 dias</p></div>
+      <div class="degrau rounded-2xl px-2 py-5"><p class="text-sm text-stone-300">7 jogos</p><p class="titulo mt-1 text-3xl text-stone-50 md:text-4xl">15 dias</p></div>
+    </div>
+  </div>
+
+  <div class="mt-10 flex flex-wrap items-center justify-center gap-3">
+    {% assistente_de_jogos %}
+    {% if loja.whatsapp_url %}
+      <a class="rounded-full border border-stone-500 px-6 py-3 text-sm font-semibold text-stone-100 hover:border-[var(--cor-principal)] hover:text-[var(--cor-principal)]" href="{{ loja.whatsapp_url }}">Falar no WhatsApp</a>
+    {% endif %}
+    {% if loja.instagram_url %}
+      <a class="rounded-full border border-stone-500 px-6 py-3 text-sm font-semibold text-stone-100 hover:border-[var(--cor-principal)] hover:text-[var(--cor-principal)]" href="{{ loja.instagram_url }}">Instagram</a>
+    {% endif %}
+  </div>
+</section>
+
+</div>
