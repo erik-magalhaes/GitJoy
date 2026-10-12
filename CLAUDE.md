@@ -428,8 +428,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
     trocar). **Regra que fica: variar jogos entre posts** (ver o que já foi usado antes de escolher). Pedidos seguintes: **sem
     numeração "1/7" nas imagens** (ele achou que era coisa do chat) e, nos clássicos, **a caixa do clássico também** (menor,
     com tom envelhecido, no "antes"; UNO Mattel, Detetive Estrela, Batalha Naval e War Grow, fotos da Ri Happy).
-- **Story do Dia das Crianças** (`promo/story_criancas.py`, 12/out): céu azul com nuvens e confete, "FELIZ DIA DAS
-  CRIANÇAS!" letra a letra colorida (reusa `capa_criancas.titulo_colorido`), "pra criança de todas as idades!", turma de 5
-  meeples coloridos desenhados em vetor (com carinha) pulando + dados no ar, "BORA JOGAR EM FAMÍLIA? · LINK NA BIO".
-  Sem caixa de jogo (felicitação). Topo ~250 px e base ~270 px livres (o Instagram cobre no story).
+- **Story do Dia das Crianças** (`promo/story_criancas.py`, 12/out): a 1ª versão (céu azul, meeples desenhados em vetor)
+  foi REJEITADA: "muito ruim, nada a ver com o visual da loja, meeples mal feitos". **Artes da loja seguem o visual das
+  promoções** (`promo_3jogos.fundo`: creme com listras laranja, cartão branco do logo, Poppins azul-marinho, faixa laranja,
+  caixa verde-clara, rodapé "RETIRE EM MAUÁ OU RECEBA EM CASA" + site · @). Nunca desenhar meeple/peça à mão: só imagem
+  oficial. Versão atual: "FELIZ DIA DAS / CRIANÇAS!" + os 4 jogos do Reels das crianças em cartões 2x2 (caixa oficial,
+  nome, jogadores · tempo do site) + "Alugue 3 jogos e fique 7 dias com eles!".
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
