@@ -69,14 +69,14 @@
 </section>
 
 <section class="pb-6">
-  {% assign lista = jogos.mais_alugados %}
+  {% assign lista = jogos.novidades %}
   {% if lista.size > 0 %}
   <div class="mt-14">
     <div class="mx-auto flex max-w-6xl items-end justify-between gap-4 px-4">
       <div>
-        <p class="rotulo">Os mais pedidos</p>
-        <h2 class="titulo mt-1 text-2xl text-stone-50 md:text-3xl">Mais alugados</h2>
-        <p class="mt-1 text-sm text-stone-400 md:text-base">O que mais sai da nossa estante.</p>
+        <p class="rotulo">Recém-chegados</p>
+        <h2 class="titulo mt-1 text-2xl text-stone-50 md:text-3xl">Novidades</h2>
+        <p class="mt-1 text-sm text-stone-400 md:text-base">Os últimos jogos que entraram no acervo.</p>
       </div>
       <a class="shrink-0 text-sm font-semibold text-[var(--cor-destaque)] underline underline-offset-4 hover:text-stone-50" href="{{ links.catalogo }}">Ver todos</a>
     </div>
