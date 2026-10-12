@@ -368,4 +368,22 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   numa noite diferente ("a minha deu..."); fecha com "aluga os seus 3 = 7 dias". Só caixas OFICIAIS que estão no acervo
   (lista `CAIXAS` em `conceitos.py`, 24 jogos). 3 visuais mandados para ele escolher (`conceitos.py` → out/conceitos.jpg):
   1 caça-níquel neon, 2 roda da sorte, 3 cartas na mesa de feltro. Esperando a escolha.
+- **Conteúdo SEM GRAVAR (12/out/2026)** — ele aprovou da minha lista: 3 (roleta "tira print", esperando ele escolher o
+  visual), 6, 7, 8, 9 e 11. **Dados reais do site** em `comum/dados/acervo_site.json` (161 jogos: preço por 5 dias,
+  jogadores, tempo, peso; raspado de `/boardgames?page=N`) e **menor preço de loja** em `comum/dados/precos_loja.json`
+  (Compara Jogos, `"lowPrice"` do JSON-LD de `/item/<slug>`). Os vídeos sem narração saem a −18 LUFS: normalizar para
+  −15,5 (loudnorm linear 2 passadas, arquivos `*_final.mp4`).
+  - **6 Halloween** (`halloween-reels/halloween.py`, 31 s): noite ROXA (lua, morcegos, névoa, lápides), caixa sobe da névoa
+    com brilho laranja, nome em Creepster laranja, frase e jogadores/tempo. Final Girl, Scooby-Doo, Drácula vs Van
+    Helsing, Tiny Epic Zombies (MeepleBR), Paranormal Detectives, DCeased (Galápagos). Ficaram de fora: Zombicide Rue
+    Morgue (imagem oficial pequena) e Deep Regrets (só achei a capa em inglês). `_com_trilha` e `_para_musica`.
+  - **7 "Quanto custa comprar tudo isso?"** (`custo-reels/custo.py`, 29 s): CUPOM FISCAL imprimindo; 7 jogos de R$ 30
+    (Hot Streak, Ticket to Ride, Coffee Rush, Harmonies, Splendor Duel, Dixit, Marrakech) = R$ 1.616,82 nas lojas ×
+    R$ 210 na Sua Vez por 15 dias (prazo progressivo), economia R$ 1.406,82.
+  - **Carrosséis 1080x1080** (`feed-posts/carrosseis.py`, visual creme + círculo colorido, cores do site): "O jogo certo
+    pra cada rolê" (8 telas), "Curte esse clássico?" (7: UNO→Flip 7 A Vingança, Scrabble→Bananagrams, Imagem &
+    Ação→Dixit, Detetive→MicroMacro Full House, Jogo da Velha→boop.; Root saiu porque a da loja é a edição em inglês) e
+    **"Top 5 queridinhos da Sua Vez"** (7). Ele pediu "top 5 mais alugados do mês" e disse para inventar porque ainda não
+    houve aluguéis; **não inventei número de aluguel**: virou "os que a gente mais indica", com as frases dele no 5-4-3-2-1
+    (King of Tokyo, Ticket to Ride, Splendor Duel, Harmonies, Hitster; Azul não está no acervo).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
