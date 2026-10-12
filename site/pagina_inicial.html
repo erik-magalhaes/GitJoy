@@ -110,6 +110,34 @@
     </div>
   </div>
   {% endif %}
+  {% assign lista = jogos.da_categoria["Pocket"] %}
+  {% if lista.size > 0 %}
+  <div class="mt-14">
+    <div class="mx-auto flex max-w-6xl items-end justify-between gap-4 px-4">
+      <div>
+        <p class="rotulo">Categoria</p>
+        <h2 class="titulo neon mt-1 text-2xl text-stone-50 md:text-3xl">Pocket</h2>
+        <p class="mt-1 text-sm text-stone-400 md:text-base">Caixas pequenas, partidas curtas. Cabem na bolsa.</p>
+      </div>
+      <a class="shrink-0 text-sm font-semibold text-[var(--cor-destaque)] underline underline-offset-4 hover:text-stone-50" href="{{ links.catalogo }}">Ver todos</a>
+    </div>
+    <div class="fileira mx-auto max-w-6xl">
+      {% for jogo in lista limit: 12 %}
+          <a class="cartaz" href="{{ jogo.url }}">
+            <div class="cartaz-capa">
+              <img class="aspect-[3/4] w-full object-contain p-4" src="{{ jogo.imagem_url }}" alt="{{ jogo.nome }}" loading="lazy">
+              {% if jogo.disponivel == false %}<span class="absolute top-3 left-3 rounded-full bg-black/80 px-3 py-1 text-xs font-semibold text-stone-200">Alugado</span>{% endif %}
+            </div>
+            <div class="px-4 pt-3 pb-4">
+              <h3 class="text-base leading-snug font-bold text-stone-50">{{ jogo.nome }}</h3>
+              <p class="meta mt-1 text-sm text-stone-400">{% if jogo.jogadores %}<span>{{ jogo.jogadores }} jogadores</span>{% endif %}{% if jogo.tempo %}<span>{{ jogo.tempo }}</span>{% endif %}</p>
+              <p class="mt-2 flex items-baseline gap-1">{% if jogo.preco %}<span class="text-lg font-extrabold text-[var(--cor-principal)]">{{ jogo.preco }}</span>{% endif %}{% if jogo.dias %}<span class="text-sm font-medium text-stone-400">/ {{ jogo.dias }} dias</span>{% endif %}</p>
+            </div>
+          </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
   {% assign lista = jogos.da_categoria["Família"] %}
   {% if lista.size > 0 %}
   <div class="mt-14">
@@ -146,34 +174,6 @@
         <p class="rotulo">Categoria</p>
         <h2 class="titulo neon mt-1 text-2xl text-stone-50 md:text-3xl">Estratégico</h2>
         <p class="mt-1 text-sm text-stone-400 md:text-base">Para quem gosta de planejar cada jogada.</p>
-      </div>
-      <a class="shrink-0 text-sm font-semibold text-[var(--cor-destaque)] underline underline-offset-4 hover:text-stone-50" href="{{ links.catalogo }}">Ver todos</a>
-    </div>
-    <div class="fileira mx-auto max-w-6xl">
-      {% for jogo in lista limit: 12 %}
-          <a class="cartaz" href="{{ jogo.url }}">
-            <div class="cartaz-capa">
-              <img class="aspect-[3/4] w-full object-contain p-4" src="{{ jogo.imagem_url }}" alt="{{ jogo.nome }}" loading="lazy">
-              {% if jogo.disponivel == false %}<span class="absolute top-3 left-3 rounded-full bg-black/80 px-3 py-1 text-xs font-semibold text-stone-200">Alugado</span>{% endif %}
-            </div>
-            <div class="px-4 pt-3 pb-4">
-              <h3 class="text-base leading-snug font-bold text-stone-50">{{ jogo.nome }}</h3>
-              <p class="meta mt-1 text-sm text-stone-400">{% if jogo.jogadores %}<span>{{ jogo.jogadores }} jogadores</span>{% endif %}{% if jogo.tempo %}<span>{{ jogo.tempo }}</span>{% endif %}</p>
-              <p class="mt-2 flex items-baseline gap-1">{% if jogo.preco %}<span class="text-lg font-extrabold text-[var(--cor-principal)]">{{ jogo.preco }}</span>{% endif %}{% if jogo.dias %}<span class="text-sm font-medium text-stone-400">/ {{ jogo.dias }} dias</span>{% endif %}</p>
-            </div>
-          </a>
-      {% endfor %}
-    </div>
-  </div>
-  {% endif %}
-  {% assign lista = jogos.da_categoria["Pocket"] %}
-  {% if lista.size > 0 %}
-  <div class="mt-14">
-    <div class="mx-auto flex max-w-6xl items-end justify-between gap-4 px-4">
-      <div>
-        <p class="rotulo">Categoria</p>
-        <h2 class="titulo neon mt-1 text-2xl text-stone-50 md:text-3xl">Pocket</h2>
-        <p class="mt-1 text-sm text-stone-400 md:text-base">Caixas pequenas, partidas curtas. Cabem na bolsa.</p>
       </div>
       <a class="shrink-0 text-sm font-semibold text-[var(--cor-destaque)] underline underline-offset-4 hover:text-stone-50" href="{{ links.catalogo }}">Ver todos</a>
     </div>
