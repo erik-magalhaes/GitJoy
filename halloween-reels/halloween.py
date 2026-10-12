@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Reels de Halloween SEM GRAVAÇÃO (ideia 6 da lista que ele aprovou): "6 jogos pra um Halloween de arrepiar".
+"""Reels de Halloween SEM GRAVAÇÃO (ideia 6 da lista que ele aprovou): "4 jogos pra um Halloween de arrepiar".
+2ª versão (pedido dele: "mais curta" e "outros jogos, já tá repetitivo"): ~17 s, mantém só o Final Girl e troca o resto
+por jogos do acervo que nunca apareceram em post (O Vale dos Monstros II, Por favor não corte minha cabeça!, Mascarade).
 Visual próprio (diferente do trailer do Final Girl, que é vermelho/lanterna): noite ROXA com lua cheia, morcegos voando,
 névoa lisa e lápides; cada caixa OFICIAL sobe da névoa com brilho laranja de abóbora, nome em Creepster laranja, frase e
 jogadores/tempo (dados do site da Sua Vez, comum/dados/acervo_site.json). Sem narração: tudo escrito na tela.
@@ -34,18 +36,16 @@ ROXO = (150, 70, 220)
 INK = (14, 6, 24)
 JOGOS = [  # (arquivo, nome na tela, frase, jogadores · tempo) — conferido no site da Sua Vez
     ("finalgirl", "FINAL GIRL", "Sobreviva ao assassino... sozinho.", "1 JOGADOR · 60 MIN"),
-    ("scooby", "SCOOBY-DOO", "Desmascare o monstro com a turma.", "1 A 5 JOGADORES · 30 MIN"),
-    ("dracula", "DRÁCULA VS\nVAN HELSING", "Caçador contra vampiro, frente a frente.", "2 JOGADORES · 45 MIN"),
-    ("tiny_zombies", "TINY EPIC\nZOMBIES", "Sobreviva a um shopping cheio de zumbis.", "1 A 5 JOGADORES · 45 MIN"),
-    ("paranormal", "PARANORMAL\nDETECTIVES", "Um fantasma tenta contar como morreu.", "2 A 6 JOGADORES · 50 MIN"),
-    ("dceased", "DCEASED", "Heróis contra zumbis em Gotham.", "1 A 4 JOGADORES · 60 MIN"),
+    ("vale_monstros", "O VALE DOS\nMONSTROS II", "Os monstros invadiram a cidade!", "1 A 6 JOGADORES · 90 MIN"),
+    ("nao_corte", "POR FAVOR, NÃO\nCORTE MINHA\nCABEÇA!", "Tente não ser a próxima vítima.", "3 A 6 JOGADORES · 30 MIN"),
+    ("mascarade", "MASCARADE", "Quem está por trás da máscara?", "4 A 12 JOGADORES · 30 MIN"),
 ]
-GANCHO = 3.0
-POR_JOGO = 3.6
+GANCHO = 2.0
+POR_JOGO = 2.6
 T_COM = GANCHO + POR_JOGO * len(JOGOS)
-COMENTA = 2.8
+COMENTA = 2.0
 T_CTA = T_COM + COMENTA
-DUR = T_CTA + 4.0
+DUR = T_CTA + 3.4
 
 
 def creep(s):
@@ -183,7 +183,7 @@ def relampago(t, t0, d=0.3):
 
 
 def flash_de(t):
-    tempos = [0.15, 1.9] + [GANCHO + POR_JOGO * k - 0.02 for k in range(len(JOGOS))] + [T_CTA]
+    tempos = [0.15, 1.3] + [GANCHO + POR_JOGO * k - 0.02 for k in range(len(JOGOS))] + [T_CTA]
     return max(relampago(t, x) for x in tempos)
 
 
@@ -191,25 +191,27 @@ def cena_jogo(img, t, k):
     t0 = GANCHO + POR_JOGO * k
     u = t - t0
     nome, tit, fr, info = JOGOS[k]
-    sobe = ease(seg(u, 0.0, 0.7))
-    desce = ease(seg(u, POR_JOGO - 0.35, POR_JOGO))
+    sobe = ease(seg(u, 0.0, 0.5))
+    desce = ease(seg(u, POR_JOGO - 0.3, POR_JOGO))
     y = lerp(1500, 840, sobe) + 520 * desce + 10 * math.sin(u * 2.2)
     alpha = min(sobe * 1.3, 1.0) * (1 - desce)
-    h = 640 if nome not in ("tiny_zombies", "paranormal") else 560
+    nl = tit.count("\n")
+    h = {"vale_monstros": 560}.get(nome, 640) - 60 * max(0, nl - 1)
+    y -= 50 * max(0, nl - 1)
     cola(img, caixa(nome, h), 540, y, -2 + 2 * math.sin(u * 1.4), 1.0, alpha)
-    cola(img, pilula(f"{k + 1}/6", 34, INK, WHITE, LARANJA), 110, 130, 0, pop(t, t0 + 0.1))
     a2 = 1 - desce
-    cola(img, titulo(tit, 120 if "\n" not in tit else 104), 540, 1330 if "\n" not in tit else 1300, -2, pop(t, t0 + 0.35), a2)
-    cola(img, frase(fr, 42), 540, 1470, 0, pop(t, t0 + 0.6), a2)
-    cola(img, pilula(info, 36, ROXO, WHITE, WHITE), 540, 1565, 0, pop(t, t0 + 0.8), a2)
+    ty = (1330, 1300, 1255)[nl]
+    cola(img, titulo(tit, (120, 104, 92)[nl]), 540, ty, -2, pop(t, t0 + 0.2), a2)
+    cola(img, frase(fr, 42), 540, 1470, 0, pop(t, t0 + 0.4), a2)
+    cola(img, pilula(info, 36, ROXO, WHITE, WHITE), 540, 1565, 0, pop(t, t0 + 0.55), a2)
 
 
 def frame(t):
     img = cenario(t)
     if t < GANCHO:
         cola(img, emoji("🎃", 190), 540, 620 + 14 * math.sin(t * 3), -6 + 4 * math.sin(t * 2), pop(t, 0.05, 0.5))
-        cola(img, titulo("6 JOGOS PRA UM\nHALLOWEEN DE\nARREPIAR", 138), 540, 1040, -2, pop(t, 0.25, 0.5))
-        cola(img, frase("se você tiver coragem...", 48), 540, 1420, 2, pop(t, 1.2))
+        cola(img, titulo("4 JOGOS PRA UM\nHALLOWEEN DE\nARREPIAR", 138), 540, 1040, -2, pop(t, 0.25, 0.5))
+        cola(img, frase("se você tiver coragem...", 48), 540, 1420, 2, pop(t, 0.8))
     elif t < T_COM:
         cena_jogo(img, t, int((t - GANCHO) // POR_JOGO))
     elif t < T_CTA:
@@ -221,18 +223,16 @@ def frame(t):
     else:
         u = t - T_CTA
         cola(img, logo_card(340), 540, 230, 0, pop(t, T_CTA))
-        pos = [(160, 700, -10, 330), (330, 650, -5, 350), (540, 620, 0, 380), (750, 650, 5, 350), (920, 700, 10, 330)]
-        ordem = ["paranormal", "dracula", "finalgirl", "scooby", "dceased"]
+        pos = [(360, 640, -4, 320), (170, 800, -9, 270), (895, 700, 8, 320)]
+        ordem = ["nao_corte", "vale_monstros", "mascarade"]
         for j, (n, (x, y, r, h)) in enumerate(zip(ordem, pos)):
-            if j == 2:
-                continue
-            cola(img, caixa(n, h, False), x, y, r, pop(t, T_CTA + 0.15 + 0.06 * j))
-        cola(img, caixa("finalgirl", 400, False), 540, 620, 0, pop(t, T_CTA + 0.3))
-        itens = [(0.5, titulo("ALUGUE SEU\nTERROR!", 120), 1010),
-                 (0.8, pilula("5 DIAS DE JOGO · 3 JOGOS = 7 DIAS", 38, ROXO), 1215),
-                 (1.0, pilula("RESERVE ONLINE · RETIRE EM MAUÁ E ABC", 34, WHITE, INK, INK), 1320),
-                 (1.15, pilula("OU RECEBA EM CASA!", 42, (22, 163, 74)), 1425),
-                 (1.3, pilula("LINK NA BIO · @SUAVEZ_BG", 48, LARANJA), 1545)]
+            cola(img, caixa(n, h, False), x, y, r, pop(t, T_CTA + 0.1 + 0.06 * j))
+        cola(img, caixa("finalgirl", 400, False), 600, 630, 2, pop(t, T_CTA + 0.3))
+        itens = [(0.35, titulo("ALUGUE SEU\nTERROR!", 120), 1010),
+                 (0.55, pilula("5 DIAS DE JOGO · 3 JOGOS = 7 DIAS", 38, ROXO), 1215),
+                 (0.7, pilula("RESERVE ONLINE · RETIRE EM MAUÁ E ABC", 34, WHITE, INK, INK), 1320),
+                 (0.8, pilula("OU RECEBA EM CASA!", 42, (22, 163, 74)), 1425),
+                 (0.9, pilula("LINK NA BIO · @SUAVEZ_BG", 48, LARANJA), 1545)]
         for t0, im, y in itens:
             if u >= t0:
                 cola(img, im, 540, y, 0, pop(t, T_CTA + t0))
@@ -250,11 +250,11 @@ def render_frame(fi):
 
 
 def cues():
-    c = [(0.0, "braam", 0.8), (0.15, "trovao", 0.7), (1.9, "trovao", 0.5), (2.5, "riser", 0.5)]
+    c = [(0.0, "braam", 0.8), (0.15, "trovao", 0.7), (1.3, "trovao", 0.5), (1.5, "riser", 0.4)]
     for k in range(len(JOGOS)):
         t0 = GANCHO + POR_JOGO * k
-        c += [(t0, "braam", 0.6), (t0 + 0.35, "stinger", 0.25), (t0 + POR_JOGO - 0.35, "whoosh", 0.35)]
-    c += [(T_COM, "pop", 0.4), (T_COM + 0.4, "boing", 0.35), (T_CTA, "trovao", 0.6), (T_CTA + 1.3, "ding", 0.5)]
+        c += [(t0, "braam", 0.6), (t0 + 0.35, "stinger", 0.25), (t0 + POR_JOGO - 0.3, "whoosh", 0.35)]
+    c += [(T_COM, "pop", 0.4), (T_COM + 0.4, "boing", 0.35), (T_CTA, "trovao", 0.6), (T_CTA + 0.9, "ding", 0.5)]
     return c
 
 

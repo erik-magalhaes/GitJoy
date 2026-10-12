@@ -395,6 +395,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
     pausas cortadas (silenceremove) e 2 mixagens: A alto-falante de mercado (dim-dom, banda 380–3600 Hz, eco, ruído de loja)
     e B locutor de rádio de ofertas (voz limpa + trilha gameshow). A voz lê mal nomes em inglês: escrever fonético.
   - Halloween: ele achou "extenso, não ficou muito legal" e não entendeu se era para narrar (era vídeo de trend, só texto).
+    **2ª versão (12/out):** "mais curta" e "outros jogos, tá repetitivo; pode manter a Final Girl" → 17,8 s, 4 jogos:
+    Final Girl, O Vale dos Monstros II (MS Jogos, PNG do Compara Jogos), Por favor, não corte minha cabeça! (Geeks N' Orcs,
+    Compara Jogos) e Mascarade 2ª ed. (Galápagos, foto da Ri Happy); sem numeração "n/6". Zombicide Rue Morgue segue sem
+    imagem oficial boa (Compara Jogos só 322 px). Unmatched Robin Hood: só achei a capa em inglês (a da loja é a da Buró).
+  - **Custo:** ele recusou as 2 vozes de locutor ("não gostei de nenhum dos áudios, pode deixar sem"): fica sem voz.
   - **Carrosséis 1080x1080** (`feed-posts/carrosseis.py`, visual creme + círculo colorido, cores do site): "O jogo certo
     pra cada rolê" (8 telas), "Curte esse clássico?" (7: UNO→Flip 7 A Vingança, Scrabble→Bananagrams, Imagem &
     Ação→Dixit, Detetive→MicroMacro Full House, Jogo da Velha→boop.; Root saiu porque a da loja é a edição em inglês) e
