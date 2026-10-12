@@ -428,4 +428,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
     trocar). **Regra que fica: variar jogos entre posts** (ver o que já foi usado antes de escolher). Pedidos seguintes: **sem
     numeração "1/7" nas imagens** (ele achou que era coisa do chat) e, nos clássicos, **a caixa do clássico também** (menor,
     com tom envelhecido, no "antes"; UNO Mattel, Detetive Estrela, Batalha Naval e War Grow, fotos da Ri Happy).
+- **Story do Dia das Crianças** (`promo/story_criancas.py`, 12/out): céu azul com nuvens e confete, "FELIZ DIA DAS
+  CRIANÇAS!" letra a letra colorida (reusa `capa_criancas.titulo_colorido`), "pra criança de todas as idades!", turma de 5
+  meeples coloridos desenhados em vetor (com carinha) pulando + dados no ar, "BORA JOGAR EM FAMÍLIA? · LINK NA BIO".
+  Sem caixa de jogo (felicitação). Topo ~250 px e base ~270 px livres (o Instagram cobre no story).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
