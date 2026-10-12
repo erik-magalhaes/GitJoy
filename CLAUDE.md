@@ -9,6 +9,11 @@ tudo antes de começar um vídeo novo: aqui está o que funcionou, o que não fu
   (repositório erik-magalhaes/GitJoy). Numa sessão nova, use o mesmo repositório e a mesma branch: o Claude lê este
   arquivo sozinho. Brutos de vídeo e `out/` NÃO vão pro git; os brutos gravados estão no Drive dele
   (https://drive.google.com/drive/folders/1yGgKAxAUrJAipiu4p2687F4TaA8I6yCK, baixar com `python3 -m gdown`).
+- **Pasta do Drive com os vídeos prontos para postar:** https://drive.google.com/drive/folders/1eAEc1ecYI5fPMZnaiccu8DJdXI-cXCAG
+  (listar sem baixar: `gdown.download_folder(url, skip_download=True)`). Em 12/out faltavam lá: efeito "jogos modernos",
+  bye bye curto, tarô, custo e Halloween pôster (mandei de novo pelo chat). Lá também há vídeos que ELES gravaram
+  (Dungeon Fighter, O Vale dos Monstros II, Happy Salmon, Hitster, MicroMacro, Telestrations, Trio, Throw Throw Burrito,
+  Scooby-Doo, Drácula vs Van Helsing, "pessoa que demora na vez"): contam como jogos já postados.
 - Eu não consigo subir arquivos no Drive dele (só baixar de pasta pública). Entregar pelo chat; se ele conectar o
   Google Drive em claude.ai → Configurações → Conectores, dá para subir direto.
 - **Estado em 10/out/2026:**
