@@ -44,13 +44,13 @@ JOGOS = [  # (nome no site/Compara Jogos, nome no cupom, imagem oficial, altura 
 PRECO = [LOJA[n][0] for n, *_ in JOGOS]
 ALUGUEL = sum(SITE[n]["preco"] for n, *_ in JOGOS)
 TOTAL = sum(PRECO)
-GANCHO = 2.4
-POR = 1.9
+GANCHO = 1.7
+POR = 1.1  # 2ª versão: ele achou "um pouquinho demorado" (29 s → ~20 s)
 T_TOTAL = GANCHO + POR * len(JOGOS)
-T_SV = T_TOTAL + 2.6
-T_COM = T_SV + 4.2
-T_CTA = T_COM + 2.6
-DUR = T_CTA + 4.0
+T_SV = T_TOTAL + 2.0
+T_COM = T_SV + 3.3
+T_CTA = T_COM + 2.0
+DUR = T_CTA + 3.3
 
 
 def brl(v):
@@ -166,7 +166,7 @@ def pilha(img, t, ate=None):
             break
         if t < t0:
             break
-        q = quica(t, t0, 0.5)
+        q = quica(t, t0, 0.35)
         yy = lerp(y - 900, y, q)
         cola(img, caixa(path, h), x, yy, (-6, 4, -3, 5, -4, 3, -2)[i])
 
@@ -183,7 +183,7 @@ def frame(t):
             cola(img, letreiro("QUANTO CUSTA COMPRAR?", 64, WHITE, INK, 10), 540, 230, -1)
         # cupom imprimindo
         k = min(len(JOGOS), max(0, int((t - GANCHO) // POR) + 1)) if t >= GANCHO else 0
-        prog = min(1.0, (t - GANCHO - POR * (k - 1)) / 0.45) if k else 0
+        prog = min(1.0, (t - GANCHO - POR * (k - 1)) / 0.3) if k else 0
         tot = sum(PRECO[:k - 1]) + (PRECO[k - 1] * min(1.0, prog) if k else 0)
         if t >= T_TOTAL:
             tot = TOTAL
@@ -197,13 +197,13 @@ def frame(t):
         u = t - T_SV
         cola(img, letreiro("OU...", 120, WHITE, INK, 14), 540, 260, -3, pop(t, T_SV))
         cola(img, letreiro("ALUGA OS 7\nNA SUA VEZ!", 110, (255, 214, 70), INK, 14, sombra_px=8, cor_sombra=INK), 540, 520, 2,
-             pop(t, T_SV + 0.3))
-        cola(img, cupom_sv(), 540, lerp(2200, 1020, ease(seg(u, 0.5, 1.0))))
-        if u > 1.6:
+             pop(t, T_SV + 0.2))
+        cola(img, cupom_sv(), 540, lerp(2200, 1020, ease(seg(u, 0.3, 0.7))))
+        if u > 1.1:
             eco = TOTAL - ALUGUEL
-            cola(img, pilula(f"ECONOMIA DE {brl(eco)}", 52, VERDE), 540, 1460, -2, pop(t, T_SV + 1.6))
+            cola(img, pilula(f"ECONOMIA DE {brl(eco)}", 52, VERDE), 540, 1460, -2, pop(t, T_SV + 1.1))
             cola(img, letreiro("e você ainda joga 15 dias!", 52, WHITE, INK, 8, "Poppins-Black.ttf"), 540, 1570, 0,
-                 pop(t, T_SV + 2.0))
+                 pop(t, T_SV + 1.4))
     elif t < T_CTA:
         pilha(img, 99)
         cola(img, letreiro("QUAL VOCÊ\nALUGARIA\nPRIMEIRO?", 112, (255, 214, 70), INK, 14, sombra_px=8, cor_sombra=INK), 540,
@@ -220,11 +220,11 @@ def frame(t):
         for i, im in enumerate(ims):
             cola(img, im, x + larg[i] / 2, 650 + (i % 2) * 30, (-6, 4, -3, 5, -4, 3, -2)[i], pop(t, T_CTA + 0.1 + 0.05 * i))
             x += larg[i] - 12
-        itens = [(0.5, letreiro("ALUGUE NA\nSUA VEZ!", 100, (255, 214, 70), INK, 14), 950),
-                 (0.8, pilula("3 JOGOS = 7 DIAS · 5 = 10 · 7 = 15", 38, INK), 1150),
-                 (1.0, pilula("RESERVE ONLINE · RETIRE EM MAUÁ E ABC", 34, WHITE, INK, INK), 1255),
-                 (1.15, pilula("OU RECEBA EM CASA!", 42, VERDE), 1360),
-                 (1.3, pilula("LINK NA BIO · @SUAVEZ_BG", 48, (249, 115, 22)), 1480)]
+        itens = [(0.35, letreiro("ALUGUE NA\nSUA VEZ!", 100, (255, 214, 70), INK, 14), 950),
+                 (0.55, pilula("3 JOGOS = 7 DIAS · 5 = 10 · 7 = 15", 38, INK), 1150),
+                 (0.7, pilula("RESERVE ONLINE · RETIRE EM MAUÁ E ABC", 34, WHITE, INK, INK), 1255),
+                 (0.8, pilula("OU RECEBA EM CASA!", 42, VERDE), 1360),
+                 (0.9, pilula("LINK NA BIO · @SUAVEZ_BG", 48, (249, 115, 22)), 1480)]
         for t0, im, y in itens:
             if u >= t0:
                 cola(img, im, 540, y, 0, pop(t, T_CTA + t0))
@@ -242,10 +242,10 @@ def cues():
     c = [(0.0, "whoosh", 0.4), (0.05, "pop", 0.4)]
     for i in range(len(JOGOS)):
         t0 = GANCHO + POR * i
-        c += [(t0 + 0.28, "tum", 0.7), (t0 + 0.05, "print", 0.5), (t0 + 0.5, "cash", 0.35)]
-    c += [(T_TOTAL, "cash", 0.8), (T_TOTAL + 0.05, "boing", 0.4), (T_SV, "whoosh", 0.5), (T_SV + 0.5, "print", 0.5),
-          (T_SV + 1.6, "ding", 0.6), (T_COM, "pop", 0.4), (T_COM + 0.35, "boing", 0.35), (T_CTA, "whoosh", 0.4),
-          (T_CTA + 1.3, "ding", 0.5)]
+        c += [(t0 + 0.2, "tum", 0.7), (t0 + 0.03, "print", 0.5), (t0 + 0.35, "cash", 0.35)]
+    c += [(T_TOTAL, "cash", 0.8), (T_TOTAL + 0.05, "boing", 0.4), (T_SV, "whoosh", 0.5), (T_SV + 0.3, "print", 0.5),
+          (T_SV + 1.1, "ding", 0.6), (T_COM, "pop", 0.4), (T_COM + 0.35, "boing", 0.35), (T_CTA, "whoosh", 0.4),
+          (T_CTA + 0.9, "ding", 0.5)]
     return c
 
 

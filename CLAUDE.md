@@ -399,7 +399,13 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
     Final Girl, O Vale dos Monstros II (MS Jogos, PNG do Compara Jogos), Por favor, não corte minha cabeça! (Geeks N' Orcs,
     Compara Jogos) e Mascarade 2ª ed. (Galápagos, foto da Ri Happy); sem numeração "n/6". Zombicide Rue Morgue segue sem
     imagem oficial boa (Compara Jogos só 322 px). Unmatched Robin Hood: só achei a capa em inglês (a da loja é a da Buró).
-  - **Custo:** ele recusou as 2 vozes de locutor ("não gostei de nenhum dos áudios, pode deixar sem"): fica sem voz.
+  - **Custo:** ele recusou as 2 vozes de locutor ("não gostei de nenhum dos áudios, pode deixar sem"): fica sem voz. 2ª versão
+    mais rápida (ele: "um pouquinho demorado"): 29 s → 20 s (GANCHO 1,7, 1,1 s por jogo, caixa quicando em 0,35 s).
+  - **Halloween, 3ª rodada:** ele achou a noite roxa (lua, morcegos, abóbora) "muito infantil" e pediu para mudar TODO o
+    visual. Mandei 3 conceitos adultos (`halloween-reels/conceitos.py` → out/conceitos.jpg; fontes Cinzel e Cormorant
+    Garamond do google/fonts em `assets/fonts/`): 1 pôster de cinema (preto, luz fria, letreiro serifado espaçado,
+    créditos), 2 mansão gótica (retrato em moldura dourada, velas, placa de museu), 3 tabuleiro Ouija (prancheta soletra
+    o nome). Esperando ele escolher.
   - **Carrosséis 1080x1080** (`feed-posts/carrosseis.py`, visual creme + círculo colorido, cores do site): "O jogo certo
     pra cada rolê" (8 telas), "Curte esse clássico?" (7: UNO→Flip 7 A Vingança, Scrabble→Bananagrams, Imagem &
     Ação→Dixit, Detetive→MicroMacro Full House, Jogo da Velha→boop.; Root saiu porque a da loja é a edição em inglês) e
