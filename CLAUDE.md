@@ -386,7 +386,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   4/3/5 quadros. **3ª rodada:** ele achou longo ("esses vídeos acabam e começam sem a pessoa perceber") → **LOOP de 7 s** com os
   mesmos 22 jogos: as cartas já começam viradas na mesa, desviram (0,25 s), giram até 6,45 s e viram de volta; "comenta" e
   "3 JOGOS = 7 DIAS · LINK NA BIO" na tela durante o giro, sem tela final; toda animação com período que fecha em DUR
-  (quadro DUR·FPS idêntico ao quadro 0, conferido). **Regra para trend/print: curto e em loop.**
+  (quadro DUR·FPS idêntico ao quadro 0, conferido). **Regra para trend/print: curto e em loop.** **4ª rodada:** ele pediu para TIRAR as cartas virando
+  ("ficar só uma coisa, infinita, sem parecer que tá abrindo e fechando"): cartas sempre abertas, PERIODO [4,3,6] e DUR =
+  168 quadros (5,6 s), múltiplo do ciclo de cada carta (28/24/42), então o loop emenda sem pulo; só o tiquetaque no som.
 - **Conteúdo SEM GRAVAR (12/out/2026)** — ele aprovou da minha lista: 3 (roleta "tira print", esperando ele escolher o
   visual), 6, 7, 8, 9 e 11. **Dados reais do site** em `comum/dados/acervo_site.json` (161 jogos: preço por 5 dias,
   jogadores, tempo, peso; raspado de `/boardgames?page=N`) e **menor preço de loja** em `comum/dados/precos_loja.json`

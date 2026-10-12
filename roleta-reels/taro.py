@@ -38,15 +38,13 @@ CARTAS = [("I", "PRA AQUECER", [("the_mind", "THE MIND"), ("fantasy_realms", "FA
           ("III", "PRA FECHAR", [("spyfall", "SPYFALL"), ("last_message", "LAST MESSAGE"), ("happy_salmon", "HAPPY SALMON"),
                                  ("eu_sou_banana", "EU SOU UMA BANANA"), ("danca_tronos", "DANÇA DOS TRONOS"),
                                  ("perfil_express", "PERFIL EXPRESS"), ("telma", "TELMA")])]
-PERIODO = [4, 3, 5]  # quadros que cada carta fica em cada jogo (ritmos diferentes; ele pediu MAIS RÁPIDO)
+PERIODO = [4, 3, 6]  # quadros que cada carta fica em cada jogo (ritmos diferentes; ele pediu MAIS RÁPIDO)
 CW, CH = 330, 650
 POS = [(188, 1000, -6), (540, 965, 0), (892, 1000, 6)]
-# 3ª versão em LOOP (ele: "muito longo; esses vídeos acabam e começam sem a pessoa perceber"): as cartas já começam
-# viradas na mesa, desviram, giram os mesmos 22 jogos e no fim viram de volta → o último quadro emenda no primeiro.
-# "Comenta" e o CTA ficam na tela durante o giro (sem tela final separada).
-T_VIRA, T_GIRA = 0.25, 0.75
-T_DESVIRA = 6.45  # começa a virar de volta
-DUR = 7.0
+# 4ª versão: LOOP infinito sem abrir/fechar (ele: "tirar a parte que as cartas viram"): as cartas ficam SEMPRE abertas
+# trocando de jogo. DUR = 168 quadros, múltiplo do ciclo de cada carta (7×4=28, 8×3=24, 7×6=42) → o quadro DUR·FPS é
+# idêntico ao quadro 0.
+DUR = 168 / 30
 
 
 # ---------------------------------------------------------------- som
@@ -183,14 +181,7 @@ def jogo_da_vez(j, fi):
 def carta(img, j, t, fi):
     x, y, r = POS[j]
     yy, rr = y, r
-    u = seg(t, T_VIRA + 0.08 * j, T_VIRA + 0.08 * j + 0.4)
-    if t >= T_DESVIRA:  # vira de volta para o verso (fecha o loop)
-        u = 1 - seg(t, T_DESVIRA + 0.06 * j, T_DESVIRA + 0.06 * j + 0.36)
-    if u < 0.5:
-        face, sx = verso(), 1 - u * 2
-    else:
-        k = jogo_da_vez(j, fi) if t >= T_GIRA else 0
-        face, sx = frente(j, k), (u - 0.5) * 2
+    face, sx = frente(j, jogo_da_vez(j, fi)), 1.0
     if sx < 0.03:
         return
     f = face.resize((max(2, int(CW * sx)), CH), Image.BICUBIC) if sx < 0.999 else face
@@ -214,7 +205,7 @@ def frame(fi):
     for j in range(3):
         carta(img, j, t, fi)
     cola(img, letreiro("PRINT AGORA!", 70, WHITE, INK, 10), 540, 1440, -2, 1 + 0.06 * math.sin(t * 10 * (2 * math.pi / DUR)))
-    if t < 2.6 or t >= 5.6:  # o começo e o fim iguais (loop)
+    if t < DUR / 2:  # alterna as duas chamadas (cada uma metade do loop)
         cola(img, pilula("COMENTA O QUE SAIU PRA VOCÊ!", 40, (230, 40, 90)), 540, 1575, 1)
     else:
         cola(img, pilula("3 JOGOS = 7 DIAS · LINK NA BIO", 40, (22, 163, 74)), 540, 1575, 1)
@@ -228,12 +219,10 @@ def render_frame(fi):
 
 
 def cues():
-    c = [(T_VIRA + 0.08 * j + 0.2, "vira", 0.6) for j in range(3)] + [(T_GIRA, "harpa", 0.5)]
-    t = T_GIRA
-    while t < T_DESVIRA:  # tiquetaque baixinho enquanto as cartas trocam
+    c, t = [], 0.0
+    while t < DUR - 0.05:  # só o tiquetaque baixinho das trocas (sem início nem fim marcados: é loop)
         c.append((t, "tique", 0.18))
-        t += 0.12
-    c += [(T_DESVIRA + 0.06 * j + 0.18, "vira", 0.5) for j in range(3)]
+        t += 0.14
     return c
 
 
