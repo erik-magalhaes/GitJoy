@@ -169,8 +169,6 @@ def paredes():
     parede(1.5, 13.0, 7.5, 13.0, INT, [(1.7, 2.5, "porta")])
     # cozinha e jantar para a varanda gourmet
     parede(1.5, 18.0, 13.0, 18.0, INT, [(3.5, 7.3, "passa"), (7.7, 12.8, "vidro")])
-    # passagem sala -> cozinha (parede entre ela e o jantar)
-    parede(8.7, 10.5, 8.7, 14.0, INT)
     # ala íntima
     parede(13.0, 5.0, 13.0, 22.0, INT, [(7.9, 8.8, "porta"), (9.1, 10.4, "vao")])
     parede(13.0, 9.0, 18.5, 9.0, INT)
@@ -189,8 +187,8 @@ def pisos():
     box(1.4, 18.6, 4.9, 22.1, 0, 0.3, M["pedra"], "embasamento")
     salas = [
         (1.5, 7.5, 5.0, 10.5, "cimento"), (1.5, 5.5, 10.5, 13.0, "piso_banho"), (5.5, 7.5, 10.5, 13.0, "piso_banho"),
-        (1.5, 7.5, 13.0, 18.0, "piso_social"), (7.5, 13.0, 5.0, 10.5, "piso_social"), (7.5, 8.7, 10.5, 14.0, "piso_social"),
-        (8.7, 13.0, 10.5, 14.0, "assoalho"), (7.5, 13.0, 14.0, 18.0, "assoalho"), (1.5, 13.0, 18.0, 22.0, "porcelanato"),
+        (1.5, 7.5, 13.0, 18.0, "piso_social"), (7.5, 13.0, 5.0, 18.0, "piso_social"),       # o L: um piso só
+        (1.5, 13.0, 18.0, 22.0, "porcelanato"),
         (13.0, 18.5, 5.0, 9.0, "assoalho"), (13.0, 14.2, 9.0, 18.0, "assoalho"), (14.2, 18.5, 9.0, 11.3, "piso_banho"),
         (14.2, 18.5, 11.3, 14.7, "assoalho"), (14.2, 16.0, 14.7, 18.0, "assoalho"), (16.0, 18.5, 14.7, 18.0, "piso_banho"),
         (13.0, 18.5, 18.0, 22.0, "assoalho"),
@@ -479,7 +477,7 @@ def moveis():
 
 
 ROTULOS = [
-    ("Garagem", 4.5, 9.6), ("Lavanderia", 3.3, 11.9), ("Lavabo", 6.5, 11.6), ("Passagem", 8.1, 12.3),
+    ("Garagem", 4.5, 9.6), ("Lavanderia", 3.3, 11.9), ("Lavabo", 6.5, 11.6), ("Varal", 0.75, 16.5),
     ("Cozinha", 3.4, 16.8), ("Sala de estar", 11.5, 7.6), ("Jantar + jogos", 10.7, 16.8),
     ("Varanda gourmet", 6.0, 20.8), ("Home office", 15.6, 7.2), ("Banho", 15.5, 10.5),
     ("Quarto da filha", 15.8, 13.3), ("Closet", 15.1, 16.4), ("Banho suíte", 17.3, 17.4),

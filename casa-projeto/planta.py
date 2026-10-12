@@ -28,8 +28,7 @@ AMBIENTES = [
     ("Lavabo",                     5.5, 10.5,  7.5, 13.0, "servico"),
     ("Cozinha",                    1.5, 13.0,  7.5, 18.0, "social"),
     ("Sala de estar",              7.5,  5.0, 13.0, 10.5, "social"),
-    ("Jantar + jogos",             7.5, 10.5, 13.0, 18.0, "jogos"),
-    ("Passagem",                   7.5, 10.5,  8.7, 14.0, "social"),   # sala -> cozinha sem cruzar o jantar
+    ("Jantar + jogos",             7.5, 10.5, 13.0, 18.0, "social"),
     ("Varanda gourmet",            1.5, 18.0, 13.0, 22.0, "varanda"),
     ("Home office\n(+ hóspedes)", 13.0,  5.0, 18.5,  9.0, "trabalho"),
     ("",                          13.0,  9.0, 14.2, 18.0, "intimo"),   # corredor íntimo
@@ -51,7 +50,6 @@ def areas():
     for a in AMBIENTES:
         nome = a[0].replace("\n", " ") or "Circulação íntima"
         d[nome] = area(a)
-    d["Jantar + jogos"] -= d["Passagem"]
     return d
 
 
@@ -75,7 +73,12 @@ def desenha(ax):
     ax.add_patch(Rectangle((7.5, 3.3), 5.5, 1.7, fc=COR["deck"], ec="#9C7A4C", lw=0.6))     # varanda de entrada
     ax.text(9.6, 4.15, "varanda de entrada", ha="center", va="center", fontsize=6, color="#5E4626")
     ax.add_patch(Rectangle((0, 10.5), 1.5, 11.5, fc=COR["piso"], ec="#B9AE98", lw=0.6))     # corredor pet
-    ax.text(0.75, 16.2, "corredor do pet", rotation=90, ha="center", va="center", fontsize=6.5, color="#7A6E57")
+    for xx in (0.35, 0.65, 0.95, 1.25):                                                          # varal
+        ax.plot([xx, xx], [12.4, 21.4], color="#8A8A8A", lw=0.6, ls=(0, (3, 2)))
+    for yy in (12.4, 21.4):
+        ax.plot([0.2, 1.4], [yy, yy], color="#6E4A22", lw=1.6)
+    ax.text(0.75, 16.9, "VARAL / SERVIÇO", rotation=90, ha="center", va="center", fontsize=6.3, color="#555",
+            weight="bold", bbox=dict(fc=COR["piso"], ec="none", pad=0.8))
     ax.add_patch(Rectangle((1.5, 22.0), 17.0, 2.2, fc=COR["deck"], ec="#9C7A4C", lw=0.6))  # deck
     for x in [i * 0.5 + 1.5 for i in range(35)]:
         ax.plot([x, x], [22.0, 24.2], color="#B8945F", lw=0.3)
@@ -114,9 +117,10 @@ def desenha(ax):
         ax.add_patch(Circle((x, y), r, fc="#8DBF6A", ec="#4E7A2E", lw=0.7, alpha=0.85))
 
     # portões que fecham o fundo para o cachorro
-    for (x0, y0, x1, y1) in [(0, 10.5, 1.5, 10.5), (18.5, 8.5, 20, 8.5)]:
+    for (x0, y0, x1, y1) in [(0, 10.5, 1.5, 10.5), (18.5, 8.5, 20, 8.5), (0, 22.0, 1.5, 22.0)]:
         ax.plot([x0, x1], [y0, y1], color="#C0504D", lw=2.4)
     ax.text(0.75, 10.0, "portão", ha="center", fontsize=5.5, color="#C0504D")
+    ax.text(0.75, 22.25, "portão", ha="center", fontsize=5.5, color="#C0504D")
     ax.text(19.25, 8.0, "portão", ha="center", fontsize=5.5, color="#C0504D")
 
     # ambientes
@@ -145,13 +149,24 @@ def desenha(ax):
 
     portas(ax)
     janelas(ax)
+    L = [(7.6, 5.1), (12.9, 5.1), (12.9, 17.9), (1.6, 17.9), (1.6, 13.1), (7.6, 13.1), (7.6, 5.1)]
+    ax.plot(*zip(*L), color="#C2702E", lw=1.3, ls=(0, (6, 3)), zorder=8)
+    ar = areas()
+    tot_L = ar["Sala de estar"] + ar["Jantar + jogos"] + ar["Cozinha"]
+    ax.text(10.6, 11.3, f"SALA INTEGRADA EM L\n{tot_L:.0f} m² sem paredes", ha="center", va="center", fontsize=6.8,
+            weight="bold", color="#9A4F14", zorder=9, bbox=dict(fc="#FFF6EA", ec="#C2702E", lw=0.8, pad=1.5))
+    ax.annotate("", xy=(6.6, 14.2), xytext=(8.15, 9.9), zorder=9,
+                arrowprops=dict(arrowstyle="-|>", color="#C2702E", lw=1.1, ls="--",
+                                connectionstyle="angle,angleA=90,angleB=0,rad=0.6"))
+    ax.text(8.25, 12.4, "circulação livre\nsala → cozinha", rotation=90, ha="center", va="center", fontsize=4.8,
+            color="#9A4F14", zorder=9)
     cotas(ax)
 
 
 
 ROTULO = {
     "Garagem 2 carros": (4.5, 9.6), "Lavanderia + ducha pet": (3.5, 11.9), "Lavabo": (6.6, 11.5),
-    "Cozinha": (3.6, 17.3), "Sala de estar": (11.6, 9.6), "Jantar + jogos": (10.8, 17.3), "Passagem": (8.1, 12.2),
+    "Cozinha": (3.6, 17.3), "Sala de estar": (11.6, 9.6), "Jantar + jogos": (10.8, 17.3),
     "Varanda gourmet": (5.6, 21.3), "Home office (+ hóspedes)": (15.4, 7.6), "Banho": (15.4, 10.4),
     "Quarto da filha": (15.8, 12.7), "Closet": (15.1, 16.8), "Banho suíte": (17.4, 17.4),
     "Suíte do casal": (15.0, 21.3),
@@ -301,9 +316,7 @@ def portas(ax):
     porta(ax, 1.5, 10.7, 0.9, "v", abre=1)                 # lavanderia -> corredor pet
     porta(ax, 1.7, 13.0, 0.8, "h", abre=1)                 # lavanderia -> cozinha
     porta(ax, 7.5, 11.2, 0.7, "v", abre=-1)                # lavabo (abre do jantar)
-    vao(ax, 7.6, 10.5, 8.6, 10.5)                          # sala -> passagem
-    vao(ax, 8.8, 10.5, 12.9, 10.5)                         # sala de estar aberta para o jantar
-    vao(ax, 7.6, 14.0, 8.6, 14.0)                          # passagem -> cozinha / jantar
+    vao(ax, 7.6, 10.5, 12.9, 10.5)                         # sala de estar aberta para o jantar (L integrado)
     vao(ax, 7.5, 13.1, 7.5, 17.9)                          # cozinha aberta para o jantar
     vao(ax, 3.5, 18.0, 7.4, 18.0)                          # balcão cozinha -> gourmet
     vao(ax, 7.6, 18.0, 12.9, 18.0, correr=True)            # jantar -> gourmet (vidro de correr)
@@ -368,7 +381,7 @@ def quadro(ax):
     ar = areas()
     total = sum(ar.values())
     gourmet = ar["Varanda gourmet"]
-    ordem = ["Sala de estar", "Passagem", "Jantar + jogos", "Cozinha", "Varanda gourmet", "Lavabo",
+    ordem = ["Sala de estar", "Jantar + jogos", "Cozinha", "Varanda gourmet", "Lavabo",
              "Home office (+ hóspedes)", "Circulação íntima", "Banho", "Quarto da filha", "Closet",
              "Banho suíte", "Suíte do casal", "Garagem 2 carros", "Lavanderia + ducha pet"]
     linhas = [(n, f"{ar[n]:.1f}") for n in ordem]
@@ -384,7 +397,7 @@ def quadro(ax):
     ax.text(0.0, y - 0.01, "Taxa de ocupação do lote", fontsize=8.5)
     ax.text(0.95, y - 0.01, f"{17 * 17 / 600 * 100:.0f}%", fontsize=8.5, ha="right"); y -= 0.06
     ax.text(0, y, "LEGENDA", fontsize=10, weight="bold"); y -= 0.04
-    for z, nome in [("social", "Social / receber"), ("jogos", "Jantar + jogos"), ("trabalho", "Trabalho"),
+    for z, nome in [("social", "Sala integrada em L"), ("trabalho", "Trabalho"),
                     ("intimo", "Íntimo"), ("servico", "Serviço / banhos"), ("varanda", "Varanda gourmet")]:
         ax.add_patch(Rectangle((0, y - 0.008), 0.06, 0.022, fc=COR[z], ec="#333", lw=0.5, transform=ax.transAxes))
         ax.text(0.09, y, nome, fontsize=8.5, va="bottom"); y -= 0.026
@@ -401,7 +414,7 @@ def main():
     ax = fig.add_axes([0.02, 0.03, 0.70, 0.90])
     desenha(ax)
     fig.text(0.02, 0.955, "CASA TÉRREA EM CONDOMÍNIO  ·  LOTE 600 m²", fontsize=17, weight="bold")
-    fig.text(0.02, 0.935, "Estudo preliminar de layout (versão 2) — uma sala só, suíte do casal, quarto da filha, home office, sala de jogos, "
+    fig.text(0.02, 0.935, "Estudo preliminar de layout (versão 3) — sala integrada em L, suíte do casal, quarto da filha, home office, sala de jogos, "
              "área de receber, espaço de brincar e espaço do cachorro", fontsize=9.5, color="#444")
     q = fig.add_axes([0.74, 0.05, 0.24, 0.85])
     quadro(q)

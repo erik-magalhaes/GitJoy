@@ -733,6 +733,8 @@ def terreno(arvore_frente=True):
     cerca((19.95, 8.5), (19.95, 29.95))
     cerca((0.05, 29.95), (19.95, 29.95))
     cerca((0.05, 10.5), (1.5, 10.5)); cerca((18.5, 8.5), (19.95, 8.5))
+    cerca((0.05, 22.0), (1.5, 22.0))                 # portão: o cachorro fica no quintal, longe do varal
+    varal()
     # espaço de brincar
     box(8.2, 14.6, 25.2, 29.0, 0, 0.04, M["areia"], "playground")
     for (x0, x1, y0, y1) in ((8.15, 14.65, 25.15, 25.25), (8.15, 14.65, 28.95, 29.05), (8.15, 8.25, 25.15, 29.05), (14.55, 14.65, 25.15, 29.05)):
@@ -782,6 +784,21 @@ def grama_fios(xr, yr, n):
     s.normal_factor = 1.0
     s.brownian_factor = 0.0
     s.length_random = 0.5
+
+
+def varal():
+    """Varal no corredor lateral de serviço (sai da porta da lavanderia)."""
+    for y in (12.4, 21.4):
+        box(0.72, 0.8, y - 0.04, y + 0.04, 0, 1.85, M["preto"], "poste_varal")
+        box(0.2, 1.4, y - 0.03, y + 0.03, 1.8, 1.86, M["preto"], "travessa_varal")
+    for x in (0.3, 0.6, 0.9, 1.2):
+        box(x - 0.006, x + 0.006, 12.4, 21.4, 1.79, 1.8, M["branco"], "fio")
+    cores = [M["vermelho"], M["azul"], M["branco"], M["tecido"], M["vermelho"], M["branco"], M["azul"]]
+    for k, y in enumerate((13.2, 14.3, 15.1, 16.4, 17.3, 18.6, 19.8)):
+        x = (0.3, 0.6, 0.9, 1.2)[k % 4]
+        h = 0.5 + (k % 3) * 0.15
+        box(x - 0.01, x + 0.01, y, y + 0.5 + (k % 2) * 0.3, 1.79 - h, 1.79, cores[k], "roupa")
+    box(0.0, 1.5, 10.5, 22.0, 0.0, 0.02, M["pavers"], "piso_servico")
 
 
 def cerca(a, b):
