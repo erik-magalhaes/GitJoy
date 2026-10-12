@@ -38,13 +38,14 @@ CARTAS = [("I", "PRA AQUECER", [("the_mind", "THE MIND"), ("fantasy_realms", "FA
           ("III", "PRA FECHAR", [("spyfall", "SPYFALL"), ("last_message", "LAST MESSAGE"), ("happy_salmon", "HAPPY SALMON"),
                                  ("eu_sou_banana", "EU SOU UMA BANANA"), ("danca_tronos", "DANÇA DOS TRONOS"),
                                  ("perfil_express", "PERFIL EXPRESS"), ("telma", "TELMA")])]
-PERIODO = [4, 3, 6]  # quadros que cada carta fica em cada jogo (ritmos diferentes; ele pediu MAIS RÁPIDO)
+PERIODO = [2, 2, 2]  # quadros que cada carta fica em cada jogo (ritmos diferentes; ele pediu MAIS RÁPIDO)
 CW, CH = 330, 650
 POS = [(188, 1000, -6), (540, 965, 0), (892, 1000, 6)]
 # 4ª versão: LOOP infinito sem abrir/fechar (ele: "tirar a parte que as cartas viram"): as cartas ficam SEMPRE abertas
 # trocando de jogo. DUR = 168 quadros, múltiplo do ciclo de cada carta (7×4=28, 8×3=24, 7×6=42) → o quadro DUR·FPS é
 # idêntico ao quadro 0.
-DUR = 168 / 30
+DUR = 224 / 30  # 5ª rodada ("ainda devagar"): troca a cada 2 quadros (15/s), carta do meio defasada 1 quadro;
+#   ciclos 14/16/14 → 224 quadros (7,47 s) fecham o loop
 
 
 # ---------------------------------------------------------------- som
@@ -177,7 +178,7 @@ def verso():
 
 def jogo_da_vez(j, fi):
     jogos = CARTAS[j][2]
-    passo = fi // PERIODO[j] + j * 3  # fase diferente em cada carta
+    passo = (fi + j) // PERIODO[j] + j * 3  # fase diferente em cada carta (a do meio troca nos quadros ímpares)
     return passo % len(jogos)
 
 
@@ -225,7 +226,7 @@ def cues():
     c, t = [], 0.0
     while t < DUR - 0.05:  # só o tiquetaque baixinho das trocas (sem início nem fim marcados: é loop)
         c.append((t, "tique", 0.18))
-        t += 0.14
+        t += DUR / 56
     return c
 
 
