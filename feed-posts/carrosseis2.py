@@ -243,6 +243,9 @@ CLASSICOS = [("UNO", "flip7_vinganca", "FLIP 7: A VINGANÇA", "Também é carta 
              ("WAR", "wonderland", "WONDERLAND'S WAR", "Conquista de território… no País das Maravilhas.")]
 
 
+CL_IMG = ["cl_uno", "cl_detetive", "cl_batalha_naval", "cl_war"]
+
+
 @lru_cache(None)
 def papel_velho():
     rng = np.random.default_rng(3)
@@ -279,11 +282,15 @@ def antes_depois(k):
                    (780 + 1600 * math.cos(a1), 800 + 1600 * math.sin(a1))], fill=tuple(min(255, c + 22) for c in cores[k]))
     img.alpha_composite(papel_velho(), (0, 0))
     d = ImageDraw.Draw(img)
-    cola(img, pilula("ANTES", 34, (120, 90, 55), (250, 240, 220), (120, 90, 55)), 160, 120, -4)
-    d.text((540, 230), f"CURTE {cl}?", font=font("AlfaSlabOne-Regular.ttf", 84 if len(cl) < 9 else 68), fill=(90, 62, 35),
-           anchor="mm")
-    d.text((540, 330), "o clássico que todo mundo já jogou", font=font("Poppins-SemiBold.ttf", 34), fill=(120, 90, 55),
-           anchor="mm")
+    cola(img, pilula("ANTES", 34, (120, 90, 55), (250, 240, 220), (120, 90, 55)), 150, 90, -4)
+    velho = caixa(CL_IMG[k], 250, 330)
+    velho = Image.fromarray((np.asarray(velho).astype(np.float32) * np.array([0.96, 0.9, 0.78, 1.0])).clip(0, 255).astype(np.uint8))
+    cola(img, sombra(velho, 10, (5, 8), 0.35), 230, 270, -5)
+    fc = font("AlfaSlabOne-Regular.ttf", 70 if len(cl) < 9 else 52)
+    d.text((740, 210), f"CURTE", font=font("AlfaSlabOne-Regular.ttf", 52), fill=(90, 62, 35), anchor="mm")
+    d.text((740, 285), f"{cl}?", font=fc, fill=(90, 62, 35), anchor="mm")
+    d.text((740, 370), "o clássico que todo", font=font("Poppins-SemiBold.ttf", 30), fill=(120, 90, 55), anchor="mm")
+    d.text((740, 408), "mundo já jogou", font=font("Poppins-SemiBold.ttf", 30), fill=(120, 90, 55), anchor="mm")
     corte_rasgado(img, 455)
     cola(img, pilula("DEPOIS", 34, NAVY, WHITE, WHITE), 160, 545, 3)
     cola(img, sombra(caixa(n, 400, 380), 16, (8, 14), 0.4), 800, 760, 4)
@@ -307,8 +314,11 @@ def antes_capa():
     img = Image.new("RGBA", (S, S), (255, 90, 60, 255))
     img.alpha_composite(papel_velho(), (0, 0))
     d = ImageDraw.Draw(img)
-    d.text((540, 170), "OS CLÁSSICOS", font=font("AlfaSlabOne-Regular.ttf", 90), fill=(90, 62, 35), anchor="mm")
-    d.text((540, 290), "UNO · DETETIVE · BATALHA NAVAL · WAR", font=font("Poppins-Black.ttf", 36), fill=(120, 90, 55), anchor="mm")
+    d.text((540, 110), "OS CLÁSSICOS", font=font("AlfaSlabOne-Regular.ttf", 80), fill=(90, 62, 35), anchor="mm")
+    for j, n in enumerate(CL_IMG):
+        v = caixa(n, 190, 230)
+        v = Image.fromarray((np.asarray(v).astype(np.float32) * np.array([0.96, 0.9, 0.78, 1.0])).clip(0, 255).astype(np.uint8))
+        cola(img, sombra(v, 8, (4, 6), 0.3), 150 + j * 260, 300, (-5, 3, -3, 5)[j])
     corte_rasgado(img, 455)
     for j, n in enumerate(["flip7_vinganca", "micromacro", "mind_mgmt", "wonderland"]):
         cola(img, sombra(caixa(n, 300, 260), 12, (6, 12), 0.4), 180 + j * 240, 720, (-6, 3, -3, 6)[j])
@@ -346,7 +356,7 @@ def ranking(k):
     img = Image.new("RGBA", (S, S), cor + (255,))
     d = ImageDraw.Draw(img)
     d.polygon([(0, 0), (S, 0), (S, 90), (0, 170)], fill=NAVY)
-    d.text((180, 66), "TOP 5 · SUA VEZ", font=font("Bungee-Regular.ttf", 44), fill=WHITE, anchor="lm")
+    d.text((70, 66), "TOP 5 · SUA VEZ", font=font("Bungee-Regular.ttf", 44), fill=WHITE, anchor="lm")
     # número gigante vazado
     num_im = Image.new("RGBA", (620, 760), (0, 0, 0, 0))
     ImageDraw.Draw(num_im).text((310, 380), str(num), font=font("Bungee-Regular.ttf", 640), fill=(255, 255, 255, 70),
@@ -395,12 +405,7 @@ def salva(pasta, ims, cor_num=NAVY):
     os.makedirs(d, exist_ok=True)
     tot = len(ims)
     for i, im in enumerate(ims, 1):
-        if pasta == "v2_role":
-            dd = ImageDraw.Draw(im)
-            dd.rounded_rectangle((S - 150, 34, S - 34, 88), radius=27, fill=(4, 70, 62))
-            dd.text((S - 92, 61), f"{i}/{tot}", font=font("Bungee-Regular.ttf", 28), fill=WHITE, anchor="mm")
-        else:
-            num_slide(im, i, tot, cor_num)
+        pass  # sem numeração na imagem (pedido dele)
         lg = logo_card(130)
         if pasta != "v2_role":  # no WhatsApp o logo já está no balão / topo é da conversa
             im.alpha_composite(lg, (S - lg.width - 30, 30 if pasta != "v2_top5" else 190))

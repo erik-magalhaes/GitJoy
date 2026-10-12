@@ -375,7 +375,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Happy Salmon. 7 Wonders Duel e Patchwork também recortados (só 2 jogadores, guardados para outro post). **Ele escolheu o
   TARÔ** → `roleta-reels/taro.py` (20 s): cartas chegam viradas (verso de lua), desviram e cada carta troca de jogo num
   ritmo diferente (7/6/8 quadros), quadros NÍTIDOS para o print; trilha "mística" sintetizada no script. Entregue
-  `taro_{com_trilha,para_musica}_final.mp4` (−15,5 LUFS).
+  `taro_{com_trilha,para_musica}_final.mp4` (−15,5 LUFS). **2ª rodada (pedido dele: "pouca opção" e "devagar"):** 22 jogos
+  (7 + 8 + 7; acrescentei Splito, Flash 10, Dobro, Loser, Art Society, Bad Company, Wandering Towers, Rebirth, Eu Sou uma
+  Banana, Dança dos Tronos, Perfil Express e Telma — capas do Compara Jogos conferidas contra a foto do acervo) e troca a cada
+  4/3/5 quadros.
 - **Conteúdo SEM GRAVAR (12/out/2026)** — ele aprovou da minha lista: 3 (roleta "tira print", esperando ele escolher o
   visual), 6, 7, 8, 9 e 11. **Dados reais do site** em `comum/dados/acervo_site.json` (161 jogos: preço por 5 dias,
   jogadores, tempo, peso; raspado de `/boardgames?page=N`) e **menor preço de loja** em `comum/dados/precos_loja.json`
@@ -400,5 +403,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
     Dinosaur World; emoji desenhado como imagem porque a Poppins não tem emoji); Clássicos = antes × depois em papel
     envelhecido (UNO→Flip 7 A Vingança, Detetive→MicroMacro, Batalha Naval→Mind MGMT, War→Wonderland's War);
     Top 5 = ranking de revista (Jungo, Bandido, Next Station London, Dungeon Fighter, Take Time — escolha minha, ele pode
-    trocar). **Regra que fica: variar jogos entre posts** (ver o que já foi usado antes de escolher).
+    trocar). **Regra que fica: variar jogos entre posts** (ver o que já foi usado antes de escolher). Pedidos seguintes: **sem
+    numeração "1/7" nas imagens** (ele achou que era coisa do chat) e, nos clássicos, **a caixa do clássico também** (menor,
+    com tom envelhecido, no "antes"; UNO Mattel, Detetive Estrela, Batalha Naval e War Grow, fotos da Ri Happy).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.

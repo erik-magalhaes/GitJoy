@@ -30,11 +30,15 @@ AS = os.path.join(ROOT, "assets")
 INK = (20, 16, 30)
 OURO = (232, 190, 92)
 ROXO = (110, 60, 140)
-CARTAS = [("I", "PRA AQUECER", [("the_mind", "THE MIND"), ("fantasy_realms", "FANTASY REALMS"), ("taco_gato", "TACO GATO...")]),
+CARTAS = [("I", "PRA AQUECER", [("the_mind", "THE MIND"), ("fantasy_realms", "FANTASY REALMS"), ("taco_gato", "TACO GATO..."),
+                                  ("splito", "SPLITO"), ("flash_10", "FLASH 10"), ("dobro", "DOBRO"), ("loser", "LOSER")]),
           ("II", "O JOGÃO", [("sheriff", "SHERIFF"), ("cartografos", "CARTÓGRAFOS"), ("unicorn_fever", "UNICORN FEVER"),
-                             ("sea_salt", "SEA SALT & PAPER")]),
-          ("III", "PRA FECHAR", [("spyfall", "SPYFALL"), ("last_message", "LAST MESSAGE"), ("happy_salmon", "HAPPY SALMON")])]
-PERIODO = [7, 6, 8]  # quadros que cada carta fica em cada jogo (ritmos diferentes)
+                             ("sea_salt", "SEA SALT & PAPER"), ("art_society", "ART SOCIETY"), ("bad_company", "BAD COMPANY"),
+                             ("wandering_towers", "WANDERING TOWERS"), ("rebirth", "REBIRTH")]),
+          ("III", "PRA FECHAR", [("spyfall", "SPYFALL"), ("last_message", "LAST MESSAGE"), ("happy_salmon", "HAPPY SALMON"),
+                                 ("eu_sou_banana", "EU SOU UMA BANANA"), ("danca_tronos", "DANÇA DOS TRONOS"),
+                                 ("perfil_express", "PERFIL EXPRESS"), ("telma", "TELMA")])]
+PERIODO = [4, 3, 5]  # quadros que cada carta fica em cada jogo (ritmos diferentes; ele pediu MAIS RÁPIDO)
 CW, CH = 330, 650
 POS = [(188, 1000, -6), (540, 965, 0), (892, 1000, 6)]
 T_CHEGA, T_VIRA, T_GIRA = 0.0, 2.2, 3.0
@@ -170,7 +174,7 @@ def verso():
 
 def jogo_da_vez(j, fi):
     jogos = CARTAS[j][2]
-    passo = fi // PERIODO[j] + j * 2  # fase diferente em cada carta
+    passo = fi // PERIODO[j] + j * 3  # fase diferente em cada carta
     return passo % len(jogos)
 
 
@@ -248,7 +252,7 @@ def cues():
     t = T_GIRA
     while t < T_COM:  # tiquetaque baixinho enquanto as cartas trocam
         c.append((t, "tique", 0.18))
-        t += 0.2
+        t += 0.12
     c += [(T_COM, "ding", 0.5), (T_COM + 0.35, "pop", 0.4), (T_CTA, "harpa", 0.6), (T_CTA + 1.3, "ding", 0.5)]
     return c
 
