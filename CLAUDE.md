@@ -372,7 +372,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   ("a cartomante dos jogos"), B cardápio na lousa (entrada/prato principal/sobremesa), C raspadinha. Jogos novos (todos
   no acervo, caixas oficiais em `roleta-reels/assets/`): aquecer = The Mind, Fantasy Realms, Taco Gato Cabra Queijo Pizza;
   jogão = Sheriff of Nottingham, Cartógrafos (Grok), Unicorn Fever, Sea Salt & Paper; fechar = Spyfall, Last Message,
-  Happy Salmon. 7 Wonders Duel e Patchwork também recortados (só 2 jogadores, guardados para outro post). Esperando a escolha.
+  Happy Salmon. 7 Wonders Duel e Patchwork também recortados (só 2 jogadores, guardados para outro post). **Ele escolheu o
+  TARÔ** → `roleta-reels/taro.py` (20 s): cartas chegam viradas (verso de lua), desviram e cada carta troca de jogo num
+  ritmo diferente (7/6/8 quadros), quadros NÍTIDOS para o print; trilha "mística" sintetizada no script. Entregue
+  `taro_{com_trilha,para_musica}_final.mp4` (−15,5 LUFS).
 - **Conteúdo SEM GRAVAR (12/out/2026)** — ele aprovou da minha lista: 3 (roleta "tira print", esperando ele escolher o
   visual), 6, 7, 8, 9 e 11. **Dados reais do site** em `comum/dados/acervo_site.json` (161 jogos: preço por 5 dias,
   jogadores, tempo, peso; raspado de `/boardgames?page=N`) e **menor preço de loja** em `comum/dados/precos_loja.json`
@@ -391,4 +394,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
     **"Top 5 queridinhos da Sua Vez"** (7). Ele pediu "top 5 mais alugados do mês" e disse para inventar porque ainda não
     houve aluguéis; **não inventei número de aluguel**: virou "os que a gente mais indica", com as frases dele no 5-4-3-2-1
     (King of Tokyo, Ticket to Ride, Splendor Duel, Harmonies, Hitster; Azul não está no acervo).
+  - **2ª versão dos carrosséis** (`feed-posts/carrosseis2.py`, ele: "todos iguais" e "jogos repetidos, quase todos têm o
+    Hitster / Ticket to Ride"): **cada um com layout próprio** e **nenhum jogo repetido** entre eles nem com posts anteriores.
+    Rolê = print de conversa de WhatsApp (Patchwork, Monkey Palace, Say my Name, Survive the Island, Santa Kaos,
+    Dinosaur World; emoji desenhado como imagem porque a Poppins não tem emoji); Clássicos = antes × depois em papel
+    envelhecido (UNO→Flip 7 A Vingança, Detetive→MicroMacro, Batalha Naval→Mind MGMT, War→Wonderland's War);
+    Top 5 = ranking de revista (Jungo, Bandido, Next Station London, Dungeon Fighter, Take Time — escolha minha, ele pode
+    trocar). **Regra que fica: variar jogos entre posts** (ver o que já foi usado antes de escolher).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
