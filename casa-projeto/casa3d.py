@@ -577,31 +577,32 @@ def casa():
     Ff = fachada("y", 5.0, -1)
     portao_garagem(lambda u, z, d: Ff(u, z, d + 0.05), 2.0, 7.0, 0.0, 2.45)
     luminaria(Ff, 1.75, 2.0); luminaria(Ff, 7.25, 2.0)
-    for u0 in (13.3, 14.45, 15.6):                         # janela tripla do home office
-        janela(Ff, u0, u0 + 1.0, 1.0, 2.6)
-    janela(fachada("y", 5.0, -1), 11.1, 12.1, 1.0, 2.6)
-    porta_entrada(Ff, 9.6, 10.6, 0.3, 2.55)
+    for u0 in (14.95, 16.0, 17.05):                        # janela tripla do home office
+        janela(Ff, u0, u0 + 0.95, 1.0, 2.6)
+    janela(Ff, 11.2, 12.2, 1.0, 2.6)                       # hall
+    janela(Ff, 13.0, 14.0, 1.0, 2.6)
+    porta_entrada(Ff, 9.7, 10.7, 0.3, 2.55)
     luminaria(Ff, 9.0, 2.15)
 
     # ---- lateral direita
     Fd = fachada("x", 18.5, 1)
     janela(Fd, 5.9, 7.5, 1.0, 2.6, grade=(4, 2))
-    janela(Fd, 9.3, 10.3, 2.0, 2.7, grade=(3, 1), guilhotina=False)
-    janela(Fd, 11.6, 12.7, 1.0, 2.6); janela(Fd, 13.1, 14.2, 1.0, 2.6)
-    janela(Fd, 15.7, 16.7, 2.0, 2.7, grade=(3, 1), guilhotina=False)
+    janela(Fd, 9.0, 10.2, 2.0, 2.7, grade=(3, 1), guilhotina=False)
+    janela(Fd, 11.4, 12.5, 1.0, 2.6); janela(Fd, 12.7, 13.8, 1.0, 2.6)
+    janela(Fd, 14.9, 15.9, 2.0, 2.7, grade=(3, 1), guilhotina=False)
     janela(Fd, 18.3, 19.6, 1.0, 2.6); janela(Fd, 19.9, 21.2, 1.0, 2.6)
 
     # ---- lateral esquerda
     Fe = fachada("x", 1.5, -1)
     janela(Fe, 7.0, 9.0, 1.7, 2.6, grade=(4, 1), guilhotina=False)
     janela(Fe, 13.6, 15.9, 1.1, 2.6, grade=(4, 2))
-    porta_correr(Fe, 11.3, 12.3, 0.3, 2.5, folhas=1)
+    porta_correr(Fe, 10.8, 11.7, 0.3, 2.5, folhas=1)
 
     # ---- fundos
     Ft = fachada("y", 22.0, 1)
-    porta_correr(Ft, 8.0, 12.0, 0.3, 2.6, folhas=3)
-    porta_correr(Ft, 13.3, 17.7, 0.3, 2.6, folhas=3)
-    luminaria(Ft, 7.75, 2.2); luminaria(Ft, 12.25, 2.2)
+    porta_correr(Ft, 8.0, 12.8, 0.3, 2.6, folhas=3)
+    porta_correr(Ft, 13.8, 17.8, 0.3, 2.6, folhas=3)
+    luminaria(Ft, 7.75, 2.2); luminaria(Ft, 13.3, 2.2)
 
     # ---- varanda de entrada
     box(7.3, 12.7, 3.3, 5.0, 0, 0.3, M["pedra"], "piso_varanda_base")
