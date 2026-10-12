@@ -21,6 +21,7 @@
 .cartaz { flex: 0 0 64%; scroll-snap-align: start; display: block; border-radius: 18px; background: #17151c; border: 1px solid #2a2730; transition: border-color 0.3s ease, transform 0.3s ease; }
 .cartaz:hover { border-color: rgba(249, 115, 22, 0.7); transform: translateY(-3px); }
 .cartaz-capa { position: relative; border-radius: 18px 18px 0 0; background: radial-gradient(ellipse at 50% 30%, #2b2732, #141218 75%); }
+.meta span + span::before { content: " · "; }
 .rota { stroke-dasharray: 6 8; animation: rota 1.6s linear infinite; }
 @keyframes rota { to { stroke-dashoffset: -28; } }
 .carro { offset-path: path("M 30 70 C 90 10, 150 110, 210 50 S 290 40, 290 40"); animation: anda 4.5s ease-in-out infinite; }
@@ -84,12 +85,12 @@
           <a class="cartaz" href="{{ jogo.url }}">
             <div class="cartaz-capa">
               <img class="aspect-[3/4] w-full object-contain p-4" src="{{ jogo.imagem_url }}" alt="{{ jogo.nome }}" loading="lazy">
-              {% if jogo.disponivel %}{% else %}<span class="absolute top-3 left-3 rounded-full bg-black/80 px-3 py-1 text-xs font-semibold text-stone-200">Alugado</span>{% endif %}
+              {% if jogo.disponivel == false %}<span class="absolute top-3 left-3 rounded-full bg-black/80 px-3 py-1 text-xs font-semibold text-stone-200">Alugado</span>{% endif %}
             </div>
             <div class="px-4 pt-3 pb-4">
               <h3 class="text-base leading-snug font-bold text-stone-50">{{ jogo.nome }}</h3>
-              <p class="mt-1 text-sm text-stone-400">{% if jogo.jogadores %}{{ jogo.jogadores }} jogadores{% endif %}{% if jogo.jogadores and jogo.tempo %} · {% endif %}{% if jogo.tempo %}{{ jogo.tempo }}{% endif %}</p>
-              {% if jogo.preco %}<p class="mt-2 text-lg font-extrabold text-[var(--cor-principal)]">{{ jogo.preco }}{% if jogo.dias %} <span class="text-sm font-medium text-stone-400">/ {{ jogo.dias }} dias</span>{% endif %}</p>{% endif %}
+              <p class="meta mt-1 text-sm text-stone-400">{% if jogo.jogadores %}<span>{{ jogo.jogadores }} jogadores</span>{% endif %}{% if jogo.tempo %}<span>{{ jogo.tempo }}</span>{% endif %}</p>
+              <p class="mt-2 flex items-baseline gap-1">{% if jogo.preco %}<span class="text-lg font-extrabold text-[var(--cor-principal)]">{{ jogo.preco }}</span>{% endif %}{% if jogo.dias %}<span class="text-sm font-medium text-stone-400">/ {{ jogo.dias }} dias</span>{% endif %}</p>
             </div>
           </a>
       {% endfor %}
@@ -112,12 +113,12 @@
           <a class="cartaz" href="{{ jogo.url }}">
             <div class="cartaz-capa">
               <img class="aspect-[3/4] w-full object-contain p-4" src="{{ jogo.imagem_url }}" alt="{{ jogo.nome }}" loading="lazy">
-              {% if jogo.disponivel %}{% else %}<span class="absolute top-3 left-3 rounded-full bg-black/80 px-3 py-1 text-xs font-semibold text-stone-200">Alugado</span>{% endif %}
+              {% if jogo.disponivel == false %}<span class="absolute top-3 left-3 rounded-full bg-black/80 px-3 py-1 text-xs font-semibold text-stone-200">Alugado</span>{% endif %}
             </div>
             <div class="px-4 pt-3 pb-4">
               <h3 class="text-base leading-snug font-bold text-stone-50">{{ jogo.nome }}</h3>
-              <p class="mt-1 text-sm text-stone-400">{% if jogo.jogadores %}{{ jogo.jogadores }} jogadores{% endif %}{% if jogo.jogadores and jogo.tempo %} · {% endif %}{% if jogo.tempo %}{{ jogo.tempo }}{% endif %}</p>
-              {% if jogo.preco %}<p class="mt-2 text-lg font-extrabold text-[var(--cor-principal)]">{{ jogo.preco }}{% if jogo.dias %} <span class="text-sm font-medium text-stone-400">/ {{ jogo.dias }} dias</span>{% endif %}</p>{% endif %}
+              <p class="meta mt-1 text-sm text-stone-400">{% if jogo.jogadores %}<span>{{ jogo.jogadores }} jogadores</span>{% endif %}{% if jogo.tempo %}<span>{{ jogo.tempo }}</span>{% endif %}</p>
+              <p class="mt-2 flex items-baseline gap-1">{% if jogo.preco %}<span class="text-lg font-extrabold text-[var(--cor-principal)]">{{ jogo.preco }}</span>{% endif %}{% if jogo.dias %}<span class="text-sm font-medium text-stone-400">/ {{ jogo.dias }} dias</span>{% endif %}</p>
             </div>
           </a>
       {% endfor %}
@@ -140,12 +141,12 @@
           <a class="cartaz" href="{{ jogo.url }}">
             <div class="cartaz-capa">
               <img class="aspect-[3/4] w-full object-contain p-4" src="{{ jogo.imagem_url }}" alt="{{ jogo.nome }}" loading="lazy">
-              {% if jogo.disponivel %}{% else %}<span class="absolute top-3 left-3 rounded-full bg-black/80 px-3 py-1 text-xs font-semibold text-stone-200">Alugado</span>{% endif %}
+              {% if jogo.disponivel == false %}<span class="absolute top-3 left-3 rounded-full bg-black/80 px-3 py-1 text-xs font-semibold text-stone-200">Alugado</span>{% endif %}
             </div>
             <div class="px-4 pt-3 pb-4">
               <h3 class="text-base leading-snug font-bold text-stone-50">{{ jogo.nome }}</h3>
-              <p class="mt-1 text-sm text-stone-400">{% if jogo.jogadores %}{{ jogo.jogadores }} jogadores{% endif %}{% if jogo.jogadores and jogo.tempo %} · {% endif %}{% if jogo.tempo %}{{ jogo.tempo }}{% endif %}</p>
-              {% if jogo.preco %}<p class="mt-2 text-lg font-extrabold text-[var(--cor-principal)]">{{ jogo.preco }}{% if jogo.dias %} <span class="text-sm font-medium text-stone-400">/ {{ jogo.dias }} dias</span>{% endif %}</p>{% endif %}
+              <p class="meta mt-1 text-sm text-stone-400">{% if jogo.jogadores %}<span>{{ jogo.jogadores }} jogadores</span>{% endif %}{% if jogo.tempo %}<span>{{ jogo.tempo }}</span>{% endif %}</p>
+              <p class="mt-2 flex items-baseline gap-1">{% if jogo.preco %}<span class="text-lg font-extrabold text-[var(--cor-principal)]">{{ jogo.preco }}</span>{% endif %}{% if jogo.dias %}<span class="text-sm font-medium text-stone-400">/ {{ jogo.dias }} dias</span>{% endif %}</p>
             </div>
           </a>
       {% endfor %}
@@ -168,12 +169,12 @@
           <a class="cartaz" href="{{ jogo.url }}">
             <div class="cartaz-capa">
               <img class="aspect-[3/4] w-full object-contain p-4" src="{{ jogo.imagem_url }}" alt="{{ jogo.nome }}" loading="lazy">
-              {% if jogo.disponivel %}{% else %}<span class="absolute top-3 left-3 rounded-full bg-black/80 px-3 py-1 text-xs font-semibold text-stone-200">Alugado</span>{% endif %}
+              {% if jogo.disponivel == false %}<span class="absolute top-3 left-3 rounded-full bg-black/80 px-3 py-1 text-xs font-semibold text-stone-200">Alugado</span>{% endif %}
             </div>
             <div class="px-4 pt-3 pb-4">
               <h3 class="text-base leading-snug font-bold text-stone-50">{{ jogo.nome }}</h3>
-              <p class="mt-1 text-sm text-stone-400">{% if jogo.jogadores %}{{ jogo.jogadores }} jogadores{% endif %}{% if jogo.jogadores and jogo.tempo %} · {% endif %}{% if jogo.tempo %}{{ jogo.tempo }}{% endif %}</p>
-              {% if jogo.preco %}<p class="mt-2 text-lg font-extrabold text-[var(--cor-principal)]">{{ jogo.preco }}{% if jogo.dias %} <span class="text-sm font-medium text-stone-400">/ {{ jogo.dias }} dias</span>{% endif %}</p>{% endif %}
+              <p class="meta mt-1 text-sm text-stone-400">{% if jogo.jogadores %}<span>{{ jogo.jogadores }} jogadores</span>{% endif %}{% if jogo.tempo %}<span>{{ jogo.tempo }}</span>{% endif %}</p>
+              <p class="mt-2 flex items-baseline gap-1">{% if jogo.preco %}<span class="text-lg font-extrabold text-[var(--cor-principal)]">{{ jogo.preco }}</span>{% endif %}{% if jogo.dias %}<span class="text-sm font-medium text-stone-400">/ {{ jogo.dias }} dias</span>{% endif %}</p>
             </div>
           </a>
       {% endfor %}
@@ -196,12 +197,12 @@
           <a class="cartaz" href="{{ jogo.url }}">
             <div class="cartaz-capa">
               <img class="aspect-[3/4] w-full object-contain p-4" src="{{ jogo.imagem_url }}" alt="{{ jogo.nome }}" loading="lazy">
-              {% if jogo.disponivel %}{% else %}<span class="absolute top-3 left-3 rounded-full bg-black/80 px-3 py-1 text-xs font-semibold text-stone-200">Alugado</span>{% endif %}
+              {% if jogo.disponivel == false %}<span class="absolute top-3 left-3 rounded-full bg-black/80 px-3 py-1 text-xs font-semibold text-stone-200">Alugado</span>{% endif %}
             </div>
             <div class="px-4 pt-3 pb-4">
               <h3 class="text-base leading-snug font-bold text-stone-50">{{ jogo.nome }}</h3>
-              <p class="mt-1 text-sm text-stone-400">{% if jogo.jogadores %}{{ jogo.jogadores }} jogadores{% endif %}{% if jogo.jogadores and jogo.tempo %} · {% endif %}{% if jogo.tempo %}{{ jogo.tempo }}{% endif %}</p>
-              {% if jogo.preco %}<p class="mt-2 text-lg font-extrabold text-[var(--cor-principal)]">{{ jogo.preco }}{% if jogo.dias %} <span class="text-sm font-medium text-stone-400">/ {{ jogo.dias }} dias</span>{% endif %}</p>{% endif %}
+              <p class="meta mt-1 text-sm text-stone-400">{% if jogo.jogadores %}<span>{{ jogo.jogadores }} jogadores</span>{% endif %}{% if jogo.tempo %}<span>{{ jogo.tempo }}</span>{% endif %}</p>
+              <p class="mt-2 flex items-baseline gap-1">{% if jogo.preco %}<span class="text-lg font-extrabold text-[var(--cor-principal)]">{{ jogo.preco }}</span>{% endif %}{% if jogo.dias %}<span class="text-sm font-medium text-stone-400">/ {{ jogo.dias }} dias</span>{% endif %}</p>
             </div>
           </a>
       {% endfor %}
