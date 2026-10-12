@@ -48,7 +48,8 @@ GANCHO = 1.7
 POR = 1.1  # 2ª versão: ele achou "um pouquinho demorado" (29 s → ~20 s)
 T_TOTAL = GANCHO + POR * len(JOGOS)
 T_SV = T_TOTAL + 2.0
-T_COM = T_SV + 3.3
+T_LADO = T_SV + 3.3  # lado a lado comprar × alugar (pedido dele: "não pague 1.600, pague 200")
+T_COM = T_LADO + 3.8
 T_CTA = T_COM + 2.0
 DUR = T_CTA + 3.3
 
@@ -159,6 +160,54 @@ def cupom_sv():
     return sombra(im, 14, (0, 14), 0.35)
 
 
+@lru_cache(None)
+def cartao(alugar):
+    """Cartão do lado a lado: mesmos 7 jogos dos dois lados; só muda o preço e o prazo."""
+    w, h = 456, 800
+    cor = VERDE if alugar else VERM
+    im = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    d.rounded_rectangle((0, 0, w - 1, h - 1), radius=36, fill=(253, 252, 248), outline=cor, width=8)
+    d.rounded_rectangle((0, 0, w - 1, 130), radius=36, fill=cor)
+    d.rectangle((0, 90, w - 1, 130), fill=cor)
+    d.text((w / 2, 66), "ALUGAR" if alugar else "COMPRAR", font=font("Bungee-Regular.ttf", 64), fill=WHITE, anchor="mm")
+    d.text((w / 2, 170), "NA SUA VEZ" if alugar else "NAS LOJAS", font=font("Poppins-Black.ttf", 34), fill=cor, anchor="mm")
+    # os 7 jogos em miniatura (4 + 3)
+    ims = [caixa(path, 96 if "hotstreak" not in path else 64) for nm, nc, path, *_ in JOGOS]
+    for fila, idx in enumerate(((0, 1, 2, 3), (4, 5, 6))):
+        lw = sum(ims[i].width - 30 for i in idx)
+        x = (w - lw) / 2
+        for i in idx:
+            m = ims[i]
+            im.alpha_composite(m, (int(x - 15), int(285 + fila * 112 - m.height / 2)))
+            x += m.width - 30
+    d.text((w / 2, 482), "7 JOGOS", font=font("Poppins-Black.ttf", 40), fill=INK, anchor="mm")
+    preco = brl(ALUGUEL).replace(",00", "") if alugar else brl(TOTAL)
+    d.text((w / 2, 575), preco, font=font("Bungee-Regular.ttf", 76 if alugar else 58), fill=cor, anchor="mm")
+    d.line((60, 650, w - 60, 650), fill=(200, 200, 200), width=3)
+    d.text((w / 2, 712), "15 DIAS DE JOGO" if alugar else "e ainda ocupa a estante", font=font(
+        "Poppins-Black.ttf" if alugar else "Poppins-SemiBold.ttf", 38 if alugar else 30), fill=INK, anchor="mm")
+    return sombra(im, 18, (0, 16), 0.35)
+
+
+def cena_lado(img, t):
+    u = t - T_LADO
+    cola(img, letreiro("LADO A LADO", 96, WHITE, INK, 14, sombra_px=7, cor_sombra=INK), 540, 230, -2, pop(t, T_LADO, 0.4))
+    xe = lerp(-400, 262, ease(seg(u, 0.1, 0.45)))
+    xd = lerp(1480, 818, ease(seg(u, 0.25, 0.6)))
+    cola(img, cartao(False), xe, 760, -2)
+    cola(img, cartao(True), xd, 760, 2)
+    cola(img, letreiro("VS", 58, (255, 214, 70), INK, 10), 540, 935, 0, pop(t, T_LADO + 0.6))
+    p = ease(seg(u, 1.0, 1.3))  # risco vermelho no preço da loja
+    if p > 0:
+        d = ImageDraw.Draw(img)
+        x0, y0, x1, y1 = 262 - 190, 760 - 400 + 600, 262 + 190, 760 - 400 + 550
+        d.line((x0, y0, lerp(x0, x1, p), lerp(y0, y1, p)), fill=VERM, width=14)
+    cola(img, letreiro(f"NÃO PAGUE {brl(TOTAL)[:-3]}", 66, WHITE, VERM, 12), 540, 1330, -1, pop(t, T_LADO + 1.4))
+    cola(img, letreiro(f"PAGUE {brl(ALUGUEL)[:-3]}\nE JOGUE 15 DIAS!", 84, (255, 214, 70), INK, 14, sombra_px=7,
+                       cor_sombra=INK), 540, 1500, 1, pop(t, T_LADO + 1.9))
+
+
 def pilha(img, t, ate=None):
     for i, (nm, nc, path, h, x, y) in enumerate(JOGOS):
         t0 = GANCHO + POR * i
@@ -193,7 +242,7 @@ def frame(t):
         if t >= T_TOTAL:
             cola(img, letreiro(brl(TOTAL).replace(",", ",") + "!", 110, VERM, WHITE, 12), 540, 360, -6, pop(t, T_TOTAL, 0.4))
             cola(img, emoji("😱", 120), 920, 470, 10, pop(t, T_TOTAL + 0.3))
-    elif t < T_COM:
+    elif t < T_LADO:
         u = t - T_SV
         cola(img, letreiro("OU...", 120, WHITE, INK, 14), 540, 260, -3, pop(t, T_SV))
         cola(img, letreiro("ALUGA OS 7\nNA SUA VEZ!", 110, (255, 214, 70), INK, 14, sombra_px=8, cor_sombra=INK), 540, 520, 2,
@@ -204,6 +253,8 @@ def frame(t):
             cola(img, pilula(f"ECONOMIA DE {brl(eco)}", 52, VERDE), 540, 1460, -2, pop(t, T_SV + 1.1))
             cola(img, letreiro("e você ainda joga 15 dias!", 52, WHITE, INK, 8, "Poppins-Black.ttf"), 540, 1570, 0,
                  pop(t, T_SV + 1.4))
+    elif t < T_COM:
+        cena_lado(img, t)
     elif t < T_CTA:
         pilha(img, 99)
         cola(img, letreiro("QUAL VOCÊ\nALUGARIA\nPRIMEIRO?", 112, (255, 214, 70), INK, 14, sombra_px=8, cor_sombra=INK), 540,
@@ -244,7 +295,8 @@ def cues():
         t0 = GANCHO + POR * i
         c += [(t0 + 0.2, "tum", 0.7), (t0 + 0.03, "print", 0.5), (t0 + 0.35, "cash", 0.35)]
     c += [(T_TOTAL, "cash", 0.8), (T_TOTAL + 0.05, "boing", 0.4), (T_SV, "whoosh", 0.5), (T_SV + 0.3, "print", 0.5),
-          (T_SV + 1.1, "ding", 0.6), (T_COM, "pop", 0.4), (T_COM + 0.35, "boing", 0.35), (T_CTA, "whoosh", 0.4),
+          (T_SV + 1.1, "ding", 0.6), (T_LADO, "whoosh", 0.45), (T_LADO + 0.6, "pop", 0.4),
+          (T_LADO + 1.0, "boing", 0.35), (T_LADO + 1.4, "tum", 0.6), (T_LADO + 1.9, "cash", 0.6), (T_COM, "pop", 0.4), (T_COM + 0.35, "boing", 0.35), (T_CTA, "whoosh", 0.4),
           (T_CTA + 0.9, "ding", 0.5)]
     return c
 
