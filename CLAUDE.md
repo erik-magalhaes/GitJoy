@@ -428,10 +428,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
     trocar). **Regra que fica: variar jogos entre posts** (ver o que já foi usado antes de escolher). Pedidos seguintes: **sem
     numeração "1/7" nas imagens** (ele achou que era coisa do chat) e, nos clássicos, **a caixa do clássico também** (menor,
     com tom envelhecido, no "antes"; UNO Mattel, Detetive Estrela, Batalha Naval e War Grow, fotos da Ri Happy).
-- **Story do Dia das Crianças** (`promo/story_criancas.py`, 12/out): a 1ª versão (céu azul, meeples desenhados em vetor)
-  foi REJEITADA: "muito ruim, nada a ver com o visual da loja, meeples mal feitos". **Artes da loja seguem o visual das
-  promoções** (`promo_3jogos.fundo`: creme com listras laranja, cartão branco do logo, Poppins azul-marinho, faixa laranja,
-  caixa verde-clara, rodapé "RETIRE EM MAUÁ OU RECEBA EM CASA" + site · @). Nunca desenhar meeple/peça à mão: só imagem
-  oficial. Versão atual: "FELIZ DIA DAS / CRIANÇAS!" + os 4 jogos do Reels das crianças em cartões 2x2 (caixa oficial,
-  nome, jogadores · tempo do site) + "Alugue 3 jogos e fique 7 dias com eles!".
+- **Story do Dia das Crianças** (`promo/story_criancas.py`, 12/out). v1 (céu azul, meeples desenhados em vetor) REJEITADA:
+  "muito ruim, nada a ver com o visual da loja, meeples mal feitos". v2 (4 caixas em cartões) REJEITADA: "você fez uma
+  imagem promocional; eu quero só o Feliz Dia das Crianças". **Lições:** (1) arte da loja segue o visual das promoções
+  (`promo_3jogos.fundo`: creme com listras laranja, cartão branco do logo, Poppins azul-marinho, laranja, verde, azul);
+  (2) nunca desenhar meeple/peça à mão; (3) data comemorativa = FELICITAÇÃO, sem divulgar jogos (só um empurrão discreto
+  pro site). v3: balões e confete nas cores da marca, "FELIZ DIA DAS / CRIANÇAS!" (faixa laranja), "Pra criança que tem
+  em casa e pra que mora dentro da gente. / Hoje o dia é de brincar junto!", 4 dados geométricos e o site numa pílula.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
