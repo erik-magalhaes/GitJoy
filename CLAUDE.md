@@ -402,7 +402,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   - **Custo:** ele recusou as 2 vozes de locutor ("não gostei de nenhum dos áudios, pode deixar sem"): fica sem voz. 2ª versão
     mais rápida (ele: "um pouquinho demorado"): 29 s → 20 s (GANCHO 1,7, 1,1 s por jogo, caixa quicando em 0,35 s).
     3ª versão: ele sentiu falta de um **lado a lado** ("não pague 1.600, pague 200 e jogue 15 dias"): cena `cena_lado`
-    depois do cupom da Sua Vez: cartões COMPRAR (vermelho, R$ 1.616,82 riscado) × ALUGAR (verde, R$ 210, 15 dias), os
+    depois do cupom da Sua Vez (SEM título: ele achou estranho o "LADO A LADO" escrito): cartões COMPRAR (vermelho, R$ 1.616,82 riscado) × ALUGAR (verde, R$ 210, 15 dias), os
     mesmos 7 jogos em miniatura nos dois, "VS", e "NÃO PAGUE R$ 1.616 / PAGUE R$ 210 E JOGUE 15 DIAS!". 23,8 s.
   - **Halloween, 3ª rodada:** ele achou a noite roxa (lua, morcegos, abóbora) "muito infantil" e pediu para mudar TODO o
     visual. Mandei 3 conceitos adultos (`halloween-reels/conceitos.py` → out/conceitos.jpg; fontes Cinzel e Cormorant

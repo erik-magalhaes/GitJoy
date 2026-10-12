@@ -192,7 +192,6 @@ def cartao(alugar):
 
 def cena_lado(img, t):
     u = t - T_LADO
-    cola(img, letreiro("LADO A LADO", 96, WHITE, INK, 14, sombra_px=7, cor_sombra=INK), 540, 230, -2, pop(t, T_LADO, 0.4))
     xe = lerp(-400, 262, ease(seg(u, 0.1, 0.45)))
     xd = lerp(1480, 818, ease(seg(u, 0.25, 0.6)))
     cola(img, cartao(False), xe, 760, -2)
