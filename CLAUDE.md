@@ -367,7 +367,12 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   que ele escolheu. As caixas trocam rápido em 3 casas (PRA AQUECER / O JOGÃO / PRA FECHAR); cada um dá print e cai
   numa noite diferente ("a minha deu..."); fecha com "aluga os seus 3 = 7 dias". Só caixas OFICIAIS que estão no acervo
   (lista `CAIXAS` em `conceitos.py`, 24 jogos). 3 visuais mandados para ele escolher (`conceitos.py` → out/conceitos.jpg):
-  1 caça-níquel neon, 2 roda da sorte, 3 cartas na mesa de feltro. Esperando a escolha.
+  1 caça-níquel neon, 2 roda da sorte, 3 cartas na mesa de feltro. Ele gostou da ideia das 3 cartas, mas não do design, e
+  pediu para usar só **jogos que ainda não apareceram em post**. 2ª rodada (`conceitos2.py` → out/conceitos2.jpg): A tarô
+  ("a cartomante dos jogos"), B cardápio na lousa (entrada/prato principal/sobremesa), C raspadinha. Jogos novos (todos
+  no acervo, caixas oficiais em `roleta-reels/assets/`): aquecer = The Mind, Fantasy Realms, Taco Gato Cabra Queijo Pizza;
+  jogão = Sheriff of Nottingham, Cartógrafos (Grok), Unicorn Fever, Sea Salt & Paper; fechar = Spyfall, Last Message,
+  Happy Salmon. 7 Wonders Duel e Patchwork também recortados (só 2 jogadores, guardados para outro post). Esperando a escolha.
 - **Conteúdo SEM GRAVAR (12/out/2026)** — ele aprovou da minha lista: 3 (roleta "tira print", esperando ele escolher o
   visual), 6, 7, 8, 9 e 11. **Dados reais do site** em `comum/dados/acervo_site.json` (161 jogos: preço por 5 dias,
   jogadores, tempo, peso; raspado de `/boardgames?page=N`) e **menor preço de loja** em `comum/dados/precos_loja.json`
