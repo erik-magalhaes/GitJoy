@@ -30,6 +30,20 @@ tudo antes de começar um vídeo novo: aqui está o que funcionou, o que não fu
 
 ## A loja
 
+- **Donos: Erik e Jéssica.** A Jéssica também pede peças (13/out/2026). Endereço: **Av. da Saudade, 96 – Mauá**.
+  Pagamento Pix ou cartão. Plataforma do site: Acervo de Jogos. **Categorias e preços avulsos:** Pocket R$ 15 / 5 dias,
+  Família R$ 30 / 5 dias, Estratégico R$ 45 / 5 dias, **Deluxe R$ 60 / 7 dias** (só Final Girl, Flamecraft, Wonderland's
+  War e Zombicide Rue Morgue). Acervo de **163 jogos**, a maioria Pocket e Família.
+- **ASSINATURAS (lançadas em out/2026, já no site; só assinatura, sem "pacotes"):** **Silver R$ 49/mês** (1 jogo por
+  vez, Pocket e Família) · **Gold R$ 89/mês** (2 por vez, + Estratégico) · **Platinum R$ 139/mês** (3 por vez, acervo
+  inteiro, no máx. 1 Deluxe por vez). Devolve um e pega outro, **trocas sem limite no mês**; a taxa de entrega é cobrada
+  a cada troca. Chamada: "assine pelo link na bio". O "Pacote Silves" (R$ 60 / 2 aluguéis) do site é para rever/desativar.
+- **Identidade visual que a Jéssica passou** (usar nas artes dela, `assinatura-reels/estilo.py`): Lilita One (títulos) +
+  Figtree (texto) em `assinatura-reels/assets/fonts/`; marrom #3F2412 (texto, contornos, sombra sólida), azul-petróleo
+  #1C7C96 (Família), laranja #F48825 (Pocket), fundo azul-claro #E3F3F6, amarelo #FFC71F, branco #FAFAFA; contornos
+  grossos marrons, sombra sólida deslocada, elementos levemente girados, selos em pílula, cara de tabuleiro; logo numa
+  caixa branca com contorno. Legendas não repetem o texto da arte.
+
 - **Sua Vez – Locação de Jogos de Tabuleiro**, Mauá e ABC (SP). Site: https://suavez.acervodejogos.com.br/
   (o logo veio de lá: `*/assets/logo_suavez.png`). Instagram: **@suavez_bg**.
 - Aluguel de **5 dias**, com reserva online e **retirada em Mauá ou entrega em casa** (existe uma pequena taxa de entrega,
@@ -453,4 +467,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
 - **Cupons:** JOGAMAUA5 (evento Joga Mauá, 5% na locação) e **JOGAABC5 = 5% de desconto para quem mora no ABC** ("Joga ABC 5";
   eu tinha escrito JOGABC5 e ele corrigiu) (12/out). Story `promo/story_cupom_abc.py`: visual da loja, "MORA NO ABC? / 5% OFF / na locação dos seus jogos!",
   ticket com o cupom, selo "VÁLIDO ATÉ 15/10", "Reserve pelo link:" + seta e espaço livre (y ~1510–1610) para o adesivo de link do Instagram.
+- **Assinaturas (`assinatura-reels/`, 13/out, pedido da Jéssica):** `carrossel.py` (6 telas 1080x1350: capa, como funciona,
+  Silver, Gold, Platinum, assine), `story.py` (1080x1920, planos empilhados + espaço para o adesivo de link) e `video.py`
+  (Reels 32 s, sem narração, com e sem trilha). Caixas OFICIAIS por categoria em `estilo.JOGOS`. Não inventei "plano mais
+  pedido" (é lançamento). Pus a nota "na entrega, a taxa varia conforme a região e é cobrada a cada troca" (o Erik já
+  pediu para não citar taxa nas artes; avisei a Jéssica para decidir).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
