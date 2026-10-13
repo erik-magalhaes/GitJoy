@@ -1,0 +1,115 @@
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
+.rodape {
+  font-family: "Manrope", sans-serif;
+  color: #e7e2d8;
+  background:
+    radial-gradient(ellipse 70% 120% at 50% 0%, rgba(249, 115, 22, 0.14), transparent 60%),
+    #0d0c10;
+}
+.borda { height: 3px; background: linear-gradient(90deg, transparent, var(--cor-principal) 20%, var(--cor-destaque) 50%, var(--cor-principal) 80%, transparent); }
+.titulo { font-family: "Cinzel", serif; font-weight: 700; letter-spacing: 0.04em; line-height: 1.15; }
+.rotulo { font-size: 12px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cor-destaque); }
+.logo { filter: drop-shadow(0 0 1px #f5efe4) drop-shadow(0 0 1px #f5efe4) drop-shadow(0 0 1px #f5efe4) drop-shadow(0 8px 28px rgba(249, 115, 22, 0.25)); }
+.lampadas { position: relative; height: 12px; margin: 0 auto; max-width: 18rem; }
+.lampadas::before, .lampadas::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle 4px at 9px 6px, #ffd28a 0 3px, rgba(245, 158, 11, 0.45) 4px, transparent 6px) 0 0 / 36px 12px repeat-x; animation: acende 1.2s steps(1) infinite; }
+.lampadas::after { background-position: 18px 0; animation-delay: -0.6s; }
+@keyframes acende { 0% { opacity: 1; filter: drop-shadow(0 0 4px #f59e0b); } 50% { opacity: 0.25; filter: none; } }
+.link { display: flex; align-items: center; min-height: 44px; color: #d6d0c4; transition: color 0.2s ease; }
+.link:hover { color: var(--cor-destaque); }
+.rede { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; border: 1px solid #3a3640; color: #e7e2d8; transition: color 0.2s ease, border-color 0.2s ease; }
+.rede:hover { color: var(--cor-principal); border-color: var(--cor-principal); }
+.sobre { color: #c9c3b8; line-height: 1.65; }
+.sobre p + p { margin-top: 0.75rem; }
+.sobre a { color: var(--cor-destaque); text-decoration: underline; text-underline-offset: 3px; }
+.sobre strong, .sobre b { color: #f5efe4; font-weight: 700; }
+.sobre ul { margin-top: 0.5rem; padding-left: 1.1rem; list-style: disc; }
+.selo { border: 1px solid #3a3640; background: #17151c; }
+@media (min-width: 768px) { .lampadas { margin: 0; } }
+@media (prefers-reduced-motion: reduce) { .lampadas::before, .lampadas::after { animation: none; } }
+</style>
+
+<footer class="rodape">
+  <div class="borda" aria-hidden="true"></div>
+  <div class="mx-auto max-w-6xl px-5 pt-12 pb-8 md:pt-16">
+    <div class="grid gap-10 md:grid-cols-3 md:gap-12">
+
+      <div class="text-center md:text-left">
+        {% if loja.logo_url %}
+          <img class="logo mx-auto h-20 w-auto md:mx-0 md:h-24" src="{{ loja.logo_url }}" alt="{{ loja.nome | escape }}">
+        {% else %}
+          <p class="titulo text-3xl text-stone-50">{{ loja.nome | escape }}</p>
+        {% endif %}
+        <div class="lampadas mt-5" aria-hidden="true"></div>
+        {% if loja.sobre_html %}
+          <div class="sobre mt-5 text-sm">{{ loja.sobre_html }}</div>
+        {% endif %}
+        <div class="mt-6 flex flex-wrap justify-center gap-2 md:justify-start">
+          <span class="selo rounded-full px-3 py-1.5 text-xs font-semibold text-stone-300">Pix</span>
+          <span class="selo rounded-full px-3 py-1.5 text-xs font-semibold text-stone-300">Cartão</span>
+          <span class="selo rounded-full px-3 py-1.5 text-xs font-semibold text-stone-300">Retirada ou entrega</span>
+        </div>
+      </div>
+
+      <nav aria-label="Navegação do rodapé">
+        <p class="rotulo">Navegue</p>
+        <h2 class="titulo mt-1 text-xl text-stone-50">O acervo</h2>
+        <ul class="mt-3 grid grid-cols-2 gap-x-4 text-[15px] md:grid-cols-1">
+          <li><a class="link" href="{{ links.inicio }}">Início</a></li>
+          <li><a class="link" href="{{ links.catalogo }}">Catálogo</a></li>
+          <li><a class="link" href="{{ links.lista_completa }}">Lista completa</a></li>
+          {% if loja.tem_planos %}<li><a class="link" href="{{ links.planos }}">Planos</a></li>{% endif %}
+          <li><a class="link" href="{{ links.carrinho }}">Carrinho</a></li>
+        </ul>
+        {% if loja.links_externos.size > 0 %}
+          <ul class="mt-2 border-t border-[#2a2730] pt-2 text-[15px]">
+            {% for link in loja.links_externos %}
+              <li><a class="link" href="{{ link.url | escape }}" target="_blank">{{ link.titulo | escape }}</a></li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </nav>
+
+      <div>
+        <p class="rotulo">Atendimento</p>
+        <h2 class="titulo mt-1 text-xl text-stone-50">Fale com a gente</h2>
+        <ul class="mt-3 text-[15px]">
+          {% if loja.whatsapp_url %}
+            <li><a class="link gap-2" href="{{ loja.whatsapp_url | escape }}" target="_blank"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.7-4.6A8.5 8.5 0 1 1 8 19.6L3 21z"/></svg>WhatsApp{% if loja.whatsapp %} {{ loja.whatsapp | escape }}{% endif %}</a></li>
+          {% endif %}
+          {% if loja.telefone %}
+            <li><a class="link gap-2" href="tel:{{ loja.telefone | escape }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/></svg>{{ loja.telefone | escape }}</a></li>
+          {% endif %}
+          {% if loja.email %}
+            <li><a class="link gap-2 break-all" href="{{ loja.email_url | escape }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3,7 12,13 21,7"/></svg>{{ loja.email | escape }}</a></li>
+          {% endif %}
+          {% if loja.site_url %}
+            <li><a class="link gap-2 break-all" href="{{ loja.site_url | escape }}" target="_blank"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>{{ loja.site | escape }}</a></li>
+          {% endif %}
+          <li><a class="link" href="{{ links.minha_conta }}">Minha conta</a></li>
+          <li><a class="link" href="{{ links.contrato }}">Termos de locação</a></li>
+        </ul>
+        {% if loja.endereco %}
+          <p class="mt-3 flex gap-2 text-sm leading-relaxed text-stone-300"><svg class="mt-0.5 shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>{{ loja.endereco | escape }}{% if loja.cidade %} · {{ loja.cidade | escape }}{% endif %}</span></p>
+        {% endif %}
+        <div class="mt-5 flex gap-3">
+          {% if loja.instagram_url %}
+            <a class="rede" href="{{ loja.instagram_url | escape }}" target="_blank" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+          {% endif %}
+          {% if loja.facebook_url %}
+            <a class="rede" href="{{ loja.facebook_url | escape }}" target="_blank" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 8.5V6.8c0-.8.5-1.3 1.3-1.3H17V2.2h-2.6C11.6 2.2 10 4 10 6.6v1.9H7.5v3.3H10V22h4V11.8h2.7l.5-3.3H14z"/></svg></a>
+          {% endif %}
+          {% if loja.twitter_url %}
+            <a class="rede" href="{{ loja.twitter_url | escape }}" target="_blank" aria-label="X (Twitter)"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.8 2.5h3.3l-7.2 8.2 8.5 10.8h-6.6l-5.2-6.6-5.9 6.6H1.4l7.7-8.8L1 2.5h6.8l4.7 6 5.3-6zm-1.2 17.1h1.8L6.6 4.3H4.7l11.9 15.3z"/></svg></a>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+
+    <div class="mt-12 flex flex-col items-center gap-1 border-t border-[#2a2730] pt-6 text-center text-xs text-stone-400 md:flex-row md:justify-between md:text-left">
+      <p>&copy; {{ ano }} {{ loja.nome | escape }}{% if loja.cidade %} · {{ loja.cidade | escape }}{% endif %}</p>
+      {% if loja.cnpj %}<p>CNPJ {{ loja.cnpj | escape }}</p>{% endif %}
+    </div>
+  </div>
+</footer>
