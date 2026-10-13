@@ -11,7 +11,7 @@
 .titulo { font-family: "Cinzel", serif; font-weight: 700; letter-spacing: 0.04em; line-height: 1.15; }
 .rotulo { font-size: 12px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cor-destaque); }
 .logo { filter: drop-shadow(0 0 1px #f5efe4) drop-shadow(0 0 1px #f5efe4) drop-shadow(0 0 1px #f5efe4) drop-shadow(0 8px 28px rgba(249, 115, 22, 0.25)); }
-.lampadas { position: relative; height: 12px; margin: 0 auto; max-width: 18rem; }
+.lampadas { position: relative; height: 12px; width: 180px; margin: 0 auto; }
 .lampadas::before, .lampadas::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle 4px at 9px 6px, #ffd28a 0 3px, rgba(245, 158, 11, 0.45) 4px, transparent 6px) 0 0 / 36px 12px repeat-x; animation: acende 1.2s steps(1) infinite; }
 .lampadas::after { background-position: 18px 0; animation-delay: -0.6s; }
 @keyframes acende { 0% { opacity: 1; filter: drop-shadow(0 0 4px #f59e0b); } 50% { opacity: 0.25; filter: none; } }
@@ -25,7 +25,6 @@
 .sobre strong, .sobre b { color: #f5efe4; font-weight: 700; }
 .sobre ul { margin-top: 0.5rem; padding-left: 1.1rem; list-style: disc; }
 .selo { border: 1px solid #3a3640; background: #17151c; }
-@media (min-width: 768px) { .lampadas { margin: 0; } }
 @media (prefers-reduced-motion: reduce) { .lampadas::before, .lampadas::after { animation: none; } }
 </style>
 
@@ -35,12 +34,14 @@
     <div class="grid gap-10 md:grid-cols-3 md:gap-12">
 
       <div class="text-center md:text-left">
-        {% if loja.logo_url %}
-          <img class="logo mx-auto h-20 w-auto md:mx-0 md:h-24" src="{{ loja.logo_url }}" alt="{{ loja.nome | escape }}">
-        {% else %}
-          <p class="titulo text-3xl text-stone-50">{{ loja.nome | escape }}</p>
-        {% endif %}
-        <div class="lampadas mt-5" aria-hidden="true"></div>
+        <div class="inline-flex flex-col items-center">
+          {% if loja.logo_url %}
+            <img class="logo h-20 w-auto md:h-24" src="{{ loja.logo_url }}" alt="{{ loja.nome | escape }}">
+          {% else %}
+            <p class="titulo text-3xl text-stone-50">{{ loja.nome | escape }}</p>
+          {% endif %}
+          <div class="lampadas mt-5" aria-hidden="true"></div>
+        </div>
         {% if loja.sobre_html %}
           <div class="sobre mt-5 text-sm">{{ loja.sobre_html }}</div>
         {% endif %}
