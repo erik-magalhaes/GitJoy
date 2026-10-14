@@ -14,8 +14,13 @@ tudo antes de começar um vídeo novo: aqui está o que funcionou, o que não fu
   bye bye curto, tarô, custo e Halloween pôster (mandei de novo pelo chat). Lá também há vídeos que ELES gravaram
   (Dungeon Fighter, O Vale dos Monstros II, Happy Salmon, Hitster, MicroMacro, Telestrations, Trio, Throw Throw Burrito,
   Scooby-Doo, Drácula vs Van Helsing, "pessoa que demora na vez"): contam como jogos já postados.
-- Eu não consigo subir arquivos no Drive dele (só baixar de pasta pública). Entregar pelo chat; se ele conectar o
-  Google Drive em claude.ai → Configurações → Conectores, dá para subir direto.
+- **Google Drive conectado (14/out):** o Drive é um Drive compartilhado (raiz `0ACBVgpjsn6mwUk9PVA`, dono
+  suavezjogosabc@gmail.com). Pasta **Videos** = `1eAEc1ecYI5fPMZnaiccu8DJdXI-cXCAG`; pasta **Carrosséis** =
+  `15Vn5eW10vEVyU6cBrdUkbGus6OSeMqjD` (subpastas 01…10, uma por carrossel). O conector CRIA pastas, move e renomeia, mas
+  só sobe arquivo com o conteúdo dentro da mensagem: imagem/vídeo de MB não dá. Então: eu organizo as pastas e mando os
+  arquivos pelo chat (zip por carrossel), e ele salva no Drive. Em 14/out mandei os 10 carrosséis e os vídeos que faltavam
+  na Videos (efeito, bye bye curto, tarô, custo, Halloween pôster, quiz com trilha, assinaturas, como alugar). Na Videos há
+  duplicados (hobby, marvel e hotstreak 2x).
 - **Estado em 10/out/2026:**
   - Entregues e aprovados: vídeo do Dia das Crianças v2 (`gravados-reels/criancas2.py`), cartão do evento 9x9
     (`promo/cartao_evento.py`), carrossel do feed "jogos modernos" (`hobby-reels/carrossel.py`, 8 telas 1080x1350; versão QUADRADA 1080x1080 que ele pediu para o feed em `carrossel_quadrado.py`, mesmas telas reposicionadas;
