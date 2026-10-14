@@ -33,10 +33,10 @@ UI_FOTO = (241, 245, 249)
 UI_VERDE = (236, 253, 245), (110, 231, 183), (6, 95, 70)
 ZAP = (37, 211, 102)
 JOGOS = [  # (caixa oficial, nome, jogadores, tempo) — preços e dados do site em 14/10/2026 (todos R$ 30 / 5 dias)
-    (_R("feed-posts/assets/wonders_duel.png"), "7 Wonders Duel", "2", "30min"),
-    (_R("gravados-reels/assets/lista/azul_duel.png"), "Azul Duel", "2", "45min"),
-    (_R("gravados-reels/assets/lista/the_resistance.png"), "The Resistance", "5–10", "30min"),
-    (_R("gravados-reels/assets/lista/boop.png"), "boop.", "2", "30min"),
+    (os.path.join(ROOT, "assets", "site", "7_wonders_duel.jpg"), "7 Wonders Duel", "2", "30min"),
+    (os.path.join(ROOT, "assets", "site", "azul_duel.jpg"), "Azul Duel", "2", "45min"),
+    (os.path.join(ROOT, "assets", "site", "the_resistance.jpg"), "The Resistance", "5–10", "30min"),
+    (os.path.join(ROOT, "assets", "site", "boop.jpg"), "boop.", "2", "30min"),
 ]
 S = 1.45  # escala: 1 px da tela do celular (390 de largura) → px do carrossel
 SW, SH = int(390 * S), int(760 * S)
@@ -88,9 +88,30 @@ def busca(d, txt="Tente 'Azul Duel'"):
     d.line((0, u(62), SW, u(62)), fill=UI_BORDA, width=2)
 
 
-def cola_caixa(scr, path, cx, cy, h, larg):
-    cx_, cy_ = u(cx), u(cy)
-    cola(scr, jogo(path, u(h), u(larg)), cx_, cy_)
+def recorte_foto(path, w, h, raio):
+    """Foto do site (render da caixa no fundo laranja) cortada para preencher w x h, cantos arredondados."""
+    im = Image.open(path).convert("RGBA")
+    s = max(w / im.width, h / im.height)
+    im = im.resize((max(w, round(im.width * s)), max(h, round(im.height * s))), Image.LANCZOS)
+    x0, y0 = (im.width - w) // 2, (im.height - h) // 2
+    im = im.crop((x0, y0, x0 + w, y0 + h))
+    m = Image.new("L", (w, h), 0)
+    ImageDraw.Draw(m).rounded_rectangle((0, 0, w - 1, h - 1), radius=raio, fill=255)
+    im.putalpha(m)
+    return im
+
+
+def foto_site(scr, path, x0, y0, x1, y1, raio):
+    """Cola a foto do site no retângulo (coordenadas da tela do celular), como na loja de verdade."""
+    scr.alpha_composite(recorte_foto(path, u(x1) - u(x0), u(y1) - u(y0), u(raio)), (u(x0), u(y0)))
+
+
+def ficha_foto(path, lado):
+    """Foto do site num cartão com contorno marrom e sombra sólida (capa e tela final)."""
+    b = bloco(lado, lado, BRANCO, raio=34, ow=8, sombra=12)
+    b.alpha_composite(recorte_foto(path, lado - 16, lado - 16, 28), (8, 8))
+    ImageDraw.Draw(b).rounded_rectangle((0, 0, lado, lado), radius=34, outline=MARROM, width=8)
+    return b
 
 
 def tela_acervo():
@@ -110,8 +131,7 @@ def tela_acervo():
         cx0, cy0 = 16 + (k % 2) * 183, 160 + (k // 2) * 290
         d.rounded_rectangle((u(cx0), u(cy0), u(cx0 + 175), u(cy0 + 278)), radius=u(14), fill=(255, 255, 255),
                             outline=UI_BORDA, width=3)
-        d.rounded_rectangle((u(cx0 + 8), u(cy0 + 8), u(cx0 + 167), u(cy0 + 140)), radius=u(10), fill=UI_FOTO)
-        cola_caixa(scr, p, cx0 + 87, cy0 + 74, 116, 140)
+        foto_site(scr, p, cx0 + 8, cy0 + 8, cx0 + 167, cy0 + 140, 10)
         d.text((u(cx0 + 12), u(cy0 + 160)), nome, font=f(14, 700), fill=UI_TXT, anchor="lm")
         d.text((u(cx0 + 12), u(cy0 + 182)), f"{jog} jog. · {tempo}", font=f(12, 500), fill=UI_CINZA, anchor="lm")
         d.text((u(cx0 + 12), u(cy0 + 206)), "R$ 30", font=f(15, 800), fill=UI_LAR, anchor="lm")
@@ -127,8 +147,7 @@ def tela_jogo():
     d.text((u(16), u(88)), "Acervo  ›  ", font=f(13, 500), fill=UI_TXT, anchor="lm")
     d.text((u(16) + d.textlength("Acervo  ›  ", font=f(13, 500)), u(88)), "Azul Duel", font=f(13, 500), fill=UI_CINZA,
            anchor="lm")
-    d.rounded_rectangle((u(16), u(108), u(374), u(368)), radius=u(16), fill=UI_FOTO, outline=UI_BORDA, width=3)
-    cola_caixa(scr, JOGOS[1][0], 195, 238, 220, 300)
+    foto_site(scr, JOGOS[1][0], 16, 108, 374, 368, 16)
     d.text((u(16), u(404)), "Azul Duel", font=f(30, 800), fill=UI_TXT, anchor="lm")
     d.text((u(16), u(436)), "CATEGORIA FAMÍLIA", font=f(12, 500), fill=UI_CINZA, anchor="lm")
     d.text((u(16), u(468)), "2 jogadores   45 min   10+   Médio-leve", font=f(14, 500), fill=UI_TXT, anchor="lm")
@@ -154,8 +173,7 @@ def tela_carrinho():
         y = 186 + k * 92
         d.rounded_rectangle((u(16), u(y), u(374), u(y + 82)), radius=u(14), fill=(255, 255, 255), outline=UI_BORDA,
                             width=3)
-        d.rounded_rectangle((u(26), u(y + 9), u(90), u(y + 73)), radius=u(10), fill=UI_FOTO)
-        cola_caixa(scr, p, 58, y + 41, 56, 58)
+        foto_site(scr, p, 26, y + 9, 90, y + 73, 10)
         d.text((u(104), u(y + 26)), nome, font=f(15, 600), fill=UI_TXT, anchor="lm")
         d.text((u(104), u(y + 56)), "R$ 30 por 7 dias", font=f(12, 500), fill=UI_CINZA, anchor="lm")
         d.text((u(362), u(y + 56)), "R$ 30", font=f(15, 800), fill=UI_LAR, anchor="rm")
@@ -329,8 +347,8 @@ def capa():
     cola(img, texto("Do celular, em poucos toques.", 44, BRANCO, 800), W / 2, 560)
     fone = celular(tela_jogo())
     cola(img, fone, W / 2 + 150, 650 + fone.height / 2 * 0.86, -8, 0.86)
-    cola(img, jogo(JOGOS[0][0], 300, 300), 210, 880, 8)
-    cola(img, jogo(JOGOS[2][0], 250, 270), 215, 1110, -6)
+    cola(img, ficha_foto(JOGOS[0][0], 280), 200, 860, 7)
+    cola(img, ficha_foto(JOGOS[2][0], 250), 205, 1105, -6)
     cola(img, pilula("arrasta pro lado  →", 28, BRANCO, MARROM, pad=(22, 8), ow=4, sombra=5), 215, 1290, -3)
     return img
 
@@ -339,7 +357,7 @@ def finalize():
     img = fundo_pontos(5)
     trilha(img, 1180, 1200)
     cabecalho(img, 5, "FINALIZE\nO PEDIDO", None)
-    for k, (tit, desc, cor, ct) in enumerate((("RETIRE EM MAUÁ", "Av. da Saudade, 96", AMARELO, MARROM),
+    for k, (tit, desc, cor, ct) in enumerate((("RETIRE EM MAUÁ", "é só passar na loja", AMARELO, MARROM),
                                               ("OU RECEBA EM CASA", "o frete é combinado no pedido", LARANJA, BRANCO))):
         b = bloco(820, 210, cor, raio=36, ow=8, sombra=12)
         cola(b, titulo(tit, 66, BRANCO if cor == AMARELO else AMARELO, sw=6, sombra=6), 410, 78)
@@ -353,15 +371,17 @@ def finalize():
 
 
 def final():
+    """Tela final reta e centralizada: logo, título, as fotos do site em fileira e o link."""
     img = fundo_pontos(9)
-    trilha(img, 1200, 1350)
-    cola(img, titulo("PRONTO!\nAGORA É A\nSUA VEZ!", 130, BRANCO, larg_max=960), W / 2, 310, -2)
-    c = bloco(820, 560, BRANCO, raio=46, ow=8, sombra=14)
-    cola(c, logo(360), 410, 120, -2)
-    cola(c, pilula("ALUGUE PELO LINK NA BIO", 46, AMARELO, MARROM, pad=(30, 14), fonte_titulo=True), 410, 290, -2)
-    cola(c, texto("suavez.acervodejogos.com.br", 36, PETROLEO, 800), 410, 390)
-    cola(c, texto("@suavez_bg", 42, MARROM, 900), 410, 460)
-    cola(img, c, W / 2, 890, 1.5)
+    trilha(img, 1215, 1215)
+    cola(img, logo(330), W / 2, 135)
+    cola(img, titulo("PRONTO!\nAGORA É A SUA VEZ!", 104, BRANCO, larg_max=960), W / 2, 385)
+    lado, passo_x = 230, 245
+    for k, (p, *_r) in enumerate(JOGOS):
+        cola(img, ficha_foto(p, lado), W / 2 + (k - 1.5) * passo_x, 690 + (0, -14, -14, 0)[k], (-4, -1.5, 1.5, 4)[k])
+    cola(img, pilula("ALUGUE PELO LINK NA BIO", 56, AMARELO, MARROM, pad=(40, 18), fonte_titulo=True), W / 2, 935)
+    cola(img, texto("suavez.acervodejogos.com.br", 40, BRANCO, 800), W / 2, 1050)
+    cola(img, texto("@suavez_bg", 44, AMARELO, 900), W / 2, 1115)
     return img
 
 
