@@ -2,7 +2,7 @@
 """3º comparativo antigo × moderno (14/out/2026). Pedido dele: "nesse tema a gente mantém o MESMO design" do
 "Curte esse clássico?" (carrosseis2.py, antes × depois em papel envelhecido, 1080 x 1080), com jogos NOVOS.
 Pares ESCOLHIDOS POR ELE (lista conferida pelas fotos do site): Ludo → Camel Up, Xadrez → Hive, Stop → Tapalavras e
-Jogo da Memória → Uga Buga.
+Jogo da Memória → Trio (ele trocou o Uga Buga pelo Trio).
 Clássicos = fotos da Ri Happy recortadas (cl_*.png); modernos = recortes das fotos do site (hobby-reels/assets/acervo).
 
     python3 classicos3.py      # out/v3_classicos/01.png ... e todas.jpg
@@ -23,14 +23,17 @@ PARES = [  # (clássico, recorte do clássico, recorte do moderno, nome do moder
      "Estratégia a dois, sem tabuleiro: cerque a abelha rainha do adversário."),
     ("STOP", "cl_stop", "tapalavras", "TAPALAVRAS", "Tapalavras",
      "Fale uma palavra da categoria e aperte a letra antes que o tempo acabe."),
-    ("JOGO DA MEMÓRIA", "cl_memoria", "uga_buga", "UGA BUGA", "Uga Buga",
-     "Decore e repita, na ordem, os sons e gestos das cartas que vão se empilhando."),
+    ("JOGO DA MEMÓRIA", "cl_memoria", "trio", "TRIO", "Trio",  # pedido dele no lugar do Uga Buga (não está no site)
+     "Revele cartas da mesa ou da mão dos outros e lembre onde estão as iguais: 3 trios e você vence."),
 ]
 CORES = [(234, 88, 12), (37, 99, 235), (147, 51, 234), (22, 163, 74), (219, 39, 119), (13, 148, 136), (202, 138, 4)]
 
 
+FORA_DO_SITE = {"Trio": {"jogadores": "2–6", "tempo": "15min"}}  # ficha da PaperGames
+
+
 def info(nome_site):
-    d = c2.SITE[nome_site]
+    d = c2.SITE.get(nome_site) or FORA_DO_SITE[nome_site]
     a, b = d["jogadores"].split("–")
     jog = f"{a} JOGADORES" if a == b else f"{a} A {b} JOGADORES"
     return f"{jog} · {d['tempo'].replace('min', ' MIN')}"
