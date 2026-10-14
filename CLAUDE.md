@@ -485,7 +485,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   roxo no lugar do laranja) com confete só nas bordas (`fundo_confete`, `livre=`, `base=`), textos sobre o roxo em branco. **Depois ele disse "tá copia e cola, só mudou o fundo; quero
   mais diverso":** cada carrossel ganhou um CONCEITO de layout próprio, mantendo só fontes/cores/contorno: Por que alugar
   = "cartas na manga" (cada motivo é uma carta de baralho gigante com índice no canto, baralho atrás, capa com leque de
-  cartas viradas); Eventos = "convite de festa" (envelope com convite, programação pontilhada, balões com os tipos de
-  evento, cardápio da festa, ficha de RSVP com carimbo "ABC Paulista", ingresso destacável). **Regra: carrossel novo =
+  cartas viradas); Eventos = "convite de festa" (envelope com convite, programação pontilhada, crachás "Olá! meu evento é…"
+  com os tipos de evento (os BALÕES ele não gostou), cardápio da festa, ficha de RSVP com carimbo "ABC Paulista", ingresso destacável). **Regra: carrossel novo =
   conceito novo**, não só cor nova. Cuidar do contraste: nada amarelo sobre amarelo nem laranja sobre laranja.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.

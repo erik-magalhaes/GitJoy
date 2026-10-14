@@ -98,34 +98,32 @@ def programacao():
     return img
 
 
-def balao(txt, cor, ct, w=300):
-    h = int(w * 1.18)
-    im = Image.new("RGBA", (w + 20, h + 170), (0, 0, 0, 0))
+def cracha(txt, cor, w=420, h=200):
+    """Adesivo de crachá de festa ("Olá, meu evento é…"): faixa colorida em cima, campo branco com o tipo de evento."""
+    im = bloco(w, h, cor, raio=30, ow=7, sombra=11)
     d = ImageDraw.Draw(im)
-    d.ellipse((12, 12, w + 12, h + 12), fill=MARROM)  # sombra sólida
-    d.ellipse((0, 0, w, h), fill=cor, outline=MARROM, width=7)
-    d.polygon([(w / 2 - 18, h - 4), (w / 2 + 18, h - 4), (w / 2, h + 22)], fill=cor, outline=MARROM)
-    d.ellipse((w * 0.2, h * 0.12, w * 0.38, h * 0.32), fill=(255, 255, 255, 110))
-    pts = [(w / 2 + 14 * math.sin(k / 5), h + 22 + k * 4) for k in range(36)]
-    d.line(pts, fill=BRANCO, width=4)
-    linhas = txt.split("\n")
-    s = 46 if max(len(l) for l in linhas) <= 9 else 38
-    for k, l in enumerate(linhas):
-        d.text((w / 2, h / 2 + (k - (len(linhas) - 1) / 2) * s * 1.05), l, font=lilita(s), fill=ct, anchor="mm")
+    d.rounded_rectangle((20, 82, w - 20, h - 20), radius=18, fill=BRANCO, outline=MARROM, width=5)
+    ct = BRANCO if cor in (LARANJA, PETROLEO, ROXO) else MARROM
+    d.text((w / 2, 32), "OLÁ!", font=lilita(36), fill=ct, anchor="mm")
+    cola(im, texto("meu evento é…", 22, ct, 800), w / 2, 62)
+    s_ = 50
+    while d.textlength(txt, font=lilita(s_)) > w - 80:
+        s_ -= 2
+    d.text((w / 2, (82 + h - 20) / 2 + 2), txt, font=lilita(s_), fill=MARROM, anchor="mm")
     return im
 
 
 def tipos():
-    img = bg(33, (0, 0, 0, 0))
-    cola(img, titulo("PRA QUALQUER\nEVENTO", 116, BRANCO), W / 2, 200, -2)
-    bal = [("ANIVER-\nSÁRIO", AMARELO, MARROM), ("EMPRESA", LARANJA, BRANCO), ("ESCOLA", PETROLEO, BRANCO),
-           ("CASA-\nMENTO", BRANCO, MARROM), ("CHÁ DE\nBEBÊ", AMARELO, MARROM), ("CONDO-\nMÍNIO", PETROLEO, BRANCO),
-           ("FAMÍLIA", LARANJA, BRANCO), ("GALERA", BRANCO, MARROM)]
-    pos = [(170, 600), (420, 560), (670, 600), (910, 560), (170, 950), (420, 910), (670, 950), (910, 910)]
-    for (t, c, ct), (x, y), r in zip(bal, pos, (-6, 4, -3, 6, 5, -4, 3, -5)):
-        cola(img, balao(t, c, ct, 215), x, y, r)
-    cola(img, pilula("…e o que mais você imaginar!", 40, BRANCO, MARROM, pad=(30, 12)), W / 2, 1180, -2)
-    arrasta(img)
+    img = bg(33)
+    cola(img, titulo("PRA QUALQUER\nEVENTO", 116, BRANCO), W / 2, 190, -2)
+    tags = [("Aniversário", AMARELO), ("Empresa", LARANJA), ("Escola", PETROLEO), ("Casamento", BRANCO),
+            ("Chá de bebê", PETROLEO), ("Condomínio", AMARELO), ("Festa em família", BRANCO), ("Encontro da galera", LARANJA)]
+    for k, (t, c) in enumerate(tags):
+        x = 290 if k % 2 == 0 else 790
+        y = 425 + (k // 2) * 212 + (0 if k % 2 == 0 else 30)
+        im = cracha(t, c)
+        cola(img, im, x, y, (-5, 4, 3, -4, -3, 5, 4, -3)[k])
+    cola(img, pilula("…e o que mais você imaginar!", 40, BRANCO, MARROM, pad=(30, 12)), W / 2, 1268, -2)
     return img
 
 
