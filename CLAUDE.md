@@ -516,6 +516,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Truco (baralho Copag 139) → Coup, Super Trunfo (Grow) → 1, 2, 3, Lucha! Clássicos: Ri Happy VTEX recortados (caixa
   branca = flood fill + casco convexo do maior pedaço); modernos: recortes do site em `hobby-reels/assets/acervo/`; a lata do
   Spot it saiu de `recortes_caixas.recorta` + remoção do laranja ligado ao fundo.
+  **Versão final (escolha dele, 14/out): só 4 pares** — Ludo → Camel Up, Xadrez → Hive, Stop → Tapalavras e Jogo da Memória
+  (Super Memória Grow) → Uga Buga (6 telas). Os outros pares ficaram de fora.
 - **Descrições do site NÃO são confiáveis (14/out):** algumas fichas têm a descrição de OUTRO jogo ("Shimp" descreve
   "Faces!", "Color Addict" descreve "Cores Confusas", "DANY" descreve "Fragmentos da Mente"). Eu usei esses nomes numa lista
   e ele disse "tem jogos aí que a gente nem tem". **Sempre conferir o jogo pela FOTO do site** (`hobby-reels/assets/acervo_foto/`)

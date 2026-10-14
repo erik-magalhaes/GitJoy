@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """3º comparativo antigo × moderno (14/out/2026). Pedido dele: "nesse tema a gente mantém o MESMO design" do
 "Curte esse clássico?" (carrosseis2.py, antes × depois em papel envelhecido, 1080 x 1080), com jogos NOVOS.
-Pares (os modernos estão no acervo; nenhum repete posts anteriores): Ludo → Camel Up, Xadrez → Hive, Stop → Tapalavras,
-Banco Imobiliário → Bohnanza, Lince → Spot it! Hip e os 2 extras que ele pediu: Truco → Coup, Super Trunfo → 1, 2, 3, Lucha!
+Pares ESCOLHIDOS POR ELE (lista conferida pelas fotos do site): Ludo → Camel Up, Xadrez → Hive, Stop → Tapalavras e
+Jogo da Memória → Uga Buga.
 Clássicos = fotos da Ri Happy recortadas (cl_*.png); modernos = recortes das fotos do site (hobby-reels/assets/acervo).
 
     python3 classicos3.py      # out/v3_classicos/01.png ... e todas.jpg
@@ -16,21 +16,15 @@ import carrosseis2 as c2
 from carrosseis2 import (S, NAVY, WHITE, font, cola, sombra, letreiro, pilula, caixa, quebra, papel_velho,
                          corte_rasgado, logo_card, ORANGE)
 
-PARES = [  # (clássico, recorte do clássico, recorte do moderno, nome do moderno, nome no site, motivo)
+PARES = [  # (clássico, recorte do clássico, recorte do moderno, nome do moderno, nome no site, motivo) — escolha dele
     ("LUDO", "cl_ludo", "camel_up_second_edition", "CAMEL UP", "Camel Up (Second Edition)",
      "Corrida com dados, mas os camelos se empilham e você aposta em quem vai ganhar."),
     ("XADREZ", "cl_xadrez", "hive", "HIVE", "Hive",
      "Estratégia a dois, sem tabuleiro: cerque a abelha rainha do adversário."),
     ("STOP", "cl_stop", "tapalavras", "TAPALAVRAS", "Tapalavras",
      "Fale uma palavra da categoria e aperte a letra antes que o tempo acabe."),
-    ("BANCO IMOBILIÁRIO", "cl_banco", "bohnanza", "BOHNANZA", "Bohnanza",
-     "Negociação o tempo todo, mas plantando feijões. E sem partida que dura a tarde inteira."),
-    ("LINCE", "cl_lince", "spot_it_hip", "SPOT IT! HIP", "Spot it! Hip",
-     "Ache a figura igual: entre duas cartas, sempre tem exatamente uma."),
-    ("TRUCO", "cl_baralho", "coup_inquisition", "COUP", "Coup: Inquisition",
-     "Blefe é tudo: diga que tem a carta, mesmo sem ter. Alguém vai duvidar?"),
-    ("SUPER TRUNFO", "cl_trunfo", "1_2_3_lucha", "1, 2, 3, LUCHA!", "1, 2, 3, Lucha!",
-     "Duelo de atributos, mas com luchadores e cartas reveladas ao mesmo tempo."),
+    ("JOGO DA MEMÓRIA", "cl_memoria", "uga_buga", "UGA BUGA", "Uga Buga",
+     "Decore e repita, na ordem, os sons e gestos das cartas que vão se empilhando."),
 ]
 CORES = [(234, 88, 12), (37, 99, 235), (147, 51, 234), (22, 163, 74), (219, 39, 119), (13, 148, 136), (202, 138, 4)]
 
@@ -88,15 +82,11 @@ def capa():
     img.alpha_composite(papel_velho(), (0, 0))
     d = ImageDraw.Draw(img)
     d.text((540, 95), "OS CLÁSSICOS", font=font("AlfaSlabOne-Regular.ttf", 80), fill=(90, 62, 35), anchor="mm")
-    for j, p in enumerate(PARES):  # 4 em cima, 3 embaixo (meio a meio)
-        x = 135 + j * 270 if j < 4 else 270 + (j - 4) * 270
-        y = 250 if j < 4 else 365
-        cola(img, sombra(envelhece(caixa(p[1], 120, 170)), 8, (4, 6), 0.3), x, y, (-5, 3, -3, 5, -4, 4, -2)[j])
+    for j, p in enumerate(PARES):
+        cola(img, sombra(envelhece(caixa(p[1], 170, 220)), 8, (4, 6), 0.3), 140 + j * 267, 290, (-5, 3, -3, 5)[j])
     corte_rasgado(img, 455)
     for j, p in enumerate(PARES):
-        x = 135 + j * 270 if j < 4 else 270 + (j - 4) * 270
-        y = 600 if j < 4 else 780
-        cola(img, sombra(caixa(p[2], 190, 200), 12, (6, 12), 0.4), x, y, (-6, 3, -3, 6, -4, 4, -2)[j])
+        cola(img, sombra(caixa(p[2], 290, 235), 12, (6, 12), 0.4), 140 + j * 267, 690, (-6, 3, -3, 6)[j])
     cola(img, letreiro("TÊM VERSÕES MODERNAS!", 62, WHITE, NAVY, 10), 470, 945, -2)
     return img
 
