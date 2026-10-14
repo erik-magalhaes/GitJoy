@@ -516,4 +516,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Truco (baralho Copag 139) → Coup, Super Trunfo (Grow) → 1, 2, 3, Lucha! Clássicos: Ri Happy VTEX recortados (caixa
   branca = flood fill + casco convexo do maior pedaço); modernos: recortes do site em `hobby-reels/assets/acervo/`; a lata do
   Spot it saiu de `recortes_caixas.recorta` + remoção do laranja ligado ao fundo.
+- **Descrições do site NÃO são confiáveis (14/out):** algumas fichas têm a descrição de OUTRO jogo ("Shimp" descreve
+  "Faces!", "Color Addict" descreve "Cores Confusas", "DANY" descreve "Fragmentos da Mente"). Eu usei esses nomes numa lista
+  e ele disse "tem jogos aí que a gente nem tem". **Sempre conferir o jogo pela FOTO do site** (`hobby-reels/assets/acervo_foto/`)
+  e mandar a lista com as fotos (`feed-sua-vez/out/lista_classicos.jpg`) ANTES de montar. Ele também pediu: **mostrar as
+  opções antes de fazer** (eu montei `classicos3.py` sem ele escolher; ele reclamou).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
