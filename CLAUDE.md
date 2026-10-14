@@ -481,6 +481,6 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   tranquilos; preço só por orçamento (Direct ou WhatsApp; número do WhatsApp ainda não informado → "WhatsApp do link na
   bio"). **Ainda não fizeram nenhum evento:** sem fotos reais, sem "já atendemos", sem depoimentos. **Pedido de 14/out: variar o fundo entre os carrosséis**
   (estava tudo azul-claro): mesma identidade (fontes, contorno marrom, sombra, selos), fundo diferente por post —
-  assinatura = azul-claro com trilha (`fundo`), Por que alugar = amarelo xadrez (`fundo_xadrez`), Eventos = laranja com
-  confete só nas bordas (`fundo_confete`, `livre=`). Cuidar do contraste: nada amarelo sobre amarelo nem laranja sobre laranja.
+  assinatura = azul-claro com trilha (`fundo`), Por que alugar = amarelo xadrez (`fundo_xadrez`), Eventos = ROXO (108,63,160; ele pediu
+  roxo no lugar do laranja) com confete só nas bordas (`fundo_confete`, `livre=`, `base=`), textos sobre o roxo em branco. Cuidar do contraste: nada amarelo sobre amarelo nem laranja sobre laranja.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
