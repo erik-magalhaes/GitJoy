@@ -98,29 +98,26 @@ def programacao():
     return img
 
 
-def cracha(txt, cor, w=420, h=200):
-    """Adesivo de crachá de festa ("Olá, meu evento é…"): faixa colorida em cima, campo branco com o tipo de evento."""
+def cracha(txt, cor, w=420, h=160):
+    """Cartãozinho com o nome do evento (ele não quis o "Olá! meu evento é…")."""
     im = bloco(w, h, cor, raio=30, ow=7, sombra=11)
     d = ImageDraw.Draw(im)
-    d.rounded_rectangle((20, 82, w - 20, h - 20), radius=18, fill=BRANCO, outline=MARROM, width=5)
     ct = BRANCO if cor in (LARANJA, PETROLEO, ROXO) else MARROM
-    d.text((w / 2, 32), "OLÁ!", font=lilita(36), fill=ct, anchor="mm")
-    cola(im, texto("meu evento é…", 22, ct, 800), w / 2, 62)
-    s_ = 50
-    while d.textlength(txt, font=lilita(s_)) > w - 80:
+    s_ = 58
+    while d.textlength(txt, font=lilita(s_)) > w - 70:
         s_ -= 2
-    d.text((w / 2, (82 + h - 20) / 2 + 2), txt, font=lilita(s_), fill=MARROM, anchor="mm")
+    d.text((w / 2, h / 2 + 3), txt, font=lilita(s_), fill=ct, anchor="mm")
     return im
 
 
 def tipos():
     img = bg(33)
     cola(img, titulo("PRA QUALQUER\nEVENTO", 116, BRANCO), W / 2, 190, -2)
-    tags = [("Aniversário", AMARELO), ("Empresa", LARANJA), ("Escola", PETROLEO), ("Casamento", BRANCO),
+    tags = [("Aniversário", AMARELO), ("Empresarial", LARANJA), ("Escola", PETROLEO), ("Casamento", BRANCO),
             ("Chá de bebê", PETROLEO), ("Condomínio", AMARELO), ("Festa em família", BRANCO), ("Encontro da galera", LARANJA)]
     for k, (t, c) in enumerate(tags):
         x = 290 if k % 2 == 0 else 790
-        y = 425 + (k // 2) * 212 + (0 if k % 2 == 0 else 30)
+        y = 450 + (k // 2) * 200 + (0 if k % 2 == 0 else 40)
         im = cracha(t, c)
         cola(img, im, x, y, (-5, 4, 3, -4, -3, 5, 4, -3)[k])
     cola(img, pilula("…e o que mais você imaginar!", 40, BRANCO, MARROM, pad=(30, 12)), W / 2, 1268, -2)
