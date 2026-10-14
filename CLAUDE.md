@@ -472,4 +472,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   (Reels 32 s, sem narração, com e sem trilha). Caixas OFICIAIS por categoria em `estilo.JOGOS`. Não inventei "plano mais
   pedido" (é lançamento). Pus a nota "na entrega, a taxa varia conforme a região e é cobrada a cada troca" (o Erik já
   pediu para não citar taxa nas artes; avisei a Jéssica para decidir).
+- **Carrosséis estão indo bem (14/out):** pediram mais. `feed-sua-vez/porque_alugar.py` (7 telas 1080x1350, identidade
+  da Jéssica): capa, 5 motivos (jogo moderno é caro: Critter Kitchen R$ 283, Victorian Masterminds R$ 258, Everdell Duo
+  R$ 225 × R$ 30, menor preço Compara Jogos 14/10; teste antes de comprar; 163 jogos; nada parado na estante; 3/5/7 jogos
+  = 7/10/15 dias ou assinatura a partir de R$ 49) e chamada. **Próximo: "monitoria em eventos"** — esperando os detalhes
+  do serviço (não inventar o que inclui nem preço).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
