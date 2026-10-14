@@ -16,7 +16,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(ROOT)
 sys.path.insert(0, os.path.join(REPO, "assinatura-reels"))
 from estilo import (MARROM, PETROLEO, LARANJA, AMARELO, BRANCO, PRATA, titulo, texto, bloco, pilula, logo, jogo, dado,  # noqa
-                    peao, fundo, cola, leque)
+                    peao, fundo_confete, cola, leque)
 
 OUT = os.path.join(ROOT, "out", "eventos")
 W, H = 1080, 1350
@@ -35,7 +35,7 @@ def arrasta(img):
 
 
 def capa():
-    img = fundo(W, H, 21)
+    img = fundo_confete(W, H, semente=21, n=160, livre=(90, 250, 990, 1230))
     cola(img, logo(280), W / 2, 165, -2)
     cola(img, titulo("VAI TER\nFESTA?", 170, BRANCO), W / 2, 450, -2)
     cola(img, texto("A gente leva os jogos e ensina todo mundo a jogar!", 44, MARROM, 800, larg_max=860), W / 2, 680)
@@ -43,13 +43,13 @@ def capa():
     cola(img, pilula("MONITORIA DE JOGOS PARA EVENTOS", 40, AMARELO, MARROM, pad=(30, 12), fonte_titulo=True), W / 2,
          1160, -2)
     cola(img, dado(100, 6, AMARELO), 130, 175, -14)
-    cola(img, peao(140, LARANJA), 950, 170, 10)
+    cola(img, peao(140, AMARELO), 950, 170, 10)
     arrasta(img)
     return img
 
 
 def como_funciona():
-    img = fundo(W, H, 22)
+    img = fundo_confete(W, H, semente=22, n=160, livre=(90, 250, 990, 1230))
     cola(img, titulo("COMO\nFUNCIONA?", 120, BRANCO), W / 2, 240, -2)
     passos = [(1, "Levamos os jogos", "Separados pro seu evento e pro seu público.", AMARELO),
               (2, "Ficamos o evento todo", "Explicando as regras, ajudando e animando as mesas.", LARANJA),
@@ -65,11 +65,11 @@ def como_funciona():
 
 
 def qualquer_evento():
-    img = fundo(W, H, 23)
+    img = fundo_confete(W, H, semente=23, n=160, livre=(90, 250, 990, 1230))
     cola(img, titulo("PRA QUALQUER\nEVENTO", 120, BRANCO), W / 2, 240, -2)
-    tipos = [("Aniversário", LARANJA, BRANCO), ("Empresa", PETROLEO, BRANCO), ("Escola", AMARELO, MARROM),
-             ("Casamento", BRANCO, MARROM), ("Chá de bebê", LARANJA, BRANCO), ("Confraternização", AMARELO, MARROM),
-             ("Condomínio", PETROLEO, BRANCO), ("Festa em família", BRANCO, MARROM), ("Encontro da galera", LARANJA, BRANCO)]
+    tipos = [("Aniversário", BRANCO, MARROM), ("Empresa", PETROLEO, BRANCO), ("Escola", AMARELO, MARROM),
+             ("Casamento", PETROLEO, BRANCO), ("Chá de bebê", PETROLEO, BRANCO), ("Confraternização", AMARELO, MARROM),
+             ("Condomínio", BRANCO, MARROM), ("Festa em família", BRANCO, MARROM), ("Encontro da galera", AMARELO, MARROM)]
     y, linha, x0 = 520, [], 0
     linhas = [tipos[0:2], tipos[2:4], tipos[4:6], tipos[6:8], tipos[8:9]]
     for k, l in enumerate(linhas):
@@ -86,9 +86,9 @@ def qualquer_evento():
 
 
 def para_todos():
-    img = fundo(W, H, 24)
+    img = fundo_confete(W, H, semente=24, n=160, livre=(90, 250, 990, 1230))
     cola(img, titulo("JOGO PRA\nTODO MUNDO", 120, BRANCO), W / 2, 240, -2)
-    for k, (tit, sub, paths, cor, ct) in enumerate((("AGITADOS", "rápidos e cheios de risada", ATIVOS, LARANJA, BRANCO),
+    for k, (tit, sub, paths, cor, ct) in enumerate((("AGITADOS", "rápidos e cheios de risada", ATIVOS, AMARELO, MARROM),
                                                      ("TRANQUILOS", "pra jogar com calma", CALMOS, PETROLEO, BRANCO))):
         card = bloco(450, 720, cor, raio=36, ow=7, sombra=12)
         cola(card, titulo(tit, 62, BRANCO, sw=5, sombra=5), 225, 75)
@@ -101,7 +101,7 @@ def para_todos():
 
 
 def orcamento():
-    img = fundo(W, H, 25)
+    img = fundo_confete(W, H, semente=25, n=160, livre=(90, 250, 990, 1230))
     cola(img, titulo("COMO PEDIR\nSEU ORÇAMENTO", 112, BRANCO, larg_max=960), W / 2, 240, -2)
     itens = [(1, "Quantas pessoas", "Mais ou menos quantas vão estar no evento.", AMARELO),
              (2, "Quem são elas", "Idades e se curtem jogos mais agitados ou mais calmos.", LARANJA),
@@ -119,13 +119,13 @@ def orcamento():
 
 
 def chamada():
-    img = fundo(W, H, 26)
+    img = fundo_confete(W, H, semente=26, n=160, livre=(90, 250, 990, 1230))
     cola(img, logo(300), W / 2, 190, 2)
     cola(img, titulo("BORA LEVAR\nJOGO PRA\nSUA FESTA?", 130, BRANCO), W / 2, 530, -2)
     cola(img, pilula("ORÇAMENTO PELO DIRECT", 54, AMARELO, MARROM, pad=(38, 16), fonte_titulo=True), W / 2, 860, -2)
     cola(img, pilula("OU PELO WHATSAPP DO LINK NA BIO", 40, PETROLEO, BRANCO, pad=(30, 12)), W / 2, 975, 2)
-    cola(img, pilula("ATENDEMOS O ABC PAULISTA", 38, LARANJA, BRANCO, pad=(28, 12)), W / 2, 1080, -1)
-    cola(img, texto("@suavez_bg", 40, MARROM, 800), W / 2, 1180)
+    cola(img, pilula("ATENDEMOS O ABC PAULISTA", 38, BRANCO, MARROM, pad=(28, 12)), W / 2, 1080, -1)
+    cola(img, texto("@suavez_bg", 40, BRANCO, 800), W / 2, 1180)
     cola(img, dado(110, 5, AMARELO), 140, 1180, -14)
     cola(img, peao(150, PETROLEO), 940, 1170, 10)
     return img

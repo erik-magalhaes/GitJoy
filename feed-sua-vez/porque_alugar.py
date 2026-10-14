@@ -15,7 +15,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(ROOT)
 sys.path.insert(0, os.path.join(REPO, "assinatura-reels"))
 from estilo import (MARROM, PETROLEO, LARANJA, AMARELO, BRANCO, titulo, texto, bloco, pilula, logo, jogo, dado, peao,  # noqa
-                    fundo, cola, leque)
+                    fundo_xadrez, cola, leque)
 
 OUT = os.path.join(ROOT, "out", "porque_alugar")
 W, H = 1080, 1350
@@ -41,12 +41,12 @@ def cabeca(img, n, tit):
 
 
 def capa():
-    img = fundo(W, H, 11)
+    img = fundo_xadrez(W, H)
     cola(img, logo(280), W / 2, 165, -2)
     cola(img, titulo("POR QUE\nALUGAR?", 170, BRANCO), W / 2, 480, -2)
-    cola(img, pilula("5 MOTIVOS PRA JOGAR MAIS", 46, AMARELO, MARROM, pad=(34, 14), fonte_titulo=True), W / 2, 730, 2)
+    cola(img, pilula("5 MOTIVOS PRA JOGAR MAIS", 46, BRANCO, MARROM, pad=(34, 14), fonte_titulo=True), W / 2, 730, 2)
     cola(img, leque([p for p, *_ in PRECOS] + VARIADOS[:2], 300), W / 2, 1010)
-    cola(img, dado(100, 4, AMARELO), 130, 175, -14)
+    cola(img, dado(100, 4, BRANCO), 130, 175, -14)
     cola(img, peao(140, PETROLEO), 950, 170, 10)
     arrasta(img)
     return img
@@ -67,7 +67,7 @@ def linha_preco(p, nome, loja, alug):
 
 
 def motivo_caro():
-    img = fundo(W, H, 12)
+    img = fundo_xadrez(W, H)
     cabeca(img, 1, "JOGO MODERNO\nÉ CARO")
     for k, row in enumerate(PRECOS):
         cola(img, linha_preco(*row), W / 2 + (-6, 8, -4)[k], 560 + k * 235, (-0.8, 0.8, -0.5)[k])
@@ -77,31 +77,31 @@ def motivo_caro():
 
 
 def motivo_teste():
-    img = fundo(W, H, 13)
+    img = fundo_xadrez(W, H)
     cabeca(img, 2, "TESTE ANTES\nDE COMPRAR")
     card = bloco(860, 560, BRANCO, raio=40)
     cola(card, jogo(VARIADOS[2], 330, 330), 230, 290, -6)
     cola(card, texto("Ficou na dúvida se o jogo é a cara do seu grupo? Aluga, joga com a galera e só compra se amar.",
                      40, MARROM, 700, larg_max=420), 620, 230)
-    cola(card, pilula("TESTADO E APROVADO!", 34, AMARELO, MARROM, pad=(24, 10)), 620, 440, -3)
+    cola(card, pilula("TESTADO E APROVADO!", 34, LARANJA, BRANCO, pad=(24, 10)), 620, 440, -3)
     cola(img, card, W / 2, 800, 1)
     arrasta(img)
     return img
 
 
 def motivo_variedade():
-    img = fundo(W, H, 14)
+    img = fundo_xadrez(W, H)
     cabeca(img, 3, "UM JOGO NOVO\nTODA SEMANA")
     pos = [(230, 640, -6), (540, 610, 3), (850, 640, 6), (230, 960, 4), (540, 930, -3), (850, 960, -5)]
     for (x, y, r), p in zip(pos, VARIADOS[2:] + VARIADOS[:2]):
         cola(img, jogo(p, 250, 260), x, y, r)
-    cola(img, pilula("163 JOGOS NO ACERVO", 56, AMARELO, MARROM, pad=(36, 14), fonte_titulo=True), W / 2, 1180, -2)
+    cola(img, pilula("163 JOGOS NO ACERVO", 56, BRANCO, MARROM, pad=(36, 14), fonte_titulo=True), W / 2, 1180, -2)
     arrasta(img)
     return img
 
 
 def motivo_espaco():
-    img = fundo(W, H, 15)
+    img = fundo_xadrez(W, H)
     cabeca(img, 4, "NADA DE JOGO\nPARADO NA ESTANTE")
     card = bloco(860, 520, BRANCO, raio=40)
     passos = [(1, "Jogou", AMARELO), (2, "Devolveu", LARANJA), (3, "Pegou outro", PETROLEO)]
@@ -117,29 +117,29 @@ def motivo_espaco():
 
 
 def motivo_dias():
-    img = fundo(W, H, 16)
+    img = fundo_xadrez(W, H)
     cabeca(img, 5, "QUANTO MAIS JOGOS,\nMAIS DIAS")
-    for k, (jogos, dias, cor) in enumerate(((3, 7, AMARELO), (5, 10, LARANJA), (7, 15, PETROLEO))):
+    for k, (jogos, dias, cor) in enumerate(((3, 7, BRANCO), (5, 10, LARANJA), (7, 15, PETROLEO))):
         hb = 300 + 110 * k
         c = bloco(270, hb, cor, raio=30, ow=7, sombra=11)
-        ct = MARROM if cor == AMARELO else BRANCO
+        ct = MARROM if cor in (AMARELO, BRANCO) else BRANCO
         cola(c, titulo(f"{jogos} JOGOS", 44, ct, sw=0, sombra=0), 135, 55)
         cola(c, titulo(str(dias), 130, ct, sw=0, sombra=0), 135, hb / 2 + 25)
         cola(c, titulo("DIAS", 46, ct, sw=0, sombra=0), 135, hb - 45)
         cola(img, c, 220 + k * 320, 1040 - hb / 2, 0)
     cola(img, texto("Pelo mesmo preço, pra todos os jogos do carrinho.", 36, MARROM, 800), W / 2, 1115)
-    cola(img, pilula("OU ASSINE A PARTIR DE R$ 49/MÊS", 34, AMARELO, MARROM, pad=(26, 10)), W / 2, 1185, 2)
+    cola(img, pilula("OU ASSINE A PARTIR DE R$ 49/MÊS", 34, BRANCO, MARROM, pad=(26, 10)), W / 2, 1185, 2)
     arrasta(img)
     return img
 
 
 def chamada():
-    img = fundo(W, H, 17)
+    img = fundo_xadrez(W, H)
     cola(img, logo(300), W / 2, 200, 2)
     cola(img, titulo("BORA\nJOGAR?", 170, BRANCO), W / 2, 500, -2)
     cola(img, leque(VARIADOS[4:8], 260), W / 2, 830)
-    cola(img, pilula("ALUGUE PELO LINK NA BIO", 56, AMARELO, MARROM, pad=(38, 16), fonte_titulo=True), W / 2, 1060, -2)
-    cola(img, texto("Retire em Mauá ou receba em casa", 36, PETROLEO, 800), W / 2, 1160)
+    cola(img, pilula("ALUGUE PELO LINK NA BIO", 56, BRANCO, MARROM, pad=(38, 16), fonte_titulo=True), W / 2, 1060, -2)
+    cola(img, texto("Retire em Mauá ou receba em casa", 36, MARROM, 800), W / 2, 1160)
     cola(img, texto("suavez.acervodejogos.com.br  ·  @suavez_bg", 32, MARROM, 800), W / 2, 1215)
     return img
 

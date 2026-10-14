@@ -276,3 +276,34 @@ def brl(v):
 
 def onda(t, f=1.0, a=1.0):
     return a * math.sin(t * f)
+
+
+def fundo_xadrez(W, H, base=AMARELO, escuro=(247, 184, 12), casa=135):
+    """Variação de fundo (pra não ficar todo carrossel azul-claro): xadrez de tabuleiro suave em 2 tons."""
+    img = Image.new("RGBA", (W, H), base + (255,))
+    d = ImageDraw.Draw(img)
+    for i in range(0, W // casa + 2):
+        for j in range(0, H // casa + 2):
+            if (i + j) % 2:
+                d.rectangle((i * casa - 20, j * casa - 40, (i + 1) * casa - 20, (j + 1) * casa - 40), fill=escuro)
+    return img
+
+
+def fundo_confete(W, H, base=LARANJA, cores=(AMARELO, BRANCO, PETROLEO, MARROM), semente=3, n=90, livre=None):
+    """Variação de fundo festiva: cor lisa com confete (bolinhas e tirinhas) nas cores da marca.
+    livre=(x0, y0, x1, y1): área sem confete (onde fica o texto)."""
+    img = Image.new("RGBA", (W, H), base + (255,))
+    d = ImageDraw.Draw(img)
+    rnd = random.Random(semente)
+    for _ in range(n):
+        x, y = rnd.uniform(0, W), rnd.uniform(0, H)
+        if livre and livre[0] < x < livre[2] and livre[1] < y < livre[3]:
+            continue
+        c = rnd.choice(cores)
+        s = rnd.uniform(10, 22)
+        if rnd.random() < 0.5:
+            d.ellipse((x - s / 2, y - s / 2, x + s / 2, y + s / 2), fill=c)
+        else:
+            a = rnd.uniform(0, math.pi)
+            d.line((x, y, x + s * 1.6 * math.cos(a), y + s * 1.6 * math.sin(a)), fill=c, width=8)
+    return img
