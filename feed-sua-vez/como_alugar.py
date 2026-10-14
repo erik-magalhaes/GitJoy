@@ -89,12 +89,23 @@ def busca(d, txt="Tente 'Azul Duel'"):
 
 
 def recorte_foto(path, w, h, raio):
-    """Foto do site (render da caixa no fundo laranja) cortada para preencher w x h, cantos arredondados."""
-    im = Image.open(path).convert("RGBA")
-    s = max(w / im.width, h / im.height)
-    im = im.resize((max(w, round(im.width * s)), max(h, round(im.height * s))), Image.LANCZOS)
+    """Foto do site (render da caixa no fundo laranja) INTEIRA dentro de w x h, cantos arredondados. Se a área não for
+    quadrada, a foto não é cortada: as sobras são preenchidas com a própria foto ampliada e bem desfocada (o fundo
+    laranja liso continua sem emenda)."""
+    src = Image.open(path).convert("RGBA")
+    s = max(w / src.width, h / src.height)
+    im = src.resize((max(w, round(src.width * s)), max(h, round(src.height * s))), Image.LANCZOS)
     x0, y0 = (im.width - w) // 2, (im.height - h) // 2
     im = im.crop((x0, y0, x0 + w, y0 + h))
+    if abs(w - h) > 2:
+        im = im.filter(ImageFilter.GaussianBlur(max(w, h) / 12))
+        s = min(w / src.width, h / src.height)
+        fr = src.resize((round(src.width * s), round(src.height * s)), Image.LANCZOS)
+        mk = Image.new("L", fr.size, 255)  # borda esfumada para a foto se misturar ao fundo
+        for k in range(14):
+            ImageDraw.Draw(mk).rectangle((k, k, fr.width - 1 - k, fr.height - 1 - k), outline=int(255 * k / 14))
+        fr.putalpha(mk)
+        im.alpha_composite(fr, ((w - fr.width) // 2, (h - fr.height) // 2))
     m = Image.new("L", (w, h), 0)
     ImageDraw.Draw(m).rounded_rectangle((0, 0, w - 1, h - 1), radius=raio, fill=255)
     im.putalpha(m)
