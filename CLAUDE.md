@@ -488,4 +488,16 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   cartas viradas); Eventos = "convite de festa" (envelope com convite, programação pontilhada, cartõezinhos só com o nome do
   evento (ele não gostou dos BALÕES nem do "Olá! meu evento é…"; "Empresarial", não "Empresa"), cardápio da festa, ficha de RSVP com carimbo "ABC Paulista", ingresso destacável). **Regra: carrossel novo =
   conceito novo**, não só cor nova. Cuidar do contraste: nada amarelo sobre amarelo nem laranja sobre laranja.
+- **"Como alugar no site" (`feed-sua-vez/como_alugar.py`, 14/out, pedido da Jéssica; + assinatura a pedido dela):**
+  conceito TUTORIAL DE CELULAR: fundo petróleo pontilhado, trilha amarela tracejada passando de uma tela pra outra, selo
+  redondo com o nº do passo, celular grande saindo pela borda com a tela do site REDESENHADA a partir das telas reais
+  (Playwright: `pip install playwright==1.56.0` casa com o Chromium de /opt/pw-browsers; `launch(proxy={'server':
+  $HTTPS_PROXY})` e `goto(..., wait_until='commit')` + espera; o proxy falha às vezes, então repita) e um dedo tocando o
+  botão. Fluxo real: acervo (busca + filtros) → página do jogo "Alugar" → carrinho ("Com 3 jogos, você ganhou prazo extra:
+  todos ficam 7 dias sem pagar nada a mais.", itens "R$ 30 por 7 dias", "Entrar para finalizar", "Frete combinado na
+  próxima etapa.") → "Login de clientes" / "Criar conta" (cadastro pede nome, email, CPF, RG, celular, endereço) →
+  finalizar (NÃO vi o checkout: precisa de conta; o passo 5 só diz retirada em Mauá ou entrega, frete combinado, Pix ou
+  cartão). **Assinatura no site:** página Planos com "Assinar pelo WhatsApp", que abre o wa.me com "Olá! Quero assinar o
+  plano Assinatura <Silver/Gold/Platinum>." **WhatsApp da loja: (11) 97793-3910** (está no rodapé do site; serve para o
+  carrossel de eventos). Dá pra adicionar ao carrinho sem conta com curl (form POST `/cart/items?boardgame_id=` + token).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
