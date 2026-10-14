@@ -1,0 +1,49 @@
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
+  .topo { position: relative; height: 64px; box-sizing: border-box; background: radial-gradient(ellipse 50% 140% at 50% 0%, rgba(249, 115, 22, 0.16), transparent 70%), rgba(13, 12, 16, 0.96); backdrop-filter: blur(8px); font-family: "Manrope", system-ui, sans-serif; }
+  .topo::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--cor-principal) 20%, var(--cor-destaque) 50%, var(--cor-principal) 80%, transparent); }
+  .linha { display: flex; height: 100%; max-width: 80rem; margin: 0 auto; padding: 0 1rem; align-items: center; justify-content: space-between; gap: 0.75rem; }
+  .esquerda { display: flex; flex: 0 0 auto; min-width: 0; align-items: center; gap: 1rem; }
+  .marca { display: inline-flex; flex-shrink: 0; align-items: center; gap: 0.75rem; min-width: 0; max-width: min(17rem, 42vw); border-radius: 1.125rem; }
+  .logo { display: block; height: 44px; width: auto; max-width: 6.5rem; object-fit: contain; filter: drop-shadow(0 0 1px #f5efe4) drop-shadow(0 0 1px #f5efe4) drop-shadow(0 4px 14px rgba(249, 115, 22, 0.3)); }
+  .nome { min-width: 0; color: #f5efe4; font-family: "Cinzel", serif; font-size: 1.125rem; font-weight: 700; letter-spacing: 0.04em; line-height: 1; }
+  .links { display: none; min-width: 0; flex: 1 1 auto; }
+  .acervo-menu { padding: 4px; border: 1px solid #2a2730; border-radius: 999px; background: #17151c; }
+  .acervo-menu-link, .acervo-menu-mais-botao { min-height: 36px; padding: 0 14px; border-radius: 999px; color: #d6d0c4; font-family: "Manrope", system-ui, sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.01em; transition: color 0.2s ease, background 0.2s ease; }
+  .acervo-menu-link:hover, .acervo-menu-mais-botao:hover { background: #24212b; color: var(--cor-destaque); }
+  .acervo-busca { flex: 1 1 0%; min-width: 0; max-width: 28rem; box-sizing: border-box; padding: 4px 4px 4px 6px; border: 1px solid #2a2730; border-radius: 999px; background: #17151c; }
+  .acervo-busca:focus-within { border-color: var(--cor-principal); box-shadow: 0 0 0 1px var(--cor-principal); }
+  .acervo-busca::before { content: ""; flex-shrink: 0; width: 32px; height: 32px; border-radius: 999px; background: #24212b url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f59e0b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E") center / 16px no-repeat; }
+  .acervo-busca-campo { min-height: 32px; padding: 0; border: 0; background: transparent; color: #f5efe4; font-family: "Manrope", system-ui, sans-serif; font-size: 14px; }
+  .acervo-busca-campo::placeholder { color: #9a94a0; }
+  .acervo-busca-campo:focus-visible { outline: none; }
+  .acervo-busca-botao { min-height: 32px; padding: 0 12px; border-radius: 999px; background: var(--cor-principal); color: #0d0c10; font-family: "Manrope", system-ui, sans-serif; font-size: 12px; font-weight: 800; }
+  .acervo-busca-botao:hover { background: var(--cor-destaque); }
+  .acervo-carrinho { width: 40px; height: 40px; border: 1px solid #2a2730; background: #17151c; color: #f5efe4; transition: color 0.2s ease, border-color 0.2s ease; }
+  .acervo-carrinho:hover { border-color: var(--cor-principal); color: var(--cor-principal); }
+  .acervo-conta { gap: 0.75rem; }
+  .acervo-conta-criar, .acervo-conta-entrar, .acervo-conta-perfil, .acervo-conta-sair { min-height: 36px; font-family: "Manrope", system-ui, sans-serif; font-weight: 700; }
+  .acervo-conta-criar { background: var(--cor-destaque); color: #0d0c10; box-shadow: 0 8px 20px -6px rgba(245, 158, 11, 0.45); }
+  .acervo-conta-entrar { background: var(--cor-principal); color: #0d0c10; }
+  .acervo-conta-perfil { color: #f5efe4; }
+  .acervo-conta-sair { border: 1px solid #3a3640; background: transparent; color: #d6d0c4; }
+  .acervo-conta-sair:hover { border-color: var(--cor-principal); color: var(--cor-principal); }
+  @media (max-width: 767px) { .acervo-busca { padding: 2px 6px; } .acervo-busca::before { width: 28px; height: 28px; } .acervo-busca-campo { font-size: 12px; } .logo { height: 40px; max-width: 5.25rem; } }
+  @media (max-width: 639px) { .nome-com-logo { display: none; } }
+  @media (min-width: 640px) { .linha { padding: 0 1.5rem; } }
+  @media (min-width: 1024px) { .linha { padding: 0 2rem; } .links { display: flex; } .acervo-busca { min-width: 14rem; } }
+</style>
+<header class="topo">
+  <div class="linha">
+    <div class="esquerda">
+      <a href="{{ links.inicio }}" class="marca" aria-label="{{ loja.nome | escape }} - Ir para o início">
+        {% if loja.logo_url %}<img src="{{ loja.logo_url }}" alt="{{ loja.nome | escape }}" class="logo">{% endif %}
+        {% unless loja.logo_tem_nome %}<span class="nome{% if loja.logo_url %} nome-com-logo{% endif %}">{{ loja.nome | escape }}</span>{% endunless %}
+      </a>
+      <div class="links"><acervo-menu></acervo-menu></div>
+    </div>
+    <acervo-busca></acervo-busca>
+    <acervo-carrinho></acervo-carrinho>
+    <acervo-conta></acervo-conta>
+  </div>
+</header>
