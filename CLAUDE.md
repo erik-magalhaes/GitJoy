@@ -500,4 +500,13 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   cartão). **Assinatura no site:** página Planos com "Assinar pelo WhatsApp", que abre o wa.me com "Olá! Quero assinar o
   plano Assinatura <Silver/Gold/Platinum>." **WhatsApp da loja: (11) 97793-3910** (está no rodapé do site; serve para o
   carrossel de eventos). **Ajustes pedidos:** usar as FOTOS DO SITE (render no fundo laranja, `feed-sua-vez/assets/site/`, cópia de `hobby-reels/assets/acervo_foto/`; a do The Resistance tem a estrelinha do gerador no canto, cortada) em vez das caixas recortadas; **não pôr o endereço da loja**; foto NUNCA cortada: em área não quadrada ela entra inteira e as sobras viram a própria foto desfocada (`recorte_foto`; ele reclamou do Azul Duel cortado na página do jogo); tela final reta e centralizada (a 1ª, com título e cartão girados em sentidos opostos, ficou "desalinhada"). Dá pra adicionar ao carrinho sem conta com curl (form POST `/cart/items?boardgame_id=` + token).
+- **"Avaliando os jogos que jogamos essa semana" (`feed-sua-vez/semana.py`, 14/out):** trend do TikTok; ELE dá as notas e
+  as frases (nunca inventar). Rejeitou os 3 visuais de `conceitos_semana.py` (caderno, trilha de pontos, medidor) e pediu
+  "só o jogo na mesa e a escrita": mesa de madeira em numpy + fotos OFICIAIS dos componentes pousadas com sombra (não
+  há fotos das partidas) + texto branco com sombra (nome, nota amarela, frase). **Fotos de componentes:** a API da
+  Galápagos dá todas as fotos do produto: `ccstore/v1/products/<ID>` → `fullImageURLs` (+ `&height=2000&width=2000`);
+  IDs: SPL201 Splendor Duel, HIT003 Hitster Lado B, TTR401 Ticket to Ride Legacy: Lendas do Oeste. PaperGames
+  (wp-content) tem as cartas do Trio uma a uma. Foto em fundo branco: branco ligado à borda vira transparente e a sombra
+  do estúdio entra MULTIPLICADA na madeira (`semana.produto/pousa`). 1ª rodada: TTR Legacy 10, Splendor Duel 8 ("minha
+  esposa ficou bem brava ontem... mas eu ganhei!"), Hitster Lado B 10, Trio 9. TTR Legacy e Trio NÃO estão no acervo.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
