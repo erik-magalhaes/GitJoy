@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
-"""Carrossel 1080x1350 "Monitoria de jogos para eventos" (14/out/2026), identidade da Jéssica (assinatura-reels/estilo.py).
-O que eles disseram: levam os jogos e fazem a monitoria o evento TODO (ajudando e ensinando); qualquer tipo de evento;
-a quantidade de jogos depende de quantas pessoas e do perfil (a pessoa conta isso e eles separam as opções); a duração
-é a do evento; atendem principalmente o ABC Paulista; jogos para crianças e adultos, mais ativos/rápidos e mais calmos;
-preço só por orçamento (WhatsApp ou Direct). AINDA NÃO fizeram evento: nada de "já atendemos", depoimento ou foto.
+"""Carrossel 1080x1350 "Monitoria de jogos para eventos" — conceito próprio: CONVITE DE FESTA (14/out/2026).
+Pedido: "não quero copia e cola dos outros carrosséis, só mudando o fundo". Cada tela é uma peça de festa diferente:
+capa = envelope com o convite saindo; como funciona = PROGRAMAÇÃO de convite impresso (linha do tempo pontilhada);
+tipos de evento = BALÕES; jogos = CARDÁPIO da festa; orçamento = ficha de RSVP com linhas pra preencher;
+final = INGRESSO destacável. Fundo roxo com confete (ele pediu roxo). Identidade da Jéssica (assinatura-reels/estilo.py).
+O que eles disseram: levam os jogos e fazem a monitoria o evento TODO; qualquer evento; quantidade conforme nº e perfil
+de pessoas; duração = do evento; ABC Paulista; crianças e adultos, agitados e tranquilos; orçamento por WhatsApp ou
+Direct. AINDA NÃO fizeram evento: nada de "já atendemos", depoimento ou foto.
 
     python3 eventos.py      # out/eventos/01..06.png (+ out/eventos_folha.jpg)
 """
+import math
 import os
 import sys
 
@@ -15,127 +19,199 @@ from PIL import Image, ImageDraw
 ROOT = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(ROOT)
 sys.path.insert(0, os.path.join(REPO, "assinatura-reels"))
-from estilo import (MARROM, PETROLEO, LARANJA, AMARELO, BRANCO, PRATA, titulo, texto, bloco, pilula, logo, jogo, dado,  # noqa
-                    peao, fundo_confete, cola, leque)
+from estilo import (MARROM, PETROLEO, LARANJA, AMARELO, BRANCO, titulo, texto, bloco, pilula, logo, jogo, dado,  # noqa
+                    fundo_confete, cola, leque, lilita)
 
 OUT = os.path.join(ROOT, "out", "eventos")
-ROXO = (108, 63, 160)  # fundo deste carrossel (pedido: "em vez de laranja, um roxo")
-CONFETE = (AMARELO, BRANCO, LARANJA, PETROLEO)
 W, H = 1080, 1350
+ROXO = (108, 63, 160)
+CREME = (255, 248, 236)
+CONFETE = (AMARELO, BRANCO, LARANJA, PETROLEO)
 _R = lambda *p: os.path.join(REPO, *p)  # noqa: E731
 ATIVOS = [_R("roleta-reels/assets/happy_salmon.png"), _R("roleta-reels/assets/taco_gato.png"),
           _R("roleta-reels/assets/flash_10.png")]
 CALMOS = [_R("roleta-reels/assets/cartografos.png"), _R("roleta-reels/assets/wandering_towers.png"),
           _R("feed-posts/assets/patchwork.png")]
 CAPA = [_R("roleta-reels/assets/eu_sou_banana.png"), _R("roleta-reels/assets/spyfall.png"),
-        _R("roleta-reels/assets/unicorn_fever.png"), _R("roleta-reels/assets/last_message.png"),
-        _R("roleta-reels/assets/dobro.png")]
+        _R("roleta-reels/assets/unicorn_fever.png"), _R("roleta-reels/assets/last_message.png")]
+
+
+def bg(semente, livre=(90, 200, 990, 1250)):
+    return fundo_confete(W, H, base=ROXO, cores=CONFETE, semente=semente, n=170, livre=livre)
 
 
 def arrasta(img):
-    cola(img, pilula("arrasta pro lado  →", 28, BRANCO, MARROM, pad=(22, 8), ow=4, sombra=5), W - 200, H - 92, -3)
+    cola(img, pilula("arrasta pro lado  →", 28, BRANCO, MARROM, pad=(22, 8), ow=4, sombra=5), W - 200, H - 70, -3)
 
 
 def capa():
-    img = fundo_confete(W, H, semente=21, n=160, livre=(90, 250, 990, 1230), base=ROXO, cores=CONFETE)
-    cola(img, logo(280), W / 2, 165, -2)
-    cola(img, titulo("VAI TER\nFESTA?", 170, BRANCO), W / 2, 450, -2)
-    cola(img, texto("A gente leva os jogos e ensina todo mundo a jogar!", 44, BRANCO, 800, larg_max=860), W / 2, 680)
-    cola(img, leque(CAPA, 290), W / 2, 950)
-    cola(img, pilula("MONITORIA DE JOGOS PARA EVENTOS", 40, AMARELO, MARROM, pad=(30, 12), fonte_titulo=True), W / 2,
-         1160, -2)
-    cola(img, dado(100, 6, AMARELO), 130, 175, -14)
-    cola(img, peao(140, AMARELO), 950, 170, 10)
+    img = bg(31, (60, 60, 1020, 1300))
+    # convite saindo do envelope
+    conv = bloco(720, 760, CREME, raio=26, ow=7, sombra=12)
+    d = ImageDraw.Draw(conv)
+    d.rounded_rectangle((26, 26, 694, 734), radius=18, outline=AMARELO, width=6)
+    cola(conv, texto("VOCÊ ESTÁ CONVIDADO PRA UMA", 30, MARROM, 900), 360, 80)
+    cola(conv, titulo("FESTA COM\nJOGOS!", 104, AMARELO, sw=8, sombra=8), 360, 230)
+    cola(conv, texto("A gente leva os jogos e ensina todo mundo a jogar.", 34, MARROM, 800, larg_max=560), 360, 410)
+    cola(conv, leque(CAPA, 210, passo=0.6), 360, 590)
+    env_w, env_h = 900, 420
+    env = Image.new("RGBA", (env_w + 16, env_h + 16), (0, 0, 0, 0))
+    de = ImageDraw.Draw(env)
+    de.rounded_rectangle((14, 14, env_w + 14, env_h + 14), radius=24, fill=MARROM)
+    de.rounded_rectangle((0, 0, env_w, env_h), radius=24, fill=PETROLEO, outline=MARROM, width=8)
+    de.polygon([(8, 10), (env_w / 2, env_h * 0.55), (env_w - 8, 10)], fill=(38, 142, 168), outline=MARROM)
+    de.line([(8, env_h - 8), (env_w / 2, env_h * 0.45), (env_w - 8, env_h - 8)], fill=MARROM, width=7)
+    cola(img, conv, W / 2, 610, -2)
+    cola(img, env, W / 2, 1090, 0)
+    cola(img, pilula("MONITORIA DE JOGOS PARA EVENTOS", 38, AMARELO, MARROM, pad=(28, 12), fonte_titulo=True), W / 2,
+         1110, -2)
+    cola(img, logo(230), 160, 135, -6)
+    cola(img, titulo("VAI TER FESTA?", 92, BRANCO), 640, 140, 2)
     arrasta(img)
     return img
 
 
-def como_funciona():
-    img = fundo_confete(W, H, semente=22, n=160, livre=(90, 250, 990, 1230), base=ROXO, cores=CONFETE)
-    cola(img, titulo("COMO\nFUNCIONA?", 120, BRANCO), W / 2, 240, -2)
-    passos = [(1, "Levamos os jogos", "Separados pro seu evento e pro seu público.", AMARELO),
-              (2, "Ficamos o evento todo", "Explicando as regras, ajudando e animando as mesas.", LARANJA),
-              (3, "Ninguém fica de fora", "Tem jogo pra quem nunca jogou e pra quem já é fã.", PETROLEO)]
-    for k, (n, tit, desc, cor) in enumerate(passos):
-        card = bloco(880, 240, BRANCO, raio=34)
-        cola(card, dado(145, n, cor, MARROM if cor == AMARELO else BRANCO), 110, 120, (-8, 6, -4)[k])
-        cola(card, titulo(tit, 54, MARROM, BRANCO, sw=0, sombra=0, larg_max=620), 545, 72)
-        cola(card, texto(desc, 34, MARROM, 600, larg_max=600), 545, 160)
-        cola(img, card, W / 2 + (-10, 12, -6)[k], 560 + k * 270, (1, -1, 0.6)[k])
+def programacao():
+    img = bg(32)
+    papel = bloco(860, 1080, CREME, raio=30, ow=7, sombra=12)
+    d = ImageDraw.Draw(papel)
+    d.rounded_rectangle((24, 24, 836, 1056), radius=20, outline=ROXO, width=5)
+    cola(papel, texto("~ programação ~", 34, ROXO, 800), 430, 85)
+    cola(papel, titulo("COMO FUNCIONA", 84, LARANJA, sw=6, sombra=6), 430, 175)
+    itens = [("Chegamos com os jogos", "separados pro seu evento e pro seu público"),
+             ("Explicamos as regras", "pra quem nunca jogou e pra quem já é fã"),
+             ("Ficamos o evento todo", "ajudando, animando e trocando as mesas"),
+             ("Ninguém fica de fora", "tem jogo pra criança e pra adulto")]
+    x0 = 150
+    for k, (tit, sub) in enumerate(itens):
+        y = 330 + k * 180
+        if k < len(itens) - 1:
+            for yy in range(int(y + 40), int(y + 150), 22):  # linha pontilhada da programação
+                d.ellipse((x0 - 5, yy - 5, x0 + 5, yy + 5), fill=ROXO)
+        cola(papel, dado(84, k + 1, (AMARELO, LARANJA, PETROLEO, ROXO)[k], MARROM if k == 0 else BRANCO), x0, y,
+             (-6, 4, -3, 5)[k])
+        cola(papel, titulo(tit, 48, MARROM, BRANCO, sw=0, sombra=0), 495, y - 20)
+        cola(papel, texto(sub, 30, MARROM, 600), 495, y + 35)
+    cola(papel, texto("duração: o tempo do seu evento", 30, ROXO, 800), 430, 1005)
+    cola(img, papel, W / 2, 640, 1.2)
     arrasta(img)
     return img
 
 
-def qualquer_evento():
-    img = fundo_confete(W, H, semente=23, n=160, livre=(90, 250, 990, 1230), base=ROXO, cores=CONFETE)
-    cola(img, titulo("PRA QUALQUER\nEVENTO", 120, BRANCO), W / 2, 240, -2)
-    tipos = [("Aniversário", BRANCO, MARROM), ("Empresa", PETROLEO, BRANCO), ("Escola", AMARELO, MARROM),
-             ("Casamento", PETROLEO, BRANCO), ("Chá de bebê", PETROLEO, BRANCO), ("Confraternização", AMARELO, MARROM),
-             ("Condomínio", BRANCO, MARROM), ("Festa em família", BRANCO, MARROM), ("Encontro da galera", AMARELO, MARROM)]
-    y, linha, x0 = 520, [], 0
-    linhas = [tipos[0:2], tipos[2:4], tipos[4:6], tipos[6:8], tipos[8:9]]
+def balao(txt, cor, ct, w=300):
+    h = int(w * 1.18)
+    im = Image.new("RGBA", (w + 20, h + 170), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    d.ellipse((12, 12, w + 12, h + 12), fill=MARROM)  # sombra sólida
+    d.ellipse((0, 0, w, h), fill=cor, outline=MARROM, width=7)
+    d.polygon([(w / 2 - 18, h - 4), (w / 2 + 18, h - 4), (w / 2, h + 22)], fill=cor, outline=MARROM)
+    d.ellipse((w * 0.2, h * 0.12, w * 0.38, h * 0.32), fill=(255, 255, 255, 110))
+    pts = [(w / 2 + 14 * math.sin(k / 5), h + 22 + k * 4) for k in range(36)]
+    d.line(pts, fill=BRANCO, width=4)
+    linhas = txt.split("\n")
+    s = 46 if max(len(l) for l in linhas) <= 9 else 38
     for k, l in enumerate(linhas):
-        ims = [pilula(t.upper(), 46, c, ct, pad=(32, 14), fonte_titulo=True) for t, c, ct in l]
-        larg = sum(i.width for i in ims) + 30 * (len(ims) - 1)
-        x = W / 2 - larg / 2
-        for j, im in enumerate(ims):
-            cola(img, im, x + im.width / 2, y + k * 125, (-3, 2, -2, 3, -1)[(k + j) % 5])
-            x += im.width + 30
-    del x0, linha
-    cola(img, texto("…e o que mais você imaginar!", 44, BRANCO, 800), W / 2, 1160)
+        d.text((w / 2, h / 2 + (k - (len(linhas) - 1) / 2) * s * 1.05), l, font=lilita(s), fill=ct, anchor="mm")
+    return im
+
+
+def tipos():
+    img = bg(33, (0, 0, 0, 0))
+    cola(img, titulo("PRA QUALQUER\nEVENTO", 116, BRANCO), W / 2, 200, -2)
+    bal = [("ANIVER-\nSÁRIO", AMARELO, MARROM), ("EMPRESA", LARANJA, BRANCO), ("ESCOLA", PETROLEO, BRANCO),
+           ("CASA-\nMENTO", BRANCO, MARROM), ("CHÁ DE\nBEBÊ", AMARELO, MARROM), ("CONDO-\nMÍNIO", PETROLEO, BRANCO),
+           ("FAMÍLIA", LARANJA, BRANCO), ("GALERA", BRANCO, MARROM)]
+    pos = [(170, 600), (420, 560), (670, 600), (910, 560), (170, 950), (420, 910), (670, 950), (910, 910)]
+    for (t, c, ct), (x, y), r in zip(bal, pos, (-6, 4, -3, 6, 5, -4, 3, -5)):
+        cola(img, balao(t, c, ct, 215), x, y, r)
+    cola(img, pilula("…e o que mais você imaginar!", 40, BRANCO, MARROM, pad=(30, 12)), W / 2, 1180, -2)
     arrasta(img)
     return img
 
 
-def para_todos():
-    img = fundo_confete(W, H, semente=24, n=160, livre=(90, 250, 990, 1230), base=ROXO, cores=CONFETE)
-    cola(img, titulo("JOGO PRA\nTODO MUNDO", 120, BRANCO), W / 2, 240, -2)
-    for k, (tit, sub, paths, cor, ct) in enumerate((("AGITADOS", "rápidos e cheios de risada", ATIVOS, AMARELO, MARROM),
-                                                     ("TRANQUILOS", "pra jogar com calma", CALMOS, PETROLEO, BRANCO))):
-        card = bloco(450, 720, cor, raio=36, ow=7, sombra=12)
-        cola(card, titulo(tit, 62, BRANCO, sw=5, sombra=5), 225, 75)
-        cola(card, texto(sub, 32, ct, 800, larg_max=400), 225, 145)
+def cardapio():
+    img = bg(34)
+    menu = bloco(880, 1100, CREME, raio=30, ow=7, sombra=12)
+    d = ImageDraw.Draw(menu)
+    cola(menu, texto("cardápio da festa", 34, ROXO, 800), 440, 70)
+    cola(menu, titulo("JOGO PRA\nTODO MUNDO", 80, LARANJA, sw=6, sombra=6), 440, 195)
+    secoes = [("AGITADOS", "rápidos e cheios de risada", ATIVOS, 390), ("TRANQUILOS", "pra jogar com calma", CALMOS, 720)]
+    for tit, sub, paths, y in secoes:
+        d.line((60, y - 40, 820, y - 40), fill=ROXO, width=3)
+        cola(menu, titulo(tit, 52, MARROM, BRANCO, sw=0, sombra=0), 440, y)
+        cola(menu, texto(sub, 30, MARROM, 600), 440, y + 50)
         for j, p in enumerate(paths):
-            cola(card, jogo(p, 205, 230), 225 + (-65, 65, 0)[j], 315 + j * 150, (-6, 5, -3)[j])
-        cola(img, card, 285 + k * 510, 840, (-2, 2)[k])
-    cola(img, pilula("PRA CRIANÇAS E ADULTOS", 44, AMARELO, MARROM, pad=(30, 12), fonte_titulo=True), W / 2, 1255, -2)
-    return img
-
-
-def orcamento():
-    img = fundo_confete(W, H, semente=25, n=160, livre=(90, 250, 990, 1230), base=ROXO, cores=CONFETE)
-    cola(img, titulo("COMO PEDIR\nSEU ORÇAMENTO", 112, BRANCO, larg_max=960), W / 2, 240, -2)
-    itens = [(1, "Quantas pessoas", "Mais ou menos quantas vão estar no evento.", AMARELO),
-             (2, "Quem são elas", "Idades e se curtem jogos mais agitados ou mais calmos.", LARANJA),
-             (3, "Data, local e horário", "A monitoria dura o tempo do seu evento.", PETROLEO)]
-    for k, (n, tit, desc, cor) in enumerate(itens):
-        card = bloco(880, 220, BRANCO, raio=34)
-        cola(card, dado(135, n, cor, MARROM if cor == AMARELO else BRANCO), 105, 110, (-8, 6, -4)[k])
-        cola(card, titulo(tit, 52, MARROM, BRANCO, sw=0, sombra=0, larg_max=620), 545, 68)
-        cola(card, texto(desc, 32, MARROM, 600, larg_max=600), 545, 148)
-        cola(img, card, W / 2 + (-10, 12, -6)[k], 480 + k * 232, (1, -1, 0.6)[k])
-    cola(img, texto("Com isso, a gente separa a seleção de jogos ideal pra sua festa.", 36, BRANCO, 800,
-                    larg_max=860), W / 2, 1110)
+            cola(menu, jogo(p, 170, 200), 200 + j * 240, y + 180, (-5, 3, -2)[j])
+    cola(menu, pilula("PRA CRIANÇAS E ADULTOS", 36, AMARELO, MARROM, pad=(26, 10), fonte_titulo=True), 440, 1040, -2)
+    cola(img, menu, W / 2, 650, -1)
     arrasta(img)
     return img
 
 
-def chamada():
-    img = fundo_confete(W, H, semente=26, n=160, livre=(90, 250, 990, 1230), base=ROXO, cores=CONFETE)
-    cola(img, logo(300), W / 2, 190, 2)
-    cola(img, titulo("BORA LEVAR\nJOGO PRA\nSUA FESTA?", 130, BRANCO), W / 2, 530, -2)
-    cola(img, pilula("ORÇAMENTO PELO DIRECT", 54, AMARELO, MARROM, pad=(38, 16), fonte_titulo=True), W / 2, 860, -2)
-    cola(img, pilula("OU PELO WHATSAPP DO LINK NA BIO", 40, PETROLEO, BRANCO, pad=(30, 12)), W / 2, 975, 2)
-    cola(img, pilula("ATENDEMOS O ABC PAULISTA", 38, BRANCO, MARROM, pad=(28, 12)), W / 2, 1080, -1)
-    cola(img, texto("@suavez_bg", 40, BRANCO, 800), W / 2, 1180)
-    cola(img, dado(110, 5, AMARELO), 140, 1180, -14)
-    cola(img, peao(150, PETROLEO), 940, 1170, 10)
+def rsvp():
+    img = bg(35)
+    ficha = bloco(860, 1060, BRANCO, raio=30, ow=7, sombra=12)
+    d = ImageDraw.Draw(ficha)
+    d.rounded_rectangle((0, 0, 860, 170), radius=30, fill=LARANJA, outline=MARROM, width=7)
+    d.rectangle((7, 120, 853, 170), fill=LARANJA)
+    d.line((0, 170, 860, 170), fill=MARROM, width=7)
+    cola(ficha, titulo("PEÇA SEU ORÇAMENTO", 66, BRANCO, sw=5, sombra=5), 430, 88)
+    campos = [("Quantas pessoas?", "mais ou menos quantas vão estar no evento"),
+              ("Quem vai?", "idades e se curtem jogos agitados ou calmos"),
+              ("Data, local e horário", "a monitoria dura o tempo do seu evento")]
+    for k, (cmp, dica) in enumerate(campos):
+        y = 270 + k * 230
+        cola(ficha, titulo(cmp, 50, MARROM, BRANCO, sw=0, sombra=0), 330, y, 0)
+        cola(ficha, texto(dica, 28, (120, 96, 80), 600), 380, y + 50)
+        for x in range(70, 790, 28):  # linha pra preencher
+            d.line((x, y + 120, x + 16, y + 120), fill=MARROM, width=4)
+        cola(ficha, dado(70, k + 1, (AMARELO, LARANJA, PETROLEO)[k], MARROM if k == 0 else BRANCO), 760, y, 8)
+    cola(ficha, texto("Com isso, a gente separa a seleção de jogos ideal pra sua festa.", 32, ROXO, 800,
+                      larg_max=540), 350, 975)
+    cola(img, ficha, W / 2, 640, 1)
+    carimbo = Image.new("RGBA", (300, 300), (0, 0, 0, 0))
+    dc = ImageDraw.Draw(carimbo)
+    dc.ellipse((10, 10, 290, 290), outline=(214, 40, 40), width=10)
+    dc.ellipse((34, 34, 266, 266), outline=(214, 40, 40), width=4)
+    dc.text((150, 120), "ATENDEMOS", font=lilita(34), fill=(214, 40, 40), anchor="mm")
+    dc.text((150, 175), "ABC", font=lilita(70), fill=(214, 40, 40), anchor="mm")
+    dc.text((150, 225), "PAULISTA", font=lilita(30), fill=(214, 40, 40), anchor="mm")
+    cola(img, carimbo, 905, 1095, -14, 0.78, 0.9)
+    arrasta(img)
+    return img
+
+
+def ingresso():
+    img = bg(36, (0, 0, 0, 0))
+    cola(img, logo(280), W / 2, 170, 2)
+    cola(img, titulo("BORA LEVAR JOGO\nPRA SUA FESTA?", 104, BRANCO, larg_max=980), W / 2, 400, -2)
+    tw, th = 960, 470
+    tk = Image.new("RGBA", (tw + 16, th + 16), (0, 0, 0, 0))
+    d = ImageDraw.Draw(tk)
+    for off, cor in ((14, MARROM), (0, AMARELO)):  # ingresso com recortes redondos
+        d.rounded_rectangle((off, off, tw + off, th + off), radius=30, fill=cor)
+    d.rounded_rectangle((0, 0, tw, th), radius=30, outline=MARROM, width=7)
+    for x in (0, tw):
+        d.ellipse((x - 40, th / 2 - 40, x + 40, th / 2 + 40), fill=(0, 0, 0, 0))
+    for y in range(30, th - 20, 30):  # picote do canhoto
+        d.line((690, y, 690, y + 14), fill=MARROM, width=5)
+    cola(tk, texto("INGRESSO PARA", 30, MARROM, 900), 345, 70)
+    cola(tk, titulo("ORÇAMENTO", 84, BRANCO, sw=7, sombra=7), 345, 155)
+    cola(tk, pilula("PELO DIRECT", 40, BRANCO, MARROM, pad=(26, 10), fonte_titulo=True), 345, 270, -2)
+    cola(tk, texto("ou pelo WhatsApp do link na bio", 32, MARROM, 800), 345, 360)
+    cola(tk, texto("atendemos o", 28, MARROM, 800), 825, 130)
+    cola(tk, titulo("ABC", 72, BRANCO, sw=6, sombra=6), 825, 200)
+    cola(tk, texto("paulista", 28, MARROM, 800), 825, 270)
+    cola(tk, texto("@suavez_bg", 28, MARROM, 900), 825, 370)
+    cola(img, tk, W / 2, 830, -3)
+    cola(img, dado(120, 5, AMARELO), 150, 1170, -14)
+    cola(img, dado(100, 2, LARANJA, BRANCO), 930, 1160, 12)
     return img
 
 
 def main():
     os.makedirs(OUT, exist_ok=True)
-    telas = [capa(), como_funciona(), qualquer_evento(), para_todos(), orcamento(), chamada()]
+    telas = [capa(), programacao(), tipos(), cardapio(), rsvp(), ingresso()]
     for k, im in enumerate(telas):
         im.convert("RGB").save(os.path.join(OUT, f"{k + 1:02d}.png"))
     folha = Image.new("RGB", (3 * 540 + 40, 2 * 675 + 30), (255, 255, 255))

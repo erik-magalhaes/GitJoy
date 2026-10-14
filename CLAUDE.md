@@ -482,5 +482,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   bio"). **Ainda não fizeram nenhum evento:** sem fotos reais, sem "já atendemos", sem depoimentos. **Pedido de 14/out: variar o fundo entre os carrosséis**
   (estava tudo azul-claro): mesma identidade (fontes, contorno marrom, sombra, selos), fundo diferente por post —
   assinatura = azul-claro com trilha (`fundo`), Por que alugar = amarelo xadrez (`fundo_xadrez`), Eventos = ROXO (108,63,160; ele pediu
-  roxo no lugar do laranja) com confete só nas bordas (`fundo_confete`, `livre=`, `base=`), textos sobre o roxo em branco. Cuidar do contraste: nada amarelo sobre amarelo nem laranja sobre laranja.
+  roxo no lugar do laranja) com confete só nas bordas (`fundo_confete`, `livre=`, `base=`), textos sobre o roxo em branco. **Depois ele disse "tá copia e cola, só mudou o fundo; quero
+  mais diverso":** cada carrossel ganhou um CONCEITO de layout próprio, mantendo só fontes/cores/contorno: Por que alugar
+  = "cartas na manga" (cada motivo é uma carta de baralho gigante com índice no canto, baralho atrás, capa com leque de
+  cartas viradas); Eventos = "convite de festa" (envelope com convite, programação pontilhada, balões com os tipos de
+  evento, cardápio da festa, ficha de RSVP com carimbo "ABC Paulista", ingresso destacável). **Regra: carrossel novo =
+  conceito novo**, não só cor nova. Cuidar do contraste: nada amarelo sobre amarelo nem laranja sobre laranja.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
