@@ -509,4 +509,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   (wp-content) tem as cartas do Trio uma a uma. Foto em fundo branco: branco ligado à borda vira transparente e a sombra
   do estúdio entra MULTIPLICADA na madeira (`semana.produto/pousa`). 1ª rodada: TTR Legacy 10, Splendor Duel 8 ("minha
   esposa ficou bem brava ontem... mas eu ganhei!"), Hitster Lado B 10, Trio 9. TTR Legacy e Trio NÃO estão no acervo.
+- **3º antigo × moderno (`feed-posts/classicos3.py`, 14/out):** mandei 3 visuais novos (`feed-sua-vez/conceitos_classicos.py`:
+  evoluiu, deu match, TV antiga) e ele disse: **"nesse tema a gente mantém o MESMO design"** (o antes × depois de
+  `carrosseis2.py`, 1080x1080; o script novo importa as funções de lá). Pares: Ludo → Camel Up, Xadrez → Hive, Stop →
+  Tapalavras, Banco Imobiliário (retrô, Estrela) → Bohnanza, Lince (Grow) → Spot it! Hip, e os 2 extras que ele pediu:
+  Truco (baralho Copag 139) → Coup, Super Trunfo (Grow) → 1, 2, 3, Lucha! Clássicos: Ri Happy VTEX recortados (caixa
+  branca = flood fill + casco convexo do maior pedaço); modernos: recortes do site em `hobby-reels/assets/acervo/`; a lata do
+  Spot it saiu de `recortes_caixas.recorta` + remoção do laranja ligado ao fundo.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
