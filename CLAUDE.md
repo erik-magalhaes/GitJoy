@@ -532,4 +532,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   e ele disse "tem jogos aí que a gente nem tem". **Sempre conferir o jogo pela FOTO do site** (`hobby-reels/assets/acervo_foto/`)
   e mandar a lista com as fotos (`feed-sua-vez/out/lista_classicos.jpg`) ANTES de montar. Ele também pediu: **mostrar as
   opções antes de fazer** (eu montei `classicos3.py` sem ele escolher; ele reclamou).
+- **Stories gravados (`gravados-reels/stories.py`, 14/out):** 2 vídeos dele para STORIES (brutos `20261014_095354` e
+  `_095443` na pasta de brutos do Drive → `brutos/stories/`, fora do git). Pedido: "editada básica e legenda": corte do
+  silêncio inicial (0,45 s), 1080x1920, GRADE_ROSTO leve, EQ do microfone de lapela, legenda palavra a palavra em y≈1400,
+  −15,5 LUFS; sem trilha/logo/tela final. Whisper corrigido: "Wonder Towers" → Wandering Towers, "no set" → no site,
+  "joga BC5" → JOGAABC5, "alocação" → locação, "próximo source" → próximo story. Saída `out/story{1,2}_{legendado,sem_legenda}.mp4`.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
