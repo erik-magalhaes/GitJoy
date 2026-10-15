@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""3º comparativo antigo × moderno (14/out/2026). Pedido dele: "nesse tema a gente mantém o MESMO design" do
+"""3º comparativo antigo × moderno (14–15/out/2026). Pedido dele: "nesse tema a gente mantém o MESMO design" do
 "Curte esse clássico?" (carrosseis2.py, antes × depois em papel envelhecido, 1080 x 1080), com jogos NOVOS.
-Pares ESCOLHIDOS POR ELE (lista conferida pelas fotos do site): Ludo → Camel Up, Xadrez → Hive, Stop → Tapalavras e
-Jogo da Memória → Trio (ele trocou o Uga Buga pelo Trio).
-Clássicos = fotos da Ri Happy recortadas (cl_*.png); modernos = recortes das fotos do site (hobby-reels/assets/acervo).
+Pares ESCOLHIDOS POR ELE (15/out, "vamos resetar"): Lince → Spot it! Hip, Imagem & Ação → Say my Name e
+Scotland Yard → Convidados Indesejados 1 e 2 ("pode colocar os dois na mesma imagem"; NÃO estão no site).
+Clássicos = fotos da Ri Happy recortadas (cl_*.png); modernos = recortes das fotos do site (hobby-reels/assets/acervo)
+ou caixas oficiais da editora (Convidados Indesejados: Across the Board).
 
     python3 classicos3.py      # out/v3_classicos/01.png ... e todas.jpg
 """
@@ -16,27 +17,39 @@ import carrosseis2 as c2
 from carrosseis2 import (S, NAVY, WHITE, font, cola, sombra, letreiro, pilula, caixa, quebra, papel_velho,
                          corte_rasgado, logo_card, ORANGE)
 
-PARES = [  # (clássico, recorte do clássico, recorte do moderno, nome do moderno, nome no site, motivo) — escolha dele
-    ("LUDO", "cl_ludo", "camel_up_second_edition", "CAMEL UP", "Camel Up (Second Edition)",
-     "Corrida com dados, mas os camelos se empilham e você aposta em quem vai ganhar."),
-    ("XADREZ", "cl_xadrez", "hive", "HIVE", "Hive",
-     "Estratégia a dois, sem tabuleiro: cerque a abelha rainha do adversário."),
-    ("STOP", "cl_stop", "tapalavras", "TAPALAVRAS", "Tapalavras",
-     "Fale uma palavra da categoria e aperte a letra antes que o tempo acabe."),
-    ("JOGO DA MEMÓRIA", "cl_memoria", "trio", "TRIO", "Trio",  # pedido dele no lugar do Uga Buga (não está no site)
-     "Revele cartas da mesa ou da mão dos outros e lembre onde estão as iguais: 3 trios e você vence."),
+PARES = [  # (clássico, recorte do clássico, recorte(s) do moderno, nome do moderno, nome no site, motivo)
+    ("LINCE", "cl_lince", ["spot_it_hip"], "SPOT IT! HIP", "Spot it! Hip",
+     "Ache a figura igual: entre duas cartas, sempre tem exatamente uma."),
+    ("IMAGEM & AÇÃO", "cl_imagem", ["say_my_name"], "SAY MY NAME", "Say my Name",
+     "Adivinhação em equipe com fala, mímica e até cantoria. E cada rodada fica mais difícil."),
+    ("SCOTLAND YARD", "cl_scotland", ["convidados1", "convidados2"], "CONVIDADOS INDESEJADOS 1 E 2",
+     "Convidados Indesejados",
+     "Interrogue suspeitos, procure pistas e troque informações: quem matou, como e por quê?"),
 ]
-CORES = [(234, 88, 12), (37, 99, 235), (147, 51, 234), (22, 163, 74), (219, 39, 119), (13, 148, 136), (202, 138, 4)]
-
-
-FORA_DO_SITE = {"Trio": {"jogadores": "2–6", "tempo": "15min"}}  # ficha da PaperGames
+CORES = [(219, 39, 119), (37, 99, 235), (13, 148, 136)]
+FORA_DO_SITE = {"Convidados Indesejados": "1 A 8 JOGADORES · O 2 É PARA DUPLAS"}  # fichas da Across the Board
 
 
 def info(nome_site):
-    d = c2.SITE.get(nome_site) or FORA_DO_SITE[nome_site]
+    if nome_site in FORA_DO_SITE:
+        return FORA_DO_SITE[nome_site]
+    d = c2.SITE[nome_site]
     a, b = d["jogadores"].split("–")
     jog = f"{a} JOGADORES" if a == b else f"{a} A {b} JOGADORES"
     return f"{jog} · {d['tempo'].replace('min', ' MIN')}"
+
+
+def moderno(ns, h, larg):
+    """Uma caixa, ou duas na mesma imagem (a 2ª um pouco menor, à frente e deslocada)."""
+    if len(ns) == 1:
+        return caixa(ns[0], h, larg)
+    a = caixa(ns[0], int(h * 0.82), int(larg * 0.82))
+    b = caixa(ns[1], int(h * 0.72), int(larg * 0.72))
+    im = Image.new("RGBA", (int(a.width * 0.55 + b.width), int(a.height * 0.35 + b.height)), (0, 0, 0, 0))
+    im.alpha_composite(a, (0, 0))
+    sb = sombra(b, 10, (6, 10), 0.35)
+    im.alpha_composite(sb, (int(a.width * 0.55) - (sb.width - b.width) // 2, int(a.height * 0.35) - (sb.height - b.height) // 2))
+    return im
 
 
 def envelhece(im):
@@ -64,7 +77,7 @@ def antes_depois(k):
     d.text((720, 408), "mundo já jogou", font=font("Poppins-SemiBold.ttf", 30), fill=(120, 90, 55), anchor="mm")
     corte_rasgado(img, 455)
     cola(img, pilula("DEPOIS", 34, NAVY, WHITE, WHITE), 160, 545, 3)
-    cola(img, sombra(caixa(n, 400, 380), 16, (8, 14), 0.4), 800, 760, 4)
+    cola(img, sombra(moderno(n, 400, 380), 16, (8, 14), 0.4), 800, 760, 4)
     d = ImageDraw.Draw(img)
     f = font("Poppins-Black.ttf", 44)
     y = 640
@@ -86,10 +99,10 @@ def capa():
     d = ImageDraw.Draw(img)
     d.text((540, 95), "OS CLÁSSICOS", font=font("AlfaSlabOne-Regular.ttf", 80), fill=(90, 62, 35), anchor="mm")
     for j, p in enumerate(PARES):
-        cola(img, sombra(envelhece(caixa(p[1], 170, 220)), 8, (4, 6), 0.3), 140 + j * 267, 290, (-5, 3, -3, 5)[j])
+        cola(img, sombra(envelhece(caixa(p[1], 190, 290)), 8, (4, 6), 0.3), 190 + j * 350, 290, (-5, 3, -4)[j])
     corte_rasgado(img, 455)
     for j, p in enumerate(PARES):
-        cola(img, sombra(caixa(p[2], 290, 235), 12, (6, 12), 0.4), 140 + j * 267, 690, (-6, 3, -3, 6)[j])
+        cola(img, sombra(moderno(p[2], 300, 300), 12, (6, 12), 0.4), 190 + j * 350, 690, (-6, 3, 5)[j])
     cola(img, letreiro("TÊM VERSÕES MODERNAS!", 62, WHITE, NAVY, 10), 470, 945, -2)
     return img
 

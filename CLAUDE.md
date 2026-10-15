@@ -529,6 +529,12 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **Versão final (escolha dele, 14/out): só 4 pares** — Ludo → Camel Up, Xadrez → Hive, Stop → Tapalavras e Jogo da Memória
   (Super Memória Grow) → ~~Uga Buga~~ **Trio** (ele trocou; o Trio NÃO está no site, ficha da PaperGames: 2 a 6 jogadores,
   15 min; caixa 3D da PaperGames em `feed-posts/assets/trio.png`) (6 telas). Os outros pares ficaram de fora.
+  **15/out — ele "resetou" a lista; versão atual (5 telas):** Lince → Spot it! Hip, Imagem & Ação (Grow) → Say my Name
+  (Buró; era o "da Buró parecido com Imagem & Ação") e Scotland Yard (Grow, "O jogo do Sherlock Holmes") → Convidados
+  Indesejados 1 E 2 na MESMA imagem (`moderno()` junta as duas caixas). Convidados = Awkward Guests da Across the Board,
+  NÃO está no site: caixa do 1 do Compara Jogos (PNG transparente), do 2 só a da loja da editora (400 px; a do Compara é
+  a edição em inglês); ficha: 1 a 8 jogadores, o 2 é para duplas. Ele não quis nenhuma opção para o Banco Imobiliário
+  (High Society, Bohnanza, Istanbul, Architectura) e pediu Dobble Disney para o Lince, mas NÃO está no site → ficou o Spot it.
 - **Descrições do site NÃO são confiáveis (14/out):** algumas fichas têm a descrição de OUTRO jogo ("Shimp" descreve
   "Faces!", "Color Addict" descreve "Cores Confusas", "DANY" descreve "Fragmentos da Mente"). Eu usei esses nomes numa lista
   e ele disse "tem jogos aí que a gente nem tem". **Sempre conferir o jogo pela FOTO do site** (`hobby-reels/assets/acervo_foto/`)
