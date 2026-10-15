@@ -545,4 +545,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   silêncio inicial (0,45 s), 1080x1920, GRADE_ROSTO leve, EQ do microfone de lapela, legenda palavra a palavra em y≈1400,
   −15,5 LUFS; sem trilha/logo/tela final. Whisper corrigido: "Wonder Towers" → Wandering Towers, "no set" → no site,
   "joga BC5" → JOGAABC5, "alocação" → locação, "próximo source" → próximo story. Saída `out/story{1,2}_{legendado,sem_legenda}.mp4`.
+- **Comparativo "o que ele citou × site" (15/out):** o site tem **164** jogos (entraram Marvel United: Multiverse, Trial by
+  Trolley e **Trio**). Citados por eles e AUSENTES do site: Ticket to Ride Legacy: Lendas do Oeste, Dobble Disney,
+  Convidados Indesejados 1 e 2, Jaipur, Azul (só tem o Azul Duel), Vudú, Sintonia e as 5 expansões do Final Girl (só há
+  "Final Girl"). Nome diferente da caixa: "Coup: Inquisition" (a foto é o Coup 2ª ed. com A Reforma) e "Flip 7: A Vingança"
+  (no 5-4-3-2-1 ele disse Flip 7). `comum/dados/acervo_site.json` ainda tem os 161 de 12/out.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
