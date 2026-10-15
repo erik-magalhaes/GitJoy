@@ -17,3 +17,4 @@ Fotos em domínio público / CC0 (busca no Openverse com license=cc0,pdm):
 - coruja.jpg, salao_baile.jpg, globo_luz.jpg, maquiagem.jpg (Flickr); biblioteca.jpg, oculos_livro.jpg, tesoura_pente.jpg (StockSnap): Openverse, CC0
 - velas_ritual.jpg (rawpixel), lua_cheia.jpg, livro_antigo.jpg, refletores.jpg (Flickr): Openverse, CC0
 - iluminura_dragao.jpg, floresta_nevoa.jpg, torre_ruina.jpg, montanha_neve.jpg (Flickr); dados_rpg.jpg, armadura.jpg (rawpixel): Openverse, CC0/PDM
+- porteira_campo.jpg, cais_represa.jpg (rawpixel); flor_branca.jpg (StockSnap); estrada_noite.jpg (Flickr): Openverse, CC0

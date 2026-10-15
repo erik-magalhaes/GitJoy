@@ -252,6 +252,11 @@ O nome "Print Vazado" fazia o **TikTok bloquear a conta**, então evite nomes co
   a Cami troca as velas e o feitiço volta para a Íris. Magia pelo celular: mensagem antes de digitar, hora travada em 00:00
   (`dict(hora="00:00")`), áudio `efeito="fantasma"`, diário que escreve sozinho.
 - **A Guilda do Dragão (`rpg/`):** aventura medieval no grupo "A Guilda ⚔️" (Aldric, o Mago, Sir Breno, Kael e Lia). Ele reclamou que dado, "role a iniciativa" e "teste" entregavam o RPG: até o fim não pode ter NENHUM termo de jogo. A revelação é na Parte 5: "Sir Breno mudou o nome para Breno", foto do d20 (`dado(20)`), Aldric vira "Mestre (Gui)", Kael vira "Juninho", a mãe manda dormir e o grupo vira "RPG da 8ª série".
+- **A Chácara 2: A Represa (`chacara2/`, 7 partes, final FECHADO, sem gancho, a pedido dele):** o Seu Dito (POV na Parte 1) acha a
+  mochila do assassino; a Bel manda "ainda falta um"; o Kauã joga a suspeita no Theo; o pai da Lara fala do namorado "K"; a delegada
+  rastreia o celular da Mel até a rua do Kauã, e a pista da 1ª temporada fecha ("tava em São Paulo" e chegou em 20 min). Ele confessa
+  por áudio, a Malu o atrai ao cais com a polícia escondida, o Seu Dito é achado vivo e o Theo conta a verdade sobre a Lara.
+  Se o edge-tts der erro 403, atualize: `pip install -U edge-tts`.
 - **Novelinha de frutas (pausada):** ele quer as "pessoas-fruta" das novelas virais (Moranguete, Abacatudo, Fruit Love Island),
   com corpo humano realista e pele/cabeça de fruta. Esses vídeos são feitos com geradores de vídeo por IA (Veo 3, Kling, ~R$ 90/mês),
   que não temos aqui. As frutas 3D feitas no Blender (`frutas/f3d.py`, `pip install bpy`, Cycles a ~10 s/quadro) foram **rejeitadas**
