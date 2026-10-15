@@ -2,7 +2,7 @@
 """3º comparativo antigo × moderno (14–15/out/2026). Pedido dele: "nesse tema a gente mantém o MESMO design" do
 "Curte esse clássico?" (carrosseis2.py, antes × depois em papel envelhecido, 1080 x 1080), com jogos NOVOS.
 Pares ESCOLHIDOS POR ELE (15/out, "vamos resetar"): Lince → Spot it! Hip, Imagem & Ação → Say my Name e
-Scotland Yard → Convidados Indesejados 1 e 2 ("pode colocar os dois na mesma imagem"; NÃO estão no site).
+Xadrez → Hive (pedido de volta) e Scotland Yard → Convidados Indesejados 1 e 2 ("pode colocar os dois na mesma imagem"; NÃO estão no site).
 Clássicos = fotos da Ri Happy recortadas (cl_*.png); modernos = recortes das fotos do site (hobby-reels/assets/acervo)
 ou caixas oficiais da editora (Convidados Indesejados: Across the Board).
 
@@ -22,11 +22,13 @@ PARES = [  # (clássico, recorte do clássico, recorte(s) do moderno, nome do mo
      "Ache a figura igual: entre duas cartas, sempre tem exatamente uma."),
     ("IMAGEM & AÇÃO", "cl_imagem", ["say_my_name"], "SAY MY NAME", "Say my Name",
      "Adivinhação em equipe com fala, mímica e até cantoria. E cada rodada fica mais difícil."),
+    ("XADREZ", "cl_xadrez", ["hive"], "HIVE", "Hive",  # ele pediu de volta em 15/out
+     "Estratégia a dois, sem tabuleiro: cerque a abelha rainha do adversário."),
     ("SCOTLAND YARD", "cl_scotland", ["convidados1", "convidados2"], "CONVIDADOS INDESEJADOS 1 E 2",
      "Convidados Indesejados",
      "Interrogue suspeitos, procure pistas e troque informações: quem matou, como e por quê?"),
 ]
-CORES = [(219, 39, 119), (37, 99, 235), (13, 148, 136)]
+CORES = [(219, 39, 119), (37, 99, 235), (147, 51, 234), (13, 148, 136)]
 FORA_DO_SITE = {"Convidados Indesejados": "1 A 8 JOGADORES · O 2 É PARA DUPLAS"}  # fichas da Across the Board
 
 
@@ -98,11 +100,15 @@ def capa():
     img.alpha_composite(papel_velho(), (0, 0))
     d = ImageDraw.Draw(img)
     d.text((540, 95), "OS CLÁSSICOS", font=font("AlfaSlabOne-Regular.ttf", 80), fill=(90, 62, 35), anchor="mm")
+    n = len(PARES)
+    passo = 1080 / n
     for j, p in enumerate(PARES):
-        cola(img, sombra(envelhece(caixa(p[1], 190, 290)), 8, (4, 6), 0.3), 190 + j * 350, 290, (-5, 3, -4)[j])
+        x = passo * (j + 0.5)
+        cola(img, sombra(envelhece(caixa(p[1], 170, passo - 40)), 8, (4, 6), 0.3), x, 290, (-5, 3, -4, 4)[j % 4])
     corte_rasgado(img, 455)
     for j, p in enumerate(PARES):
-        cola(img, sombra(moderno(p[2], 300, 300), 12, (6, 12), 0.4), 190 + j * 350, 690, (-6, 3, 5)[j])
+        x = passo * (j + 0.5)
+        cola(img, sombra(moderno(p[2], 280, passo - 20), 12, (6, 12), 0.4), x, 690, (-6, 3, 5, -3)[j % 4])
     cola(img, letreiro("TÊM VERSÕES MODERNAS!", 62, WHITE, NAVY, 10), 470, 945, -2)
     return img
 

@@ -529,7 +529,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **Versão final (escolha dele, 14/out): só 4 pares** — Ludo → Camel Up, Xadrez → Hive, Stop → Tapalavras e Jogo da Memória
   (Super Memória Grow) → ~~Uga Buga~~ **Trio** (ele trocou; o Trio NÃO está no site, ficha da PaperGames: 2 a 6 jogadores,
   15 min; caixa 3D da PaperGames em `feed-posts/assets/trio.png`) (6 telas). Os outros pares ficaram de fora.
-  **15/out — ele "resetou" a lista; versão atual (5 telas):** Lince → Spot it! Hip, Imagem & Ação (Grow) → Say my Name
+  **15/out — ele "resetou" a lista; versão atual (6 telas):** Lince → Spot it! Hip, Imagem & Ação (Grow) → Say my Name, Xadrez → Hive (ele pediu de volta)
   (Buró; era o "da Buró parecido com Imagem & Ação") e Scotland Yard (Grow, "O jogo do Sherlock Holmes") → Convidados
   Indesejados 1 E 2 na MESMA imagem (`moderno()` junta as duas caixas). Convidados = Awkward Guests da Across the Board,
   NÃO está no site: caixa do 1 do Compara Jogos (PNG transparente), do 2 só a da loja da editora (400 px; a do Compara é
