@@ -493,6 +493,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   cartas viradas); Eventos = "convite de festa" (envelope com convite, programação pontilhada, cartõezinhos só com o nome do
   evento (ele não gostou dos BALÕES nem do "Olá! meu evento é…"; "Empresarial", não "Empresa"), cardápio da festa, ficha de RSVP com carimbo "ABC Paulista", ingresso destacável). **Regra: carrossel novo =
   conceito novo**, não só cor nova. Cuidar do contraste: nada amarelo sobre amarelo nem laranja sobre laranja.
+- **Eventos em 1x1 (15/out):** ele pediu o carrossel da monitoria QUADRADO para o post: `feed-sua-vez/eventos_1x1.py`
+  (cópia do eventos.py com W,H = 1080x1080, peças reposicionadas e cartões a 85–88%) → `out/eventos_1x1/01..06.png`.
 - **"Como alugar no site" (`feed-sua-vez/como_alugar.py`, 14/out, pedido da Jéssica; + assinatura a pedido dela):**
   conceito TUTORIAL DE CELULAR: fundo petróleo pontilhado, trilha amarela tracejada passando de uma tela pra outra, selo
   redondo com o nº do passo, celular grande saindo pela borda com a tela do site REDESENHADA a partir das telas reais
