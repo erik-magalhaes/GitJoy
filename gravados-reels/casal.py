@@ -519,7 +519,7 @@ def audio(path):
         w.setsampwidth(2)
         w.setframerate(sr)
         w.writeframes((np.clip(voz, -1, 1) * 32767).astype(np.int16).tobytes())
-    som.build(path, DUR, cues, musica="gameshow", voz=[(vp, 0.0)], fx_ganho=0.35, duck=0.85, musica_ganho=0.09,
+    som.build(path, DUR, cues, musica="gameshow", voz=[(vp, 0.0)], fx_ganho=0.35, duck=0.55, musica_ganho=0.24,
               satura=False)
     r = subprocess.run([ffmpeg(), "-hide_banner", "-i", path, "-af", "loudnorm=I=-15.5:TP=-2:LRA=11:print_format=json",
                         "-f", "null", "-"], capture_output=True, text=True)

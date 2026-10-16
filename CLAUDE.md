@@ -568,5 +568,6 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   o "todos, todos" dela perdia o 1º "todos" num corte → trecho marcado "inteiro" (sem corte interno); pedacinhos sem palavra
   saem. **Caixa do jogo citado** aparece ao lado quando o nome é dito (`CITA`, índice da palavra; 905,760, até 2,6 s): Cat in
   the Box = Galápagos CBX001 (`assets/casal/`), Scotland Yard = foto da Grow; o "Clank" dela = Clank! base (ela não disse qual).
+  Trilha gameshow: ele pediu MAIS alta (estava inaudível) → musica_ganho 0.24, duck 0.55 (~11 dB abaixo da voz).
   **Para conferir cortes:** transcrever a faixa `out/casal_voz.wav` montada e listar o texto de cada plano (achou os 2 erros).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
