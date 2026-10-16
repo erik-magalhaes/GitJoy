@@ -51,21 +51,21 @@ GRADE = {
 VOZ = "highpass=f=80,afftdn=nr=8:nf=-48,equalizer=f=250:t=q:w=1.2:g=-2,equalizer=f=3200:t=q:w=1.4:g=1.5"
 
 # blocos: (rótulo, pergunta, [(fonte, início, fim), ...], veredito). Tempos = trechos das falas no bruto.
-TEASER = [("erik", 107.0, 110.75)]
+TEASER = [("erik", 107.0, 110.75)]  # o tapa na cara: só aqui, em P&B (saiu da pergunta 3 pra não repetir)
 BLOCOS = [  # a pergunta aparece escrita; a leitura dele em voz alta ficou de fora (vídeo mais curto)
     ("1", "QUAL É O JOGO FAVORITO DO OUTRO?",
-     [("erik", 50.3, 52.9), ("erik", 55.45, 57.5), ("jess", 11.7, 21.85)], "nao"),
+     [("erik", 50.3, 52.9), ("erik", 55.45, 57.5), ("jess", 16.75, 22.25)], "nao"),
     ("2", "QUAL JOGO O OUTRO JOGA MELHOR QUE VOCÊ?",
-     [("erik", 81.4, 86.45), ("erik", 87.35, 92.2), ("erik", 93.5, 96.55), ("jess", 25.9, 31.0)], "nao"),
+     [("erik", 81.4, 86.45), ("erik", 87.35, 92.2), ("erik", 93.5, 96.55), ("jess", 25.4, 31.2)], "nao"),
     ("3", "QUAL JOGO JÁ DEU BRIGA ENTRE VOCÊS?",
-     [("erik", 100.9, 104.65), ("erik", 107.0, 110.75), ("erik", 112.45, 113.5), ("jess", 34.45, 38.8)], "sim"),
+     [("erik", 100.9, 104.65), ("erik", 112.45, 113.5), ("jess", 34.45, 39.05)], "sim"),
     ("4", "QUAL A PIOR DESCULPA DO OUTRO QUANDO PERDE?",
      [("erik", 125.8, 128.4), ("erik", 134.3, 136.9), ("erik", 140.75, 141.7), ("erik", 143.55, 147.85),
       ("jess", 43.8, 50.45)], "nao"),
     ("5", "EM QUAL JOGO O OUTRO FICA MAIS COMPETITIVO?",
-     [("erik", 160.25, 170.75), ("jess", 55.3, 65.55)], "nao"),
+     [("erik", 160.25, 170.75), ("jess", 55.3, 60.95), ("jess", 61.1, 65.6, "inteiro")], "nao"),
     ("6", "QUAL FOI O PRIMEIRO JOGO QUE VOCÊS JOGARAM JUNTOS?",
-     [("erik", 175.75, 184.85), ("jess", 70.15, 72.9)], "quase"),
+     [("erik", 175.75, 184.85), ("jess", 70.15, 73.15)], "quase"),
 ]
 ZOOM_JESS = (63.30, 0.22, 1.42)  # (tempo no bruto, duração, escala): o "todos... todos."
 VEREDITO = 0.9                   # segundos do quadro congelado com o carimbo
@@ -113,6 +113,11 @@ def pedacos(src, a, b):
     return res
 
 
+@lru_cache(None)
+def palavras(src):
+    return json.load(open(os.path.join(BR, src + "_palavras.json"), encoding="utf-8"))
+
+
 def nq(t0, d):
     return round((t0 + d) * FPS) - round(t0 * FPS)
 
@@ -122,9 +127,12 @@ def linha():
     tl, t, k = [], 0.0, 0
     marcas = {}
 
-    def poe(src, a, b, tipo, blk):
+    def poe(src, a, b, tipo, blk, inteiro=False):
         nonlocal t, k
-        for ta, tb in pedacos(src, a, b):
+        for ta, tb in ([(a, b)] if inteiro else pedacos(src, a, b)):
+            if not inteiro and tb - ta < 0.9 and not any(ta <= (w["a"] + min(w["b"], w["a"] + 0.6)) / 2 < tb
+                                                         for w in palavras(src)):
+                continue  # pedacinho sem palavra (respiro, barulho do microfone)
             n = nq(t, tb - ta)
             tl.append(dict(t0=t, n=n, src=src, a=ta, tipo=tipo, blk=blk, punch=k % 2))
             t += n / FPS
@@ -135,8 +143,8 @@ def linha():
     marcas["teaser_fim"] = t
     for j, (rot, perg, partes, ver) in enumerate(BLOCOS):
         marcas[f"b{j}"] = t
-        for src, a, b in partes:
-            poe(src, a, b, "fala", j)
+        for parte in partes:
+            poe(*parte[:3], "fala", j, len(parte) > 3)
         n = nq(t, VEREDITO)
         tl.append(dict(t0=t, n=n, src=None, a=0, tipo="veredito", blk=j, punch=0))
         marcas[f"v{j}"] = t
@@ -160,11 +168,6 @@ def plano_em(t):
 
 
 # ---------------------------------------------------------------- legendas palavra a palavra
-@lru_cache(None)
-def palavras(src):
-    return json.load(open(os.path.join(BR, src + "_palavras.json"), encoding="utf-8"))
-
-
 def subs():
     pal = []
     for p in TL:
@@ -196,6 +199,55 @@ def subs():
 
 
 SUBS = subs()
+
+# jogo citado → caixa na tela (índice da palavra no palavras.json de cada um)
+CITA = {"erik": {30: "wingspan", 44: "harmonies", 87: "clank_catacombs", 113: "ticket_to_ride", 174: "the_resistance",
+                 286: "dracula_vs_van_helsing", 296: "cat_in_the_box", 319: "dixit", 331: "scotland_yard"},
+        "jess": {5: "clank_a_deck_building_adventure", 13: "ticket_to_ride", 21: "sea_salt_paper", 31: "wingspan",
+                 45: "the_resistance", 72: "ticket_to_ride", 101: "dixit"}}
+CASAL = os.path.join(ROOT, "assets", "casal")
+
+
+def mencoes():
+    out = []
+    for p in TL:
+        if p["src"] is None:
+            continue
+        a, b = p["a"], p["a"] + p["n"] / FPS
+        for i, nome in CITA[p["src"]].items():
+            w = palavras(p["src"])[i]
+            if a <= w["a"] < b:
+                out.append((p["t0"] + w["a"] - a, nome, p["blk"]))
+    return sorted(out)
+
+
+MENCOES = mencoes()
+
+
+@lru_cache(None)
+def caixa_cit(nome):
+    pasta = CASAL if os.path.exists(os.path.join(CASAL, nome + ".png")) else CAIXAS
+    im = Image.open(os.path.join(pasta, nome + ".png")).convert("RGBA")
+    im = im.crop(im.getchannel("A").getbbox())
+    h = 270
+    w = int(im.width * h / im.height)
+    if w > 330:
+        w, h = 330, int(im.height * 330 / im.width)
+    return sombra(im.resize((w, h), Image.LANCZOS), 16, (0, 14), 0.55)
+
+
+def caixa_citada(img, t):
+    """A caixa aparece quando o nome é dito e fica até 2,6 s (ou até o próximo jogo do mesmo bloco)."""
+    for k, (t0, nome, blk) in enumerate(MENCOES):
+        fim = t0 + 2.6
+        if k + 1 < len(MENCOES) and MENCOES[k + 1][2] == blk:
+            fim = min(fim, MENCOES[k + 1][0])
+        if t0 - 0.1 <= t < fim:
+            sc = pop(t, t0 - 0.1, 0.3)
+            if fim - t < 0.15:
+                sc *= max(0.0, (fim - t) / 0.15)
+            cola(img, caixa_cit(nome), 905, 760, 5 if k % 2 else -5, sc)
+            return
 
 
 @lru_cache(None)
@@ -351,6 +403,8 @@ def overlay(t, com_legenda):
             cola(img, nome_tag(p["src"]), 540, 945, -3, pop(t, ini))
         else:
             cola(img, carimbo(BLOCOS[j][3]), 540, 1150, -6, pop(t, M[f"v{j}"], 0.3))
+    if p is not None and p["src"]:
+        caixa_citada(img, t)
     if com_legenda and (p is None or p["src"]):
         legenda(img, t)
     return img
@@ -402,6 +456,10 @@ def quadros():
                 yield ultimo
             continue
         for k, fr in enumerate(ler(p["src"], p["a"], p["n"])):
+            if p["tipo"] == "teaser":  # flash-forward em preto e branco (pedido dele)
+                g = cv2.cvtColor(fr, cv2.COLOR_RGB2GRAY)
+                g = cv2.convertScaleAbs(g, alpha=1.12, beta=-12)
+                fr = np.repeat(g[..., None], 3, 2)
             z = zoom_jess(p, k)
             s = z if z else (1.07 if p["punch"] else 1.0)
             fr = escala(fr, s, 0.18 if p["src"] == "jess" else 0.2)
@@ -521,7 +579,7 @@ def main():
         return
     wav = os.path.join(OUT, "casal.wav")
     audio(wav)
-    render([(os.path.join(OUT, "casal_com_legenda.mp4"), True), (os.path.join(OUT, "casal_sem_legenda.mp4"), False)], wav)
+    render([(os.path.join(OUT, "casal_com_legenda.mp4"), True)], wav)  # ele pediu só a versão com legenda
 
 
 if __name__ == "__main__":

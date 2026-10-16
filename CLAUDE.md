@@ -563,5 +563,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   tapa → pergunta escrita num painel escuro (a leitura dele em voz alta saiu, pra encurtar) → ERIK → JÉSSICA → carimbo BATEU/NÃO
   BATEU/QUASE (quadro congelado 0,9 s, ding/buzz) → placar → "E vocês? marca o seu par" → tela final com 8 caixas. Pausas > 0,3 s
   viram corte seco (energia), alternando punch-in 7%. Zoom 1,42 no "todos... todos." (bruto 63,3 s). Luz: ele segura os brancos,
-  ela sobe os médios. ~103 s.
+  ela sobe os médios. ~103 s. **2ª rodada (pedido dele):** só a versão COM legenda; teaser do tapa em PRETO E BRANCO e o
+  tapa saiu da pergunta 3 (estava repetido); na pergunta 1 ela fala "o meu jogo favorito é..." DUAS vezes → só a 2ª (16,75 s);
+  o "todos, todos" dela perdia o 1º "todos" num corte → trecho marcado "inteiro" (sem corte interno); pedacinhos sem palavra
+  saem. **Caixa do jogo citado** aparece ao lado quando o nome é dito (`CITA`, índice da palavra; 905,760, até 2,6 s): Cat in
+  the Box = Galápagos CBX001 (`assets/casal/`), Scotland Yard = foto da Grow; o "Clank" dela = Clank! base (ela não disse qual).
+  **Para conferir cortes:** transcrever a faixa `out/casal_voz.wav` montada e listar o texto de cada plano (achou os 2 erros).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
