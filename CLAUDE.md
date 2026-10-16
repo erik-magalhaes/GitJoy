@@ -553,6 +553,6 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   "Final Girl"). Nome diferente da caixa: "Coup: Inquisition" (a foto é o Coup 2ª ed. com A Reforma) e "Flip 7: A Vingança"
   (no 5-4-3-2-1 ele disse Flip 7). `comum/dados/acervo_site.json` ainda tem os 161 de 12/out.
 - **"Quanto você conhece o outro?" (16/out, ideia dele):** Erik e Jéssica respondem as mesmas perguntas sem ouvir a
-  resposta do outro ("eu acho que o favorito dela é X, e o meu é Y"). Mandei 15 perguntas de jogo/casal e sugeri gravar
+  resposta do outro ("eu acho que o favorito dela é X, e o meu é Y"). Mandei 15 perguntas, ele achou muito → ficaram 6 (favorito, joga melhor, deu briga, pior desculpa ao perder, mais competitivo, primeiro jogo juntos). Sugeri gravar
   cada um SEPARADO (mesma luz, mesmo enquadramento), para eu montar em tela dividida com o placar de acertos. Esperando a gravação.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
