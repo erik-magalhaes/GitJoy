@@ -554,5 +554,14 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   (no 5-4-3-2-1 ele disse Flip 7). `comum/dados/acervo_site.json` ainda tem os 161 de 12/out.
 - **"Quanto você conhece o outro?" (16/out, ideia dele):** Erik e Jéssica respondem as mesmas perguntas sem ouvir a
   resposta do outro ("eu acho que o favorito dela é X, e o meu é Y"). Mandei 15 perguntas, ele achou muito → ficaram 6 (favorito, joga melhor, deu briga, pior desculpa ao perder, mais competitivo, primeiro jogo juntos). Sugeri gravar
-  cada um SEPARADO (mesma luz, mesmo enquadramento), para eu montar em tela dividida com o placar de acertos. **16/out:** subiram 2 arquivos `20261016_154151.mp4` no Drive de brutos, mas são IDÊNTICOS (mesmo md5) = só o da Jéssica (1:39, segurando o UNO Stacko como microfone; em `brutos/casal/casal.mp4` + `palavras.json`). Ela respondeu 5 (sem "primeiro jogo"): favorito dela Clank, dele Ticket to Ride; ela joga melhor Sea Salt & Paper, ele Wingspan; briga feia = The Resistance; desculpa dele = "ela roubou"; competitivo = "todos, todos" (~75–81 s, ZOOM no rosto dela, pedido dela). Pedidos: correção leve de luz e de áudio. Esperando o vídeo do Erik.
+  cada um SEPARADO (mesma luz, mesmo enquadramento), para eu montar em tela dividida com o placar de acertos. **16/out:** subiram 2 arquivos `20261016_154151.mp4` no Drive de brutos, mas são IDÊNTICOS (mesmo md5) = só o da Jéssica (1:39, segurando o UNO Stacko como microfone; em `brutos/casal/casal.mp4` + `palavras.json`). Ela respondeu 5 (sem "primeiro jogo"): favorito dela Clank, dele Ticket to Ride; ela joga melhor Sea Salt & Paper, ele Wingspan; briga feia = The Resistance; desculpa dele = "ela roubou"; competitivo = "todos, todos" (~75–81 s, ZOOM no rosto dela, pedido dela). Pedidos: correção leve de luz e de áudio. **Editado em `gravados-reels/casal.py`** (16/out): brutos certos `erik.mp4` (153506, 3:11; ele lê
+  as perguntas) e `jess.mp4` (171307, 2ª gravação dela, 1:19). Respostas dele: favorito Wingspan, acha que o dela é Harmonies; ele
+  melhor em Ticket to Ride, ela em Clank Catacombs ("Tio Patinhas"); briga = The Resistance ("menti tanto que levei um tapa na
+  cara"); desculpa dela = "não ensinei tudo", a dele = ela é Tio Patinhas; competitivo: ela Drácula vs Van Helsing, ele Cat in the
+  Box; 1º jogo juntos Scotland Yard (1º moderno Dixit). Dela: Clank / Ticket to Ride; Sea Salt & Paper / Wingspan; The Resistance;
+  "o outro roubou, é clássico"; ela Ticket to Ride, ele "todos, todos"; Dixit. Placar 1 de 6 (+ "quase" no 6). Montagem: teaser do
+  tapa → pergunta escrita num painel escuro (a leitura dele em voz alta saiu, pra encurtar) → ERIK → JÉSSICA → carimbo BATEU/NÃO
+  BATEU/QUASE (quadro congelado 0,9 s, ding/buzz) → placar → "E vocês? marca o seu par" → tela final com 8 caixas. Pausas > 0,3 s
+  viram corte seco (energia), alternando punch-in 7%. Zoom 1,42 no "todos... todos." (bruto 63,3 s). Luz: ele segura os brancos,
+  ela sobe os médios. ~103 s.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
