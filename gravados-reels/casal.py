@@ -51,14 +51,14 @@ GRADE = {
 VOZ = "highpass=f=80,afftdn=nr=8:nf=-48,equalizer=f=250:t=q:w=1.2:g=-2,equalizer=f=3200:t=q:w=1.4:g=1.5"
 
 # blocos: (rótulo, pergunta, [(fonte, início, fim), ...], veredito). Tempos = trechos das falas no bruto.
-TEASER = [("erik", 107.0, 110.75)]  # o tapa na cara: só aqui, em P&B (saiu da pergunta 3 pra não repetir)
+TEASER = [("erik", 107.0, 110.75)]  # o tapa na cara em P&B ("bastidores"); repete em cores na pergunta 3 para dar o contexto (pedido dele)
 BLOCOS = [  # a pergunta aparece escrita; a leitura dele em voz alta ficou de fora (vídeo mais curto)
     ("1", "QUAL É O JOGO FAVORITO DO OUTRO?",
      [("erik", 50.3, 52.9), ("erik", 55.45, 57.5), ("jess", 16.75, 22.25)], "nao"),
     ("2", "QUAL JOGO O OUTRO JOGA MELHOR QUE VOCÊ?",
      [("erik", 81.4, 86.45), ("erik", 87.35, 92.2), ("erik", 93.5, 96.55), ("jess", 25.4, 31.2)], "nao"),
     ("3", "QUAL JOGO JÁ DEU BRIGA ENTRE VOCÊS?",
-     [("erik", 100.9, 104.65), ("erik", 112.45, 113.5), ("jess", 34.45, 39.05)], "sim"),
+     [("erik", 100.9, 104.65), ("erik", 107.0, 110.75), ("erik", 112.45, 113.5), ("jess", 34.45, 39.05)], "sim"),
     ("4", "QUAL A PIOR DESCULPA DO OUTRO QUANDO PERDE?",
      [("erik", 125.8, 128.4), ("erik", 134.3, 136.9), ("erik", 140.75, 141.7), ("erik", 143.55, 147.85),
       ("jess", 43.8, 50.45)], "nao"),
@@ -106,7 +106,7 @@ def pedacos(src, a, b):
     out.append((ini, ant))
     res = []
     for s, f in out:
-        ta, tb = a + s * 0.02 - PAD, a + (f + 1) * 0.02 + PAD + 0.04
+        ta, tb = a + s * 0.02 - PAD, a + (f + 1) * 0.02 + PAD + 0.14  # rabo das palavras é fraco ("Ride" ficava cortado)
         ta, tb = max(a, ta), min(b, tb)
         if tb - ta > 0.15:
             res.append((ta, tb))
