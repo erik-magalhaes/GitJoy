@@ -472,6 +472,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
 - **Cupons:** JOGAMAUA5 (evento Joga Mauá, 5% na locação) e **JOGAABC5 = 5% de desconto para quem mora no ABC** ("Joga ABC 5";
   eu tinha escrito JOGABC5 e ele corrigiu) (12/out). Story `promo/story_cupom_abc.py`: visual da loja, "MORA NO ABC? / 5% OFF / na locação dos seus jogos!",
   ticket com o cupom, selo "VÁLIDO ATÉ 15/10", "Reserve pelo link:" + seta e espaço livre (y ~1510–1610) para o adesivo de link do Instagram.
+  **Últimas horas** (`promo/story_cupom_abc_ultimas.py`, 15/out à noite): "ÚLTIMAS HORAS!" + relógio, faixa vermelha
+  "O CUPOM ACABA HOJE!", ticket JOGAABC5, "VÁLIDO SÓ ATÉ HOJE, 15/10" e espaço do adesivo de link (y ~1580–1640).
 - **Assinaturas (`assinatura-reels/`, 13/out, pedido da Jéssica):** `carrossel.py` (6 telas 1080x1350: capa, como funciona,
   Silver, Gold, Platinum, assine), `story.py` (1080x1920, planos empilhados + espaço para o adesivo de link) e `video.py`
   (Reels 32 s, sem narração, com e sem trilha). Caixas OFICIAIS por categoria em `estilo.JOGOS`. Não inventei "plano mais
