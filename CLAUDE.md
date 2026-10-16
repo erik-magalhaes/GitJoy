@@ -579,7 +579,13 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   branco): caixa 3D, tabuleiro montado com torres + leque de cartas de deus, verso. Recortes em `assets/fotos/zatu_{1,2,3}.png`.
   O manual oficial Spin Master (PDF no Salsify, `assets/orig/sm/manual_sm.pdf`) tem blocos/cúpula/peões/deuses, mas as imagens
   são PEQUENAS (70–400 px): não servem para vídeo. `conceitos2.py` → out/conceitos2.jpg: gancho (tabuleiro da foto no mar ao
-  pôr do sol), regra (o clipe c3 deles com luz dourada), deuses (leque de cartas da foto). Esperando o ok. Regras conferidas:
+  pôr do sol), regra (o clipe c3 deles com luz dourada), deuses (leque de cartas da foto). Ele perguntou "não dá pra fazer que nem o Vudú/Arquitetos?" → **STOP MOTION com as peças
+  OFICIAIS do manual**: os renders 3D do manual (andar 1 `p1_768`, 2 `p1_788`, 3 `p1_804`, cúpula `p1_820`, construtor azul
+  `p1_796`, cinza `p1_639`) ampliados 4x por IA (`ampliar.py`, Real-ESRGAN x4 em ONNX/CPU, modelo huggingface
+  Meeperomi/RealESRGAN_x4-onnx no scratchpad) → `assets/pecas/`. Ficam limpos e todos no MESMO ângulo. `cena.py` monta a cena:
+  perspectiva medida na base do andar 1 (A=(−125,−72), B=(220,−32) px), empilhamento pelo diagrama "A Complete Tower" do manual
+  (pt × 5,6), tabuleiro 5x5 de grama com linhas brancas desenhado na mesma perspectiva (o do manual tinha peões e não limpou
+  bem com inpaint). Teste: `out/teste_stopmotion.jpg` (pôr do sol, luz quente nas peças). Esperando o ok dele. Regras conferidas:
   2 construtores; move 1 casa (sobe no máx. 1 andar, desce quanto quiser) e o MESMO constrói 1 nível vizinho; cúpula fecha;
   vence quem SOBE ao 3º andar; perde quem não consegue mover+construir; deuses quebram uma regra (Apolo troca, Atlas cúpula
   em qualquer nível).
