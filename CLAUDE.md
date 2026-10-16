@@ -570,4 +570,12 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   the Box = Galápagos CBX001 (`assets/casal/`), Scotland Yard = foto da Grow; o "Clank" dela = Clank! base (ela não disse qual).
   Trilha gameshow: ele pediu MAIS alta (estava inaudível) → musica_ganho 0.24, duck 0.55 (~11 dB abaixo da voz).
   **Para conferir cortes:** transcrever a faixa `out/casal_voz.wav` montada e listar o texto de cada plano (achou os 2 erros).
+- **Santorini (`santorini-reels/`, 16/out, começando):** no site: R$ 30, 2–4 jogadores, 20 min. A foto do site é a edição
+  Spin Master 2024 ("Build like a mortal..."); a Roxley (Shopify `roxley.com/products/santorini.json`, imagens oficiais 1284 px
+  em `assets/orig/`, fora do git) tem a Pantheon/2ª ed.; no clipe dele (`byebye-reels/referencia/clipes/c3.mp4`) há torres
+  brancas, cúpulas azuis e construtores cinza. **Perguntei qual caixa eles têm e se podem filmar as peças** (≈10 clipes: mover,
+  construir 1-2-3-cúpula, subir no 3º = vitória, cartas de deus). Sem filmagem: ilha isométrica desenhada. Regras conferidas:
+  2 construtores; move 1 casa (sobe no máx. 1 andar, desce quanto quiser) e o MESMO constrói 1 nível vizinho; cúpula fecha;
+  vence quem SOBE ao 3º andar; perde quem não consegue mover+construir; deuses quebram uma regra (Apolo troca, Atlas cúpula
+  em qualquer nível).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
