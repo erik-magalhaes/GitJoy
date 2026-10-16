@@ -574,7 +574,12 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Spin Master 2024 ("Build like a mortal..."); a Roxley (Shopify `roxley.com/products/santorini.json`, imagens oficiais 1284 px
   em `assets/orig/`, fora do git) tem a Pantheon/2ª ed.; no clipe dele (`byebye-reels/referencia/clipes/c3.mp4`) há torres
   brancas, cúpulas azuis e construtores cinza. **A caixa deles é a do SITE (Spin Master 2024): usar `hobby-reels/assets/acervo/santorini.png` (recorte da foto do site), NÃO as da Roxley.** Perguntei se podem filmar as peças (≈10 clipes: mover,
-  construir 1-2-3-cúpula, subir no 3º = vitória, cartas de deus). **Ele NÃO consegue filmar** → tudo desenhado: `ilha.py` (ilha isométrica 5x5 em PIL: andares cada vez mais estreitos, cúpula azul, peão desenhado) e `conceitos.py` → out/conceitos.jpg com 3 visuais: 1 maquete ao sol, 2 pôr do sol épico (Cinzel dourado "Construa como um mortal / Vença como um deus"), 3 vista de cima (manual animado). Esperando ele escolher. Regras conferidas:
+  construir 1-2-3-cúpula, subir no 3º = vitória, cartas de deus). **Ele NÃO consegue filmar** → tudo desenhado: `ilha.py` (ilha isométrica 5x5 em PIL: andares cada vez mais estreitos, cúpula azul, peão desenhado) e `conceitos.py` → out/conceitos.jpg com 3 visuais: 1 maquete ao sol, 2 pôr do sol épico (Cinzel dourado "Construa como um mortal / Vença como um deus"), 3 vista de cima (manual animado). **Ele escolheu o PÔR DO SOL mas NÃO gostou das peças desenhadas: quer FOTOS do jogo.**
+  Fotos oficiais da edição dele (Spin Master) na **Zatu** (Shopify `zatu.com/products/santorini-spinmaster.json`, 4320 px, fundo
+  branco): caixa 3D, tabuleiro montado com torres + leque de cartas de deus, verso. Recortes em `assets/fotos/zatu_{1,2,3}.png`.
+  O manual oficial Spin Master (PDF no Salsify, `assets/orig/sm/manual_sm.pdf`) tem blocos/cúpula/peões/deuses, mas as imagens
+  são PEQUENAS (70–400 px): não servem para vídeo. `conceitos2.py` → out/conceitos2.jpg: gancho (tabuleiro da foto no mar ao
+  pôr do sol), regra (o clipe c3 deles com luz dourada), deuses (leque de cartas da foto). Esperando o ok. Regras conferidas:
   2 construtores; move 1 casa (sobe no máx. 1 andar, desce quanto quiser) e o MESMO constrói 1 nível vizinho; cúpula fecha;
   vence quem SOBE ao 3º andar; perde quem não consegue mover+construir; deuses quebram uma regra (Apolo troca, Atlas cúpula
   em qualquer nível).
