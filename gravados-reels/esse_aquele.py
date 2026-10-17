@@ -67,13 +67,47 @@ ANTES, DEPOIS = 0.18, 0.28
 CAMPEAO, COMENTA, FIM = 2.6, 2.4, 3.6
 
 
+@lru_cache(None)
+def palavras():
+    return json.load(open(BRUTO.replace(".mp4", "").replace("20261017_", "") + "_palavras.json", encoding="utf-8"))
+
+
+@lru_cache(None)
+def energia():
+    w = wave.open(BRUTO.replace(".mp4", "").replace("20261017_", "") + ".wav")
+    x = np.frombuffer(w.readframes(w.getnframes()), np.int16).astype(np.float64) / 32768
+    q = int(0.02 * w.getframerate())
+    n = len(x) // q
+    return 20 * np.log10(np.sqrt((x[:n * q].reshape(n, q) ** 2).mean(1)) + 1e-9)
+
+
+def inicio_voz(q, a, b):
+    """Quando ELA começa a falar de verdade (energia), depois do fim da pergunta. O Whisper às vezes adianta a resposta
+    (até 0,7 s): o cartão escolhido acendia antes de ela responder (ele: "tá dando spoiler")."""
+    e = energia()
+    fim_perg = max(w["e"] for w in palavras() if q <= w["s"] < a - 0.05)
+    k, fim = int(fim_perg / 0.02), int(b / 0.02)
+    while k < fim and not (e[k:k + 2] < -55).all():  # primeiro o silêncio depois da pergunta
+        k += 1
+    while k < fim and not (e[k:k + 5] > -40).all():  # depois 0,1 s seguidos de voz (ignora respiro/estalo)
+        k += 1
+    t = max(a, k * 0.02) if k < fim else a
+    return VOZ_MAO.get(q, t)
+
+
+VOZ_MAO = {35.60: 38.38}  # conferido na energia: o "Clank." dela começa depois de um barulho
+
+
+ESPERA = 0.35  # o cartão escolhido só reage depois que ela já começou a dizer o nome
+
+
 def linha():
     n0 = round((INTRO[1] - INTRO[0]) * FPS)
     tl, t = [dict(t0=0.0, n=n0, src=INTRO[0], q=None, a=None, esq=None, dir=None, venc=None)], n0 / FPS
     for q, a, b, esq, dir_, venc in RODADAS:
         a0, b0 = q - ANTES, b + DEPOIS
         n = round((t + b0 - a0) * FPS) - round(t * FPS)
-        tl.append(dict(t0=t, n=n, src=a0, q=q, a=a, esq=esq, dir=dir_, venc=venc))
+        tl.append(dict(t0=t, n=n, src=a0, q=q, a=a, voz=inicio_voz(q, a, b), esq=esq, dir=dir_, venc=venc))
         t += n / FPS
     return tl, t
 
@@ -147,7 +181,7 @@ XE, XD, YC, CW = 285, 795, 1420, 380
 
 def duelo(img, t, k, r):
     lt = t - r["t0"]
-    ta = out_t(r, r["a"]) - r["t0"]  # resposta (tempo dentro da rodada)
+    ta = out_t(r, r["voz"] + ESPERA) - r["t0"]  # reação ao que ela respondeu (tempo dentro da rodada)
     dur = r["n"] / FPS
     prev = TL[k - 1] if TL[k - 1]["venc"] else None
     k = k - 1  # k = 0 é a primeira rodada (TL[0] é a chegada)
@@ -241,11 +275,6 @@ def overlay(t):
 
 
 # ---------------------------------------------------------------- legenda palavra a palavra
-@lru_cache(None)
-def palavras():
-    return json.load(open(BRUTO.replace(".mp4", "").replace("20261017_", "") + "_palavras.json", encoding="utf-8"))
-
-
 def subs():
     pal = []
     for r in TL:
@@ -253,8 +282,11 @@ def subs():
         for w in palavras():
             if a <= (w["s"] + w["e"]) / 2 < b:  # pelo meio da palavra (as rodadas se encostam: não repetir palavra)
                 txt = CORRIGE.get(round(w["s"], 2), w["w"])
+                ws_ = w["s"]
+                if r.get("voz") and w["s"] >= r["a"] - 0.01:  # resposta: a legenda não pode chegar antes da voz
+                    ws_ = max(ws_, r["voz"])
                 if txt:
-                    pal.append((txt, r["t0"] + max(0.0, w["s"] - a), r["t0"] + min(b, w["e"]) - a))
+                    pal.append((txt, r["t0"] + max(0.0, ws_ - a), r["t0"] + max(min(b, w["e"]), ws_ + 0.25) - a))
     grupos, cur = [], []
     for w in pal:
         if cur and w[1] - cur[-1][2] > 0.5:
@@ -380,8 +412,8 @@ def audio(path):
         i = int(round(r["t0"] * sr))
         voz[i:i + len(x)] += x
         if r["a"] is not None:
-            cues += [(r["t0"] + 0.05, "whoosh", 0.3), (out_t(r, r["a"]), "ding", 0.45),
-                     (out_t(r, r["a"]) + 0.3, "boing", 0.25)]
+            cues += [(r["t0"] + 0.05, "whoosh", 0.3), (out_t(r, r["voz"] + ESPERA), "ding", 0.45),
+                     (out_t(r, r["voz"] + ESPERA) + 0.3, "boing", 0.25)]
     cues += [(T_CAMP, "reveal", 0.6), (T_CAMP + 0.2, "plateia", 0.4), (T_COM, "whoosh", 0.4), (T_FIM, "chime", 0.5)]
     vp = os.path.join(OUT, "esse_voz.wav")
     with wave.open(vp, "wb") as w:

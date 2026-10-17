@@ -623,6 +623,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
     campeão Clank! Catacombs, "E você, ficava com qual?", tela final com os 12. Ganho fixo separado para a pergunta (ele) e
     a resposta (ela). Whisper: "Espírito" virou **Splito** (CONFERIR com eles), "Necoagima" = Nekojima, "Comodados
     Edejejados" = Convidados Indesejados. Saiu o "Clank Catacombs?"/"Clank." (só confirmação). 2 passadas a 3700k = 28 MB.
+    **2ª rodada (pedido dele):** começa com ele CHEGANDO nela ("Amor, vamos fazer um esse ou aquele?" = gancho), saiu a
+    última pergunta (Nekojima repetido), legenda palavra a palavra acima dos cartões. **3ª:** "tá dando spoiler": o cartão
+    acendia antes da resposta (Whisper adianta até 0,7 s) → a reação agora sai do INÍCIO REAL da voz dela (energia, depois do
+    silêncio que segue a pergunta) + 0,35 s; a legenda da resposta também espera a voz. **Regra: reveal pela energia, não pelo Whisper.**
   - `gravados-reels/indica.py` ("Me diz o que você gosta de fazer que eu te indico um jogo", 133810 + cenas 134947 Art
     Society, 135233 Passaporte, 135550 Critter, 135716 Canvas, 140020 Unlock): última tentativa boa de cada fala, MENOS o
     Canvas (a última tem 3 s estranhos no "artística"; usei 114,4–121,5). Cena do Sushi Go veio depois (140828). O
