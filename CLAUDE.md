@@ -625,7 +625,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
     Edejejados" = Convidados Indesejados. Saiu o "Clank Catacombs?"/"Clank." (só confirmação). 2 passadas a 3700k = 28 MB.
   - `gravados-reels/indica.py` ("Me diz o que você gosta de fazer que eu te indico um jogo", 133810 + cenas 134947 Art
     Society, 135233 Passaporte, 135550 Critter, 135716 Canvas, 140020 Unlock): última tentativa boa de cada fala, MENOS o
-    Canvas (a última tem 3 s estranhos no "artística"; usei 114,4–121,5). Sushi Go sem cena (foto do site grande). O
+    Canvas (a última tem 3 s estranhos no "artística"; usei 114,4–121,5). Cena do Sushi Go veio depois (140828). O
     microfone dele CORTA o silêncio (−89 dB): o Whisper adianta o começo das falas ~0,6 s, então a legenda pega palavra
     que SOBREPÕE o plano. 58 s.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.

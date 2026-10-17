@@ -2,7 +2,7 @@
 """Reels "ME DIZ O QUE VOCÊ GOSTA DE FAZER QUE EU TE INDICO UM JOGO" (17/out/2026, gravado pelo Erik).
 Brutos (fora do git) em brutos/out17/: 20261017_133810.mp4 (ele falando, 5 min, várias tentativas; uso a ÚLTIMA boa
 de cada fala) e as cenas na mesa: Art Society (134947), Passaporte Mundo (135233), Critter Kitchen (135550), Canvas
-(135716) e Unlock! (140020). O Sushi Go! não tem cena: fica o rosto dele com a foto do site grande.
+(135716) e Unlock! (140020) e Sushi Go! (140828, ele mandou depois).
 Edição (lições do criancas2): rosto livre; capa do SITE pequena no canto quando ele FALA o nome; o rosto só até ~0,9 s
 depois do nome e daí a cena do jogo em tela cheia com nome + jogadores/tempo (do site); legenda palavra a palavra;
 pausas longas viram corte seco; "comenta" e CTA com ele falando; tela final com os 6 jogos.
@@ -51,7 +51,7 @@ FALAS = [
 CANVAS_T = 116.98
 JOGOS = {  # foto do site, nome, linha do site, gosto, cena na mesa (arquivo, início), tempo do nome no bruto
     "critter": ("critter_kitchen", "Critter Kitchen", "1 a 5 jogadores · 60 min", "COZINHAR", ("135550", 0.3), 37.46),
-    "sushi": ("sushi_go", "Sushi Go!", "2 a 5 jogadores · 15 min", "COMER", None, 62.88),
+    "sushi": ("sushi_go", "Sushi Go!", "2 a 5 jogadores · 15 min", "COMER", ("140828", 0.2), 62.88),
     "canvas": ("canvas", "Canvas", "1 a 5 jogadores · 30 min", "PINTAR", ("135716", 0.3), CANVAS_T),
     "art": ("art_society", "Art Society", "2 a 4 jogadores · 60 min", "ARTE", ("134947", 0.2), 160.18),
     "passaporte": ("passaporte_mundo", "Passaporte Mundo", "1 a 6 jogadores · 45 min", "VIAJAR", ("135233", 0.2), 181.48),
