@@ -106,8 +106,12 @@ def linha():
     tl, t = [dict(t0=0.0, n=n0, src=INTRO[0], q=None, a=None, esq=None, dir=None, venc=None)], n0 / FPS
     for q, a, b, esq, dir_, venc in RODADAS:
         a0, b0 = q - ANTES, b + DEPOIS
-        n = round((t + b0 - a0) * FPS) - round(t * FPS)
-        tl.append(dict(t0=t, n=n, src=a0, q=q, a=a, voz=inicio_voz(q, a, b), esq=esq, dir=dir_, venc=venc))
+        voz = inicio_voz(q, a, b)
+        n_clip = round((t + b0 - a0) * FPS) - round(t * FPS)
+        # se a resposta vem no finzinho, congela o último quadro até a animação terminar (X + queda = 0,5 s)
+        falta = max(0.0, (voz + ESPERA + 0.55) - b0)
+        n = n_clip + round(falta * FPS)
+        tl.append(dict(t0=t, n=n, n_clip=n_clip, src=a0, q=q, a=a, voz=voz, esq=esq, dir=dir_, venc=venc))
         t += n / FPS
     return tl, t
 
@@ -189,7 +193,8 @@ def duelo(img, t, k, r):
     x_esq = XE
     if prev and prev["venc"] == prev["dir"]:
         x_esq = lerp(XD, XE, ease(seg(lt, 0.0, 0.3)))
-    ent = out_back(seg(lt, 0.05, 0.4)) if k else out_back(seg(lt, 0.0, 0.35))
+    desliza = bool(prev and prev["venc"] == prev["dir"])  # o vencedor vem da direita: o desafiante só entra depois
+    ent = out_back(seg(lt, 0.3, 0.6)) if desliza else out_back(seg(lt, 0.05, 0.4)) if k else out_back(seg(lt, 0.0, 0.35))
     x_dir = lerp(W + 300, XD, min(1.0, ent))
     escolha = ease(seg(lt, ta, ta + 0.25))
     for lado, nome, x in (("esq", r["esq"], x_esq), ("dir", r["dir"], x_dir)):
@@ -203,7 +208,7 @@ def duelo(img, t, k, r):
             if escolha > 0.01:
                 cola(img, coroa(150), x, YC - 225 - 12 * escolha, rot=-8, sc=escolha)
         else:
-            cai = ease(seg(lt, ta + 0.25, min(dur, ta + 0.7)))
+            cai = ease(seg(lt, ta + 0.2, min(dur, ta + 0.5)))
             cola(img, cartao(nome, CW), x, YC + 500 * cai, rot=10 * cai * (1 if lado == "dir" else -1),
                  alpha=1 - 0.6 * cai)
             if cai < 0.5:
@@ -278,7 +283,7 @@ def overlay(t):
 def subs():
     pal = []
     for r in TL:
-        a, b = r["src"], r["src"] + r["n"] / FPS
+        a, b = r["src"], r["src"] + r.get("n_clip", r["n"]) / FPS
         for w in palavras():
             if a <= (w["s"] + w["e"]) / 2 < b:  # pelo meio da palavra (as rodadas se encostam: não repetir palavra)
                 txt = CORRIGE.get(round(w["s"], 2), w["w"])
@@ -362,7 +367,10 @@ def ler(a, n):
 def quadros():
     ultimo = None
     for r in TL:
-        for fr in ler(r["src"], r["n"]):
+        for fr in ler(r["src"], r.get("n_clip", r["n"])):
+            ultimo = fr
+            yield fr
+        for _ in range(r["n"] - r.get("n_clip", r["n"])):  # congelado (a animação da escolha termina)
             ultimo = fr
             yield fr
     fundo = Image.fromarray(ultimo).filter(ImageFilter.GaussianBlur(22))
@@ -392,7 +400,7 @@ def audio(path):
     sr = 44100
     pedacos = []
     for r in TL:
-        d = r["n"] / FPS
+        d = r.get("n_clip", r["n"]) / FPS
         x = ler_audio(r["src"], d)
         corte = len(x) if r["a"] is None else int((r["a"] - 0.12 - r["src"]) * sr)  # a chegada é só ele
         pedacos.append((r, x, corte))
