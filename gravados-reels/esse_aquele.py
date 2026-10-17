@@ -3,6 +3,7 @@
 O Erik filma e pergunta ("Luxor ou Nekojima?"), ela responde; quem ganha FICA e enfrenta o próximo (formato "o
 vencedor fica"). Por cima, no pé da tela, as FOTOS DO SITE dos dois jogos da rodada com "OU" no meio: na resposta dela
 o escolhido brilha e o outro leva um X e cai; o vencedor desliza para a esquerda e o próximo desafiante entra.
+Começa com ele chegando nela ("Amor, vamos fazer um esse ou aquele?", o gancho); legenda palavra a palavra.
 Fecha com o campeão (Clank! Catacombs), "E você, ficava com qual?" e a tela final.
 
 Whisper corrigido: "Necoagima" = Nekojima, "Wonderland Noirce" = Wonderland's War, "Espírito" = Splito (CONFERIR com
@@ -27,7 +28,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(ROOT)
 sys.path.insert(0, os.path.join(REPO, "comum"))
 sys.path.insert(0, os.path.join(REPO, "listas-reels"))
-from motor import W, H, FPS, WHITE, ease, seg, lerp, out_back, logo_card, cola, folha, ffmpeg  # noqa: E402
+from motor import W, H, FPS, WHITE, ease, seg, lerp, out_back, logo_card, cola, folha, ffmpeg, letreiro  # noqa: E402
 import som  # noqa: E402
 from base import texto, foto  # noqa: E402
 
@@ -55,14 +56,20 @@ RODADAS = [
     (41.05, 43.82, 45.42, "clank_a_deck_building_adventure", "clank_catacombs", "clank_catacombs"),
     (45.96, 48.62, 49.08, "clank_catacombs", "survive_the_island", "clank_catacombs"),
     (49.52, 51.58, 52.14, "clank_catacombs", "flamecraft", "clank_catacombs"),
-    (52.38, 54.20, 55.50, "clank_catacombs", "nekojima", "clank_catacombs"),  # + o "Ei!" dela
-]
+]  # a última pergunta (Clank ou Nekojima, 52,4 s) saiu: o Nekojima já tinha aparecido na 1ª (pedido dele)
+INTRO = (1.25, 5.56)  # ele chegando nela com a câmera: "Amor, vamos fazer um esse ou aquele?" (o gancho, pedido dele)
+# correções do Whisper por início da palavra (legenda)
+CORRIGE = {1.6: "Amor,", 4.1: "aquele?", 4.18: None, 7.12: "Nekojima?", 10.88: "Gato", 15.86: "War?", 15.0: "Wonderland's",
+           16.78: "Wonderland's.", 17.94: "Wonderland's", 23.68: "Splito?", 31.74: "Convidados", 32.14: "Indesejados?",
+           33.6: "Convidados", 34.54: "Indesejados.", 35.6: "Convidados", 36.14: "Indesejados", 47.7: "Survive?",
+           50.52: "Flamecraft?"}
 ANTES, DEPOIS = 0.18, 0.28
 CAMPEAO, COMENTA, FIM = 2.6, 2.4, 3.6
 
 
 def linha():
-    tl, t = [], 0.0
+    n0 = round((INTRO[1] - INTRO[0]) * FPS)
+    tl, t = [dict(t0=0.0, n=n0, src=INTRO[0], q=None, a=None, esq=None, dir=None, venc=None)], n0 / FPS
     for q, a, b, esq, dir_, venc in RODADAS:
         a0, b0 = q - ANTES, b + DEPOIS
         n = round((t + b0 - a0) * FPS) - round(t * FPS)
@@ -142,7 +149,8 @@ def duelo(img, t, k, r):
     lt = t - r["t0"]
     ta = out_t(r, r["a"]) - r["t0"]  # resposta (tempo dentro da rodada)
     dur = r["n"] / FPS
-    prev = TL[k - 1] if k else None
+    prev = TL[k - 1] if TL[k - 1]["venc"] else None
+    k = k - 1  # k = 0 é a primeira rodada (TL[0] é a chegada)
     # vencedor da rodada anterior vinha da direita? desliza para a esquerda
     x_esq = XE
     if prev and prev["venc"] == prev["dir"]:
@@ -192,14 +200,14 @@ def overlay(t):
     if t < T_CAMP:
         img.alpha_composite(logo_card(150), (W - 186, 46))
         k, r = rodada_em(t)
-        if r:
+        if r and r["venc"]:
             duelo(img, t, k, r)
-        u = out_back(seg(t, 0.0, 0.4))
-        if t < 2.6:
-            cola(img, titulo(), W / 2, 1080, rot=-3, sc=u * (1 - ease(seg(t, 2.3, 2.6))))
-            cola(img, selo_jess(), W / 2, 1170, rot=2, sc=u * (1 - ease(seg(t, 2.3, 2.6))))
-        else:
-            cola(img, selo_jess(), W / 2, 1100, sc=out_back(seg(t, 2.6, 2.9)))
+        fim_t = TL[0]["n"] / FPS
+        if t < fim_t:
+            u = out_back(seg(t, 0.1, 0.5)) * (1 - ease(seg(t, fim_t - 0.25, fim_t)))
+            cola(img, titulo(), W / 2, 1180, rot=-3, sc=u)
+            cola(img, selo_jess(), W / 2, 1275, rot=2, sc=u)
+        legenda(img, t, 1470 if t < fim_t else 1000)
     elif t < T_COM:
         lt = t - T_CAMP
         u = out_back(seg(lt, 0.0, 0.45))
@@ -230,6 +238,74 @@ def overlay(t):
             cola(img, texto(txt, f, s, cor, INK, 6 if f == "lilita" else 0, 5 if f == "lilita" else 3, INK, entre=1.2),
                  W / 2, 1440 + j * 140, alpha=v)
     return img
+
+
+# ---------------------------------------------------------------- legenda palavra a palavra
+@lru_cache(None)
+def palavras():
+    return json.load(open(BRUTO.replace(".mp4", "").replace("20261017_", "") + "_palavras.json", encoding="utf-8"))
+
+
+def subs():
+    pal = []
+    for r in TL:
+        a, b = r["src"], r["src"] + r["n"] / FPS
+        for w in palavras():
+            if a <= (w["s"] + w["e"]) / 2 < b:  # pelo meio da palavra (as rodadas se encostam: não repetir palavra)
+                txt = CORRIGE.get(round(w["s"], 2), w["w"])
+                if txt:
+                    pal.append((txt, r["t0"] + max(0.0, w["s"] - a), r["t0"] + min(b, w["e"]) - a))
+    grupos, cur = [], []
+    for w in pal:
+        if cur and w[1] - cur[-1][2] > 0.5:
+            grupos.append(cur)
+            cur = []
+        cur.append(w)
+        if len(cur) == 3 or len(" ".join(x[0] for x in cur)) > 16 or w[0][-1] in ",.!?":
+            grupos.append(cur)
+            cur = []
+    if cur:
+        grupos.append(cur)
+    out = []
+    for j, g in enumerate(grupos):
+        prox = grupos[j + 1][0][1] if j + 1 < len(grupos) else g[-1][2] + 0.4
+        out.append((g[0][1], min(prox, g[-1][2] + 0.5), [(x[0], x[1]) for x in g]))
+    return out
+
+
+SUBS = subs()
+
+
+@lru_cache(None)
+def palavra_img(txt, amarela):
+    return letreiro(txt.upper(), 74, AMARELO if amarela else WHITE, INK, 11, "Poppins-Black.ttf")
+
+
+def legenda(img, t, y0):
+    for a, b, g in SUBS:
+        if a <= t < b:
+            agora = max(j for j, (_, w0) in enumerate(g) if w0 <= t or j == 0)
+            ims = [palavra_img(w, j == agora) for j, (w, _) in enumerate(g)]
+            gap, larg = 16, 960
+            linhas, cur, cw = [], [], 0
+            for im in ims:
+                w_ = im.width - 22
+                if cur and cw + gap + w_ > larg:
+                    linhas.append(cur)
+                    cur, cw = [], 0
+                cw += (gap if cur else 0) + w_
+                cur.append(im)
+            linhas.append(cur)
+            sc = 0.85 + 0.15 * ease(min(1.0, (t - a) / 0.12))
+            y = y0 - (len(linhas) - 1) * 95
+            for ln in linhas:
+                lw = sum(x.width - 22 for x in ln) + gap * (len(ln) - 1)
+                x = 540 - lw / 2
+                for im in ln:
+                    cola(img, im, x + (im.width - 22) / 2, y, 0, sc)
+                    x += im.width - 22 + gap
+                y += 95
+            return
 
 
 # ---------------------------------------------------------------- vídeo
@@ -286,7 +362,7 @@ def audio(path):
     for r in TL:
         d = r["n"] / FPS
         x = ler_audio(r["src"], d)
-        corte = int((r["a"] - 0.12 - r["src"]) * sr)
+        corte = len(x) if r["a"] is None else int((r["a"] - 0.12 - r["src"]) * sr)  # a chegada é só ele
         pedacos.append((r, x, corte))
     g_q = 10 ** (-21 / 20) / rms_voz(np.concatenate([x[:c] for _, x, c in pedacos]))
     g_a = 10 ** (-20 / 20) / rms_voz(np.concatenate([x[c:] for _, x, c in pedacos]))
@@ -303,7 +379,9 @@ def audio(path):
         x[-e:] *= np.linspace(1, 0, e)
         i = int(round(r["t0"] * sr))
         voz[i:i + len(x)] += x
-        cues += [(r["t0"] + 0.05, "whoosh", 0.3), (out_t(r, r["a"]), "ding", 0.45), (out_t(r, r["a"]) + 0.3, "boing", 0.25)]
+        if r["a"] is not None:
+            cues += [(r["t0"] + 0.05, "whoosh", 0.3), (out_t(r, r["a"]), "ding", 0.45),
+                     (out_t(r, r["a"]) + 0.3, "boing", 0.25)]
     cues += [(T_CAMP, "reveal", 0.6), (T_CAMP + 0.2, "plateia", 0.4), (T_COM, "whoosh", 0.4), (T_FIM, "chime", 0.5)]
     vp = os.path.join(OUT, "esse_voz.wav")
     with wave.open(vp, "wb") as w:
