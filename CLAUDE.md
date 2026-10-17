@@ -603,4 +603,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   feira→Bohnanza. **Ele escolheu 6:** Critter Kitchen, Canvas, Unlock!, Sushi Go!, Passaporte Mundo (trivia
   COOPERATIVO de países, 1–6) e Art Society (leilão secreto de quadros; o que ninguém compra vai pro museu e valoriza a
   categoria). Roteiro v2 mandado (comida → arte → viagem → escape room); esperando a gravação (edição tipo `gravados-reels/`).
+- **5 vídeos SEM GRAVAR (17/out, ele escolheu da minha lista): 4 signos, 5 quanto tempo, 6 quantas pessoas, 8 red/green
+  flag, 9 chegou no acervo.** Listas com fotos do site em `listas-reels/opcoes.py` → out/opcoes_*.jpg (mandadas para ele
+  aprovar; nenhum jogo repetido entre os vídeos). Novos no site (17/out): Convidados Indesejados (1–8, 75 min, R$ 30),
+  Marvel United: Multiverse (1–5, 40 min, R$ 30), Trial by Trolley (3–13, 90 min, R$ 30), Trio (Pocket R$ 15, 3–6, 15 min);
+  fotos 1024 px baixadas para `hobby-reels/assets/acervo_foto/` (a variante 1024 do active_storage tem `ABGkCAAQ` na URL).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
