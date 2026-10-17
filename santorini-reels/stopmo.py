@@ -443,7 +443,11 @@ SUBS = motor.default_subs(SCENES, ROTEIRO)
 # ---------------------------------------------------------------- som
 def trilha(dur):
     """Pluck "grego" (escala de ré menor harmônica, ritmo de sirtaki suave) + baixo + pad; sem direitos autorais."""
-    from audio import SR, add, env, lp, t_, note
+    from audio import SR, add, env, lp, t_
+
+    def note(nome):  # o note() do Vudú não tem E nem C#
+        semi = {"C": -9, "C#": -8, "D": -7, "Eb": -6, "E": -5, "F": -4, "F#": -3, "G": -2, "A": 0, "Bb": 1, "B": 2}
+        return 440 * 2 ** ((semi[nome[:-1]] + 12 * (int(nome[-1]) - 4)) / 12)
     out = np.zeros(int(dur * SR))
     beat = 60 / 100
     acordes = [("D3", ["D4", "F4", "A4"]), ("G2", ["G3", "Bb3", "D4"]), ("A2", ["A3", "C#4", "E4"]),
