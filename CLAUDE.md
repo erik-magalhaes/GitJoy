@@ -617,4 +617,15 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   `novidades.py` (23 s, caixa de papelão que abre e o jogo sobe de dentro, confete, "Qual você aluga primeiro?").
   Signos: ele GOSTOU, mas acha que fica melhor GRAVADO por ele (mandei roteiro de gravação com as mesmas 12 frases;
   na edição dá pra reaproveitar o céu/símbolos/grade de `signos.py` por cima das cenas dele).
+- **2 vídeos GRAVADOS em 17/out (brutos `gravados-reels/brutos/out17/`, fora do git):**
+  - `gravados-reels/esse_aquele.py` ("ESSE OU AQUELE? versão Jéssica", 133042, 58 s): o Erik filma e pergunta, ela
+    responde, quem ganha FICA. Fotos do SITE em duelo no pé da tela (vencedor brilha com coroa, perdedor leva X e cai),
+    campeão Clank! Catacombs, "E você, ficava com qual?", tela final com os 12. Ganho fixo separado para a pergunta (ele) e
+    a resposta (ela). Whisper: "Espírito" virou **Splito** (CONFERIR com eles), "Necoagima" = Nekojima, "Comodados
+    Edejejados" = Convidados Indesejados. Saiu o "Clank Catacombs?"/"Clank." (só confirmação). 2 passadas a 3700k = 28 MB.
+  - `gravados-reels/indica.py` ("Me diz o que você gosta de fazer que eu te indico um jogo", 133810 + cenas 134947 Art
+    Society, 135233 Passaporte, 135550 Critter, 135716 Canvas, 140020 Unlock): última tentativa boa de cada fala, MENOS o
+    Canvas (a última tem 3 s estranhos no "artística"; usei 114,4–121,5). Sushi Go sem cena (foto do site grande). O
+    microfone dele CORTA o silêncio (−89 dB): o Whisper adianta o começo das falas ~0,6 s, então a legenda pega palavra
+    que SOBREPÕE o plano. 58 s.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
