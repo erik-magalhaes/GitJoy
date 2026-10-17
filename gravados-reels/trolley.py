@@ -52,7 +52,8 @@ CORRIGE = {("b", 14.2): "Trolley,", ("b", 16.3): "o", ("b", 29.7): "freiras", ("
            ("c", 44.5): "pré-escola,"}
 GAP, PAD = 0.32, 0.1
 VEL = 1.1  # fala e mão 10% mais rápidas (os 3 stories somavam ~1:30)
-COMENTA, FIM = 3.4, 3.8
+COMENTA, FIM = 4.6, 3.8
+ARQ_FIM = "VID_20261014_154331_323"  # 4º story: a mesa montada parada (com a enquete do Instagram, que a nossa placa cobre)
 
 
 # ---------------------------------------------------------------- cortes pela energia
@@ -208,15 +209,28 @@ def overlay(t):
         u = out_back(seg(t, M["mesa"], M["mesa"] + 0.4))
         cola(img, pilula("TRIAL BY TROLLEY · 3 A 13 JOGADORES", 42, VERMELHO), W / 2, 230, sc=u)
     else:
+        # logo depois do "vou deixar vocês decidirem": a mesa com os 2 trilhos, cada um com o seu nome, e a pergunta
         lt = t - M["comenta"]
-        cola(img, texto("POR ONDE O\nBONDINHO PASSA?", "lilita", 104, WHITE, INK, 9, 8, INK, entre=1.05), W / 2, 760,
-             rot=-2, sc=out_back(seg(lt, 0.0, 0.4)))
-        cola(img, pilula("DE CIMA", 64, (28, 124, 150)), W / 2 - 200, 1010, rot=-3, sc=out_back(seg(lt, 0.4, 0.7)))
-        cola(img, pilula("DE BAIXO", 64, (219, 39, 119)), W / 2 + 200, 1010, rot=3, sc=out_back(seg(lt, 0.55, 0.85)))
-        cola(img, texto("Comenta aqui!", "lilita", 80, AMARELO, INK, 7, 6, INK), W / 2, 1200, sc=out_back(seg(lt, 0.9, 1.2)))
+        cola(img, placa(), W / 2, 1510, rot=1.5)  # já entra inteira: cobre a enquete gravada no story
+        cola(img, texto("E AÍ, VOCÊ DECIDE!", "lilita", 92, AMARELO, INK, 8, 7, INK), W / 2, 230, rot=-2,
+             sc=out_back(seg(lt, 0.0, 0.35)))
+        cola(img, pilula("TRILHO DE CIMA", 44, (28, 124, 150)), 360, 740, rot=-20, sc=out_back(seg(lt, 0.3, 0.6)))
+        cola(img, pilula("TRILHO DE BAIXO", 44, (219, 39, 119)), 250, 1190, rot=-20, sc=out_back(seg(lt, 0.5, 0.8)))
         return img
     legenda(img, t)
     return img
+
+
+@lru_cache(None)
+def placa():
+    """Cobre a enquete do Instagram que está gravada no 4º story."""
+    im = Image.new("RGBA", (960, 530), (0, 0, 0, 0))
+    ImageDraw.Draw(im).rounded_rectangle((0, 0, 959, 529), radius=36, fill=(30, 22, 18), outline=WHITE, width=8)
+    cola(im, texto("POR ONDE O\nBONDINHO PASSA?", "lilita", 84, WHITE, entre=1.05), 480, 160)
+    cola(im, pilula("DE CIMA", 56, (28, 124, 150)), 270, 345, rot=-3)
+    cola(im, pilula("DE BAIXO", 56, (219, 39, 119)), 690, 345, rot=3)
+    cola(im, texto("Comenta aqui!", "lilita", 62, AMARELO), 480, 455)
+    return im
 
 
 def tela_final(img, lt):
@@ -251,17 +265,40 @@ def ler(src, a, n):
     p.wait()
 
 
+def ler_arq(arq, a, n):
+    p = subprocess.Popen([ffmpeg(), "-loglevel", "error", "-ss", f"{a:.3f}", "-i", os.path.join(BR, arq + ".mp4"),
+                          "-frames:v", str(n), "-vf", f"fps={FPS},{GRADE}", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
+                         stdout=subprocess.PIPE)
+    ultimo = None
+    for _ in range(n):
+        buf = p.stdout.read(W * H * 3)
+        if len(buf) == W * H * 3:
+            ultimo = np.frombuffer(buf, np.uint8).reshape(H, W, 3)
+        yield ultimo
+    p.wait()
+
+
+def escala(fr, s, cy=0.45):
+    if s <= 1.001:
+        return fr
+    import cv2
+    w, h = W / s, H / s
+    x0, y0 = (W - w) / 2, min(max(0.0, cy * H - h / 2), H - h)
+    M_ = np.float32([[s, 0, -x0 * s], [0, s, -y0 * s]])
+    return cv2.warpAffine(fr, M_, (W, H), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REFLECT)
+
+
 def quadros():
     ultimo = None
-    for p in TL:
+    for i, p in enumerate(TL):
+        punch = 1.07 if i % 2 else 1.0  # corte seco alternando aberto / fechado (mais dinâmico, pedido dele)
         for fr in ler(p["src"], p["a"], p["n"]):
             ultimo = fr
-            yield fr
-    # "comenta": a mesa montada com os dois trilhos (fim do story c), escurecida
-    mesa = next(iter(ler("c", 47.5, 1)))
-    base = Image.blend(Image.fromarray(mesa), Image.new("RGB", (W, H), (10, 10, 20)), 0.45)
-    for _ in range(round(COMENTA * FPS)):
-        yield np.asarray(base)
+            yield escala(fr, punch)
+    # "comenta": o 4º story (a mesa montada), aproximando devagar (mais dinâmico); a enquete dele fica atrás da placa
+    n = round(COMENTA * FPS)
+    for k, fr in enumerate(ler_arq(ARQ_FIM, 0.0, n)):
+        yield escala(fr, 1.0 + 0.06 * k / n)
     fundo = Image.fromarray(ultimo).filter(ImageFilter.GaussianBlur(22))
     fundo = np.asarray(Image.blend(fundo, Image.new("RGB", (W, H), (40, 14, 20)), 0.62))
     for _ in range(round(FIM * FPS) + 2):

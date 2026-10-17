@@ -637,5 +637,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   (2 trilhos, inocentes/culpado/modificadores) → enquete. Saiu o que era de story ("vai entrar no site essa semana",
   "no próximo story / votação"); a enquete virou "POR ONDE O BONDINHO PASSA? DE CIMA / DE BAIXO · Comenta aqui!".
   Textos das cartas lidos nos quadros para corrigir o Whisper (freiras se divertindo, abelhas, terças-feiras). Fala +
-  imagem a 1,1x (`VEL`) para caber; 1:22. 720p → 1080p com lanczos + nitidez leve.
+  imagem a 1,1x (`VEL`) para caber; 1:22. 720p → 1080p com lanczos + nitidez leve. **2ª rodada:** o fim "vou deixar vocês
+  decidirem" cortava seco → emenda direto no 4º story (a mesa montada, zoom lento) com "E AÍ, VOCÊ DECIDE!", rótulos
+  TRILHO DE CIMA / DE BAIXO e a placa da pergunta COBRINDO a enquete gravada; cortes alternando aberto / punch-in 7%.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
