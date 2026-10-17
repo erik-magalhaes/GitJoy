@@ -11,12 +11,6 @@
 }
 .facho { animation: facho 7s ease-in-out infinite; }
 @keyframes facho { 0%, 100% { opacity: 1; } 46% { opacity: 1; } 48% { opacity: 0.75; } 50% { opacity: 1; } 53% { opacity: 0.85; } 56% { opacity: 1; } }
-.ticket {
-  background: linear-gradient(135deg, #f97316, #f59e0b);
-  -webkit-mask: radial-gradient(circle 14px at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 14px at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
-  mask: radial-gradient(circle 14px at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 14px at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
-}
-.codigo { font-family: "Cinzel", serif; letter-spacing: 0.12em; border: 2px dashed rgba(13, 12, 16, 0.55); }
 .fileira { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-left: 16px; padding: 18px 16px 22px; scrollbar-width: thin; scrollbar-color: #3a3640 transparent; }
 .cartaz { flex: 0 0 64%; scroll-snap-align: start; display: block; border-radius: 18px; background: #17151c; border: 1px solid #2a2730; transition: border-color 0.3s ease, transform 0.3s ease; }
 .cartaz:hover { border-color: rgba(249, 115, 22, 0.7); transform: translateY(-3px); }
@@ -36,17 +30,13 @@
 @media (min-width: 1024px) { .cartaz { flex-basis: 22%; } .fileira { padding-left: 16px; } }
 .assistente, .assistente h2, .assistente h3, .assistente h4, .assistente p, .assistente small { color: #f5efe4; }
 .logo { filter: drop-shadow(0 6px 24px rgba(249, 115, 22, 0.28)); }
-.lampadas { position: relative; height: 12px; margin: 0 auto; max-width: 56rem; }
-.lampadas::before, .lampadas::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle 4px at 9px 6px, #ffd28a 0 3px, rgba(245, 158, 11, 0.45) 4px, transparent 6px) 0 0 / 36px 12px repeat-x; animation: acende 1.2s steps(1) infinite; }
-.lampadas::after { background-position: 18px 0; animation-delay: -0.6s; }
-@keyframes acende { 0% { opacity: 1; filter: drop-shadow(0 0 4px #f59e0b); } 50% { opacity: 0.25; filter: none; } }
 .neon { text-shadow: 0 0 10px rgba(249, 115, 22, 0.55), 0 0 26px rgba(249, 115, 22, 0.3); animation: neon 7s linear infinite; }
 @keyframes neon { 0%, 61%, 63.5%, 66%, 100% { text-shadow: 0 0 10px rgba(249, 115, 22, 0.55), 0 0 26px rgba(249, 115, 22, 0.3); } 62%, 65% { text-shadow: none; } }
 .fileiras > div:nth-of-type(2) .neon { animation-delay: -2.4s; }
 .fileiras > div:nth-of-type(3) .neon { animation-delay: -4.1s; }
 .fileiras > div:nth-of-type(4) .neon { animation-delay: -1.2s; }
 .fileiras > div:nth-of-type(5) .neon { animation-delay: -5.6s; }
-@media (prefers-reduced-motion: reduce) { .facho, .rota, .carro, .cartao-pg, .pix, .neon, .lampadas::before, .lampadas::after { animation: none; } .carro { offset-distance: 100%; } }
+@media (prefers-reduced-motion: reduce) { .facho, .rota, .carro, .cartao-pg, .pix, .neon { animation: none; } .carro { offset-distance: 100%; } }
 </style>
 
 <div class="hw">
@@ -64,22 +54,6 @@
       {% busca %}
     </div>
   </div>
-</section>
-
-<section class="px-4 py-12">
-  <div class="lampadas mb-3" aria-hidden="true"></div>
-  <div class="ticket mx-auto flex max-w-4xl flex-col items-center gap-5 rounded-2xl px-8 py-8 text-center text-[#0d0c10] md:flex-row md:justify-between md:px-14 md:text-left">
-    <div>
-      <p class="text-xs font-extrabold tracking-[0.2em] uppercase">Mora no ABC?</p>
-      <p class="titulo mt-1 text-3xl md:text-4xl">5% de desconto</p>
-      <p class="mt-1 text-sm font-semibold md:text-base">na locação dos seus jogos · válido até 15/10</p>
-    </div>
-    <div class="shrink-0 text-center">
-      <p class="codigo rounded-xl bg-[#fff7ed] px-6 py-3 text-2xl text-[#0d0c10] md:text-3xl">JOGAABC5</p>
-      <p class="mt-2 text-xs font-bold">Use o cupom ao finalizar a reserva</p>
-    </div>
-  </div>
-  <div class="lampadas mt-3" aria-hidden="true"></div>
 </section>
 
 <section class="fileiras pb-6">
