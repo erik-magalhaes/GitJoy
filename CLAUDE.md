@@ -608,4 +608,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   aprovar; nenhum jogo repetido entre os vídeos). Novos no site (17/out): Convidados Indesejados (1–8, 75 min, R$ 30),
   Marvel United: Multiverse (1–5, 40 min, R$ 30), Trial by Trolley (3–13, 90 min, R$ 30), Trio (Pocket R$ 15, 3–6, 15 min);
   fotos 1024 px baixadas para `hobby-reels/assets/acervo_foto/` (a variante 1024 do active_storage tem `ABGkCAAQ` na URL).
+  **Feitos e mandados (17/out), em `listas-reels/`** (base comum `base.py`: `foto()` = FOTO DO SITE inteira num cartão,
+  nunca cortada; `texto()`; `entrega()` grava _com_trilha e _para_musica e normaliza para −15,5 LUFS → `*_final.mp4`):
+  `signos.py` (31 s, céu estrelado, símbolos ♈–♓ da DejaVuSans em dourado, Cinzel, grade final dos 12, trilha "mistica"
+  do taro), `tempo.py` (21 s, identidade da Jéssica, despertador com ponteiro e fatia colorida, "a noite toda" escurece o
+  fundo), `pessoas.py` (24 s, mesa de feltro vista de cima em piso de tábuas, cadeiras chegando 1/2/4/6/10, Alfa Slab),
+  `flags.py` (28 s, fundo escuro vermelho/verde com cortina diagonal, bandeira tremulando, cartão de papel; frases dele),
+  `novidades.py` (23 s, caixa de papelão que abre e o jogo sobe de dentro, confete, "Qual você aluga primeiro?").
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
