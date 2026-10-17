@@ -600,6 +600,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   cozinhar→Critter Kitchen, pintar→Canvas, série policial→Detective, escape room→Unlock!, Jurassic Park→Dinosaur Island,
   bar→Dungeons & Drinks, fazendinha→La Granja, metrô→Next Station London, comida japonesa→Sushi Go!, trilha/mapas→
   Cartógrafos, luta livre→1,2,3 Lucha!, gatos→boop., viajar→Passaporte Mundo, leilão→High Society, arte→Art Society,
-  feira→Bohnanza. Roteiro mandado com 7 (Critter Kitchen, Canvas, Unlock!, Detective, Dinosaur Island, Next Station
-  London, boop.) + "me fala do que você gosta que eu te indico" + CTA; esperando a gravação (edição tipo `gravados-reels/`).
+  feira→Bohnanza. **Ele escolheu 6:** Critter Kitchen, Canvas, Unlock!, Sushi Go!, Passaporte Mundo (trivia
+  COOPERATIVO de países, 1–6) e Art Society (leilão secreto de quadros; o que ninguém compra vai pro museu e valoriza a
+  categoria). Roteiro v2 mandado (comida → arte → viagem → escape room); esperando a gravação (edição tipo `gravados-reels/`).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
