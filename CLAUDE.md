@@ -596,4 +596,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   `note()` próprio, o do Vudú não tem E/C#). Prévia mandada; gravador (arquivos `santorini_narracao_NN`):
   `https://raw.githack.com/erik-magalhaes/GitJoy/fc98b46522d4074edb11fa46d5aaafd4c4ffd516/santorini-reels/gravador/Gravar_narracao_Santorini.html`.
   Ao receber: `narracao/raw/` → tmp_NN.wav → `tratar_narracao.py` → revisar `TEXTO` → `narracao.py` → `stopmo.py`.
+- **"Gosta de ___? Precisa conhecer ___" (17/out, ideia dele; ELE GRAVA):** mandei 16 pares do acervo (foto do site):
+  cozinhar→Critter Kitchen, pintar→Canvas, série policial→Detective, escape room→Unlock!, Jurassic Park→Dinosaur Island,
+  bar→Dungeons & Drinks, fazendinha→La Granja, metrô→Next Station London, comida japonesa→Sushi Go!, trilha/mapas→
+  Cartógrafos, luta livre→1,2,3 Lucha!, gatos→boop., viajar→Passaporte Mundo, leilão→High Society, arte→Art Society,
+  feira→Bohnanza. Roteiro mandado com 7 (Critter Kitchen, Canvas, Unlock!, Detective, Dinosaur Island, Next Station
+  London, boop.) + "me fala do que você gosta que eu te indico" + CTA; esperando a gravação (edição tipo `gravados-reels/`).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
