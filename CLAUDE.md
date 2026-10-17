@@ -632,4 +632,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
     Canvas (a última tem 3 s estranhos no "artística"; usei 114,4–121,5). Cena do Sushi Go veio depois (140828). O
     microfone dele CORTA o silêncio (−89 dB): o Whisper adianta o começo das falas ~0,6 s, então a legenda pega palavra
     que SOBREPÕE o plano. 58 s.
+- **Trial by Trolley com os STORIES dele (`gravados-reels/trolley.py`, 17/out):** 4 stories de 14/out mandados pelo chat
+  (720x1280 do Instagram; brutos em `brutos/stories1014/`, fora do git): rosto → caixa na estante → explicação na mesa
+  (2 trilhos, inocentes/culpado/modificadores) → enquete. Saiu o que era de story ("vai entrar no site essa semana",
+  "no próximo story / votação"); a enquete virou "POR ONDE O BONDINHO PASSA? DE CIMA / DE BAIXO · Comenta aqui!".
+  Textos das cartas lidos nos quadros para corrigir o Whisper (freiras se divertindo, abelhas, terças-feiras). Fala +
+  imagem a 1,1x (`VEL`) para caber; 1:22. 720p → 1080p com lanczos + nitidez leve.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
