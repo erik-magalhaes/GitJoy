@@ -83,6 +83,12 @@ def poe_torre(img, centro, niveis, sombra=True):
     for n in niveis:
         im = peca(n)
         dx, dy = DESLOC[n]
+        if n == "c" and niveis.index("c") < 3:  # cúpula fora do 3º andar (Atlas): assenta no topo do andar de baixo
+            m = str(niveis.index("c"))
+            pm, p3, pc = peca(m), peca("3"), im
+            frac = (DESLOC["c"][1] + pc.height - DESLOC["3"][1]) / p3.height  # onde a base da cúpula fica no 3º andar
+            dx = DESLOC[m][0] + pm.width / 2 - pc.width / 2 + (DESLOC["c"][0] + pc.width / 2 - DESLOC["3"][0] - p3.width / 2)
+            dy = DESLOC[m][1] + pm.height * frac - pc.height
         img.alpha_composite(im, (int(ox + dx), int(oy + dy)))
         if n != "c":
             fx, fy = TOPO[int(n)]
