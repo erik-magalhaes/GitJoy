@@ -44,7 +44,7 @@ TRECHOS = [
     ("a", 14.70, 17.20, "caixa"),  # "Mas eu quero mostrar pra vocês a dinâmica dele."
     ("b", 0.00, 43.05, "mesa"),    # a regra e o trilho de cima (sem o "no próximo mostro o de baixo")
     ("c", 0.00, 27.15, "mesa"),    # o trilho de baixo e "ainda falta os modificadores"
-    ("c", 28.60, 49.10, "mesa"),   # (sem "que é aquele montinho ali") os modificadores e "vou deixar vocês decidirem"
+    ("c", 28.60, 49.58, "mesa"),   # (sem "que é aquele montinho ali") até o fim do "decidirem" (49,5 s; o "então" começa em 49,66)
 ]
 CORRIGE = {("b", 14.2): "Trolley,", ("b", 16.3): "o", ("b", 29.7): "freiras", ("b", 30.5): "se", ("b", 30.7): None,
            ("b", 30.8): "divertindo,", ("b", 40.7): "abelhas", ("c", 3.6): "inocentes,", ("c", 36.3): "terças-feiras,",
