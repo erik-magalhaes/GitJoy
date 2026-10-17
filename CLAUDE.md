@@ -615,4 +615,6 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   fundo), `pessoas.py` (24 s, mesa de feltro vista de cima em piso de tábuas, cadeiras chegando 1/2/4/6/10, Alfa Slab),
   `flags.py` (28 s, fundo escuro vermelho/verde com cortina diagonal, bandeira tremulando, cartão de papel; frases dele),
   `novidades.py` (23 s, caixa de papelão que abre e o jogo sobe de dentro, confete, "Qual você aluga primeiro?").
+  Signos: ele GOSTOU, mas acha que fica melhor GRAVADO por ele (mandei roteiro de gravação com as mesmas 12 frases;
+  na edição dá pra reaproveitar o céu/símbolos/grade de `signos.py` por cima das cenas dele).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
