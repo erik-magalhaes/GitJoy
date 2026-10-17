@@ -589,4 +589,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   2 construtores; move 1 casa (sobe no máx. 1 andar, desce quanto quiser) e o MESMO constrói 1 nível vizinho; cúpula fecha;
   vence quem SOBE ao 3º andar; perde quem não consegue mover+construir; deuses quebram uma regra (Apolo troca, Atlas cúpula
   em qualquer nível).
+  **Vídeo: `santorini-reels/stopmo.py`** (12 fps, 66 s, 9 cenas, pôr do sol + Cinzel dourado; peças com `luz_quente`):
+  torre subindo, construtores caindo na ilha, casas vizinhas acendendo (✘ vermelho ao tentar subir 2), construção 1º/2º/3º,
+  cúpula 🔒, vitória no 3º com raios, leque de deuses da foto Zatu + Apolo troca + Atlas (cúpula no 1º andar, assentada em
+  `cena.poe_torre`), "comenta" e tela final com a caixa do SITE. Trilha grega sintetizada em `trilha()` (ré menor harmônica;
+  `note()` próprio, o do Vudú não tem E/C#). Prévia mandada; gravador (arquivos `santorini_narracao_NN`):
+  `https://raw.githack.com/erik-magalhaes/GitJoy/fc98b46522d4074edb11fa46d5aaafd4c4ffd516/santorini-reels/gravador/Gravar_narracao_Santorini.html`.
+  Ao receber: `narracao/raw/` → tmp_NN.wav → `tratar_narracao.py` → revisar `TEXTO` → `narracao.py` → `stopmo.py`.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
