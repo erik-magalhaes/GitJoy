@@ -653,5 +653,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   o "s" de "capas" NÃO foi gravado (nada agudo depois de 59,92 s): emendei o "s" do "cartas." dele (44,76–44,92 s, −8 dB)
   logo depois do "capa", e a última frase foi para 1,0x (a 1,1x o "p" borrava). Não use o Whisper como juiz de enxerto: sem
   o "s" ele "completa" para capas pelo contexto e com o "s" ouve "casas". O fecho do casal também a 1,2x (pedido dele: "na
-  mesma velocidade do resto"). ~80 s.
+  mesma velocidade do resto"). ~80 s. **4ª rodada:** a explicação (e o relógio) termina no "...a gente segue para o
+  próximo." (56 s → "EXPLICADO EM 56 SEGUNDOS!", relógio para em 0:04); "Dentro de cada capa tem 4 relógios... 12 capas" já é
+  o fecho, junto com o casal. Pausa de 0,9 s depois do "próximo" com a imagem seguindo e a voz/legenda em SILÊNCIO (`nv` =
+  quadros com voz; antes a pausa lia o áudio do bruto e o "Dentro" saía duas vezes).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.

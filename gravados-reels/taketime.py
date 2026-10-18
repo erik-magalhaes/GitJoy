@@ -44,7 +44,8 @@ TRECHOS = [
     ("h", 0.00, 2.95, "gancho", 1.0),    # "Eu vou explicar o Take Time em 1 minuto ou menos." (no espelho)
     ("i", 0.00, 5.40, "exp", VEL_EXP),   # "Take Time é um jogo cooperativo... Vou te mostrar."
     ("c", 0.00, 15.40, "exp", VEL_EXP),  # baralho do sol e da lua, 12 níveis
-    ("r", 0.00, 60.05, "exp", VEL_EXP),  # a regra na mesa, até "...são 12 capas."
+    ("r", 0.00, 56.50, "exp", VEL_EXP),  # a regra na mesa, até "...a gente segue para o próximo." (fim da explicação)
+    ("r", 56.50, 60.05, "casal", VEL_EXP),  # "Dentro de cada capa tem 4 relógios e no total são 12 capas." (já é o fecho)
     ("f", 0.00, 10.70, "casal", VEL_EXP),   # "a gente gosta de jogar muito em casal... um nível que estava difícil."
     ("f", 13.30, 16.70, "casal", VEL_EXP),  # (sem o "E... claro," hesitado) "ele já está disponível no nosso site... corre lá!"
 ]
@@ -66,8 +67,8 @@ SELOS = [
     ("f", 14.38, "JÁ NO SITE · LINK NA BIO", VERDE),
 ]
 GAP, PAD = 0.32, 0.1
-FRASE_FINAL, VEL_FINAL = 56.5, 1.0  # "Dentro de cada capa..." mais devagar: o bruto acaba colado no "capas" (limite do story)
-RESPIRO = 0.35  # pausa depois do "capas", antes do carimbo
+FRASE_FINAL = 56.5  # "Dentro de cada capa...": o bruto acaba colado no "capas" (limite do story)
+RESPIRO, CARIMBO = 0.9, 0.15  # pausa depois do "próximo" (o relógio para) e o carimbo entra 0,15 s depois
 # o story parou de gravar (60 s) no "capa", antes do "s" (medido: nada agudo depois de 59,92 s). O "s" que falta é o do
 # "cartas." dele mesmo (44,74–44,98 s do mesmo arquivo), emendado logo depois do "capa".
 FIM_CAPA, S_DE_CARTAS = 59.92, (44.76, 44.92)
@@ -126,13 +127,12 @@ def linha():
     for j, (src, a, b, tipo, vel) in enumerate(TRECHOS):
         marcas.setdefault(tipo, t)
         for ta, tb in pedacos(src, a, b):
-            v = VEL_FINAL if (src == "r" and ta >= FRASE_FINAL) else vel
-            n = nq(t, (tb - ta) / v)
-            tl.append(dict(t0=t, n=n, src=src, a=ta, j=j, tipo=tipo, vel=v))
+            n = nq(t, (tb - ta) / vel)
+            tl.append(dict(t0=t, n=n, nv=n, src=src, a=ta, j=j, tipo=tipo, vel=vel))  # nv = quadros com voz
             t += n / FPS
         if tipo == "exp" and j == 3:
             marcas["fim_exp"] = t
-            tl[-1]["n"] += nq(t, RESPIRO)  # o último quadro segura (o bruto acaba ali) e a voz já terminou
+            tl[-1]["n"] += nq(t, RESPIRO)  # a mesa continua (o vídeo segue rodando) enquanto o carimbo entra
             t += nq(t, RESPIRO) / FPS
     marcas["comenta"] = t
     marcas["fim"] = t + COMENTA
@@ -145,7 +145,7 @@ TL, M, DUR = linha()
 def no_video(src, ts):
     """Tempo no vídeo de um instante ts do bruto (None se caiu num corte)."""
     for p in TL:
-        if p["src"] == src and p["a"] <= ts < p["a"] + p["n"] / FPS * p["vel"]:
+        if p["src"] == src and p["a"] <= ts < p["a"] + p["nv"] / FPS * p["vel"]:
             return p["t0"] + (ts - p["a"]) / p["vel"]
     return None
 
@@ -154,7 +154,7 @@ def no_video(src, ts):
 def subs():
     pal = []
     for p in TL:
-        a, b = p["a"], p["a"] + p["n"] / FPS * p["vel"]
+        a, b = p["a"], p["a"] + p["nv"] / FPS * p["vel"]
         for w in palavras(p["src"]):
             if a <= (w["s"] + w["e"]) / 2 < b:
                 txt = CORRIGE.get((p["src"], round(w["s"], 1)), w["w"].strip())
@@ -322,11 +322,11 @@ def overlay(t):
     elif t < M["comenta"]:
         fim = M["fim_exp"]
         # o relógio fica até o fim da explicação + o carimbo, depois sai voando para cima
-        sai = ease(seg(t, fim + RESPIRO + 2.2, fim + RESPIRO + 2.6))
+        sai = ease(seg(t, fim + CARIMBO + 2.2, fim + CARIMBO + 2.6))
         if sai < 1:
             relogio(img, t, 175, 205 - 420 * sai)
-        if fim <= t < fim + RESPIRO + 2.6:
-            lt = t - fim - RESPIRO
+        if fim <= t < fim + CARIMBO + 2.6:
+            lt = t - fim - CARIMBO
             seg_ = int(fim - M["exp"])
             cola(img, carimbo(seg_), W / 2, 760, rot=-4, sc=out_back(seg(lt, 0.0, 0.35)) * (1 - ease(seg(lt, 2.2, 2.6))))
         ativos = [s for s in SELOS_T if s[0] <= t]
@@ -335,7 +335,7 @@ def overlay(t):
             prox = [s[0] for s in SELOS_T if s[0] > t0]
             dura = min(2.8, (prox[0] - t0) if prox else 2.8)
             lt = t - t0
-            if lt < dura and not (fim <= t < fim + RESPIRO + 2.6):
+            if lt < dura and not (fim <= t < fim + CARIMBO + 2.6):
                 u = out_back(seg(lt, 0.0, 0.3)) * (1 - ease(seg(lt, dura - 0.2, dura)))
                 cola(img, pilula(txt, 60, cor), W / 2 + 60, 470, rot=-3 if len(prox) % 2 else 3, sc=u)
     else:
@@ -429,8 +429,8 @@ def cues():
             c.append((tk, "tick", 0.16 if 60 - k > 10 else 0.32))
     for tv, _txt, _c in SELOS_T:
         c.append((tv, "pop", 0.35))
-    c += [(M["fim_exp"] + RESPIRO, "ding", 0.6), (M["fim_exp"] + RESPIRO + 0.05, "carimbo", 0.5),
-          (M["fim_exp"] + RESPIRO + 0.3, "plateia", 0.35),
+    c += [(M["fim_exp"] + CARIMBO, "ding", 0.6), (M["fim_exp"] + CARIMBO + 0.05, "carimbo", 0.5),
+          (M["fim_exp"] + CARIMBO + 0.3, "plateia", 0.35),
           (M["comenta"], "whoosh", 0.4), (M["comenta"] + 0.4, "pop", 0.5), (M["fim"], "whoosh", 0.4),
           (M["fim"] + 0.5, "chime", 0.5)]
     return c
@@ -438,7 +438,12 @@ def cues():
 
 def audio(path):
     sr = 44100
-    pecas = [(p, ler_audio(p["src"], p["a"], p["n"] / FPS, p["vel"])) for p in TL]
+    def voz_peca(p):  # na pausa (n > nv) a imagem segue e a voz fica em silêncio
+        x = ler_audio(p["src"], p["a"], p["nv"] / FPS, p["vel"])
+        f = int(0.015 * sr)
+        x[-f:] *= np.linspace(1, 0, f)
+        return np.pad(x, (0, int(round(p["n"] / FPS * sr)) - len(x)))
+    pecas = [(p, voz_peca(p)) for p in TL]
     tudo = np.concatenate([x for _, x in pecas])
     q = int(0.03 * sr)
     voz = np.zeros(int(DUR * sr) + sr)
