@@ -640,4 +640,12 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   imagem a 1,1x (`VEL`) para caber; 1:22. 720p → 1080p com lanczos + nitidez leve. **2ª rodada:** o fim "vou deixar vocês
   decidirem" cortava seco → emenda direto no 4º story (a mesa montada, zoom lento) com "E AÍ, VOCÊ DECIDE!", rótulos
   TRILHO DE CIMA / DE BAIXO e a placa da pergunta COBRINDO a enquete gravada; cortes alternando aberto / punch-in 7%.
+- **Take Time "em 1 minuto ou menos" (`gravados-reels/taketime.py`, 18/out):** 5 vídeos de story dele no Drive de brutos
+  (`brutos/out18/`, fora do git; 153426 e 153528 são cópias de 153358 e 153455): gancho no espelho ("Eu vou explicar o
+  Take Time em 1 minuto ou menos"; o Whisper ouviu "o time"), caixa, baralho sol/lua e capas, a regra na mesa com o relógio,
+  fecho "a gente joga em casal... corre lá!". Conceito CONTRA O RELÓGIO: relógio no estilo do jogo (mostrador lilás, aro
+  dourado, 6 seções, sombra que gira) conta de 1:00 a 0 durante a explicação (fica vermelho e pulsa nos últimos 10 s),
+  selos das regras na hora da palavra, carimbo "EXPLICADO EM 59 SEGUNDOS!". Explicação a 1,2x (`VEL_EXP`) para caber em
+  60 s; o 153134 tem só o gancho de útil (o resto é o celular balançando). "Comenta": "Jogo cooperativo: une ou separa o casal?".
+  Site: 2–4 jogadores, 30 min, R$ 30. ~82 s.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
