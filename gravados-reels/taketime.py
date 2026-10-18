@@ -45,8 +45,8 @@ TRECHOS = [
     ("i", 0.00, 5.40, "exp", VEL_EXP),   # "Take Time é um jogo cooperativo... Vou te mostrar."
     ("c", 0.00, 15.40, "exp", VEL_EXP),  # baralho do sol e da lua, 12 níveis
     ("r", 0.00, 60.05, "exp", VEL_EXP),  # a regra na mesa, até "...são 12 capas."
-    ("f", 0.00, 10.70, "casal", 1.05),   # "a gente gosta de jogar muito em casal... um nível que estava difícil."
-    ("f", 13.30, 16.70, "casal", 1.05),  # (sem o "E... claro," hesitado) "ele já está disponível no nosso site... corre lá!"
+    ("f", 0.00, 10.70, "casal", VEL_EXP),   # "a gente gosta de jogar muito em casal... um nível que estava difícil."
+    ("f", 13.30, 16.70, "casal", VEL_EXP),  # (sem o "E... claro," hesitado) "ele já está disponível no nosso site... corre lá!"
 ]
 CORRIGE = {("h", 1.1): "Take", ("h", 1.2): "Time", ("r", 12.7): "seções.", ("r", 14.2): "seções."}
 # selos das regras: (fonte, início da palavra no bruto, texto, cor)

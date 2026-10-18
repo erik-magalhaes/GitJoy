@@ -652,5 +652,6 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   "capas", limite de 60 s do story; a 1,2x e com o ding em cima parecia cortar a letra). **3ª rodada:** medido no bruto,
   o "s" de "capas" NÃO foi gravado (nada agudo depois de 59,92 s): emendei o "s" do "cartas." dele (44,76–44,92 s, −8 dB)
   logo depois do "capa", e a última frase foi para 1,0x (a 1,1x o "p" borrava). Não use o Whisper como juiz de enxerto: sem
-  o "s" ele "completa" para capas pelo contexto e com o "s" ouve "casas".
+  o "s" ele "completa" para capas pelo contexto e com o "s" ouve "casas". O fecho do casal também a 1,2x (pedido dele: "na
+  mesma velocidade do resto"). ~80 s.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
