@@ -66,8 +66,11 @@ SELOS = [
     ("f", 14.38, "JÁ NO SITE · LINK NA BIO", VERDE),
 ]
 GAP, PAD = 0.32, 0.1
-FRASE_FINAL, VEL_FINAL = 56.5, 1.1  # "Dentro de cada capa..." mais devagar: o bruto acaba colado no "capas" (limite do story)
+FRASE_FINAL, VEL_FINAL = 56.5, 1.0  # "Dentro de cada capa..." mais devagar: o bruto acaba colado no "capas" (limite do story)
 RESPIRO = 0.35  # pausa depois do "capas", antes do carimbo
+# o story parou de gravar (60 s) no "capa", antes do "s" (medido: nada agudo depois de 59,92 s). O "s" que falta é o do
+# "cartas." dele mesmo (44,74–44,98 s do mesmo arquivo), emendado logo depois do "capa".
+FIM_CAPA, S_DE_CARTAS = 59.92, (44.76, 44.92)
 COMENTA, FIM = 3.6, 3.8
 
 
@@ -324,7 +327,7 @@ def overlay(t):
             relogio(img, t, 175, 205 - 420 * sai)
         if fim <= t < fim + RESPIRO + 2.6:
             lt = t - fim - RESPIRO
-            seg_ = int(round(fim - M["exp"]))
+            seg_ = int(fim - M["exp"])
             cola(img, carimbo(seg_), W / 2, 760, rot=-4, sc=out_back(seg(lt, 0.0, 0.35)) * (1 - ease(seg(lt, 2.2, 2.6))))
         ativos = [s for s in SELOS_T if s[0] <= t]
         if ativos:
@@ -453,11 +456,15 @@ def audio(path):
             f = int(0.015 * sr)
             x[:f] *= np.linspace(0, 1, f)
             x[-f:] *= np.linspace(1, 0, f)
-            if p["src"] == "r" and p["a"] >= FRASE_FINAL:  # o "capas" acaba no fim do arquivo: some suave, sem corte seco
-                fim = int(round((M["fim_exp"] - p["t0"]) * sr))
-                g = int(0.12 * sr)
-                x[max(0, fim - g):fim] *= np.linspace(1, 0, min(g, fim))
-                x[fim:] = 0
+            if p["src"] == "r" and p["a"] >= FRASE_FINAL:  # "capa" + o "s" do "cartas."
+                k = int(round((FIM_CAPA - p["a"]) / p["vel"] * sr))
+                fd = int(0.03 * sr)
+                x[k:k + fd] *= np.linspace(1, 0, fd)
+                x[k + fd:] = 0
+                ss = ler_audio("r", S_DE_CARTAS[0], S_DE_CARTAS[1] - S_DE_CARTAS[0], 1.0) * g * 10 ** (-8 / 20)  # ganho do arquivo, −8 dB (discreto)
+                ss[:int(0.02 * sr)] *= np.linspace(0, 1, int(0.02 * sr))
+                ss[-int(0.05 * sr):] *= np.linspace(1, 0, int(0.05 * sr))
+                x[k:k + len(ss)] += ss[:len(x) - k]
             i = int(round(p["t0"] * sr))
             voz[i:i + len(x)] += x
     vp = os.path.join(OUT, "taketime_voz.wav")
