@@ -647,5 +647,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   dourado, 6 seções, sombra que gira) conta de 1:00 a 0 durante a explicação (fica vermelho e pulsa nos últimos 10 s),
   selos das regras na hora da palavra, carimbo "EXPLICADO EM 59 SEGUNDOS!". Explicação a 1,2x (`VEL_EXP`) para caber em
   60 s; o 153134 tem só o gancho de útil (o resto é o celular balançando). "Comenta": "Jogo cooperativo: une ou separa o casal?".
-  Site: 2–4 jogadores, 30 min, R$ 30. ~82 s.
+  Site: 2–4 jogadores, 30 min, R$ 30. ~81 s. **2ª rodada:** saiu o "E... claro," hesitado antes do "ele já está no site"; a
+  última frase ("...são 12 capas") a 1,1x com fade de 0,12 s e RESPIRO de 0,35 s antes do carimbo (o bruto acaba colado no
+  "capas", limite de 60 s do story; a 1,2x e com o ding em cima parecia cortar a letra).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.

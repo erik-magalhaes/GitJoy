@@ -45,7 +45,8 @@ TRECHOS = [
     ("i", 0.00, 5.40, "exp", VEL_EXP),   # "Take Time é um jogo cooperativo... Vou te mostrar."
     ("c", 0.00, 15.40, "exp", VEL_EXP),  # baralho do sol e da lua, 12 níveis
     ("r", 0.00, 60.05, "exp", VEL_EXP),  # a regra na mesa, até "...são 12 capas."
-    ("f", 0.00, 16.70, "casal", 1.05),   # "a gente gosta de jogar muito em casal... corre lá!"
+    ("f", 0.00, 10.70, "casal", 1.05),   # "a gente gosta de jogar muito em casal... um nível que estava difícil."
+    ("f", 13.30, 16.70, "casal", 1.05),  # (sem o "E... claro," hesitado) "ele já está disponível no nosso site... corre lá!"
 ]
 CORRIGE = {("h", 1.1): "Take", ("h", 1.2): "Time", ("r", 12.7): "seções.", ("r", 14.2): "seções."}
 # selos das regras: (fonte, início da palavra no bruto, texto, cor)
@@ -65,6 +66,8 @@ SELOS = [
     ("f", 14.38, "JÁ NO SITE · LINK NA BIO", VERDE),
 ]
 GAP, PAD = 0.32, 0.1
+FRASE_FINAL, VEL_FINAL = 56.5, 1.1  # "Dentro de cada capa..." mais devagar: o bruto acaba colado no "capas" (limite do story)
+RESPIRO = 0.35  # pausa depois do "capas", antes do carimbo
 COMENTA, FIM = 3.6, 3.8
 
 
@@ -120,11 +123,14 @@ def linha():
     for j, (src, a, b, tipo, vel) in enumerate(TRECHOS):
         marcas.setdefault(tipo, t)
         for ta, tb in pedacos(src, a, b):
-            n = nq(t, (tb - ta) / vel)
-            tl.append(dict(t0=t, n=n, src=src, a=ta, j=j, tipo=tipo, vel=vel))
+            v = VEL_FINAL if (src == "r" and ta >= FRASE_FINAL) else vel
+            n = nq(t, (tb - ta) / v)
+            tl.append(dict(t0=t, n=n, src=src, a=ta, j=j, tipo=tipo, vel=v))
             t += n / FPS
         if tipo == "exp" and j == 3:
             marcas["fim_exp"] = t
+            tl[-1]["n"] += nq(t, RESPIRO)  # o último quadro segura (o bruto acaba ali) e a voz já terminou
+            t += nq(t, RESPIRO) / FPS
     marcas["comenta"] = t
     marcas["fim"] = t + COMENTA
     return tl, marcas, t + COMENTA + FIM
@@ -313,11 +319,11 @@ def overlay(t):
     elif t < M["comenta"]:
         fim = M["fim_exp"]
         # o relógio fica até o fim da explicação + o carimbo, depois sai voando para cima
-        sai = ease(seg(t, fim + 2.2, fim + 2.6))
+        sai = ease(seg(t, fim + RESPIRO + 2.2, fim + RESPIRO + 2.6))
         if sai < 1:
             relogio(img, t, 175, 205 - 420 * sai)
-        if fim <= t < fim + 2.6:
-            lt = t - fim
+        if fim <= t < fim + RESPIRO + 2.6:
+            lt = t - fim - RESPIRO
             seg_ = int(round(fim - M["exp"]))
             cola(img, carimbo(seg_), W / 2, 760, rot=-4, sc=out_back(seg(lt, 0.0, 0.35)) * (1 - ease(seg(lt, 2.2, 2.6))))
         ativos = [s for s in SELOS_T if s[0] <= t]
@@ -326,7 +332,7 @@ def overlay(t):
             prox = [s[0] for s in SELOS_T if s[0] > t0]
             dura = min(2.8, (prox[0] - t0) if prox else 2.8)
             lt = t - t0
-            if lt < dura and not (fim <= t < fim + 2.6):
+            if lt < dura and not (fim <= t < fim + RESPIRO + 2.6):
                 u = out_back(seg(lt, 0.0, 0.3)) * (1 - ease(seg(lt, dura - 0.2, dura)))
                 cola(img, pilula(txt, 60, cor), W / 2 + 60, 470, rot=-3 if len(prox) % 2 else 3, sc=u)
     else:
@@ -420,7 +426,8 @@ def cues():
             c.append((tk, "tick", 0.16 if 60 - k > 10 else 0.32))
     for tv, _txt, _c in SELOS_T:
         c.append((tv, "pop", 0.35))
-    c += [(M["fim_exp"], "ding", 0.6), (M["fim_exp"] + 0.05, "carimbo", 0.5), (M["fim_exp"] + 0.3, "plateia", 0.35),
+    c += [(M["fim_exp"] + RESPIRO, "ding", 0.6), (M["fim_exp"] + RESPIRO + 0.05, "carimbo", 0.5),
+          (M["fim_exp"] + RESPIRO + 0.3, "plateia", 0.35),
           (M["comenta"], "whoosh", 0.4), (M["comenta"] + 0.4, "pop", 0.5), (M["fim"], "whoosh", 0.4),
           (M["fim"] + 0.5, "chime", 0.5)]
     return c
@@ -446,6 +453,11 @@ def audio(path):
             f = int(0.015 * sr)
             x[:f] *= np.linspace(0, 1, f)
             x[-f:] *= np.linspace(1, 0, f)
+            if p["src"] == "r" and p["a"] >= FRASE_FINAL:  # o "capas" acaba no fim do arquivo: some suave, sem corte seco
+                fim = int(round((M["fim_exp"] - p["t0"]) * sr))
+                g = int(0.12 * sr)
+                x[max(0, fim - g):fim] *= np.linspace(1, 0, min(g, fim))
+                x[fim:] = 0
             i = int(round(p["t0"] * sr))
             voz[i:i + len(x)] += x
     vp = os.path.join(OUT, "taketime_voz.wav")
