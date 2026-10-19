@@ -665,4 +665,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   pediu "acelerar só um pouquinho na parte de mostrar os jogos" —, pôr na cadeira 1,5x), cartão com nome + ficha do site,
   lista do pedido no canto com ✓ quando o jogo assenta, selo "3 JOGOS = 7 DIAS!", "PEDIDO 2!", "PEDIDOS PRONTOS!",
   "Qual pedido você levaria? Comenta 1 ou 2!" e tela final com as 6 fotos do site. Trilha travessa. ~45 s.
+- **Capa do "Quanto a gente se conhece?" (`gravados-reels/capa_casal.py`, 19/out, pedido da Jéssica):** 1080x1920, o
+  que importa na área da grade (y 285–1635). A = tela dividida na DIAGONAL com os quadros inteiros (ela 36,4 s sorrisinho à
+  esquerda, ele 155,8 s olhando de lado PARA ela à direita), título "QUANTO A GENTE SE CONHECE?", ELA/ELE, VS e "SERÁ QUE A
+  GENTE ACERTA?"; B = dois quadros como fotos inclinadas (ela 49,8 s, ele 112,9 s) no azul-claro listrado + "ACERTAMOS SÓ
+  1 DE 6?!". O recorte por rembg ficou com bordas RETAS onde a pessoa encosta na borda do quadro (cabelo no topo) →
+  para rosto colado na borda, use o quadro inteiro, não o recorte. Quadros escolhidos pela nitidez (variância do Laplaciano).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
