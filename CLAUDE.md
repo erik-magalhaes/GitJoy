@@ -676,5 +676,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   (yaw), íris no meio do olho; 6 quadros/s nos dois vídeos, 8 melhores com ≥2 s entre si numa folha E1–E8 / J1–J8
   (`out/capa_opcoes_{erik,jessica}.jpg`) para ela escolher. Na capa: A = jess 36,8 s (J4) + erik 110,2 s (E2); B = jess
   50,7 s (J6) + erik 113,0 s (E3); enquadramento pela posição do nariz (`NARIZ`). **Para foto de pessoa em capa: sempre
-  sorrindo e olhando para a câmera.**
+  sorrindo e olhando para a câmera.** **3ª:** ela pediu uma opção SÓ ESCRITA e centralizada "pra ler no feed" → C: fundo
+  rosa × azul na diagonal com raios suaves e "?" claros, "ELE × ELA", "QUANTO A GENTE SE CONHECE?" enorme (168 px) no
+  centro e "ACERTAMOS SÓ 1 DE 6?!"; conferido recortando 3:4 (y 240–1680) e reduzindo para miniatura.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
