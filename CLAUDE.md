@@ -657,4 +657,12 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   próximo." (56 s → "EXPLICADO EM 56 SEGUNDOS!", relógio para em 0:04); "Dentro de cada capa tem 4 relógios... 12 capas" já é
   o fecho, junto com o casal. Pausa de 0,9 s depois do "próximo" com a imagem seguindo e a voz/legenda em SILÊNCIO (`nv` =
   quadros com voz; antes a pausa lia o áudio do bruto e o "Dentro" saía duas vezes).
+- **"Vem separar 2 pedidos comigo" (`gravados-reels/pedidos.py`, 19/out, Jéssica):** brutos `brutos/out19/` (fora do
+  git): 102837 = ela na estante ("Bom dia! Vem separar dois pedidos comigo!"), 103147 = a câmera dela pegando os jogos e
+  pondo em DUAS cadeiras (sem fala; vídeos com rotação oposta, o ffmpeg desgira sozinho). Pedido 1 (cadeira esquerda):
+  Canvas (identificado por ORB contra as fotos do site), La Granja, Convidados Indesejados; pedido 2: Throw Throw Burrito,
+  Echoes of Time, Azul Duel — 3 jogos cada = 7 dias. Edição: rampas de velocidade (procura 3x, pegar/mostrar 1,25x — ele
+  pediu "acelerar só um pouquinho na parte de mostrar os jogos" —, pôr na cadeira 1,5x), cartão com nome + ficha do site,
+  lista do pedido no canto com ✓ quando o jogo assenta, selo "3 JOGOS = 7 DIAS!", "PEDIDO 2!", "PEDIDOS PRONTOS!",
+  "Qual pedido você levaria? Comenta 1 ou 2!" e tela final com as 6 fotos do site. Trilha travessa. ~45 s.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
