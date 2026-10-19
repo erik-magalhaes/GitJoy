@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
 """Capa do Reels "Quanto a gente se conhece?" (casal.py), pedido da Jéssica em 19/out/2026: 1080x1920 com os dois.
 Tudo que importa fica na área do meio que aparece na grade do perfil (y 285–1635).
-  A "frente a frente": os dois recortados (rembg u2net_human_seg) em fundo dividido na diagonal, rosa (ela) × azul (ele),
-    com VS no meio; ele olhando de lado, desconfiado, PARA ela.
+  A "frente a frente": tela dividida na diagonal com os quadros inteiros, ela à esquerda e ele olhando de lado,
+    desconfiado, PARA ela; VS no meio. (O recorte com rembg ficou com bordas retas onde o cabelo encosta na borda do quadro.)
   B "fotos": dois quadros do vídeo como fotos inclinadas, com o título entre elas.
 Quadros escolhidos (mais nítidos pela variância do Laplaciano): jess 36,4 s (sorrisinho) e 49,8 s; erik 155,8 s (olhar de
-lado) e 112,9 s (sorrisão). Recortes em assets/capa/casal_*.png.
+lado) e 112,9 s (sorrisão).
 
     python3 capa_casal.py            # out/capa_casal_{A,B}.png + out/capa_casal_opcoes.jpg
 """
-import math
 import os
 import subprocess
 import sys
@@ -26,37 +25,15 @@ from base import texto  # noqa: E402
 
 W, H = 1080, 1920
 BR = os.path.join(ROOT, "brutos", "casal")
-CAPA = os.path.join(ROOT, "assets", "capa")
 OUT = os.path.join(ROOT, "out")
 MARROM, AMARELO, BRANCO = (63, 36, 18), (255, 199, 31), (250, 250, 250)
 ROSA, AZUL = (219, 39, 119), (37, 99, 235)
-QUADROS = {"jess_a": ("jess", 36.4), "erik_a": ("erik", 155.8), "jess_b": ("jess", 49.8), "erik_b": ("erik", 112.9)}
 
 
 def quadro(src, t):
     r = subprocess.run([ffmpeg(), "-v", "error", "-ss", f"{t:.2f}", "-i", os.path.join(BR, src + ".mp4"), "-frames:v", "1",
                         "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], capture_output=True)
     return Image.fromarray(np.frombuffer(r.stdout, np.uint8).reshape(1920, 1080, 3).copy())
-
-
-def recorte(nome):
-    """Pessoa recortada (cache em assets/capa/); fica só o maior pedaço (sai a sobra da cadeira)."""
-    path = os.path.join(CAPA, f"casal_{nome}.png")
-    if not os.path.exists(path):
-        from rembg import remove, new_session
-        import cv2
-        im = remove(quadro(*QUADROS[nome]), session=new_session("u2net_human_seg"), alpha_matting=True,
-                    alpha_matting_foreground_threshold=240, alpha_matting_background_threshold=15, alpha_matting_erode_size=8)
-        a = np.asarray(im)[..., 3]
-        n, lab, st, _ = cv2.connectedComponentsWithStats((a > 40).astype(np.uint8))
-        maior = 1 + int(np.argmax(st[1:, cv2.CC_STAT_AREA]))
-        m = (lab == maior).astype(np.uint8) * 255
-        m = cv2.dilate(m, np.ones((5, 5), np.uint8))
-        arr = np.asarray(im).copy()
-        arr[..., 3] = np.minimum(arr[..., 3], m)
-        os.makedirs(CAPA, exist_ok=True)
-        Image.fromarray(arr).save(path)
-    return Image.open(path).convert("RGBA")
 
 
 def titulo(txt, s, cor=BRANCO, entre=1.0):
@@ -71,32 +48,6 @@ def pilula(txt, s, cor, fg=BRANCO):
     d.rounded_rectangle((0, 0, im.width - 10, im.height - 10), radius=im.height // 2, fill=cor, outline=MARROM, width=7)
     im.alpha_composite(tx, (20, 0))
     return im
-
-
-def contorno(im, px=12, cor=BRANCO):
-    """Contorno branco grosso em volta do recorte (cara de adesivo) + sombra sólida marrom."""
-    a = im.getchannel("A")
-    borda = a.filter(ImageFilter.MaxFilter(px * 2 + 1))
-    base = Image.new("RGBA", im.size, cor + (0,))
-    base.putalpha(borda)
-    sombra = Image.new("RGBA", im.size, MARROM + (0,))
-    sombra.putalpha(borda)
-    out = Image.new("RGBA", (im.width + 20, im.height + 20), (0, 0, 0, 0))
-    out.alpha_composite(sombra, (16, 16))
-    out.alpha_composite(base, (0, 0))
-    out.alpha_composite(im, (0, 0))
-    return out
-
-
-def raios(cor, centro, n=18, claro=0.12):
-    img = Image.new("RGBA", (W, H), cor + (255,))
-    d = ImageDraw.Draw(img, "RGBA")
-    cx, cy = centro
-    for k in range(n):
-        a0, a1 = 2 * math.pi * k / n, 2 * math.pi * (k + 0.5) / n
-        d.polygon([(cx, cy), (cx + 3000 * math.cos(a0), cy + 3000 * math.sin(a0)),
-                   (cx + 3000 * math.cos(a1), cy + 3000 * math.sin(a1))], fill=(255, 255, 255, int(255 * claro)))
-    return img
 
 
 def metade(src, t, cx_face, sc=1.0, dy=0):
