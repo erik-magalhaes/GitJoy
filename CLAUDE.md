@@ -670,5 +670,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   esquerda, ele 155,8 s olhando de lado PARA ela à direita), título "QUANTO A GENTE SE CONHECE?", ELA/ELE, VS e "SERÁ QUE A
   GENTE ACERTA?"; B = dois quadros como fotos inclinadas (ela 49,8 s, ele 112,9 s) no azul-claro listrado + "ACERTAMOS SÓ
   1 DE 6?!". O recorte por rembg ficou com bordas RETAS onde a pessoa encosta na borda do quadro (cabelo no topo) →
-  para rosto colado na borda, use o quadro inteiro, não o recorte. Quadros escolhidos pela nitidez (variância do Laplaciano).
+  para rosto colado na borda, use o quadro inteiro, não o recorte. **2ª rodada:** ela NÃO gostou dos takes ("sorrindo e
+  olhando pra câmera, não olhando pros lados") → **busca automática de sorriso + olhar** com o FaceMesh do mediapipe
+  (`pip install mediapipe==0.10.14`, `refine_landmarks` = íris): boca larga e cantos subindo, nariz no meio das bochechas
+  (yaw), íris no meio do olho; 6 quadros/s nos dois vídeos, 8 melhores com ≥2 s entre si numa folha E1–E8 / J1–J8
+  (`out/capa_opcoes_{erik,jessica}.jpg`) para ela escolher. Na capa: A = jess 36,8 s (J4) + erik 110,2 s (E2); B = jess
+  50,7 s (J6) + erik 113,0 s (E3); enquadramento pela posição do nariz (`NARIZ`). **Para foto de pessoa em capa: sempre
+  sorrindo e olhando para a câmera.**
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.

@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Capa do Reels "Quanto a gente se conhece?" (casal.py), pedido da Jéssica em 19/out/2026: 1080x1920 com os dois.
 Tudo que importa fica na área do meio que aparece na grade do perfil (y 285–1635).
-  A "frente a frente": tela dividida na diagonal com os quadros inteiros, ela à esquerda e ele olhando de lado,
-    desconfiado, PARA ela; VS no meio. (O recorte com rembg ficou com bordas retas onde o cabelo encosta na borda do quadro.)
+  A "frente a frente": tela dividida na diagonal com os quadros inteiros, ela à esquerda e ele à direita; VS no meio. (O recorte com rembg ficou com bordas retas onde o cabelo encosta na borda do quadro.)
   B "fotos": dois quadros do vídeo como fotos inclinadas, com o título entre elas.
-Quadros escolhidos (mais nítidos pela variância do Laplaciano): jess 36,4 s (sorrisinho) e 49,8 s; erik 155,8 s (olhar de
-lado) e 112,9 s (sorrisão).
+2ª rodada (ela: "não gostei dos takes; sorrindo e olhando pra câmera"): os quadros saíram de uma busca automática nos dois
+vídeos (FaceMesh do mediapipe com íris: boca larga + cantos subindo, nariz no meio do rosto, íris no meio do olho),
+folha de opções E1–E8 / J1–J8 mandada para ela. Escolhidos: erik 110,2 s (E2) e 113,0 s (E3); jess 36,8 s (J4) e 50,7 s
+(J6). NARIZ = posição do nariz no quadro (medida pelo FaceMesh) para enquadrar.
 
     python3 capa_casal.py            # out/capa_casal_{A,B}.png + out/capa_casal_opcoes.jpg
 """
@@ -28,6 +29,7 @@ BR = os.path.join(ROOT, "brutos", "casal")
 OUT = os.path.join(ROOT, "out")
 MARROM, AMARELO, BRANCO = (63, 36, 18), (255, 199, 31), (250, 250, 250)
 ROSA, AZUL = (219, 39, 119), (37, 99, 235)
+NARIZ = {("erik", 110.2): (426, 713), ("erik", 113.0): (389, 703), ("jess", 36.8): (537, 457), ("jess", 50.7): (511, 358)}
 
 
 def quadro(src, t):
@@ -50,25 +52,22 @@ def pilula(txt, s, cor, fg=BRANCO):
     return im
 
 
-def metade(src, t, cx_face, sc=1.0, dy=0):
-    """Quadro inteiro do vídeo deslocado para o rosto ficar em x = cx_face (as sobras: o próprio quadro desfocado)."""
+def metade(src, t, alvo, sc=1.0):
+    """Quadro inteiro do vídeo com o nariz em `alvo`; as sobras são o próprio quadro desfocado."""
     im = quadro(src, t)
+    fundo = im.resize((W, H)).filter(ImageFilter.GaussianBlur(30)).convert("RGBA")
     if sc != 1.0:
         im = im.resize((int(im.width * sc), int(im.height * sc)), Image.LANCZOS)
-    fundo = im.resize((W, H)).filter(ImageFilter.GaussianBlur(30)).convert("RGBA")
-    face = {"jess": 470, "erik": 520}[src] * sc  # x do rosto no quadro
-    m = Image.new("L", im.size, 255)  # emenda suave em cima com o fundo desfocado
-    ImageDraw.Draw(m).rectangle((0, 0, im.width, 0), fill=0)
-    m = Image.fromarray(np.minimum(np.asarray(m), np.clip(np.arange(im.height)[:, None] / 120 * 255, 0, 255)
-                                   .astype(np.uint8).repeat(im.width, 1)))
-    fundo.paste(im, (int(cx_face - face), int(dy)), m)
+    nx, ny = NARIZ[(src, t)]
+    m = Image.fromarray(np.clip(np.arange(im.height)[:, None] / 120 * 255, 0, 255).astype(np.uint8).repeat(im.width, 1))
+    fundo.paste(im, (int(alvo[0] - nx * sc), int(alvo[1] - ny * sc)), m)  # emenda suave em cima com o desfocado
     return fundo
 
 
 def opcao_a():
-    """Tela dividida na diagonal: ela à esquerda (sorrisinho), ele à direita olhando de lado PARA ela."""
-    img = metade("jess", 36.4, 245, 1.0, 560)
-    ele = metade("erik", 155.8, 835, 1.0, 520)
+    """Tela dividida na diagonal: ela à esquerda, ele à direita, os dois sorrindo para a câmera."""
+    img = metade("jess", 36.8, (235, 960), 1.0)
+    ele = metade("erik", 110.2, (835, 990), 0.92)
     m = Image.new("L", (W, H), 0)
     ImageDraw.Draw(m).polygon([(700, 0), (W, 0), (W, H), (420, H)], fill=255)
     img.paste(ele, (0, 0), m)
@@ -88,12 +87,14 @@ def opcao_a():
     return img
 
 
-def foto(src, t, w, h, cy=0.42):
+def foto(src, t, w, h, zoom=1.0):
+    """Recorte do quadro centrado no rosto (nariz um pouco abaixo do meio)."""
     im = quadro(src, t)
-    s = max(w / im.width, h / im.height)
+    s = max(w / im.width, h / im.height) * zoom
     im = im.resize((int(im.width * s), int(im.height * s)), Image.LANCZOS)
-    y0 = int(min(max(0, cy * im.height - h / 2), im.height - h))
-    x0 = (im.width - w) // 2
+    nx, ny = NARIZ[(src, t)]
+    y0 = int(min(max(0, ny * s - h * 0.58), im.height - h))
+    x0 = int(min(max(0, nx * s - w / 2), im.width - w))
     im = im.crop((x0, y0, x0 + w, y0 + h)).convert("RGBA")
     b = 22
     card = Image.new("RGBA", (w + 2 * b + 18, h + 2 * b + 18), (0, 0, 0, 0))
@@ -111,9 +112,9 @@ def opcao_b():
     d = ImageDraw.Draw(img)
     for k in range(-H, W + H, 90):  # listras diagonais suaves (identidade da Jéssica: azul-claro)
         d.polygon([(k, 0), (k + 40, 0), (k + 40 - H, H), (k - H, H)], fill=(212, 236, 241))
-    cola(img, foto("jess", 49.8, 600, 600, 0.30), 345, 600, rot=-6)
+    cola(img, foto("jess", 50.7, 600, 600, 1.35), 345, 600, rot=-6)
     cola(img, pilula("ELA", 60, ROSA), 150, 330, rot=-10)
-    cola(img, foto("erik", 112.9, 600, 600, 0.27), 735, 1330, rot=5)
+    cola(img, foto("erik", 113.0, 600, 600, 1.12), 735, 1330, rot=5)
     cola(img, pilula("ELE", 60, AZUL), 960, 1060, rot=8)
     cola(img, titulo("QUANTO A GENTE\nSE CONHECE?", 112), W / 2, 975, rot=-2)
     cola(img, pilula("ACERTAMOS SÓ 1 DE 6?!", 58, AMARELO, MARROM), 330, 1580, rot=-3)
