@@ -3,7 +3,8 @@
 Tudo que importa fica na área do meio que aparece na grade do perfil (y 285–1635).
   A "frente a frente": tela dividida na diagonal com os quadros inteiros, ela à esquerda e ele à direita; VS no meio. (O recorte com rembg ficou com bordas retas onde o cabelo encosta na borda do quadro.)
   B "fotos": dois quadros do vídeo como fotos inclinadas, com o título entre elas.
-  C "só texto": título enorme no centro (para ler na miniatura do feed), fundo rosa × azul com raios e "?".
+  C "só texto": título enorme no centro (para ler na miniatura do feed), fundo laranja × azul-petróleo (cores do logo)
+    com raios e "?".
 2ª rodada (ela: "não gostei dos takes; sorrindo e olhando pra câmera"): os quadros saíram de uma busca automática nos dois
 vídeos (FaceMesh do mediapipe com íris: boca larga + cantos subindo, nariz no meio do rosto, íris no meio do olho),
 folha de opções E1–E8 / J1–J8 mandada para ela. Escolhidos: erik 110,2 s (E2) e 113,0 s (E3); jess 36,8 s (J4) e 50,7 s
@@ -31,6 +32,7 @@ BR = os.path.join(ROOT, "brutos", "casal")
 OUT = os.path.join(ROOT, "out")
 MARROM, AMARELO, BRANCO = (63, 36, 18), (255, 199, 31), (250, 250, 250)
 ROSA, AZUL = (219, 39, 119), (37, 99, 235)
+LARANJA, PETROLEO = (244, 136, 37), (28, 124, 150)  # as cores do logo
 NARIZ = {("erik", 110.2): (426, 713), ("erik", 113.0): (389, 703), ("jess", 36.8): (537, 457), ("jess", 50.7): (511, 358)}
 
 
@@ -125,10 +127,10 @@ def opcao_b():
 
 
 def opcao_c():
-    """Só texto, tudo centralizado na área da grade (pedido dela): fundo rosa × azul na diagonal com raios e pontos de
+    """Só texto, tudo centralizado na área da grade (pedido dela): fundo laranja × azul na diagonal com raios e pontos de
     interrogação grandes e claros; o título enorme no meio, para ler na miniatura do feed."""
-    img = raios(ROSA, (540, 960), 22, 0.14)
-    azul = raios(AZUL, (540, 960), 22, 0.14)
+    img = raios(LARANJA, (540, 960), 22, 0.14)  # cores do logo (pedido dela): laranja × azul-petróleo
+    azul = raios(PETROLEO, (540, 960), 22, 0.14)
     m = Image.new("L", (W, H), 0)
     ImageDraw.Draw(m).polygon([(760, 0), (W, 0), (W, H), (320, H)], fill=255)
     img.paste(azul, (0, 0), m)
@@ -137,7 +139,7 @@ def opcao_c():
         q = texto(txt, "lilita", sz, (255, 255, 255))
         q.putalpha(q.getchannel("A").point(lambda v: int(v * 0.28)))
         cola(img, q, x, y, rot=rot)
-    cola(img, pilula("ELE  ×  ELA", 70, AMARELO, MARROM), W / 2, 560, rot=-3)
+    cola(img, pilula("ELE  ×  ELA", 70, PETROLEO), W / 2, 560, rot=-3)  # amarelo no laranja não contrasta
     cola(img, titulo("QUANTO\nA GENTE SE\nCONHECE?", 168, entre=0.98), W / 2, 960, rot=-3)
     cola(img, pilula("ACERTAMOS SÓ 1 DE 6?!", 72, BRANCO, MARROM), W / 2, 1370, rot=2)
     cola(img, logo_card(170), W - 130, 120)

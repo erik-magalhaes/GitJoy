@@ -678,5 +678,6 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   50,7 s (J6) + erik 113,0 s (E3); enquadramento pela posição do nariz (`NARIZ`). **Para foto de pessoa em capa: sempre
   sorrindo e olhando para a câmera.** **3ª:** ela pediu uma opção SÓ ESCRITA e centralizada "pra ler no feed" → C: fundo
   rosa × azul na diagonal com raios suaves e "?" claros, "ELE × ELA", "QUANTO A GENTE SE CONHECE?" enorme (168 px) no
-  centro e "ACERTAMOS SÓ 1 DE 6?!"; conferido recortando 3:4 (y 240–1680) e reduzindo para miniatura.
+  centro e "ACERTAMOS SÓ 1 DE 6?!"; conferido recortando 3:4 (y 240–1680) e reduzindo para miniatura. Depois ela pediu o
+  fundo nas CORES DO LOGO: laranja #F48825 × azul-petróleo #1C7C96 (o selo ELE × ELA virou petróleo: amarelo no laranja não contrasta).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
