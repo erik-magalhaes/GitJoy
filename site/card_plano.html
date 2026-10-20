@@ -1,0 +1,59 @@
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Manrope:wght@500;600;700;800&display=swap");
+  .plano { font-family: "Manrope", system-ui, sans-serif; color: #e7e2d8; background: #17151c; border: 1px solid #2a2730; transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; }
+  .plano:hover { border-color: rgba(249, 115, 22, 0.7); transform: translateY(-3px); box-shadow: 0 14px 30px -12px rgba(249, 115, 22, 0.35); }
+  .destaque { border: 2px solid var(--cor-principal); background: radial-gradient(ellipse 90% 45% at 50% 0%, rgba(249, 115, 22, 0.16), transparent 70%), #17151c; }
+  .nome { font-family: "Cinzel", serif; font-weight: 700; letter-spacing: 0.04em; line-height: 1.15; }
+  .selo { background: var(--cor-principal); color: #0d0c10; letter-spacing: 0.16em; }
+  .preco { color: var(--cor-principal); }
+  .icone { color: var(--cor-destaque); }
+  .linha { border-color: #2a2730; }
+  .acervo-botao-assinar {
+    margin-top: 24px;
+    display: flex;
+    width: 100%;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 999px;
+    padding: 12px 16px;
+    font-family: "Manrope", system-ui, sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    background: var(--cor-principal);
+    color: #0d0c10;
+    transition: background 0.2s ease;
+  }
+  .acervo-botao-assinar:hover { background: var(--cor-destaque); }
+  .acervo-botao-assinar-whatsapp { background: #15803d; color: #ffffff; }
+  .acervo-botao-assinar-whatsapp:hover { background: #166534; }
+  @media (prefers-reduced-motion: reduce) { .plano { transition: none; } .plano:hover { transform: none; } }
+</style>
+<div class="plano flex h-full w-full min-w-0 flex-col rounded-3xl p-6 {% if plano.destaque %}destaque{% endif %}">
+  {% if plano.destaque %}
+    <span class="selo mb-4 self-center whitespace-nowrap rounded-full px-3 py-1 text-[11px] font-extrabold uppercase leading-tight">Mais popular</span>
+  {% endif %}
+  <h2 class="nome text-xl text-stone-50">{{ plano.nome | escape }}</h2>
+  {% if plano.descricao %}
+    <p class="mt-2 text-sm leading-relaxed text-stone-300">{{ plano.descricao | escape }}</p>
+  {% endif %}
+  <div class="mt-5">
+    {% if plano.preco == "Sob consulta" %}
+      <span class="preco text-2xl font-extrabold">Sob consulta</span>
+    {% else %}
+      <span class="preco text-4xl font-extrabold">{{ plano.preco }}</span>
+      <span class="text-sm text-stone-400">/{{ plano.periodo }}</span>
+      {% if plano.equivale_mes %}
+        <p class="mt-1 text-xs text-stone-400">equivale a {{ plano.equivale_mes }}/mês</p>
+      {% endif %}
+    {% endif %}
+  </div>
+  <hr class="linha my-5 border-t">
+  <ul class="flex flex-1 flex-col gap-2.5 text-sm text-stone-200">
+    {% for beneficio in plano.beneficios %}
+      <li class="flex items-start gap-2.5"><svg class="icone mt-0.5 h-4 w-4 shrink-0" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg><span>{{ beneficio | escape }}</span></li>
+    {% endfor %}
+  </ul>
+  <div>{% botao_assinar %}</div>
+</div>
