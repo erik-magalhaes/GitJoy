@@ -25,7 +25,6 @@
 @keyframes desliza { 0%, 100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(-6px) rotate(-3deg); } }
 .pix { animation: pulsa 5s ease-in-out infinite; }
 @keyframes pulsa { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
-.degrau { background: #17151c; border: 1px solid #2a2730; border-top: 3px solid var(--cor-principal); }
 @media (min-width: 640px) { .cartaz { flex-basis: 34%; } }
 @media (min-width: 1024px) { .cartaz { flex-basis: 22%; } .fileira { padding-left: 16px; } }
 .assistente, .assistente h2, .assistente h3, .assistente h4, .assistente p, .assistente small { color: #f5efe4; }
@@ -36,7 +35,19 @@
 .fileiras > div:nth-of-type(3) .neon { animation-delay: -4.1s; }
 .fileiras > div:nth-of-type(4) .neon { animation-delay: -1.2s; }
 .fileiras > div:nth-of-type(5) .neon { animation-delay: -5.6s; }
-@media (prefers-reduced-motion: reduce) { .facho, .rota, .carro, .cartao-pg, .pix, .neon { animation: none; } .carro { offset-distance: 100%; } }
+.banner { border: 1px solid rgba(249, 115, 22, 0.55); background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(249, 115, 22, 0.18), transparent 70%), #17151c; box-shadow: 0 20px 50px -24px rgba(249, 115, 22, 0.45); }
+.lampadas { position: relative; height: 12px; width: 288px; max-width: 100%; margin: 0 auto; }
+@media (min-width: 768px) { .lampadas { width: 576px; } }
+.lampadas::before, .lampadas::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle 4px at 9px 6px, #ffd28a 0 3px, rgba(245, 158, 11, 0.45) 4px, transparent 6px) 0 0 / 36px 12px repeat-x; animation: acende 1.2s steps(1) infinite; }
+.lampadas::after { background-position: 18px 0; animation-delay: -0.6s; }
+@keyframes acende { 0% { opacity: 1; filter: drop-shadow(0 0 4px #f59e0b); } 50% { opacity: 0.25; filter: none; } }
+.escada { align-items: end; }
+.passo { background: #1f1c25; border: 1px solid #2f2b36; border-top: 3px solid var(--cor-principal); }
+.passo-2 { padding-top: 1.75rem; }
+.passo-3 { padding-top: 2.75rem; }
+.passo-4 { padding-top: 3.75rem; background: linear-gradient(180deg, var(--cor-principal), var(--cor-destaque)); border-color: var(--cor-destaque); color: #0d0c10; }
+.passo-4 .passo-qtd, .passo-4 .passo-dias, .passo-4 .passo-num { color: #0d0c10; }
+@media (prefers-reduced-motion: reduce) { .facho, .rota, .carro, .cartao-pg, .pix, .neon, .lampadas::before, .lampadas::after { animation: none; } .carro { offset-distance: 100%; } }
 </style>
 
 <div class="hw">
@@ -53,6 +64,39 @@
     <div class="mx-auto mt-8 max-w-xl text-left">
       {% busca %}
     </div>
+  </div>
+</section>
+
+<section class="px-4 pt-12 pb-4">
+  <div class="banner mx-auto max-w-4xl rounded-3xl px-5 py-8 text-center md:px-12 md:py-10">
+    <div class="lampadas" aria-hidden="true"></div>
+    <p class="rotulo mt-6">Prazo progressivo</p>
+    <h2 class="titulo neon mt-2 text-3xl text-stone-50 md:text-5xl">Quanto mais jogos, mais dias</h2>
+    <p class="mx-auto mt-3 max-w-lg text-base text-stone-300">O prazo vale para todos os jogos do carrinho, pelo mesmo preço.</p>
+    <div class="escada mt-8 grid grid-cols-4 gap-2 md:gap-4">
+      <div class="passo passo-1 rounded-2xl px-1 pb-4 text-center">
+        <p class="passo-qtd text-xs font-semibold text-stone-300 md:text-sm">1 ou 2 jogos</p>
+        <p class="passo-num titulo mt-1 text-3xl text-stone-50 md:text-5xl">5</p>
+        <p class="passo-dias text-xs font-bold tracking-widest text-stone-300 uppercase">dias</p>
+      </div>
+      <div class="passo passo-2 rounded-2xl px-1 pb-4 text-center">
+        <p class="passo-qtd text-xs font-semibold text-stone-300 md:text-sm">3 jogos ou mais</p>
+        <p class="passo-num titulo mt-1 text-3xl text-stone-50 md:text-5xl">7</p>
+        <p class="passo-dias text-xs font-bold tracking-widest text-stone-300 uppercase">dias</p>
+      </div>
+      <div class="passo passo-3 rounded-2xl px-1 pb-4 text-center">
+        <p class="passo-qtd text-xs font-semibold text-stone-300 md:text-sm">5 jogos ou mais</p>
+        <p class="passo-num titulo mt-1 text-3xl text-stone-50 md:text-5xl">10</p>
+        <p class="passo-dias text-xs font-bold tracking-widest text-stone-300 uppercase">dias</p>
+      </div>
+      <div class="passo passo-4 rounded-2xl px-1 pb-4 text-center">
+        <p class="passo-qtd text-xs font-semibold text-stone-300 md:text-sm">7 jogos ou mais</p>
+        <p class="passo-num titulo mt-1 text-3xl text-stone-50 md:text-5xl">15</p>
+        <p class="passo-dias text-xs font-bold tracking-widest text-stone-300 uppercase">dias</p>
+      </div>
+    </div>
+    <a class="mt-8 inline-block rounded-full bg-[var(--cor-principal)] px-8 py-3.5 text-base font-bold text-black hover:bg-[var(--cor-destaque)]" href="{{ links.catalogo }}">Montar meu carrinho</a>
+    <div class="lampadas mt-8" aria-hidden="true"></div>
   </div>
 </section>
 
@@ -223,16 +267,6 @@
       </svg>
       <h3 class="mt-4 text-xl font-bold text-stone-50">Pix ou cartão</h3>
       <p class="mt-2 leading-relaxed text-stone-300">Pague a locação como preferir: Pix ou cartão.</p>
-    </div>
-  </div>
-
-  <div class="mt-5 rounded-3xl border border-[#2a2730] bg-[#17151c] p-6 md:p-8">
-    <h3 class="text-xl font-bold text-stone-50">Mais jogos, mais dias</h3>
-    <p class="mt-2 text-stone-300">O prazo vale para todos os jogos do carrinho, pelo mesmo preço.</p>
-    <div class="mt-6 grid grid-cols-3 gap-3 text-center md:gap-5">
-      <div class="degrau rounded-2xl px-2 py-5"><p class="text-sm text-stone-300">3 jogos</p><p class="titulo mt-1 text-3xl text-stone-50 md:text-4xl">7 dias</p></div>
-      <div class="degrau rounded-2xl px-2 py-5"><p class="text-sm text-stone-300">5 jogos</p><p class="titulo mt-1 text-3xl text-stone-50 md:text-4xl">10 dias</p></div>
-      <div class="degrau rounded-2xl px-2 py-5"><p class="text-sm text-stone-300">7 jogos</p><p class="titulo mt-1 text-3xl text-stone-50 md:text-4xl">15 dias</p></div>
     </div>
   </div>
 
