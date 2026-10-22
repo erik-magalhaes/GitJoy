@@ -31,7 +31,7 @@ GANCHO, LINHA, FINAL = 3.0, 3.2, 4.2
 VIDEOS = {
     "reencontro": {
         "gancho": "POV: o homem que sumiu\ndepois de uma noite\nvirou o seu chefe",
-        "zoom": (1.15, 1.30), "foco": (0.55, 0.30), "tom": (1.0, 1.0, 1.0), "espelho": False,
+        "zoom": (1.0, 1.12), "foco": (0.5, 0.55), "tom": (1.0, 0.95, 1.0), "espelho": False, "anim": "bokeh",
         "linhas": [
             "— Helena. A gente\njá se conhece?",
             "O coração dela batia\ntão forte que doía.",
@@ -42,7 +42,7 @@ VIDEOS = {
     },
     "conselho": {
         "gancho": "Quando os seus trigêmeos\ninvadem a reunião do chefe…\nque é o pai deles",
-        "zoom": (1.55, 1.40), "foco": (0.62, 0.40), "tom": (0.75, 0.9, 1.25), "espelho": True,
+        "zoom": (1.0, 1.15), "foco": (0.5, 0.6), "tom": (0.62, 0.7, 0.85), "espelho": False, "contraste": 1.25, "brilho": -0.18, "anim": "poeira",
         "linhas": [
             "Bento parou na frente\nde Rafael Montenegro.",
             "— Você é o chefe exigente?",
@@ -53,7 +53,7 @@ VIDEOS = {
     },
     "dois_segundos": {
         "gancho": "Era pra ser um beijo\nde mentira.\nSó pra foto.",
-        "zoom": (1.9, 2.2), "foco": (0.40, 0.38), "tom": (1.15, 0.75, 0.85), "espelho": False,
+        "zoom": (1.0, 1.2), "foco": (0.3, 0.5), "tom": (1.05, 0.9, 0.85), "espelho": False, "anim": "bokeh",
         "linhas": [
             "— É só encostar.\nDois segundos.",
             "Um.",
@@ -64,7 +64,7 @@ VIDEOS = {
     },
     "bilhete": {
         "gancho": "Ele deixou um bilhete.\nEla nunca viu.\nCinco anos depois…",
-        "zoom": (1.30, 1.05), "foco": (0.50, 0.30), "tom": (1.05, 0.95, 0.7), "espelho": True, "cinza": 0.7,
+        "zoom": (1.05, 1.3), "foco": (0.62, 0.5), "tom": (1.05, 0.95, 0.8), "espelho": False, "anim": "poeira",
         "linhas": [
             "— Eu deixei um bilhete.",
             "— Eu não vi\nbilhete nenhum.",
@@ -75,7 +75,7 @@ VIDEOS = {
     },
     "elevador": {
         "gancho": "Presa no elevador\ncom o chefe…\nque é o pai dos seus filhos",
-        "zoom": (1.25, 1.55), "foco": (0.50, 0.36), "tom": (1.1, 0.85, 0.9), "espelho": True,
+        "zoom": (1.0, 1.15), "foco": (0.55, 0.5), "tom": (0.9, 1.0, 1.05), "espelho": False, "anim": "andar",
         "linhas": [
             "Estavam perto demais.",
             "Ele percebeu que ela estava\nolhando para a boca dele.",
@@ -86,7 +86,7 @@ VIDEOS = {
     },
     "cozinha": {
         "gancho": "1h30 da manhã.\nEle, sem camisa,\nna cozinha.",
-        "zoom": (1.6, 1.35), "foco": (0.58, 0.42), "tom": (1.0, 0.8, 0.95), "espelho": False,
+        "zoom": (1.0, 1.1), "foco": (0.5, 0.5), "tom": (1.05, 0.9, 0.95), "espelho": False, "anim": "chuva",
         "linhas": [
             "O calor do corpo dele\nchegou antes da mão.",
             "— Regra número um —\ndisse Helena, para o fogão.",
@@ -97,7 +97,7 @@ VIDEOS = {
     },
     "regra_quebrada": {
         "gancho": "Regra número um:\nnada de beijos\nfora das fotos.",
-        "zoom": (2.0, 1.6), "foco": (0.45, 0.40), "tom": (1.2, 0.7, 0.75), "espelho": True,
+        "zoom": (1.0, 1.15), "foco": (0.40, 0.62), "tom": (1.25, 0.6, 0.55), "espelho": False, "cinza": 0.55, "contraste": 1.25, "brilho": -0.1, "anim": "brasas",
         "linhas": [
             "— Não tem fotógrafo aqui.",
             "— Então eu estou quebrando\na regra número um.\nDe propósito.",
@@ -127,6 +127,29 @@ _cache = {}
 
 def foto_base(nome):
     k = "foto_" + nome
+    if k not in _cache:
+        v = VIDEOS[nome]
+        im = Image.open(os.path.join(AQUI, "assets", "videos", nome + ".jpg")).convert("RGB")
+        _cache[k] = grade(im, v)
+    return _cache[k]
+
+
+def grade(im, v):
+    """Cor de cada vídeo: tom multiplicado, contraste, opcionalmente dessatura; mantém a foto reconhecível."""
+    a = np.asarray(im).astype(np.float32) / 255
+    if v.get("cinza"):
+        g = a.mean(2, keepdims=True)
+        a = a * (1 - v["cinza"]) + g * v["cinza"]
+    a = np.clip((a - 0.5) * v.get("contraste", 1.1) + 0.5 + v.get("brilho", -0.05), 0, 1)
+    a = a * np.array(v["tom"])
+    im = Image.fromarray((np.clip(a, 0, 1) * 255).astype(np.uint8))
+    if v["espelho"]:
+        im = im.transpose(Image.FLIP_LEFT_RIGHT)
+    return im
+
+
+def _velho_foto_base(nome):
+    k = "velho_" + nome
     if k not in _cache:
         v = VIDEOS[nome]
         im = Image.open(os.path.join(AQUI, "assets", "foto_costas.jpg")).convert("RGB")
@@ -247,7 +270,93 @@ def fundo(nome, t):
     y0 = min(max(0, cy - ch / 2), f.height - ch)
     img = f.resize((W, H), Image.BILINEAR, box=(x0, y0, x0 + cw, y0 + ch))
     img = Image.composite(Image.new("RGB", (W, H)), img, escurece())
-    return brasas(img, t, hash(nome) % 1000)
+    anim = v.get("anim", "brasas")
+    if anim == "bokeh":
+        return bokeh(img, t, 3)
+    if anim == "chuva":
+        return chuva(img, t)
+    if anim == "poeira":
+        return poeira(img, t)
+    if anim == "andar":
+        return andar(poeira(img, t, n=30), t)
+    return brasas(img, t, 5)
+
+
+def soma(img, lay, k=0.8):
+    return Image.fromarray(np.clip(np.asarray(img, np.int16) + np.asarray(lay, np.int16) * k, 0, 255).astype(np.uint8))
+
+
+def bokeh(img, t, semente):
+    """Luzes da cidade fora de foco, flutuando devagar."""
+    rng = np.random.default_rng(semente)
+    lay = Image.new("RGB", (W, H))
+    d = ImageDraw.Draw(lay)
+    for _ in range(26):
+        x0, y0 = rng.uniform(0, W), rng.uniform(0, H)
+        r = rng.uniform(25, 85)
+        vx, vy = rng.uniform(-12, 12), rng.uniform(-20, -6)
+        cor = [(255, 170, 90), (255, 120, 120), (255, 210, 150), (200, 160, 255)][rng.integers(0, 4)]
+        br = 0.25 + 0.2 * np.sin(t * rng.uniform(0.6, 1.4) + rng.uniform(0, 6))
+        x, y = x0 + vx * t, (y0 + vy * t) % (H + 200) - 100
+        d.ellipse((x - r, y - r, x + r, y + r), fill=tuple(int(c * br) for c in cor))
+    return soma(img, lay.filter(ImageFilter.GaussianBlur(10)), 0.9)
+
+
+def chuva(img, t):
+    """Gotas escorrendo no vidro + riscos de chuva."""
+    rng = np.random.default_rng(9)
+    lay = Image.new("RGB", (W, H))
+    d = ImageDraw.Draw(lay)
+    for _ in range(140):
+        x, v, f = rng.uniform(0, W), rng.uniform(900, 1500), rng.uniform(0, H)
+        y = (f + v * t) % (H + 100) - 50
+        d.line((x, y, x - 6, y - 45), fill=(120, 120, 140), width=2)
+    for _ in range(18):
+        x, v, f = rng.uniform(0, W), rng.uniform(25, 70), rng.uniform(0, H)
+        y = (f + v * t) % (H + 80) - 40
+        r = rng.uniform(5, 10)
+        d.ellipse((x - r, y - r * 1.3, x + r, y + r * 1.3), fill=(150, 140, 150))
+        d.line((x, y - r, x, y - r - rng.uniform(40, 120)), fill=(70, 65, 75), width=3)
+    return soma(img, lay.filter(ImageFilter.GaussianBlur(1.2)), 0.6)
+
+
+def poeira(img, t, n=60):
+    """Partículas douradas finas, quase paradas."""
+    rng = np.random.default_rng(4)
+    lay = Image.new("RGB", (W, H))
+    d = ImageDraw.Draw(lay)
+    for _ in range(n):
+        x0, y0 = rng.uniform(0, W), rng.uniform(0, H)
+        x = x0 + 25 * np.sin(t * 0.4 + rng.uniform(0, 6))
+        y = (y0 - 12 * t) % H
+        r = rng.uniform(1, 3)
+        br = 0.5 + 0.5 * np.sin(t * 2 + rng.uniform(0, 6))
+        d.ellipse((x - r, y - r, x + r, y + r), fill=(int(255 * br), int(210 * br), int(140 * br)))
+    return soma(img, lay.filter(ImageFilter.GaussianBlur(1.5)), 0.9)
+
+
+def andar(img, t):
+    """Painel de elevador: o andar desce de 40 até 35 e trava entre 35 e 34, piscando PARADO."""
+    if t < GANCHO - 0.2:
+        return img
+    a = ease(seg(t, GANCHO - 0.2, GANCHO + 0.4))
+    lay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    d = ImageDraw.Draw(lay)
+    cx, cy = W / 2, 330
+    d.rounded_rectangle((cx - 170, cy - 110, cx + 170, cy + 110), 18, fill=(10, 10, 12, int(230 * a)),
+                        outline=(120, 110, 100, int(255 * a)), width=4)
+    andar_n = max(35, 40 - int((t - GANCHO) / 0.6))
+    parado = t > GANCHO + 3.2
+    txt = "35" if parado else str(andar_n)
+    cor = (255, 70, 60) if parado else (255, 180, 80)
+    f = fonte("PlayfairDisplay.ttf", 130, 900)
+    d.text((cx + 25, cy - 5), txt, font=f, fill=cor + (int(255 * a),), anchor="mm")
+    d.polygon([(cx - 120, cy - 25), (cx - 80, cy - 25), (cx - 100, cy + 15)], fill=cor + (int(255 * a),))
+    if parado and int(t * 2) % 2 == 0:
+        d.text((cx, cy + 150), "PARADO", font=fonte("Cinzel.ttf", 44, 900), fill=(255, 70, 60, int(255 * a)), anchor="mm")
+    base = img.convert("RGBA")
+    base.alpha_composite(lay)
+    return base.convert("RGB")
 
 
 def frame(args):
