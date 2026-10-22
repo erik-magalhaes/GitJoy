@@ -73,6 +73,39 @@ VIDEOS = {
             "Tudo por causa\nde um chute.",
         ],
     },
+    "elevador": {
+        "gancho": "Presa no elevador\ncom o chefe…\nque é o pai dos seus filhos",
+        "zoom": (1.25, 1.55), "foco": (0.50, 0.36), "tom": (1.1, 0.85, 0.9), "espelho": True,
+        "linhas": [
+            "Estavam perto demais.",
+            "Ele percebeu que ela estava\nolhando para a boca dele.",
+            "— Não.\n— Eu não fiz nada.",
+            "— Você ia fazer.\n— Você também.",
+            "A dois centímetros\nde um erro.",
+        ],
+    },
+    "cozinha": {
+        "gancho": "1h30 da manhã.\nEle, sem camisa,\nna cozinha.",
+        "zoom": (1.6, 1.35), "foco": (0.58, 0.42), "tom": (1.0, 0.8, 0.95), "espelho": False,
+        "linhas": [
+            "O calor do corpo dele\nchegou antes da mão.",
+            "— Regra número um —\ndisse Helena, para o fogão.",
+            "— Eu sei qual é\na regra número um.",
+            "— Baunilha. Você tinha\nesse cheiro no terraço.",
+            "— A regra número um\ntem uma exceção.",
+        ],
+    },
+    "regra_quebrada": {
+        "gancho": "Regra número um:\nnada de beijos\nfora das fotos.",
+        "zoom": (2.0, 1.6), "foco": (0.45, 0.40), "tom": (1.2, 0.7, 0.75), "espelho": True,
+        "linhas": [
+            "— Não tem fotógrafo aqui.",
+            "— Então eu estou quebrando\na regra número um.\nDe propósito.",
+            "A mão dela abrindo os botões\nda camisa do smoking,\num por um.",
+            "— Meu quarto tem chave.",
+            "A chave girou duas vezes.",
+        ],
+    },
 }
 
 
@@ -357,10 +390,10 @@ def render(nome):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--frame", type=float, nargs="*")
-    ap.add_argument("--so")
+    ap.add_argument("--so", nargs="*")
     a = ap.parse_args()
     os.makedirs(OUT, exist_ok=True)
-    nomes = [a.so] if a.so else list(VIDEOS)
+    nomes = a.so if a.so else list(VIDEOS)
     if a.frame:
         fs = []
         for nome in nomes:
