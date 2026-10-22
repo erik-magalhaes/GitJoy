@@ -694,3 +694,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   (mãe); delação do Eduardo; confeitaria "Três Segredos"; cachorro Bilhete. **Divulgação** (`livro-capa/divulgacao.py`
   → `out/divulgacao/`): perfil com monograma EM (sem foto de pessoa: o pseudônimo é fictício, não inventar rosto),
   post 4:5, story "em breve" (espaço para adesivo de link), capa de TikTok e carrossel de 4 frases do livro.
+  **Vídeos de trechos (`livro-capa/trechos.py`, 22/out):** 4 vídeos BookTok 1080x1920 de ~22 s (reencontro,
+  conselho, dois_segundos, bilhete): foto das costas com tom/corte/espelho diferentes por vídeo, brasas subindo,
+  gancho em cima com véu escuro, 5 falas exatas do livro entrando uma a uma, tela final com o livro e "EM BREVE".
+  Trilha sintetizada (piano + pad em lá menor + coração). Saída `_com_trilha` e `_para_musica` (áudio mudo).
