@@ -108,6 +108,30 @@ VIDEOS = {
             "A chave girou duas vezes.",
         ],
     },
+    "provar": {
+        "gancho": "Ela é confeiteira.\nEle, o chefe que ela\njurou odiar.",
+        "zoom": (1.0, 1.2), "foco": (0.72, 0.6), "tom": (1.05, 0.88, 0.85), "espelho": False, "anim": "bokeh",
+        "linhas": [
+            "— Me deixa provar.",
+            "— O bolo é da vitrine.\nNinguém prova o bolo da vitrine.",
+            "— Eu não falei do bolo.",
+            "Ela passou a ponta do dedo\nno chantilly.",
+            "Ele segurou o pulso dela.\nProvou. Sem pressa nenhuma.",
+            "— Eu ainda não provei\no que eu vim provar.",
+        ],
+    },
+    "encharcado": {
+        "gancho": "Ele chegou encharcado.\nE ela pediu pra ele\ntirar a camisa.",
+        "zoom": (1.0, 1.15), "foco": (0.5, 0.5), "tom": (1.1, 0.85, 1.0), "espelho": False, "anim": "chuva",
+        "linhas": [
+            "— Você está encharcado.",
+            "— Tira isso.\nVai pegar um resfriado.",
+            "— Isso é preocupação\nou é uma desculpa?\n— É um pedido.",
+            "Ele desabotoou a camisa devagar,\nsem tirar os olhos dela.",
+            "— Você está me molhando inteira.\n— Quer que eu pare?",
+            "— Apaga a luz da frente.",
+        ],
+    },
 }
 
 
