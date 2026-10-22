@@ -687,3 +687,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   grade noir quente (preto → vinho → cobre), título Cinzel/Playfair dourado, "e um" em Great Vibes, gancho "Uma noite.
   Nove meses. Três filhos. E agora ele é o meu chefe." 1600x2400 (KDP). Unsplash, Wikimedia e rawpixel bloqueiam pelo
   proxy; a API do Openverse (`api.openverse.org/v1/images/?license=cc0,pdm`, máx. 20 por página) funciona.
+  **Livro inteiro escrito (22/out):** manuscrito num Claude Doc (https://claude.ai/artifact/XewK5CujwHVaqEEHf1RQUa),
+  18 capítulos (~38 mil palavras; o cap. 1 é dele). Cenas quentes com a porta fechada. Inventei: bilhete do Rafael
+  em cima da máscara que a Helena chutou e o Dante guardou; Dante no baile; Oswaldo Prado (diretor financeiro,
+  padrinho) como homem do Dante; delegada Sônia Ferraz (PF Santos); motorista Ivan (namora a Marta); Dona Beatriz
+  (mãe); delação do Eduardo; confeitaria "Três Segredos"; cachorro Bilhete. **Divulgação** (`livro-capa/divulgacao.py`
+  → `out/divulgacao/`): perfil com monograma EM (sem foto de pessoa: o pseudônimo é fictício, não inventar rosto),
+  post 4:5, story "em breve" (espaço para adesivo de link), capa de TikTok e carrossel de 4 frases do livro.
