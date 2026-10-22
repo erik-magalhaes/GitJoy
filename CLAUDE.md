@@ -681,7 +681,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   centro e "ACERTAMOS SÓ 1 DE 6?!"; conferido recortando 3:4 (y 240–1680) e reduzindo para miniatura. Depois ela pediu o
   fundo nas CORES DO LOGO: laranja #F48825 × azul-petróleo #1C7C96 (o selo ELE × ELA virou petróleo: amarelo no laranja não contrasta).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
-- **Capa de livro do Erik (`livro-capa/capa.py`, 22/out, fora da loja):** autor na capa: **E. Magalhães** (iniciais, escolha dele; recusou Isadora Valente e as listas de pseudônimos); romance "Três Segredos e um CEO" (sinopse:
+- **Capa de livro do Erik (`livro-capa/capa.py`, 22/out, fora da loja):** pseudônimo na capa: **Estela Mancini** (escolha dele, mantém as iniciais E. M.; antes recusou Isadora Valente e E. Magalhães); romance "Três Segredos e um CEO" (sinopse:
   Helena ruiva, trigêmeos, CEO Rafael Montenegro, máfia do porto de Santos). Ele pediu "homem sem camiseta" e "bem
   polêmica". Foto CC0 (homem de costas no escuro, rawpixel, só 1024 px → Real-ESRGAN x4 em `assets/foto_costas.jpg`),
   grade noir quente (preto → vinho → cobre), título Cinzel/Playfair dourado, "e um" em Great Vibes, gancho "Uma noite.
