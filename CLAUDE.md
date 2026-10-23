@@ -758,3 +758,6 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **2ª rodada da capa (`capa_presidente2.py` → `out/presidente/opcoes2.jpg`):** ele gostou da B e pediu mais opções → 6
   variações: 1 a B, 2 close na boca, 3 moldura dourada com título em cima, 4 sépia/dourado, 5 só a boca de batom vermelho no
   azul-noite (`batom.png`), 6 mulher sentada no escuro (`escuro.png`). Esperando ele escolher.
+  **3ª rodada, com CASAL (`capa_presidente3.py` → `out/presidente/opcoes3.jpg`, ele: "não tem algo com casal?"):** 1 mão
+  dela com anel no rosto dele (terno, P&B), 2 beijo com mão no rosto (cor quente), 3 a 1 com moldura e título em cima, 4 pernas
+  (calça de terno + salto VERMELHO preservado), 5 silhuetas na chuva. Fotos `casal_*.png` (FONTES.txt). Esperando ele escolher.
