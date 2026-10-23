@@ -751,3 +751,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   (ela no comando, gravata nos olhos), 18 biblioteca com a luz acesa. Sinais de Libras recorrentes: força (nome dele),
   obrigado, linda, fica/fico, calma, minha, nós, desculpa (Dona Neide corrige). Nomes: delegada PF Joana Reis, agente
   Diego (não usar Kleber, que é do livro 1), Felipe Arruda (assessor), deputado Ramalho, motorista José (morreu com Marina).
+  **Capa do livro 2 (`livro-capa/capa_presidente.py`, 23/out):** 3 opções em azul-presidencial + dourado (o livro 1 é
+  vinho/cobre): A homem afrouxando a gravata, B mulher com os dedos nos lábios (P&B), C mãos de terno com anel e relógio.
+  Fotos CC0 ampliadas 4x em `assets/presidente/` (FONTES.txt). Gancho "Ninguém diz não ao Presidente. / Até ela." e
+  "Ele manda no país inteiro. / Ela é a única que ele obedece." Esperando ele escolher.
