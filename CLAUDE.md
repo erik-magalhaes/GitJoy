@@ -684,4 +684,6 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   (laranja × petróleo na diagonal, igual à capa C do casal), "ESSE OU AQUELE?" no alto, a foto dela num cartão (quadro
   da busca de sorriso + olhar; folha J1–J8 em `out/capa_ea_opcoes.jpg`; ela escolheu a **J8 = 55,17 s**),
   fotos do site de Luxor e Wonderland's War nos cantos (1ª rodada, sem entregar o campeão) e "VERSÃO JÉSSICA".
+  Depois ela pediu OUTRO FUNDO (mesmas cores): "todas as capas estão com o mesmo fundo" (a diagonal com raios) → 3 opções
+  `capa_esse_aquele_{1_xadrez,2_bolinhas,3_trilha}.png`. **Regra: variar o fundo entre capas também, não só entre carrosséis.**
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
