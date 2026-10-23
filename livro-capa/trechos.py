@@ -132,6 +132,41 @@ VIDEOS = {
             "— Apaga a luz da frente.",
         ],
     },
+    "escritorio": {
+        "gancho": "9 da noite.\nO escritório vazio.\nE o chefe sem gravata.",
+        "zoom": (1.0, 1.12), "foco": (0.5, 0.45), "tom": (1.05, 0.9, 0.85), "espelho": False, "anim": "bokeh",
+        "linhas": [
+            "— Você sempre se debruça assim\nna mesa dos seus chefes?",
+            "— Só dos que ficam olhando.",
+            "Ela deu um passo pra trás.\nE outro. Até encostar no vidro.",
+            "O polegar dele subiu pelo pulso dela,\naté a dobra do cotovelo.",
+            "— Você vai me deixar sem ar\nno meio do expediente.",
+            "— O expediente acabou às seis.",
+        ],
+    },
+    "manha": {
+        "gancho": "6h30 da manhã.\nEle tentou sair da cama\nsem me acordar.",
+        "zoom": (1.0, 1.12), "foco": (0.4, 0.45), "tom": (1.05, 0.95, 0.9), "espelho": False, "brilho": -0.12, "anim": "poeira",
+        "linhas": [
+            "— Você ia sair\nsem me acordar?",
+            "Ela puxou a camiseta dele\npela cabeça\ne jogou no chão.",
+            "— Cinco minutos.\nDepois você corre.",
+            "Os cinco minutos\nviraram quarenta.",
+            "Cada vez que ele tentava levantar,\nela puxava de volta\npela cintura da calça.",
+        ],
+    },
+    "sofa": {
+        "gancho": "Ela estava com raiva.\nMas o sofá era pequeno\ndemais pra dois.",
+        "zoom": (1.0, 1.12), "foco": (0.5, 0.5), "tom": (1.05, 0.95, 0.92), "espelho": False, "anim": "poeira",
+        "linhas": [
+            "— Chega pra lá.\n— Não tem pra lá.",
+            "Ela encostou os pés gelados\nnas pernas dele. De propósito.",
+            "A mão dele achou a barra do moletom\ne parou ali, na pele das costas.",
+            "Ela se arrepiou inteira.\nEle sentiu.",
+            "— Se você continuar, eu esqueço\npor que estou com raiva.",
+            "— Então eu continuo.",
+        ],
+    },
 }
 
 
@@ -241,7 +276,13 @@ def camadas(nome):
     c["linhas"] = []
     for i, s in enumerate(v["linhas"]):
         cor = VERMELHO if i == len(v["linhas"]) - 1 else CREME
-        c["linhas"].append(camada((W / 2, 1050), s, fl, cor, entrelinha=26))
+        tam = 70
+        while tam > 44:
+            larg = max(fonte("PlayfairDisplay-Italic.ttf", tam, 600).getlength(l) for l in s.split("\n"))
+            if larg <= W - 120:
+                break
+            tam -= 2
+        c["linhas"].append(camada((W / 2, 1050), s, fonte("PlayfairDisplay-Italic.ttf", tam, 600), cor, entrelinha=26))
     c["assina"] = camada((W / 2, 1560), "TRÊS SEGREDOS E UM CEO · ESTELA MANCINI",
                          fonte("Cinzel.ttf", 30, 700), (240, 200, 120), espaco=4, sombra=6)
     # tela final
