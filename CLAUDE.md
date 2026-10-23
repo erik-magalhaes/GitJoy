@@ -730,3 +730,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   (capa embutida, sumário) e `.docx` (Georgia 12, capítulo começa em página nova; estilos ajustados com python-docx).
   Para e-book Kindle: subir o EPUB ou o DOCX (PDF não serve bem para e-book). Livro impresso precisa de outro PDF
   (tamanho 6x9 etc.) e de capa inteira com lombada, calculada pelo nº de páginas.
+  **Revisão do manuscrito (23/out, pedido dele: "corrige todos os erros"):** li os 18 capítulos e corrigi no Doc ~45
+  pontos de continuidade e português: cena da regra quebrada reordenada (o "Tira" agora é no quarto, o vestido escorrega
+  na escada antes da porta), apartamento 43 = QUATRO andares de escada, UTI = uma semana, "três dias" desde a máscara,
+  "Cinco Natais", Avenida Hélio Pellegrino, Luna é quem leva o celular velho, linha do tempo do fim (inauguração e
+  cachorro em FEVEREIRO; o pedido no terraço é no "vento de fevereiro"), bilhete do cap. 2 contado como lembrança vaga
+  (o texto exato só aparece no cap. 15), Dante "quarenta e poucos anos", ficha da confeitaria 2021–2026.
+  Arquivos KDP de novo com `livro-capa/kdp.py <markdown exportado do Doc>`.
