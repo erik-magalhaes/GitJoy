@@ -755,3 +755,6 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   vinho/cobre): A homem afrouxando a gravata, B mulher com os dedos nos lábios (P&B), C mãos de terno com anel e relógio.
   Fotos CC0 ampliadas 4x em `assets/presidente/` (FONTES.txt). Gancho "Ninguém diz não ao Presidente. / Até ela." e
   "Ele manda no país inteiro. / Ela é a única que ele obedece." Esperando ele escolher.
+  **2ª rodada da capa (`capa_presidente2.py` → `out/presidente/opcoes2.jpg`):** ele gostou da B e pediu mais opções → 6
+  variações: 1 a B, 2 close na boca, 3 moldura dourada com título em cima, 4 sépia/dourado, 5 só a boca de batom vermelho no
+  azul-noite (`batom.png`), 6 mulher sentada no escuro (`escuro.png`). Esperando ele escolher.
