@@ -737,3 +737,5 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   cachorro em FEVEREIRO; o pedido no terraço é no "vento de fevereiro"), bilhete do cap. 2 contado como lembrança vaga
   (o texto exato só aparece no cap. 15), Dante "quarenta e poucos anos", ficha da confeitaria 2021–2026.
   Arquivos KDP de novo com `livro-capa/kdp.py <markdown exportado do Doc>`.
+  **PUBLICADO na Amazon (23/out):** descrição + 7 palavras-chave mandadas no chat. Os materiais de divulgação e os
+  vídeos ainda dizem "EM BREVE": trocar por "DISPONÍVEL NA AMAZON" se ele pedir.
