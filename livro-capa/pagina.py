@@ -39,7 +39,7 @@ VINHO = (196, 64, 92)
 VIDEOS = {
     "elevador": {
         "pov": "POV: Ele sumiu depois de uma noite. Cinco anos depois, você fica presa no elevador com ele… e ele ainda não sabe dos trigêmeos.",
-        "cap": 4, "pct": 22, "foco": (0.42, 0.45),
+        "cap": 4, "pct": 22, "foco": (0.42, 0.45), "vfoco": 0.45, "vy": 0.62,
         "par": [
             "Rafael apoiou a mão no espelho do fundo, do lado do rosto dela.",
             "— Se você der mais um passo — disse ela, baixinho —, eu não respondo por mim.",
@@ -51,7 +51,7 @@ VIDEOS = {
     },
     "cozinha": {
         "pov": "POV: Vocês moram juntos por contrato. Regra número um: nada de beijos. E ele está sem camisa na cozinha à 1h30.",
-        "cap": 7, "pct": 38, "foco": (0.5, 0.12),
+        "cap": 7, "pct": 38, "foco": (0.5, 0.12), "vfoco": 0.5, "vy": 0.55,
         "par": [
             "O calor do corpo dele chegou antes da mão.",
             "— Regra número um — disse Helena, para o fogão.",
@@ -63,7 +63,7 @@ VIDEOS = {
     },
     "escritorio": {
         "pov": "POV: Ele é seu chefe, o pai dos seus filhos e o homem que você jurou odiar. São 9 da noite e o andar está vazio.",
-        "cap": 8, "pct": 44, "foco": (0.5, 0.3),
+        "cap": 8, "pct": 44, "foco": (0.5, 0.3), "vfoco": 0.5, "vy": 0.3,
         "par": [
             "— Você sempre se debruça assim na mesa dos seus chefes?",
             "— Só dos que ficam olhando.",
@@ -75,7 +75,7 @@ VIDEOS = {
     },
     "provar": {
         "pov": "POV: Ele é CEO. Você é confeiteira. E ele não veio provar o bolo.",
-        "cap": 18, "pct": 96, "foco": (0.5, 0.2),
+        "cap": 18, "pct": 96, "foco": (0.5, 0.2), "vfoco": 0.35, "vy": 0.35,
         "par": [
             "— Me deixa provar.",
             "— O bolo é da vitrine. Ninguém prova o bolo da vitrine.",
@@ -87,7 +87,7 @@ VIDEOS = {
     },
     "regra_quebrada": {
         "pov": "POV: O noivado era de mentira. A regra era clara: nada de beijos fora das fotos. Até essa noite.",
-        "cap": 10, "pct": 55, "foco": (0.6, 0.3),
+        "cap": 10, "pct": 55, "foco": (0.6, 0.3), "vfoco": 0.42, "vy": 0.5,
         "par": [
             "— Então eu estou quebrando a regra número um — disse Helena. — De propósito. Pra constar.",
             "— Tira — disse ela, puxando a gravata dele até o nó se desfazer.",
@@ -334,6 +334,10 @@ def alfa(lay, a):
 def frame(args):
     nome, i = args
     t = i / FPS
+    return compoe(nome, t, fundo(nome, t))
+
+
+def compoe(nome, t, fundo_rgb):
     v = VIDEOS[nome]
     D = dur(v)
     t_fim = D - FINAL
@@ -342,7 +346,7 @@ def frame(args):
         if t > D - 0.4:
             img = Image.blend(img, Image.new("RGB", (W, H)), seg(t, D - 0.4, D))
         return np.asarray(img).tobytes()
-    img = Image.fromarray(fundo(nome, t)).convert("RGBA")
+    img = Image.fromarray(fundo_rgb).convert("RGBA")
     camada_pov, pov_baixo = pov(nome)
     img.alpha_composite(alfa(camada_pov, ease(seg(t, 0.0, 0.4))))
     papel, camadas, sombra = pagina(nome)
@@ -377,18 +381,84 @@ def frame(args):
     return np.asarray(img).tobytes()
 
 
+VEL = 0.7  # câmera lenta no vídeo de fundo
+
+
+def clipe(nome):
+    p = os.path.join(AQUI, "assets", "pagina", nome + ".mp4")
+    return p if os.path.exists(p) else None
+
+
+def fundo_video(nome, D):
+    """Monta o vídeo de fundo 1080x1920: câmera lenta, recorte em volta do casal e emendas com fusão de 1 s."""
+    ff = imageio_ffmpeg.get_ffmpeg_exe()
+    src = clipe(nome)
+    dclip = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", src],
+                                 capture_output=True, text=True).stdout)
+    L = dclip / VEL - 0.2
+    n = max(1, int(np.ceil((D - 1) / (L - 1))))
+    fx = VIDEOS[nome].get("vfoco", 0.5)
+    fy = VIDEOS[nome].get("vy", 0.5)
+    ent, filt = [], []
+    for k in range(n):
+        ent += ["-i", src]
+        filt.append(f"[{k}:v]setpts=(PTS-STARTPTS)/{VEL},scale=w={round(W * 1.3)}:h={round(H * 1.3)}:force_original_aspect_ratio=increase,"
+                    f"crop={W}:{H}:(iw-{W})*{fx}:(ih-{H})*{fy},setsar=1,trim=0:{L:.3f},setpts=PTS-STARTPTS,"
+                    f"fps={FPS},settb=AVTB[v{k}]")
+    ult = "v0"
+    for k in range(1, n):
+        filt.append(f"[{ult}][v{k}]xfade=transition=fade:duration=1:offset={k * (L - 1):.3f}[x{k}]")
+        ult = f"x{k}"
+    dst = os.path.join(OUT, f"{nome}_fundo.mp4")
+    subprocess.run([ff, "-y", "-loglevel", "error", *ent, "-filter_complex", ";".join(filt), "-map", f"[{ult}]",
+                    "-t", f"{D:.3f}", "-c:v", "libx264", "-crf", "14", "-preset", "fast", "-pix_fmt", "yuv420p", dst],
+                   check=True)
+    return dst
+
+
+def quadros(path):
+    ff = imageio_ffmpeg.get_ffmpeg_exe()
+    p = subprocess.Popen([ff, "-loglevel", "error", "-i", path, "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
+                         stdout=subprocess.PIPE)
+    n = W * H * 3
+    ultimo = None
+    while True:
+        b = p.stdout.read(n)
+        if len(b) < n:
+            break
+        ultimo = np.frombuffer(b, np.uint8).reshape(H, W, 3)
+        yield ultimo
+    while True:
+        yield ultimo
+
+
+def veu_video():
+    if "veu" not in _cache:
+        yy = np.linspace(0, 1, H)[:, None]
+        g = np.clip(1 - 0.5 * np.exp(-((yy - 0.17) / 0.17) ** 2) - 0.1, 0, 1)
+        _cache["veu"] = g[..., None].astype(np.float32)
+    return _cache["veu"]
+
+
 def render(nome):
     v = VIDEOS[nome]
     n = int(round(dur(v) * FPS))
-    base(nome)
+    if not clipe(nome):
+        base(nome)
     ff = imageio_ffmpeg.get_ffmpeg_exe()
     mudo = os.path.join(OUT, f"{nome}_mudo.mp4")
     p = subprocess.Popen([ff, "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}",
                           "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-preset", "medium", "-crf", "19",
                           "-tune", "film", "-pix_fmt", "yuv420p", mudo], stdin=subprocess.PIPE)
-    with Pool(4) as pool:
-        for b in pool.imap(frame, [(nome, i) for i in range(n)], chunksize=6):
-            p.stdin.write(b)
+    if clipe(nome):
+        bg = quadros(fundo_video(nome, dur(v)))
+        for i in range(n):
+            f = (next(bg).astype(np.float32) * veu_video()).astype(np.uint8)
+            p.stdin.write(compoe(nome, i / FPS, f))
+    else:
+        with Pool(4) as pool:
+            for b in pool.imap(frame, [(nome, i) for i in range(n)], chunksize=6):
+                p.stdin.write(b)
     p.stdin.close()
     p.wait()
     # trilha: a mesma do trechos.py, com a duração deste vídeo
@@ -421,8 +491,16 @@ def main():
     if a.frame:
         fs = []
         for nome in nomes:
+            if clipe(nome):
+                bgp = fundo_video(nome, dur(VIDEOS[nome]))
+                qs = list(zip(range(int(max(a.frame) * FPS) + 1), quadros(bgp)))
             for t in a.frame:
-                fs.append(Image.frombytes("RGB", (W, H), frame((nome, int(t * FPS)))).resize((270, 480)))
+                if clipe(nome):
+                    f = (qs[int(t * FPS)][1].astype(np.float32) * veu_video()).astype(np.uint8)
+                    b = compoe(nome, t, f)
+                else:
+                    b = frame((nome, int(t * FPS)))
+                fs.append(Image.frombytes("RGB", (W, H), b).resize((270, 480)))
         cols = len(a.frame)
         folha = Image.new("RGB", (270 * cols, 480 * len(nomes)))
         for k, im in enumerate(fs):

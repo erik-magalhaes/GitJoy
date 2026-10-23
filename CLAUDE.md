@@ -709,3 +709,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   sentido, sem descrição explícita de sexo (ele pediu "você está tão molhada" e recusei; virou cena de chuva/chantilly).
   Ele quer fotos de PESSOAS em clima quente (não fofo) nos vídeos de trechos; 3 cenas novas no livro: escritório (cap. 8),
   manhã (cap. 12) e sofá (cap. 16).
+  **Fundo em VÍDEO de verdade (23/out, ele perguntou "e consegue vídeos?"):** Mixkit tem vídeos reais de casais se
+  beijando (`mixkit.co/free-stock-video/<busca>/`; arquivo `assets.mixkit.co/videos/<id>/<id>-1080.mp4` nos antigos e
+  `contentUrl` do JSON-LD da página nos novos). Usar SÓ os de "Mixkit Stock Video Free License" (`data-license="videoFree"`);
+  os "Restricted" ficam de fora. Os .mp4 ficam em `livro-capa/assets/pagina/` FORA do git (70 MB; links em FONTES.txt).
+  `pagina.py` monta o fundo com ffmpeg (câmera lenta 0,7x, zoom 1,3, recorte por `vfoco`/`vy`, emendas com xfade 1 s) e
+  compõe POV + página por cima, quadro a quadro.
