@@ -3,7 +3,7 @@
 título; tudo na área que aparece na grade do perfil (y 285–1635).
 Fundo nas cores do logo (laranja × azul-petróleo na diagonal, como a capa C do casal, que ela aprovou). Foto: quadro com
 ela SORRINDO e OLHANDO PARA A CÂMERA, achado pela busca automática do FaceMesh (ver capa_casal.py; folha J1–J8 em
-out/capa_ea_opcoes.jpg): J4 = 44,67 s, sorriso com o dedinho levantado ("esse!"). Nos cantos, as fotos do site de 2 jogos da
+out/capa_ea_opcoes.jpg). Ela escolheu a J8 = 55,17 s (antes era a J4, 44,67 s, com o dedinho levantado). Nos cantos, as fotos do site de 2 jogos da
 1ª rodada (Luxor × Wonderland's War), sem entregar o campeão.
 
     python3 capa_esse_aquele.py      # out/capa_esse_aquele.png
@@ -25,7 +25,7 @@ from capa_casal import titulo, pilula, raios, W, H, MARROM, BRANCO, LARANJA, PET
 
 BRUTO = os.path.join(ROOT, "brutos", "out17", "20261017_133042.mp4")
 OUT = os.path.join(ROOT, "out")
-T_FOTO, NARIZ_Y = 44.67, 0.30  # nariz a ~30% da altura do quadro (o rosto fica no alto)
+T_FOTO, NARIZ_Y = 55.17, 0.30  # nariz a ~30% da altura do quadro (o rosto fica no alto)
 
 
 def quadro(t):
@@ -36,10 +36,10 @@ def quadro(t):
 
 def cartao_foto(w, h):
     im = quadro(T_FOTO)
-    s = w / im.width * 1.08  # zoom leve: rosto + a mão com o dedinho levantado
+    s = w / im.width * 1.15  # zoom leve no rosto
     im = im.resize((int(im.width * s), int(im.height * s)), Image.LANCZOS)
     y0 = int(min(max(0, NARIZ_Y * im.height - h * 0.36), im.height - h))
-    x0 = int((im.width - w) * 0.62)  # puxa para a direita, onde está a mão
+    x0 = int((im.width - w) * 0.52)
     im = im.crop((x0, y0, x0 + w, y0 + h)).convert("RGBA")
     b = 22
     card = Image.new("RGBA", (w + 2 * b + 18, h + 2 * b + 18), (0, 0, 0, 0))
