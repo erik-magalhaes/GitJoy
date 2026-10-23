@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Materiais de divulgação de "Três Segredos e um CEO" (pseudônimo Estela Mancini), no mesmo visual da capa:
+"""Materiais de divulgação de "Três Segredos e um CEO" (pseudônimo E.M. Valentine), no mesmo visual da capa:
 noir quente (preto → vinho), brasas, título dourado em Cinzel/Playfair.
 
     python3 divulgacao.py   → out/divulgacao/
@@ -130,14 +130,14 @@ def perfil():
     # tudo dentro do círculo central (as redes cortam em círculo)
     texto_ouro(img, (W / 2 - 4, 500), "EM", fonte("PlayfairDisplay.ttf", 420, 900), espaco=-10)
     filete(img, W / 2, 735, meia=200)
-    texto(img, (W / 2, 810), "ESTELA MANCINI", fonte("Cinzel.ttf", 58, 700), CREME, espaco=10)
+    texto(img, (W / 2, 810), "E.M. VALENTINE", fonte("Cinzel.ttf", 58, 700), CREME, espaco=10)
     return img
 
 
 def post_lancamento(capa):
     W, H = 1080, 1350
     img = fundo(W, H, semente=5, luz=(0.5, 0.4))
-    texto(img, (W / 2, 95), "ESTELA MANCINI APRESENTA", fonte("Cinzel.ttf", 36, 700), CREME, espaco=8)
+    texto(img, (W / 2, 95), "E.M. VALENTINE APRESENTA", fonte("Cinzel.ttf", 36, 700), CREME, espaco=8)
     lv = livro(capa, 820)
     img.paste(lv, ((W - lv.width) // 2, 140), lv)
     fi = fonte("PlayfairDisplay-Italic.ttf", 48, 500)
@@ -176,7 +176,7 @@ def frase(i, txt, cap):
     texto(img, (W / 2, 680), txt, fonte("PlayfairDisplay-Italic.ttf", 64, 600), CREME, sombra=12, entrelinha=30)
     filete(img, W / 2, 1050, meia=200)
     texto(img, (W / 2, 1110), cap.upper(), fonte("Cinzel.ttf", 30, 700), (240, 200, 120), espaco=4)
-    texto(img, (W / 2, 1250), "TRÊS SEGREDOS E UM CEO · ESTELA MANCINI", fonte("Cinzel.ttf", 28, 700), CREME, espaco=4)
+    texto(img, (W / 2, 1250), "TRÊS SEGREDOS E UM CEO · E.M. VALENTINE", fonte("Cinzel.ttf", 28, 700), CREME, espaco=4)
     return img
 
 

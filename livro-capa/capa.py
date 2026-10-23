@@ -133,7 +133,7 @@ def capa():
     d = ImageDraw.Draw(img)
 
     # topo: autor
-    texto(img, (W / 2, 120), "ESTELA MANCINI", fonte("Cinzel.ttf", 54, 700), CREME, espaco=14)
+    texto(img, (W / 2, 120), "E.M. VALENTINE", fonte("Cinzel.ttf", 54, 700), CREME, espaco=14)
 
     # gancho polêmico, à esquerda no escuro
     fi = fonte("PlayfairDisplay-Italic.ttf", 64, 500)

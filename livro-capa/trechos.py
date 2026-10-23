@@ -283,7 +283,7 @@ def camadas(nome):
                 break
             tam -= 2
         c["linhas"].append(camada((W / 2, 1050), s, fonte("PlayfairDisplay-Italic.ttf", tam, 600), cor, entrelinha=26))
-    c["assina"] = camada((W / 2, 1560), "TRÊS SEGREDOS E UM CEO · ESTELA MANCINI",
+    c["assina"] = camada((W / 2, 1560), "TRÊS SEGREDOS E UM CEO · E.M. VALENTINE",
                          fonte("Cinzel.ttf", 30, 700), (240, 200, 120), espaco=4, sombra=6)
     # tela final
     fim = Image.new("RGB", (W, H), (6, 2, 3))
