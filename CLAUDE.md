@@ -725,3 +725,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Library of Congress via rawpixel/Openverse), busto ampliado 4x (`assets/perfil/ruiva.png`). Medalhão com anel dourado +
   "E.M. VALENTINE" / "ROMANCES QUE QUEIMAM", tudo no círculo. A = pintura no noir da capa, B = lápis de cor
   (`cv2.pencilSketch`), C = ilustração pintada (`cv2.stylization`). Esperando ele escolher.
+  **Arquivos para a Amazon KDP (23/out):** exportei o Doc em markdown, tirei a nota "Como vamos trabalhar" e a linha
+  de autoria, pus página de direitos autorais (© 2026 E.M. Valentine) e gerei com pandoc `out/kdp/tres_segredos_e_um_ceo.epub`
+  (capa embutida, sumário) e `.docx` (Georgia 12, capítulo começa em página nova; estilos ajustados com python-docx).
+  Para e-book Kindle: subir o EPUB ou o DOCX (PDF não serve bem para e-book). Livro impresso precisa de outro PDF
+  (tamanho 6x9 etc.) e de capa inteira com lombada, calculada pelo nº de páginas.
