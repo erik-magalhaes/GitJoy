@@ -720,3 +720,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   homem acordando nos lençóis) e um TEMA de página diferente (`TEMAS`: creme, noturno, branco, sépia, rosa); `vzoom`/
   `vfoco`/`vy` por vídeo. Mixkit "Restricted" ficou de fora (batom, gravata, chuveiro eram Restricted). POV menor (56) no
   topo e página mais baixa para o rosto aparecer no meio. 6º vídeo: `manha` (cap. 12).
+  **Perfil ilustrado (23/out, pedido dele: "desenho de uma mulher, com o nome embaixo"):** `livro-capa/perfil_ilustrado.py`
+  → `out/perfil/perfil_{a,b,c}.png` + `opcoes.jpg`. Arte = pintura de domínio público de Carle J. Blenner (ruiva de perfil,
+  Library of Congress via rawpixel/Openverse), busto ampliado 4x (`assets/perfil/ruiva.png`). Medalhão com anel dourado +
+  "E.M. VALENTINE" / "ROMANCES QUE QUEIMAM", tudo no círculo. A = pintura no noir da capa, B = lápis de cor
+  (`cv2.pencilSketch`), C = ilustração pintada (`cv2.stylization`). Esperando ele escolher.
