@@ -680,4 +680,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   rosa × azul na diagonal com raios suaves e "?" claros, "ELE × ELA", "QUANTO A GENTE SE CONHECE?" enorme (168 px) no
   centro e "ACERTAMOS SÓ 1 DE 6?!"; conferido recortando 3:4 (y 240–1680) e reduzindo para miniatura. Depois ela pediu o
   fundo nas CORES DO LOGO: laranja #F48825 × azul-petróleo #1C7C96 (o selo ELE × ELA virou petróleo: amarelo no laranja não contrasta).
+- **Capa do "Esse ou aquele? versão Jéssica" (`gravados-reels/capa_esse_aquele.py`, 23/out):** fundo nas cores do logo
+  (laranja × petróleo na diagonal, igual à capa C do casal), "ESSE OU AQUELE?" no alto, a foto dela num cartão (quadro
+  44,67 s = J4 da busca de sorriso + olhar, sorrindo com o dedinho levantado; folha J1–J8 em `out/capa_ea_opcoes.jpg`),
+  fotos do site de Luxor e Wonderland's War nos cantos (1ª rodada, sem entregar o campeão) e "VERSÃO JÉSSICA".
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
