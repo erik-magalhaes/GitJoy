@@ -746,7 +746,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   viúvo de Marina, morta na serra) × Clara Moreira (24, intérprete de Libras, LÊ LÁBIOS; filha secreta do doleiro foragido
   Hélio Brandão — trocou o Brandão pelo Moreira da mãe surda, Dona Neide); vilão Otávio Lemos (Casa Civil); Major Téo.
   Mesmo limite: muito calor, mas a cena fecha antes do sexo explícito; sempre consentido.
-  **Escrito inteiro (23/out):** 18 capítulos no Doc (~44 mil palavras). Cenas quentes: 3 biblioteca/estante, 4 Salão
+  **Escrito inteiro (23/out):** 18 capítulos no Doc (~40 mil palavras). Cenas quentes: 3 biblioteca/estante, 4 Salão
   Nobre, 5 elevador, 6 avião, 7 Manaus, 10 piscina, 11 terraço do Itamaraty, 12 espelho, 14 Gol no cerrado, 16 lareira
   (ela no comando, gravata nos olhos), 18 biblioteca com a luz acesa. Sinais de Libras recorrentes: força (nome dele),
   obrigado, linda, fica/fico, calma, minha, nós, desculpa (Dona Neide corrige). Nomes: delegada PF Joana Reis, agente
