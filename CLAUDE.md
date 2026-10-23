@@ -739,3 +739,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Arquivos KDP de novo com `livro-capa/kdp.py <markdown exportado do Doc>`.
   **PUBLICADO na Amazon (23/out):** descrição + 7 palavras-chave mandadas no chat. Os materiais de divulgação e os
   vídeos ainda dizem "EM BREVE": trocar por "DISPONÍVEL NA AMAZON" se ele pedir.
+- **2º livro da E.M. Valentine: "Sob as Ordens do Presidente" (23/out, pedido dele: "macho alfa, dominador, ela tímida,
+  o mais hot possível").** Ele escolheu a opção 1 de 3 (as outras: presidente de banco, presidente de moto clube).
+  Manuscrito num Claude Doc NOVO: https://claude.ai/artifact/24qSs1dbGWH2xt63DfixKt (esboço de 18 capítulos com 10
+  cenas quentes marcadas + capítulos 1–3 escritos, para ele aprovar o tom antes do resto). Augusto Valença (41, Presidente,
+  viúvo de Marina, morta na serra) × Clara Moreira (24, intérprete de Libras, LÊ LÁBIOS; filha secreta do doleiro foragido
+  Hélio Brandão — trocou o Brandão pelo Moreira da mãe surda, Dona Neide); vilão Otávio Lemos (Casa Civil); Major Téo.
+  Mesmo limite: muito calor, mas a cena fecha antes do sexo explícito; sempre consentido.
