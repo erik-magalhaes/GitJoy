@@ -35,11 +35,19 @@ PAPEL = (248, 241, 230)
 TINTA = (40, 32, 30)
 ROSA = (238, 150, 170)
 VINHO = (196, 64, 92)
+# cada vídeo com uma "página" diferente: (papel, tinta, grifo, rabisco, rodapé)
+TEMAS = {
+    "creme": ((248, 241, 230), (40, 32, 30), (238, 150, 170), (196, 64, 92), (140, 130, 125)),
+    "noturno": ((24, 22, 26), (226, 220, 214), (150, 40, 70), (240, 120, 150), (120, 115, 120)),
+    "branco": ((253, 253, 251), (30, 30, 34), (255, 210, 120), (210, 80, 40), (150, 150, 150)),
+    "sepia": ((236, 222, 196), (60, 42, 28), (214, 120, 100), (150, 50, 40), (130, 110, 90)),
+    "rosa": ((252, 232, 236), (60, 30, 40), (240, 120, 150), (180, 30, 70), (160, 120, 130)),
+}
 
 VIDEOS = {
     "elevador": {
         "pov": "POV: Ele sumiu depois de uma noite. Cinco anos depois, você fica presa no elevador com ele… e ele ainda não sabe dos trigêmeos.",
-        "cap": 4, "pct": 22, "foco": (0.42, 0.45), "vfoco": 0.45, "vy": 0.62,
+        "cap": 4, "pct": 22, "foco": (0.42, 0.45), "vfoco": 0.45, "vy": 0.62, "tema": "noturno",
         "par": [
             "Rafael apoiou a mão no espelho do fundo, do lado do rosto dela.",
             "— Se você der mais um passo — disse ela, baixinho —, eu não respondo por mim.",
@@ -51,7 +59,7 @@ VIDEOS = {
     },
     "cozinha": {
         "pov": "POV: Vocês moram juntos por contrato. Regra número um: nada de beijos. E ele está sem camisa na cozinha à 1h30.",
-        "cap": 7, "pct": 38, "foco": (0.5, 0.12), "vfoco": 0.5, "vy": 0.55,
+        "cap": 7, "pct": 38, "foco": (0.5, 0.12), "vfoco": 0.5, "vy": 0.5, "vzoom": 1.0, "tema": "creme",
         "par": [
             "O calor do corpo dele chegou antes da mão.",
             "— Regra número um — disse Helena, para o fogão.",
@@ -63,7 +71,7 @@ VIDEOS = {
     },
     "escritorio": {
         "pov": "POV: Ele é seu chefe, o pai dos seus filhos e o homem que você jurou odiar. São 9 da noite e o andar está vazio.",
-        "cap": 8, "pct": 44, "foco": (0.5, 0.3), "vfoco": 0.5, "vy": 0.3,
+        "cap": 8, "pct": 44, "foco": (0.5, 0.3), "vfoco": 0.5, "vy": 0.3, "tema": "branco",
         "par": [
             "— Você sempre se debruça assim na mesa dos seus chefes?",
             "— Só dos que ficam olhando.",
@@ -75,7 +83,7 @@ VIDEOS = {
     },
     "provar": {
         "pov": "POV: Ele é CEO. Você é confeiteira. E ele não veio provar o bolo.",
-        "cap": 18, "pct": 96, "foco": (0.5, 0.2), "vfoco": 0.35, "vy": 0.35,
+        "cap": 18, "pct": 96, "foco": (0.5, 0.2), "vfoco": 0.56, "vy": 0.5, "vzoom": 1.0, "tema": "sepia",
         "par": [
             "— Me deixa provar.",
             "— O bolo é da vitrine. Ninguém prova o bolo da vitrine.",
@@ -87,7 +95,7 @@ VIDEOS = {
     },
     "regra_quebrada": {
         "pov": "POV: O noivado era de mentira. A regra era clara: nada de beijos fora das fotos. Até essa noite.",
-        "cap": 10, "pct": 55, "foco": (0.6, 0.3), "vfoco": 0.42, "vy": 0.5,
+        "cap": 10, "pct": 55, "foco": (0.6, 0.3), "vfoco": 0.5, "vy": 0.15, "tema": "rosa",
         "par": [
             "— Então eu estou quebrando a regra número um — disse Helena. — De propósito. Pra constar.",
             "— Tira — disse ela, puxando a gravata dele até o nó se desfazer.",
@@ -96,6 +104,18 @@ VIDEOS = {
             "A chave girou duas vezes.",
         ],
         "grifo": ["De propósito.", "puxando a gravata dele", "A chave girou duas vezes."],
+    },
+    "manha": {
+        "pov": "POV: Ele tentou sair da cama às 6h30 sem te acordar. Péssima ideia.",
+        "cap": 12, "pct": 63, "foco": (0.5, 0.4), "vfoco": 0.6, "vy": 0.5, "vzoom": 1.0, "tema": "branco",
+        "par": [
+            "— Você ia sair sem me acordar? — disse Helena, de olhos fechados, a voz rouca de sono.",
+            "— Ia correr.",
+            "Ela abriu um olho só. Depois puxou a camiseta dele com as duas mãos, até tirar pela cabeça, e jogou no chão.",
+            "— Cinco minutos — disse. — Depois você corre.",
+            "Os cinco minutos viraram quarenta.",
+        ],
+        "grifo": ["sem me acordar", "jogou no chão", "viraram quarenta"],
     },
 }
 
@@ -221,10 +241,10 @@ def pagina(nome):
     if "p_" + nome in _cache:
         return _cache["p_" + nome]
     v = VIDEOS[nome]
-    PW, MARG = 900, 62
-    f = fonte("Cormorant.ttf", 50, 500)
-    fi = fonte("Cormorant-Italic.ttf", 50, 500)
-    lh = 64
+    PW, MARG = 880, 56
+    f = fonte("Cormorant.ttf", 45, 500)
+    fi = fonte("Cormorant-Italic.ttf", 45, 500)
+    lh = 56
     blocos = []
     y = 70
     for i, par in enumerate(v["par"]):
@@ -232,11 +252,12 @@ def pagina(nome):
         blocos.append((y, linhas))
         y += len(linhas) * lh + 26
     PH = y + 70
+    PAPEL, TINTA, ROSA, VINHO, RODAPE = TEMAS[v.get("tema", "creme")]
     papel = Image.new("RGBA", (PW, PH), PAPEL + (255,))
     dp = ImageDraw.Draw(papel)
     ff = fonte("Cormorant.ttf", 30, 500)
-    dp.text((MARG - 20, PH - 46), f"Capítulo {v['cap']}", font=ff, fill=(140, 130, 125))
-    dp.text((PW - MARG + 20, PH - 46), f"{v['pct']}%", font=ff, fill=(140, 130, 125), anchor="ra")
+    dp.text((MARG - 20, PH - 46), f"Capítulo {v['cap']}", font=ff, fill=RODAPE)
+    dp.text((PW - MARG + 20, PH - 46), f"{v['pct']}%", font=ff, fill=RODAPE, anchor="ra")
     camadas = []
     rng = np.random.default_rng(len(nome))
     for i, (y0, linhas) in enumerate(blocos):
@@ -289,10 +310,10 @@ def pov(nome):
     if "pov_" + nome in _cache:
         return _cache["pov_" + nome]
     v = VIDEOS[nome]
-    f = fonte("PlayfairDisplay.ttf", 66, 800)
+    f = fonte("PlayfairDisplay.ttf", 56, 800)
     linhas = quebra(v["pov"], f, W - 120)
     txt = "\n".join(linhas)
-    m = _mascara((W, H), (W / 2, 120), txt, f, "ma", 0, "center", 6)
+    m = _mascara((W, H), (W / 2, 80), txt, f, "ma", 0, "center", 6)
     out = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     sh = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     sh.putalpha(m.filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.GaussianBlur(6)).point(lambda p: min(255, p * 2)))
@@ -353,7 +374,7 @@ def compoe(nome, t, fundo_rgb):
     PW, PH = papel.size
     a = ease(seg(t, 0.5, 1.1))
     if a > 0:
-        topo = max(pov_baixo + 50, H - PH - 330)
+        topo = max(pov_baixo + 50, H - PH - 250)
         dy = int(80 * (1 - a))
         x0 = (W - PW) // 2
         pg = papel.copy()
@@ -399,10 +420,11 @@ def fundo_video(nome, D):
     n = max(1, int(np.ceil((D - 1) / (L - 1))))
     fx = VIDEOS[nome].get("vfoco", 0.5)
     fy = VIDEOS[nome].get("vy", 0.5)
+    vz = VIDEOS[nome].get("vzoom", 1.3)
     ent, filt = [], []
     for k in range(n):
         ent += ["-i", src]
-        filt.append(f"[{k}:v]setpts=(PTS-STARTPTS)/{VEL},scale=w={round(W * 1.3)}:h={round(H * 1.3)}:force_original_aspect_ratio=increase,"
+        filt.append(f"[{k}:v]setpts=(PTS-STARTPTS)/{VEL},scale=w={round(W * vz)}:h={round(H * vz)}:force_original_aspect_ratio=increase,"
                     f"crop={W}:{H}:(iw-{W})*{fx}:(ih-{H})*{fy},setsar=1,trim=0:{L:.3f},setpts=PTS-STARTPTS,"
                     f"fps={FPS},settb=AVTB[v{k}]")
     ult = "v0"

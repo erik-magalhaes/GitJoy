@@ -715,3 +715,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   os "Restricted" ficam de fora. Os .mp4 ficam em `livro-capa/assets/pagina/` FORA do git (70 MB; links em FONTES.txt).
   `pagina.py` monta o fundo com ffmpeg (câmera lenta 0,7x, zoom 1,3, recorte por `vfoco`/`vy`, emendas com xfade 1 s) e
   compõe POV + página por cima, quadro a quadro.
+  **Variedade (23/out, ele achou "muito repetitivo"):** cada vídeo de página com um TIPO de fundo diferente (casal se
+  beijando no carro, cara sem camisa respirando, silhuetas na cidade, carinho na cama, mulher de vestido vermelho,
+  homem acordando nos lençóis) e um TEMA de página diferente (`TEMAS`: creme, noturno, branco, sépia, rosa); `vzoom`/
+  `vfoco`/`vy` por vídeo. Mixkit "Restricted" ficou de fora (batom, gravata, chuveiro eram Restricted). POV menor (56) no
+  topo e página mais baixa para o rosto aparecer no meio. 6º vídeo: `manha` (cap. 12).
