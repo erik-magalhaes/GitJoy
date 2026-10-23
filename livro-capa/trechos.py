@@ -76,7 +76,7 @@ VIDEOS = {
     },
     "elevador": {
         "gancho": "Presa no elevador\ncom o chefe…\nque é o pai dos seus filhos",
-        "zoom": (1.0, 1.15), "foco": (0.55, 0.5), "tom": (0.9, 1.0, 1.05), "espelho": False, "anim": "andar",
+        "zoom": (1.0, 1.12), "foco": (0.68, 0.6), "tom": (1.05, 0.88, 0.85), "espelho": False, "anim": "andar",
         "linhas": [
             "Ela sentia a respiração dele\nno pescoço.",
             "— Se você der mais um passo,\neu não respondo por mim.",
@@ -87,7 +87,7 @@ VIDEOS = {
     },
     "cozinha": {
         "gancho": "1h30 da manhã.\nEle, sem camisa,\natrás de mim no fogão.",
-        "zoom": (1.0, 1.1), "foco": (0.5, 0.5), "tom": (1.05, 0.9, 0.95), "espelho": False, "anim": "chuva",
+        "zoom": (1.0, 1.12), "foco": (0.6, 0.4), "tom": (1.08, 0.95, 0.9), "espelho": False, "anim": "poeira",
         "linhas": [
             "O calor do corpo dele\nchegou antes da mão.",
             "A mão dele parou na cintura dela.\nSó parou.",
@@ -98,7 +98,7 @@ VIDEOS = {
     },
     "regra_quebrada": {
         "gancho": "Regra número um:\nnada de beijos\nfora das fotos.",
-        "zoom": (1.0, 1.15), "foco": (0.40, 0.62), "tom": (1.25, 0.6, 0.55), "espelho": False, "cinza": 0.55, "contraste": 1.25, "brilho": -0.1, "anim": "brasas",
+        "zoom": (1.0, 1.12), "foco": (0.5, 0.5), "tom": (1.05, 0.9, 0.9), "espelho": False, "brilho": 0.0, "anim": "brasas",
         "linhas": [
             "— Então eu estou quebrando\na regra número um.\nDe propósito.",
             "— Tira — disse ela,\npuxando a gravata dele.",
@@ -110,7 +110,7 @@ VIDEOS = {
     },
     "provar": {
         "gancho": "Ela é confeiteira.\nEle, o chefe que ela\njurou odiar.",
-        "zoom": (1.0, 1.2), "foco": (0.72, 0.6), "tom": (1.05, 0.88, 0.85), "espelho": False, "anim": "bokeh",
+        "zoom": (1.0, 1.12), "foco": (0.42, 0.5), "tom": (1.05, 0.9, 0.9), "espelho": False, "anim": "bokeh",
         "linhas": [
             "— Me deixa provar.",
             "— O bolo é da vitrine.\nNinguém prova o bolo da vitrine.",
@@ -122,7 +122,7 @@ VIDEOS = {
     },
     "encharcado": {
         "gancho": "Ele chegou encharcado.\nE ela pediu pra ele\ntirar a camisa.",
-        "zoom": (1.0, 1.15), "foco": (0.5, 0.5), "tom": (1.1, 0.85, 1.0), "espelho": False, "anim": "chuva",
+        "zoom": (1.0, 1.12), "foco": (0.6, 0.6), "tom": (0.92, 0.95, 1.05), "espelho": False, "inteira": True, "anim": "chuva",
         "linhas": [
             "— Você está encharcado.",
             "— Tira isso.\nVai pegar um resfriado.",
@@ -295,6 +295,19 @@ def fundo(nome, t):
     x0 = min(max(0, cx - cw / 2), f.width - cw)
     y0 = min(max(0, cy - ch / 2), f.height - ch)
     img = f.resize((W, H), Image.BILINEAR, box=(x0, y0, x0 + cw, y0 + ch))
+    if v.get("inteira"):
+        # foto inteira (pessoas sem corte) numa faixa no alto; atrás, a própria foto desfocada e escura
+        img = img.filter(ImageFilter.GaussianBlur(40)).point(lambda p: int(p * 0.45))
+        fw = round(W * z)
+        fh = round(f.height * fw / f.width)
+        faixa = f.resize((fw, fh), Image.BILINEAR)
+        m = Image.new("L", (fw, fh), 0)
+        ImageDraw.Draw(m).rectangle((0, 0, fw, fh), fill=255)
+        m = m.filter(ImageFilter.GaussianBlur(0))
+        borda = Image.new("L", (fw, fh), 255)
+        yy = np.linspace(0, 1, fh)[:, None]
+        a = np.clip(np.minimum(yy, 1 - yy) / 0.12, 0, 1) * np.ones((1, fw))
+        img.paste(faixa, ((W - fw) // 2, 560 - fh // 2), Image.fromarray((a * 255).astype(np.uint8)))
     img = Image.composite(Image.new("RGB", (W, H)), img, escurece())
     anim = v.get("anim", "brasas")
     if anim == "bokeh":
