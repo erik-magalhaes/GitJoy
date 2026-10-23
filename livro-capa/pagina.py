@@ -95,7 +95,7 @@ VIDEOS = {
     },
     "regra_quebrada": {
         "pov": "POV: O noivado era de mentira. A regra era clara: nada de beijos fora das fotos. Até essa noite.",
-        "cap": 10, "pct": 55, "foco": (0.6, 0.3), "vfoco": 0.5, "vy": 0.15, "tema": "rosa",
+        "cap": 10, "pct": 55, "foco": (0.6, 0.3), "vfoco": 0.5, "vy": 0.5, "vzoom": 1.0, "tema": "rosa",
         "par": [
             "— Então eu estou quebrando a regra número um — disse Helena. — De propósito. Pra constar.",
             "— Tira — disse ela, puxando a gravata dele até o nó se desfazer.",
