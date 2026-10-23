@@ -700,3 +700,12 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   ampliadas com Real-ESRGAN) + animação própria (bokeh, chuva no vidro, poeira dourada, painel de elevador, brasas),
   gancho em cima com véu escuro, 5 falas exatas do livro entrando uma a uma, tela final com o livro e "EM BREVE".
   Trilha sintetizada (piano + pad em lá menor + coração). Saída `_com_trilha` e `_para_musica` (áudio mudo).
+  **Vídeos "página do livro" (`livro-capa/pagina.py`, 23/out):** referência que ele mandou (Reels de autora: casal se
+  beijando no fundo se mexendo, "POV: ..." grande em cima, página creme com trechos grifados em rosa, corações e setas,
+  "Capítulo N" e "%"). Fotos CC0 de casais se beijando (StockSnap, `assets/pagina/FONTES.txt`); movimento = paralaxe 2,5D
+  com mapa de profundidade (Depth Anything small ONNX, `Xenova/depth-anything-small-hf/onnx/model_quantized.onnx`, no
+  scratchpad) + `cv2.remap`; o rosto/beijo fica a ~33% da altura, entre o gancho e a página (foto com rosto colado no topo
+  NÃO serve). 5 vídeos: elevador, cozinha, escritorio, provar, regra_quebrada. Limite que eu mantenho: tensão e duplo
+  sentido, sem descrição explícita de sexo (ele pediu "você está tão molhada" e recusei; virou cena de chuva/chantilly).
+  Ele quer fotos de PESSOAS em clima quente (não fofo) nos vídeos de trechos; 3 cenas novas no livro: escritório (cap. 8),
+  manhã (cap. 12) e sofá (cap. 16).
