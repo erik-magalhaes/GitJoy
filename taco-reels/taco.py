@@ -355,7 +355,9 @@ def cena3(img, t, lt):
         escreve(img, p, xs[k], 1500, 62 if k != atual else 72, ease(seg(lt, 0.0 + k * 0.1, 0.4 + k * 0.1)), cor=cor)
     if atual >= 0:
         seta(img, (xs[atual] - 40, 1565), (xs[atual] + 40, 1565), t, curva=0)
-    escreve(img, "e começa de novo! ↺", 540, 300, 70, ease(seg(lt, 7.4, 8.0)), rot=-2)
+    escreve(img, "e começa de novo!", 500, 300, 70, ease(seg(lt, 7.4, 8.0)), rot=-2)
+    if lt > 7.9:  # setinha de "volta pro começo" desenhada (a fonte não tem o ↺)
+        seta(img, (950, 1590), (150, 1590), t, curva=0, prog=ease(seg(lt, 7.9, 8.4)))
 
 
 def cena4(img, t, lt):
