@@ -712,5 +712,5 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   some. Tudo acima de y ≈ 1590 (legenda). **Letras (pedido dele: "feito à mão, mas que dê pra ler"):** `letra()` usa Patrick
   Hand com traço engrossado (stroke), cada letra com giro/tamanho/altura levemente diferentes, grão de lápis, 2ª passada
   POR BAIXO (por cima ela clareava tudo para cinza) e um "apagado" de papel em volta. 8 falas, 62 s. Gravador (arquivos `taco_narracao_NN`):
-  `https://raw.githack.com/erik-magalhaes/GitJoy/af6d1208bac5e2867351f708576bad183d47aa84/taco-reels/gravador/Gravar_narracao_Taco.html`.
+  `https://raw.githack.com/erik-magalhaes/GitJoy/7259c30f06370b1abad127624af5c10672c58050/taco-reels/gravador/Gravar_narracao_Taco.html`.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
