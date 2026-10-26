@@ -109,7 +109,7 @@ def texto_impresso(escuro, h):
     return out
 
 
-def lapis(img, w, semente=0, linha_lim=100, dens=1.0, cheia=True, tira_texto=False):
+def lapis(img, w, semente=0, linha_lim=100, dens=1.0, cheia=True, tira_texto=False, fino=False, bordas=False, traco=1.0):
     """img: RGBA/RGB da arte oficial. Linha = os traços pretos da arte (lum < 100; o marrom do gorila é cor)."""
     rng = np.random.default_rng(semente)
     im = img.convert("RGBA")
@@ -124,13 +124,21 @@ def lapis(img, w, semente=0, linha_lim=100, dens=1.0, cheia=True, tira_texto=Fal
     txt = texto_impresso(escuro, h) if tira_texto else np.zeros_like(escuro)
     txt = cv2.dilate(txt.astype(np.uint8), np.ones((5, 5), np.uint8)).astype(bool)
     linha = escuro & ~txt
+    if fino:  # ilustração com áreas escuras grandes (camiseta): só o traço FINO é contorno
+        k = max(3, int(w / 45)) | 1
+        grosso = cv2.morphologyEx(escuro.astype(np.uint8), cv2.MORPH_OPEN, np.ones((k, k), np.uint8)).astype(bool)
+        linha = linha & ~grosso
+    if bordas:  # ilustração chapada sem contorno preto: as divisas de cor viram traço (braço, dedos, boca)
+        g = cv2.GaussianBlur(rgb.astype(np.uint8), (0, 0), 1.2)
+        ed = cv2.Canny(cv2.cvtColor(g, cv2.COLOR_RGB2GRAY), 40, 110) > 0
+        linha = linha | (cv2.dilate(ed.astype(np.uint8), np.ones((2, 2), np.uint8)).astype(bool) & a)
     m8 = ((linha | buraco | txt) * 255).astype(np.uint8)
     cor = cv2.inpaint(rgb.astype(np.uint8), m8, 9, cv2.INPAINT_TELEA).astype(np.float64)
     cor = satura(cor)
     out = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     clara = cor * 0.30 + np.array(PAPEL) * 0.70  # o lápis não cobre tudo: o papel aparece
     out.alpha_composite(Image.fromarray(np.dstack([clara, forma * 255.0]).astype(np.uint8), "RGBA"))
-    esc = max(1.0, w / 460)
+    esc = max(1.0, w / 460) * traco
     hachura(out, forma, cor, rng, dens=dens * 0.55, comp=(18 * esc, 44 * esc), larg=max(2, int(3 * esc)), alfa=215,
             cruzada=0.12)
     hachura(out, forma, cor, rng, dens=dens * 0.25, ang=-28, comp=(10 * esc, 26 * esc), larg=max(2, int(2 * esc)),
@@ -147,9 +155,9 @@ def lapis(img, w, semente=0, linha_lim=100, dens=1.0, cheia=True, tira_texto=Fal
     return out
 
 
-def desenho(img, w, semente=0, linha_lim=100):
+def desenho(img, w, semente=0, linha_lim=100, fino=False, bordas=False, traco=1.0):
     """Qualquer arte (emoji, ilustração) em lápis, com o contorno de fora rabiscado (emoji não tem linha preta)."""
-    out = lapis(img, w, semente, linha_lim=linha_lim, cheia=False)
+    out = lapis(img, w, semente, linha_lim=linha_lim, cheia=False, fino=fino, bordas=bordas, traco=traco)
     a = np.asarray(out.getchannel("A")) > 128
     d = ImageDraw.Draw(out)
     rng = np.random.default_rng(semente + 7)
