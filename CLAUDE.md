@@ -686,4 +686,20 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   fotos do site de Luxor e Wonderland's War nos cantos (1ª rodada, sem entregar o campeão) e "VERSÃO JÉSSICA".
   Depois ela pediu OUTRO FUNDO (mesmas cores): "todas as capas estão com o mesmo fundo" (a diagonal com raios) → 3 opções
   `capa_esse_aquele_{1_xadrez,2_bolinhas,3_trilha}.png`. **Regra: variar o fundo entre capas também, não só entre carrosséis.**
+- **Taco Gato Cabra Queijo Pizza (`taco-reels/`, 26/out, começando):** ele pediu "como se joga, tipo animação"; depois mudou
+  para **DESENHO DE LÁPIS DE COR** (referência: post do @comeceevoluir, elefante × gato rabiscados em papel creme, contorno
+  preto tremido em várias passadas, cor em hachura com o papel aparecendo, nome escrito à mão com setinha). Edição de
+  vocês = **PaperGames** (Pocket R$ 15; site: 2–8 jogadores; PaperGames: 10 min, 6+). Cartas OFICIAIS planas no site da
+  PaperGames (`wp-content/uploads/2022/07/cartas-frente-NN.png`, 544x741): 11 Gorila, 15 Taco, 16 Gato, 25 Narval, 28 Cabra,
+  39 Queijo, 49 Marmota, 56 Pizza + `cartas-verso.png` → `assets/cartas/`. O item do site é a versão com a **Capivara**
+  (promo PaperGames: gesto = indicador e médio virados para baixo na boca, imitando os dentes; ilustração oficial do gesto
+  em `assets/capivara_gesto.png`). O texto impresso das cartas é RECORTADO (transparente) e fica a 9–21% / 79–91% da altura.
+  Regras (PaperGames + Wikipédia; o folheto oficial está no OneDrive e o proxy bloqueia): vira a carta no monte do meio e
+  fala a próxima palavra (taco, gato, cabra, queijo, pizza...); carta = palavra → todos batem, o ÚLTIMO leva a pilha;
+  Gorila = bate no peito, Narval = mãos juntas em chifre na cabeça, Marmota = bate as duas mãos na mesa, depois bate na
+  pilha; errar o gesto / bater sem precisar / hesitar = leva a pilha; vence quem, sem cartas, bate PRIMEIRO numa combinação.
+  `lapis.py`: `lapis()` (contorno = traços pretos lum<100 em 3 passadas tremidas; cor = base clara + hachuras com a cor da
+  arte saturada), `carta()` (sem o texto impresso, nome à mão em Kalam), `desenho()` (qualquer arte + contorno de fora).
+  Mãos = **OpenMoji** com tom de pele (`assets/openmoji/*-pele.png`, SVG renderizado com cairosvg; têm contorno preto);
+  o emoji Noto virou um borrão. Fontes de mão: Kalam, Patrick Hand, Gochi Hand (`assets/fonts/`). Teste: `teste.py`.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
