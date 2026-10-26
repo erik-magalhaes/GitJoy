@@ -702,4 +702,15 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   arte saturada), `carta()` (sem o texto impresso, nome à mão em Kalam), `desenho()` (qualquer arte + contorno de fora).
   Mãos = **OpenMoji** com tom de pele (`assets/openmoji/*-pele.png`, SVG renderizado com cairosvg; têm contorno preto);
   o emoji Noto virou um borrão. Fontes de mão: Kalam, Patrick Hand, Gochi Hand (`assets/fonts/`). Teste: `teste.py`.
+  **Vídeo: `taco-reels/taco.py`** (24 fps, desenho "tremendo" a 12/s: 3 sementes de cada sprite em cache; ~65 s, 9 cenas do
+  roteiro aprovado: palavras se escrevendo + cartas, baralho distribuído em 4 montes (verso oficial), cartas virando no ar
+  até o monte com balão da palavra e a ordem das palavras embaixo, GATO = carta → 4 mãos batendo com "PÁ!" e a pilha indo
+  para o último, gorila/narval/marmota grandes com o gesto (punhos, mãos em chifre, mãos na mesa), capivara + o gesto
+  oficial, erros riscados com X vermelho, "0 cartas" bate primeiro = GANHOU, "Comenta aqui: qual palavra você sempre
+  erra?", tela final com a caixa oficial em lápis). Bichos grandes = arte da carta sem o fundo (`spr_arte`, flood fill da
+  cor da borda, corte de 5% nas laterais para tirar o fio da carta). Imagens com fundo branco/transparente passam por
+  `sem_fundo` (senão o contorno vira um retângulo). Ilustração chapada SEM contorno preto (gesto da capivara): `fino=True`
+  (área escura grande = cor) + `bordas=True` (divisas de cor viram traço) + `traco=0.55` (riscos curtos), senão o gesto
+  some. Tudo acima de y ≈ 1590 (legenda). Gravador (arquivos `taco_narracao_NN`):
+  `https://raw.githack.com/erik-magalhaes/GitJoy/af6d1208bac5e2867351f708576bad183d47aa84/taco-reels/gravador/Gravar_narracao_Taco.html`.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
