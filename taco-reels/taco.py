@@ -7,8 +7,10 @@ creme, contorno preto tremido, hachura de lápis, letra à mão, setinhas. O des
 Cenas (roteiro de 9 falas aprovado, na ordem de uma partida):
  1 gancho (as 5 palavras se escrevendo, cada uma com a sua carta) · 2 preparação (baralho distribuído em 4 montes
  virados) · 3 a vez (as cartas caem no monte e cada jogador fala a próxima palavra) · 4 bateu! (GATO + carta do gato:
- 4 mãos batendo, a última leva a pilha) · 5 especiais (gorila / narval / marmota com o gesto) · 6 capivara (carta + o gesto
- oficial) · 7 erros (a pilha é sua) · 8 vitória + "comenta" · 9 tela final (caixa oficial em lápis).
+ 4 mãos batendo, a última leva a pilha) · 5 especiais (gorila / narval / marmota com o gesto) · 6 erros (a pilha é sua)
+ · 7 vitória + "comenta" · 8 tela final (caixa oficial em lápis).
+A caixa deles NÃO tem a Capivara (a cena foi tirada em 26/out). Letras: Patrick Hand com tremido letra a letra, grão de
+lápis e um "apagado" de papel em volta (`letra`), pedido dele: "feito à mão, mas que dê pra ler".
 
     python3 taco.py --frame 2 9 16 ...   # out/frames_taco.jpg
     python3 taco.py                      # out/taco_previa.mp4 (sem voz, legenda do roteiro)
@@ -16,6 +18,7 @@ Cenas (roteiro de 9 falas aprovado, na ordem de uma partida):
 import argparse
 import math
 import os
+import zlib
 import sys
 from functools import lru_cache
 
@@ -37,8 +40,7 @@ ASSETS = os.path.join(ROOT, "assets")
 OUT = os.path.join(ROOT, "out")
 VERMELHO, AZUL, VERDE = (200, 52, 40), (40, 90, 170), (40, 140, 80)
 CARTAS = {"gorila": "frente_11.png", "taco": "frente_15.png", "gato": "frente_16.png", "narval": "frente_25.png",
-          "cabra": "frente_28.png", "queijo": "frente_39.png", "marmota": "frente_49.png", "pizza": "frente_56.png",
-          "capivara": "capivara.png"}
+          "cabra": "frente_28.png", "queijo": "frente_39.png", "marmota": "frente_49.png", "pizza": "frente_56.png"}
 PALAVRAS = ["taco", "gato", "cabra", "queijo", "pizza"]
 # roteiro (falas) e duração de cada cena na prévia; com a narração, cada cena estica/encolhe para caber a fala
 ROTEIRO = [
@@ -47,12 +49,11 @@ ROTEIRO = [
     "Na sua vez, você vira uma carta no meio e fala a próxima palavra: taco, gato, cabra, queijo, pizza... e começa de novo.",
     "Se a carta for igual à palavra que você falou, todo mundo bate a mão no monte! O último a bater leva a pilha inteira.",
     "Tem as especiais! Gorila: bate no peito. Narval: faz um chifre com as mãos. Marmota: bate as duas mãos na mesa. E só depois bate no monte.",
-    "E a nossa caixa ainda tem a Capivara: dois dedinhos na boca, imitando os dentes!",
     "Errou o gesto? Bateu sem precisar? Hesitou? A pilha é sua!",
     "Ganha quem acabar as cartas e for o primeiro a bater na próxima. Comenta aqui: qual palavra você sempre erra?",
     "Taco Gato Cabra Queijo Pizza, de 2 a 8 jogadores. Aluga na Sua Vez, o link tá na bio!",
 ]
-DURS = [5.2, 6.4, 9.0, 8.0, 10.5, 5.8, 6.2, 7.8, 6.0]
+DURS = [5.2, 6.4, 9.0, 8.0, 12.6, 7.0, 7.8, 6.0]
 INICIO = [sum(DURS[:k]) for k in range(len(DURS))]
 DUR = sum(DURS)
 CENTRO = (540, 1000)
@@ -163,17 +164,50 @@ def cola(img, im, cx, cy, rot=0.0, sc=1.0, alpha=1.0):
 
 
 @lru_cache(None)
-def letra(txt, s, cor=GRAFITE, nome="Kalam-Bold.ttf"):
+def letra(txt, s, cor=GRAFITE, nome="PatrickHand-Regular.ttf", sem=0):
+    """Letra à mão de lápis, mas fácil de ler: cada letra com um tiquinho de giro, tamanho e altura diferentes, traço
+    com grão de lápis e uma 2ª passada levemente desencontrada (cor mais forte), e um "apagado" de papel em volta para
+    destacar do desenho que está atrás. A semente (`sem`) muda o tremido junto com o boil do desenho."""
+    rng = np.random.default_rng(zlib.crc32(f"{txt}|{s}|{sem}".encode()))
     f = fonte(nome, s)
     linhas = txt.split("\n")
     tmp = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
-    lw = max(tmp.textlength(l, font=f) for l in linhas)
-    lh = s * 1.12
-    im = Image.new("RGBA", (int(lw + 30), int(lh * len(linhas) + 30)), (0, 0, 0, 0))
-    d = ImageDraw.Draw(im)
+    lw = max(tmp.textlength(l, font=f) for l in linhas) * 1.06
+    lh = s * 1.08
+    pad = int(s * 0.25) + 10
+    W0, H0 = int(lw + 2 * pad), int(lh * len(linhas) + 2 * pad)
+    tinta = Image.new("L", (W0, H0), 0)
     for k, l in enumerate(linhas):
-        d.text((im.width / 2, 15 + lh * (k + 0.5)), l, font=f, fill=cor, anchor="mm")
-    return im
+        x = W0 / 2 - tmp.textlength(l, font=f) * 1.06 / 2
+        yb = pad + lh * (k + 0.5)
+        for ch in l:
+            adv = tmp.textlength(ch, font=f) * 1.06
+            if ch != " ":
+                ss = s * (1 + rng.normal(0, 0.035))
+                fc = fonte(nome, int(ss))
+                g = Image.new("L", (int(ss * 1.6), int(ss * 1.6)), 0)
+                gd = ImageDraw.Draw(g)
+                for dx, dy, v in ((rng.normal(0, s / 80), rng.normal(0, s / 80), 120), (0, 0, 255)):  # 2ª passada por baixo
+                    gd.text((g.width / 2 + dx, g.height / 2 + dy), ch, font=fc, fill=v, anchor="mm",
+                            stroke_width=max(1, int(ss / 34)), stroke_fill=v)  # traço grosso de lápis apoiado
+                g = g.rotate(rng.normal(0, 3.5), resample=Image.BICUBIC)
+                cx, cy = x + adv / 2, yb + rng.normal(0, s * 0.025)
+                tinta.paste(255, (int(cx - g.width / 2), int(cy - g.height / 2)), g)
+            x += adv
+    a = np.asarray(tinta).astype(np.float64) / 255
+    grao = rng.uniform(0.86, 1.0, a.shape)  # o grafite não cobre o papel por igual
+    grao = cv2.GaussianBlur(grao, (0, 0), 0.6)
+    a = a * grao
+    halo = cv2.dilate((a > 0.2).astype(np.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (int(s / 6) | 1,) * 2))
+    halo = cv2.GaussianBlur(halo.astype(np.float32), (0, 0), s / 22) * 0.85
+    im = np.zeros((H0, W0, 4), np.float64)
+    im[..., :3] = PAPEL
+    im[..., 3] = halo
+    tin = np.array(cor, float)
+    al = a + im[..., 3] * (1 - a)
+    im[..., :3] = (tin * a[..., None] + im[..., :3] * (im[..., 3] * (1 - a))[..., None]) / np.maximum(al, 1e-6)[..., None]
+    im[..., 3] = al * 255
+    return Image.fromarray(np.clip(im, 0, 255).astype(np.uint8), "RGBA")
 
 
 def escreve(img, txt, x, y, s, prog=1.0, cor=GRAFITE, rot=0.0):
@@ -404,7 +438,7 @@ ESPECIAIS = [("gorila", "bate no peito!"), ("narval", "chifre com as mãos!"), (
 def cena5(img, t, lt):
     """Especiais: cada bicho grande com o gesto; depois todo mundo bate no monte."""
     s = semente(t)
-    bloco = 3.2
+    bloco = DURS[4] / 3
     k = min(2, int(lt / bloco))
     bt = lt - k * bloco
     nome, gesto = ESPECIAIS[k]
@@ -432,18 +466,6 @@ def cena5(img, t, lt):
         escreve(img, "...e só depois bate no monte!", 540, 1550, 60, ease(seg(bt, 2.2, 2.8)), rot=-1)
 
 
-def cena6(img, t, lt):
-    """Capivara (a carta extra da caixa da Sua Vez) e o gesto oficial."""
-    s = semente(t)
-    escreve(img, "na nossa caixa", 540, 300, 74, ease(seg(lt, 0.0, 0.5)), rot=-2)
-    escreve(img, "tem a CAPIVARA!", 540, 395, 96, ease(seg(lt, 0.4, 0.9)), cor=VERMELHO, rot=-2)
-    cola(img, spr_carta("capivara", 340, s), 270, 840, rot=-8, sc=out_back(seg(lt, 0.3, 0.7)))
-    cola(img, spr_img("capivara_gesto.png", 500, s, 110, True, True, 0.55), 770, 940, rot=4, sc=out_back(seg(lt, 0.9, 1.3)))
-    seta(img, (640, 1300), (730, 1190), t, curva=30, prog=ease(seg(lt, 1.6, 2.0)))
-    escreve(img, "dois dedinhos na boca:", 520, 1420, 64, ease(seg(lt, 1.8, 2.4)), rot=-1)
-    escreve(img, "os dentes da capivara!", 520, 1510, 70, ease(seg(lt, 2.4, 3.0)), cor=VERMELHO, rot=-1)
-
-
 ERROS = ["errou o gesto?", "bateu sem precisar?", "hesitou?"]
 
 
@@ -454,7 +476,7 @@ def cena7(img, t, lt):
     pilha(img, t, [("taco", -6), ("narval", 7), ("queijo", -3)])
     for k, e in enumerate(ERROS):
         t0 = 0.3 + k * 1.2
-        y = 300 + k * 110
+        y = 270 + k * 100
         escreve(img, e, 520, y, 74, ease(seg(lt, t0, t0 + 0.5)), rot=-2)
         risca(img, 900, y, 34, t, prog=ease(seg(lt, t0 + 0.5, t0 + 0.8)))
     escreve(img, "A PILHA É SUA!", 540, 1530, 100, ease(seg(lt, 4.0, 4.6)), cor=VERMELHO, rot=-3)
@@ -499,7 +521,7 @@ def cena9(img, t, lt):
     escreve(img, "LINK NA BIO · @SUAVEZ_BG", 540, 1510, 72, ease(seg(lt, 1.9, 2.4)), cor=AZUL, rot=-1)
 
 
-CENAS = [None, cena2, cena3, cena4, cena5, cena6, cena7, cena8, cena9]
+CENAS = [None, cena2, cena3, cena4, cena5, cena7, cena8, cena9]
 
 
 # ---------------------------------------------------------------- legenda da prévia (roteiro)
@@ -535,7 +557,7 @@ def frame(t, com_legenda=True):
         cena1(img, t)
     else:
         CENAS[k](img, t, lt)
-    if k < 8:
+    if k < len(DURS) - 1:
         img.alpha_composite(logo_card(150), (W - 186, 46))
     if com_legenda:
         legenda(img, t, k, lt)
@@ -558,14 +580,12 @@ def cues():
     c += [(t4 + tt + 0.2, "carimbo", 0.55) for tt in (1.45, 1.6, 1.75, 2.55)]
     c += [(t4 + 5.2, "whoosh", 0.4)]
     t5 = INICIO[4]
-    c += [(t5 + k * 3.2, "pop", 0.5) for k in range(3)]
-    t6 = INICIO[5]
-    c += [(t6 + 0.3, "pop", 0.5), (t6 + 0.9, "pop", 0.5)]
-    t7 = INICIO[6]
+    c += [(t5 + k * DURS[4] / 3, "pop", 0.5) for k in range(3)]
+    t7 = INICIO[5]
     c += [(t7 + 0.8 + k * 1.2, "carimbo", 0.35) for k in range(3)] + [(t7 + 4.0, "boing", 0.5)]
-    t8 = INICIO[7]
+    t8 = INICIO[6]
     c += [(t8 + 1.3, "flip", 0.5), (t8 + 1.7, "carimbo", 0.6), (t8 + 1.9, "chime", 0.5), (t8 + 4.3, "whoosh", 0.4)]
-    c += [(INICIO[8], "whoosh", 0.4), (INICIO[8] + 0.5, "chime", 0.5)]
+    c += [(INICIO[7], "whoosh", 0.4), (INICIO[7] + 0.5, "chime", 0.5)]
     return c
 
 

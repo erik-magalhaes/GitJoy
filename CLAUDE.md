@@ -691,9 +691,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   preto tremido em várias passadas, cor em hachura com o papel aparecendo, nome escrito à mão com setinha). Edição de
   vocês = **PaperGames** (Pocket R$ 15; site: 2–8 jogadores; PaperGames: 10 min, 6+). Cartas OFICIAIS planas no site da
   PaperGames (`wp-content/uploads/2022/07/cartas-frente-NN.png`, 544x741): 11 Gorila, 15 Taco, 16 Gato, 25 Narval, 28 Cabra,
-  39 Queijo, 49 Marmota, 56 Pizza + `cartas-verso.png` → `assets/cartas/`. O item do site é a versão com a **Capivara**
-  (promo PaperGames: gesto = indicador e médio virados para baixo na boca, imitando os dentes; ilustração oficial do gesto
-  em `assets/capivara_gesto.png`). O texto impresso das cartas é RECORTADO (transparente) e fica a 9–21% / 79–91% da altura.
+  39 Queijo, 49 Marmota, 56 Pizza + `cartas-verso.png` → `assets/cartas/`. A caixa DELES **NÃO tem a Capivara** (ele corrigiu em 26/out): só Gorila, Narval e Marmota; a cena da
+  capivara saiu (os arquivos `capivara*.png` ficaram em assets, sem uso). O texto impresso das cartas é RECORTADO (transparente) e fica a 9–21% / 79–91% da altura.
   Regras (PaperGames + Wikipédia; o folheto oficial está no OneDrive e o proxy bloqueia): vira a carta no monte do meio e
   fala a próxima palavra (taco, gato, cabra, queijo, pizza...); carta = palavra → todos batem, o ÚLTIMO leva a pilha;
   Gorila = bate no peito, Narval = mãos juntas em chifre na cabeça, Marmota = bate as duas mãos na mesa, depois bate na
@@ -705,12 +704,13 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **Vídeo: `taco-reels/taco.py`** (24 fps, desenho "tremendo" a 12/s: 3 sementes de cada sprite em cache; ~65 s, 9 cenas do
   roteiro aprovado: palavras se escrevendo + cartas, baralho distribuído em 4 montes (verso oficial), cartas virando no ar
   até o monte com balão da palavra e a ordem das palavras embaixo, GATO = carta → 4 mãos batendo com "PÁ!" e a pilha indo
-  para o último, gorila/narval/marmota grandes com o gesto (punhos, mãos em chifre, mãos na mesa), capivara + o gesto
-  oficial, erros riscados com X vermelho, "0 cartas" bate primeiro = GANHOU, "Comenta aqui: qual palavra você sempre
+  para o último, gorila/narval/marmota grandes com o gesto (punhos, mãos em chifre, mãos na mesa), erros riscados com X vermelho, "0 cartas" bate primeiro = GANHOU, "Comenta aqui: qual palavra você sempre
   erra?", tela final com a caixa oficial em lápis). Bichos grandes = arte da carta sem o fundo (`spr_arte`, flood fill da
   cor da borda, corte de 5% nas laterais para tirar o fio da carta). Imagens com fundo branco/transparente passam por
   `sem_fundo` (senão o contorno vira um retângulo). Ilustração chapada SEM contorno preto (gesto da capivara): `fino=True`
   (área escura grande = cor) + `bordas=True` (divisas de cor viram traço) + `traco=0.55` (riscos curtos), senão o gesto
-  some. Tudo acima de y ≈ 1590 (legenda). Gravador (arquivos `taco_narracao_NN`):
+  some. Tudo acima de y ≈ 1590 (legenda). **Letras (pedido dele: "feito à mão, mas que dê pra ler"):** `letra()` usa Patrick
+  Hand com traço engrossado (stroke), cada letra com giro/tamanho/altura levemente diferentes, grão de lápis, 2ª passada
+  POR BAIXO (por cima ela clareava tudo para cinza) e um "apagado" de papel em volta. 8 falas, 62 s. Gravador (arquivos `taco_narracao_NN`):
   `https://raw.githack.com/erik-magalhaes/GitJoy/af6d1208bac5e2867351f708576bad183d47aa84/taco-reels/gravador/Gravar_narracao_Taco.html`.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
