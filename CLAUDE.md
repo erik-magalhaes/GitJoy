@@ -721,6 +721,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   sem_legenda}.mp4` (−15,5 LUFS, pico −2) e `_chat.mp4` (2 passadas a 2900k). `python3 taco.py --previa` = prévia sem voz. **2ª rodada:** tirou "5 dias de jogo" da tela final (pedido dele) e a
   RESPIRAÇÃO antes da 1ª palavra: `tratar_narracao.corta_respiro` (corta até o salto > −20 dB) + `corta_resto_respiro`
   (chiado SEM tom + silêncio de 30 ms + voz com tom → corta no silêncio; S/T no começo da palavra emendam na vogal, não
-  cortam). Conferir o começo de cada frase_NN pela periodicidade (respiro = aperiódico). 64,6 s. Gravador (arquivos `taco_narracao_NN`):
+  cortam). Conferir o começo de cada frase_NN pela periodicidade (respiro = aperiódico). 64,6 s.
+  **3ª rodada (27/out):** ele não gostou do áudio das falas 5 a 8 e vai REGRAVAR. Gravador só dessas falas (salva como
+  `taco_narracao_05..08`): `https://raw.githack.com/erik-magalhaes/GitJoy/e7d66f33ae7cada130c0203b70bdb8d9fbb69081/taco-reels/gravador/Gravar_narracao_Taco_5a8.html`.
+  Ao receber: trocar só esses 4 em `narracao/raw/`, refazer tmp_05..08 (mesma cadeia), `tratar_narracao.py`, revisar TEXTO
+  5–8, `narracao.py`, `taco.py`. Gravador (arquivos `taco_narracao_NN`):
   `https://raw.githack.com/erik-magalhaes/GitJoy/7259c30f06370b1abad127624af5c10672c58050/taco-reels/gravador/Gravar_narracao_Taco.html`.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
