@@ -718,6 +718,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   "exitou", "parigame": conferi com o `medium`. `narracao.py` tem MARCOS: a cena dos especiais (agora com 2,4 s de
   introdução "CARTAS ESPECIAIS!" + 3 blocos de 3,4 s) e o "comenta" são cortados em pedaços para entrar na palavra dita.
   O tremido do desenho usa o tempo FINAL (`_TN`), senão a cena esticada treme mais devagar. Saída: `taco_{legendado,
-  sem_legenda}.mp4` (−15,5 LUFS, pico −2) e `_chat.mp4` (2 passadas a 2900k). `python3 taco.py --previa` = prévia sem voz. 67,6 s. Gravador (arquivos `taco_narracao_NN`):
+  sem_legenda}.mp4` (−15,5 LUFS, pico −2) e `_chat.mp4` (2 passadas a 2900k). `python3 taco.py --previa` = prévia sem voz. **2ª rodada:** tirou "5 dias de jogo" da tela final (pedido dele) e a
+  RESPIRAÇÃO antes da 1ª palavra: `tratar_narracao.corta_respiro` (corta até o salto > −20 dB) + `corta_resto_respiro`
+  (chiado SEM tom + silêncio de 30 ms + voz com tom → corta no silêncio; S/T no começo da palavra emendam na vogal, não
+  cortam). Conferir o começo de cada frase_NN pela periodicidade (respiro = aperiódico). 64,6 s. Gravador (arquivos `taco_narracao_NN`):
   `https://raw.githack.com/erik-magalhaes/GitJoy/7259c30f06370b1abad127624af5c10672c58050/taco-reels/gravador/Gravar_narracao_Taco.html`.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.

@@ -51,6 +51,54 @@ def encurta_pausas(a, sr, thr_db=-40, maxp=0.45):
     return np.concatenate(out)
 
 
+def corta_respiro(a, sr, voz_db=-20, antes=0.06):
+    """Nunca começar na puxada de ar: a fala começa na 1ª palavra (salto de energia acima de voz_db)."""
+    win = int(0.01 * sr)
+    e = 20 * np.log10(np.sqrt(np.convolve(a ** 2, np.ones(win) / win, "same")) + 1e-9)
+    on = np.where(e > voz_db)[0]
+    if not len(on):
+        return a
+    i0 = max(0, on[0] - int(antes * sr))
+    if i0 < 0.2 * sr:  # nada a cortar
+        return a
+    a = a[i0:].copy()
+    f = int(0.01 * sr)
+    a[:f] *= np.linspace(0, 1, f)
+    return a
+
+
+def periodico(x):
+    ac = np.correlate(x, x, "full")[len(x) - 1:]
+    ac /= ac[0] + 1e-12
+    return ac[100:600].max()
+
+
+def corta_resto_respiro(a, sr, ate=0.8):
+    """Resto de respiro: chiado SEM tom (não periódico) + silêncio curto (< -40 dB por 30 ms) + voz. Corta no silêncio.
+    Palavra que começa com S/T não tem esse silêncio antes da vogal, então não é cortada."""
+    win = int(0.01 * sr)
+    e = 20 * np.log10(np.sqrt(np.convolve(a ** 2, np.ones(win) / win, "same")) + 1e-9)
+    n = int(ate * sr)
+    quieto = e[:n] < -40
+    i = int(0.03 * sr)
+    while i < n:
+        if quieto[i]:
+            j = i
+            while j < n and quieto[j]:
+                j += 1
+            if j - i >= 0.03 * sr and i > 0.05 * sr:
+                antes = a[:i]
+                depois = a[j:j + int(0.1 * sr)]
+                if periodico(antes[-int(0.1 * sr):]) < 0.3 and len(depois) and periodico(depois) > 0.45:
+                    a = a[max(0, j - int(0.02 * sr)):].copy()
+                    f = int(0.01 * sr)
+                    a[:f] *= np.linspace(0, 1, f)
+                return a
+            i = j
+        i += 1
+    return a
+
+
 def main():
     from faster_whisper import WhisperModel
     model = WhisperModel("small", compute_type="int8")
@@ -58,7 +106,7 @@ def main():
     for n in range(1, 9):
         with wave.open(os.path.join(NAR, f"tmp_{n:02d}.wav")) as w:
             a = np.frombuffer(w.readframes(w.getnframes()), np.int16).astype(np.float64) / 32768
-        a = encurta_pausas(trim(resample_poly(a, 147, 160), 44100), 44100, maxp=0.3)
+        a = encurta_pausas(corta_resto_respiro(corta_respiro(trim(resample_poly(a, 147, 160), 44100), 44100), 44100), 44100, maxp=0.3)
         out = os.path.join(NAR, f"frase_{n:02d}.wav")
         with wave.open(out, "wb") as w:
             w.setnchannels(1); w.setsampwidth(2); w.setframerate(44100)

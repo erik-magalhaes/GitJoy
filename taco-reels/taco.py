@@ -529,7 +529,7 @@ def cena9(img, t, lt):
     cola(img, logo_card(360), 540, 220, sc=out_back(seg(lt, 0.0, 0.4)))
     cola(img, spr_img("caixa_frente.png", 400, s), 540, 690, rot=-4, sc=out_back(seg(lt, 0.15, 0.55)))
     escreve(img, "ALUGUE O TACO GATO\nCABRA QUEIJO PIZZA", 540, 1070, 76, ease(seg(lt, 0.5, 1.2)), cor=VERMELHO, rot=-2)
-    escreve(img, "2 a 8 jogadores · 5 dias de jogo", 540, 1240, 58, ease(seg(lt, 1.1, 1.6)))
+    escreve(img, "de 2 a 8 jogadores", 540, 1240, 62, ease(seg(lt, 1.1, 1.6)))
     escreve(img, "reserve online · retire em Mauá\nou receba em casa", 540, 1360, 54, ease(seg(lt, 1.5, 2.0)))
     escreve(img, "LINK NA BIO · @SUAVEZ_BG", 540, 1510, 72, ease(seg(lt, 1.9, 2.4)), cor=AZUL, rot=-1)
 

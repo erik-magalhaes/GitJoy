@@ -1,5 +1,5 @@
 {
- "duracao": 67.642,
+ "duracao": 64.623,
  "cenas": [
   [
    0.0,
@@ -11,67 +11,67 @@
    5.2,
    11.6,
    5.234,
-   13.45
+   12.743
   ],
   [
    11.6,
    20.6,
-   13.45,
-   23.454
+   12.743,
+   22.14
   ],
   [
    20.6,
    28.6,
-   23.454,
-   30.817
+   22.14,
+   28.908
   ],
   [
    28.6,
    31.0,
-   30.817,
-   34.817
+   28.908,
+   32.908
   ],
   [
    31.0,
    34.4,
-   34.817,
-   37.037
+   32.908,
+   35.128
   ],
   [
    34.4,
    37.8,
-   37.037,
-   40.177
+   35.128,
+   38.268
   ],
   [
    37.8,
    41.2,
-   40.177,
-   45.333
+   38.268,
+   43.424
   ],
   [
    41.2,
    48.2,
-   45.333,
-   51.024
+   43.424,
+   48.585
   ],
   [
    48.2,
    52.5,
-   51.024,
-   54.744
+   48.585,
+   51.985
   ],
   [
    52.5,
    56.0,
-   54.744,
-   58.296
+   51.985,
+   55.552
   ],
   [
    56.0,
    62.0,
-   58.296,
-   67.642
+   55.552,
+   64.623
   ]
  ],
  "voz": [
@@ -88,32 +88,32 @@
   {
    "frase": 3,
    "arquivo": "narracao/frase_03.wav",
-   "inicio": 13.7
+   "inicio": 12.993
   },
   {
    "frase": 4,
    "arquivo": "narracao/frase_04.wav",
-   "inicio": 23.704
+   "inicio": 22.39
   },
   {
    "frase": 5,
    "arquivo": "narracao/frase_05.wav",
-   "inicio": 31.067
+   "inicio": 29.158
   },
   {
    "frase": 6,
    "arquivo": "narracao/frase_06.wav",
-   "inicio": 45.583
+   "inicio": 43.674
   },
   {
    "frase": 7,
    "arquivo": "narracao/frase_07.wav",
-   "inicio": 51.274
+   "inicio": 48.835
   },
   {
    "frase": 8,
    "arquivo": "narracao/frase_08.wav",
-   "inicio": 58.546
+   "inicio": 55.802
   }
  ],
  "legendas": [
@@ -129,172 +129,172 @@
   ],
   [
    5.48,
-   7.04,
+   6.32,
    "Depois de embaralhar e"
   ],
   [
-   7.04,
-   8.43,
+   6.32,
+   7.71,
    "dividir todas as cartas,"
   ],
   [
-   8.5,
-   9.78,
+   7.82,
+   9.06,
    "cada um fica com um monte"
   ],
   [
-   9.78,
-   11.38,
+   9.06,
+   10.66,
    "virado pra baixo na sua frente,"
   ],
   [
-   11.38,
-   12.69,
+   10.66,
+   11.97,
    "e não vale espiar!"
   ],
   [
-   14.12,
-   15.06,
+   12.99,
+   13.65,
    "Na sua vez,"
   ],
   [
-   15.06,
-   16.26,
+   13.65,
+   14.67,
    "você vira uma carta no meio da"
   ],
   [
-   16.26,
-   17.57,
+   14.67,
+   16.22,
    "mesa e fala a próxima palavra."
   ],
   [
-   17.64,
-   19.38,
+   16.45,
+   18.05,
    "Tipo: taco, gato, cabra,"
   ],
   [
-   19.38,
-   20.82,
+   18.05,
+   19.64,
    "queijo... e quando chega na pizza,"
   ],
   [
-   20.82,
-   22.21,
+   19.71,
+   20.86,
    "começa tudo de novo."
   ],
   [
-   24.1,
-   26.17,
+   22.39,
+   24.26,
    "Se a carta for igual à palavra que você falou,"
   ],
   [
-   26.24,
-   27.73,
+   24.35,
+   25.82,
    "todo mundo bate a mão no monte!"
   ],
   [
-   27.86,
-   29.95,
+   25.97,
+   28.04,
    "O último que bater leva a pilha inteira."
   ],
   [
-   31.45,
-   33.05,
+   29.54,
+   31.14,
    "E é claro que, pra ficar mais difícil,"
   ],
   [
-   33.05,
-   34.48,
+   31.14,
+   32.57,
    "tem as cartas especiais."
   ],
   [
-   34.59,
-   35.31,
+   32.68,
+   33.4,
    "Tipo o gorila,"
   ],
   [
-   35.31,
-   37.07,
+   33.4,
+   35.16,
    "que você tem que bater com as mãos no peito;"
   ],
   [
-   37.07,
-   37.73,
+   35.16,
+   35.82,
    "o narval,"
   ],
   [
-   37.73,
-   38.57,
+   35.82,
+   36.66,
    "que você tem que bater com"
   ],
   [
-   38.57,
-   39.79,
+   36.66,
+   37.88,
    "as mãos em cima da cabeça;"
   ],
   [
-   39.79,
-   40.87,
+   37.88,
+   38.96,
    "e a marmota,"
   ],
   [
-   40.87,
-   42.68,
+   38.96,
+   40.77,
    "que você bate com as duas mãos na mesa."
   ],
   [
-   42.75,
-   44.58,
+   40.84,
+   42.67,
    "Tudo isso antes de bater no monte."
   ],
   [
-   45.58,
-   48.1,
+   43.67,
+   46.32,
    "Errou o gesto, bateu sem precisar ou hesitou?"
   ],
   [
-   48.1,
-   50.11,
+   46.49,
+   47.66,
    "A pilha é toda sua!"
   ],
   [
-   51.27,
-   53.15,
+   48.83,
+   50.41,
    "E ganha quem conseguir acabar com as cartas"
   ],
   [
-   53.15,
-   54.58,
+   50.41,
+   51.86,
    "e for o primeiro a bater na próxima."
   ],
   [
-   54.89,
-   55.55,
+   52.13,
+   52.81,
    "Comenta aqui:"
   ],
   [
-   55.55,
-   57.3,
+   52.81,
+   54.58,
    "você acha que você seria rápido o suficiente?"
   ],
   [
-   58.55,
-   60.53,
+   55.8,
+   57.5,
    "Taco Gato Cabra Queijo Pizza é um"
   ],
   [
-   60.53,
-   62.26,
+   57.5,
+   59.25,
    "party game de 2 a 8 jogadores."
   ],
   [
-   62.51,
-   63.64,
+   59.46,
+   60.61,
    "Aluga aqui na Sua Vez,"
   ],
   [
-   63.71,
-   64.5,
+   60.68,
+   61.49,
    "o link tá na bio!"
   ]
  ]
