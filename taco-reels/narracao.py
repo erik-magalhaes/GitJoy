@@ -17,7 +17,7 @@ LEAD, GAP, TAIL, CTA_HOLD = 0.25, 0.4, 0.5, 3.0
 MIN_FRAC = 0.7
 ESPECIAIS_INTRO, ESPECIAIS_BLOCO = 2.4, 3.4  # taco.cena5
 # cena -> [(tempo na cena original, palavra falada que puxa esse momento, adianto em s)]
-MARCOS = {4: [(ESPECIAIS_INTRO + k * ESPECIAIS_BLOCO, p, 0.25) for k, p in enumerate(("gorila", "narval", "marmota"))],
+MARCOS = {4: [(ESPECIAIS_INTRO + k * ESPECIAIS_BLOCO, p, 0.25) for k, p in enumerate(("gorila", ("narval", "nerval"), "marmota"))],
           6: [(4.3, "comenta", 0.15)]}
 
 TEXTO = {  # o que ELE falou (não o roteiro), com a grafia certa
@@ -25,9 +25,9 @@ TEXTO = {  # o que ELE falou (não o roteiro), com a grafia certa
     2: "Depois de embaralhar e dividir todas as cartas, cada um fica com um monte virado pra baixo na sua frente, e não vale espiar!",
     3: "Na sua vez, você vira uma carta no meio da mesa e fala a próxima palavra. Tipo: taco, gato, cabra, queijo... e quando chega na pizza, começa tudo de novo.",
     4: "Se a carta for igual à palavra que você falou, todo mundo bate a mão no monte! O último que bater leva a pilha inteira.",
-    5: "E é claro que, pra ficar mais difícil, tem as cartas especiais. Tipo o gorila, que você tem que bater com as mãos no peito; o narval, que você tem que bater com as mãos em cima da cabeça; e a marmota, que você bate com as duas mãos na mesa. Tudo isso antes de bater no monte.",
-    6: "Errou o gesto, bateu sem precisar ou hesitou? A pilha é toda sua!",
-    7: "E ganha quem conseguir acabar com as cartas e for o primeiro a bater na próxima. Comenta aqui: você acha que você seria rápido o suficiente?",
+    5: "E é claro que, pra ficar mais difícil, tem as cartas especiais. Tipo o gorila, que você tem que bater com as mãos no peito; ou o narval, que você tem que bater com as mãos em cima da cabeça; ou a marmota, que você bate com as duas mãos na mesa. Isso tudo antes de bater no monte.",
+    6: "Se você errar o gesto, bater sem precisar ou hesitar, a pilha é toda sua!",
+    7: "E ganha quem acabar com as cartas e for o primeiro a bater na próxima. E aí, comenta aqui: você seria rápido o suficiente?",
     8: "Taco Gato Cabra Queijo Pizza é um party game de 2 a 8 jogadores. Aluga aqui na Sua Vez, o link tá na bio!",
 }
 
@@ -97,7 +97,8 @@ def main():
         # pedaços: (tempo original, tempo novo) — começo, marcos e fim da cena
         pts = [(0.0, t)]
         for ot, pal, adi in MARCOS.get(k, []):
-            w = next(x for x in ws if norm(x[2]).startswith(norm(pal)))
+            alts = pal if isinstance(pal, tuple) else (pal,)  # o Whisper às vezes erra o nome ("nerval")
+            w = next(x for x in ws if any(norm(x[2]).startswith(norm(p)) for p in alts))
             pts.append((ot, max(pts[-1][1] + 0.5, v0 + w[0] - adi)))
         pts.append((d0, max(fim, pts[-1][1] + 0.8)))
         for (a0, b0), (a1, b1) in zip(pts, pts[1:]):

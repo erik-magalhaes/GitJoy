@@ -724,7 +724,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   cortam). Conferir o começo de cada frase_NN pela periodicidade (respiro = aperiódico). 64,6 s.
   **3ª rodada (27/out):** ele não gostou do áudio das falas 5 a 8 e vai REGRAVAR. Gravador só dessas falas (salva como
   `taco_narracao_05..08`): `https://raw.githack.com/erik-magalhaes/GitJoy/e7d66f33ae7cada130c0203b70bdb8d9fbb69081/taco-reels/gravador/Gravar_narracao_Taco_5a8.html`.
-  Ao receber: trocar só esses 4 em `narracao/raw/`, refazer tmp_05..08 (mesma cadeia), `tratar_narracao.py`, revisar TEXTO
-  5–8, `narracao.py`, `taco.py`. Gravador (arquivos `taco_narracao_NN`):
+  **Regravação recebida** (arquivos `taco_narracao_0N_1.webm`; os antigos em `narracao/raw/v1/`). Ele pediu de novo:
+  "corta as respirações nos inícios". A fala 6 tinha respiro + 0,35 s de silêncio antes de "Se": a regra do resto de
+  respiro agora procura TOM em até 0,25 s depois do silêncio (o S chia antes da vogal). Whisper `small` ouviu "nerval":
+  MARCOS aceita alternativas. 64,5 s. Gravador (arquivos `taco_narracao_NN`):
   `https://raw.githack.com/erik-magalhaes/GitJoy/7259c30f06370b1abad127624af5c10672c58050/taco-reels/gravador/Gravar_narracao_Taco.html`.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.

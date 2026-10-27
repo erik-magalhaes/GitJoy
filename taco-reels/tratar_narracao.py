@@ -88,8 +88,10 @@ def corta_resto_respiro(a, sr, ate=0.8):
                 j += 1
             if j - i >= 0.03 * sr and i > 0.05 * sr:
                 antes = a[:i]
-                depois = a[j:j + int(0.1 * sr)]
-                if periodico(antes[-int(0.1 * sr):]) < 0.3 and len(depois) and periodico(depois) > 0.45:
+                # depois do silêncio: tem tom em até 0,25 s (palavra com S/T no começo chia antes da vogal)
+                tom = max((periodico(a[k:k + int(0.05 * sr)]) for k in range(j, j + int(0.25 * sr), int(0.025 * sr))
+                           if k + int(0.05 * sr) <= len(a)), default=0)
+                if periodico(antes[-int(0.1 * sr):]) < 0.3 and tom > 0.45:
                     a = a[max(0, j - int(0.02 * sr)):].copy()
                     f = int(0.01 * sr)
                     a[:f] *= np.linspace(0, 1, f)

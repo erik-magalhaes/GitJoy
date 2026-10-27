@@ -1,5 +1,5 @@
 {
- "duracao": 64.623,
+ "duracao": 64.541,
  "cenas": [
   [
    0.0,
@@ -29,49 +29,49 @@
    28.6,
    31.0,
    28.908,
-   32.908
+   32.108
   ],
   [
    31.0,
    34.4,
-   32.908,
-   35.128
+   32.108,
+   34.568
   ],
   [
    34.4,
    37.8,
-   35.128,
-   38.268
+   34.568,
+   37.708
   ],
   [
    37.8,
    41.2,
-   38.268,
-   43.424
+   37.708,
+   42.947
   ],
   [
    41.2,
    48.2,
-   43.424,
-   48.585
+   42.947,
+   47.998
   ],
   [
    48.2,
    52.5,
-   48.585,
-   51.985
+   47.998,
+   52.058
   ],
   [
    52.5,
    56.0,
-   51.985,
-   55.552
+   52.058,
+   55.522
   ],
   [
    56.0,
    62.0,
-   55.552,
-   64.623
+   55.522,
+   64.541
   ]
  ],
  "voz": [
@@ -103,17 +103,17 @@
   {
    "frase": 6,
    "arquivo": "narracao/frase_06.wav",
-   "inicio": 43.674
+   "inicio": 43.197
   },
   {
    "frase": 7,
    "arquivo": "narracao/frase_07.wav",
-   "inicio": 48.835
+   "inicio": 48.248
   },
   {
    "frase": 8,
    "arquivo": "narracao/frase_08.wav",
-   "inicio": 55.802
+   "inicio": 55.772
   }
  ],
  "legendas": [
@@ -198,103 +198,108 @@
    "O último que bater leva a pilha inteira."
   ],
   [
-   29.54,
-   31.14,
+   29.16,
+   30.44,
    "E é claro que, pra ficar mais difícil,"
   ],
   [
-   31.14,
-   32.57,
+   30.44,
+   32.01,
    "tem as cartas especiais."
   ],
   [
-   32.68,
-   33.4,
+   32.14,
+   32.84,
    "Tipo o gorila,"
   ],
   [
-   33.4,
-   35.16,
+   32.84,
+   34.71,
    "que você tem que bater com as mãos no peito;"
   ],
   [
-   35.16,
-   35.82,
-   "o narval,"
+   34.78,
+   35.54,
+   "ou o narval,"
   ],
   [
-   35.82,
-   36.66,
+   35.54,
+   36.3,
    "que você tem que bater com"
   ],
   [
-   36.66,
-   37.88,
+   36.3,
+   37.84,
    "as mãos em cima da cabeça;"
   ],
   [
-   37.88,
-   38.96,
-   "e a marmota,"
+   37.84,
+   38.56,
+   "ou a marmota,"
   ],
   [
-   38.96,
-   40.77,
+   38.56,
+   40.17,
    "que você bate com as duas mãos na mesa."
   ],
   [
-   40.84,
-   42.67,
-   "Tudo isso antes de bater no monte."
+   40.36,
+   42.21,
+   "Isso tudo antes de bater no monte."
   ],
   [
-   43.67,
-   46.32,
-   "Errou o gesto, bateu sem precisar ou hesitou?"
+   43.2,
+   44.46,
+   "Se você errar o gesto,"
   ],
   [
-   46.49,
-   47.66,
-   "A pilha é toda sua!"
+   44.46,
+   46.07,
+   "bater sem precisar ou hesitar,"
   ],
   [
-   48.83,
-   50.41,
-   "E ganha quem conseguir acabar com as cartas"
+   46.3,
+   47.33,
+   "a pilha é toda sua!"
   ],
   [
-   50.41,
-   51.86,
-   "e for o primeiro a bater na próxima."
+   48.25,
+   49.85,
+   "E ganha quem acabar com as cartas e"
   ],
   [
-   52.13,
-   52.81,
-   "Comenta aqui:"
+   49.85,
+   51.2,
+   "for o primeiro a bater na próxima."
   ],
   [
-   52.81,
-   54.58,
-   "você acha que você seria rápido o suficiente?"
+   51.81,
+   52.88,
+   "E aí, comenta aqui:"
   ],
   [
-   55.8,
-   57.5,
+   52.95,
+   54.32,
+   "você seria rápido o suficiente?"
+  ],
+  [
+   55.77,
+   57.21,
    "Taco Gato Cabra Queijo Pizza é um"
   ],
   [
-   57.5,
-   59.25,
+   57.21,
+   59.12,
    "party game de 2 a 8 jogadores."
   ],
   [
-   59.46,
-   60.61,
+   59.39,
+   60.52,
    "Aluga aqui na Sua Vez,"
   ],
   [
-   60.68,
-   61.49,
+   60.57,
+   61.4,
    "o link tá na bio!"
   ]
  ]
