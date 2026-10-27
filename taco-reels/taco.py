@@ -56,12 +56,16 @@ ROTEIRO = [
 DURS = [5.2, 6.4, 9.0, 8.0, 12.6, 7.0, 7.8, 6.0]
 INICIO = [sum(DURS[:k]) for k in range(len(DURS))]
 DUR = sum(DURS)
+TL = motor.Linha(os.path.join(ROOT, "narracao", "timeline.json"))
+SUBS = [tuple(x) for x in TL.tl["legendas"]] if TL.tl else []
 CENTRO = (540, 1000)
 # os 4 jogadores em volta do monte (montes virados) e de onde vem a mão de cada um
 LUGARES = [(220, 1330), (860, 1330), (860, 640), (220, 640)]
 
 
 def semente(t):
+    if _TN[0] is not None:
+        t = _TN[0]
     return int(t * FPS) // 2 % 3  # 12 desenhos por segundo, 3 versões que se revezam
 
 
@@ -432,13 +436,22 @@ def cena4(img, t, lt):
         seta(img, (330, 430), (250, 530), t, curva=-25, prog=ease(seg(lt, 3.2, 3.6)))
 
 
-ESPECIAIS = [("gorila", "bate no peito!"), ("narval", "chifre com as mãos!"), ("marmota", "mãos na mesa!")]
+ESPECIAIS = [("gorila", "mãos no peito!"), ("narval", "mãos na cabeça!"), ("marmota", "mãos na mesa!")]
+ESPECIAIS_INTRO, ESPECIAIS_BLOCO = 2.4, 3.4  # 2,4 + 3 x 3,4 = DURS[4]; narracao.py usa os mesmos números
 
 
 def cena5(img, t, lt):
     """Especiais: cada bicho grande com o gesto; depois todo mundo bate no monte."""
     s = semente(t)
-    bloco = DURS[4] / 3
+    if lt < ESPECIAIS_INTRO:  # "tem as cartas especiais": as 3 cartas em leque
+        escreve(img, "CARTAS", 540, 420, 120, ease(seg(lt, 0.0, 0.4)), rot=-3)
+        escreve(img, "ESPECIAIS!", 540, 560, 140, ease(seg(lt, 0.3, 0.8)), cor=VERMELHO, rot=-3)
+        for j, (nome, _) in enumerate(ESPECIAIS):
+            cola(img, spr_carta(nome, 300, s), 230 + j * 310, 1030 + abs(j - 1) * 50, rot=(12, 0, -12)[j],
+                 sc=out_back(seg(lt, 0.5 + j * 0.25, 0.85 + j * 0.25)))
+        return
+    lt -= ESPECIAIS_INTRO
+    bloco = ESPECIAIS_BLOCO
     k = min(2, int(lt / bloco))
     bt = lt - k * bloco
     nome, gesto = ESPECIAIS[k]
@@ -504,7 +517,7 @@ def cena8(img, t, lt):
     else:
         bt = lt - 4.3
         escreve(img, "Comenta aqui:", 540, 520, 96, ease(seg(bt, 0.0, 0.5)), rot=-2)
-        escreve(img, "qual palavra você\nSEMPRE erra?", 540, 760, 104, ease(seg(bt, 0.4, 1.1)), cor=VERMELHO, rot=-2)
+        escreve(img, "você seria\nrápido o suficiente?", 540, 760, 100, ease(seg(bt, 0.4, 1.1)), cor=VERMELHO, rot=-2)
         for k, p in enumerate(PALAVRAS):
             cola(img, spr_carta(p, 170, s), 150 + k * 195, 1180 + (k % 2) * 60, rot=(-8, 6, -5, 9, -7)[k],
                  sc=out_back(seg(bt, 1.0 + k * 0.12, 1.3 + k * 0.12)))
@@ -537,19 +550,35 @@ def quebra(txt, n=30):
     return linhas
 
 
-def legenda(img, t, k, lt):
-    """Na prévia a fala entra em pedaços de 2 linhas embaixo (com a narração, a legenda segue as palavras dele)."""
+def legenda_previa(img, t, k, lt):
+    """Prévia sem voz: a fala do roteiro em pedaços de 2 linhas embaixo."""
     linhas = quebra(ROTEIRO[k])
     blocos = [linhas[i:i + 2] for i in range(0, len(linhas), 2)]
-    b = blocos[min(len(blocos) - 1, int(lt / DURS[k] * len(blocos)))]
+    caixa_legenda(img, blocos[min(len(blocos) - 1, int(lt / DURS[k] * len(blocos)))])
+
+
+def caixa_legenda(img, b):
     lay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    ImageDraw.Draw(lay).rounded_rectangle((40, 1830 - 70 * len(b), 1040, 1900), radius=26, fill=(255, 255, 255, 200))
+    ImageDraw.Draw(lay).rounded_rectangle((40, 1830 - 70 * len(b), 1040, 1900), radius=26, fill=(255, 255, 255, 215))
     img.alpha_composite(lay)
     for j, l in enumerate(b):
-        cola(img, letra(l, 52, GRAFITE, "PatrickHand-Regular.ttf"), 540, 1830 - 70 * len(b) + 40 + j * 68)
+        cola(img, letra(l, 54, GRAFITE), 540, 1830 - 70 * len(b) + 40 + j * 68)
 
 
-def frame(t, com_legenda=True):
+def legenda_voz(img, tn):
+    """Com a narração: o pedaço que ele está falando (tempos reais das palavras, narracao/timeline.json)."""
+    for a, b, txt in SUBS:
+        if a <= tn < b:
+            caixa_legenda(img, quebra(txt, 30)[:2])
+            return
+
+
+_TN = [None]  # tempo do vídeo final: o "tremido" do desenho segue esse tempo (12 por segundo) mesmo com a cena esticada
+
+
+def frame(t, com_legenda=True, tn=None):
+    """t = tempo da animação original; tn = tempo do vídeo final (com a narração)."""
+    _TN[0] = tn
     img = papel().copy()
     k = max(i for i in range(len(DURS)) if t >= INICIO[i] - 1e-9)
     lt = t - INICIO[k]
@@ -560,12 +589,19 @@ def frame(t, com_legenda=True):
     if k < len(DURS) - 1:
         img.alpha_composite(logo_card(150), (W - 186, 46))
     if com_legenda:
-        legenda(img, t, k, lt)
+        if tn is None:
+            legenda_previa(img, t, k, lt)
+        else:
+            legenda_voz(img, tn)
     return img.convert("RGB")
 
 
-def render_frame(fi):
-    return frame(fi / FPS).tobytes()
+def render_frame(arg):
+    fi, leg = arg
+    tn = fi / FPS
+    if TL.tl is None:
+        return frame(tn, leg).tobytes()
+    return frame(min(TL.to_orig(tn), DUR - 1e-3), leg, tn).tobytes()
 
 
 def cues():
@@ -580,7 +616,8 @@ def cues():
     c += [(t4 + tt + 0.2, "carimbo", 0.55) for tt in (1.45, 1.6, 1.75, 2.55)]
     c += [(t4 + 5.2, "whoosh", 0.4)]
     t5 = INICIO[4]
-    c += [(t5 + k * DURS[4] / 3, "pop", 0.5) for k in range(3)]
+    c += [(t5 + 0.5 + j * 0.25, "flip", 0.4) for j in range(3)]
+    c += [(t5 + ESPECIAIS_INTRO + k * ESPECIAIS_BLOCO, "pop", 0.5) for k in range(3)]
     t7 = INICIO[5]
     c += [(t7 + 0.8 + k * 1.2, "carimbo", 0.35) for k in range(3)] + [(t7 + 4.0, "boing", 0.5)]
     t8 = INICIO[6]
@@ -589,18 +626,61 @@ def cues():
     return c
 
 
+def final_loudness(src, dst, alvo=-15.5, pico=-2.0):
+    """loudnorm LINEAR em 2 passadas (sem bombear a voz)."""
+    import json as js
+    import subprocess
+    ff = motor.ffmpeg()
+    r = subprocess.run([ff, "-hide_banner", "-i", src, "-af", f"loudnorm=I={alvo}:TP={pico}:LRA=11:print_format=json",
+                        "-f", "null", "-"], capture_output=True, text=True)
+    m = js.loads(r.stderr[r.stderr.rindex("{"):r.stderr.rindex("}") + 1])
+    af = (f"loudnorm=I={alvo}:TP={pico}:LRA=11:measured_I={m['input_i']}:measured_TP={m['input_tp']}:"
+          f"measured_LRA={m['input_lra']}:measured_thresh={m['input_thresh']}:offset={m['target_offset']}:linear=true")
+    subprocess.run([ff, "-v", "error", "-y", "-i", src, "-c:v", "copy", "-af", af, "-ar", "44100", "-c:a", "aac",
+                    "-b:a", "192k", dst], check=True)
+
+
+def chat(src, dst, kbps=2900):
+    """2 passadas para caber nos 30 MB do chat."""
+    import subprocess
+    ff = motor.ffmpeg()
+    base = os.path.join(OUT, "x264_2pass")
+    for p in (1, 2):
+        subprocess.run([ff, "-v", "error", "-y", "-i", src, "-c:v", "libx264", "-preset", "slow", "-tune", "animation",
+                        "-b:v", f"{kbps}k", "-pass", str(p), "-passlogfile", base, "-pix_fmt", "yuv420p"]
+                       + (["-an", "-f", "null", "/dev/null"] if p == 1 else ["-c:a", "copy", "-movflags", "+faststart", dst]),
+                       check=True)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--frame", type=float, nargs="*")
+    ap.add_argument("--previa", action="store_true", help="prévia sem voz (ignora a narração)")
     a = ap.parse_args()
     os.makedirs(OUT, exist_ok=True)
-    print(f"duração {DUR:.1f} s")
+    if a.previa:
+        TL.tl = None
+    total = TL.tl["duracao"] if TL.tl else DUR
+    print(f"duração {total:.1f} s")
     if a.frame:
-        folha([frame(x) for x in a.frame], os.path.join(OUT, "frames_taco.jpg"))
+        folha([Image.frombytes("RGB", (W, H), render_frame((int(round(x * FPS)), True))) for x in a.frame],
+              os.path.join(OUT, "frames_taco.jpg"))
         return
-    wav = os.path.join(OUT, "taco_previa.wav")
-    som.build(wav, DUR, cues(), musica="travessa", fx_ganho=0.55, musica_ganho=0.3)
-    motor.encode(os.path.join(OUT, "taco_previa_1080.mp4"), render_frame, list(range(int(round(DUR * FPS)))), wav)
+    n = int(round(total * FPS))
+    if TL.tl is None:
+        wav = os.path.join(OUT, "taco_previa.wav")
+        som.build(wav, DUR, cues(), musica="travessa", fx_ganho=0.55, musica_ganho=0.3)
+        motor.encode(os.path.join(OUT, "taco_previa_1080.mp4"), render_frame, [(j, True) for j in range(n)], wav)
+        return
+    wav = os.path.join(OUT, "taco_voz.wav")
+    voz = [(os.path.join(ROOT, v["arquivo"]), v["inicio"]) for v in TL.tl["voz"]]
+    som.build(wav, total, cues(), musica="travessa", warp=TL.warp, voz=voz, fx_ganho=0.5, musica_ganho=0.26)
+    for nome, leg in (("legendado", True), ("sem_legenda", False)):
+        bruto = os.path.join(OUT, f"taco_{nome}_bruto.mp4")
+        motor.encode(bruto, render_frame, [(j, leg) for j in range(n)], wav)
+        final = os.path.join(OUT, f"taco_{nome}.mp4")
+        final_loudness(bruto, final)
+        chat(final, os.path.join(OUT, f"taco_{nome}_chat.mp4"))
 
 
 if __name__ == "__main__":

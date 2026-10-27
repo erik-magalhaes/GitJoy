@@ -711,6 +711,13 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   (área escura grande = cor) + `bordas=True` (divisas de cor viram traço) + `traco=0.55` (riscos curtos), senão o gesto
   some. Tudo acima de y ≈ 1590 (legenda). **Letras (pedido dele: "feito à mão, mas que dê pra ler"):** `letra()` usa Patrick
   Hand com traço engrossado (stroke), cada letra com giro/tamanho/altura levemente diferentes, grão de lápis, 2ª passada
-  POR BAIXO (por cima ela clareava tudo para cinza) e um "apagado" de papel em volta. 8 falas, 62 s. Gravador (arquivos `taco_narracao_NN`):
+  POR BAIXO (por cima ela clareava tudo para cinza) e um "apagado" de papel em volta. 8 falas, 62 s.
+  **Narração recebida (27/out):** 8 .webm NOMEADOS e na ordem certa (`narracao/raw/`). Ele mudou bastante as falas (TEXTO em
+  `narracao.py` = o que ele falou; ex.: "é um party game", "você acha que você seria rápido o suficiente?" → a tela do
+  "comenta" mudou para isso; narval "mãos em cima da cabeça" → "mãos na cabeça!"). Whisper `small` errou "Nossa vez",
+  "exitou", "parigame": conferi com o `medium`. `narracao.py` tem MARCOS: a cena dos especiais (agora com 2,4 s de
+  introdução "CARTAS ESPECIAIS!" + 3 blocos de 3,4 s) e o "comenta" são cortados em pedaços para entrar na palavra dita.
+  O tremido do desenho usa o tempo FINAL (`_TN`), senão a cena esticada treme mais devagar. Saída: `taco_{legendado,
+  sem_legenda}.mp4` (−15,5 LUFS, pico −2) e `_chat.mp4` (2 passadas a 2900k). `python3 taco.py --previa` = prévia sem voz. 67,6 s. Gravador (arquivos `taco_narracao_NN`):
   `https://raw.githack.com/erik-magalhaes/GitJoy/7259c30f06370b1abad127624af5c10672c58050/taco-reels/gravador/Gravar_narracao_Taco.html`.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
