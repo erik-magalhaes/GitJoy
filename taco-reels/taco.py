@@ -172,6 +172,8 @@ def letra(txt, s, cor=GRAFITE, nome="PatrickHand-Regular.ttf", sem=0):
     """Letra à mão de lápis, mas fácil de ler: cada letra com um tiquinho de giro, tamanho e altura diferentes, traço
     com grão de lápis e uma 2ª passada levemente desencontrada (cor mais forte), e um "apagado" de papel em volta para
     destacar do desenho que está atrás. A semente (`sem`) muda o tremido junto com o boil do desenho."""
+    if s < 6:  # balão/estouro nascendo (escala quase 0)
+        return Image.new("RGBA", (1, 1), (0, 0, 0, 0))
     rng = np.random.default_rng(zlib.crc32(f"{txt}|{s}|{sem}".encode()))
     f = fonte(nome, s)
     linhas = txt.split("\n")
