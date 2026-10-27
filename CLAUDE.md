@@ -729,4 +729,15 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   respiro agora procura TOM em até 0,25 s depois do silêncio (o S chia antes da vogal). Whisper `small` ouviu "nerval":
   MARCOS aceita alternativas. 64,5 s. Gravador (arquivos `taco_narracao_NN`):
   `https://raw.githack.com/erik-magalhaes/GitJoy/7259c30f06370b1abad127624af5c10672c58050/taco-reels/gravador/Gravar_narracao_Taco.html`.
+- **Linha Micro da PaperGames (`gravados-reels/micro.py`, 27/out):** 3 stories dele no Drive de brutos (`brutos/out27/`,
+  fora do git), um por caixinha: 1·2·3 = O Que O Quê (o "QQ" dele), Duo Regna, Qui-Quitanda; 4·5·6 = ProcuRatos, Glifos,
+  Glitches; 7·8·9 = Lemur, Córdoba, Lux Nova (Reiner Knizia, 10 min cada; fichas da PaperGames em `JOGOS`). No site são 3
+  itens Pocket R$ 15 ("Linha micro 1, 2 e 3 (Papergames)"…; o 2º está escrito **"3, 4 e 6"** no site — avisei).
+  **Câmera da frente = imagem ESPELHADA** (texto das caixas ao contrário): `hflip` na GRADE. Um Reels só com os 3: saíram
+  "no próximo Stories / vou colocar o link", "Opa! Lado errado", "faz tenkano joguem, galera. Foi mal" e "de fazer... de
+  ferrar". Fala a 1,1x, cortes pela energia (base do `taketime.py`), legenda palavra a palavra com `CORRIGE` (Whisper:
+  "Kiki Tanda" = Qui-Quitanda, "Procuratus", "Glyphos"). Caixas 3D OFICIAIS da PaperGames (`papergames.com.br/<jogo>/`,
+  `*_3D_frente.png`, recortadas do branco + sombra em `assets/micro/recorte/`): fileira da caixinha com os 3 acendendo no
+  nome, caixa grande com a etiqueta do que ele disse, selos. As fotos do site das caixinhas só existem em 256 px.
+  "Qual caixinha você levaria?" e tela final com as 3 caixinhas em leque. ~83 s.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
