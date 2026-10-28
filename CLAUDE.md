@@ -740,4 +740,18 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   `*_3D_frente.png`, recortadas do branco + sombra em `assets/micro/recorte/`): fileira da caixinha com os 3 acendendo no
   nome, caixa grande com a etiqueta do que ele disse, selos. As fotos do site das caixinhas só existem em 256 px.
   "Qual caixinha você levaria?" e tela final com as 3 caixinhas em leque. ~83 s.
+- **3 carrosséis novos (28/out, ele escolheu da lista de ideias; 1080x1350, identidade da Jéssica, conceito próprio
+  cada um, jogos que AINDA NÃO apareceram em carrossel, fichas do `acervo_site.json`, caixas de `hobby-reels/assets/acervo/`):**
+  `feed-sua-vez/combos.py` = CARDÁPIO DE LANCHONETE (listras laranja × creme, letreiro marrom com lampadinhas, bandeja
+  com 3 caixas, estrela de preço = soma dos aluguéis "os 3 por 7 dias", comanda): Casal (Allumbra, 1·2·3 Lucha!, Unmatched
+  RH × Bigfoot = R$ 60), Família (Throw Throw Burrito, Tesouro do Dragão, Break the Cube = R$ 90), Galera (Blablabel, Ref!,
+  Telma = R$ 60), Estratégia (Tikal, Dwar7s Fall, World Wonders = R$ 105); 7 telas. `feed-sua-vez/mitos.py` = MURAL DE
+  CORTIÇA (post-it com tachinha + carimbo vermelho "MITO!" + ficha pautada "A VERDADE" com a caixa): coisa de criança →
+  Detective; difícil → Coup; demora → BraveRats; muita gente → Cartógrafos (1 a 100); briga → The Goonies (cooperativo);
+  caro → Bohnanza (R$ 15); 8 telas. `feed-sua-vez/amigo_secreto.py` (ele trocou Natal por AMIGO SECRETO) = PAPEL DE
+  PRESENTE (petróleo com bolinhas e estrelinhas DESENHADAS — a Figtree não tem "✦" —, fita laranja com laço, papelzinho
+  do sorteio "você tirou:", etiqueta kraft "TESTE ANTES:"): não gosta de jogo → Dobro, competitivo → High Society, casal →
+  Sea Salt & Paper, criança → Uga Buga, estrategista → Istanbul: Jogo de Dados; final "pra festa: 3 jogos = 7 dias" +
+  "Marca aqui quem você quer tirar!"; 8 telas. Zips em `out/carrossel_*.zip`. Pegadinha: fundo com `lru_cache` precisa
+  devolver CÓPIA (senão as telas se desenham umas por cima das outras).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
