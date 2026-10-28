@@ -772,4 +772,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   cliente perdido, 3 xícaras = WIP; rodada 1 com nº FIXO de turnos → A3 → rodada 2 → comparar/padronizar) e B "Gemba no
   mapa" (MicroMacro: definir o problema, colunas FATOS × SUPOSIÇÕES, causa, conferir nas cartas). Ele gostou dos dois;
   ofereci o material (A3 adaptado, ficha de medição, regras em 1 página, roteiro do facilitador).
+  **Kit do Coffee Rush FEITO (28/out):** `dinamica-kaizen/` (`kit.html` A4 + `a3.html` A4 paisagem → `python3 gerar_pdf.py`
+  → `out/kaizen_do_cafe.pdf`, 5 págs: visão geral/agenda 90 min, roteiro do facilitador, regras em 1 página + jogo × processo,
+  ficha de medição 12 turnos, A3 PDCA com 5 porquês/Ishikawa). Detalhes de regra que não confirmei ficaram como "veja o manual".
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.

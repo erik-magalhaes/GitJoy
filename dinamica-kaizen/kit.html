@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Kaizen do Café – kit da dinâmica</title>
+<style>
+@font-face { font-family: Lilita; src: url("../assinatura-reels/assets/fonts/LilitaOne.ttf"); }
+@font-face { font-family: Figtree; src: url("../assinatura-reels/assets/fonts/Figtree.ttf"); }
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Figtree, sans-serif; color: #2b1d14; font-size: 10.5pt; line-height: 1.38; }
+.pg { width: 210mm; height: 297mm; padding: 14mm 15mm 12mm; page-break-after: always; position: relative; overflow: hidden; }
+.pg:last-child { page-break-after: auto; }
+h1, h2, h3 { font-family: Lilita, sans-serif; font-weight: normal; margin: 0; color: #3F2412; }
+h1 { font-size: 34pt; line-height: 1; }
+h2 { font-size: 19pt; margin-bottom: 3mm; }
+h3 { font-size: 12.5pt; margin: 3.5mm 0 1.2mm; color: #1C7C96; }
+p { margin: 0 0 2mm; }
+ul, ol { margin: 0 0 2mm; padding-left: 5mm; }
+li { margin-bottom: 1mm; }
+.topo { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2.5px solid #3F2412; padding-bottom: 2mm; margin-bottom: 4mm; }
+.topo span { font-size: 9pt; color: #7a6250; }
+.faixa { background: #3F2412; color: #FAFAFA; border-radius: 4mm; padding: 9mm 10mm; margin-bottom: 6mm; }
+.faixa h1 { color: #FFC71F; }
+.faixa p { font-size: 13pt; margin: 3mm 0 0; }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+.box { border: 2px solid #3F2412; border-radius: 3mm; padding: 3.5mm 4.5mm; margin-bottom: 4mm; }
+.box.az { background: #E3F3F6; }
+.box.am { background: #FFF4CF; }
+.box.la { background: #FDE8D3; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 1.3px solid #3F2412; padding: 1.6mm 2mm; vertical-align: top; text-align: left; }
+th { background: #3F2412; color: #FAFAFA; font-weight: 700; font-size: 9.5pt; }
+.agenda td:first-child { width: 17mm; font-weight: 700; white-space: nowrap; }
+.agenda td:nth-child(2) { width: 15mm; text-align: center; }
+.map td:first-child { width: 48%; font-weight: 700; }
+.fala { background: #FFF4CF; border-left: 4px solid #F48825; padding: 1.5mm 3mm; margin: 1.5mm 0 2mm; font-style: italic; }
+.passo { display: flex; gap: 3mm; margin-bottom: 2.6mm; }
+.passo .t { flex: 0 0 24mm; font-family: Lilita; font-size: 12pt; color: #F48825; line-height: 1.1; }
+.passo .t small { display: block; font-family: Figtree; font-size: 8.5pt; color: #7a6250; }
+.passo .c { flex: 1; }
+.passo .c b.tit { font-size: 11.5pt; }
+.nota { font-size: 8.8pt; color: #6b5444; }
+.rodape { position: absolute; bottom: 7mm; left: 15mm; right: 15mm; font-size: 8pt; color: #9a8470; display: flex; justify-content: space-between; }
+/* ficha */
+.ficha td, .ficha th { text-align: center; height: 9.2mm; vertical-align: middle; padding: 0 1mm; }
+.ficha th { font-size: 8.6pt; line-height: 1.15; height: auto; padding: 1.5mm 1mm; }
+.ficha td:last-child { width: 46mm; }
+.ficha tr.tot td { background: #E3F3F6; font-weight: 700; }
+.linha { border-bottom: 1.3px solid #3F2412; display: inline-block; min-width: 50mm; height: 6mm; }
+.score { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; margin-top: 3mm; }
+.score div { border: 2px solid #3F2412; border-radius: 2.5mm; padding: 2mm; text-align: center; font-size: 9pt; }
+.score div b { display: block; height: 9mm; }
+.chk li { list-style: none; margin-left: -5mm; }
+.chk li::before { content: ""; display: inline-block; width: 3.2mm; height: 3.2mm; border: 1.3px solid #3F2412; border-radius: .6mm; margin-right: 2mm; vertical-align: -0.4mm; }
+</style>
+</head>
+<body>
+
+<!-- 1. VISÃO GERAL -->
+<section class="pg">
+  <div class="faixa">
+    <h1>Kaizen do Café</h1>
+    <p>Uma dinâmica de melhoria contínua com o jogo <b>Coffee Rush</b>: o time sente a dor do problema jogando,
+       escreve um A3 com os próprios dados e prova (ou não) a melhoria na segunda rodada.</p>
+  </div>
+
+  <div class="cols">
+    <div>
+      <h3>Objetivo</h3>
+      <p>Praticar o ciclo <b>PDCA</b> e o raciocínio do <b>A3</b> num problema que todo mundo vive ao mesmo tempo:
+         entender a dor com dados, achar a causa raiz, testar contramedidas e padronizar o que funcionou.</p>
+      <h3>O que o time treina</h3>
+      <ul>
+        <li>Medir antes de opinar (condição atual com números).</li>
+        <li>Separar sintoma de causa (5 porquês / Ishikawa).</li>
+        <li>Propor contramedidas que mudam o <b>método</b>, não as regras.</li>
+        <li>Comparar antes × depois e decidir o padrão.</li>
+        <li>Comunicação e decisão em dupla sob pressão.</li>
+      </ul>
+      <h3>Formato</h3>
+      <p><b>4 pessoas</b> em <b>2 duplas</b>, jogando o Coffee Rush no <b>modo 2 jogadores</b>: cada dupla é
+         “um jogador” e controla os 2 baristas daquele modo. A cada turno só um barista anda, então
+         <b>a dupla precisa decidir junta</b>.</p>
+      <p>Você é o facilitador: cronometra, conta os turnos e faz as perguntas.</p>
+    </div>
+    <div>
+      <h3>Materiais</h3>
+      <ul class="chk">
+        <li>1 Coffee Rush (montado como no manual, modo 2 jogadores)</li>
+        <li>2 fichas de medição por dupla (rodada 1 e 2) – pág. 4</li>
+        <li>1 A3 por dupla, impresso em A3 ou A4 – pág. 5</li>
+        <li>1 resumo de regras por dupla – pág. 3</li>
+        <li>Canetas, post-its, cronômetro do celular</li>
+        <li>Quadro ou flip chart para o placar R1 × R2</li>
+      </ul>
+      <h3>Agenda (≈ 90 min)</h3>
+      <table class="agenda">
+        <tr><th>Quando</th><th>Min</th><th>O quê</th></tr>
+        <tr><td>0:00</td><td>10</td><td>Abertura, regras e 2 turnos de treino</td></tr>
+        <tr><td>0:10</td><td>15</td><td><b>Rodada 1</b> – 12 turnos por dupla, medindo</td></tr>
+        <tr><td>0:25</td><td>30</td><td><b>A3</b> – condição atual, causa, contramedidas</td></tr>
+        <tr><td>0:55</td><td>15</td><td><b>Rodada 2</b> – mesmo limite de turnos</td></tr>
+        <tr><td>1:10</td><td>15</td><td>Comparar R1 × R2 e padronizar</td></tr>
+        <tr><td>1:25</td><td>5</td><td>Ponte com o nosso trabalho</td></tr>
+      </table>
+      <p class="nota" style="margin-top:2mm">Com menos tempo: corte o treino para 1 turno e o A3 para 20 min (≈ 75 min).</p>
+    </div>
+  </div>
+
+  <div class="box am" style="margin-top:2mm">
+    <b>A regra de ouro da dinâmica:</b> as regras do jogo são o “processo do cliente” e <b>não mudam</b>.
+    O que o time pode mudar é <b>como trabalha</b>: papéis, ordem de atendimento, comunicação, conferência.
+    É exatamente o que acontece numa melhoria de verdade.
+  </div>
+  <div class="rodape"><span>Kaizen do Café · kit do facilitador</span><span>1</span></div>
+</section>
+
+<!-- 2. ROTEIRO DO FACILITADOR -->
+<section class="pg">
+  <div class="topo"><h2>Roteiro do facilitador</h2><span>o que fazer e o que perguntar em cada etapa</span></div>
+
+  <div class="passo"><div class="t">0:00<small>10 min</small></div><div class="c">
+    <b class="tit">Abertura e treino</b>
+    <div class="fala">“Hoje vocês são uma cafeteria. O cliente pede, espera e, se demorar demais, vai embora.
+      Antes de melhorar qualquer coisa, a gente vai medir como a cafeteria funciona hoje.”</div>
+    Explique as regras com o resumo da pág. 3. Joguem 2 turnos de treino que <b>não contam</b>.
+    Mostre a ficha de medição e combine: <b>em cada dupla, a pessoa que não está mexendo o barista anota</b>.
+  </div></div>
+
+  <div class="passo"><div class="t">0:10<small>15 min</small></div><div class="c">
+    <b class="tit">Rodada 1 – “a condição atual”</b>
+    Recomece do zero (baralho embaralhado). <b>12 turnos por dupla</b>, alternando. Não dê dicas: deixe o caos
+    acontecer. Anote também o que você vê (discussões, travadas, pedidos esquecidos na última aba).
+    <div class="fala">Não interfira. Se perguntarem “qual a melhor jogada?”, responda: “o que vocês combinaram?”.</div>
+  </div></div>
+
+  <div class="passo"><div class="t">0:25<small>30 min</small></div><div class="c">
+    <b class="tit">A3 em dupla (pág. 5)</b>
+    <ol>
+      <li><b>Contexto e condição atual</b> (8 min): números da ficha. “Onde dói? Em que turno começou a doer?”</li>
+      <li><b>Meta</b> (2 min): uma só, com número. Ex.: “no máx. 1 cliente perdido em 12 turnos”.</li>
+      <li><b>Causa raiz</b> (10 min): 5 porquês a partir do maior problema. Ishikawa se travar.</li>
+      <li><b>Contramedidas e plano</b> (10 min): no máx. 3, só de método. Quem faz o quê.</li>
+    </ol>
+    Perguntas para destravar: <i>“Isso é causa ou sintoma?” · “Qual dado mostra isso?” · “Se fosse sorte,
+    a outra dupla teria o mesmo problema?” · “Essa contramedida depende de alguém lembrar, ou está no método?”</i>
+    <p class="nota">Se proporem mudar a regra (“pegar 2 cartas”, “andar mais”), devolva: “o cliente não muda o pedido
+      porque a gente quer. O que vocês controlam?”</p>
+  </div></div>
+
+  <div class="passo"><div class="t">0:55<small>15 min</small></div><div class="c">
+    <b class="tit">Rodada 2 – “testando as contramedidas”</b>
+    Jogo novo do zero, <b>mesmos 12 turnos</b>, mesma ficha. As duplas aplicam o próprio plano. Você só observa
+    se o plano está sendo seguido (marque quando alguém “esquece” o combinado: é dado também).
+  </div></div>
+
+  <div class="passo"><div class="t">1:10<small>15 min</small></div><div class="c">
+    <b class="tit">Comparar e padronizar</b>
+    Placar no quadro: R1 × R2 de cada dupla (entregues, perdidos, retrabalho, pontos).
+    <ul>
+      <li>“Bateu a meta? Qual contramedida mais ajudou? Como vocês sabem?”</li>
+      <li>“Quanto foi método e quanto foi sorte das cartas?” (o baralho muda: discuta <b>variação</b> e por que
+          uma rodada só não prova nada).</li>
+      <li>Cada dupla escolhe <b>1 regra de ouro</b> e escreve no campo “Padrão” do A3. As duas juntas viram o
+          “procedimento da cafeteria”.</li>
+    </ul>
+  </div></div>
+
+  <div class="passo"><div class="t">1:25<small>5 min</small></div><div class="c">
+    <b class="tit">Ponte com o trabalho</b>
+    <div class="fala">“Onde, no nosso dia a dia, tem pedido parado na última aba? O que a gente faz hoje sem medir?
+      Qual foi o 5º porquê de vocês e onde ele aparece aqui?”</div>
+    Feche pedindo <b>1 problema real</b> que cada um toparia levar para um A3 de verdade.
+  </div></div>
+
+  <div class="rodape"><span>Kaizen do Café · kit do facilitador</span><span>2</span></div>
+</section>
+
+<!-- 3. REGRAS EM 1 PÁGINA -->
+<section class="pg">
+  <div class="topo"><h2>Coffee Rush em 1 página</h2><span>modo 2 jogadores · cada dupla = 1 jogador</span></div>
+
+  <div class="cols">
+    <div>
+      <div class="box az">
+        <h3 style="margin-top:0">O objetivo</h3>
+        Atender pedidos de café antes que o cliente desista. Cada pedido é uma carta que mostra os ingredientes
+        da bebida.
+      </div>
+      <h3>O turno da dupla</h3>
+      <ol>
+        <li><b>Andar:</b> a dupla escolhe <b>um</b> dos seus 2 baristas e anda de 1 a 3 casas no balcão
+            (fichas de pressa dão movimento extra).</li>
+        <li><b>Pegar:</b> o ingrediente da casa onde parou vai para uma das <b>3 xícaras</b> da dupla.</li>
+        <li><b>Entregar:</b> xícara com exatamente os ingredientes de um pedido → o pedido está completo.</li>
+      </ol>
+      <h3>O tempo passa (o “relógio” do jogo)</h3>
+      <p>Os pedidos ficam numa fila de <b>4 abas</b>. A cada rodada eles <b>descem uma aba</b> e chega pedido novo
+         na aba 1. Pedido que sai da <b>aba 4</b> sem ser atendido = <b>penalidade</b> (cliente perdido).</p>
+      <h3>Muitos pedidos!</h3>
+      <p>Quando uma dupla completa pedidos, a outra recebe pedidos novos na fila (siga o manual do modo
+         2 jogadores). Ser rápido aumenta a pressão no outro time.</p>
+    </div>
+    <div>
+      <h3 style="margin-top:0">Melhorias</h3>
+      <p>Pedidos completos podem ser trocados por <b>melhorias</b> da cafeteria (veja no manual quantos).</p>
+      <h3>Pontuação</h3>
+      <table>
+        <tr><td>Cada pedido entregue</td><td style="width:18mm;text-align:center"><b>+1</b></td></tr>
+        <tr><td>Cada melhoria conquistada</td><td style="text-align:center"><b>+2</b></td></tr>
+        <tr><td>Cada penalidade (cliente perdido)</td><td style="text-align:center"><b>−1</b></td></tr>
+      </table>
+      <p class="nota" style="margin-top:1.5mm">Na dinâmica, a rodada acaba no <b>12º turno de cada dupla</b> (e não no fim do
+        baralho), para as duas rodadas terem o mesmo tamanho e dar para comparar.</p>
+
+      <h3>O jogo é um processo</h3>
+      <table class="map">
+        <tr><th>No jogo</th><th>No processo</th></tr>
+        <tr><td>Fila de 4 abas</td><td>Lead time / prazo do cliente</td></tr>
+        <tr><td>Pedido saindo da aba 4</td><td>Cliente perdido, atraso, defeito</td></tr>
+        <tr><td>3 xícaras</td><td>Capacidade / WIP (trabalho em andamento)</td></tr>
+        <tr><td>Ingrediente errado na xícara</td><td>Retrabalho, desperdício</td></tr>
+        <tr><td>Pedidos chegando da outra dupla</td><td>Pico de demanda</td></tr>
+        <tr><td>Só 1 barista anda por turno</td><td>Recurso gargalo, decisão em equipe</td></tr>
+        <tr><td>Melhorias</td><td>Kaizen: investir para ganhar depois</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="box la" style="margin-top:3mm">
+    <b>Antes de sexta:</b> monte o jogo uma vez sozinho seguindo o manual do modo 2 jogadores e confira os
+    detalhes (como os pedidos passam para a outra dupla, quantos pedidos valem uma melhoria e o que fazer com
+    ingrediente sobrando). Este resumo não substitui o manual: em dúvida, vale o manual.
+  </div>
+  <div class="rodape"><span>Kaizen do Café · resumo das regras</span><span>3</span></div>
+</section>
+
+<!-- 4. FICHA DE MEDIÇÃO -->
+<section class="pg">
+  <div class="topo"><h2>Ficha de medição</h2><span>1 por dupla, por rodada · anota quem não está mexendo o barista</span></div>
+  <p>Dupla: <span class="linha"></span> &nbsp;&nbsp; Rodada: &nbsp; ☐ 1 &nbsp; ☐ 2 &nbsp;&nbsp; Anotador: <span class="linha" style="min-width:40mm"></span></p>
+  <table class="ficha">
+    <tr>
+      <th style="width:13mm">Turno</th>
+      <th>Pedidos<br>entregues</th>
+      <th>Clientes perdidos<br>(saíram da aba 4)</th>
+      <th>Retrabalho<br>(ingrediente errado /<br>xícara esvaziada)</th>
+      <th>Pedidos na aba 4<br>no fim do turno<br>(risco)</th>
+      <th>Observação<br>(o que travou?)</th>
+    </tr>
+    <tr><td>1</td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>2</td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>3</td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>4</td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>5</td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>6</td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>7</td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>8</td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>9</td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>10</td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>11</td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>12</td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr class="tot"><td>Total</td><td></td><td></td><td></td><td>maior:</td><td></td></tr>
+  </table>
+  <div class="score">
+    <div>Pedidos × (+1)<b></b></div>
+    <div>Melhorias × (+2)<b></b></div>
+    <div>Penalidades × (−1)<b></b></div>
+    <div style="background:#FFC71F">PONTOS<b></b></div>
+  </div>
+  <div class="box az" style="margin-top:4mm">
+    <b>No fim da rodada, responda em 1 linha:</b><br>
+    O maior problema da nossa cafeteria foi: <span class="linha" style="min-width:110mm"></span><br>
+    Ele apareceu pela 1ª vez no turno: <span class="linha" style="min-width:20mm"></span>
+  </div>
+  <div class="rodape"><span>Kaizen do Café · imprima 4 (2 duplas × 2 rodadas)</span><span>4</span></div>
+</section>
+
+</body>
+</html>
