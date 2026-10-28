@@ -761,4 +761,15 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   vampiros → Drácula vs Van Helsing, fantasmas → Paranormal Detectives, monstros → O Vale dos Monstros II, perder a cabeça →
   Por favor, não corte minha cabeça!, "nada? então é família" → Scooby-Doo; final "Qual é o seu medo? Comenta aqui!". 9 telas.
   Ele disse "tem dois vídeos" = os 2 vídeos de Halloween que já existem (roxo e pôster); não chegou vídeo novo no Drive.
+- **Carrossel "Jogos e dinâmicas na sua empresa" (`feed-sua-vez/empresas.py`, 28/out, ideia dele):** levar a monitoria de
+  eventos para DENTRO das empresas, foco em comunicação/confiança/planejamento/resolução de problemas (NÃO quebra-gelo).
+  Conceito CONVITE DE REUNIÃO DA AGENDA (grade de agenda com reuniões chatas desbotadas; cada tela um convite com duração,
+  pessoas, "Local: sala de reunião (a gente leva o jogo)", PAUTA e "Vai participar? Sim/Talvez/Não"): Código Secreto:
+  Imagens, The Mind, Take Time, Unlock! (recorte novo `hobby-reels/assets/acervo/unlock_timeless_adventures.png`, sobra
+  laranja tirada) e Passaporte Mundo; ele TIROU o Sheriff of Nottingham. Final com WhatsApp (11) 97793-3910 e ABC Paulista.
+  7 telas. **Trabalho dele (ele é analista de MELHORIA CONTÍNUA):** quer uma dinâmica de A3/PDCA com o time de 4 pessoas
+  na sexta. Propus A "Kaizen do café" (Coffee Rush em 2 duplas no modo 2 jogadores; abas 1→4 = lead time, penalidade =
+  cliente perdido, 3 xícaras = WIP; rodada 1 com nº FIXO de turnos → A3 → rodada 2 → comparar/padronizar) e B "Gemba no
+  mapa" (MicroMacro: definir o problema, colunas FATOS × SUPOSIÇÕES, causa, conferir nas cartas). Ele gostou dos dois;
+  ofereci o material (A3 adaptado, ficha de medição, regras em 1 página, roteiro do facilitador).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
