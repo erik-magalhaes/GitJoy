@@ -754,4 +754,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Sea Salt & Paper, criança → Uga Buga, estrategista → Istanbul: Jogo de Dados; final "pra festa: 3 jogos = 7 dias" +
   "Marca aqui quem você quer tirar!"; 8 telas. Zips em `out/carrossel_*.zip`. Pegadinha: fundo com `lru_cache` precisa
   devolver CÓPIA (senão as telas se desenham umas por cima das outras).
+- **Carrossel de Halloween (`feed-sua-vez/halloween_carrossel.py`, 28/out, pedido da Jéssica):** "ESCOLHA SEU MEDO",
+  conceito A PRATELEIRA DE TERROR DA LOCADORA (fitas VHS: estojo preto, faixa do gênero, caixa oficial na capa, etiqueta
+  "LOCADORA SUA VEZ" com ficha e preço, adesivo "SEJA GENTIL: DEVOLVA EM 5 DIAS" (7 no Deluxe), letreiro neon vermelho,
+  lombadas desfocadas). Assassino → Final Girl, zumbis → Tiny Epic Zombies (o Zombicide Rue Morgue só tem imagem de 276 px),
+  vampiros → Drácula vs Van Helsing, fantasmas → Paranormal Detectives, monstros → O Vale dos Monstros II, perder a cabeça →
+  Por favor, não corte minha cabeça!, "nada? então é família" → Scooby-Doo; final "Qual é o seu medo? Comenta aqui!". 9 telas.
+  Ele disse "tem dois vídeos" = os 2 vídeos de Halloween que já existem (roxo e pôster); não chegou vídeo novo no Drive.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
