@@ -792,4 +792,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   queria só tocar e confirmar, caindo numa planilha (sem Google Forms nem site de terceiros). Solução: Planilha Google +
   Apps Script como App da Web (`Codigo.gs` + `Index.html`; passo a passo em `COMO_USAR.md`): "Vou!/Não vou", nome,
   adultos/crianças, recado; aba Confirmações (mesmo nome atualiza a linha) + aba Resumo com o total; prazo 15/11.
-  O WhatsApp comum não grava numa planilha sozinho (só com API paga).
+  O WhatsApp comum não grava numa planilha sozinho (só com API paga). Festa: **Lila, 2 anos, 06/12/2026 14h, Espaço
+  Benino (Av. Dom José Gaspar, 859, Mauá)**, tema "Lila Story" (Toy Story). A página usa o visual do convite: logo, "2"
+  e carinhas recortados do convite (`img/`), fundo rosa com nuvens, arco branco na moldura de grade amarela, Great Vibes
+  + Libre Caslon; `pagina.html` → `python3 montar.py` → `Index.html` (imagens embutidas em base64).

@@ -4,12 +4,13 @@
 
 // ===== AJUSTE AQUI =====
 const FESTA = {
-  aniversariante: 'NOME DA SUA FILHA',
-  idade: '',                       // ex.: '5 anos' (pode deixar vazio)
-  data: 'Sábado, 22/11',
-  hora: '15h',
-  local: 'Endereço da festa',
-  prazoTexto: '15/11',
+  aniversariante: 'Lila',
+  idade: '2 anos',
+  data: '06 de dezembro de 2026',
+  hora: '14h',
+  endereco: 'Avenida Dom José Gaspar, 859, Mauá',
+  local: 'Espaço Benino',
+  prazoTexto: '15 de novembro',
   prazo: '2026-11-15T23:59:59-03:00', // depois disso o link avisa que encerrou
 };
 // =======================

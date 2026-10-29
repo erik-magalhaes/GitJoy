@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Libre+Caslon+Text:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --rosa: #F5D3DC; --amarelo: #F6C343; --grade: #D9A21E; --vermelho: #D9474A; --tinta: #1E1E1E; }
+  * { box-sizing: border-box; }
+  html, body { min-height: 100%; }
+  body {
+    margin: 0; color: var(--tinta); font-family: 'Libre Caslon Text', Georgia, serif;
+    background-color: var(--rosa);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='180'%3E%3Cg fill='%23fff' opacity='.9'%3E%3Cellipse cx='40' cy='42' rx='22' ry='12'/%3E%3Ccircle cx='34' cy='34' r='11'/%3E%3Ccircle cx='48' cy='31' r='13'/%3E%3Cellipse cx='160' cy='132' rx='24' ry='12'/%3E%3Ccircle cx='153' cy='124' r='12'/%3E%3Ccircle cx='168' cy='120' r='14'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  .moldura {
+    position: relative; max-width: 460px; margin: 92px 12px 28px; padding: 14px;
+    border-radius: 230px 230px 0 0;
+    background-color: var(--amarelo);
+    background-image: linear-gradient(var(--grade) 2px, transparent 2px), linear-gradient(90deg, var(--grade) 2px, transparent 2px);
+    background-size: 22px 22px;
+  }
+  .arco { background: #fff; border-radius: 214px 214px 0 0; padding: 118px 20px 28px; text-align: center; }
+  .logo { position: absolute; top: -78px; left: 50%; transform: translateX(-50%); width: 250px; max-width: 70%; }
+  .dois { width: 150px; display: block; margin: 0 auto; }
+  .script { font-family: 'Great Vibes', cursive; font-size: 40px; line-height: 1.05; margin: 14px 0; }
+  .caras { width: 100%; max-width: 360px; display: block; margin: 6px auto; }
+  .data { font-size: 21px; margin: 18px 0 8px; }
+  .local { font-size: 16px; line-height: 1.45; margin: 0 0 22px; }
+  .prazo { font-weight: 700; text-decoration: underline; font-size: 17px; margin: 0 0 18px; }
+  .prazo span { color: var(--vermelho); white-space: nowrap; }
+  .resp { display: flex; gap: 10px; margin-bottom: 14px; }
+  .resp button {
+    flex: 1; font: 700 19px 'Libre Caslon Text', Georgia, serif; padding: 14px 6px; border-radius: 16px;
+    border: 3px solid var(--grade); background: #fff; color: var(--tinta);
+  }
+  .resp button.on.vou { background: var(--amarelo); }
+  .resp button.on.nao { background: var(--rosa); border-color: #D98FA3; }
+  label { display: block; font-weight: 700; margin: 14px 0 6px; text-align: left; font-size: 15px; }
+  input, textarea {
+    width: 100%; font: 17px 'Libre Caslon Text', Georgia, serif; padding: 12px; border: 2px solid var(--grade);
+    border-radius: 12px; background: #FFFBEF; color: var(--tinta);
+  }
+  .conta { display: flex; align-items: center; justify-content: space-between; margin: 8px 0; font-size: 17px; }
+  .conta div { display: flex; align-items: center; gap: 12px; }
+  .conta button { width: 44px; height: 44px; font-size: 24px; border-radius: 50%; border: 2px solid var(--grade); background: var(--amarelo); color: var(--tinta); }
+  .conta b { min-width: 24px; text-align: center; font-size: 21px; }
+  #enviar {
+    width: 100%; margin-top: 22px; font: 700 20px 'Libre Caslon Text', Georgia, serif; padding: 15px;
+    border: 0; border-radius: 16px; background: var(--vermelho); color: #fff; box-shadow: 0 4px 0 #A8302F;
+  }
+  #enviar:disabled { opacity: .45; }
+  .erro { color: var(--vermelho); min-height: 1.2em; margin: 10px 0 0; }
+  .fim { font-size: 19px; line-height: 1.5; }
+  .fim .script { font-size: 46px; }
+  .esconde { display: none; }
+  @media (min-width: 484px) { .moldura { margin-left: auto; margin-right: auto; } }
+</style>
+</head>
+<body>
+<div class="moldura">
+  <img class="logo" src="{{LOGO}}" alt="<?= festa.aniversariante ?> Story">
+  <div class="arco">
+    <img class="dois" src="{{DOIS}}" alt="<?= festa.idade ?>">
+    <p class="script">Ao infinito e além</p>
+    <img class="caras" src="{{CARAS}}" alt="">
+    <p class="script">Venha comemorar<br>com a gente</p>
+    <p class="data">Dia <?= festa.data ?><br>às <?= festa.hora ?></p>
+    <p class="local"><?= festa.endereco ?><br><b><?= festa.local ?></b></p>
+
+    <? if (encerrado) { ?>
+      <p class="fim">As confirmações encerraram em <?= festa.prazoTexto ?>.<br>Fale direto com a gente pelo WhatsApp 💛</p>
+    <? } else { ?>
+    <div id="form">
+      <p class="prazo">Confirmar presença até o dia <span><?= festa.prazoTexto ?></span></p>
+      <div class="resp">
+        <button type="button" class="vou" onclick="escolhe('Vou')">Vou! 🤠</button>
+        <button type="button" class="nao" onclick="escolhe('Não vou')">Não vou 😢</button>
+      </div>
+      <label for="nome">Seu nome (ou da família)</label>
+      <input id="nome" autocomplete="name" placeholder="Ex.: Família Silva">
+      <div id="qtd" class="esconde">
+        <label>Quantas pessoas vão?</label>
+        <div class="conta"><span>Adultos</span><div><button type="button" onclick="muda('a',-1)">−</button><b id="a">1</b><button type="button" onclick="muda('a',1)">+</button></div></div>
+        <div class="conta"><span>Crianças</span><div><button type="button" onclick="muda('c',-1)">−</button><b id="c">0</b><button type="button" onclick="muda('c',1)">+</button></div></div>
+      </div>
+      <label for="recado">Recado (opcional)</label>
+      <textarea id="recado" rows="2" placeholder="Alguma restrição alimentar?"></textarea>
+      <button id="enviar" onclick="envia()" disabled>Confirmar</button>
+      <p class="erro" id="erro"></p>
+    </div>
+    <div id="ok" class="fim esconde"></div>
+    <? } ?>
+  </div>
+</div>
+<script>
+  let resposta = null;
+  const n = { a: 1, c: 0 };
+  function escolhe(r) {
+    resposta = r;
+    document.querySelector('.vou').classList.toggle('on', r === 'Vou');
+    document.querySelector('.nao').classList.toggle('on', r !== 'Vou');
+    document.getElementById('qtd').classList.toggle('esconde', r !== 'Vou');
+    document.getElementById('enviar').disabled = false;
+  }
+  function muda(k, d) { n[k] = Math.max(0, Math.min(20, n[k] + d)); document.getElementById(k).textContent = n[k]; }
+  function envia() {
+    const erro = document.getElementById('erro');
+    const nome = document.getElementById('nome').value.trim();
+    if (!nome) { erro.textContent = 'Escreva seu nome 🙂'; return; }
+    if (resposta === 'Vou' && n.a + n.c === 0) { erro.textContent = 'Diga quantas pessoas vão.'; return; }
+    erro.textContent = '';
+    const b = document.getElementById('enviar');
+    b.disabled = true; b.textContent = 'Enviando...';
+    google.script.run
+      .withSuccessHandler(vai => {
+        document.getElementById('form').classList.add('esconde');
+        const ok = document.getElementById('ok');
+        ok.innerHTML = vai
+          ? '<p class="script">Oba!</p>Presença confirmada!<br>Te esperamos lá! 🎈'
+          : '<p class="script">Que pena!</p>Obrigado por avisar 💛';
+        ok.classList.remove('esconde');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      })
+      .withFailureHandler(e => { erro.textContent = e.message; b.disabled = false; b.textContent = 'Confirmar'; })
+      .salvar({ nome, resposta, adultos: n.a, criancas: n.c, recado: document.getElementById('recado').value });
+  }
+</script>
+</body>
+</html>
