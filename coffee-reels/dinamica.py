@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Vídeo explicativo da DINÂMICA "Kaizen do Café" (Coffee Rush) para o time de melhoria contínua do Erik (29/out/2026).
-Não é o Reels do jogo: explica o contexto todo (a ideia, quem joga, o jogo no essencial, o jogo como processo, a agenda,
-rodada 1, A3, rodada 2, comparar, padronizar, ponte com o trabalho), no visual do kit em PDF (dinamica-kaizen/).
+NÃO explica as regras (pedido dele: "eu não quero vídeo explicando a regra, eu quero vídeo explicando a dinâmica"):
+a ideia, quem joga, por que o Coffee Rush (jogo × processo), a agenda, rodada 1, A3, rodada 2, comparar, padronizar,
+ponte com o trabalho, no visual do kit em PDF (dinamica-kaizen/).
 Sem narração, tudo escrito; peças OFICIAIS da Galápagos (recortes.py): ingredientes, barista (o vermelho é o azul
 com a cor girada; no modo 2 jogadores as cores são vermelho e azul), caixa e foto dos componentes.
 Regras conferidas (manual via rulespal + Board Game Arena): tabuleiro 4x4, anda 1 a 3 casas sem diagonal e pega o
@@ -221,177 +222,6 @@ def c_quem(img, t):
         W / 2, 1420, t, 3.8)
 
 
-# ---------- o jogo no essencial
-def grade_xy(r, c, cx=W / 2, cy=860, s=170):
-    return cx + (c - 1.5) * (s + 14), cy + (r - 1.5) * (s + 14)
-
-
-def desenha_grade(img, t, t0=0.0, cy=860, s=170, ocultar=()):
-    for r in range(4):
-        for c in range(4):
-            x, y = grade_xy(r, c, cy=cy, s=s)
-            a, sc = surge(t, t0 + (r + c) * 0.05)
-            if (r, c) in ocultar:
-                continue
-            cola(img, casa(GRADE[r][c], s), x, y, 0, sc, a)
-
-
-def c_tabuleiro(img, t):
-    cabecalho(img, 3, "O JOGO EM 1 MINUTO", t)
-    poe(img, T("Você é barista.\nO cliente pede, espera… e desiste.", 58), W / 2, 330, t, 0.2)
-    poe(img, componentes(1000), W / 2, 960, t, 1.0)
-    poe(img, T("No meio: o tabuleiro de ingredientes.\nCada jogador: o seu balcão, 3 xícaras e os pedidos.", 38,
-               (110, 86, 70), "figtree"), W / 2, 1520, t, 2.0)
-
-
-def balcao(img, t, cy, cartas, t0=0.0, titulo=True, cor=PETROLEO, esc=1.0):
-    """cartas: lista de (receita, posição em abas: 0..3, ou >3 saindo, ou None)."""
-    sw = int(212 * esc)
-    x0 = W / 2 - 1.5 * sw - 40 * esc
-    a, s = surge(t, t0)
-    base = bloco(int(sw * 4 + 20 * esc), int(330 * esc), (232, 214, 186), MARROM, 6, 24, 8)
-    cola(img, base, x0 + 1.5 * sw, cy, 0, s, a)
-    for k in range(4):
-        if titulo:
-            cola(img, pilula(f"ABA {k + 1}", int(30 * esc), cor), x0 + k * sw, cy - 140 * esc, 0, s, a)
-    cola(img, T("→", int(90 * esc), VERMELHO, "figtree"), x0 + 3.5 * sw + 60 * esc, cy, 0, s, a)
-    for rec, p, extra in cartas:
-        if p is None:
-            continue
-        x = x0 + p * sw
-        y = cy + 10 * esc
-        rot = 0
-        alpha = 1.0
-        penal = False
-        if p > 3:  # saiu da aba 4: cai e vira cliente perdido
-            q = min(1, (p - 3) / 1.2)
-            x = x0 + 3 * sw + q * 160 * esc
-            y = cy + 10 * esc + q * q * 260 * esc
-            rot = -18 * q
-            penal = q > 0.5
-        cola(img, pedido(rec, int(150 * esc), penal=penal), x, y, rot, extra, alpha)
-
-
-def c_balcao(img, t):
-    cabecalho(img, 3, "O JOGO EM 1 MINUTO", t)
-    poe(img, T("O balcão tem 4 abas", 70), W / 2, 330, t, 0.2)
-    cartas = []
-    for k, (rec, tk) in enumerate(((P4, 1.0), (P2, 1.4), (P1, 1.8))):
-        a, s = surge(t, tk)
-        cartas.append((rec, 2 - k, s))
-    # a cada "turno" a fila anda; a carta da aba 4 cai
-    desce = ease(min(1, max(0, (t - 3.2) / 0.8)))
-    cartas = [(r, p + desce, s) for r, p, s in cartas]
-    cartas.append((P5, 3 + 1.3 * ease(min(1, max(0, (t - 3.2) / 1.0))) if t > 1.2 else None, surge(t, 0.6)[1]))
-    balcao(img, t, 760, cartas, 0.5)
-    poe(img, T("Pedido novo entra na ABA 1\ne desce uma aba a cada turno.", 46, MARROM, "figtree"), W / 2, 1080, t, 1.2)
-    poe(img, pilula("SAIU DA ABA 4 = CLIENTE PERDIDO (−1)", 38, VERMELHO), W / 2, 1290, t, 4.0)
-    poe(img, T("É o relógio do jogo: o prazo do cliente.", 42, (110, 86, 70), "figtree"), W / 2, 1440, t, 4.8)
-
-
-CAMINHO = [(2, 0), (1, 0), (1, 1), (0, 1)]  # chá (início) → café → leite → caramelo
-
-
-def c_turno(img, t):
-    cabecalho(img, 3, "O JOGO EM 1 MINUTO", t)
-    poe(img, T("No seu turno:", 70), W / 2, 300, t, 0.2)
-    poe(img, T("ANDE de 1 a 3 casas (sem diagonal)\ne pegue o ingrediente de CADA casa em que pisar", 38,
-               MARROM, "figtree"), W / 2, 420, t, 0.4)
-    desenha_grade(img, t, 0.3, cy=880, s=160)
-    # barista adversário parado
-    xr, yr = grade_xy(1, 2, cy=880, s=160)
-    poe(img, barista("vermelho", 190), xr, yr - 40, t, 0.8)
-    # barista azul andando
-    passo = min(3.0, max(0.0, (t - 1.6) / 0.9))
-    k = int(passo)
-    u = passo - k
-    a, b = CAMINHO[min(k, 3)], CAMINHO[min(k + 1, 3)]
-    pa, pb = grade_xy(*a, cy=880, s=160), grade_xy(*b, cy=880, s=160)
-    x = pa[0] + (pb[0] - pa[0]) * ease(u)
-    y = pa[1] + (pb[1] - pa[1]) * ease(u) - 60 * math.sin(math.pi * u) * (k < 3)
-    poe(img, barista("azul", 190), x, y - 40, t, 0.9)
-    # ingredientes pegos voam para a "mão"
-    for j in range(3):
-        tj = 1.6 + (j + 1) * 0.9
-        if t > tj - 0.1:
-            r, c = CAMINHO[j + 1]
-            gx, gy = grade_xy(r, c, cy=880, s=160)
-            q = ease(min(1, (t - tj + 0.1) / 0.6))
-            hx, hy = W / 2 - 160 + j * 160, 1340
-            cola(img, ing(GRADE[r][c], 110), gx + (hx - gx) * q, gy + (hy - gy) * q, 0, 0.9 + 0.3 * math.sin(math.pi * q))
-    poe(img, T("pegou:", 40, (110, 86, 70), "figtree"), W / 2 - 330, 1340, t, 2.6)
-    poe(img, T("Pode passar por outro barista, mas não parar na casa dele.", 34, (110, 86, 70), "figtree"),
-        W / 2, 1520, t, 5.0)
-
-
-def c_xicaras(img, t):
-    cabecalho(img, 3, "O JOGO EM 1 MINUTO", t)
-    poe(img, T("Monte a bebida\nnas suas 3 xícaras", 70), W / 2, 330, t, 0.2)
-    xs = [W / 2 - 320, W / 2, W / 2 + 320]
-    dentro = ()
-    if t > 1.6:
-        dentro = ("cafe",)
-    if t > 2.3:
-        dentro = ("cafe", "leite")
-    for k, x in enumerate(xs):
-        poe(img, xicara(dentro if k == 0 else (), 210), x + 20, 760, t, 0.5 + k * 0.15)
-    # café e leite caem na xícara 1; o caramelo volta
-    for j, (n, tj) in enumerate((("cafe", 1.0), ("leite", 1.7))):
-        if tj < t < tj + 0.6:
-            q = ease((t - tj) / 0.6)
-            cola(img, ing(n, 100), W / 2 - 160 + j * 160 + (xs[0] - (W / 2 - 160 + j * 160)) * q, 560 + 200 * q, 0, 1)
-    if t < 2.4:
-        cola(img, ing("caramelo", 100), W / 2 + 160, 560, 0, 1)
-    elif t < 3.2:
-        q = ease((t - 2.4) / 0.8)
-        cola(img, ing("caramelo", 100), W / 2 + 160 + 200 * q, 560 - 250 * q, 30 * q, 1, 1 - q)
-    poe(img, T("não precisa? devolve", 36, VERMELHO, "figtree"), W / 2 + 230, 520, t, 2.4)
-    poe(img, T("O que entrou numa xícara fica nela\n(dá para esvaziar a xícara inteira).", 38, MARROM, "figtree"),
-        W / 2, 1000, t, 3.2)
-    # entrega
-    poe(img, pedido(P1, 190), W / 2 + 200, 1300, t, 4.0)
-    if t > 4.0:
-        q = ease(min(1, (t - 4.6) / 0.7)) if t > 4.6 else 0
-        cola(img, xicara(("cafe", "leite"), 150), W / 2 - 220 + (380 * q), 1300 - 40 * math.sin(math.pi * q), 0, 1)
-    poe(img, pilula("XÍCARA IGUAL AO PEDIDO: ENTREGUE! +1", 40, VERDE), W / 2, 1530, t, 5.4)
-
-
-def c_pressao(img, t):
-    cabecalho(img, 3, "O JOGO EM 1 MINUTO", t)
-    poe(img, T("A pressão não para", 70), W / 2, 300, t, 0.2)
-    poe(img, T("Cada pedido que você entrega\nvira 1 pedido novo pro OUTRO time.", 44, MARROM, "figtree"),
-        W / 2, 440, t, 0.6)
-    a, s = surge(t, 1.4)
-    novo = None if t < 2.2 else 0
-    balcao(img, t, 760, [(P3, novo, surge(t, 2.2)[1])], 1.0, cor=VERMELHO, esc=0.8)
-    poe(img, T("balcão da dupla B", 34, VERMELHO, "figtree"), W / 2, 920, t, 1.4)
-    poe(img, T("E com 2 jogadores, no fim do seu turno\nentra mais 1 pedido na sua aba 1.", 44, MARROM, "figtree"),
-        W / 2, 1090, t, 3.0)
-    poe(img, barista("azul", 210), W / 2 - 120, 1380, t, 4.4, -5)
-    poe(img, barista("azul", 210), W / 2 + 120, 1380, t, 4.6, 5)
-    if t > 5.2:
-        cola(img, marca(False, 150), W / 2 + 120, 1380)
-    poe(img, pilula("SÓ 1 BARISTA ANDA POR TURNO: A DUPLA DECIDE JUNTA", 30, PETROLEO), W / 2, 1570, t, 5.2)
-
-
-def c_pontos(img, t):
-    cabecalho(img, 3, "O JOGO EM 1 MINUTO", t)
-    poe(img, T("Placar", 80), W / 2, 310, t, 0.2)
-    linhas = [("Pedido entregue", "+1", VERDE), ("Melhoria (troca 3 pedidos feitos\npor um poder novo)", "+2", PETROLEO),
-              ("Cliente perdido (penalidade)", "−1", VERMELHO)]
-    for k, (a_, b, c) in enumerate(linhas):
-        im = bloco(880, 200, BRANCO).copy()
-        ta = T(a_, 40, MARROM, "figtree")
-        im.alpha_composite(ta, (40, 100 - ta.height // 2))
-        tb = T(b, 96, c)
-        im.alpha_composite(tb, (840 - tb.width, 100 - tb.height // 2 - 6))
-        poe(img, im, W / 2, 560 + k * 250, t, 0.8 + k * 0.5)
-    poe(img, T("Cada penalidade também dá uma ficha de pressa\n(1 passo extra quando quiser).", 36,
-               (110, 86, 70), "figtree"), W / 2, 1290, t, 2.6)
-    poe(img, T("No jogo normal acaba quando o baralho acaba\nou alguém chega a 5 penalidades.", 40, MARROM, "figtree"),
-        W / 2, 1460, t, 3.6)
-
-
 # ---------- o jogo é um processo
 MAPA = [("4 abas", "prazo do cliente (lead time)"), ("saiu da aba 4", "cliente perdido / atraso"),
         ("3 xícaras", "capacidade (WIP)"), ("ingrediente errado", "retrabalho / desperdício"),
@@ -400,8 +230,8 @@ MAPA = [("4 abas", "prazo do cliente (lead time)"), ("saiu da aba 4", "cliente p
 
 
 def c_processo(img, t):
-    cabecalho(img, 4, "O JOGO É UM PROCESSO", t)
-    poe(img, T("Tudo no jogo tem\num par no trabalho", 68), W / 2, 330, t, 0.2)
+    cabecalho(img, 3, "POR QUE O COFFEE RUSH", t)
+    poe(img, T("A cafeteria do jogo\nfunciona como um processo", 64), W / 2, 330, t, 0.2)
     for k, (a_, b) in enumerate(MAPA):
         t0 = 1.0 + k * 0.75
         y = 560 + k * 148
@@ -419,7 +249,7 @@ AGENDA = [("Abertura + treino", 10, (150, 130, 110)), ("Rodada 1", 15, PETROLEO)
 
 
 def c_agenda(img, t):
-    cabecalho(img, 5, "A AGENDA", t)
+    cabecalho(img, 4, "A AGENDA", t)
     poe(img, T("uns 90 minutos", 90), W / 2, 330, t, 0.2)
     y = 520
     tot = 0
@@ -439,7 +269,7 @@ def c_agenda(img, t):
 
 
 def c_rodada1(img, t):
-    cabecalho(img, 6, "RODADA 1", t)
+    cabecalho(img, 5, "RODADA 1", t)
     poe(img, T("Medir a\ncondição atual", 80), W / 2, 360, t, 0.2)
     itens = [("12 turnos por dupla", "jogo do zero, mesmo limite nas 2 rodadas"),
              ("Sem dicas", "deixe o caos acontecer"),
@@ -472,7 +302,7 @@ def c_rodada1(img, t):
 
 
 def c_a3(img, t):
-    cabecalho(img, 7, "O A3 EM DUPLA (30 MIN)", t)
+    cabecalho(img, 6, "O A3 EM DUPLA (30 MIN)", t)
     passos = [("Condição atual", "os números da ficha: onde doeu e quando começou"),
               ("Meta", "uma só, com número: ex. no máx. 1 cliente perdido"),
               ("5 porquês", "do maior problema até algo que a dupla controla"),
@@ -496,7 +326,7 @@ def c_a3(img, t):
 
 
 def c_regra(img, t):
-    cabecalho(img, 7, "O A3 EM DUPLA (30 MIN)", t)
+    cabecalho(img, 6, "O A3 EM DUPLA (30 MIN)", t)
     poe(img, T("A regra de ouro:", 70), W / 2, 330, t, 0.2)
     poe(img, T("Muda o MÉTODO,\nnão a regra do jogo.", 84, PETROLEO), W / 2, 520, t, 0.6)
     nao = ["andar 4 casas", "pegar 2 pedidos"]
@@ -518,7 +348,7 @@ def c_regra(img, t):
 
 
 def c_rodada2(img, t):
-    cabecalho(img, 8, "RODADA 2", t)
+    cabecalho(img, 7, "RODADA 2", t)
     poe(img, T("Testar o plano", 84), W / 2, 330, t, 0.2)
     itens = [("Jogo novo, do zero", "mesmos 12 turnos e a mesma ficha"),
              ("Cada dupla segue o próprio A3", "o plano está no papel, não na memória"),
@@ -535,7 +365,7 @@ def c_rodada2(img, t):
 
 
 def c_compara(img, t):
-    cabecalho(img, 9, "COMPARAR E PADRONIZAR", t)
+    cabecalho(img, 8, "COMPARAR E PADRONIZAR", t)
     poe(img, T("Rodada 1 × Rodada 2", 72), W / 2, 320, t, 0.2)
     poe(img, pilula("EXEMPLO", 30, PETROLEO), W / 2, 430, t, 0.4)
     barras = [("Clientes perdidos", 4, 1, VERMELHO), ("Pedidos entregues", 5, 8, VERDE)]
@@ -560,7 +390,7 @@ def c_compara(img, t):
 
 
 def c_ponte(img, t):
-    cabecalho(img, 10, "PONTE COM O TRABALHO", t)
+    cabecalho(img, 9, "PONTE COM O TRABALHO", t)
     poe(img, T("E no nosso dia a dia?", 78), W / 2, 340, t, 0.2)
     perg = ["Onde tem pedido parado\nna aba 4?", "O que a gente faz hoje\nsem medir?",
             "Qual foi o 5º porquê\ne onde ele aparece aqui?"]
@@ -579,8 +409,7 @@ def c_fim(img, t):
     poe(img, T("No kit em PDF:\nroteiro, regras em 1 página, ficha e A3", 44, MARROM, "figtree"), W / 2, 1420, t, 1.0)
 
 
-CENAS = [(c_gancho, 4.5), (c_ideia, 7.5), (c_quem, 6.5), (c_tabuleiro, 5.0), (c_balcao, 7.0), (c_turno, 6.8),
-         (c_xicaras, 7.5), (c_pressao, 7.5), (c_pontos, 6.5), (c_processo, 9.0), (c_agenda, 6.5), (c_rodada1, 7.5),
+CENAS = [(c_gancho, 4.5), (c_ideia, 7.5), (c_quem, 6.5), (c_processo, 9.0), (c_agenda, 6.5), (c_rodada1, 7.5),
          (c_a3, 9.5), (c_regra, 7.0), (c_rodada2, 6.0), (c_compara, 7.5), (c_ponte, 7.0), (c_fim, 4.5)]
 INI = np.cumsum([0] + [d for _, d in CENAS])
 DUR = float(INI[-1])
@@ -614,12 +443,6 @@ def cues():
     for k, (f, d) in enumerate(CENAS):
         c.append((INI[k] + 0.02, "whoosh", 0.35))
         c.append((INI[k] + 0.25, "pop", 0.45))
-    t0 = INI[[f for f, _ in CENAS].index(c_turno)]
-    c += [(t0 + 1.6 + j * 0.9 + 0.5, "pop", 0.6) for j in range(3)]
-    t0 = INI[[f for f, _ in CENAS].index(c_xicaras)]
-    c += [(t0 + 5.4, "ding", 0.6)]
-    t0 = INI[[f for f, _ in CENAS].index(c_balcao)]
-    c += [(t0 + 4.0, "boing", 0.5)]
     t0 = INI[[f for f, _ in CENAS].index(c_compara)]
     c += [(t0 + 4.0, "ding", 0.6)]
     return c
