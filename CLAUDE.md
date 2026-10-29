@@ -788,3 +788,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   peças de vidro com casco convexo e meio transparentes). Barista vermelho = o azul com o matiz girado. As fontes não têm
   ✓ ✗ ≈ → (Lilita): `marca()` desenha. Ele achou que também seria legal um vídeo explicativo SÓ DO JOGO (não feito ainda).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
+- **Confirmação de presença do aniversário da filha dele (`aniversario-rsvp/`, 29/out):** convite vai pelo WhatsApp e ele
+  queria só tocar e confirmar, caindo numa planilha (sem Google Forms nem site de terceiros). Solução: Planilha Google +
+  Apps Script como App da Web (`Codigo.gs` + `Index.html`; passo a passo em `COMO_USAR.md`): "Vou!/Não vou", nome,
+  adultos/crianças, recado; aba Confirmações (mesmo nome atualiza a linha) + aba Resumo com o total; prazo 15/11.
+  O WhatsApp comum não grava numa planilha sozinho (só com API paga).

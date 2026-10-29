@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #FFF4E0; color: #3F2412; }
+  .card { max-width: 440px; margin: 24px auto; padding: 24px 20px; background: #fff; border-radius: 20px;
+          box-shadow: 0 6px 0 #F48825; border: 3px solid #3F2412; }
+  h1 { margin: 0 0 4px; font-size: 26px; text-align: center; }
+  .info { text-align: center; margin: 0 0 18px; line-height: 1.5; }
+  .prazo { text-align: center; font-weight: 700; background: #FFE08A; border-radius: 999px; padding: 6px 12px; margin: 0 0 18px; }
+  .resp { display: flex; gap: 10px; margin-bottom: 16px; }
+  .resp button { flex: 1; font-size: 20px; padding: 16px 8px; border-radius: 14px; border: 3px solid #3F2412; background: #fff; font-weight: 700; color: inherit; }
+  .resp button.on.vou { background: #7ED67E; }
+  .resp button.on.nao { background: #F2A3A3; }
+  label { display: block; font-weight: 700; margin: 12px 0 6px; }
+  input, textarea { width: 100%; font-size: 18px; padding: 12px; border: 2px solid #3F2412; border-radius: 12px; font-family: inherit; }
+  .conta { display: flex; align-items: center; justify-content: space-between; margin: 8px 0; font-size: 18px; }
+  .conta div { display: flex; align-items: center; gap: 12px; }
+  .conta button { width: 44px; height: 44px; font-size: 24px; border-radius: 50%; border: 2px solid #3F2412; background: #FFE08A; color: inherit; }
+  .conta b { min-width: 24px; text-align: center; font-size: 22px; }
+  #enviar { width: 100%; margin-top: 20px; font-size: 20px; padding: 16px; border: 0; border-radius: 14px; background: #1C7C96; color: #fff; font-weight: 700; }
+  #enviar:disabled { opacity: .5; }
+  .erro { color: #B3261E; text-align: center; min-height: 1.2em; margin-top: 10px; }
+  .fim { text-align: center; font-size: 20px; line-height: 1.5; }
+  .fim .grande { font-size: 56px; }
+  .esconde { display: none; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>🎉 Aniversário da <?= festa.aniversariante ?><? if (festa.idade) { ?> · <?= festa.idade ?><? } ?></h1>
+  <p class="info">📅 <?= festa.data ?> · 🕐 <?= festa.hora ?><br>📍 <?= festa.local ?></p>
+
+  <? if (encerrado) { ?>
+    <p class="fim">As confirmações encerraram em <?= festa.prazoTexto ?>.<br>Fale direto com a gente pelo WhatsApp 😊</p>
+  <? } else { ?>
+  <div id="form">
+    <p class="prazo">Confirme até <?= festa.prazoTexto ?></p>
+    <div class="resp">
+      <button type="button" class="vou" onclick="escolhe('Vou')">Vou! 🥳</button>
+      <button type="button" class="nao" onclick="escolhe('Não vou')">Não vou 😢</button>
+    </div>
+    <label for="nome">Seu nome (ou da família)</label>
+    <input id="nome" autocomplete="name" placeholder="Ex.: Família Silva">
+    <div id="qtd" class="esconde">
+      <label>Quantas pessoas vão?</label>
+      <div class="conta"><span>Adultos</span><div><button type="button" onclick="muda('a',-1)">−</button><b id="a">1</b><button type="button" onclick="muda('a',1)">+</button></div></div>
+      <div class="conta"><span>Crianças</span><div><button type="button" onclick="muda('c',-1)">−</button><b id="c">0</b><button type="button" onclick="muda('c',1)">+</button></div></div>
+    </div>
+    <label for="recado">Recado (opcional)</label>
+    <textarea id="recado" rows="2" placeholder="Alguma restrição alimentar?"></textarea>
+    <button id="enviar" onclick="envia()" disabled>Enviar</button>
+    <p class="erro" id="erro"></p>
+  </div>
+  <div id="ok" class="fim esconde"></div>
+  <? } ?>
+</div>
+<script>
+  let resposta = null;
+  const n = { a: 1, c: 0 };
+  function escolhe(r) {
+    resposta = r;
+    document.querySelector('.vou').classList.toggle('on', r === 'Vou');
+    document.querySelector('.nao').classList.toggle('on', r !== 'Vou');
+    document.getElementById('qtd').classList.toggle('esconde', r !== 'Vou');
+    document.getElementById('enviar').disabled = false;
+  }
+  function muda(k, d) { n[k] = Math.max(0, Math.min(20, n[k] + d)); document.getElementById(k).textContent = n[k]; }
+  function envia() {
+    const erro = document.getElementById('erro');
+    const nome = document.getElementById('nome').value.trim();
+    if (!nome) { erro.textContent = 'Escreva seu nome 🙂'; return; }
+    if (resposta === 'Vou' && n.a + n.c === 0) { erro.textContent = 'Diga quantas pessoas vão.'; return; }
+    erro.textContent = '';
+    const b = document.getElementById('enviar');
+    b.disabled = true; b.textContent = 'Enviando...';
+    google.script.run
+      .withSuccessHandler(vai => {
+        document.getElementById('form').classList.add('esconde');
+        const ok = document.getElementById('ok');
+        ok.innerHTML = vai
+          ? '<div class="grande">🎈</div>Presença confirmada!<br>Te esperamos lá!'
+          : '<div class="grande">💛</div>Obrigado por avisar!<br>Vamos sentir sua falta.';
+        ok.classList.remove('esconde');
+      })
+      .withFailureHandler(e => { erro.textContent = e.message; b.disabled = false; b.textContent = 'Enviar'; })
+      .salvar({ nome, resposta, adultos: n.a, criancas: n.c, recado: document.getElementById('recado').value });
+  }
+</script>
+</body>
+</html>
