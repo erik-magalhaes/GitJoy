@@ -775,4 +775,16 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **Kit do Coffee Rush FEITO (28/out):** `dinamica-kaizen/` (`kit.html` A4 + `a3.html` A4 paisagem → `python3 gerar_pdf.py`
   → `out/kaizen_do_cafe.pdf`, 5 págs: visão geral/agenda 90 min, roteiro do facilitador, regras em 1 página + jogo × processo,
   ficha de medição 12 turnos, A3 PDCA com 5 porquês/Ishikawa). Detalhes de regra que não confirmei ficaram como "veja o manual".
+  **29/out:** a pág. 3 tinha 2 erros (corrigidos): o tabuleiro de ingredientes é uma GRADE 4x4, anda 1–3 casas SEM diagonal e
+  pega o ingrediente de CADA casa em que entra (não só onde para); com 2 jogadores, no fim do turno, depois de descer, entra
+  1 pedido novo na SUA aba 1. Regras conferidas no rulespal (manual) + Board Game Arena.
+  **Vídeo explicativo DA DINÂMICA** (ele pediu: "não é explicar o jogo, é o contexto todo da dinâmica"): `coffee-reels/dinamica.py`
+  (~2 min, vertical, sem narração, visual do kit: Lilita/Figtree, marrom/creme/laranja/petróleo): ideia (joga → mede → A3 →
+  joga de novo → compara = PDCA), quem joga (2 duplas = 2 jogadores), o jogo em 1 minuto (balcão 4 abas, turno na grade,
+  xícaras, pressão, placar), jogo × processo, agenda 90 min, rodada 1 + ficha, A3 com 5 porquês de EXEMPLO, regra de ouro
+  (muda o método, não a regra), rodada 2, comparar (barras de EXEMPLO) e padronizar, ponte com o trabalho. Peças OFICIAIS da
+  Galápagos (API `ccstore/v1/products/CFR001`: caixa, componentes, foto dos ingredientes em fundo verde-limão, baristas):
+  `recortes.py` (fundo/sombra = "R≈G−6, claro, azul baixo" ligado à borda + descascar sombra escura + inpaint da franja;
+  peças de vidro com casco convexo e meio transparentes). Barista vermelho = o azul com o matiz girado. As fontes não têm
+  ✓ ✗ ≈ → (Lilita): `marca()` desenha. Ele achou que também seria legal um vídeo explicativo SÓ DO JOGO (não feito ainda).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
