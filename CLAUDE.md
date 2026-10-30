@@ -805,7 +805,12 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   12 caixas em volta de "SEU MÊS, SEU JOGO (qual é o seu?)" e tela final "qual é o seu mês? comenta e marca". Meses: jan MLEM,
   fev Unicorn Fever, mar Everdell Duo, abr Sheriff of Nottingham, mai Critter Kitchen, jun La Granja, jul Next Station
   London, ago Boss Monster, set Wingspan, out DCeased, nov Bad Company, dez Flamecraft (sem repetir os do vídeo dos signos).
-  Prévia aprovada; as 14 telas foram mandadas SOLTAS (ele pediu "sem zip"). **Ambiente novo (31/out):** `python3` aponta para
+  Prévia aprovada; as 14 telas foram mandadas SOLTAS (ele pediu "sem zip").
+  **Depois ele disse: "queria com ARTES ENGRAÇADAS como o sapinho CLT"** (ilustração doodle original). Testei recortar
+  personagens da arte oficial (fotos Galápagos MLE001/SON101/FMC001 em `assets/mes_orig/`, fora do git; rembg isnet):
+  falhou (dragão sumiu, gato pela metade, xerife com as cartas) e não teria o estilo doodle. Não tenho gerador de imagem:
+  propus que ELES gerem as 12 artes num app de IA (ChatGPT/Gemini) com os prompts que mandei e eu monto as telas
+  (letra de mão, mês, frase, caixa pequena no canto, logo), ou manter a versão com as caixas. Esperando a escolha. **Ambiente novo (31/out):** `python3` aponta para
   o 3.11 sem pacotes; usar `/usr/bin/python3` (3.13, com PIL/numpy; instalei opencv-python-headless e imageio-ffmpeg).
   A cópia local veio ATRASADA em relação ao GitHub: sempre `git fetch` + reset/rebase para o origin antes de trabalhar.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
