@@ -796,5 +796,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   MUNDO" (crianças: Uga Buga, Go Cuckoo, Happy Salmon; adultos: Dixit, Telma, Ref!; fotos do site), "E A GENTE FICA O EVENTO
   TODO" (logo andando do começo ao fim), CTA com WhatsApp e Direct + "Comenta aqui: qual evento seu precisava de jogos?".
   `base.OUT` trocado para sair em eventos-reels/out (`eventos_{com_trilha,para_musica}_final.mp4`).
+  **Região dos eventos (30/out, ele corrigiu): TODO o ABC Paulista E São Paulo capital** (no CTA do vídeo: 2 pílulas
+  "TODO O ABC PAULISTA" / "E SÃO PAULO CAPITAL"). Vale para as próximas peças de eventos.
   Lembrar: ainda NÃO fizeram evento (sem "já atendemos", sem fotos de evento); WhatsApp (11) 97793-3910.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.

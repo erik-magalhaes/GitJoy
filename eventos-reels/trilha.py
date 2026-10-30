@@ -207,8 +207,9 @@ def c_cta(img, t):
     d.text((430, 160), WHATS, font=E.lilita(84), fill=E.MARROM, anchor="mm")
     d.text((430, 255), "ou no Direct · @suavez_bg", font=E.fig(42, 800), fill=E.MARROM, anchor="mm")
     poe(img, cart, W / 2, 1030, t, 0.9, 1)
-    poe(img, E.pilula("MAUÁ E TODO O ABC PAULISTA", 42, E.LARANJA, E.BRANCO), W / 2, 1320, t, 1.5, -1.5)
-    poe(img, E.texto("Comenta aqui: qual evento seu\nprecisava de jogos?", 42, E.MARROM, 800), W / 2, 1500, t, 2.2)
+    poe(img, E.pilula("TODO O ABC PAULISTA", 42, E.LARANJA, E.BRANCO), W / 2, 1290, t, 1.5, -1.5)
+    poe(img, E.pilula("E SÃO PAULO CAPITAL", 42, E.PETROLEO, E.BRANCO), W / 2, 1380, t, 1.8, 1.5)
+    poe(img, E.texto("Comenta aqui: qual evento seu\nprecisava de jogos?", 42, E.MARROM, 800), W / 2, 1530, t, 2.3)
 
 
 CENAS = [(c_gancho, DUR_GANCHO), (c_trilha, DUR_TRILHA), (c_tipos, DUR_TIPOS), (c_jogos, DUR_JOGOS),
