@@ -790,6 +790,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
 - **Vídeo dos EVENTOS (monitoria) (`eventos-reels/`, 30/out, pedido dele):** 3 visuais mandados (`conceitos.py` →
   out/conceitos.jpg): A "Monte seu evento" (tela de app com controles pessoas/idade/clima e os jogos mudando), B letreiro de
   feltro (letras brancas no feltro preto + fotos do site com fita), C trilha do ABC (as 7 cidades como casas de tabuleiro,
-  o LOGO anda até o evento; nada de peão desenhado). Sem narração, só texto (como os outros sem gravar). Esperando a escolha.
+  o LOGO anda até o evento; nada de peão desenhado). Sem narração, só texto (como os outros sem gravar). **Ele escolheu a C** →
+  `eventos-reels/trilha.py` (33 s, xadrez amarelo): gancho "VAI FAZER UM EVENTO? / A GENTE LEVA OS JOGOS!", trilha das 7 cidades
+  com o logo pulando de Mauá até "SEU EVENTO" (confete, "CHEGAMOS!"), tipos de evento em cartas virando, "JOGOS PRA TODO
+  MUNDO" (crianças: Uga Buga, Go Cuckoo, Happy Salmon; adultos: Dixit, Telma, Ref!; fotos do site), "E A GENTE FICA O EVENTO
+  TODO" (logo andando do começo ao fim), CTA com WhatsApp e Direct + "Comenta aqui: qual evento seu precisava de jogos?".
+  `base.OUT` trocado para sair em eventos-reels/out (`eventos_{com_trilha,para_musica}_final.mp4`).
   Lembrar: ainda NÃO fizeram evento (sem "já atendemos", sem fotos de evento); WhatsApp (11) 97793-3910.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
