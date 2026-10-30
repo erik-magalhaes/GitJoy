@@ -787,4 +787,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   `recortes.py` (fundo/sombra = "R≈G−6, claro, azul baixo" ligado à borda + descascar sombra escura + inpaint da franja;
   peças de vidro com casco convexo e meio transparentes). Barista vermelho = o azul com o matiz girado. As fontes não têm
   ✓ ✗ ≈ → (Lilita): `marca()` desenha. Ele achou que também seria legal um vídeo explicativo SÓ DO JOGO (não feito ainda).
+- **Vídeo dos EVENTOS (monitoria) (`eventos-reels/`, 30/out, pedido dele):** 3 visuais mandados (`conceitos.py` →
+  out/conceitos.jpg): A "Monte seu evento" (tela de app com controles pessoas/idade/clima e os jogos mudando), B letreiro de
+  feltro (letras brancas no feltro preto + fotos do site com fita), C trilha do ABC (as 7 cidades como casas de tabuleiro,
+  o LOGO anda até o evento; nada de peão desenhado). Sem narração, só texto (como os outros sem gravar). Esperando a escolha.
+  Lembrar: ainda NÃO fizeram evento (sem "já atendemos", sem fotos de evento); WhatsApp (11) 97793-3910.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
