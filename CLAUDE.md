@@ -799,4 +799,13 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **Região dos eventos (30/out, ele corrigiu): TODO o ABC Paulista E São Paulo capital** (no CTA do vídeo: 2 pílulas
   "TODO O ABC PAULISTA" / "E SÃO PAULO CAPITAL"). Vale para as próximas peças de eventos.
   Lembrar: ainda NÃO fizeram evento (sem "já atendemos", sem fotos de evento); WhatsApp (11) 97793-3910.
+- **Carrossel "SEU MÊS, SEU JOGO" (`feed-sua-vez/seu_mes.py`, 31/out, trend "Seu mês, seu bichinho" do @hippieartesanatos
+  que ele mandou):** 1080x1350, papel pastel por mês, letra de mão (Patrick Hand engrossada, letra a letra tremida), caixa
+  recortada do site no meio, frase do "personagem" do jogo no clima do mês + "jogo: X", logo pequeno no canto. Capa com as
+  12 caixas em volta de "SEU MÊS, SEU JOGO (qual é o seu?)" e tela final "qual é o seu mês? comenta e marca". Meses: jan MLEM,
+  fev Unicorn Fever, mar Everdell Duo, abr Sheriff of Nottingham, mai Critter Kitchen, jun La Granja, jul Next Station
+  London, ago Boss Monster, set Wingspan, out DCeased, nov Bad Company, dez Flamecraft (sem repetir os do vídeo dos signos).
+  Prévia (capa + jan/abr/dez) mandada; esperando o ok para as 14 telas. **Ambiente novo (31/out):** `python3` aponta para
+  o 3.11 sem pacotes; usar `/usr/bin/python3` (3.13, com PIL/numpy; instalei opencv-python-headless e imageio-ffmpeg).
+  A cópia local veio ATRASADA em relação ao GitHub: sempre `git fetch` + reset/rebase para o origin antes de trabalhar.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
