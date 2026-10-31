@@ -813,4 +813,13 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   (letra de mão, mês, frase, caixa pequena no canto, logo), ou manter a versão com as caixas. Esperando a escolha. **Ambiente novo (31/out):** `python3` aponta para
   o 3.11 sem pacotes; usar `/usr/bin/python3` (3.13, com PIL/numpy; instalei opencv-python-headless e imageio-ffmpeg).
   A cópia local veio ATRASADA em relação ao GitHub: sempre `git fetch` + reset/rebase para o origin antes de trabalhar.
+- **Final Girl "O FILME" (`finalgirl-reels/filme.py`, 31/out = Halloween, pedido dele):** "um filminho com as artes do
+  jogo" (Hans no acampamento, os jovens, a final girl fugindo/lutando, os outros assassinos da 1ª temporada) e **voz de IA
+  liberada por ele** ("pode ser direto da IA"). Reaproveita o visual de `trailer.py` (importa como `T`): gancho HALLOWEEN /
+  FINAL GIRL no Hans grande, mapa oficial do Camp Happy Trails escurecendo ("...até a primeira noite"), HANS o açougueiro
+  com os retratos de Laurie e Reiko sumindo, a capa oficial do Happy Trails (final girl + Hans nas árvores) e as
+  MINIATURAS oficiais (Laurie × Hans, luz vermelha/azul) no "E REVIDA!", os outros 4 assassinos com o título BR do filme,
+  "você joga sozinho" (salve as vítimas / ache uma arma / enfrente o assassino), as 5 caixas BR, comenta e CTA com **7 dias**
+  (Final Girl é Deluxe). Voz edge-tts Antonio −8% / −9 Hz + eco leve (`--voz` → `voz_ia/`, fora do git); cada cena = fala
+  + 1,15 s (mín. por cena) → 69,4 s. Legendas por pedaços da frase, tempo proporcional às letras.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
