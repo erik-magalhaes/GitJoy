@@ -826,4 +826,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   ESCOLHER" e "cada filme é uma expansão alugada à parte" (saiu o "7 dias", que valia só para o base Deluxe); última fala
   "Aluga o jogo base e escolhe o seu filme". 70,0 s (LEAD/TAIL 0,4/0,55). Voz edge-tts Antonio −8% / −9 Hz + eco leve (`--voz` → `voz_ia/`, fora do git); cada cena = fala
   + 1,15 s (mín. por cena) → 69,4 s. Legendas por pedaços da frase, tempo proporcional às letras.
+- **Sorteio do HITSTER + bônus (`promo/sorteio_hitster.py`, 31/out, ideia dele):** ele queria sorteio só para quem aluga;
+  avisei que sorteio condicionado a compra precisa de autorização (Lei 5.768/71, Secretaria de Prêmios e Apostas). Ele
+  escolheu: **sorteio ABERTO** (siga @suavez_bg, curta, marque 2 amigos) **até 15/11, resultado 16/11** + **bônus garantido
+  separado: quem alugar até 15/11 ganha +2 dias de jogo**. Visual "festa do Hitster" (preto com luzes rosa/ciano/amarelo
+  desfocadas, disco de vinil, equalizador no pé), identidade da Jéssica, caixa oficial Galápagos. Saída `promo/out/sorteio/`:
+  post_1_sorteio + post_2_bonus (carrossel 1080x1350) e story_sorteio + story_bonus (1080x1920). Texto obrigatório:
+  "não é patrocinada nem administrada pelo Instagram" + "não precisa alugar nem comprar nada".
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
