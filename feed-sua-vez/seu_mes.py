@@ -26,6 +26,9 @@ W, H = 1080, 1350
 OUT = os.path.join(ROOT, "out")
 ACERVO = os.path.join(REPO, "hobby-reels", "assets", "acervo")
 MAO = os.path.join(REPO, "taco-reels", "assets", "fonts", "PatrickHand-Regular.ttf")
+# os 12 bichinhos que ELES fizeram no Gemini (folha 4x3, na ordem dos meses), a partir dos textos que eu mandei
+GEMINI = os.path.join(ROOT, "assets", "seu_mes", "gemini_12.jpg")
+FUNDO_GEMINI = np.array([248, 244, 232], float)
 TINTA = (34, 30, 30)
 MESES = [  # (mês, frase, jogo, recorte, fundo pastel)
     ("JANEIRO", "GATO ASTRONAUTA\nDE FÉRIAS NA LUA", "MLEM: Agência Espacial", "mlem_space_agency", (198, 214, 240)),
@@ -104,6 +107,36 @@ def caixa(nome, h, larg=None):
     return sh
 
 
+@lru_cache(None)
+def bicho(k, h):
+    """Recorta o bichinho do mês k da folha do Gemini: o creme do fundo LIGADO À BORDA da célula vira transparente."""
+    import cv2
+    im = np.asarray(Image.open(GEMINI).convert("RGB"))
+    ch, cw = im.shape[0] / 3, im.shape[1] / 4
+    r, c = divmod(k, 4)
+    cel = im[int(r * ch):int((r + 1) * ch), int(c * cw):int((c + 1) * cw)].copy()
+    dist = np.sqrt(((cel.astype(float) - FUNDO_GEMINI) ** 2).sum(-1))
+    pare = (dist < 30).astype(np.uint8)
+    n, lab, st, _ = cv2.connectedComponentsWithStats(pare, connectivity=4)
+    borda = set(np.unique(np.r_[lab[0], lab[-1], lab[:, 0], lab[:, -1]])) - {0}
+    fundo = np.isin(lab, list(borda))
+    alfa = (~fundo).astype(np.uint8) * 255
+    # pedacinhos da célula vizinha que encostam na borda (ponta de bandeirinha, papel) saem
+    n, lab, st, _ = cv2.connectedComponentsWithStats((alfa > 0).astype(np.uint8), connectivity=8)
+    tot = st[1:, cv2.CC_STAT_AREA].sum()
+    H_, W_ = alfa.shape
+    for i in range(1, n):
+        x, y, w, hh, a = st[i]
+        if (x == 0 or y == 0 or x + w >= W_ or y + hh >= H_) and a < 0.04 * tot:
+            alfa[lab == i] = 0
+    alfa = cv2.GaussianBlur(cv2.erode(alfa, np.ones((2, 2), np.uint8)), (0, 0), 0.8)
+    out = Image.fromarray(np.dstack([cel, alfa]))
+    out = out.crop(out.getbbox())
+    s = h / out.height
+    out = out.resize((int(out.width * s), int(h)), Image.LANCZOS).filter(ImageFilter.UnsharpMask(1.5, 60, 2))
+    return out
+
+
 def selo(img, x, y, w=170):
     lg = E.logo(w)
     img.alpha_composite(lg, (int(x), int(y)))
@@ -112,11 +145,16 @@ def selo(img, x, y, w=170):
 def tela_mes(k):
     mes, frase, jogo, rec, cor = MESES[k]
     img = papel(cor, k + 3)
-    letra(img, mes, 110, W / 2, 175, semente=k)
-    cx = caixa(rec, 560, 600)
-    img.alpha_composite(cx, (int(W / 2 - cx.width / 2), int(670 - cx.height / 2)))
-    letra(img, frase, 74, W / 2, 1075, semente=k + 50)
-    letra(img, "jogo: " + jogo, 40, W / 2, 1215, (80, 70, 70), sw=1, semente=k + 90)
+    letra(img, mes, 110, W / 2, 165, semente=k)
+    b = bicho(k, 600)
+    if b.width > 900:
+        b = b.resize((900, int(b.height * 900 / b.width)), Image.LANCZOS)
+    img.alpha_composite(b, (int(W / 2 - b.width / 2), int(620 - b.height / 2)))
+    letra(img, frase, 74, W / 2, 1035, semente=k + 50)
+    # a caixa do jogo, pequena, no canto de baixo, com o nome
+    cx = caixa(rec, 175, 190)
+    img.alpha_composite(cx, (int(W - 40 - cx.width), int(H - 10 - cx.height)))
+    letra(img, "jogo: " + jogo, 40, W / 2 - 60, 1200, (80, 70, 70), sw=1, semente=k + 90)
     selo(img, 34, H - 128, 150)
     return img
 
@@ -129,8 +167,10 @@ def tela_capa():
     pos = [(170, 175), (430, 150), (690, 160), (930, 230), (950, 520), (960, 820), (900, 1120), (640, 1180),
            (380, 1190), (140, 1110), (120, 820), (130, 500)]
     for k, ((x, y), m) in enumerate(zip(pos, MESES)):
-        cx = caixa(m[3], 200, 210)
-        cx = cx.rotate(random.Random(k).uniform(-8, 8), expand=True, resample=Image.BICUBIC)
+        cx = bicho(k, 210)
+        if cx.width > 250:
+            cx = cx.resize((250, int(cx.height * 250 / cx.width)), Image.LANCZOS)
+        cx = cx.rotate(random.Random(k).uniform(-6, 6), expand=True, resample=Image.BICUBIC)
         img.alpha_composite(cx, (int(x - cx.width / 2), int(y - cx.height / 2)))
     selo(img, W / 2 - 85, 905, 170)
     return img
