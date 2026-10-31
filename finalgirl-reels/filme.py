@@ -44,10 +44,10 @@ FALAS = [
     "Em Final Girl, você joga sozinho: salve as vítimas, ache uma arma e enfrente o assassino.",
     "Cada caixa é um filme diferente. Cada partida, um novo pesadelo.",
     "E você? Sobreviveria a qual desses filmes? Comenta aqui!",
-    "Final Girl. Pra alugar na Sua Vez. O link tá na bio.",
+    "Final Girl. Aluga o jogo base e escolhe o seu filme, na Sua Vez. O link tá na bio.",
 ]
 MINIMO = [5.0, 6.0, 7.0, 7.0, 10.0, 7.5, 6.0, 6.0, 6.5]
-LEAD, TAIL = 0.45, 0.7
+LEAD, TAIL = 0.4, 0.55
 
 
 # ---------------------------------------------------------------- voz
@@ -277,8 +277,10 @@ def c_cta(u, d, t):
         cola(out, sombra(T.limpa(n, 430), 16, (6, 16), 0.7), x, y, r, pop(u, 0.25 + j * 0.08))
     cola(out, sombra(T.limpa("caixa_base.png", 450), 18, (8, 18), 0.75), W / 2, 780, 0, pop(u, 0.7))
     cola(out, T.titulo("ALUGUE O\nFINAL GIRL", 120), W / 2, 1070, -2, pop(u, 1.0))
+    if u >= 2.3:  # o jogo base e cada filme (expansão) são alugados separados, cada um com o seu preço
+        cola(out, T.frase("cada filme é uma expansão alugada à parte", 30, (255, 210, 210)), W / 2, 1625, 0, pop(u, 2.3))
     itens = [(1.3, pilula("1 JOGADOR · 20 A 60 MIN · 14+", 36, INK, WHITE, VERM), 1258),
-             (1.5, pilula("7 DIAS DE JOGO", 44, VERM), 1336),
+             (1.5, pilula("JOGO BASE + O FILME QUE VOCÊ ESCOLHER", 32, VERM), 1336),
              (1.7, pilula("RESERVE ONLINE · RETIRE EM MAUÁ", 33, WHITE, INK, INK), 1408),
              (1.9, pilula("OU RECEBA EM CASA!", 38, (22, 163, 74)), 1478),
              (2.1, pilula("LINK NA BIO · @SUAVEZ_BG", 46, (249, 115, 22)), 1560)]

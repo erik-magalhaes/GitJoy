@@ -821,6 +821,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   a outra final girl da capa alternativa do Happy Trails (Reiko, `FG-FF1-2`) encarando o Hans no "E REVIDA!" (**ELES NÃO
   TÊM MINIATURAS: o jogo deles vem só com meeples. Nunca usar foto de miniatura do Final Girl, só a ARTE do jogo**), os outros 4 assassinos com o título BR do filme,
   "você joga sozinho" (salve as vítimas / ache uma arma / enfrente o assassino), as 5 caixas BR, comenta e CTA com **7 dias**
-  (Final Girl é Deluxe). Voz edge-tts Antonio −8% / −9 Hz + eco leve (`--voz` → `voz_ia/`, fora do git); cada cena = fala
+  (Final Girl é Deluxe). **Aluguel do Final Girl (ele explicou 31/out): as 5 caixas NÃO vão juntas; a pessoa escolhe o
+  jogo BASE + o filme (expansão) que quiser, e cada expansão tem o seu preço** → CTA "JOGO BASE + O FILME QUE VOCÊ
+  ESCOLHER" e "cada filme é uma expansão alugada à parte" (saiu o "7 dias", que valia só para o base Deluxe); última fala
+  "Aluga o jogo base e escolhe o seu filme". 70,0 s (LEAD/TAIL 0,4/0,55). Voz edge-tts Antonio −8% / −9 Hz + eco leve (`--voz` → `voz_ia/`, fora do git); cada cena = fala
   + 1,15 s (mín. por cena) → 69,4 s. Legendas por pedaços da frase, tempo proporcional às letras.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
