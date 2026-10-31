@@ -814,7 +814,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   4x3 com os 12 bichinhos, `feed-sua-vez/assets/seu_mes/gemini_12.jpg`) → `bicho(k)` recorta cada célula (creme ligado à
   borda vira transparente; pedacinhos da célula vizinha que encostam na borda e têm < 4% da área saem). Tela do mês:
   bichinho grande no meio, frase embaixo, "jogo: X" e a caixa PEQUENA no canto de baixo à direita; capa com os 12 bichinhos
-  em volta do título. 14 telas entregues soltas. **Ambiente novo (31/out):** `python3` aponta para
+  em volta do título. 14 telas entregues soltas. **Rodada seguinte:** acharam o jogo "muito pequenininho" → 3 opções em `seu_mes.py --opcoes` (out/seu_mes_opcoes.jpg; `ESTILO` A fundo = caixa desfocada, B bichinho à esquerda + caixa grande girada com etiqueta kraft do nome, C polaroide com fita). Recomendei a B; esperando a escolha. **Ambiente novo (31/out):** `python3` aponta para
   o 3.11 sem pacotes; usar `/usr/bin/python3` (3.13, com PIL/numpy; instalei opencv-python-headless e imageio-ffmpeg).
   A cópia local veio ATRASADA em relação ao GitHub: sempre `git fetch` + reset/rebase para o origin antes de trabalhar.
 - **Final Girl "O FILME" (`finalgirl-reels/filme.py`, 31/out = Halloween, pedido dele):** "um filminho com as artes do
