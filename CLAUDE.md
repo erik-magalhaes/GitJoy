@@ -818,7 +818,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   liberada por ele** ("pode ser direto da IA"). Reaproveita o visual de `trailer.py` (importa como `T`): gancho HALLOWEEN /
   FINAL GIRL no Hans grande, mapa oficial do Camp Happy Trails escurecendo ("...até a primeira noite"), HANS o açougueiro
   com os retratos de Laurie e Reiko sumindo, a capa oficial do Happy Trails (final girl + Hans nas árvores) e as
-  MINIATURAS oficiais (Laurie × Hans, luz vermelha/azul) no "E REVIDA!", os outros 4 assassinos com o título BR do filme,
+  a outra final girl da capa alternativa do Happy Trails (Reiko, `FG-FF1-2`) encarando o Hans no "E REVIDA!" (**ELES NÃO
+  TÊM MINIATURAS: o jogo deles vem só com meeples. Nunca usar foto de miniatura do Final Girl, só a ARTE do jogo**), os outros 4 assassinos com o título BR do filme,
   "você joga sozinho" (salve as vítimas / ache uma arma / enfrente o assassino), as 5 caixas BR, comenta e CTA com **7 dias**
   (Final Girl é Deluxe). Voz edge-tts Antonio −8% / −9 Hz + eco leve (`--voz` → `voz_ia/`, fora do git); cada cena = fala
   + 1,15 s (mín. por cena) → 69,4 s. Legendas por pedaços da frase, tempo proporcional às letras.

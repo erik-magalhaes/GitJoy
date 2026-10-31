@@ -2,7 +2,8 @@
 """FINAL GIRL "o filme" (Halloween, 31/out/2026). Pedido dele: um filminho com as artes do jogo (o Hans no acampamento,
 os jovens, a final girl fugindo e lutando) que apresenta o jogo e os outros assassinos da 1ª temporada; voz de IA pode
 (pedido dele). Reaproveita o visual TRAILER SLASHER de trailer.py (escuro, facho de lanterna, Creepster vermelho,
-relâmpago, trilha de terror) com material OFICIAL da Van Ryder (tabuleiros, capas, miniaturas) e as caixas BR (Ludofun).
+relâmpago, trilha de terror) com a ARTE OFICIAL da Van Ryder (tabuleiros, capas) e as caixas BR (Ludofun). NADA de miniaturas:
+o jogo deles não vem com miniaturas (só meeples), então só arte do jogo.
 Voz: edge-tts pt-BR-AntonioNeural mais grave e devagar, com um eco leve de trailer (voz_ia/).
 
     python3 filme.py --voz                 # gera as falas (voz_ia/fala_NN.wav) e mostra as durações
@@ -129,13 +130,6 @@ def arte(nome, box, h, borda=0.12):
     return im
 
 
-@lru_cache(None)
-def mini(box, h):
-    im = ofi("FG-FF01-minis.png", box)
-    im = im.crop(im.getbbox())
-    return im.resize((int(im.width * h / im.height), int(h)), Image.LANCZOS)
-
-
 def tinge(im, cor, k=0.5):
     """Luz colorida por cima (vermelho do perigo, azul da noite)."""
     a = np.array(im, np.float32)
@@ -147,7 +141,7 @@ MAPA = ("FF1-compview.png", (60, 260, 1840, 1900))
 CAPA_HANS = ("FG-FF1-1.png", (700, 1180, 2340, 2560))      # a final girl da capa + o Hans entre as árvores
 LAURIE = ("FF1-compview.png", (630, 0, 930, 405))
 REIKO = ("FF1-compview.png", (2235, 1575, 2580, 2000))
-MINI_LAURIE, MINI_HANS = (230, 180, 640, 1100), (980, 100, 1520, 1020)
+CAPA_REIKO = ("FG-FF1-2.png", (820, 1180, 2000, 2330))  # a outra final girl do Happy Trails (capa alternativa)
 OUTROS = [("poltergeist", "POLTERGEIST", "A Assombração da\nMansão Creech", (120, 160, 255)),
           ("inkanyamba", "INKANYAMBA", "Massacre nos\nBosques", (90, 200, 120)),
           ("geppetto", "GEPPETTO", "Carnificina no\nCirco", (240, 160, 60)),
@@ -206,12 +200,12 @@ def c_final_girl(u, d, t):
         out = escuro_com(T.tela((capa, 540, 1010, 0, z)), t, 540, 960, 1000, fundo=0.45)
         cola(out, T.titulo("A FINAL\nGIRL", 170), W / 2, 270, -2, pop(u, 0.3))
         return out, []
-    v = u - d * 0.55  # "ela revida": as miniaturas frente a frente, luz vermelha
-    lau = tinge(mini(MINI_LAURIE, 900), (255, 90, 80), 0.45)
-    han = tinge(mini(MINI_HANS, 980), (120, 140, 255), 0.5)
+    v = u - d * 0.55  # "ela revida": a outra final girl da capa (arte oficial) encarando o Hans, luz vermelha
+    fg = tinge(arte(*CAPA_REIKO, 900, 0.14), (255, 110, 90), 0.35)
+    han = tinge(T.esfuma("assassino_hans.png", 1150), (120, 140, 255), 0.4)
     aprox = ease(min(1, v / 1.2))
-    c = T.tela((lau, 300 + 60 * aprox, 1000, 3, 1.0), (han, 800 - 40 * aprox, 970, -3, 1.0))
-    out = escuro_com(c, t, 540, 960, 700, fundo=0.18)
+    c = T.tela((han, 820 - 40 * aprox, 980, 0, 1.0), (fg, 300 + 40 * aprox, 1060, 0, 1.0))
+    out = escuro_com(c, t, 540, 980, 760, fundo=0.22)
     cola(out, T.titulo("E REVIDA!", 170), W / 2, 330, -3, pop(v, 0.2, 0.3) * (1 + 0.03 * abs(math.sin(t * 7))))
     return out, [T.relampago(t, CENAS_T[3][0] + d * 0.55, 0.3)]
 
