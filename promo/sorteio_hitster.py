@@ -75,7 +75,7 @@ def peca_sorteio(W, H):
     alto = H > 1500
     # (pílula, título, caixa, 1º passo, data) — o post 4:5 é mais apertado que o story
     y = dict(pil=200, tit=410, cx=920, ps=1300, dt=1730, fs=1810) if alto else \
-        dict(pil=60, tit=230, cx=565, ps=830, dt=1188, fs=1245)
+        dict(pil=60, tit=230, cx=565, ps=830, dt=1195, fs=1255)
     E.cola(img, E.pilula("SORTEIO", 52, AMAR, E.MARROM, fonte_titulo=True), W / 2, y["pil"], -3)
     E.cola(img, E.titulo("VALENDO UM\nHITSTER!", 128 if alto else 112, E.BRANCO), W / 2, y["tit"], -2)
     E.cola(img, disco(250 if alto else 190), W / 2 + 140, y["cx"] - 20, 0)
@@ -84,8 +84,7 @@ def peca_sorteio(W, H):
                                 ("Marque 2 amigos nos comentários", AMAR))):
         E.cola(img, passo(k + 1, t, 860, c), W / 2, y["ps"] + k * (140 if alto else 120), (k - 1) * 0.8)
     E.cola(img, E.pilula(f"PARTICIPE ATÉ {FIM} · RESULTADO DIA {RESULTADO}", 34, ROSA, E.BRANCO), W / 2, y["dt"], 1)
-    E.cola(img, E.texto("Sorteio gratuito, não precisa alugar nem comprar nada.\n"
-                        "Esta promoção não é patrocinada nem administrada pelo Instagram.", 24, (230, 230, 240), 600),
+    E.cola(img, E.texto("Esta promoção não é patrocinada nem administrada pelo Instagram.", 24, (230, 230, 240), 600),
            W / 2, y["fs"])
     img.alpha_composite(E.logo(190), (W - 228, 30))
     return img

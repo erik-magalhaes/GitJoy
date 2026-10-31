@@ -832,5 +832,6 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   separado: quem alugar até 15/11 ganha +2 dias de jogo**. Visual "festa do Hitster" (preto com luzes rosa/ciano/amarelo
   desfocadas, disco de vinil, equalizador no pé), identidade da Jéssica, caixa oficial Galápagos. Saída `promo/out/sorteio/`:
   post_1_sorteio + post_2_bonus (carrossel 1080x1350) e story_sorteio + story_bonus (1080x1920). Texto obrigatório:
-  "não é patrocinada nem administrada pelo Instagram" + "não precisa alugar nem comprar nada".
+  "não é patrocinada nem administrada pelo Instagram" (ele pediu para TIRAR da imagem o "não precisa alugar nem comprar
+  nada": isso fica só na legenda). Prêmio: retirada em Mauá ou envio (sem citar custo de frete).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
