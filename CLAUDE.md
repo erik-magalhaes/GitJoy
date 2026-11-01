@@ -876,4 +876,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   nome e "QUE POSIÇÃO?" quando ele fala; no número dela a caixa voa (arco por baixo, por cima passava no rosto) até a casa
   e o número acende; legenda ESCRITA à mão (`LEG`, o Whisper errou muito); fim: "O TOP 10 DA JÉSSICA" em 2 colunas,
   "E o seu nº 1, qual seria? Comenta aqui!" e tela final ("quase todos esses estão no nosso acervo"). Caixas em
-  `assets/top10/`. ~54 s.
+  `assets/top10/`. ~54 s. **Versão ERIK** (`python3 top10.py --erik`; `PERFIS` no script, tempos do BRUTO): 1 vídeo dele (152424, 2:08) com a
+  Jéssica perguntando. Saíram o começo (0–21 s), a recapitulação "já foi o 4, 9, 6..." (51–67 s) e a 1ª tentativa
+  confusa do Paranormal (91–113 s; eles refazem). Top 10 dele: 1 Flip 7 (a do site é "A Vingança"; recorte refeito com o
+  casco de TODOS os pedaços grandes, o maior sozinho cortava o topo creme), 2 MLEM, 3 Marvel United: Deadpool, 4 Ticket to
+  Ride Legacy (NÃO está no site), 5 Coup, 6 Zombicide (Rue Morgue), 7 Metro, 8 Paranormal Detectives, 9 Taco Gato Cabra
+  Queijo Pizza ("dói a mão"), 10 Draftosaurus. ~80 s. Legenda quebra em linhas de até 760 px (antes cortava na borda).

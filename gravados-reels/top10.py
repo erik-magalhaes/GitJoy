@@ -37,34 +37,76 @@ OUT = os.path.join(ROOT, "out")
 INK, AMARELO, LARANJA, PETROLEO, ROSA = (40, 26, 18), (255, 199, 31), (244, 136, 37), (28, 124, 150), (219, 39, 119)
 GRADE = "hqdn3d=1.5:1.5:3:3,unsharp=5:5:0.3:5:5:0.0,eq=contrast=1.02:saturation=1.02"
 VOZ = "highpass=f=80,afftdn=nr=8:nf=-48,equalizer=f=250:t=q:w=1.2:g=-2,equalizer=f=3200:t=q:w=1.4:g=1.5"
-CLIPES = [("151657", 26.43), ("151838", 16.69)]
-# (clipe, quando ELE fala o jogo, quando ELA diz a posição (início da voz), caixa, nome na tela, posição)
-JOGOS = [
-    (0, 3.70, 5.30, "trio", "TRIO", 1),
-    (0, 7.20, 9.45, "tikal", "TIKAL", 7),
-    (0, 10.80, 12.80, "mascarade_second_edition", "MASCARADE", 5),
-    (0, 13.70, 16.65, "the_resistance", "THE RESISTANCE", 8),
-    (0, 18.80, 21.20, "nem_a_pato", "NEM A PATO!", 9),
-    (0, 22.75, 25.20, "treasure_island", "A ILHA DO TESOURO", 4),
-    (1, 0.75, 2.75, "coffee_rush", "COFFEE RUSH", 2),
-    (1, 4.30, 6.90, "telestrations_madruga", "TELESTRATIONS NA MADRUGA", 10),
-    (1, 7.80, 10.65, "king_of_tokyo_duel", "KING OF TOKYO DUEL", 3),
-    (1, 11.60, 13.05, "cartographers", "CARTÓGRAFOS", 6),
-]
-# legenda escrita à mão (o Whisper errou muito: "Chicão", "Meia paz", "De Existence"): (clipe, de, até, texto)
-LEG = [
-    (0, 0.05, 2.60, "AMORZINHO, TOP 10!"), (0, 3.70, 4.40, "TRIO?"), (0, 5.30, 6.00, "UM."),
-    (0, 7.20, 8.00, "TIKAL."), (0, 9.10, 10.30, "NOSSA... SETE."), (0, 10.80, 11.60, "MASCARADE."),
-    (0, 12.80, 13.40, "CINCO."), (0, 13.70, 14.70, "THE RESISTANCE."), (0, 16.60, 18.10, "OITO, QUE JÁ DEU MUITA M*RDA."),
-    (0, 18.80, 19.70, "NEM A PATO!"), (0, 20.40, 21.90, "AH, VOU COLOCAR NO 9."), (0, 22.70, 23.70, "A ILHA DO TESOURO?"),
-    (0, 25.20, 25.90, "QUATRO."),
-    (1, 0.75, 1.60, "COFFEE RUSH."), (1, 2.75, 3.40, "DOIS."), (1, 4.30, 6.00, "TELESTRATIONS NA MADRUGA."),
-    (1, 6.90, 7.50, "DEZ."), (1, 7.80, 9.60, "KING OF TOKYO DUEL."), (1, 10.20, 11.00, "NOSSA, TRÊS."),
-    (1, 11.60, 12.60, "E CARTÓGRAFOS?"), (1, 13.05, 13.70, "SEIS."), (1, 13.90, 14.90, "BOA, GOSTOU DO SEU TOP 10?"),
-    (1, 15.00, 15.70, "GOSTEI."), (1, 15.85, 16.60, "PARABÉNS!"),
-]
-INICIO = [0.0, CLIPES[0][1]]  # tempo no vídeo em que cada clipe começa
-FIM_GRAV = INICIO[1] + CLIPES[1][1]
+# PERFIS: SEGS = trechos dos brutos (arquivo, de, até) em sequência; JOGOS e LEG com tempos do BRUTO:
+# JOGOS = (trecho, quando o jogo é falado, quando a posição é dita (início da voz), caixa, nome na tela, posição)
+PERFIS = {
+    "jessica": dict(
+        quem="JÉSSICA", gancho="ELA NÃO SABE OS PRÓXIMOS!",
+        SEGS=[("20261101_151657.mp4", 0.0, 26.43), ("20261101_151838.mp4", 0.0, 16.69)],
+        JOGOS=[
+            (0, 3.70, 5.30, "trio", "TRIO", 1),
+            (0, 7.20, 9.45, "tikal", "TIKAL", 7),
+            (0, 10.80, 12.80, "mascarade_second_edition", "MASCARADE", 5),
+            (0, 13.70, 16.65, "the_resistance", "THE RESISTANCE", 8),
+            (0, 18.80, 21.20, "nem_a_pato", "NEM A PATO!", 9),
+            (0, 22.75, 25.20, "treasure_island", "A ILHA DO TESOURO", 4),
+            (1, 0.75, 2.75, "coffee_rush", "COFFEE RUSH", 2),
+            (1, 4.30, 6.90, "telestrations_madruga", "TELESTRATIONS NA MADRUGA", 10),
+            (1, 7.80, 10.65, "king_of_tokyo_duel", "KING OF TOKYO DUEL", 3),
+            (1, 11.60, 13.05, "cartographers", "CARTÓGRAFOS", 6),
+        ],
+        # legenda escrita à mão (o Whisper errou muito: "Chicão", "Meia paz", "De Existence")
+        LEG=[
+            (0, 0.05, 2.60, "AMORZINHO, TOP 10!"), (0, 3.70, 4.40, "TRIO?"), (0, 5.30, 6.00, "UM."),
+            (0, 7.20, 8.00, "TIKAL."), (0, 9.10, 10.30, "NOSSA... SETE."), (0, 10.80, 11.60, "MASCARADE."),
+            (0, 12.80, 13.40, "CINCO."), (0, 13.70, 14.70, "THE RESISTANCE."),
+            (0, 16.60, 18.10, "OITO, QUE JÁ DEU MUITA M*RDA."),
+            (0, 18.80, 19.70, "NEM A PATO!"), (0, 20.40, 21.90, "AH, VOU COLOCAR NO 9."),
+            (0, 22.70, 23.70, "A ILHA DO TESOURO?"), (0, 25.20, 25.90, "QUATRO."),
+            (1, 0.75, 1.60, "COFFEE RUSH."), (1, 2.75, 3.40, "DOIS."), (1, 4.30, 6.00, "TELESTRATIONS NA MADRUGA."),
+            (1, 6.90, 7.50, "DEZ."), (1, 7.80, 9.60, "KING OF TOKYO DUEL."), (1, 10.20, 11.00, "NOSSA, TRÊS."),
+            (1, 11.60, 12.60, "E CARTÓGRAFOS?"), (1, 13.05, 13.70, "SEIS."),
+            (1, 13.90, 14.90, "BOA, GOSTOU DO SEU TOP 10?"), (1, 15.00, 15.70, "GOSTEI."), (1, 15.85, 16.60, "PARABÉNS!"),
+        ]),
+    # Erik: um vídeo só (152424, 2:08). Sai o começo (ajeitando a câmera, 0–21 s), a recapitulação "já foi o 4, 9, 6..."
+    # (51–67 s) e a 1ª tentativa confusa do Paranormal Detectives (91–113 s; eles refazem a pergunta).
+    "erik": dict(
+        quem="ERIK", gancho="ELE NÃO SABE OS PRÓXIMOS!",
+        SEGS=[("20261101_152424.mp4", 21.0, 51.0), ("20261101_152424.mp4", 66.9, 91.2),
+              ("20261101_152424.mp4", 112.9, 127.4)],
+        JOGOS=[
+            (0, 24.00, 27.30, "ttr_legacy", "TICKET TO RIDE LEGACY", 4),
+            (0, 29.50, 33.16, "taco_gato", "TACO GATO CABRA QUEIJO PIZZA", 9),
+            (0, 36.12, 38.92, "zombicide_season_3_rue_morgue", "ZOMBICIDE", 6),
+            (0, 40.26, 42.36, "coup_inquisition", "COUP", 5),
+            (0, 45.12, 50.30, "metro", "METRO", 7),
+            (1, 67.30, 72.52, "marvel_deadpool", "MARVEL UNITED: DEADPOOL", 3),
+            (1, 76.18, 81.98, "draftosaurus", "DRAFTOSAURUS", 10),
+            (1, 84.02, 89.98, "flip_7_a_vinganca", "FLIP 7", 1),
+            (2, 113.30, 116.04, "paranormal_detectives", "PARANORMAL DETECTIVES", 8),
+            (2, 117.70, 120.74, "mlem_space_agency", "MLEM", 2),
+        ],
+        LEG=[
+            (0, 21.20, 23.30, "MOR, TOP 10!"), (0, 24.00, 25.70, "TICKET TO RIDE LEGACY."), (0, 27.30, 28.80, "QUATRO."),
+            (0, 29.50, 31.50, "TACO GATO..."), (0, 33.16, 34.60, "NOVE, PORQUE DÓI A MÃO."),
+            (0, 36.12, 36.90, "ZOMBICIDE."), (0, 38.92, 39.60, "SEIS."), (0, 40.26, 40.90, "COUP."),
+            (0, 41.94, 43.90, "COUP É UM CINCO, DEPENDE MUITO DA GALERA."), (0, 45.12, 45.90, "METRO."),
+            (0, 47.66, 50.80, "EU GOSTO DE METRO, MAS ACHO QUE ELE É UM SETE."),
+            (1, 67.30, 69.90, "MARVEL UNITED, SÓ QUE A VERSÃO DO DEADPOOL."),
+            (1, 71.76, 74.30, "VOU COLOCAR NO TOP 3, ESSA VERSÃO É MUITO BOA."), (1, 76.18, 77.10, "DRAFTOSAURUS."),
+            (1, 78.12, 80.60, "É GOSTOSO DE JOGAR, MAS É MEIO LEVE..."), (1, 80.60, 82.50, "ENTÃO VOU COLOCAR NO 10."),
+            (1, 84.02, 85.30, "FLIP 7."), (1, 86.34, 88.20, "O QUE VOCÊ COLOCOU DEPOIS DESSE?"),
+            (1, 89.22, 91.10, "VOU COLOCAR NO TOP 1 PRA GARANTIR."),
+            (2, 113.30, 114.90, "PARANORMAL DETECTIVES."), (2, 116.04, 116.70, "OITO."), (2, 117.70, 119.00, "E MLEM."),
+            (2, 120.74, 121.40, "DOIS."), (2, 122.56, 123.30, "GOSTOU?"), (2, 124.24, 124.90, "SIP."),
+            (2, 125.64, 127.30, "E VOCÊ, GOSTOU? COMENTA AÍ."),
+        ]),
+}
+PERFIL = "erik" if "--erik" in sys.argv else "jessica"
+_P = PERFIS[PERFIL]
+SEGS, JOGOS, LEG, QUEM, GANCHO = _P["SEGS"], _P["JOGOS"], _P["LEG"], _P["quem"], _P["gancho"]
+INICIO = list(np.cumsum([0.0] + [b - a for _, a, b in SEGS[:-1]]))  # tempo no vídeo em que cada trecho começa
+FIM_GRAV = INICIO[-1] + SEGS[-1][2] - SEGS[-1][1]
 RECAP, COMENTA, FINAL = 4.0, 3.2, 3.6
 DUR = FIM_GRAV + RECAP + COMENTA + FINAL
 VOO = 0.5  # a caixa voa até a casa em 0,5 s
@@ -78,7 +120,7 @@ def casa_xy(pos):
 
 
 def tv(clipe, t):
-    return INICIO[clipe] + t
+    return INICIO[clipe] + t - SEGS[clipe][1]
 
 
 EVENTOS = [dict(nome=tv(c, a), pos_t=tv(c, b), caixa=cx, rot=rot, pos=p) for c, a, b, cx, rot, p in JOGOS]
@@ -132,7 +174,17 @@ def casa_vazia():
 
 @lru_cache(None)
 def legenda_img(txt):
-    return texto(txt, "lilita", 58, WHITE, INK, 8, 5, INK)
+    """Quebra em linhas de até ~760 px (a legenda fica entre a escadinha e a borda direita; antes cortava na borda)."""
+    linhas, cur = [], ""
+    for w_ in txt.split():
+        prova = (cur + " " + w_).strip()
+        if cur and texto(prova, "lilita", 58, WHITE, INK, 8, 5, INK).width > 760:
+            linhas.append(cur)
+            cur = w_
+        else:
+            cur = prova
+    linhas.append(cur)
+    return texto("\n".join(linhas), "lilita", 58, WHITE, INK, 8, 5, INK, entre=1.05)
 
 
 @lru_cache(None)
@@ -186,7 +238,8 @@ def legenda(img, t):
     for c, a, b, txt in LEG:
         if tv(c, a) <= t < tv(c, b):
             sc = 0.85 + 0.15 * ease(seg(t, tv(c, a), tv(c, a) + 0.12))
-            cola(img, legenda_img(txt), W / 2 + 120, 1545, sc=sc)
+            im = legenda_img(txt)
+            cola(img, im, W / 2 + 120, 1580 - im.height / 2, sc=sc)  # base fixa em ~1580
             return
 
 
@@ -197,7 +250,7 @@ def overlay(t):
     img.alpha_composite(logo_card(140), (W - 176, 40))
     cola(img, cabecalho(), 430, 120, rot=-2, sc=out_back(seg(t, 0.1, 0.5)))
     if t < 3.4:
-        cola(img, pilula("ELA NÃO SABE OS PRÓXIMOS!", 38, ROSA), 450, 225, rot=2, sc=out_back(seg(t, 0.5, 0.9)))
+        cola(img, pilula(GANCHO, 38, ROSA), 450, 225, rot=2, sc=out_back(seg(t, 0.5, 0.9)))
     escada(img, t)
     destaque(img, t)
     legenda(img, t)
@@ -215,7 +268,7 @@ def tela_fim(base, t):
     img = fundo_fim(base.tobytes()).copy()
     lt = t - FIM_GRAV
     if lt < RECAP:
-        cola(img, texto("O TOP 10 DA JÉSSICA", "lilita", 84, AMARELO, INK, 8, 6, INK), W / 2, 230, rot=-2,
+        cola(img, texto(f"O TOP 10 {'DA' if QUEM == 'JÉSSICA' else 'DO'} {QUEM}", "lilita", 84, AMARELO, INK, 8, 6, INK), W / 2, 230, rot=-2,
              sc=out_back(seg(lt, 0.0, 0.4)))
         for pos in range(1, 11):
             ev = next(e for e in EVENTOS if e["pos"] == pos)
@@ -244,9 +297,9 @@ def tela_fim(base, t):
 
 # ---------------------------------------------------------------- render
 def ler(clipe):
-    k, d = CLIPES[clipe]
-    n = round(d * FPS)
-    p = subprocess.Popen([ffmpeg(), "-loglevel", "error", "-i", os.path.join(BR, f"20261101_{k}.mp4"), "-frames:v", str(n),
+    arq, a0, a1 = SEGS[clipe]
+    n = round((INICIO[clipe] + a1 - a0) * FPS) - round(INICIO[clipe] * FPS)
+    p = subprocess.Popen([ffmpeg(), "-loglevel", "error", "-ss", f"{a0:.3f}", "-i", os.path.join(BR, arq), "-frames:v", str(n),
                           "-vf", f"fps={FPS},scale={W}:{H},{GRADE}", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
                          stdout=subprocess.PIPE)
     ultimo = None
@@ -256,23 +309,18 @@ def ler(clipe):
             break
         ultimo = Image.frombytes("RGB", (W, H), buf)
         yield ultimo
+    while ultimo is not None and _ < n - 1:  # completa se o bruto acabar antes
+        _ += 1
+        yield ultimo
     p.wait()
 
 
 def quadros():
     ultimo = None
-    for c in range(2):
-        alvo = round(INICIO[c] * FPS) if c else 0
-        k = 0
+    for c in range(len(SEGS)):
         for fr in ler(c):
             ultimo = fr
             yield fr
-            k += 1
-        # completa até o próximo início exato (arredondamento)
-        prox = round(INICIO[1] * FPS) if c == 0 else round(FIM_GRAV * FPS)
-        while alvo + k < prox:
-            yield ultimo
-            k += 1
     n = round(DUR * FPS) - round(FIM_GRAV * FPS) + 2
     for _ in range(n):
         yield ultimo
@@ -290,18 +338,19 @@ def frame_final(n, fr):
 def audio(path):
     sr = 44100
     voz = np.zeros(int(DUR * sr) + sr)
-    for c, (k, d) in enumerate(CLIPES):
-        r = subprocess.run([ffmpeg(), "-loglevel", "error", "-i", os.path.join(BR, f"20261101_{k}.mp4"), "-vn", "-ac", "1",
-                            "-ar", "44100", "-af", VOZ, "-f", "s16le", "-"], capture_output=True)
+    for c, (arq, a0, a1) in enumerate(SEGS):
+        r = subprocess.run([ffmpeg(), "-loglevel", "error", "-ss", f"{a0:.3f}", "-t", f"{a1 - a0:.3f}", "-i",
+                            os.path.join(BR, arq), "-vn", "-ac", "1", "-ar", "44100", "-af", VOZ, "-f", "s16le", "-"],
+                           capture_output=True)
         x = np.frombuffer(r.stdout, np.int16).astype(np.float64) / 32768
-        x = x[:int(d * sr)]
+        x = x[:int((a1 - a0) * sr)].copy()
         f = int(0.02 * sr)
         x[:f] *= np.linspace(0, 1, f)
         x[-f:] *= np.linspace(1, 0, f)
         i = int(INICIO[c] * sr)
         voz[i:i + len(x)] += x
     voz *= 10 ** (-20 / 20) / (np.sqrt((voz[np.abs(voz) > 0.02] ** 2).mean()) + 1e-9)
-    vp = os.path.join(OUT, "top10_voz.wav")
+    vp = os.path.join(OUT, f"top10_{PERFIL}_voz.wav")
     with wave.open(vp, "wb") as w:
         w.setnchannels(1)
         w.setsampwidth(2)
@@ -343,6 +392,7 @@ def render(saida, wav):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--frame", type=float, nargs="*")
+    ap.add_argument("--erik", action="store_true")
     a = ap.parse_args()
     os.makedirs(OUT, exist_ok=True)
     print(f"duração {DUR:.1f} s")
@@ -354,11 +404,11 @@ def main():
                 ims.append(frame_final(n, fr))
             if n > alvo[-1]:
                 break
-        folha(ims, os.path.join(OUT, "frames_top10.jpg"))
+        folha(ims, os.path.join(OUT, f"frames_top10_{PERFIL}.jpg"))
         return
-    wav = os.path.join(OUT, "top10.wav")
+    wav = os.path.join(OUT, f"top10_{PERFIL}.wav")
     audio(wav)
-    render(os.path.join(OUT, "top10.mp4"), wav)
+    render(os.path.join(OUT, f"top10_{PERFIL}.mp4"), wav)
 
 
 if __name__ == "__main__":
