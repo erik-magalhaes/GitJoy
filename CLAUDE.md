@@ -843,8 +843,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   `roleta-reels/taro.py` (troca a cada 2 quadros), uma carta grande com bichinho + tipo de jogador + jogo do acervo.
   Arte: ELES geram no Gemini (prompt mandado no chat): estilo ORGÂNICO tipo "sapinho CLT" (pintura texturizada, traço
   irregular, nada liso/vetorial), folha 4x3 com CADA quadro de fundo próprio de cor lisa até a borda e espaço branco
-  entre eles → corte RETANGULAR, sem recortar o bicho (lição do Seu mês). Lista: bode "nunca joguei" e ganha (o BOM, o
-  MAU e o BODE), camaleão mentiroso (Mascarade), preguiça que demora na vez (Tikal), rato que some quando vai perder
-  (Fugitive), macaco que bagunça as peças (Monkey Palace), castor que arruma a caixa (Beaver Creek), galo que grita
-  (Throw Throw Burrito), coruja que lê o manual em voz alta (Dice Colony), pato da revanche (Camel Up), polvo no celular
-  "é minha vez?" (Jungo), capivara só pela vibe (Samoa), cachorro que comemora como gol (Blablabel). Esperando a arte.
+  entre eles → corte RETANGULAR, sem recortar o bicho (lição do Seu mês). Lista v2 (ele cobrou que o bicho tenha a ver com o jogo; na 1ª metade era só metáfora): o BICHO VEM DO JOGO e a
+  piada vem da mecânica: bode (o BOM, o MAU e o BODE), castor (Beaver Creek), macaco (Monkey Palace), camelo que aposta no
+  último segundo (Camel Up), rato que dispara na frente (First Rat), abelha rainha encurralada (Hive), tubarão que só quer
+  ver o circo pegar fogo (Survive the Island), dinossauro que pega a peça que você queria (Draftosaurus), dragão que não
+  divide (Tesouro do Dragão), gato que empurra todo mundo (boop.), peixe esquisito arrependido (Deep Regrets), camaleão
+  com máscara que blefa (Mascarade). Esperando a arte.
