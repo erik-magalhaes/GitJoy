@@ -857,3 +857,12 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   some o METRO, "?" no lugar; no recomeço a caixa volta = resposta) e `memoria.py` (8 s: os 12 bichinhos do Gemini, "DECORA! 3-2-1",
   viram em onda para versos numerados, "ONDE ESTAVA O CAMELO? COMENTA O NÚMERO!" (resposta 4), desviram no fim). Mandados.
   Ainda não feitos: o 4 (POV das regras) e o 5 (organizando a caixa) dependem de gravação deles.
+- **Sky Team "pilotar um avião em 1 minuto ou menos" (`gravados-reels/skyteam.py`, 1/nov):** 7 vídeos dele no Drive de brutos
+  (VID_20261101_08xxxx → `brutos/nov01/<hhmmss>.mp4`, fora do git; gancho com a caixa na câmera da frente = ESPELHADO → hflip).
+  Base = `taketime.py` (contra o relógio), cara de AVIAÇÃO: painel de aproximação no alto à esquerda (✈️ anda até a pista
+  enquanto o cronômetro desce de 1:00; chega na pista no fim da explicação), selos das regras, carimbo "POUSOU EM 46 SEGUNDOS!"
+  com palmas, "Você confiaria no seu par pra pousar esse avião? Comenta aqui!", tela final com a caixa (foto do site
+  recortada, `assets/sky/sky_team.png`). Explicação a 1,1x; o gancho e o trecho da "buzina" vão INTEIROS (a pergunta "Ué,
+  avião tem buzina?" é de outra voz, ~12 dB mais baixa: `REFORCO` +9 dB). Whisper (small e medium) ouve "flares": na
+  legenda e no selo ficou **flaps** (avisei). No site: "Sky Team (em inglês)", Família R$ 30, 2 jogadores, 20 min (é a
+  edição em inglês). 70 s.
