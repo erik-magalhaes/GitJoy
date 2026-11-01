@@ -108,20 +108,50 @@ def caixa(nome, h, larg=None):
 
 
 @lru_cache(None)
-def bicho(k, h):
-    """Recorta o bichinho do mês k da folha do Gemini: o creme do fundo LIGADO À BORDA da célula vira transparente."""
-    import cv2
+def _rembg(k):
+    """Máscara do rembg (isnet) para a célula k, guardada em assets/seu_mes/rembg_NN.png (só serve de juiz)."""
+    cache = os.path.join(ROOT, "assets", "seu_mes", f"rembg_{k:02d}.png")
+    cel = _celula(k)
+    if not os.path.exists(cache):
+        from rembg import new_session, remove
+        remove(Image.fromarray(cel), session=new_session("isnet-general-use")).getchannel("A").save(cache)
+    return np.asarray(Image.open(cache), float) / 255
+
+
+def _celula(k):
     im = np.asarray(Image.open(GEMINI).convert("RGB"))
     ch, cw = im.shape[0] / 3, im.shape[1] / 4
     r, c = divmod(k, 4)
-    cel = im[int(r * ch):int((r + 1) * ch), int(c * cw):int((c + 1) * cw)].copy()
+    return im[int(r * ch):int((r + 1) * ch), int(c * cw):int((c + 1) * cw)].copy()
+
+
+@lru_cache(None)
+def bicho(k, h):
+    """Recorta o bichinho do mês k da folha do Gemini.
+    1) fundo = creme/cinza claro LIGADO À BORDA (inclui a sombra do chão, que é cinza claro sem cor);
+    2) "buracos" de fundo presos dentro do desenho (entre as pernas, dentro da cadeira) saem quando o rembg também
+       diz que é fundo; 3) a franja clara do contorno vira meio transparente (sem halo branco no fundo colorido)."""
+    import cv2
+    cel = _celula(k)
+    f = cel.astype(float)
     borda_px = np.r_[cel[0], cel[-1], cel[:, 0], cel[:, -1]].astype(float)
     fundo_cor = np.median(borda_px, 0)  # o creme muda de uma folha do Gemini para outra
-    dist = np.sqrt(((cel.astype(float) - fundo_cor) ** 2).sum(-1))
-    pare = (dist < 30).astype(np.uint8)
-    n, lab, st, _ = cv2.connectedComponentsWithStats(pare, connectivity=4)
+    dist = np.sqrt(((f - fundo_cor) ** 2).sum(-1))
+    sat = f.max(-1) - f.min(-1)
+    lum = f.mean(-1)
+    rb = _rembg(k)
+    # parecido com o fundo: perto do creme, ou cinza bem claro e sem cor (sombra de chão), com o rembg concordando
+    chao = np.arange(cel.shape[0])[:, None] > 0.72 * cel.shape[0]  # sombra/chão cinza no pé do desenho
+    claro = (dist < 30) | ((lum > 165) & (sat < 26) & (rb < 0.5)) | (chao & (lum > 110) & (sat < 30) & (rb < 0.6))
+    n, lab, st, _ = cv2.connectedComponentsWithStats(claro.astype(np.uint8), connectivity=4)
     borda = set(np.unique(np.r_[lab[0], lab[-1], lab[:, 0], lab[:, -1]])) - {0}
     fundo = np.isin(lab, list(borda))
+    for i in range(1, n):  # buracos internos
+        if i in borda or not 150 <= st[i, cv2.CC_STAT_AREA] < 0.015 * cel.shape[0] * cel.shape[1]:
+            continue
+        m = lab == i
+        if rb[m].mean() < 0.3:
+            fundo |= m
     alfa = (~fundo).astype(np.uint8) * 255
     # pedacinhos da célula vizinha que encostam na borda (ponta de bandeirinha, papel) saem
     n, lab, st, _ = cv2.connectedComponentsWithStats((alfa > 0).astype(np.uint8), connectivity=8)
@@ -132,8 +162,17 @@ def bicho(k, h):
         tira = ((y == 0 or y + hh >= H_) and hh < 0.15 * H_) or ((x == 0 or x + w >= W_) and w < 0.15 * W_)
         if (x == 0 or y == 0 or x + w >= W_ or y + hh >= H_) and (a < 0.04 * tot or tira):
             alfa[lab == i] = 0
-    alfa = cv2.GaussianBlur(cv2.erode(alfa, np.ones((2, 2), np.uint8)), (0, 0), 0.8)
-    out = Image.fromarray(np.dstack([cel, alfa]))
+        elif (a < 40 and rb[lab == i].mean() < 0.2) or \
+                (a < 0.005 * tot and (y + hh < 0.07 * H_ or y > 0.85 * H_)):  # sujeira do papel / resto do vizinho
+            alfa[lab == i] = 0
+    alfa = cv2.erode(alfa, np.ones((3, 3), np.uint8))
+    # franja: perto da borda do recorte, quanto mais parecido com o creme, mais transparente
+    perto = cv2.dilate(255 - alfa, np.ones((7, 7), np.uint8)) > 0
+    suave = np.clip((dist - 12) / 45, 0, 1)
+    a = alfa.astype(float) / 255
+    a = np.where(perto, np.minimum(a, suave), a)
+    a = cv2.GaussianBlur(a, (0, 0), 0.7)
+    out = Image.fromarray(np.dstack([cel, (a * 255).astype(np.uint8)]))
     out = out.crop(out.getbbox())
     s = h / out.height
     out = out.resize((int(out.width * s), int(h)), Image.LANCZOS).filter(ImageFilter.UnsharpMask(1.5, 60, 2))
