@@ -848,4 +848,4 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   último segundo (Camel Up), rato que dispara na frente (First Rat), abelha rainha encurralada (Hive), tubarão que só quer
   ver o circo pegar fogo (Survive the Island), dinossauro que pega a peça que você queria (Draftosaurus), dragão que não
   divide (Tesouro do Dragão), gato que empurra todo mundo (boop.), peixe esquisito arrependido (Deep Regrets), camaleão
-  com máscara que blefa (Mascarade). Esperando a arte.
+  com máscara que blefa (Mascarade). **Feito: `bichos-reels/bichos.py`** (arte deles em `assets/gemini_bichos.jpg`, quadros achados pela faixa branca; quadro INTEIRO na carta e as laterais na cor lisa do fundo): fundo petróleo pontilhado, "QUE JOGADOR VOCÊ É?" + "TIRA PRINT E DESCOBRE!", carta creme com contorno e sombra marrom (bichinho, "O QUE...", caixa + JOGO:), troca a cada 2 quadros, loop de 8 s (240 quadros), trilha "brincalhona" (marimba em loop). Caixas novas do site recortadas: o_bom_o_mau_e_o_bode, beaver_creek, first_rat (laranja tirado por matiz + casco convexo) em hobby-reels/assets/acervo/. Mandado.
