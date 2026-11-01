@@ -146,11 +146,14 @@ def bicho(k, h):
     n, lab, st, _ = cv2.connectedComponentsWithStats(claro.astype(np.uint8), connectivity=4)
     borda = set(np.unique(np.r_[lab[0], lab[-1], lab[:, 0], lab[:, -1]])) - {0}
     fundo = np.isin(lab, list(borda))
-    for i in range(1, n):  # buracos internos
-        if i in borda or not 150 <= st[i, cv2.CC_STAT_AREA] < 0.015 * cel.shape[0] * cel.shape[1]:
+    # buracos presos no desenho só saem no PÉ da figura (vão da cadeira, entre as pernas): mais acima, a barriga do
+    # gato e o branco do unicórnio são creme como o fundo e sumiam
+    n, lab, st, cen = cv2.connectedComponentsWithStats(claro.astype(np.uint8), connectivity=4)
+    for i in range(1, n):
+        if i in borda or st[i, cv2.CC_STAT_AREA] < 150 or cen[i][1] < 0.8 * cel.shape[0]:
             continue
         m = lab == i
-        if rb[m].mean() < 0.3:
+        if rb[m].mean() < 0.1:
             fundo |= m
     alfa = (~fundo).astype(np.uint8) * 255
     # pedacinhos da célula vizinha que encostam na borda (ponta de bandeirinha, papel) saem
@@ -184,7 +187,8 @@ def selo(img, x, y, w=170):
     img.alpha_composite(lg, (int(x), int(y)))
 
 
-ESTILO = "A"  # escolha dele (1/nov)  # como a caixa aparece: A fundo desfocado, B caixa maior com etiqueta, C polaroide
+ESTILO = "A"  # escolha dele (1/nov)
+FUNDO_JOGO = False  # caixa desfocada no fundo: ele preferiu o papel de cor lisa do 1º carrossel  # como a caixa aparece: A fundo desfocado, B caixa maior com etiqueta, C polaroide
 
 
 def etiqueta(txt, semente=0):
@@ -217,7 +221,7 @@ def tela_mes(k, estilo=None):
     estilo = estilo or ESTILO
     mes, frase, jogo, rec, cor = MESES[k]
     img = papel(cor, k + 3)
-    if estilo == "A":
+    if estilo == "A" and FUNDO_JOGO:
         img = fundo_caixa(rec, cor).copy()
     letra(img, mes, 110, W / 2, 165, semente=k)
     if estilo == "A":
