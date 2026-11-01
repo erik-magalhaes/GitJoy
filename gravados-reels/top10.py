@@ -71,11 +71,11 @@ PERFIS = {
     # Erik: um vídeo só (152424, 2:08). Sai o começo (ajeitando a câmera, 0–21 s), a recapitulação "já foi o 4, 9, 6..."
     # (51–67 s) e a 1ª tentativa confusa do Paranormal Detectives (91–113 s; eles refazem a pergunta).
     "erik": dict(
-        quem="ERIK", gancho="ELE NÃO SABE OS PRÓXIMOS!", lado="dir",  # escadinha à DIREITA: à esquerda cobria o rosto dele
+        quem="ERIK", gancho="ELE NÃO SABE OS PRÓXIMOS!", lado="dir", acervo="TODOS ESSES ESTÃO\nNO NOSSO ACERVO",  # escadinha à DIREITA: à esquerda cobria o rosto dele
         SEGS=[("20261101_152424.mp4", 21.0, 51.0), ("20261101_152424.mp4", 66.9, 91.2),
               ("20261101_152424.mp4", 112.9, 127.4)],
         JOGOS=[
-            (0, 24.00, 27.30, "ttr_legacy", "TICKET TO RIDE LEGACY", 4),
+            (0, 24.00, 27.30, "ticket_to_ride", "TICKET TO RIDE", 4),  # o normal, NÃO o Legacy (ele corrigiu)
             (0, 29.50, 33.16, "taco_gato", "TACO GATO CABRA QUEIJO PIZZA", 9),
             (0, 36.12, 38.92, "zombicide_season_3_rue_morgue", "ZOMBICIDE", 6),
             (0, 40.26, 42.36, "coup_inquisition", "COUP", 5),
@@ -87,7 +87,7 @@ PERFIS = {
             (2, 117.70, 120.74, "mlem_space_agency", "MLEM", 2),
         ],
         LEG=[
-            (0, 21.20, 23.30, "MOR, TOP 10!"), (0, 24.00, 25.70, "TICKET TO RIDE LEGACY."), (0, 27.30, 28.80, "QUATRO."),
+            (0, 21.20, 23.30, "MOR, TOP 10!"), (0, 24.00, 25.70, "TICKET TO RIDE."), (0, 27.30, 28.80, "QUATRO."),
             (0, 29.50, 31.50, "TACO GATO..."), (0, 33.16, 34.60, "NOVE, PORQUE DÓI A MÃO."),
             (0, 36.12, 36.90, "ZOMBICIDE."), (0, 38.92, 39.60, "SEIS."), (0, 40.26, 40.90, "COUP."),
             (0, 41.94, 43.90, "COUP É UM CINCO, DEPENDE MUITO DA GALERA."), (0, 45.12, 45.90, "METRO."),
@@ -291,7 +291,7 @@ def tela_fim(base, t):
     lt -= COMENTA
     cola(img, logo_card(420), W / 2, 420, sc=out_back(seg(lt, 0.0, 0.4)))
     v = ease(seg(lt, 0.4, 0.8))
-    for j, (txt, f, s, cor) in enumerate([("QUASE TODOS ESSES\nESTÃO NO NOSSO ACERVO", "lilita", 74, AMARELO),
+    for j, (txt, f, s, cor) in enumerate([(PERFIS[PERFIL].get("acervo", "QUASE TODOS ESSES\nESTÃO NO NOSSO ACERVO"), "lilita", 74, AMARELO),
                                           ("aluguel de 5 dias · retire em Mauá\nou receba em casa", "figtree", 46, WHITE),
                                           ("LINK NA BIO · @SUAVEZ_BG", "lilita", 62, WHITE)]):
         cola(img, texto(txt, f, s, cor, INK, 6 if f == "lilita" else 0, 5 if f == "lilita" else 3, INK, entre=1.15),
