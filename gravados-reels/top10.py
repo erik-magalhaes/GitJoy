@@ -71,7 +71,7 @@ PERFIS = {
     # Erik: um vídeo só (152424, 2:08). Sai o começo (ajeitando a câmera, 0–21 s), a recapitulação "já foi o 4, 9, 6..."
     # (51–67 s) e a 1ª tentativa confusa do Paranormal Detectives (91–113 s; eles refazem a pergunta).
     "erik": dict(
-        quem="ERIK", gancho="ELE NÃO SABE OS PRÓXIMOS!",
+        quem="ERIK", gancho="ELE NÃO SABE OS PRÓXIMOS!", lado="dir",  # escadinha à DIREITA: à esquerda cobria o rosto dele
         SEGS=[("20261101_152424.mp4", 21.0, 51.0), ("20261101_152424.mp4", 66.9, 91.2),
               ("20261101_152424.mp4", 112.9, 127.4)],
         JOGOS=[
@@ -112,7 +112,9 @@ DUR = FIM_GRAV + RECAP + COMENTA + FINAL
 VOO = 0.5  # a caixa voa até a casa em 0,5 s
 
 # escadinha à esquerda
-LX, LW, LY0, LH = 22, 262, 300, 113
+DIR = PERFIS[PERFIL].get("lado") == "dir"  # escadinha à direita e caixa grande à esquerda
+LW, LY0, LH = (236 if DIR else 262), 300, 113
+LX = W - 12 - LW if DIR else 22
 
 
 def casa_xy(pos):
@@ -196,7 +198,7 @@ def escada(img, t, alpha=1.0):
     entra = ease(seg(t, 2.6, 3.3))
     if entra <= 0:
         return
-    dx = -320 * (1 - entra)
+    dx = (320 if DIR else -320) * (1 - entra)
     for pos in range(1, 11):
         x, y = casa_xy(pos)
         img.alpha_composite(casa_vazia(), (int(LX + dx), int(y - (LH - 10) / 2)))
@@ -217,13 +219,15 @@ def destaque(img, t):
         if not (a <= t < b + VOO):
             continue
         big = caixa_sombra(ev["caixa"], 400, 330)
-        x0, y0 = 880, 1120
+        x0, y0 = (190 if DIR else 880), (1150 if DIR else 1120)
+        sx = -1 if DIR else 1
         if t < b:
             sc = out_back(seg(t, a, a + 0.35))
-            cola(img, big, x0, y0, rot=4, sc=sc)
-            cola(img, pilula(ev["rot"], 40 if len(ev["rot"]) < 16 else 30, PETROLEO), x0 - 40, y0 + 270, rot=-3,
+            cola(img, big, x0, y0, rot=4 * sx, sc=sc)
+            cola(img, pilula(ev["rot"], 40 if len(ev["rot"]) < 16 else 30, PETROLEO), x0 - 40 * sx, y0 + 270, rot=-3 * sx,
                  sc=out_back(seg(t, a + 0.1, a + 0.45)))
-            cola(img, pilula("QUE POSIÇÃO?", 34, ROSA), x0 - 20, y0 - 270, rot=3, sc=out_back(seg(t, a + 0.5, a + 0.8)))
+            if not DIR:  # no do Erik o rosto ocupa a esquerda e embaixo vai a legenda: sem lugar livre pro selo
+                cola(img, pilula("QUE POSIÇÃO?", 34, ROSA), x0 - 20, y0 - 270, rot=3, sc=out_back(seg(t, a + 0.5, a + 0.8)))
         else:
             u = ease(seg(t, b, b + VOO))
             cx, cy = casa_xy(ev["pos"])
@@ -231,7 +235,7 @@ def destaque(img, t):
             x = x0 + (cx - x0) * u
             y = y0 + (cy - y0) * u + 220 * math.sin(math.pi * u)  # arco por BAIXO (por cima passava no rosto dela)
             alvo = (LH - 22) / big.height
-            cola(img, big, x, y, rot=4 * (1 - u), sc=1 + (alvo - 1) * u)
+            cola(img, big, x, y, rot=4 * sx * (1 - u), sc=1 + (alvo - 1) * u)
 
 
 def legenda(img, t):
@@ -239,7 +243,7 @@ def legenda(img, t):
         if tv(c, a) <= t < tv(c, b):
             sc = 0.85 + 0.15 * ease(seg(t, tv(c, a), tv(c, a) + 0.12))
             im = legenda_img(txt)
-            cola(img, im, W / 2 + 120, 1580 - im.height / 2, sc=sc)  # base fixa em ~1580
+            cola(img, im, W / 2 + (-120 if DIR else 120), 1580 - im.height / 2, sc=sc)  # base fixa em ~1580
             return
 
 
