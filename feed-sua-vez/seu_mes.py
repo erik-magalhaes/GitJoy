@@ -115,7 +115,9 @@ def bicho(k, h):
     ch, cw = im.shape[0] / 3, im.shape[1] / 4
     r, c = divmod(k, 4)
     cel = im[int(r * ch):int((r + 1) * ch), int(c * cw):int((c + 1) * cw)].copy()
-    dist = np.sqrt(((cel.astype(float) - FUNDO_GEMINI) ** 2).sum(-1))
+    borda_px = np.r_[cel[0], cel[-1], cel[:, 0], cel[:, -1]].astype(float)
+    fundo_cor = np.median(borda_px, 0)  # o creme muda de uma folha do Gemini para outra
+    dist = np.sqrt(((cel.astype(float) - fundo_cor) ** 2).sum(-1))
     pare = (dist < 30).astype(np.uint8)
     n, lab, st, _ = cv2.connectedComponentsWithStats(pare, connectivity=4)
     borda = set(np.unique(np.r_[lab[0], lab[-1], lab[:, 0], lab[:, -1]])) - {0}
@@ -127,7 +129,8 @@ def bicho(k, h):
     H_, W_ = alfa.shape
     for i in range(1, n):
         x, y, w, hh, a = st[i]
-        if (x == 0 or y == 0 or x + w >= W_ or y + hh >= H_) and a < 0.04 * tot:
+        tira = ((y == 0 or y + hh >= H_) and hh < 0.15 * H_) or ((x == 0 or x + w >= W_) and w < 0.15 * W_)
+        if (x == 0 or y == 0 or x + w >= W_ or y + hh >= H_) and (a < 0.04 * tot or tira):
             alfa[lab == i] = 0
     alfa = cv2.GaussianBlur(cv2.erode(alfa, np.ones((2, 2), np.uint8)), (0, 0), 0.8)
     out = Image.fromarray(np.dstack([cel, alfa]))
@@ -142,7 +145,7 @@ def selo(img, x, y, w=170):
     img.alpha_composite(lg, (int(x), int(y)))
 
 
-ESTILO = "B"  # como a caixa aparece: A fundo desfocado, B caixa maior com etiqueta, C polaroide
+ESTILO = "A"  # escolha dele (1/nov)  # como a caixa aparece: A fundo desfocado, B caixa maior com etiqueta, C polaroide
 
 
 def etiqueta(txt, semente=0):
@@ -166,7 +169,7 @@ def fundo_caixa(rec, cor):
     base = Image.new("RGBA", (W, H), cor + (255,))
     base.alpha_composite(im, (int(W / 2 - im.width / 2), int(H / 2 - im.height / 2)))
     base = base.filter(ImageFilter.GaussianBlur(28))
-    veu = Image.new("RGBA", (W, H), cor + (150,))
+    veu = Image.new("RGBA", (W, H), cor + (165,))
     base.alpha_composite(veu)
     return base
 
@@ -179,14 +182,14 @@ def tela_mes(k, estilo=None):
         img = fundo_caixa(rec, cor).copy()
     letra(img, mes, 110, W / 2, 165, semente=k)
     if estilo == "A":
-        b = bicho(k, 600)
-        if b.width > 900:
-            b = b.resize((900, int(b.height * 900 / b.width)), Image.LANCZOS)
-        img.alpha_composite(b, (int(W / 2 - b.width / 2), int(620 - b.height / 2)))
-        letra(img, frase, 74, W / 2, 1035, semente=k + 50)
-        cx = caixa(rec, 250, 260)
-        img.alpha_composite(cx, (int(W - 30 - cx.width), int(H - 5 - cx.height)))
-        letra(img, "jogo: " + jogo, 40, W / 2 - 80, 1215, (60, 50, 50), sw=1, semente=k + 90)
+        b = bicho(k, 560)
+        if b.width > 880:
+            b = b.resize((880, int(b.height * 880 / b.width)), Image.LANCZOS)
+        img.alpha_composite(b, (int(W / 2 - b.width / 2), int(570 - b.height / 2)))
+        letra(img, frase, 70, W / 2, 950, semente=k + 50)
+        cx = caixa(rec, 255, 280)
+        img.alpha_composite(cx, (int(W - 25 - cx.width), int(H - 10 - cx.height)))
+        letra(img, "jogo: " + jogo, 42, (200 + W - 25 - cx.width) / 2, 1200, (60, 50, 50), sw=1, semente=k + 90)
     elif estilo == "B":  # bichinho à esquerda, caixa grande à direita com etiqueta
         b = bicho(k, 520)
         if b.width > 640:
