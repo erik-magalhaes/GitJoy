@@ -42,7 +42,7 @@ VOZ = "highpass=f=80,afftdn=nr=8:nf=-48,equalizer=f=250:t=q:w=1.2:g=-2,equalizer
 VEL_EXP = 1.1  # a explicação a 1,1x (já cabe folgado no "1 minuto ou menos")
 # (fonte, início, fim, tipo, velocidade) — tempos no bruto
 TRECHOS = [
-    ("h", 0.00, 3.00, "gancho", 1.0),     # "Eu vou te ensinar como pilotar um avião em um minuto ou menos."
+    ("h", 0.00, 3.25, "gancho", 1.0),     # "...em um minuto ou menos." (o bruto acaba a 3,0 s, no começo do "s": 0,25 s de quadro parado)
     ("a", 0.00, 10.90, "exp", VEL_EXP),   # "Esse aqui é o Sky Team, um jogo cooperativo... antes que as rodadas acabem."
     ("b", 0.00, 5.04, "exp", VEL_EXP),    # dados → ações no tabuleiro
     ("c", 0.40, 19.16, "exp", VEL_EXP),   # eixo + motor obrigatórios; a soma dos dados anda 0, 1 ou 2
@@ -53,6 +53,9 @@ TRECHOS = [
 ]
 FIM_EXP_J = 6
 INTEIRO = {("d", 5.10)}  # trechos sem corte interno (a pergunta de quem está fora da câmera é baixa e o corte por energia comia)
+# o celular parou de gravar no começo do "s" de "menos" (medido: o chiado agudo só começa a 2,97 s, no último quadro).
+# O "s" que falta vem do "pessoas" dele mesmo (3,61–3,78 s do 084743), emendado ali, com o ganho daquele arquivo.
+FIM_MENOS, S_DE_PESSOAS = 2.965, ("a", 3.61, 3.78)
 REFORCO = [("d", 7.55, 9.05, 9.0)]  # (fonte, de, até, dB): a voz de fora da câmera ~12 dB mais baixa  # o pouso (fim da explicação) é depois do trecho "e"
 # Whisper (small e medium) ouviu "flares": no Sky Team são os FLAPS
 CORRIGE = {("a", 1.1): "Sky Team,", ("a", 5.6): "copiloto", ("a", 5.7): "", ("d", 6.7): "BIII,", ("d", 7.1): "BIII!", ("e", 5.2): "flaps",
@@ -457,13 +460,14 @@ def audio(path):
     tudo = np.concatenate([x for _, x in pecas])
     q = int(0.03 * sr)
     voz = np.zeros(int(DUR * sr) + sr)
+    G = {}
     for src in ARQ:  # ganho fixo por arquivo (mesmo nível de fala em todos)
         xs = [x for p, x in pecas if p["src"] == src]
-        if not xs:
-            continue
-        tudo = np.concatenate(xs)
-        e = np.sqrt(np.convolve(tudo ** 2, np.ones(q) / q, "same"))
-        g = 10 ** (-20 / 20) / (np.sqrt((tudo[e > e.max() * 0.12] ** 2).mean()) + 1e-9)
+        if xs:
+            tudo = np.concatenate(xs)
+            e = np.sqrt(np.convolve(tudo ** 2, np.ones(q) / q, "same"))
+            G[src] = 10 ** (-20 / 20) / (np.sqrt((tudo[e > e.max() * 0.12] ** 2).mean()) + 1e-9)
+    for src, g in G.items():
         for p, x in pecas:
             if p["src"] != src:
                 continue
@@ -473,6 +477,16 @@ def audio(path):
                     k0 = int(round(max(0.0, (r0 - p["a"]) / p["vel"]) * sr))
                     k1 = int(round(max(0.0, (r1 - p["a"]) / p["vel"]) * sr))
                     x[k0:k1] *= 10 ** (db / 20)
+            if p["src"] == "h":  # "meno" + o "s" do "pessoas."
+                k = int(round(FIM_MENOS * sr))
+                fd = int(0.012 * sr)
+                x[k:k + fd] *= np.linspace(1, 0, fd)
+                x[k + fd:] = 0
+                fs, a0, a1 = S_DE_PESSOAS
+                ss = ler_audio(fs, a0, a1 - a0, 1.0) * G[fs]
+                ss[:int(0.01 * sr)] *= np.linspace(0, 1, int(0.01 * sr))
+                ss[-int(0.06 * sr):] *= np.linspace(1, 0, int(0.06 * sr))
+                x[k:k + len(ss)] += ss[:len(x) - k]
             f = int(0.015 * sr)
             x[:f] *= np.linspace(0, 1, f)
             x[-f:] *= np.linspace(1, 0, f)
