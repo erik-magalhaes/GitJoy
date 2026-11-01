@@ -866,3 +866,14 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   avião tem buzina?" é de outra voz, ~12 dB mais baixa: `REFORCO` +9 dB). Whisper (small e medium) ouve "flares": na
   legenda e no selo ficou **flaps** (avisei). No site: "Sky Team (em inglês)", Família R$ 30, 2 jogadores, 20 min (é a
   edição em inglês). 70 s. **2ª rodada:** ele ouviu o "1 minuto ou menos" cortado: o celular parou de gravar no começo do "s" de "menos" (chiado só a 2,97 s, último quadro) → emendado o "s" do "pessoas" dele (084743, 3,61–3,78 s, ganho daquele arquivo) e o gancho ganhou 0,25 s de quadro parado. **Bruto que termina colado na última palavra: medir o agudo do fim antes de montar.** **3ª:** "a parte dos flaps cortou tudo": o corte por energia (limiar piso+14 dB, herdado do Take Time) picotava fala baixa no meio da frase → limiar piso+8 (mín. −42 dB): só corta pausa de verdade. Conferir sempre que TODAS as palavras do Whisper caem dentro de algum pedaço. 74 s.
+- **"TOP 10 ÀS CEGAS" da Jéssica (`gravados-reels/top10.py`, 1/nov):** 2 vídeos dela (20261101_151657 e _151838 no Drive de
+  brutos → `brutos/nov01b/`, fora do git; o gdown lista só 50 arquivos por pasta: arquivos novos se acham pelo conector
+  do Drive, `parentId = '1yGgK...' and createdTime > ...`). O Erik (fora da câmera) fala o jogo e ela escolhe a posição na
+  hora. Top 10: 1 Trio, 2 Coffee Rush, 3 King of Tokyo Duel, 4 A Ilha do Tesouro (Treasure Island), 5 Mascarade, 6
+  Cartógrafos, 7 Tikal ("Chicão" no Whisper), 8 The Resistance ("que já deu muita m*rda" → legenda censurada), 9 **Nem a
+  Pato!** (Grok, NÃO está no site; caixa da loja da Grok), 10 Telestrations na Madruga (a foto do site é a After Dark).
+  Pedido dele: imagem do jogo de um lado + a POSIÇÃO. Visual: escadinha 1–10 à esquerda; caixa grande à direita com o
+  nome e "QUE POSIÇÃO?" quando ele fala; no número dela a caixa voa (arco por baixo, por cima passava no rosto) até a casa
+  e o número acende; legenda ESCRITA à mão (`LEG`, o Whisper errou muito); fim: "O TOP 10 DA JÉSSICA" em 2 colunas,
+  "E o seu nº 1, qual seria? Comenta aqui!" e tela final ("quase todos esses estão no nosso acervo"). Caixas em
+  `assets/top10/`. ~54 s.
