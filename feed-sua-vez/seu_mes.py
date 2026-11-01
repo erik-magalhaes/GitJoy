@@ -27,7 +27,8 @@ OUT = os.path.join(ROOT, "out")
 ACERVO = os.path.join(REPO, "hobby-reels", "assets", "acervo")
 MAO = os.path.join(REPO, "taco-reels", "assets", "fonts", "PatrickHand-Regular.ttf")
 # os 12 bichinhos que ELES fizeram no Gemini (folha 4x3, na ordem dos meses), a partir dos textos que eu mandei
-GEMINI = os.path.join(ROOT, "assets", "seu_mes", "gemini_12.jpg")
+# 1/nov: eles pediram para voltar à 1ª folha e ao 1º recorte (a 2ª folha, gemini_12.jpg, recortava mal)
+GEMINI = os.path.join(ROOT, "assets", "seu_mes", "gemini_12_v1.jpg")
 FUNDO_GEMINI = np.array([248, 244, 232], float)
 TINTA = (34, 30, 30)
 MESES = [  # (mês, frase, jogo, recorte, fundo pastel)
@@ -108,53 +109,18 @@ def caixa(nome, h, larg=None):
 
 
 @lru_cache(None)
-def _rembg(k):
-    """Máscara do rembg (isnet) para a célula k, guardada em assets/seu_mes/rembg_NN.png (só serve de juiz)."""
-    cache = os.path.join(ROOT, "assets", "seu_mes", f"rembg_{k:02d}.png")
-    cel = _celula(k)
-    if not os.path.exists(cache):
-        from rembg import new_session, remove
-        remove(Image.fromarray(cel), session=new_session("isnet-general-use")).getchannel("A").save(cache)
-    return np.asarray(Image.open(cache), float) / 255
-
-
-def _celula(k):
+def bicho(k, h):
+    """Recorta o bichinho do mês k da folha do Gemini: o creme do fundo LIGADO À BORDA da célula vira transparente."""
+    import cv2
     im = np.asarray(Image.open(GEMINI).convert("RGB"))
     ch, cw = im.shape[0] / 3, im.shape[1] / 4
     r, c = divmod(k, 4)
-    return im[int(r * ch):int((r + 1) * ch), int(c * cw):int((c + 1) * cw)].copy()
-
-
-@lru_cache(None)
-def bicho(k, h):
-    """Recorta o bichinho do mês k da folha do Gemini.
-    1) fundo = creme/cinza claro LIGADO À BORDA (inclui a sombra do chão, que é cinza claro sem cor);
-    2) "buracos" de fundo presos dentro do desenho (entre as pernas, dentro da cadeira) saem quando o rembg também
-       diz que é fundo; 3) a franja clara do contorno vira meio transparente (sem halo branco no fundo colorido)."""
-    import cv2
-    cel = _celula(k)
-    f = cel.astype(float)
-    borda_px = np.r_[cel[0], cel[-1], cel[:, 0], cel[:, -1]].astype(float)
-    fundo_cor = np.median(borda_px, 0)  # o creme muda de uma folha do Gemini para outra
-    dist = np.sqrt(((f - fundo_cor) ** 2).sum(-1))
-    sat = f.max(-1) - f.min(-1)
-    lum = f.mean(-1)
-    rb = _rembg(k)
-    # parecido com o fundo: perto do creme, ou cinza bem claro e sem cor (sombra de chão), com o rembg concordando
-    chao = np.arange(cel.shape[0])[:, None] > 0.72 * cel.shape[0]  # sombra/chão cinza no pé do desenho
-    claro = (dist < 30) | ((lum > 165) & (sat < 26) & (rb < 0.5)) | (chao & (lum > 110) & (sat < 30) & (rb < 0.6))
-    n, lab, st, _ = cv2.connectedComponentsWithStats(claro.astype(np.uint8), connectivity=4)
+    cel = im[int(r * ch):int((r + 1) * ch), int(c * cw):int((c + 1) * cw)].copy()
+    dist = np.sqrt(((cel.astype(float) - FUNDO_GEMINI) ** 2).sum(-1))
+    pare = (dist < 30).astype(np.uint8)
+    n, lab, st, _ = cv2.connectedComponentsWithStats(pare, connectivity=4)
     borda = set(np.unique(np.r_[lab[0], lab[-1], lab[:, 0], lab[:, -1]])) - {0}
     fundo = np.isin(lab, list(borda))
-    # buracos presos no desenho só saem no PÉ da figura (vão da cadeira, entre as pernas): mais acima, a barriga do
-    # gato e o branco do unicórnio são creme como o fundo e sumiam
-    n, lab, st, cen = cv2.connectedComponentsWithStats(claro.astype(np.uint8), connectivity=4)
-    for i in range(1, n):
-        if i in borda or st[i, cv2.CC_STAT_AREA] < 150 or cen[i][1] < 0.8 * cel.shape[0]:
-            continue
-        m = lab == i
-        if rb[m].mean() < 0.1:
-            fundo |= m
     alfa = (~fundo).astype(np.uint8) * 255
     # pedacinhos da célula vizinha que encostam na borda (ponta de bandeirinha, papel) saem
     n, lab, st, _ = cv2.connectedComponentsWithStats((alfa > 0).astype(np.uint8), connectivity=8)
@@ -162,20 +128,10 @@ def bicho(k, h):
     H_, W_ = alfa.shape
     for i in range(1, n):
         x, y, w, hh, a = st[i]
-        tira = ((y == 0 or y + hh >= H_) and hh < 0.15 * H_) or ((x == 0 or x + w >= W_) and w < 0.15 * W_)
-        if (x == 0 or y == 0 or x + w >= W_ or y + hh >= H_) and (a < 0.04 * tot or tira):
+        if (x == 0 or y == 0 or x + w >= W_ or y + hh >= H_) and a < 0.04 * tot:
             alfa[lab == i] = 0
-        elif (a < 40 and rb[lab == i].mean() < 0.2) or \
-                (a < 0.005 * tot and (y + hh < 0.07 * H_ or y > 0.85 * H_)):  # sujeira do papel / resto do vizinho
-            alfa[lab == i] = 0
-    alfa = cv2.erode(alfa, np.ones((3, 3), np.uint8))
-    # franja: perto da borda do recorte, quanto mais parecido com o creme, mais transparente
-    perto = cv2.dilate(255 - alfa, np.ones((7, 7), np.uint8)) > 0
-    suave = np.clip((dist - 12) / 45, 0, 1)
-    a = alfa.astype(float) / 255
-    a = np.where(perto, np.minimum(a, suave), a)
-    a = cv2.GaussianBlur(a, (0, 0), 0.7)
-    out = Image.fromarray(np.dstack([cel, (a * 255).astype(np.uint8)]))
+    alfa = cv2.GaussianBlur(cv2.erode(alfa, np.ones((2, 2), np.uint8)), (0, 0), 0.8)
+    out = Image.fromarray(np.dstack([cel, alfa]))
     out = out.crop(out.getbbox())
     s = h / out.height
     out = out.resize((int(out.width * s), int(h)), Image.LANCZOS).filter(ImageFilter.UnsharpMask(1.5, 60, 2))
@@ -187,96 +143,22 @@ def selo(img, x, y, w=170):
     img.alpha_composite(lg, (int(x), int(y)))
 
 
-ESTILO = "A"  # escolha dele (1/nov)
-FUNDO_JOGO = False  # caixa desfocada no fundo: ele preferiu o papel de cor lisa do 1º carrossel  # como a caixa aparece: A fundo desfocado, B caixa maior com etiqueta, C polaroide
-
-
-def etiqueta(txt, semente=0):
-    """Etiqueta kraft com furinho e barbante, escrita à mão."""
-    w = int(60 + 22 * len(txt))
-    im = Image.new("RGBA", (w + 20, 110), (0, 0, 0, 0))
-    d = ImageDraw.Draw(im)
-    d.polygon([(30, 10), (w + 10, 10), (w + 10, 100), (30, 100), (8, 55)], fill=(214, 182, 140), outline=(120, 90, 60))
-    d.ellipse((24, 47, 40, 63), fill=(250, 245, 235), outline=(120, 90, 60), width=2)
-    letra(im, txt, 40, (w + 40) / 2, 57, (60, 40, 25), sw=1, semente=semente)
-    return im
-
-
-@lru_cache(None)
-def fundo_caixa(rec, cor):
-    """A arte da caixa enorme, bem desfocada e clareada com a cor do mês."""
-    im = Image.open(os.path.join(ACERVO, rec + ".png")).convert("RGBA")
-    im = im.crop(im.getbbox())
-    s = max(W / im.width, H / im.height) * 1.15
-    im = im.resize((int(im.width * s), int(im.height * s)), Image.BICUBIC)
-    base = Image.new("RGBA", (W, H), cor + (255,))
-    base.alpha_composite(im, (int(W / 2 - im.width / 2), int(H / 2 - im.height / 2)))
-    base = base.filter(ImageFilter.GaussianBlur(28))
-    veu = Image.new("RGBA", (W, H), cor + (165,))
-    base.alpha_composite(veu)
-    return base
-
-
-def tela_mes(k, estilo=None):
-    estilo = estilo or ESTILO
+def tela_mes(k):
     mes, frase, jogo, rec, cor = MESES[k]
     img = papel(cor, k + 3)
-    if estilo == "A" and FUNDO_JOGO:
-        img = fundo_caixa(rec, cor).copy()
     letra(img, mes, 110, W / 2, 165, semente=k)
-    if estilo == "A":
-        b = bicho(k, 560)
-        if b.width > 880:
-            b = b.resize((880, int(b.height * 880 / b.width)), Image.LANCZOS)
-        img.alpha_composite(b, (int(W / 2 - b.width / 2), int(570 - b.height / 2)))
-        letra(img, frase, 70, W / 2, 950, semente=k + 50)
-        cx = caixa(rec, 255, 280)
-        img.alpha_composite(cx, (int(W - 25 - cx.width), int(H - 10 - cx.height)))
-        letra(img, "jogo: " + jogo, 42, (200 + W - 25 - cx.width) / 2, 1200, (60, 50, 50), sw=1, semente=k + 90)
-    elif estilo == "B":  # bichinho à esquerda, caixa grande à direita com etiqueta
-        b = bicho(k, 520)
-        if b.width > 640:
-            b = b.resize((640, int(b.height * 640 / b.width)), Image.LANCZOS)
-        img.alpha_composite(b, (int(370 - b.width / 2), int(560 - b.height / 2)))
-        cx = caixa(rec, 400, 380).rotate(-6, expand=True, resample=Image.BICUBIC)
-        img.alpha_composite(cx, (int(820 - cx.width / 2), int(700 - cx.height / 2)))
-        et = etiqueta(jogo, k).rotate(4, expand=True, resample=Image.BICUBIC)
-        img.alpha_composite(et, (int(min(W - 20 - et.width, 820 - et.width / 2)), 905))
-        letra(img, frase, 74, W / 2, 1110, semente=k + 50)
-    else:  # C: polaroide com a caixa presa com fita, bichinho em cima
-        b = bicho(k, 480)
-        if b.width > 760:
-            b = b.resize((760, int(b.height * 760 / b.width)), Image.LANCZOS)
-        img.alpha_composite(b, (int(W / 2 - b.width / 2), int(470 - b.height / 2)))
-        letra(img, frase, 64, W / 2, 805, semente=k + 50)
-        pol = Image.new("RGBA", (400, 470), (252, 250, 245, 255))
-        cx = caixa(rec, 300, 320)
-        pol.alpha_composite(cx, (int(200 - cx.width / 2), int(185 - cx.height / 2)))
-        letra(pol, jogo if len(jogo) < 18 else jogo.split(":")[0], 34, 200, 425, (60, 50, 50), sw=1, semente=k)
-        pol = pol.rotate(-5, expand=True, resample=Image.BICUBIC)
-        sh = Image.new("RGBA", (pol.width + 40, pol.height + 40), (0, 0, 0, 0))
-        m = Image.new("RGBA", pol.size, (40, 30, 30, 255))
-        m.putalpha(pol.getchannel("A").point(lambda v: int(v * 0.3)))
-        sh.alpha_composite(m, (28, 32))
-        sh = sh.filter(ImageFilter.GaussianBlur(10))
-        sh.alpha_composite(pol, (20, 20))
-        img.alpha_composite(sh, (int(W / 2 - sh.width / 2), 880))
-        fita = Image.new("RGBA", (150, 46), (240, 226, 170, 200)).rotate(8, expand=True)
-        img.alpha_composite(fita, (int(W / 2 - 75), 880))
+    b = bicho(k, 570)
+    if b.width > 880:
+        b = b.resize((880, int(b.height * 880 / b.width)), Image.LANCZOS)
+    img.alpha_composite(b, (int(W / 2 - b.width / 2), int(585 - b.height / 2)))
+    letra(img, frase, 72, W / 2, 968, semente=k + 50)
+    # a caixa do jogo no canto de baixo (1/nov: "aumentar um pouquinho, sem cobrir o texto"), com o nome ao lado
+    cx = caixa(rec, 255, 270)
+    x0 = int(W - 30 - cx.width)
+    img.alpha_composite(cx, (x0, int(H + 30 - cx.height)))
+    letra(img, "jogo: " + jogo, 40, (200 + x0 + 40) / 2, 1205, (80, 70, 70), sw=1, semente=k + 90)
     selo(img, 34, H - 128, 150)
     return img
-
-
-def comparar():
-    telas = [tela_mes(k, e) for k in (0, 11) for e in "ABC"]
-    sh = Image.new("RGB", (3 * 440 + 20, 2 * 600 + 60), (255, 255, 255))
-    d = ImageDraw.Draw(sh)
-    for j, e in enumerate(("A · FUNDO DESFOCADO", "B · CAIXA GRANDE + ETIQUETA", "C · POLAROIDE")):
-        d.text((20 + j * 440 + 215, 25), e, font=mao(34), fill=TINTA, anchor="mm")
-    for i, im in enumerate(telas):
-        r, c = divmod(i, 3)
-        sh.paste(im.convert("RGB").resize((430, 537), Image.LANCZOS), (15 + c * 440, 55 + r * 600))
-    sh.save(os.path.join(OUT, "seu_mes_opcoes.jpg"), quality=90)
 
 
 def tela_capa():
@@ -309,10 +191,6 @@ def tela_final():
 def main():
     d = os.path.join(OUT, "seu_mes")
     os.makedirs(d, exist_ok=True)
-    if "--opcoes" in sys.argv:
-        comparar()
-        print("ok opcoes")
-        return
     previa = "--previa" in sys.argv
     telas = [tela_capa()] + [tela_mes(k) for k in (range(12) if not previa else (0, 3, 11))]
     if not previa:
