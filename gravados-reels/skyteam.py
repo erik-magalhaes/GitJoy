@@ -107,7 +107,7 @@ def pedacos(src, a, b):
     e = energia(src)
     i0, i1 = int(a / 0.02), min(len(e), int(b / 0.02))
     piso = np.percentile(e[e > -90], 15)
-    voz = e[i0:i1] > max(piso + 14, -40)
+    voz = e[i0:i1] > max(piso + 8, -42)  # +14 cortava fala baixa no meio das frases (o "flaps precisam estar ligados")
     idx = np.where(voz)[0]
     if not len(idx):
         return []
