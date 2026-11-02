@@ -13,7 +13,7 @@ from multiprocessing import Pool
 
 import cv2
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageDraw
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -177,22 +177,23 @@ def fumaca_clipe():
 
 # ---------------------------------------------------------------- final realista
 # fundo: galpão real (WA0028) em câmera lenta; silhuetas recortadas de pessoas reais filmadas de costas
-FIGS = [  # (máscara, largura dos ombros em px, deslocamento x, altura dos ombros y, espelha, fase)
-    ("homem1", 300, -360, 845, False, 0.0),      # Joseph
-    ("r_mulher", 205, -122, 905, False, 1.3),    # Hailey (cabelo preto longo)
-    ("homem2", 290, 118, 860, True, 2.1),        # Sebastián
-    ("r_casaco", 330, 362, 820, True, 0.7),      # Hunter (sobretudo)
+FIGS = [  # (máscara, largura dos ombros, centro x, topo da cabeça y, espelha, fase, careca)
+    ("homem1", 330, 135, 790, False, 0.0, False),     # homem mais baixo (cortado pela borda)
+    ("r_casaco", 345, 415, 685, True, 0.7, False),    # homem mais alto
+    ("r_mulher", 255, 688, 830, False, 1.3, False),   # mulher de cabelo comprido
+    ("homem2", 335, 945, 740, True, 2.1, True),       # homem de altura média, careca (cortado pela borda)
 ]
 VEL_FUNDO = 0.55
 _yy, _xx = np.mgrid[0:H, 0:W].astype(np.float32)
-_HALO = (0.55 * np.exp(-(((_xx - W / 2) / 420) ** 2 + ((_yy - 760) / 480) ** 2))
-         + 0.25 * np.exp(-(((_xx - W / 2) / 900) ** 2 + ((_yy - 900) / 800) ** 2))).astype(np.float32)
+_HALO = (0.45 * np.exp(-(((_xx - W / 2) / 650) ** 2 + ((_yy - 700) / 520) ** 2))
+         + 0.22 * np.exp(-(((_xx - W / 2) / 1100) ** 2 + ((_yy - 800) / 900) ** 2))).astype(np.float32)
 del _yy, _xx
 
 
 @__import__("functools").lru_cache(maxsize=None)
-def mascara(nome, ombro_px, espelha):
-    """Máscara recortada, escalada pela largura dos ombros; devolve (máscara, y dos ombros dentro dela)."""
+def mascara(nome, ombro_px, espelha, careca):
+    """Silhueta recortada de pessoa real, escalada pelos ombros e ESTICADA para baixo até sair do quadro.
+    Devolve (máscara, linha do topo da cabeça)."""
     m = np.asarray(Image.open(os.path.join(HERE, "assets", f"sil_{nome}.png")).convert("L"), np.float32) / 255
     ys, xs = np.where(m > 0.5)
     m = m[ys.min():ys.max() + 1, xs.min():xs.max() + 1]
@@ -200,14 +201,46 @@ def mascara(nome, ombro_px, espelha):
         m = m[:, ::-1]
     larg = (m > 0.5).sum(axis=1)
     h = m.shape[0]
-    # ombros: primeira linha (depois da cabeça) com largura >= 85% da largura máxima do terço de cima
-    topo = larg[: int(h * 0.45)]
-    lim = topo.max() * 0.85
-    yo = int(np.argmax(topo >= lim))
-    s = ombro_px / max(1, topo.max())
+    s = ombro_px / max(1, larg[: int(h * 0.5)].max())
     m = cv2.resize(m, (max(2, int(m.shape[1] * s)), max(2, int(h * s))), interpolation=cv2.INTER_AREA)
-    m = cv2.GaussianBlur(m, (0, 0), 1.1)
-    return m, int(yo * s)
+    h, w = m.shape
+    if careca:  # troca o cabelo por uma cabeça lisa e redonda
+        lg = (m > 0.5).sum(axis=1)
+        topo_h = int(h * 0.30)
+        pesc = int(np.argmin(lg[int(h * 0.06):topo_h]) + int(h * 0.06))  # pescoço = linha mais estreita
+        cab = lg[: pesc]
+        cw = int(np.percentile(cab[cab > 0], 75) * 0.93)
+        cols = np.where(m[pesc] > 0.5)[0]
+        cx = (cols.min() + cols.max()) / 2 if len(cols) else w / 2
+        alt = int(cw * 1.28)
+        m[: pesc] = 0
+        im = Image.fromarray((m * 255).astype(np.uint8))
+        d = ImageDraw.Draw(im)
+        d.ellipse([cx - cw / 2, pesc - alt + int(cw * 0.12), cx + cw / 2, pesc + int(cw * 0.12)], fill=255)
+        d.ellipse([cx - cw / 2 - cw * 0.07, pesc - alt * 0.55, cx - cw / 2 + cw * 0.09, pesc - alt * 0.30], fill=255)
+        d.ellipse([cx + cw / 2 - cw * 0.09, pesc - alt * 0.55, cx + cw / 2 + cw * 0.07, pesc - alt * 0.30], fill=255)
+        m = np.asarray(im, np.float32) / 255
+        if pesc - alt < 0:
+            m = np.vstack([np.zeros((alt - pesc + 4, w), np.float32), m])
+    # estica a base para baixo (o corpo continua até sair do quadro)
+    base = m[-4:].max(axis=0)
+    extra = 1800
+    ext = np.repeat(base[None], extra, 0)
+    xs_ = np.where(base > 0.5)[0]
+    if len(xs_):
+        c0 = (xs_.min() + xs_.max()) / 2
+        larg0 = xs_.max() - xs_.min()
+        for k in range(0, extra, 10):  # afina e abre o vão entre as pernas
+            f = 1 - 0.12 * min(1, k / 700)
+            xx = (np.arange(w) - c0) / f + c0
+            linha = np.interp(xx, np.arange(w), base, left=0, right=0)
+            vao = min(larg0 * 0.10, k * 0.06)
+            linha = linha * np.clip((np.abs(np.arange(w) - c0) - vao) / 2.0, 0, 1)
+            ext[k:k + 10] = linha[None]
+    m = np.vstack([m, ext])
+    m = cv2.GaussianBlur(m, (0, 0), 1.0)
+    ys2 = np.where(m.max(axis=1) > 0.5)[0]
+    return m, int(ys2.min())
 
 
 def fundo_final(i0, n):
@@ -226,49 +259,32 @@ def fundo_final(i0, n):
 
 
 def compoe_final(bg_u8, t, luz, flash, fum):
-    """Galpão real + 4 silhuetas de costas, luz de recorte vinda do próprio fundo, névoa e fumaça reais."""
+    """Galpão real ao fundo, névoa clara atrás, e 4 silhuetas PRETAS chapadas na frente (como a referência)."""
     bg = bg_u8.astype(np.float32) / 255.0
     bg = bg ** 1.15
     lum = bg.mean(axis=2, keepdims=True)
-    bg = lum * np.array([0.88, 0.95, 1.06], np.float32)  # preto e branco frio
-    fundo = bg * (0.10 + 0.95 * luz)
-    # contraluz: névoa iluminada atrás do grupo (luz do fundo do galpão), modulada pela fumaça real
+    bg = lum * np.array([0.92, 0.92, 0.95], np.float32)
+    fundo = bg * (0.10 + 0.80 * luz)
     f0 = cv2.resize(fum, (W, H), interpolation=cv2.INTER_CUBIC).astype(np.float32).mean(axis=2) / 255.0
-    halo = _HALO * (0.75 + 0.6 * f0)
-    fundo = fundo + halo[..., None] * np.array([0.78, 0.82, 0.88], np.float32) * (0.05 + 0.95 * luz)
-    img = fundo.copy()
-    borrado = cv2.GaussianBlur(fundo, (0, 0), 22)
-    corte = 1520  # abaixo disso, tudo some na névoa
-    for k, (nome, ombro, dx, yo_alvo, esp, fase) in enumerate(FIGS):
-        m, yo = mascara(nome, ombro, esp)
-        resp = 1 + 0.004 * np.sin(2 * np.pi * t / 3.7 + fase)  # respiração
-        bal = 2.0 * np.sin(2 * np.pi * t / 5.3 + fase)        # leve balanço
-        if abs(resp - 1) > 1e-4:
-            m = cv2.resize(m, (m.shape[1], int(m.shape[0] * resp)))
+    halo = _HALO * (0.8 + 0.5 * f0)
+    img = fundo + halo[..., None] * np.array([0.62, 0.60, 0.60], np.float32) * (0.04 + 0.96 * luz)
+    img += f0[..., None] * 0.12 * (0.2 + 0.8 * luz)
+    for (nome, ombro, cx, topo_y, esp, fase, careca) in FIGS:
+        m, ytopo = mascara(nome, ombro, esp, careca)
+        bal = 1.5 * np.sin(2 * np.pi * t / 5.3 + fase)
+        resp = 3.0 * np.sin(2 * np.pi * t / 3.7 + fase)  # respiração: sobe e desce 3 px
         mh, mw = m.shape
-        x0 = int(W / 2 + dx - mw / 2 + bal)
-        y0 = int(yo_alvo - yo * resp)
+        x0 = int(cx - mw / 2 + bal)
+        y0 = int(topo_y - ytopo + resp)
         sx0, sy0, sx1, sy1 = max(0, x0), max(0, y0), min(W, x0 + mw), min(H, y0 + mh)
-        mm = m[sy0 - y0:sy1 - y0, sx0 - x0:sx1 - x0].copy()
-        yy = np.arange(sy0, sy1, dtype=np.float32)[:, None]
-        fim = min(y0 + mh - 6, 1330)  # cada corpo some na névoa antes de acabar o recorte
-        mm *= np.clip((fim - yy) / 260, 0, 1) ** 1.3
-        borda = np.clip(mm - cv2.GaussianBlur(mm, (0, 0), 5), 0, 1) * 1.6
+        if sx1 <= sx0 or sy1 <= sy0:
+            continue
+        mm = m[sy0 - y0:sy1 - y0, sx0 - x0:sx1 - x0]
         reg = img[sy0:sy1, sx0:sx1]
-        corpo = reg * 0.06 + 0.008  # não é preto chapado: pega um pouco do ambiente
-        reg[:] = reg * (1 - mm[..., None]) + corpo * mm[..., None]
-        # luz que "vaza" do fundo pelas bordas (light wrap), mais forte em cima
-        topo = np.clip(1.25 - (yy - sy0) / max(1, (sy1 - sy0)), 0, 1)
-        reg += borrado[sy0:sy1, sx0:sx1] * (borda * topo)[..., None] * 1.1
-    # névoa no chão + fumaça real
-    yy = np.linspace(0, 1, H, dtype=np.float32)[:, None]
-    chao = np.clip((yy - 0.56) / 0.18, 0, 1) ** 1.2
-    f = cv2.resize(fum, (W, H), interpolation=cv2.INTER_CUBIC).astype(np.float32) / 255.0
-    img += f * (0.20 + 0.35 * chao[..., None]) * (0.25 + 0.75 * luz)
-    img += chao[..., None] * np.array([0.10, 0.105, 0.11], np.float32) * (0.2 + 0.8 * luz)
+        reg[:] = reg * (1 - mm[..., None]) + (reg * 0.015 + 0.006) * mm[..., None]
     if flash:
-        img += 0.18
-    return bloom(img, 0.55, 51, 0.6)
+        img += 0.12
+    return bloom(img, 0.6, 51, 0.4)
 
 
 def render_final(args):
@@ -288,8 +304,8 @@ def render_final(args):
             luz = max(nv)
             img = compoe_final(bgs[j], t, luz, flash, fum[i % len(fum)])
             k = min(1.0, t / max(0.1, T.APAGA - t_fin))
-            z = 1.30 + (1.0 - 1.30) * T.ease(k)  # câmera se afastando devagar
-            M2 = cv2.getRotationMatrix2D((W / 2, H * 0.47), 0, z)
+            z = 1.15 + (1.0 - 1.15) * T.ease(k)  # câmera se afastando devagar
+            M2 = cv2.getRotationMatrix2D((W / 2, H * 0.42), 0, z)
             img = cv2.warpAffine(img, M2, (W, H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
             if t < 0.3:
                 img *= t / 0.3
