@@ -18,47 +18,62 @@ from PIL import Image
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import teaser as T  # noqa: E402
+import tipografia  # noqa: E402
+
+VERSAO = os.environ.get("VERSAO", "homem")  # homem | mulher | texto
 from motor_void import FPS, H, W, acabamento, bloom, para_u8  # noqa: E402
 
 M = os.path.join(HERE, "mix")
 
 # (início, fim, clipe, segundo de origem, centro x do recorte vertical, velocidade, zoom início, zoom fim, ajustes)
 PLANOS = [
-    (0.0, 2.2, "4246", 1.0, 0.50, 1.0, 1.00, 1.08, {"luz": 0.85}),
-    (2.2, 4.4, "4144", 0.3, 0.33, 1.0, 1.00, 1.06, {"desfoca": 3.2}),
+    (0.0, 4.4, "WA0029", 0.3, 0.50, 1.0, 1.00, 1.06, {}),
     (4.4, 5.9, "4163", 3.0, 0.50, 1.0, 1.05, 1.12, {"desfoca": 1.2}),
     (5.9, 7.3, "47512", 2.0, 0.62, 1.0, 1.00, 1.05, {"desfoca": 1.0}),
     (7.3, 9.4, "42041", 1.0, 0.50, 1.0, 1.15, 1.00, {"luz": 0.8}),
-    (9.4, 11.0, "23658", 0.1, 0.30, 1.0, 1.00, 1.05, {"luz": 0.9}),
-    (11.0, 12.7, "17407", 6.0, 0.55, 1.0, 1.00, 1.08, {"luz": 1.3}),
+    (9.4, 10.4, "23658", 0.1, 0.30, 1.0, 1.00, 1.04, {"luz": 0.9}),
+    (10.4, 12.7, "WA0028", 0.5, 0.50, 1.0, 1.00, 1.06, {}),
     (12.7, 14.2, "31380", 0.3, 0.42, 1.0, 1.00, 1.10, {"branco_fim": 0.5}),
     # Joseph West
-    (14.2, 19.6, "33605", 0.0, 0.58, 0.35, 1.25, 1.40, {"pistola": True, "branco_ini": 0.4}),
-    (19.6, 25.3, "1038", 0.4, 0.50, 1.0, 1.00, 1.12, {}),
+    (14.2, 16.2, "WA0020", 0.0, 0.50, 0.565, 1.00, 1.05, {"branco_ini": 0.4}),
+    (16.2, 19.6, "33605", 0.0, 0.58, 0.55, 1.25, 1.40, {"pistola": True}),
+    (19.6, 22.2, "1038", 0.4, 0.50, 1.0, 1.00, 1.08, {}),
+    (22.2, 25.3, "WA0025", 0.5, 0.50, 1.0, 1.00, 1.06, {}),
     (25.3, 26.7, "33605", 1.87, 0.66, 1.0, 1.00, 1.00, {"pistola": True, "tiro": True}),
     # Sebastián Ortiz
-    (26.7, 30.2, "41640", 0.8, 0.58, 1.0, 1.00, 1.08, {}),
-    (30.2, 33.6, "31378", 2.0, 0.60, 1.0, 1.00, 1.06, {"luz": 1.15}),
-    (33.6, 37.0, "22997", 3.0, 0.52, 1.0, 1.05, 1.00, {}),
+    (26.7, 29.0, "41640", 0.8, 0.58, 1.0, 1.00, 1.08, {}),
+    (29.0, 32.2, "WA0024", 0.0, 0.50, 1.0, 1.00, 1.05, {}),
+    (32.2, 34.0, "31378", 2.0, 0.60, 1.0, 1.00, 1.05, {"luz": 1.15}),
+    (34.0, 37.0, "WA0026", 1.2, 0.50, 1.0, 1.00, 1.06, {"luz": 1.2}),
     # Hailey Zhang
     (37.0, 41.2, "3918", 3.0, 0.44, 1.0, 1.00, 1.07, {"luz": 1.1}),
-    (41.2, 46.3, "36383", 0.0, 0.40, 1.0, 1.00, 1.06, {}),
+    (41.2, 43.6, "36383", 0.0, 0.40, 1.0, 1.00, 1.05, {}),
+    (43.6, 44.5, "WA0023", 0.0, 0.50, 1.0, 1.00, 1.04, {}),
+    (44.5, 46.3, "36383", 3.0, 0.40, 1.0, 1.05, 1.10, {}),
     # Hunter Ward
-    (46.3, 50.8, "41807", 0.0, 0.52, 0.93, 1.00, 1.06, {"luz": 1.1}),
-    (50.8, 54.9, "13163", 2.0, 0.55, 1.0, 1.00, 1.06, {}),
-    (54.9, 59.1, "44", 3.0, 0.45, 1.0, 1.10, 1.18, {}),
+    (46.3, 48.7, "WA0021", 0.0, 0.45, 1.0, 1.00, 1.05, {"luz": 1.2}),
+    (48.7, 50.8, "41807", 1.5, 0.52, 1.0, 1.00, 1.05, {"luz": 1.1}),
+    (50.8, 53.2, "WA0022", 0.0, 0.50, 1.0, 1.00, 1.06, {}),
+    (53.2, 55.0, "13163", 2.0, 0.55, 1.0, 1.00, 1.06, {}),
+    (55.0, 57.3, "44", 3.0, 0.45, 1.0, 1.10, 1.16, {}),
+    (57.3, 59.1, "WA0027", 2.55, 0.50, 1.0, 1.00, 1.08, {}),
 ]
 
 
 def le_trecho(clipe, ini, n, cx, vel):
     """Lê n quadros (30 fps de saída) do clipe a partir de ini, recorte vertical 9:16 centrado em cx, 1080x1920."""
     src = os.path.join(M, f"v_{clipe}.mp4")
+    lise = clipe.startswith("WA")
+    if lise:
+        src = os.path.join(HERE, "lise", f"{clipe}.mp4")
     pr = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height",
                          "-of", "csv=p=0", src], capture_output=True, text=True).stdout.strip().split(",")
     sw, sh = int(pr[0]), int(pr[1])
-    cw = int(sh * 9 / 16) // 2 * 2
+    cw = min(int(sh * 9 / 16), sw) // 2 * 2
     x = int(min(max(0, cx * sw - cw / 2), sw - cw)) // 2 * 2
     vf = f"setpts=PTS/{vel},fps={FPS},crop={cw}:{sh}:{x}:0,scale={W}:{H}:flags=lanczos"
+    if lise:  # vídeos do WhatsApp (baixa resolução): limpa blocos e devolve um pouco de nitidez
+        vf += ",hqdn3d=2:2:3:3,unsharp=7:7:0.7"
     p = subprocess.run(["ffmpeg", "-v", "error", "-ss", str(ini), "-i", src, "-vf", vf, "-frames:v", str(n),
                         "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], capture_output=True).stdout
     q = np.frombuffer(p, np.uint8)
@@ -132,6 +147,12 @@ def quadro_plano(pl, k, fr):
     return bloom(img, 0.6, 31, 0.35)
 
 
+def textos(img, t, luz, com):
+    if VERSAO == "texto":
+        return tipografia.aplica(img, t, luz)
+    return T.aplica_legenda(img, t) if com else img
+
+
 def render_plano(args):
     i, com = args
     pl = PLANOS[i]
@@ -140,8 +161,7 @@ def render_plano(args):
     out = []
     for k in range(n):
         img = acabamento(quadro_plano(pl, k, fr), 0.5)
-        if com:
-            img = T.aplica_legenda(img, pl[0] + k / FPS)
+        img = textos(img, pl[0] + k / FPS, 1.0, com)
         out.append(para_u8(img).tobytes())
     return out
 
@@ -166,8 +186,8 @@ def render_final(args):
             f = fum[i % len(fum)].astype(np.float32) / 255.0
             img = img + f * 0.35 * (0.3 + 0.7 * max(nv))
         img = acabamento(img, 0.6)
-        if com:
-            img = T.aplica_legenda(img, ta)
+        luz = max(T.piscar(t)[0]) if ta < T.APAGA else 0.0
+        img = textos(img, ta, luz, com)
         out.append(para_u8(img).tobytes())
     return out
 
@@ -200,7 +220,7 @@ if __name__ == "__main__":
                     k = int(round((ta - pl[0]) * FPS))
                     n = int(round(pl[1] * FPS)) - int(round(pl[0] * FPS))
                     fr = le_trecho(pl[2], pl[3], n, pl[4], pl[5])
-                    img = T.aplica_legenda(acabamento(quadro_plano(pl, min(k, n - 1), fr), 0.5), ta)
+                    img = textos(acabamento(quadro_plano(pl, min(k, n - 1), fr), 0.5), ta, 1.0, True)
                     break
             else:
                 i = int(ta * FPS)
@@ -214,5 +234,4 @@ if __name__ == "__main__":
             fol.paste(im, ((k % 6) * 360, (k // 6) * 640))
         fol.save(os.path.join(T.OUT, "frames_real.jpg"), quality=88)
     else:
-        render(os.path.join(T.OUT, "void_real.mp4"), True)
-        render(os.path.join(T.OUT, "void_real_sem_legenda.mp4"), False)
+        render(os.path.join(T.OUT, f"void_{VERSAO}.mp4"), True)

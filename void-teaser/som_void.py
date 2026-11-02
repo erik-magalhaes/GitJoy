@@ -263,16 +263,19 @@ def mix():
 
     # narração: graves um pouco mais cheios + ambiência curta
     voz = np.zeros(n)
-    for i in range(8):
-        v = ler_wav(os.path.join(HERE, "voz", f"t_{i + 1:02d}.wav"))
-        add(voz, v, T.INICIO[i], 1.0)
-    voz = reverb(voz, 1.2, 0.12)
-    tem_voz = lp(np.abs(voz), 8) > 0.01
-    duck = 1 - 0.55 * lp(tem_voz.astype(float), 3)
-    total = m * duck * 0.9 + fx * 0.8 + voz * 1.0
+    if SEM_VOZ:
+        total = m * 1.15 + fx * 0.8
+    else:
+        for i in range(8):
+            v = ler_wav(os.path.join(HERE, T.VOZ_DIR, f"t_{i + 1:02d}.wav"))
+            add(voz, v, T.INICIO[i], 1.0)
+        voz = reverb(voz, 1.2, 0.10)
+        tem_voz = lp(np.abs(voz), 8) > 0.01
+        duck = 1 - 0.55 * lp(tem_voz.astype(float), 3)
+        total = m * duck * 0.9 + fx * 0.8 + voz * 1.0
     total = np.tanh(total * 0.9) / 0.9
     total /= np.abs(total).max() / 0.95
-    with wave.open(os.path.join(T.OUT, "void_audio.wav"), "wb") as w:
+    with wave.open(os.path.join(T.OUT, SAIDA), "wb") as w:
         w.setnchannels(1)
         w.setsampwidth(2)
         w.setframerate(SR)
@@ -280,13 +283,18 @@ def mix():
 
 
 math_pi = np.pi
+SEM_VOZ = os.environ.get("SEM_VOZ") == "1"
+SAIDA = os.environ.get("SAIDA_AUDIO", "void_audio.wav")
 
 if __name__ == "__main__":
     # trata as falas: graves +3 dB, presença, compressão leve, 44,1 kHz
     for i in range(1, 9):
-        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", os.path.join(HERE, "voz", f"c_{i:02d}.wav"), "-af",
-                        "highpass=f=60,equalizer=f=110:t=q:w=1:g=3.5,equalizer=f=3000:t=q:w=1.5:g=1.5,"
+        if SEM_VOZ:
+            break
+        grave = "3.5" if T.VOZ_DIR == "voz" else "1.0"
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", os.path.join(HERE, T.VOZ_DIR, f"c_{i:02d}.wav"), "-af",
+                        f"highpass=f=70,equalizer=f=110:t=q:w=1:g={grave},equalizer=f=3000:t=q:w=1.5:g=1.5,"
                         "acompressor=threshold=-20dB:ratio=2.5:attack=8:release=150:makeup=2dB",
-                        "-ar", str(SR), "-ac", "1", os.path.join(HERE, "voz", f"t_{i:02d}.wav")], check=True)
+                        "-ar", str(SR), "-ac", "1", os.path.join(HERE, T.VOZ_DIR, f"t_{i:02d}.wav")], check=True)
     mix()
     print("ok")

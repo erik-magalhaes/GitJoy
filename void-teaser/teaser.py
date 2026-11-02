@@ -38,15 +38,21 @@ def lerp(a, b, x):
 
 
 # ------------------------------------------------------------------ linha do tempo
+VOZ_DIR = os.environ.get("VOZ_DIR", "voz")  # voz (grave), voz_h (homem, voz normal), voz_m (mulher)
 DUR_FALA = []
 for i in range(1, 9):
-    p = os.path.join(HERE, "voz", f"c_{i:02d}.wav")
+    p = os.path.join(HERE, VOZ_DIR, f"c_{i:02d}.wav")
     DUR_FALA.append(float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of",
                                           "csv=p=0", p], capture_output=True, text=True).stdout or 1))
 INICIO = [1.2, 4.1, 14.3, 26.8, 37.2, 46.4, 59.2, 63.3]
-APAGA = INICIO[7] + DUR_FALA[7] + 0.55  # todas as luzes apagam na última batida
+# tempos fixos (as imagens são as mesmas em todas as versões)
+APAGA = 66.857  # todas as luzes apagam na última batida
 DUR = APAGA + 2.3
-TIRO = INICIO[2] + DUR_FALA[2] + 0.12  # "Ele nunca erra." -> tiro
+TIRO = 25.48  # "Ele nunca erra." -> tiro
+if VOZ_DIR != "voz":
+    # a fala 3 termina colada no tiro e a fala 8 termina pouco antes do apagão
+    INICIO[2] = TIRO - 0.12 - DUR_FALA[2]
+    INICIO[7] = APAGA - 0.55 - DUR_FALA[7]
 
 # cenas: (nome, início, fim)
 CENAS = [
