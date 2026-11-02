@@ -10,3 +10,9 @@ Imagens de licença livre usadas no vídeo, todas tratadas, desfocadas ou recort
 
 O resto (galpão, telas, teclado, adagas, ferramentas e luva) foi desenhado por código. A trilha foi sintetizada.
 A narração usa a voz neural pt-BR-AntonioNeural (Microsoft Edge TTS).
+
+## Versão com filmagens reais (`real.py`)
+
+Clipes do **Mixkit** (mixkit.co), sob a Mixkit Stock Video Free License, que permite uso comercial sem atribuição.
+IDs usados: 4246, 4144, 4163, 47512, 42041, 23658, 17407, 31380, 33605, 1038, 41640, 31378, 22997, 3918, 36383,
+41807, 13163, 44 e 8461 (fumaça). Todos foram recortados na vertical, com cor tratada; nenhum rosto aparece.

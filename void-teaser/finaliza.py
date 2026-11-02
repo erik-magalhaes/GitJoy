@@ -11,7 +11,7 @@ subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", A, "-af", af, "-ar", "48000
 import sys
 for nome in sys.argv[1:] or ("void_video", "void_video_sem_legenda"):
     v = os.path.join(O, nome + ".mp4")
-    final = os.path.join(O, nome.replace("void_video", "VOID_teaser") + ".mp4")
+    final = os.path.join(O, nome.replace("void_video", "VOID_teaser").replace("void_real", "VOID_teaser_real") + ".mp4")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", v, "-i", os.path.join(O, "void_audio_norm.wav"), "-map", "0:v",
                     "-map", "1:a", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-shortest", final], check=True)
     # versão para mandar pelo chat (2 passadas a 3000k)
