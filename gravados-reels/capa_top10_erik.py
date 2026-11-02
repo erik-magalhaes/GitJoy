@@ -74,13 +74,31 @@ def cartao(n):
     return c
 
 
+def foto_erik(d):
+    """Rosto do Erik sorrindo e olhando pra câmera (quadro de 16,0 s do 152424), num círculo com contorno marrom.
+    O recorte fica do peito pra cima: a caixa do Flip 7 (o Nº 1) que ele segura NÃO aparece."""
+    im = Image.open(os.path.join(ROOT, "assets", "capa", "erik_top10.jpg")).convert("RGB")
+    im = im.crop((0, 250, 780, 1030)).resize((d, d), Image.LANCZOS)
+    ow, sh = 9, 12
+    out = Image.new("RGBA", (d + 2 * ow + sh, d + 2 * ow + sh), (0, 0, 0, 0))
+    dr = ImageDraw.Draw(out)
+    dr.ellipse((sh, sh, d + 2 * ow + sh, d + 2 * ow + sh), fill=INK)
+    dr.ellipse((0, 0, d + 2 * ow, d + 2 * ow), fill=(250, 250, 250))
+    m = Image.new("L", (d, d), 0)
+    ImageDraw.Draw(m).ellipse((0, 0, d - 1, d - 1), fill=255)
+    out.paste(im, (ow, ow), m)
+    dr.ellipse((0, 0, d + 2 * ow, d + 2 * ow), outline=INK, width=ow - 2)
+    return out
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     img = fundo()
     # título
     E.cola(img, E.pilula("SEM SABER O PRÓXIMO JOGO!", 38, (219, 39, 119), (250, 250, 250)), W / 2, 300, -2)
-    E.cola(img, E.titulo("TOP 10\nÀS CEGAS", 150, (255, 199, 31)), W / 2, 485, -2)
-    E.cola(img, E.pilula("VERSÃO ERIK", 46, (28, 124, 150), (250, 250, 250), fonte_titulo=True), W / 2, 680, 2)
+    E.cola(img, foto_erik(360), 225, 528, -4)
+    E.cola(img, E.titulo("TOP 10\nÀS CEGAS", 122, (255, 199, 31)), 712, 500, -2)
+    E.cola(img, E.pilula("VERSÃO ERIK", 44, (28, 124, 150), (250, 250, 250), fonte_titulo=True), 712, 690, 2)
     # do 2 ao 10, em 3 colunas
     for k, n in enumerate(range(2, 11)):
         col, lin = k % 3, k // 3
