@@ -91,6 +91,36 @@ def foto_erik(d):
     out.paste(im, (ow, ow), m)
     return out
 
+def capa_foto(arq, saida, zoom=1.12, cx=0.5):
+    """Versão só com o título (pedido dele): quadro do vídeo em tela cheia, ele olhando pro lado, e "TOP 10 ÀS CEGAS"
+    embaixo. A caixa do Flip 7 que ele segura (o Nº 1) some num degradê azul-noite atrás do título."""
+    im = Image.open(os.path.join(ROOT, "assets", "capa", arq)).convert("RGB")
+    w, h = int(W * zoom), int(H * zoom)
+    im = im.resize((w, h), Image.LANCZOS)
+    x0 = int(min(max(w * cx - W / 2, 0), w - W))
+    img = im.crop((x0, 0, x0 + W, H)).convert("RGBA")
+    # degradê de baixo: transparente até y 1020, opaco a partir de y 1330
+    g = Image.new("L", (1, H), 0)
+    for y in range(H):
+        g.putpixel((0, y), int(255 * min(max((y - 1020) / 310, 0), 1) ** 1.2))
+    cor = Image.new("RGBA", (W, H), NOITE + (255,))
+    cor.putalpha(g.resize((W, H)))
+    img.alpha_composite(cor)
+    rnd = random.Random(5)
+    d = ImageDraw.Draw(img)
+    cores = [(255, 199, 31), (244, 136, 37), (28, 124, 150), (250, 250, 250), (219, 39, 119)]
+    for _ in range(40):  # confete só na parte escura
+        x, y = rnd.uniform(0, W), rnd.uniform(1330, H)
+        a, sz = rnd.uniform(0, math.pi), rnd.uniform(7, 14)
+        pts = [(x + sz * math.cos(a + k * math.pi / 2) * (1 if k % 2 else 0.45),
+                y + sz * math.sin(a + k * math.pi / 2) * (1 if k % 2 else 0.45)) for k in range(4)]
+        d.polygon(pts, fill=cores[rnd.randrange(5)] + (180,))
+    E.cola(img, E.titulo("TOP 10\nÀS CEGAS", 175, (255, 199, 31)), W / 2, 1440, -3)
+    lg = E.logo(170)
+    img.alpha_composite(lg, (W - lg.width - 36, 46))
+    img.convert("RGB").save(os.path.join(OUT, saida + ".png"))
+    return img
+
 
 def main():
     os.makedirs(OUT, exist_ok=True)
@@ -126,4 +156,14 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if "--foto" in sys.argv:  # só título + foto dele olhando pro lado
+        os.makedirs(OUT, exist_ok=True)
+        a = capa_foto("erik_lado.jpg", "capa_top10_erik_foto", cx=0.44)
+        b = capa_foto("erik_lado2.jpg", "capa_top10_erik_foto2")
+        sh = Image.new("RGB", (1100, 960), (255, 255, 255))
+        for i, im in enumerate((a, b)):
+            sh.paste(im.convert("RGB").resize((540, 960), Image.LANCZOS), (i * 560, 0))
+        sh.save(os.path.join(OUT, "capa_top10_erik_foto_folha.jpg"), quality=90)
+        print("ok")
+    else:
+        main()

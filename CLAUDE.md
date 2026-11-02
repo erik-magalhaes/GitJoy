@@ -885,4 +885,5 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **Capa do Reels do Erik** (`gravados-reels/capa_top10_erik.py`, 2/nov): fundo NOVO (azul-noite com holofote e confete), "SEM SABER O
   PRÓXIMO JOGO!", "TOP 10 ÀS CEGAS", "VERSÃO ERIK", caixas do 2º ao 10º numeradas em 3x3 e o Nº 1 ESCONDIDO ("QUAL FOI O Nº 1
   DELE?") para dar curiosidade; tudo dentro de y 285–1635. 2ª rodada: foto dele ao lado do título; ele pediu a da JOIA (124,6 s do 152424, cartão de cantos redondos;
-  recorte até y 850 porque logo abaixo ele segura o Flip 7 = o Nº 1).
+  recorte até y 850 porque logo abaixo ele segura o Flip 7 = o Nº 1). 3ª: "olhando pro lado e só o título" → `--foto`:
+  quadro em tela cheia (89,0 s rindo pro lado; 36,0 s pensativo) + "TOP 10 ÀS CEGAS" sobre degradê azul-noite que esconde o Flip 7.
