@@ -8,7 +8,8 @@ m = json.loads(r[r.rindex("{"):])
 af = (f"loudnorm=I=-14:TP=-1.5:LRA=11:measured_I={m['input_i']}:measured_TP={m['input_tp']}:"
       f"measured_LRA={m['input_lra']}:measured_thresh={m['input_thresh']}:offset={m['target_offset']}:linear=true")
 subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", A, "-af", af, "-ar", "48000", os.path.join(O, "void_audio_norm.wav")], check=True)
-for nome in ("void_video", "void_video_sem_legenda"):
+import sys
+for nome in sys.argv[1:] or ("void_video", "void_video_sem_legenda"):
     v = os.path.join(O, nome + ".mp4")
     final = os.path.join(O, nome.replace("void_video", "VOID_teaser") + ".mp4")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", v, "-i", os.path.join(O, "void_audio_norm.wav"), "-map", "0:v",
