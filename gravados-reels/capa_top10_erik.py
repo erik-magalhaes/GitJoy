@@ -150,22 +150,30 @@ def colagem():
     rnd = random.Random(21)
     img = Image.new("RGBA", (W, H), (14, 70, 88, 255))
     cache = {n: caixa(n, 330, 330) for n in nomes}
-    k = 0
+    pos = []
     for lin in range(8):
         for col in range(5):
-            n = nomes[(col * 3 + lin * 7) % len(nomes)]
-            k += 1
-            x = col * 250 - 40 + (125 if lin % 2 else 0) + rnd.uniform(-30, 30)
-            y = lin * 255 - 60 + rnd.uniform(-30, 30)
-            bx = cache[n].rotate(rnd.uniform(-14, 14), expand=True, resample=Image.BICUBIC)
-            sh = Image.new("RGBA", bx.size, (0, 0, 0, 0))
-            sh.paste((0, 0, 0, 140), (0, 0), bx.getchannel("A"))
-            E.cola(img, sh.filter(ImageFilter.GaussianBlur(10)), x + 10, y + 14)
-            E.cola(img, bx, x, y)
+            pos.append((col * 250 - 40 + (125 if lin % 2 else 0) + rnd.uniform(-30, 30), lin * 255 - 60 + rnd.uniform(-30, 30)))
+    # escolha gulosa: cada lugar pega o jogo menos usado que NÃO esteja em nenhum vizinho a menos de 820 px
+    # (começando pela área que aparece, à direita e no alto, pra não repetir caixa à vista)
+    ordem = sorted(range(len(pos)), key=lambda i: (pos[i][1] > 1000, -pos[i][0]))
+    usado, escolha = {n: 0 for n in nomes}, {}
+    for i in ordem:
+        perto = {escolha[j] for j in escolha if math.dist(pos[i], pos[j]) < 820}
+        livres = [n for n in nomes if n not in perto] or nomes
+        n = min(livres, key=lambda n: (usado[n], rnd.random()))
+        escolha[i] = n
+        usado[n] += 1
+    for i, (x, y) in enumerate(pos):  # desenha de cima pra baixo
+        bx = cache[escolha[i]].rotate(rnd.uniform(-14, 14), expand=True, resample=Image.BICUBIC)
+        sh = Image.new("RGBA", bx.size, (0, 0, 0, 0))
+        sh.paste((0, 0, 0, 140), (0, 0), bx.getchannel("A"))
+        E.cola(img, sh.filter(ImageFilter.GaussianBlur(10)), x + 10, y + 14)
+        E.cola(img, bx, x, y)
     return img
 
 
-def capa_criativa(arq="erik_lado3.jpg", saida="capa_top10_erik_final", caixas=False):
+def capa_criativa(arq="erik_lado3.jpg", saida="capa_top10_erik_final", caixas=False, com_balao=True):
     """3ª versão (pedido dele: "tá muito simples, seja criativo, cores da logo, logo no canto superior direito"):
     foto dele olhando pra cima (13,5 s) + balão de pensamento "E AGORA? ONDE EU PONHO ESSE?" com 3 caixas-mistério,
     selo "ELE NÃO SABIA O PRÓXIMO JOGO!", título TOP 10 (amarelo) + ÀS CEGAS (faixa laranja) e as 10 casas com "?"
@@ -212,20 +220,21 @@ def capa_criativa(arq="erik_lado3.jpg", saida="capa_top10_erik_final", caixas=Fa
         pts = [(x + sz * math.cos(a + k * math.pi / 2) * (1 if k % 2 else 0.45),
                 y + sz * math.sin(a + k * math.pi / 2) * (1 if k % 2 else 0.45)) for k in range(4)]
         d.polygon(pts, fill=(LAR, AMA, BR, PET)[rnd.randrange(4)] + (230,))
-    # balão de pensamento saindo da cabeça dele
-    for (x, y, r) in ((632, 770, 17), (668, 712, 27)):
-        d.ellipse((x - r + 7, y - r + 7, x + r + 7, y + r + 7), fill=INK)
-        d.ellipse((x - r, y - r, x + r, y + r), fill=BR, outline=INK, width=6)
-    b = balao(470, 360)
-    db = ImageDraw.Draw(b)
-    db.text((235, 92), "E AGORA?", font=E.lilita(46), fill=INK, anchor="mm")
-    db.text((235, 140), "ONDE EU PONHO?", font=E.lilita(38), fill=LAR, anchor="mm")
-    for i, (c, rot) in enumerate(((PET, -8), (LAR, 4), (AMA, -3))):
-        cx = E.bloco(84, 98, c, raio=12, ow=5, sombra=6).copy()
-        ImageDraw.Draw(cx).text((40, 47), "?", font=E.lilita(62), fill=BR if c != AMA else INK, anchor="mm",
-                                stroke_width=3, stroke_fill=INK)
-        E.cola(b, cx, 140 + i * 95, 238, rot)
-    E.cola(img, b, 840, 520, 3)
+    if com_balao:
+        # balão de pensamento saindo da cabeça dele
+        for (x, y, r) in ((632, 770, 17), (668, 712, 27)):
+            d.ellipse((x - r + 7, y - r + 7, x + r + 7, y + r + 7), fill=INK)
+            d.ellipse((x - r, y - r, x + r, y + r), fill=BR, outline=INK, width=6)
+        b = balao(470, 360)
+        db = ImageDraw.Draw(b)
+        db.text((235, 92), "E AGORA?", font=E.lilita(46), fill=INK, anchor="mm")
+        db.text((235, 140), "ONDE EU PONHO?", font=E.lilita(38), fill=LAR, anchor="mm")
+        for i, (c, rot) in enumerate(((PET, -8), (LAR, 4), (AMA, -3))):
+            cx = E.bloco(84, 98, c, raio=12, ow=5, sombra=6).copy()
+            ImageDraw.Draw(cx).text((40, 47), "?", font=E.lilita(62), fill=BR if c != AMA else INK, anchor="mm",
+                                    stroke_width=3, stroke_fill=INK)
+            E.cola(b, cx, 140 + i * 95, 238, rot)
+        E.cola(img, b, 840, 520, 3)
     # selo
     E.cola(img, E.pilula("ELE NÃO SABIA O PRÓXIMO JOGO!", 40, AMA, INK), W / 2, 1090, -3)
     # título
@@ -281,7 +290,7 @@ if __name__ == "__main__":
     if "--final" in sys.argv:  # versão criativa com a foto escolhida (13,5 s)
         os.makedirs(OUT, exist_ok=True)
         capa_criativa()
-        capa_criativa(saida="capa_top10_erik_caixas", caixas=True)
+        capa_criativa(saida="capa_top10_erik_caixas", caixas=True, com_balao=False)  # ele pediu sem o balão
         print("ok")
     elif "--foto" in sys.argv:  # só título + foto dele olhando pro lado
         os.makedirs(OUT, exist_ok=True)
