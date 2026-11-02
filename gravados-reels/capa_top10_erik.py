@@ -252,6 +252,20 @@ def capa_criativa(arq="erik_lado3.jpg", saida="capa_top10_erik_final", caixas=Fa
     img.convert("RGB").save(os.path.join(OUT, saida + ".png"))
     return img
 
+def capa_simples(saida="capa_top10_erik_simples"):
+    """7ª versão (2/nov, ele escolheu o quadro no editor do Instagram: rindo de olho fechado com o Flip 7 na mão,
+    21,15 s do 152424): "só a logo em cima e TOP 10 ÀS CEGAS, sem muita firula". Título à esquerda, em cima da camiseta
+    preta, do lado da caixa; logo no canto de cima à direita."""
+    img = Image.open(os.path.join(ROOT, "assets", "capa", "erik_rindo.jpg")).convert("RGB").resize((W, H), Image.LANCZOS)
+    img = img.convert("RGBA")
+    for k, (txt, y) in enumerate((("TOP 10", 1265), ("ÀS", 1400), ("CEGAS", 1535))):
+        t = E.titulo(txt, 132, (255, 199, 31))
+        img.alpha_composite(t, (30, int(y - t.height / 2)))
+    lg = E.logo(210)
+    img.alpha_composite(lg, (W - lg.width - 34, 40))
+    img.convert("RGB").save(os.path.join(OUT, saida + ".png"))
+    return img
+
 
 def main():
     os.makedirs(OUT, exist_ok=True)
@@ -287,7 +301,11 @@ def main():
 
 
 if __name__ == "__main__":
-    if "--final" in sys.argv:  # versão criativa com a foto escolhida (13,5 s)
+    if "--simples" in sys.argv:  # a escolhida por ele: foto + logo + título
+        os.makedirs(OUT, exist_ok=True)
+        capa_simples()
+        print("ok")
+    elif "--final" in sys.argv:  # versão criativa com a foto escolhida (13,5 s)
         os.makedirs(OUT, exist_ok=True)
         capa_criativa()
         capa_criativa(saida="capa_top10_erik_caixas", caixas=True, com_balao=False)  # ele pediu sem o balão
