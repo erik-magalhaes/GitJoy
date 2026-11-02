@@ -75,19 +75,20 @@ def cartao(n):
 
 
 def foto_erik(d):
-    """Rosto do Erik sorrindo e olhando pra câmera (quadro de 16,0 s do 152424), num círculo com contorno marrom.
-    O recorte fica do peito pra cima: a caixa do Flip 7 (o Nº 1) que ele segura NÃO aparece."""
+    """Erik fazendo JOIA e olhando pra câmera (quadro de 124,6 s do 152424, pedido dele), num cartão quadrado de cantos
+    redondos (no círculo o polegar ficava cortado). O recorte para em y 850: logo abaixo ele segura a caixa do Flip 7,
+    que é o Nº 1 escondido da capa."""
     im = Image.open(os.path.join(ROOT, "assets", "capa", "erik_top10.jpg")).convert("RGB")
-    im = im.crop((0, 250, 780, 1030)).resize((d, d), Image.LANCZOS)
-    ow, sh = 9, 12
-    out = Image.new("RGBA", (d + 2 * ow + sh, d + 2 * ow + sh), (0, 0, 0, 0))
+    im = im.crop((120, 0, 970, 850)).resize((d, d), Image.LANCZOS)
+    ow, sh, r = 9, 12, 44
+    t = d + 2 * ow
+    out = Image.new("RGBA", (t + sh, t + sh), (0, 0, 0, 0))
     dr = ImageDraw.Draw(out)
-    dr.ellipse((sh, sh, d + 2 * ow + sh, d + 2 * ow + sh), fill=INK)
-    dr.ellipse((0, 0, d + 2 * ow, d + 2 * ow), fill=(250, 250, 250))
+    dr.rounded_rectangle((sh, sh, t + sh - 1, t + sh - 1), r, fill=INK)
+    dr.rounded_rectangle((0, 0, t - 1, t - 1), r, fill=INK)
     m = Image.new("L", (d, d), 0)
-    ImageDraw.Draw(m).ellipse((0, 0, d - 1, d - 1), fill=255)
+    ImageDraw.Draw(m).rounded_rectangle((0, 0, d - 1, d - 1), r - ow, fill=255)
     out.paste(im, (ow, ow), m)
-    dr.ellipse((0, 0, d + 2 * ow, d + 2 * ow), outline=INK, width=ow - 2)
     return out
 
 
@@ -96,7 +97,7 @@ def main():
     img = fundo()
     # título
     E.cola(img, E.pilula("SEM SABER O PRÓXIMO JOGO!", 38, (219, 39, 119), (250, 250, 250)), W / 2, 300, -2)
-    E.cola(img, foto_erik(360), 225, 528, -4)
+    E.cola(img, foto_erik(340), 222, 535, -4)
     E.cola(img, E.titulo("TOP 10\nÀS CEGAS", 122, (255, 199, 31)), 712, 500, -2)
     E.cola(img, E.pilula("VERSÃO ERIK", 44, (28, 124, 150), (250, 250, 250), fonte_titulo=True), 712, 690, 2)
     # do 2 ao 10, em 3 colunas

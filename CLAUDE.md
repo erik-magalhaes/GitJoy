@@ -884,5 +884,5 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Queijo Pizza ("dói a mão"), 10 Draftosaurus. ~80 s. Legenda quebra em linhas de até 760 px (antes cortava na borda). **2ª rodada (Erik):** a escadinha à esquerda ficava em cima do rosto dele → no perfil dele `lado="dir"`: escadinha à DIREITA (236 px, colada na borda), caixa grande à esquerda e mais baixa, legenda deslocada para a esquerda e SEM o selo "QUE POSIÇÃO?" (batia no rosto ou na legenda). A da Jéssica continua como estava. Como todos os 10 do Erik estão no site, a tela final dele diz "TODOS ESSES ESTÃO NO NOSSO ACERVO" (`acervo` no perfil).
   **Capa do Reels do Erik** (`gravados-reels/capa_top10_erik.py`, 2/nov): fundo NOVO (azul-noite com holofote e confete), "SEM SABER O
   PRÓXIMO JOGO!", "TOP 10 ÀS CEGAS", "VERSÃO ERIK", caixas do 2º ao 10º numeradas em 3x3 e o Nº 1 ESCONDIDO ("QUAL FOI O Nº 1
-  DELE?") para dar curiosidade; tudo dentro de y 285–1635. 2ª rodada: foto dele num círculo ao lado do título (quadro de 16,0 s do 152424,
-  sorrindo e olhando pra câmera; recorte do peito pra cima porque ele segura o Flip 7 = o Nº 1).
+  DELE?") para dar curiosidade; tudo dentro de y 285–1635. 2ª rodada: foto dele ao lado do título; ele pediu a da JOIA (124,6 s do 152424, cartão de cantos redondos;
+  recorte até y 850 porque logo abaixo ele segura o Flip 7 = o Nº 1).
