@@ -184,6 +184,12 @@ FIGS = [  # (máscara, largura dos ombros, centro x, topo da cabeça y, espelha,
     ("homem2", 335, 945, 740, True, 2.1, True),       # homem de altura média, careca (cortado pela borda)
 ]
 VEL_FUNDO = 0.55
+GRUPO_Y = 440  # topo da imagem do grupo (cabeças em ~y 700)
+
+
+@__import__("functools").lru_cache(maxsize=1)
+def grupo_mascara():
+    return np.asarray(Image.open(os.path.join(HERE, "assets", "sil_grupo.png")).convert("L"), np.float32) / 255
 _yy, _xx = np.mgrid[0:H, 0:W].astype(np.float32)
 _HALO = (0.45 * np.exp(-(((_xx - W / 2) / 650) ** 2 + ((_yy - 700) / 520) ** 2))
          + 0.22 * np.exp(-(((_xx - W / 2) / 1100) ** 2 + ((_yy - 800) / 900) ** 2))).astype(np.float32)
@@ -269,19 +275,14 @@ def compoe_final(bg_u8, t, luz, flash, fum):
     halo = _HALO * (0.8 + 0.5 * f0)
     img = fundo + halo[..., None] * np.array([0.62, 0.60, 0.60], np.float32) * (0.04 + 0.96 * luz)
     img += f0[..., None] * 0.12 * (0.2 + 0.8 * luz)
-    for (nome, ombro, cx, topo_y, esp, fase, careca) in FIGS:
-        m, ytopo = mascara(nome, ombro, esp, careca)
-        bal = 1.5 * np.sin(2 * np.pi * t / 5.3 + fase)
-        resp = 3.0 * np.sin(2 * np.pi * t / 3.7 + fase)  # respiração: sobe e desce 3 px
-        mh, mw = m.shape
-        x0 = int(cx - mw / 2 + bal)
-        y0 = int(topo_y - ytopo + resp)
-        sx0, sy0, sx1, sy1 = max(0, x0), max(0, y0), min(W, x0 + mw), min(H, y0 + mh)
-        if sx1 <= sx0 or sy1 <= sy0:
-            continue
-        mm = m[sy0 - y0:sy1 - y0, sx0 - x0:sx1 - x0]
-        reg = img[sy0:sy1, sx0:sx1]
-        reg[:] = reg * (1 - mm[..., None]) + (reg * 0.015 + 0.006) * mm[..., None]
+    # grupo da referência (pose natural), com leve respiração
+    m = grupo_mascara()
+    y0 = int(GRUPO_Y + 2.5 * np.sin(2 * np.pi * t / 3.9))
+    mh = m.shape[0]
+    sy0, sy1 = max(0, y0), min(H, y0 + mh)
+    mm = m[sy0 - y0:sy1 - y0]
+    reg = img[sy0:sy1]
+    reg[:] = reg * (1 - mm[..., None]) + (reg * 0.015 + 0.006) * mm[..., None]
     if flash:
         img += 0.12
     return bloom(img, 0.6, 51, 0.4)
