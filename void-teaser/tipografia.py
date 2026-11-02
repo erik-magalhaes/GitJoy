@@ -70,7 +70,7 @@ ITENS = [
     (55.2, 59.1, "QUALQUER COISA", "bebas", 150, BRANCO, 540, 1200, "mm", "fade", {}),
     (56.2, 59.1, "PODE SE TORNAR UMA ARMA.", "bebas", 104, VERMELHO, 540, 1330, "mm", "impacto", {}),
     # final
-    (59.4, 63.0, "QUATRO ASSASSINOS.", "cinzel", 78, BRANCO, 540, 1420, "mm", "espaco", {"de": 24, "luz": True}),
+    (59.4, 63.0, "QUATRO ASSASSINOS.", "cinzel", 78, BRANCO, 540, 1420, "mm", "espaco", {"de": 10, "luz": True}),
     (60.9, 63.0, "UMA ORGANIZAÇÃO.", "cinzel", 58, BRANCO, 540, 1510, "mm", "fade", {"luz": True}),
     (63.3, APAGA, "E quatro histórias", "corm", 84, BRANCO, 540, 1400, "mm", "fade", {"luz": True, "corte_fim": True}),
     (64.0, APAGA, "esperando para serem contadas.", "corm", 64, BRANCO, 540, 1495, "mm", "fade", {"luz": True, "corte_fim": True}),
