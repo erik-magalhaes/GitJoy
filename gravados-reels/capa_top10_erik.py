@@ -121,6 +121,87 @@ def capa_foto(arq, saida, zoom=1.12, cx=0.5):
     img.convert("RGB").save(os.path.join(OUT, saida + ".png"))
     return img
 
+def balao(w, h):
+    """Balão de pensamento branco com contorno marrom e sombra sólida (cores da logo dentro)."""
+    sh, ow = 12, 8
+    out = Image.new("RGBA", (w + sh + 2, h + sh + 2), (0, 0, 0, 0))
+    m = Image.new("L", out.size, 0)
+    dm = ImageDraw.Draw(m)
+    # nuvem = elipse central + bolotas na borda
+    dm.ellipse((w * 0.06, h * 0.12, w * 0.94, h * 0.88), fill=255)
+    for k in range(11):
+        a = 2 * math.pi * k / 11
+        cx, cy = w / 2 + math.cos(a) * w * 0.40, h / 2 + math.sin(a) * h * 0.36
+        r = min(w, h) * 0.16
+        dm.ellipse((cx - r, cy - r, cx + r, cy + r), fill=255)
+    borda = m.filter(ImageFilter.MaxFilter(2 * ow + 1))
+    som = Image.new("L", out.size, 0)
+    som.paste(borda, (sh, sh))
+    out.paste(INK + (255,), (0, 0), som)
+    out.paste(INK + (255,), (0, 0), borda)
+    out.paste((250, 250, 250, 255), (0, 0), m)
+    return out
+
+
+def capa_criativa(arq="erik_lado3.jpg", saida="capa_top10_erik_final"):
+    """3ª versão (pedido dele: "tá muito simples, seja criativo, cores da logo, logo no canto superior direito"):
+    foto dele olhando pra cima (13,5 s) + balão de pensamento "E AGORA? ONDE EU PONHO ESSE?" com 3 caixas-mistério,
+    selo "ELE NÃO SABIA O PRÓXIMO JOGO!", título TOP 10 (amarelo) + ÀS CEGAS (faixa laranja) e as 10 casas com "?"
+    sobre o petróleo da logo. O degradê esconde a caixa do Flip 7 (o Nº 1) que ele segura."""
+    im = Image.open(os.path.join(ROOT, "assets", "capa", arq)).convert("RGB").resize((W, H), Image.LANCZOS)
+    img = im.convert("RGBA")
+    PET, PET_E = (28, 124, 150), (14, 70, 88)
+    LAR, AMA, BR = (244, 136, 37), (255, 199, 31), (250, 250, 250)
+    # degradê pro petróleo escuro, opaco a partir de y 1180
+    g = Image.new("L", (1, H), 0)
+    for y in range(H):
+        g.putpixel((0, y), int(255 * min(max((y - 930) / 250, 0), 1) ** 1.3))
+    base = Image.new("RGBA", (W, H), PET_E + (255,))
+    d = ImageDraw.Draw(base)
+    for k in range(-20, 40):  # listras diagonais suaves (petróleo claro)
+        x = k * 90
+        d.polygon([(x, H), (x + 45, H), (x + 45 + 900, H - 900), (x + 900, H - 900)], fill=(20, 88, 108, 255))
+    base.putalpha(g.resize((W, H)))
+    img.alpha_composite(base)
+    d = ImageDraw.Draw(img)
+    rnd = random.Random(8)
+    for _ in range(45):  # confete nas cores da logo
+        x, y = rnd.uniform(0, W), rnd.uniform(1200, H)
+        a, sz = rnd.uniform(0, math.pi), rnd.uniform(8, 15)
+        pts = [(x + sz * math.cos(a + k * math.pi / 2) * (1 if k % 2 else 0.45),
+                y + sz * math.sin(a + k * math.pi / 2) * (1 if k % 2 else 0.45)) for k in range(4)]
+        d.polygon(pts, fill=(LAR, AMA, BR, PET)[rnd.randrange(4)] + (230,))
+    # balão de pensamento saindo da cabeça dele
+    for (x, y, r) in ((632, 770, 17), (668, 712, 27)):
+        d.ellipse((x - r + 7, y - r + 7, x + r + 7, y + r + 7), fill=INK)
+        d.ellipse((x - r, y - r, x + r, y + r), fill=BR, outline=INK, width=6)
+    b = balao(470, 360)
+    db = ImageDraw.Draw(b)
+    db.text((235, 92), "E AGORA?", font=E.lilita(46), fill=INK, anchor="mm")
+    db.text((235, 140), "ONDE EU PONHO?", font=E.lilita(38), fill=LAR, anchor="mm")
+    for i, (c, rot) in enumerate(((PET, -8), (LAR, 4), (AMA, -3))):
+        cx = E.bloco(84, 98, c, raio=12, ow=5, sombra=6).copy()
+        ImageDraw.Draw(cx).text((40, 47), "?", font=E.lilita(62), fill=BR if c != AMA else INK, anchor="mm",
+                                stroke_width=3, stroke_fill=INK)
+        E.cola(b, cx, 140 + i * 95, 238, rot)
+    E.cola(img, b, 840, 520, 3)
+    # selo
+    E.cola(img, E.pilula("ELE NÃO SABIA O PRÓXIMO JOGO!", 40, AMA, INK), W / 2, 1090, -3)
+    # título
+    E.cola(img, E.titulo("TOP 10", 200, AMA), W / 2, 1255, -2)
+    E.cola(img, E.pilula("ÀS CEGAS", 104, LAR, BR, fonte_titulo=True, pad=(46, 8), ow=7, sombra=10), W / 2, 1425, 2)
+    # as 10 casas
+    for n in range(1, 11):
+        t = E.bloco(84, 96, BR, raio=16, ow=5, sombra=6).copy()
+        dt = ImageDraw.Draw(t)
+        dt.text((40, 20), str(n), font=E.lilita(24), fill=PET, anchor="mm")
+        dt.text((40, 56), "?", font=E.lilita(48), fill=LAR if n > 1 else (219, 39, 119), anchor="mm")
+        E.cola(img, t, 76 + (n - 1) * 103, 1572, (-4, 3, -2, 4, -3)[n % 5])
+    lg = E.logo(210)
+    img.alpha_composite(lg, (W - lg.width - 34, 40))
+    img.convert("RGB").save(os.path.join(OUT, saida + ".png"))
+    return img
+
 
 def main():
     os.makedirs(OUT, exist_ok=True)
@@ -156,7 +237,11 @@ def main():
 
 
 if __name__ == "__main__":
-    if "--foto" in sys.argv:  # só título + foto dele olhando pro lado
+    if "--final" in sys.argv:  # versão criativa com a foto escolhida (13,5 s)
+        os.makedirs(OUT, exist_ok=True)
+        capa_criativa()
+        print("ok")
+    elif "--foto" in sys.argv:  # só título + foto dele olhando pro lado
         os.makedirs(OUT, exist_ok=True)
         a = capa_foto("erik_lado.jpg", "capa_top10_erik_foto", cx=0.44)
         b = capa_foto("erik_lado2.jpg", "capa_top10_erik_foto2")
