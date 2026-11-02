@@ -11,6 +11,8 @@ import os
 import random
 import sys
 
+import numpy as np
+
 from PIL import Image, ImageDraw, ImageFilter
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -142,20 +144,59 @@ def balao(w, h):
     out.paste((250, 250, 250, 255), (0, 0), m)
     return out
 
+def colagem():
+    """Fundo com as 10 caixas do top 10 dele (inclusive o Flip 7, misturado), meio sobrepostas e giradas, cobrindo tudo."""
+    nomes = list(TOP.values()) + ["flip_7_a_vinganca"]
+    rnd = random.Random(21)
+    img = Image.new("RGBA", (W, H), (14, 70, 88, 255))
+    cache = {n: caixa(n, 330, 330) for n in nomes}
+    k = 0
+    for lin in range(8):
+        for col in range(5):
+            n = nomes[(col * 3 + lin * 7) % len(nomes)]
+            k += 1
+            x = col * 250 - 40 + (125 if lin % 2 else 0) + rnd.uniform(-30, 30)
+            y = lin * 255 - 60 + rnd.uniform(-30, 30)
+            bx = cache[n].rotate(rnd.uniform(-14, 14), expand=True, resample=Image.BICUBIC)
+            sh = Image.new("RGBA", bx.size, (0, 0, 0, 0))
+            sh.paste((0, 0, 0, 140), (0, 0), bx.getchannel("A"))
+            E.cola(img, sh.filter(ImageFilter.GaussianBlur(10)), x + 10, y + 14)
+            E.cola(img, bx, x, y)
+    return img
 
-def capa_criativa(arq="erik_lado3.jpg", saida="capa_top10_erik_final"):
+
+def capa_criativa(arq="erik_lado3.jpg", saida="capa_top10_erik_final", caixas=False):
     """3ª versão (pedido dele: "tá muito simples, seja criativo, cores da logo, logo no canto superior direito"):
     foto dele olhando pra cima (13,5 s) + balão de pensamento "E AGORA? ONDE EU PONHO ESSE?" com 3 caixas-mistério,
     selo "ELE NÃO SABIA O PRÓXIMO JOGO!", título TOP 10 (amarelo) + ÀS CEGAS (faixa laranja) e as 10 casas com "?"
     sobre o petróleo da logo. O degradê esconde a caixa do Flip 7 (o Nº 1) que ele segura."""
-    im = Image.open(os.path.join(ROOT, "assets", "capa", arq)).convert("RGB").resize((W, H), Image.LANCZOS)
-    img = im.convert("RGBA")
     PET, PET_E = (28, 124, 150), (14, 70, 88)
+    if caixas:
+        img = colagem()
+        tinta = Image.new("RGBA", (W, H), PET_E + (85,))  # petróleo por cima pra ele saltar na frente
+        img.alpha_composite(tinta)
+        pes = Image.open(os.path.join(ROOT, "assets", "capa", arq.replace(".jpg", "_recorte.png"))).convert("RGBA")
+        pes = pes.resize((W, H), Image.LANCZOS)
+        a = pes.getchannel("A")
+        fade = Image.new("L", (1, H), 0)
+        for y in range(H):  # some de y 960 a 1150 (a caixa do Flip 7 na mão dele fica escondida)
+            fade.putpixel((0, y), int(255 * min(max((1150 - y) / 190, 0), 1)))
+        a = Image.fromarray((np.asarray(a, np.float32) * np.asarray(fade.resize((W, H)), np.float32) / 255).astype(np.uint8))
+        pes.putalpha(a)
+        som = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        som.paste((8, 30, 40, 200), (16, 10), a)  # sombra atrás dele
+        img.alpha_composite(som.filter(ImageFilter.GaussianBlur(14)))
+        borda = a.filter(ImageFilter.MaxFilter(13))  # contorno branco de adesivo
+        img.paste((250, 250, 250, 255), (0, 0), borda)
+        img.alpha_composite(pes)
+    else:
+        img = Image.open(os.path.join(ROOT, "assets", "capa", arq)).convert("RGB").resize((W, H), Image.LANCZOS)
+        img = img.convert("RGBA")
     LAR, AMA, BR = (244, 136, 37), (255, 199, 31), (250, 250, 250)
     # degradê pro petróleo escuro, opaco a partir de y 1180
     g = Image.new("L", (1, H), 0)
     for y in range(H):
-        g.putpixel((0, y), int(255 * min(max((y - 930) / 250, 0), 1) ** 1.3))
+        g.putpixel((0, y), int((205 if caixas else 255) * min(max((y - 930) / 250, 0), 1) ** 1.3))
     base = Image.new("RGBA", (W, H), PET_E + (255,))
     d = ImageDraw.Draw(base)
     for k in range(-20, 40):  # listras diagonais suaves (petróleo claro)
@@ -240,6 +281,7 @@ if __name__ == "__main__":
     if "--final" in sys.argv:  # versão criativa com a foto escolhida (13,5 s)
         os.makedirs(OUT, exist_ok=True)
         capa_criativa()
+        capa_criativa(saida="capa_top10_erik_caixas", caixas=True)
         print("ok")
     elif "--foto" in sys.argv:  # só título + foto dele olhando pro lado
         os.makedirs(OUT, exist_ok=True)
