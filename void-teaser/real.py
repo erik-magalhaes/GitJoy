@@ -288,11 +288,53 @@ def compoe_final(bg_u8, t, luz, flash, fum):
     return bloom(img, 0.6, 51, 0.4)
 
 
+# ---------------------------------------------------------------- final: foto de referência (cidade à noite)
+@__import__("functools").lru_cache(maxsize=1)
+def cidade():
+    """Foto de referência (4 de costas olhando a cidade) em 1080x1920, separada em camadas para animar."""
+    a = np.asarray(Image.open(os.path.join(HERE, "assets", "ref_cidade.jpg")).convert("RGB"), np.float32) / 255
+    # escurece a estampa colorida nas costas da 4ª pessoa (tudo silhueta)
+    caixa = a[820:940, 650:760]
+    est = ((caixa[..., 0] - caixa[..., 2]) > 0.04) & (caixa.mean(axis=2) < 0.5)
+    caixa[est] *= 0.12
+    a = cv2.resize(a, (W, H), interpolation=cv2.INTER_CUBIC)
+    lum = a.mean(axis=2)
+    yy = np.linspace(0, 1, H, dtype=np.float32)[:, None] * np.ones((1, W), np.float32)
+    faixa = ((yy > 0.575) & (yy < 0.716)).astype(np.float32)
+    faixa = cv2.GaussianBlur(faixa, (0, 0), 6)
+    luzes = np.clip((lum - 0.42) / 0.35, 0, 1) * faixa              # pontos de luz da cidade
+    ceu = np.clip(lum / 0.30, 0, 1) * (yy < 0.60) * (lum > 0.08)     # brilho do céu (poluição luminosa)
+    ceu = cv2.GaussianBlur(ceu.astype(np.float32), (0, 0), 3)
+    rng = np.random.default_rng(9)
+    fase = cv2.resize(rng.random((H // 6, W // 6)).astype(np.float32), (W, H), interpolation=cv2.INTER_NEAREST) * 6.283
+    vel = cv2.resize(rng.uniform(1.5, 4.0, (H // 6, W // 6)).astype(np.float32), (W, H), interpolation=cv2.INTER_NEAREST)
+    return a, luzes, ceu, fase, vel
+
+
+def compoe_cidade(t, luz, flash, fum):
+    a, luzes, ceu, fase, vel = cidade()
+    # cintilar discreto das luzes da cidade
+    cint = 1 + 0.22 * np.sin(fase + t * vel) * luzes
+    img = a * cint[..., None]
+    # quando as luzes falham, a cidade e o brilho do céu apagam juntos (as silhuetas já são escuras)
+    if luz < 1:
+        perda = 1 - luz
+        img = img * (1 - perda * (0.93 * luzes + 0.80 * ceu))[..., None]
+        img *= 1 - 0.55 * perda
+    # névoa fina passando no céu (fumaça real), só na parte de cima
+    f = cv2.resize(fum, (W, H), interpolation=cv2.INTER_CUBIC).astype(np.float32) / 255.0
+    sky = np.linspace(1, 0, H, dtype=np.float32)[:, None, None].clip(0, 1) ** 0.5
+    img += f * 0.07 * sky * np.array([1.0, 0.85, 0.65], np.float32) * luz
+    if flash:
+        img += 0.06
+    return bloom(img, 0.55, 41, 0.45 * (0.3 + 0.7 * luz))
+
+
 def render_final(args):
     i0, i1, com = args
     t_fin = PLANOS[-1][1]
     fum = fumaca_clipe()
-    bgs = fundo_final(i0, i1 - i0)
+    bgs = None
     out = []
     for j, i in enumerate(range(i0, i1)):
         ta = i / FPS
@@ -303,10 +345,10 @@ def render_final(args):
         else:
             nv, flash = T.piscar(ta - T.CENAS[-1][1])
             luz = max(nv)
-            img = compoe_final(bgs[j], t, luz, flash, fum[i % len(fum)])
+            img = compoe_cidade(t, luz, flash, fum[i % len(fum)])
             k = min(1.0, t / max(0.1, T.APAGA - t_fin))
-            z = 1.15 + (1.0 - 1.15) * T.ease(k)  # câmera se afastando devagar
-            M2 = cv2.getRotationMatrix2D((W / 2, H * 0.42), 0, z)
+            z = 1.12 + (1.0 - 1.12) * T.ease(k)  # câmera se afastando devagar
+            M2 = cv2.getRotationMatrix2D((W / 2, H * 0.62), 0, z)
             img = cv2.warpAffine(img, M2, (W, H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
             if t < 0.3:
                 img *= t / 0.3
