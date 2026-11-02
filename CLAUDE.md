@@ -886,4 +886,4 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   PRÓXIMO JOGO!", "TOP 10 ÀS CEGAS", "VERSÃO ERIK", caixas do 2º ao 10º numeradas em 3x3 e o Nº 1 ESCONDIDO ("QUAL FOI O Nº 1
   DELE?") para dar curiosidade; tudo dentro de y 285–1635. 2ª rodada: foto dele ao lado do título; ele pediu a da JOIA (124,6 s do 152424, cartão de cantos redondos;
   recorte até y 850 porque logo abaixo ele segura o Flip 7 = o Nº 1). 3ª: "olhando pro lado e só o título" → `--foto`:
-  quadro em tela cheia (89,0 s rindo pro lado; 36,0 s pensativo) + "TOP 10 ÀS CEGAS" sobre degradê azul-noite que esconde o Flip 7.
+  quadro em tela cheia (89,0 s rindo pro lado; 36,0 s pensativo; a ESCOLHIDA foi 13,5 s, `erik_lado3.jpg`, zoom 1,0 → `capa_top10_erik_foto3.png`) + "TOP 10 ÀS CEGAS" sobre degradê azul-noite que esconde o Flip 7.
