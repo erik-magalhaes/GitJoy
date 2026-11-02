@@ -168,8 +168,13 @@ def render_plano(args):
 
 @__import__("functools").lru_cache(maxsize=1)
 def fumaca_clipe():
-    n = 25 * FPS
-    return le_trecho("8461", 1.0, n, 0.5, 1.0)
+    """Fumaça em baixa resolução (270x480, 12 s) — é desfocada mesmo; ampliada quadro a quadro."""
+    n = 12 * FPS
+    src = os.path.join(M, "v_8461.mp4")
+    p = subprocess.run(["ffmpeg", "-v", "error", "-ss", "1", "-i", src, "-vf",
+                        f"fps={FPS},crop=ih*9/16:ih,scale=270:480", "-frames:v", str(n), "-f", "rawvideo",
+                        "-pix_fmt", "rgb24", "-"], capture_output=True).stdout
+    return np.frombuffer(p, np.uint8).reshape(-1, 480, 270, 3)
 
 
 def render_final(args):
@@ -183,7 +188,7 @@ def render_final(args):
         img = T.c_final(t, T.DUR - T.CENAS[-1][1])
         if ta < T.APAGA:
             nv, _ = T.piscar(t)
-            f = fum[i % len(fum)].astype(np.float32) / 255.0
+            f = cv2.resize(fum[i % len(fum)], (W, H), interpolation=cv2.INTER_CUBIC).astype(np.float32) / 255.0
             img = img + f * 0.35 * (0.3 + 0.7 * max(nv))
         img = acabamento(img, 0.6)
         luz = max(T.piscar(t)[0]) if ta < T.APAGA else 0.0
