@@ -948,3 +948,6 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   convite), `xicaras.py` (24,6 s: dado sob a xícara, 11 trocas, "COMENTA 1, 2 OU 3!", resposta 3, o dado cresce e vira
   montagem "NO BECAS, O JOGO É DE VERDADE!" → convite) e `seis_horas.py` (27,3 s: placar 13:00 → 19:00 + linha do tempo,
   10 cenas com etiqueta do horário, despertador "19H?! JÁ ACABOU?!" → convite).
+  **Ele NÃO gostou dos 3** (para de rolar, xícaras, 6 horas; "não gostei de nenhum, talvez algo pra gente narrar") e pediu
+  as 5 ideias narradas/gravadas, "faz todos": roteiros em `becas-reels/roteiros_narrados.md` e gravadores em
+  `becas-reels/gravador/` (Documentario = becasdoc, Futebol = becasgol, Zap = becaszap). Esperando as gravações.
