@@ -939,3 +939,12 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   1, 2 ou 3", a resposta abre o convite; replay), 3 6 HORAS EM 30 S (cenas reais deles em cortes no ritmo + relógio gigante
   13:00 → 19:00 com etiquetas). Som de cada um com cara própria (rolagem/estalo de vidro; xícaras de louça; relógio/cortes),
   NÃO as trilhas sintetizadas de sempre. Esperando ele escolher. Brutos locais: Sky Team (nov01) e top 10 (nov01b).
+  **Ele pediu os TRÊS (3/nov) e "priorizar os JOGOS, as cenas de jogo na mesa":** baixei as cenas de mesa do Drive de
+  brutos para `gravados-reels/brutos/mesa/` (fora do git): art_society, canvas, critter, passaporte, sushi, unlock (cenas do
+  "indica" de 17/out), taketime/taketime2 (18/out), micro, lv (rosto da Jéssica). Base `becas-reels/kit.py` (CLIPES, cache
+  de quadros em out/_cache, cor leve, `card_cta`, `entrega` → `<nome>_{com_som,para_musica}_final.mp4`) e SONS NOVOS em
+  `becas-reels/sons.py` (rolagem, vidro, louça, sino, tique-taque, obturador, despertador; músicas pop 118 bpm, lounge de café,
+  relógio que acelera). `para_de_rolar.py` (21,8 s: feed cinza → trinca → cacos → 13 cortes na batida com o nome do jogo →
+  convite), `xicaras.py` (24,6 s: dado sob a xícara, 11 trocas, "COMENTA 1, 2 OU 3!", resposta 3, o dado cresce e vira
+  montagem "NO BECAS, O JOGO É DE VERDADE!" → convite) e `seis_horas.py` (27,3 s: placar 13:00 → 19:00 + linha do tempo,
+  10 cenas com etiqueta do horário, despertador "19H?! JÁ ACABOU?!" → convite).
