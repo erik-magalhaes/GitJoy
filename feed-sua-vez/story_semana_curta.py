@@ -80,7 +80,7 @@ def tela1():
     E.cola(img, E.titulo("SÉRIE\nOU JOGO?", 150, AMA), W / 2, 650, -2)
     E.cola(img, E.texto("Hoje à noite, você vai de quê?", 52, MAR, 800), W / 2, 905)
     # y 1000–1380 fica LIVRE para o adesivo de enquete do Instagram (SÉRIE / JOGO)
-    t = E.texto("Deu JOGO? O próximo story é pra você.", 42, MAR, 800)
+    t = E.texto("Deu JOGO?\nO próximo story é pra você.", 46, MAR, 800)  # 2 linhas: em 1 linha batia na margem vermelha
     E.cola(img, t, W / 2, 1500)
     return img
 
