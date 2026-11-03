@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Proposta "Noite de jogos no seu café" (3/nov/2026, pedido dele): parceria com cafés de Mauá, Santo André e Ribeirão
-Pires. proposta.html (A4, 2 páginas, identidade da Jéssica) → out/proposta_noite_de_jogos.pdf + out/pagina_N.png.
+Pires. proposta.html (A4, 2 páginas, identidade da Jéssica) → out/proposta_jogos_no_cafe.pdf + out/pagina_N.png.
 Ingresso em 2 opções: R$ 15 só os jogos (consumo 100% do café) ou R$ 30 com R$ 15 de consumação no café.
 
     /usr/bin/python3 gerar_pdf.py
@@ -16,7 +16,7 @@ OUT = os.path.join(ROOT, "out")
 
 def main():
     os.makedirs(OUT, exist_ok=True)
-    final = os.path.join(OUT, "proposta_noite_de_jogos.pdf")
+    final = os.path.join(OUT, "proposta_jogos_no_cafe.pdf")
     with sync_playwright() as p:
         b = p.chromium.launch(executable_path="/opt/pw-browsers/chromium")  # Chromium do ambiente
         pg = b.new_page()

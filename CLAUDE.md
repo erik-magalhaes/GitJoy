@@ -897,7 +897,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   e quer fechar com cafés. Sugeri R$ 20–25; ele quis 2 opções: **R$ 15 só os jogos (consumo 100% do café)** ou **R$ 30 com
   R$ 15 de consumação no café**. `proposta.html` → `gerar_pdf.py` (A4, 2 págs, identidade da Jéssica; Playwright com
   `executable_path="/opt/pw-browsers/chromium"`, o pip 1.56 procura outro build) → `out/proposta_noite_de_jogos.pdf`.
-  Capacidade proposta: 6–8 mesas, 24–30 pessoas, 19h–22h num dia fraco; a Sua Vez leva 20–30 jogos, monitoria, divulgação
+  Capacidade proposta: 6–8 mesas, 24–30 pessoas, 3 h; ele lembrou que pode ser À TARDE → título "TARDE OU NOITE DE JOGOS NO SEU CAFÉ" (tarde: fim de semana 14h–17h, famílias; noite: dia de semana 19h–22h), PDF `out/proposta_jogos_no_cafe.pdf`; a Sua Vez leva 20–30 jogos, monitoria, divulgação
   e inscrições. **Concorrência:** Bravo Jogos (Santo André, R. Cel. Alfredo Flaquer 411) cobra R$ 20 para jogar à vontade,
   ~500 jogos, com monitores (DGABC, mai/2026) → Mauá não tem espaço assim. Cafés achados (diretórios, CONFERIR): Mauá —
   Mocha 281 (R. Álvares Machado 281, Vila Bocaina, "aconchegante"), Waffle Station Coffee Shop (Av. Guilherme Polydoro 23,
