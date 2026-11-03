@@ -403,3 +403,133 @@ def plim():
     for t0, f in ((0, 1568), (0.09, 2093)):
         add(out, np.sin(2 * np.pi * f * t_(0.25)) * env(0.25, 0.002, 0.06), t0, 0.5)
     return out
+
+
+# ---------------------------------------------------------------- estilos: colagem, tabuleiro, TVs
+def rasgo(d=0.45):
+    """Papel rasgando: ruído médio em rajadas irregulares."""
+    n = int(d * SR)
+    x = bp_fft(RNG.standard_normal(n), 900, 6000)
+    t = np.arange(n) / SR
+    am = np.abs(np.sin(2 * np.pi * 37 * t + RNG.uniform(0, 3))) ** 3 * 0.7 + 0.3
+    return x * am * np.minimum(1, t / 0.02) * np.minimum(1, (d - t) / 0.08) * 0.5
+
+
+def tesoura():
+    out = np.zeros(int(0.18 * SR))
+    add(out, hp_fft(ruido(0.04), 2500) * env(0.04, 0.0005, 0.008), 0, 0.8)
+    add(out, np.sin(2 * np.pi * 4200 * t_(0.06)) * env(0.06, 0.0005, 0.01), 0.002, 0.3)
+    return out
+
+
+def tecla():
+    """Tecla de máquina de escrever."""
+    d = 0.09
+    t = t_(d)
+    s = bp_fft(ruido(d), 1200, 7000) * env(d, 0.0003, 0.006) + np.sin(2 * np.pi * 180 * t) * env(d, 0.0005, 0.02) * 0.6
+    return s * 0.8
+
+
+def sininho_maquina():
+    return sino() * 0.6
+
+
+def fita():
+    """Fita adesiva sendo puxada."""
+    d = 0.35
+    return bp_fft(ruido(d), 2000, 9000) * env(d, 0.01, 0.12) * (1 + 0.6 * np.sin(2 * np.pi * 60 * t_(d))) * 0.4
+
+
+def carta_vira():
+    out = np.zeros(int(0.2 * SR))
+    add(out, hp_fft(ruido(0.05), 3000) * env(0.05, 0.001, 0.012), 0, 0.7)
+    add(out, hp_fft(ruido(0.04), 4000) * env(0.04, 0.001, 0.01), 0.06, 0.5)
+    return out
+
+
+def crt_liga():
+    """TV de tubo ligando: estalo grave + zumbido agudo de 15,7 kHz suave (usamos 9 kHz) que some."""
+    d = 1.0
+    t = t_(d)
+    s = np.sin(2 * np.pi * 60 * t) * env(d, 0.002, 0.08) * 0.8
+    s += np.sin(2 * np.pi * 9000 * t) * np.exp(-t * 3) * 0.06
+    s += hp_fft(ruido(d), 3000) * env(d, 0.001, 0.03) * 0.5
+    return s
+
+
+def estatica(d=0.3):
+    return hp_fft(ruido(d), 1500) * np.minimum(1, t_(d) / 0.01) * np.minimum(1, (d - t_(d)) / 0.04) * 0.45
+
+
+def bip(f=1760, d=0.08):
+    t = t_(d)
+    return np.sign(np.sin(2 * np.pi * f * t)) * env(d, 0.001, 0.05) * 0.25
+
+
+def quadrada(f, d, duty=0.5):
+    t = t_(d)
+    ph = (f * t) % 1
+    return np.where(ph < duty, 1.0, -1.0) * env(d, 0.003, d * 0.6)
+
+
+def musica_stomp(dur, ini=0.0, bpm=100):
+    """Colagem: batida de pisão e palma (estilo 'we will rock you'), baixo seco e acorde de guitarra em ruído."""
+    out = np.zeros(int(dur * SR) + SR)
+    b = 60 / bpm
+    n = int((dur - ini) / b) + 1
+    raiz = ["E2", "E2", "G2", "A2"]
+    for k in range(n):
+        t = ini + k * b
+        if k % 2 == 0:
+            add(out, kick(), t, 0.9)
+            add(out, kick(), t + b / 2, 0.7)
+        else:
+            add(out, clap(), t, 0.7)
+        add(out, baixo(hz(raiz[(k // 4) % 4]), b * 0.45), t, 0.5)
+        if k % 4 == 3:
+            add(out, bp_fft(ruido(0.3), 300, 2500) * env(0.3, 0.005, 0.1), t + b / 2, 0.35)
+    return out[:int(dur * SR)]
+
+
+def marimba(f, d):
+    t = t_(d)
+    return (np.sin(2 * np.pi * f * t) + 0.3 * np.sin(2 * np.pi * 4 * f * t) * np.exp(-t * 30)) * env(d, 0.001, 0.18)
+
+
+def musica_marimba_pop(dur, bpm=112):
+    """Tabuleiro: marimba saltitante + baixo de sintetizador + palmas leves."""
+    out = np.zeros(int(dur * SR) + SR)
+    b = 60 / bpm
+    mel = ["C5", "E5", "G5", "E5", "A5", "G5", "E5", "D5", "C5", "E5", "G5", "C6", "B5", "G5", "E5", "D5"]
+    raiz = ["C2", "A1", "F1", "G1"]
+    n = int(dur / (b / 2)) + 1
+    for k in range(n):
+        t = k * b / 2
+        add(out, marimba(hz(mel[k % len(mel)]), 0.5), t, 0.4)
+        if k % 2 == 0:
+            add(out, baixo(hz(raiz[(k // 8) % 4]), b * 0.8), t, 0.45)
+            add(out, kick(0.25), t, 0.5 if (k // 2) % 2 == 0 else 0.0)
+        if k % 4 == 2:
+            add(out, clap(), t, 0.35)
+    return out[:int(dur * SR)]
+
+
+def musica_chip(dur, ini=0.0, bpm=126):
+    """TVs retrô: chiptune (onda quadrada) com arpejo e bateria de ruído."""
+    out = np.zeros(int(dur * SR) + SR)
+    s = 60 / bpm / 4
+    acordes = [["A4", "C5", "E5"], ["F4", "A4", "C5"], ["G4", "B4", "D5"], ["E4", "G#4", "B4"]]
+    raiz = ["A2", "F2", "G2", "E2"]
+    n = int((dur - ini) / s) + 1
+    for k in range(n):
+        t = ini + k * s
+        c = (k // 16) % 4
+        add(out, quadrada(hz(acordes[c][k % 3]), s * 0.9, 0.25), t, 0.18)
+        if k % 4 == 0:
+            add(out, quadrada(hz(raiz[c]), s * 3.5, 0.5), t, 0.22)
+            add(out, kick(0.2), t, 0.5 if k % 8 == 0 else 0.0)
+        if k % 8 == 4:
+            add(out, hp_fft(ruido(0.12), 2000) * env(0.12, 0.001, 0.04), t, 0.4)
+        if k % 2 == 1:
+            add(out, chimbal(0.03), t, 0.12)
+    return out[:int(dur * SR)]

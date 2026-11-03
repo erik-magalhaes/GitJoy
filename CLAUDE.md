@@ -970,3 +970,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   casas, "tarde de jogos" minúsculo em Unbounded 900, caixas como cartas de borda lima, vídeo dentro do tabuleiro), C TVs
   RETRÔ (noite com bokeh, TVs de madeira DESENHADAS — Pexels/Pixabay/Unsplash/Wikimedia bloqueados pelo proxy —, cenas de
   jogo nas telas com linhas de CRT, info em VT323 verde-fósforo e âmbar). Esperando ele escolher.
+  **Ele pediu os 3 estilos como TRÊS VÍDEOS separados ("não mistura tudo"):** `becas-reels/v_colagem.py` (26,8 s: letras
+  recortadas batendo com som de tesoura, cenas de jogo em rasgos de papel com tremidinho de stop motion, nome recortado +
+  ficha datilografada, "ANOTA AÍ:" datilografado, estrela + placa "RESERVE NO WHATSAPP!", "COMENTA:"; batida de pisão e
+  palma), `v_tabuleiro.py` (27 s: título em Unbounded, dados rolando a cada jogo, casa acesa andando na trilha, cena no
+  meio do tabuleiro, "casa N: ..." em lima, carta lima com nome/ficha, cartas de info, "sua vez de jogar!"; marimba) e
+  `v_tvs.py` (25,6 s: pilha de 6 TVs ligando, TV grande zapeando 6 canais com chiado e "CH 0N", info digitada em fósforo,
+  pilha final com SINTONIZE / BECAS CAFÉ / WhatsApp / "QUAL CANAL VOCÊ VÊ?"; chiptune). Sons novos em `sons.py`.
