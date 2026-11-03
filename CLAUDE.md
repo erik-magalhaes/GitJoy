@@ -917,4 +917,4 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   semana), SEM prometer nº de pessoas nem 3 h (ele: "não tem como garantir"), roteiro 13h/13h15/14h30/16h/"a tarde toda
   entra quem chegar"/19h, "Locadora" (não "Locação"). `gerar_pdf.py` tem `LUGARES` → versão com o nome do lugar
   (`out/proposta_becas.pdf`: título "TARDE DE JOGOS NO BECAS CAFÉ" e "o Becas" no texto). Detalhe do Becas que ele viu:
-  guarda-chuvinhos coloridos pendurados no teto.
+  guarda-chuvinhos coloridos pendurados no teto. O Direct do Instagram NÃO aceita PDF: `gerar_pdf.py` também salva cada página em JPEG 1440 px (`out/<nome>_paginaN.jpg`).

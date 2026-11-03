@@ -33,6 +33,8 @@ def render(html, final):
     base = os.path.splitext(final)[0]
     for k, page in enumerate(doc, 1):
         page.get_pixmap(dpi=90).save(f"{base}_p{k}.png")
+        # JPEG para mandar no Direct do Instagram (não aceita PDF): 1440 px de largura
+        page.get_pixmap(dpi=174).pil_save(f"{base}_pagina{k}.jpg", quality=92)
     print(final, len(doc), "páginas")
 
 
