@@ -913,3 +913,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   ("sem pressa"), Santuário da Cerveja, Fritz Cervejaria Artesanal, Sigilo Total Tap House, Cervejaria Madalena (bar de
   fábrica); Mauá — só choperias de diretório (Vicente Chopp, Cobra de Gelo, Casa do Chopp, Santa Petiscaria).
   **Becas Café** seguiu a @suavez_bg de volta (3/nov): foi o 1º café abordado pelo Direct (mensagem própria; não achei nada dele na web).
+  Eles ACEITARAM receber a proposta → proposta virou **TARDE DE JOGOS, SÁBADO 13h–19h** (ele trabalha à tarde nos dias de
+  semana), SEM prometer nº de pessoas nem 3 h (ele: "não tem como garantir"), roteiro 13h/13h15/14h30/16h/"a tarde toda
+  entra quem chegar"/19h, "Locadora" (não "Locação"). `gerar_pdf.py` tem `LUGARES` → versão com o nome do lugar
+  (`out/proposta_becas.pdf`: título "TARDE DE JOGOS NO BECAS CAFÉ" e "o Becas" no texto). Detalhe do Becas que ele viu:
+  guarda-chuvinhos coloridos pendurados no teto.

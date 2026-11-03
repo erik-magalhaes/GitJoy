@@ -17,6 +17,8 @@ OUT = os.path.join(ROOT, "out")
 # versão BAR (3/nov, ele: "e bar mais sossegado?"): mesmo texto, trocando café → bar
 BAR = [("CAFÉ", "BAR"), ("café", "bar")]  # todas as menções são "o/do/no/seu café" (masculino), então troca direta
 
+LUGARES = {"becas": "Becas Café"}  # 3/nov: o Becas aceitou receber a proposta (sábado 13h–19h)
+
 
 def render(html, final):
     with sync_playwright() as p:
@@ -47,6 +49,24 @@ def main():
         render(tmp, os.path.join(OUT, "proposta_jogos_no_bar.pdf"))
     finally:
         os.remove(tmp)
+    # versões com o nome do lugar (cafés que aceitaram receber a proposta)
+    for arq, nome in LUGARES.items():
+        s = open(src, encoding="utf-8").read()
+        s = s.replace('<div class="tag">Proposta de parceria</div>',
+                      f'<div class="tag">Proposta de parceria para o {nome}</div>', 1)
+        s = s.replace("<h1>TARDE DE JOGOS<br>NO SEU CAFÉ</h1>", f"<h1>TARDE DE JOGOS<br>NO {nome.upper()}</h1>")
+        curto = nome.split()[0]  # "Becas Café" → "o Becas" no corpo do texto
+        for a in ("o seu café", "O seu café", "seu café"):
+            s = s.replace(a, ("O " if a[0] == "O" else "o ") + curto if a != "seu café" else curto)
+        for art in ("o", "O", "do", "no"):
+            s = s.replace(f"{art} café", f"{art} {curto}")
+        s = s.replace("o {0} {0}".format(curto), "o " + curto)
+        tmp = os.path.join(ROOT, f"_proposta_{arq}.html")
+        open(tmp, "w", encoding="utf-8").write(s)
+        try:
+            render(tmp, os.path.join(OUT, f"proposta_{arq}.pdf"))
+        finally:
+            os.remove(tmp)
 
 
 if __name__ == "__main__":
