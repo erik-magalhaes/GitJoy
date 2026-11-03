@@ -959,3 +959,14 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   AO VIVO, relógio 1ºT, GOOOOL com confete e REPLAY em câmera lenta, VAR "checando o lance" → "SEM VAR!", torcida e apito;
   zap = bolha de áudio tocando (onda, tempo) + "Erik · gravando áudio..." + "MARCA O AMIGO QUE NUNCA TOPA NADA!". A fala 3
   do zap foi trocada para Canvas/Unlock!/Critter Kitchen (eles não têm cena do Happy Salmon/Hitster).
+- **ESTILOS NOVOS (3/nov, referências do Pinterest dele: colagem de letras recortadas "GAME NIGHT!", tabuleiro roxo + lima
+  "noite de jogos", TVs retrô empilhadas com tela verde):** ele quer "fontes novas, cores novas, sair do basicão, até pros
+  vídeos do dia a dia". Fontes baixadas do google/fonts para `comum/fontes/` (Anton, Abril Fatface, Archivo Black, DM Serif
+  Display, Rubik Mono One, Shrikhand, Bebas Neue, Permanent Marker, Special Elite, Rock Salt, Unbounded e Bricolage/Space
+  Grotesk/Syne variáveis — peso por `set_variation_by_axes`, Dela Gothic One, VT323, Press Start 2P, Silkscreen, Courier
+  Prime). Teste em `becas-reels/estilos.py` → out/estilos.jpg (2 quadros de cada) + out/estilos_fontes.jpg (amostras e
+  paletas): A COLAGEM (azul royal + papel amassado rasgado, letras recortadas cada uma numa fonte/papel, placa à mão,
+  máquina de escrever, cena de jogo num rasgo), B TABULEIRO (roxo 88,58,232 com grão + lima 196,244,70 + creme, trilha de
+  casas, "tarde de jogos" minúsculo em Unbounded 900, caixas como cartas de borda lima, vídeo dentro do tabuleiro), C TVs
+  RETRÔ (noite com bokeh, TVs de madeira DESENHADAS — Pexels/Pixabay/Unsplash/Wikimedia bloqueados pelo proxy —, cenas de
+  jogo nas telas com linhas de CRT, info em VT323 verde-fósforo e âmbar). Esperando ele escolher.
