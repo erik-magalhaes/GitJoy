@@ -893,3 +893,14 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   do Instagram (a 1ª, "quanto tempo sobra pra jogar depois do trabalho?", ele achou "ruimzinha"); 2 "SEMANA CURTA, JOGO RÁPIDO!": TER Bad Signs, QUA Flash 10, QUI Loser (Pocket, fichas do site),
   SEX "o jogão: você escolhe", faixa "3 JOGOS POCKET = R$ 45 e os 3 ficam 7 dias"; 3 "BÔNUS DA SEMANA" (+2 dias até 15/11,
   do sorteio do Hitster) + espaço do adesivo de link (y 1475–1610).
+- **Noite de jogos em café (`proposta-cafe/`, 3/nov):** ele está desanimado (nenhum aluguel ainda, precisa de renda extra)
+  e quer fechar com cafés. Sugeri R$ 20–25; ele quis 2 opções: **R$ 15 só os jogos (consumo 100% do café)** ou **R$ 30 com
+  R$ 15 de consumação no café**. `proposta.html` → `gerar_pdf.py` (A4, 2 págs, identidade da Jéssica; Playwright com
+  `executable_path="/opt/pw-browsers/chromium"`, o pip 1.56 procura outro build) → `out/proposta_noite_de_jogos.pdf`.
+  Capacidade proposta: 6–8 mesas, 24–30 pessoas, 19h–22h num dia fraco; a Sua Vez leva 20–30 jogos, monitoria, divulgação
+  e inscrições. **Concorrência:** Bravo Jogos (Santo André, R. Cel. Alfredo Flaquer 411) cobra R$ 20 para jogar à vontade,
+  ~500 jogos, com monitores (DGABC, mai/2026) → Mauá não tem espaço assim. Cafés achados (diretórios, CONFERIR): Mauá —
+  Mocha 281 (R. Álvares Machado 281, Vila Bocaina, "aconchegante"), Waffle Station Coffee Shop (Av. Guilherme Polydoro 23,
+  Jd. Zaíra), Coffee Break (Av. Pres. Castelo Branco 2669, abre 17h–0h), Café com Arte, Dumont Café; Ribeirão Pires —
+  Ana Rosa Café (R. Afrânio Peixoto 20), Atelier do Café (R. Miguel Prisco 286), Senhor Café / Espaço Cafeteria (R. do
+  Comércio 127), Café Bistrô (Centro Alto); Santo André — Mais1 Café (Vila Gilda e Vila Assunção), Café do Loft, Chaplin.
