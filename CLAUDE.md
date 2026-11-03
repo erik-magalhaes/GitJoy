@@ -928,3 +928,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   em dupla ou com a galera") e a faixa virou "GARANTA SUA MESA PELO WHATSAPP / (11) 97793-3910 / Não reservou? Passa lá no
   dia: se tiver mesa livre, é só chegar e jogar!" (puxar pro WhatsApp sem desanimar quem quer ir no dia).
   Linktree sugerido (ele vai criar): reserva da tarde (wa.me com texto pronto), acervo, assinaturas, eventos, contato.
+  **Reels do evento** (`becas-reels/tarde.py`, 3/nov): mesmo visual das artes, guarda-chuvinhas caindo e BALANÇANDO no
+  alto o vídeo todo (pêndulo, `guarda_chuvas(img, t)`), 30 s sem narração: gancho "BORA JOGAR NUM CAFÉ?" / TARDE DE JOGOS
+  / DATA EM BREVE → como funciona (3 passos) → os 6 jogos da arte → R$ 30 (card da arte) → "TRAZ QUEM VOCÊ QUISER" →
+  CTA com WhatsApp + "Comenta aqui: qual jogo você quer aprender?". Importa `promo/tarde_becas.py` (TB). Quando a data
+  fechar, trocar `TB.selo_data` nos dois scripts. Saída `becas-reels/out/becas_{com_trilha,para_musica}_final.mp4`.
