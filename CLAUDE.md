@@ -918,3 +918,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   entra quem chegar"/19h, "Locadora" (não "Locação"). `gerar_pdf.py` tem `LUGARES` → versão com o nome do lugar
   (`out/proposta_becas.pdf`: título "TARDE DE JOGOS NO BECAS CAFÉ" e "o Becas" no texto). Detalhe do Becas que ele viu:
   guarda-chuvinhos coloridos pendurados no teto. O Direct do Instagram NÃO aceita PDF: `gerar_pdf.py` também salva cada página em JPEG 1440 px (`out/<nome>_paginaN.jpg`).
+  **O Becas ACEITOU (3/nov)**; preocupação deles: espaço e não atrapalhar o movimento/ticket normal. Data em discussão
+  (ideia dele: **20/11, feriado**, que não mexe com o sábado do café) → artes SEM data ("DATA EM BREVE"). Decisões dele:
+  ingresso **R$ 30 com R$ 15 de consumação**, **~30 vagas**, inscrição pelo **WhatsApp ou na hora no café**, cupom de **10% no
+  1º aluguel** para quem participar (código sugerido `BECAS10`, eles precisam criar no site). `promo/tarde_becas.py` →
+  `promo/out/becas/`: post 1080x1350, story 1080x1920, cupom 9x5 cm e `cupons_A4.pdf` (10 por folha, marcas de corte).
+  Conceito: os GUARDA-CHUVINHOS coloridos do Becas pendurados no alto, creme quente, leque de caixas (Hitster, Dixit, Telma,
+  Tapalavras, Say my Name, Uga Buga).
