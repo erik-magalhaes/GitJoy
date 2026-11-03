@@ -904,3 +904,6 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Jd. Zaíra), Coffee Break (Av. Pres. Castelo Branco 2669, abre 17h–0h), Café com Arte, Dumont Café; Ribeirão Pires —
   Ana Rosa Café (R. Afrânio Peixoto 20), Atelier do Café (R. Miguel Prisco 286), Senhor Café / Espaço Cafeteria (R. do
   Comércio 127), Café Bistrô (Centro Alto); Santo André — Mais1 Café (Vila Gilda e Vila Assunção), Café do Loft, Chaplin.
+  Ele lembrou do **Democrata Café** (Mauá; cardapio.menu: "aconchegante, bem decorado", R$ 20–40). Ele vai abordar
+  primeiro pelo DIRECT do Instagram. A busca na web NÃO acha @ de cafés pequenos (Instagram não indexa): não inventar @;
+  mandei os termos de busca e a mensagem (curta, pessoal, pergunta se pode mandar a proposta; seguir/curtir antes).
