@@ -933,3 +933,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   / DATA EM BREVE → como funciona (3 passos) → os 6 jogos da arte → R$ 30 (card da arte) → "TRAZ QUEM VOCÊ QUISER" →
   CTA com WhatsApp + "Comenta aqui: qual jogo você quer aprender?". Importa `promo/tarde_becas.py` (TB). Quando a data
   fechar, trocar `TB.selo_data` nos dois scripts. Saída `becas-reels/out/becas_{com_trilha,para_musica}_final.mp4`.
+  **3/nov, "os vídeos estão todos iguais, mesmos sons; seja imaginativo, use trechos que a gente já tem":** 3 conceitos
+  NOVOS para o Becas em `becas-reels/conceitos.py` → out/conceitos.jpg: 1 PARA DE ROLAR (o vídeo finge ser o feed cinza,
+  a tela trinca e estoura em cenas reais coloridas), 2 JOGO DAS XÍCARAS (3 xícaras embaralham, "onde está o dado? comenta
+  1, 2 ou 3", a resposta abre o convite; replay), 3 6 HORAS EM 30 S (cenas reais deles em cortes no ritmo + relógio gigante
+  13:00 → 19:00 com etiquetas). Som de cada um com cara própria (rolagem/estalo de vidro; xícaras de louça; relógio/cortes),
+  NÃO as trilhas sintetizadas de sempre. Esperando ele escolher. Brutos locais: Sky Team (nov01) e top 10 (nov01b).
