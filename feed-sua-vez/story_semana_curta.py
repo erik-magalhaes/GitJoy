@@ -3,7 +3,8 @@
 falar de Finados). A semana deles começa na terça. 3 telas 1080x1920, identidade da Jéssica, conceito AGENDA DA SEMANA
 (folha de agenda creme com espiral no alto, linhas pautadas e margem), fundo novo:
 
-  1 gancho + espaço para a ENQUETE do Instagram ("Quanto tempo sobra pra jogar à noite?")
+  1 gancho "SÉRIE OU JOGO?" + espaço para a ENQUETE do Instagram (a 1ª, "quanto tempo sobra pra jogar depois do
+    trabalho?", ele achou ruim)
   2 a agenda: TER/QUA/QUI com um jogo Pocket rápido por noite (R$ 15, ficha do site) e SEX "o jogão: você escolhe";
     faixa "3 JOGOS POCKET = R$ 45 E FICAM 7 DIAS" (prazo progressivo: 3 jogos = 7 dias, mesmo preço)
   3 chamada: bônus do sorteio do Hitster (quem alugar até 15/11 ganha +2 dias) + espaço para o adesivo de LINK
@@ -75,12 +76,12 @@ def logo(img):
 def tela1():
     img = fundo()
     logo(img)
-    E.cola(img, E.pilula("AMANHÃ A SEMANA VOLTA...", 40, PET, BR), W / 2 - 40, 430, -2)
-    E.cola(img, E.titulo("MAS AS NOITES\nAINDA SÃO\nSUAS!", 128, AMA), W / 2, 680, -2)
-    E.cola(img, E.texto("Quanto tempo sobra pra jogar\ndepois do trabalho?", 52, MAR, 800), W / 2, 960)
-    # y 1080–1400 fica LIVRE para o adesivo de enquete do Instagram
-    E.cola(img, E.texto("Responde aí que no próximo story\na gente monta a sua semana 👇".replace(" 👇", ""), 40, MAR, 700),
-           W / 2, 1520)
+    E.cola(img, E.pilula("A PERGUNTA DE HOJE", 40, PET, BR), W / 2 - 40, 430, -2)
+    E.cola(img, E.titulo("SÉRIE\nOU JOGO?", 150, AMA), W / 2, 650, -2)
+    E.cola(img, E.texto("Hoje à noite, você vai de quê?", 52, MAR, 800), W / 2, 905)
+    # y 1000–1380 fica LIVRE para o adesivo de enquete do Instagram (SÉRIE / JOGO)
+    t = E.texto("Deu JOGO? O próximo story é pra você.", 42, MAR, 800)
+    E.cola(img, t, W / 2, 1500)
     return img
 
 
