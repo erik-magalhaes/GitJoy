@@ -907,3 +907,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Ele lembrou do **Democrata Café** (Mauá; cardapio.menu: "aconchegante, bem decorado", R$ 20–40). Ele vai abordar
   primeiro pelo DIRECT do Instagram. A busca na web NÃO acha @ de cafés pequenos (Instagram não indexa): não inventar @;
   mandei os termos de busca e a mensagem (curta, pessoal, pergunta se pode mandar a proposta; seguir/curtir antes).
+  **Versão BAR** (ele: "e bar mais sossegado?"): `gerar_pdf.py` gera também `out/proposta_jogos_no_bar.pdf` (troca café → bar).
+  Bares achados (CONFERIR): Ribeirão Pires — DB Tap House (@Dometilhasbeer, guia de turismo da cidade), Órbita Chopp
+  Artesanal (qua–dom 14h–23h), Duck II Chopperia (R. Miguel Prisco 96, pode estar fechado); Santo André — M5 Cervejaria
+  ("sem pressa"), Santuário da Cerveja, Fritz Cervejaria Artesanal, Sigilo Total Tap House, Cervejaria Madalena (bar de
+  fábrica); Mauá — só choperias de diretório (Vicente Chopp, Cobra de Gelo, Casa do Chopp, Santa Petiscaria).
