@@ -124,17 +124,17 @@ def selo_data(s):
 
 
 def card_info(w):
-    c = E.bloco(w, 330, BR, raio=32, ow=7, sombra=12).copy()
+    c = E.bloco(w, 345, BR, raio=32, ow=7, sombra=12).copy()
     d = ImageDraw.Draw(c)
-    d.text((40, 52), "R$ 30", font=E.lilita(96), fill=LAR, anchor="lm", stroke_width=4, stroke_fill=MAR)
-    d.text((300, 36), "por pessoa,", font=E.fig(36, 800), fill=MAR, anchor="lm")
-    d.text((300, 80), "e R$ 15 viram consumação", font=E.fig(36, 800), fill=PET, anchor="lm")
-    d.text((300, 120), "no café ☕".replace(" ☕", ""), font=E.fig(36, 800), fill=PET, anchor="lm")
-    d.line((40, 160, w - 40, 160), fill=(225, 210, 190), width=3)
+    d.text((40, 94), "R$ 30", font=E.lilita(96), fill=LAR, anchor="lm", stroke_width=4, stroke_fill=MAR)
+    d.text((300, 50), "por pessoa,", font=E.fig(36, 800), fill=MAR, anchor="lm")
+    d.text((300, 94), "e R$ 15 viram consumação", font=E.fig(36, 800), fill=PET, anchor="lm")
+    d.text((300, 136), "no café ☕".replace(" ☕", ""), font=E.fig(36, 800), fill=PET, anchor="lm")
+    d.line((40, 180, w - 40, 180), fill=(225, 210, 190), width=3)
     for k, t in enumerate(["A gente ensina todos os jogos, mesa por mesa",
                            "Jogos rápidos e divertidos, pra quem nunca jogou",
                            "Venha sozinho, em dupla ou com a galera"]):
-        y = 200 + k * 46
+        y = 222 + k * 46
         d.ellipse((40, y - 11, 62, y + 11), fill=(LAR, PET, ROSA)[k], outline=MAR, width=3)
         d.text((80, y), t, font=E.fig(33, 700), fill=MAR, anchor="lm")
     return c
@@ -159,9 +159,9 @@ def post():
     E.cola(img, E.pilula("SUA VEZ  ×  BECAS CAFÉ", 32, BR, MAR, fonte_titulo=True), W / 2, 300, -1.5)
     E.cola(img, E.titulo("TARDE DE JOGOS", 118, LAR), W / 2, 410, -2)
     E.cola(img, selo_data(36), 820, 500, 6)
-    leque(img, W / 2, 640, 190, 145)
-    E.cola(img, card_info(900), W / 2, 935, 0)
-    E.cola(img, inscricao(900), W / 2, 1226, 0)
+    leque(img, W / 2, 632, 190, 145)
+    E.cola(img, card_info(900), W / 2, 930, 0)
+    E.cola(img, inscricao(900), W / 2, 1228, 0)
     return img
 
 
@@ -172,10 +172,10 @@ def story():
     E.cola(img, E.titulo("TARDE\nDE JOGOS", 170, LAR), W / 2, 680, -2)
     E.cola(img, selo_data(44), 850, 835, 6)
     leque(img, W / 2, 1040, 240, 160)
-    E.cola(img, card_info(920), W / 2, 1390, 0)
-    E.cola(img, inscricao(920), W / 2, 1680, 0)
-    lg = E.logo(200)
-    img.alpha_composite(lg, (int(W / 2 - lg.width / 2), 1808))
+    E.cola(img, card_info(920), W / 2, 1378, 0)
+    E.cola(img, inscricao(920), W / 2, 1672, 0)
+    lg = E.logo(165)
+    img.alpha_composite(lg, (int(W / 2 - lg.width / 2), 1798))
     return img
 
 
