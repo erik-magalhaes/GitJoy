@@ -347,3 +347,59 @@ def grava(path, dur, eventos, musica=None, musica_ganho=0.5, fx_ganho=0.8):
         w.setsampwidth(2)
         w.setframerate(SR)
         w.writeframes(st.tobytes())
+
+
+# ---------------------------------------------------------------- narrados (documentário, futebol, zap)
+def cordas(f, d):
+    """Pad de cordas: 3 serras desafinadas, filtradas, ataque lento."""
+    t = t_(d)
+    s = 0
+    for det in (-0.12, 0.0, 0.11):
+        ff = f * 2 ** (det / 12)
+        s = s + sum(np.sin(2 * np.pi * ff * k * t) / k for k in range(1, 6))
+    a = np.minimum(1, t / 0.9) * np.minimum(1, (d - t) / 0.9)
+    return s * a / 9
+
+
+def musica_doc(dur):
+    """Documentário de natureza: cordas lentas e notas de piano esparsas (calmo, 'sério')."""
+    out = np.zeros(int(dur * SR) + SR)
+    prog = [["D3", "A3", "F4"], ["A#2", "F3", "D4"], ["F3", "C4", "A4"], ["C3", "G3", "E4"]]
+    d = 4.0
+    k = 0
+    while k * d < dur:
+        for n in prog[k % 4]:
+            add(out, cordas(hz(n), d + 1.0), k * d, 0.5)
+        k += 1
+    notas = ["A4", "F4", "D5", "C5", "A4", "G4", "F4", "E4"]
+    for j in range(int(dur / 1.5)):
+        if j % 3 != 2:
+            add(out, rhodes(hz(notas[j % len(notas)]), 2.2) * 0.6, 0.75 + j * 1.5, 0.35)
+    return out[:int(dur * SR)]
+
+
+def torcida(dur, picos=()):
+    """Estádio: ruído de multidão (banda 300–3000 Hz com ondulação) e explosões em `picos` (gols)."""
+    n = int(dur * SR)
+    x = bp_fft(RNG.standard_normal(n), 300, 3000)
+    t = np.arange(n) / SR
+    amp = 0.35 + 0.08 * np.sin(2 * np.pi * 0.23 * t) + 0.05 * np.sin(2 * np.pi * 0.71 * t)
+    for p in picos:
+        amp += 0.9 * np.exp(-np.maximum(t - p, 0) / 2.2) * (t >= p) * np.minimum(1, (t - p) / 0.15 + 1e-9)
+    y = x * amp
+    return y / (np.abs(y).max() + 1e-9)
+
+
+def apito(d=0.9):
+    t = t_(d)
+    f = 2900 + 120 * np.sin(2 * np.pi * 38 * t)
+    s = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.minimum(1, t / 0.02) * np.minimum(1, (d - t) / 0.05)
+    return s * 0.5
+
+
+def plim():
+    """Notificação de mensagem: duas notas curtas."""
+    out = np.zeros(int(0.4 * SR))
+    for t0, f in ((0, 1568), (0.09, 2093)):
+        add(out, np.sin(2 * np.pi * f * t_(0.25)) * env(0.25, 0.002, 0.06), t0, 0.5)
+    return out

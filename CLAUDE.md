@@ -951,3 +951,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **Ele NÃO gostou dos 3** (para de rolar, xícaras, 6 horas; "não gostei de nenhum, talvez algo pra gente narrar") e pediu
   as 5 ideias narradas/gravadas, "faz todos": roteiros em `becas-reels/roteiros_narrados.md` e gravadores em
   `becas-reels/gravador/` (Documentario = becasdoc, Futebol = becasgol, Zap = becaszap). Esperando as gravações.
+  **Esclarecido (3/nov):** 1, 2 e 3 são SÓ VOZ (eu faço o vídeo antes com as cenas que eles já têm; eles narram depois);
+  4 (garçonete) e 5 (primeira vez) precisam de gravação no Becas. Prévias sem voz em `becas-reels/narrados.py <doc|gol|zap>`
+  (tempo de cada fala estimado pelas letras; doc 13 letras/s, gol 15, zap 14,5; ao receber a narração, trocar pelos tempos
+  reais): doc = faixas de cinema + legenda de documentário "JOGADOR DE TABULEIRO / Ludens tabulae · espécie rara" + cena do
+  Becas com guarda-chuvinhas ("HABITAT TEMPORÁRIO") + cordas/piano (`sons.musica_doc`); gol = placar de TV MESA A x MESA B,
+  AO VIVO, relógio 1ºT, GOOOOL com confete e REPLAY em câmera lenta, VAR "checando o lance" → "SEM VAR!", torcida e apito;
+  zap = bolha de áudio tocando (onda, tempo) + "Erik · gravando áudio..." + "MARCA O AMIGO QUE NUNCA TOPA NADA!". A fala 3
+  do zap foi trocada para Canvas/Unlock!/Critter Kitchen (eles não têm cena do Happy Salmon/Hitster).
