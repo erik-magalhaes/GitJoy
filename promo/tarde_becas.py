@@ -133,18 +133,22 @@ def card_info(w):
     d.line((40, 160, w - 40, 160), fill=(225, 210, 190), width=3)
     for k, t in enumerate(["A gente ensina todos os jogos, mesa por mesa",
                            "Jogos rápidos e divertidos, pra quem nunca jogou",
-                           "Só 30 vagas"]):
+                           "Venha sozinho, em dupla ou com a galera"]):
         y = 200 + k * 46
         d.ellipse((40, y - 11, 62, y + 11), fill=(LAR, PET, ROSA)[k], outline=MAR, width=3)
-        d.text((80, y), t, font=E.fig(33, 700 if k < 2 else 900), fill=MAR, anchor="lm")
+        d.text((80, y), t, font=E.fig(33, 700), fill=MAR, anchor="lm")
     return c
 
 
 def inscricao(w):
-    c = E.bloco(w, 150, PET, raio=36, ow=7, sombra=11).copy()
+    """Reserva pelo WhatsApp em destaque, mas deixando claro que no dia também dá pra chegar (pedido dele: sem nº de vagas)."""
+    c = E.bloco(w, 232, PET, raio=36, ow=7, sombra=11).copy()
     d = ImageDraw.Draw(c)
-    d.text((w / 2, 50), "INSCRIÇÕES PELO WHATSAPP", font=E.lilita(46), fill=BR, anchor="mm")
-    d.text((w / 2, 104), f"{WHATS}  ·  ou na hora, no café", font=E.fig(36, 800), fill=AMA, anchor="mm")
+    d.text((w / 2, 48), "GARANTA SUA MESA PELO WHATSAPP", font=E.lilita(44), fill=BR, anchor="mm")
+    d.text((w / 2, 100), WHATS, font=E.lilita(46), fill=AMA, anchor="mm")
+    d.line((60, 136, w - 60, 136), fill=(90, 160, 180), width=2)
+    d.text((w / 2, 163), "Não reservou? Passa lá no dia:", font=E.fig(31, 700), fill=BR, anchor="mm")
+    d.text((w / 2, 200), "se tiver mesa livre, é só chegar e jogar!", font=E.fig(31, 800), fill=BR, anchor="mm")
     return c
 
 
@@ -155,9 +159,9 @@ def post():
     E.cola(img, E.pilula("SUA VEZ  ×  BECAS CAFÉ", 32, BR, MAR, fonte_titulo=True), W / 2, 300, -1.5)
     E.cola(img, E.titulo("TARDE DE JOGOS", 118, LAR), W / 2, 410, -2)
     E.cola(img, selo_data(36), 820, 500, 6)
-    leque(img, W / 2, 650, 190, 145)
-    E.cola(img, card_info(900), W / 2, 955, 0)
-    E.cola(img, inscricao(900), W / 2, 1230, 0)
+    leque(img, W / 2, 640, 190, 145)
+    E.cola(img, card_info(900), W / 2, 935, 0)
+    E.cola(img, inscricao(900), W / 2, 1226, 0)
     return img
 
 
@@ -169,9 +173,9 @@ def story():
     E.cola(img, selo_data(44), 850, 835, 6)
     leque(img, W / 2, 1040, 240, 160)
     E.cola(img, card_info(920), W / 2, 1390, 0)
-    E.cola(img, inscricao(920), W / 2, 1650, 0)
+    E.cola(img, inscricao(920), W / 2, 1680, 0)
     lg = E.logo(200)
-    img.alpha_composite(lg, (int(W / 2 - lg.width / 2), 1745))
+    img.alpha_composite(lg, (int(W / 2 - lg.width / 2), 1808))
     return img
 
 
