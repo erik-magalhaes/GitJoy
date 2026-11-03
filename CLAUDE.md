@@ -912,3 +912,4 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Artesanal (qua–dom 14h–23h), Duck II Chopperia (R. Miguel Prisco 96, pode estar fechado); Santo André — M5 Cervejaria
   ("sem pressa"), Santuário da Cerveja, Fritz Cervejaria Artesanal, Sigilo Total Tap House, Cervejaria Madalena (bar de
   fábrica); Mauá — só choperias de diretório (Vicente Chopp, Cobra de Gelo, Casa do Chopp, Santa Petiscaria).
+  **Becas Café** seguiu a @suavez_bg de volta (3/nov): foi o 1º café abordado pelo Direct (mensagem própria; não achei nada dele na web).
