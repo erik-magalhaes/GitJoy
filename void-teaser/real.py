@@ -44,8 +44,8 @@ PLANOS = [
     (32.2, 34.0, "31378", 2.0, 0.60, 1.0, 1.00, 1.05, {"luz": 1.15}),
     (34.0, 37.0, "WA0026", 1.2, 0.50, 1.0, 1.00, 1.06, {"luz": 1.2}),
     # Hailey Zhang: silhueta de mulher de cabelo preto longo, de costas; adaga; golpe
-    (37.0, 41.6, "924", 3.0, 0.56, 1.0, 1.00, 1.08, {"luz": 1.1}),
-    (41.6, 43.6, "33106", 3.5, 0.45, 1.0, 1.10, 1.16, {"luz": 1.1}),
+    (37.0, 41.0, "924", 3.0, 0.56, 1.0, 1.00, 1.08, {"luz": 1.1}),
+    (41.0, 43.6, "ADAGA", 0.0, 0.50, 1.0, 1.00, 1.04, {}),
     (43.6, 44.5, "WA0023", 0.0, 0.50, 1.0, 1.00, 1.04, {}),
     (44.5, 46.3, "924", 9.0, 0.58, 1.0, 1.05, 1.12, {"luz": 1.1}),
     # Hunter Ward: entra no escuro, passa a mão na faca, faca na forja, bancada, luvas, sangue
@@ -58,8 +58,68 @@ PLANOS = [
 ]
 
 
+@__import__("functools").lru_cache(maxsize=1)
+def adaga_camadas():
+    """Foto da mão com a adaga (Hailey) em camadas: fundo de veludo reconstruído, mão+adaga, só a lâmina."""
+    a = np.asarray(Image.open(os.path.join(HERE, "assets", "hailey_adaga.jpg")).convert("RGB"), np.float32) / 255
+    mao = np.asarray(Image.open(os.path.join(HERE, "out", "adaga_mask_u2net.png")).convert("L"), np.float32) / 255
+    lam = np.asarray(Image.open(os.path.join(HERE, "out", "adaga_mask_isnet-general-use.png")).convert("L"), np.float32) / 255
+    mao = np.maximum(mao, lam)
+    s = H / a.shape[0]
+    tam = (int(a.shape[1] * s), H)
+    a, mao, lam = (cv2.resize(x, tam, interpolation=cv2.INTER_CUBIC) for x in (a, mao, lam))
+    x0 = (tam[0] - W) // 2
+    a, mao, lam = a[:, x0:x0 + W], mao[:, x0:x0 + W], lam[:, x0:x0 + W]
+    # fundo: veludo sem a mão (inpaint em baixa resolução) e um pouco desfocado
+    buraco = (cv2.dilate((mao > 0.3).astype(np.uint8), np.ones((31, 31), np.uint8)) * 255)
+    pq = cv2.resize((a * 255).astype(np.uint8), (W // 3, H // 3))
+    bq = cv2.resize(buraco, (W // 3, H // 3))
+    fundo = cv2.inpaint(pq, bq, 9, cv2.INPAINT_TELEA)
+    fundo = cv2.GaussianBlur(cv2.resize(fundo, (W, H), interpolation=cv2.INTER_CUBIC).astype(np.float32) / 255, (0, 0), 3) * 0.9
+    alfa = cv2.GaussianBlur(np.clip((mao - 0.15) / 0.5, 0, 1), (0, 0), 3)
+    return fundo, a, alfa, lam, x0, s
+
+
+def adaga_quadros(n):
+    fundo, a, alfa, lam, x0, s = adaga_camadas()
+    piv = (446 * s - x0, 650 * s)  # pulso
+    gema = (291 * s - x0, 243 * s)
+    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+    # direção da lâmina (do pomo à ponta) para o reflexo correr ao longo dela
+    p0, p1 = np.array([255 * s - x0, 90 * s]), np.array([470 * s - x0, 905 * s])
+    d = (p1 - p0) / np.linalg.norm(p1 - p0)
+    ao_longo = ((xx - p0[0]) * d[0] + (yy - p0[1]) * d[1]) / np.linalg.norm(p1 - p0)
+    out = []
+    for k in range(n):
+        u = k / max(1, n - 1)
+        e = u * u * (3 - 2 * u)
+        ang = -2.6 + 4.8 * e          # ela vira a adaga devagar
+        sobe = -12 * e
+        camada = a.copy()
+        # reflexo de luz correndo pela lâmina (só no metal)
+        pos = -0.15 + 1.35 * min(1, max(0, (u - 0.15) / 0.7))
+        faixa = np.exp(-((ao_longo - pos) / 0.05) ** 2) * lam * np.clip(camada.mean(axis=2) * 1.6, 0, 1)
+        camada += faixa[..., None] * 0.9
+        # brilho rápido na pedra
+        b = np.exp(-((u - 0.55) / 0.08) ** 2)
+        if b > 0.02:
+            r2 = (xx - gema[0]) ** 2 + (yy - gema[1]) ** 2
+            estrela = (np.exp(-r2 / 90) * 2 + np.exp(-((xx - gema[0]) / 70) ** 2 - ((yy - gema[1]) / 2.5) ** 2)
+                       + np.exp(-((xx - gema[0]) / 2.5) ** 2 - ((yy - gema[1]) / 70) ** 2))
+            camada += (estrela * b * 0.9)[..., None]
+        M = cv2.getRotationMatrix2D(piv, ang, 1.0)
+        M[1, 2] += sobe
+        c = cv2.warpAffine(camada, M, (W, H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REPLICATE)
+        al = cv2.warpAffine(alfa, M, (W, H), flags=cv2.INTER_LINEAR)[..., None]
+        img = fundo * (1 - al) + c * al
+        out.append((np.clip(img, 0, 1) * 255).astype(np.uint8))
+    return np.stack(out)
+
+
 def le_trecho(clipe, ini, n, cx, vel):
     """Lê n quadros (30 fps de saída) do clipe a partir de ini, recorte vertical 9:16 centrado em cx, 1080x1920."""
+    if clipe == "ADAGA":
+        return adaga_quadros(n)
     src = os.path.join(M, f"v_{clipe}.mp4")
     lise = clipe.startswith("WA")
     if lise:

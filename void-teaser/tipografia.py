@@ -58,8 +58,8 @@ ITENS = [
     # Hailey Zhang
     (37.3, 41.0, "Hailey Zhang", "italiana", 130, BRANCO, 540, 330, "mm", "espaco", {"de": 30}),
     (38.0, 41.0, "a estrategista", "corm", 66, CINZA, 540, 450, "mm", "fade", {}),
-    (41.3, 43.6, "Com uma adaga nas mãos,", "corm", 70, BRANCO, 540, 300, "mm", "fade", {}),
-    (42.1, 43.6, "cada movimento é calculado", "corm", 56, BRANCO, 540, 390, "mm", "fade", {}),
+    (41.3, 43.6, "Com uma adaga nas mãos,", "corm", 60, BRANCO, 60, 1690, "lm", "fade", {}),
+    (42.1, 43.6, "cada movimento é calculado", "corm", 48, BRANCO, 62, 1765, "lm", "fade", {}),
     (43.7, 46.3, "E CADA GOLPE", "bebas", 140, BRANCO, 540, 1180, "mm", "corte", {}),
     (44.2, 46.3, "É PRECISO.", "bebas", 140, VERMELHO, 540, 1320, "mm", "corte", {}),
     # Hunter Ward
