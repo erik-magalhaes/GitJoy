@@ -998,3 +998,16 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   "COMENTA" entre o título e o tabuleiro; `gamesday.musica_retro`); ref 3 letras de madeira = `letrinhas.py` (Reels:
   letras caindo com batida de madeira, cenas dentro de cartas de baralho com o nome digitado em pixel, info digitada;
   `sons.musica_cafe`). Chat aceita no máx. 30 MB: comprimir em 2 passadas se passar.
+- **Wonderland's War em PRIMEIRA PESSOA (`wonderland-reels/`, 4/nov, ideia dele):** "como se o jogador pusesse óculos de
+  realidade virtual e entrasse no jogo", andando pelo tabuleiro e fazendo ações reais; no fim a pessoa só abre o olho,
+  sentada na mesa com os outros, e fala "esse jogo é muito bom!". Edição BR = **Galápagos** (API `ccstore/v1/products/WLW001`:
+  caixa 3D, tabuleiro montado em perspectiva, standees, meeples, verso; 1715x2000 mas a foto é pequena por dentro). Site: Deluxe
+  R$ 60 / 7 dias, 2–5 jogadores, 125 min. Regras conferidas (rulespal): 3 rodadas = Chá Maluco (move o líder no sentido horário
+  até uma cadeira livre e pega a carta: apoiadores numa região, aliados, fragmentos...; passar pela cabeceira = rola o dado de
+  fragmentos e repõe as cartas; com 4 cartas o líder vai para uma das 5 regiões) + Guerra (em cada região todos puxam fichas
+  do saco ao mesmo tempo; Loucura = perde unidades; para quando quiser (mão vazia); quem tem mais força ganha o prêmio e um
+  castelo; forja). Líderes: Alice, Chapeleiro Maluco, Rainha Vermelha, Jaguadarte, Gato de Cheshire.
+  **Teste da câmera em 1ª pessoa** (`pov.py`: tabuleiro retificado por homografia + Real-ESRGAN x4 `ampliar_tab.py`, projeção
+  em plano com névoa e céu, standees como cartazes, moldura de óculos VR com HUD): de cima fica ok, mas PERTO do tabuleiro
+  vira borrão (a foto oficial é pequena) e o recorte dos standees (GrabCut + rembg) sai sujo. Proposta: eles FILMAM as ações
+  em 1ª pessoa no tabuleiro deles (lista de tomadas mandada no chat) e eu ponho HUD de VR, transições e o final.
