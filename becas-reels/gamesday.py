@@ -442,8 +442,6 @@ def quadro(t):
                 E.cola(img, im, cx, 760 + li * 190, -3 if li else 2, s, a)
         a, s = K.surge(t, 1.6, 0.3)
         if a > 0:
-            E.cola(img, ST.estrela(60, 30, 8, MOSTARDA + (255,)) if False else estrela_atomica(70, MOSTARDA),
-                   cx + 230, 640, 0, s, a)
             d.text((cx, 1150), "SUA VEZ × BECAS CAFÉ", font=F("SpaceGrotesk.ttf", 44, (700,)), fill=(255, 245, 230),
                    anchor="mm")
         return grao(img, 10, int(t * 30) % 5).convert("RGB")
@@ -523,6 +521,34 @@ def musica_retro(dur, bpm=104):
     return out[:int(dur * S.SR)]
 
 
+def musica_funk(dur, bpm=108):
+    """Games Day: funk de fliperama (baixo slap em semicolcheias, palmas, metais curtos em serra)."""
+    out = np.zeros(int(dur * S.SR) + S.SR)
+    b = 60 / bpm
+    s16 = b / 4
+    riff = ["E2", None, "E2", "G2", None, "A2", "E2", None, "D3", None, "B2", None, "A2", "G2", None, "E2"]
+    metais = [["E4", "G4", "B4"], ["D4", "F#4", "A4"]]
+
+    def metal(f, d):
+        t = S.t_(d)
+        return sum(np.sin(2 * np.pi * f * k * t) / k for k in range(1, 8)) * S.env(d, 0.01, d * 0.4) * 0.3
+    n = int(dur / s16) + 1
+    for k in range(n):
+        t = k * s16
+        nota = riff[k % 16]
+        if nota:
+            S.add(out, S.baixo(S.hz(nota), s16 * 1.6), t, 0.55)
+        if k % 8 == 0:
+            S.add(out, S.kick(), t, 0.85)
+        if k % 8 == 4:
+            S.add(out, S.clap(), t, 0.55)
+        if k % 2 == 0:
+            S.add(out, S.chimbal(), t, 0.15)
+        if k % 32 in (6, 14):
+            S.add(out, sum(metal(S.hz(x), s16 * 2) for x in metais[(k // 32) % 2]) / 3, t, 0.4)
+    return out[:int(dur * S.SR)]
+
+
 def audio(com, sem):
     ev = [(0.05 + k * 0.05, S.carta_vira(), 0.25) for k in range(0, 24, 2)]
     ev += [(0.3, S.cartao(), 0.6), (0.8, S.cartao(), 0.6)]
@@ -532,7 +558,7 @@ def audio(com, sem):
     for k in range(len(JOGOS_V)):
         ev += [(INI_J + k * PJ, S.carta_vira(), 0.6), (INI_J + k * PJ + 0.1, S.cartao(), 0.5)]
     ev += [(INFO + tb, S.cartao(), 0.5) for tb in (0.2, 0.9, 1.6, 2.6, 3.4)] + [(INFO + 3.4, S.sino(), 0.4)]
-    mus = musica_retro(DUR)
+    mus = musica_funk(DUR)
     S.grava(com, DUR, ev, mus, musica_ganho=0.5, fx_ganho=0.8)
     S.grava(sem, DUR, ev, None, fx_ganho=0.8)
 

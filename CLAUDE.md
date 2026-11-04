@@ -986,4 +986,12 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   figurinhas pulando, "TARDE DE JOGOS!", "NA MESA HOJE:" com 6 cenas de jogo no miolo, convite montando por blocos e pílula
   "COMENTA: QUAL JOGO VOCÊ QUER APRENDER?"; música retrô anos 60 (órgão, baixo andando)). **Opção 2 = `letrinhas.py`**
   (post e story: letras de madeira "TARDE / DE / JOGOS!" com pontos, Silkscreen para o texto, dados, pilha Hitster/Dixit/
-  Telma, cartas desenhadas; Reels ainda não feito). Saídas em `becas-reels/out/gamesday/` e `out/letrinhas/`.
+  Telma, cartas desenhadas). Saídas em `becas-reels/out/gamesday/` e `out/letrinhas/`.
+  **Ele corrigiu: NÃO misturar referências — cada referência vira o SEU conjunto (post + story + Reels) = 9 peças.**
+  Ref 1 Games Day = `gamesday.py` (tirei a estrela atômica anos 60 do Reels; música própria `musica_funk`); ref 2 retrô
+  anos 60 = `retro60.py` (verde-petróleo/laranja/mostarda/creme chapados, grão, estrelas atômicas, tabuleiro de hexágonos
+  com árvores/ondas/montanhas, leque de cartas, dados, xícara laranja com zigue-zague, lápis, folha de pontos com as
+  informações; Archivo Black; Reels: título letra a letra, peças entrando, "NA MESA:" com as cenas como cartões-postais,
+  "COMENTA" entre o título e o tabuleiro; `gamesday.musica_retro`); ref 3 letras de madeira = `letrinhas.py` (Reels:
+  letras caindo com batida de madeira, cenas dentro de cartas de baralho com o nome digitado em pixel, info digitada;
+  `sons.musica_cafe`). Chat aceita no máx. 30 MB: comprimir em 2 passadas se passar.
