@@ -1011,3 +1011,12 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   em plano com névoa e céu, standees como cartazes, moldura de óculos VR com HUD): de cima fica ok, mas PERTO do tabuleiro
   vira borrão (a foto oficial é pequena) e o recorte dos standees (GrabCut + rembg) sai sujo. Proposta: eles FILMAM as ações
   em 1ª pessoa no tabuleiro deles (lista de tomadas mandada no chat) e eu ponho HUD de VR, transições e o final.
+  **Ele respondeu só "faz o vídeo"** (sem gravação no Drive) → `wonderland-reels/vr.py`, tudo digital, 51 s, sem narração:
+  gancho "E SE VOCÊ ENTRASSE DENTRO DO JOGO?" com a lente dos óculos ligando → mergulho na boca do Gato da capa → descida
+  até o tabuleiro → Festa do Chá (cartas Torre Vermelha/Morsa voando para 4 casas de inventário) → Floresta Tulgea com
+  marcadores de apoiadores → GUERRA (fichas = arte do aliado num círculo, barras de força, Fragmento de Loucura com glitch,
+  mão vazia = parou, VITÓRIA + castelo) → "3 RODADAS" → DESCONECTANDO → olhos abrindo (pálpebras + piscada) no "mundo
+  real" (bokeh quente + caixa) com "...ESSE JOGO É MUITO BOM!" → "qual líder você seria?" → CTA (Deluxe 7 dias).
+  A câmera fica ALTA (h ≥ 1650 px do tabuleiro_x4, `CHAVES`): de perto borra. Artes em `assets/artes/` (ampliadas x4); a
+  Criatura saiu (o selo "1 Escolha seus aliados" cobre a arte) e o meeple recortado ficou deformado (não usar).
+  Quando eles gravarem o final de verdade (abrir o olho na mesa e falar a frase), trocar `cena_sai` depois de T_OLHO pelo clipe.
