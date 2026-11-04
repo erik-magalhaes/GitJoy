@@ -413,6 +413,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   amostra. **Vídeo em loop = imagem E som emendando** (conferir o último e o primeiro quadro e a amostra final × inicial). **5ª rodada:** "ainda trocando devagar" → troca a cada 2 quadros
   (15 por segundo), a carta do meio defasada 1 quadro (sempre tem alguma mudando); ciclos 14/16/14 → DUR = 224 quadros
   (7,47 s); tiquetaque a cada DUR/56. Mesmos 22 jogos.
+  **Capa do Reels** (`roleta-reels/capa_taro.py`, 4/nov, "que dê curiosidade pra clicar"): A = 3 cartas de verso, a do
+  meio com "?" dourado e raios ("TIRA PRINT!" / "O QUE AS CARTAS DIZEM PRA VOCÊ?"); B = visor de câmera com REC em volta
+  das 3 cartas abertas ("PARA NA HORA CERTA" / "QUAL NOITE VAI SER A SUA?"). Tudo dentro de y 285–1635.
 - **Conteúdo SEM GRAVAR (12/out/2026)** — ele aprovou da minha lista: 3 (roleta "tira print", esperando ele escolher o
   visual), 6, 7, 8, 9 e 11. **Dados reais do site** em `comum/dados/acervo_site.json` (161 jogos: preço por 5 dias,
   jogadores, tempo, peso; raspado de `/boardgames?page=N`) e **menor preço de loja** em `comum/dados/precos_loja.json`
