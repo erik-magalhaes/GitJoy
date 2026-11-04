@@ -57,8 +57,7 @@
     {% if loja.logo_url %}
       <img class="logo mx-auto mb-8 h-24 w-auto md:h-32" src="{{ loja.logo_url }}" alt="{{ loja.nome }}">
     {% endif %}
-    <p class="rotulo">Temporada de Halloween · {{ loja.cidade }}</p>
-    <h1 class="titulo mt-4 text-4xl text-stone-50 md:text-6xl">Jogos para as noites de outubro</h1>
+    <h1 class="titulo text-4xl text-stone-50 md:text-6xl">Jogos para as noites de outubro</h1>
     <p class="mx-auto mt-5 max-w-xl text-base leading-relaxed text-stone-300 md:text-lg">{{ loja.total_jogos }} jogos de tabuleiro para alugar e jogar em casa por 5 dias. Retire na loja ou receba em casa.</p>
     <a class="mt-8 inline-block rounded-full bg-[var(--cor-principal)] px-8 py-3.5 text-base font-bold text-black hover:bg-[var(--cor-destaque)]" href="{{ links.catalogo }}">Ver o acervo</a>
     <div class="mx-auto mt-8 max-w-xl text-left">
