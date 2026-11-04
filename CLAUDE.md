@@ -977,3 +977,13 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   meio do tabuleiro, "casa N: ..." em lima, carta lima com nome/ficha, cartas de info, "sua vez de jogar!"; marimba) e
   `v_tvs.py` (25,6 s: pilha de 6 TVs ligando, TV grande zapeando 6 canais com chiado e "CH 0N", info digitada em fósforo,
   pilha final com SINTONIZE / BECAS CAFÉ / WhatsApp / "QUAL CANAL VOCÊ VÊ?"; chiptune). Sons novos em `sons.py`.
+- **Novas referências (4/nov): convite de feed, story e Reels da tarde no Becas.** Refs: "GAMES DAY!" (moldura de casas
+  verde-água/mostarda/creme em volta de miolo bordô, figurinhas retrô com contorno escuro e sombra: explosão, raio, cartas,
+  dados), "GAME NIGHT" anos 60 (grão, estrela atômica) e "GAME NIGHT" de letras de madeira tipo Scrabble em papel com
+  bolinhas vermelhas e cartas de baralho na borda. **Opção 1 = `becas-reels/gamesday.py`** (post 6x7 casas, story 6x9; o
+  texto do miolo se AJUSTA sozinho ao espaço (`miolo` procura a escala que cabe); caixas do acervo como adesivos de borda
+  branca, guarda-chuvinha e xícara do Becas entre as figurinhas; Anton + Space Grotesk; `--reels` = 22 s: casas acendendo,
+  figurinhas pulando, "TARDE DE JOGOS!", "NA MESA HOJE:" com 6 cenas de jogo no miolo, convite montando por blocos e pílula
+  "COMENTA: QUAL JOGO VOCÊ QUER APRENDER?"; música retrô anos 60 (órgão, baixo andando)). **Opção 2 = `letrinhas.py`**
+  (post e story: letras de madeira "TARDE / DE / JOGOS!" com pontos, Silkscreen para o texto, dados, pilha Hitster/Dixit/
+  Telma, cartas desenhadas; Reels ainda não feito). Saídas em `becas-reels/out/gamesday/` e `out/letrinhas/`.
