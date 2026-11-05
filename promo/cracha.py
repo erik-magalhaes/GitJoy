@@ -233,7 +233,107 @@ def cracha_f(n):
     return img
 
 
+# ---------------------------------------------------------------- 3ª rodada (5/nov): SÓ SUA VEZ, sem data nem café
+# Ele: "mais focado na Sua Vez, sem tanta informação do Beca’s, pra usar em qualquer evento".
+AZUL_CLARO = (227, 243, 246)
+
+
+def monitor(n):
+    return "MONITORA" if n == "JÉSSICA" else "MONITOR"
+
+
+def cracha_g(n):
+    """Azul-claro da identidade, trilha pontilhada atravessando, logo grande."""
+    img = Image.new("RGBA", (CW, CH), AZUL_CLARO + (255,))
+    d = ImageDraw.Draw(img)
+    import math
+    pts = [(CW * (0.5 + 0.42 * math.sin(t / 26)), t * 1.0) for t in range(0, CH + 40, 4)]
+    for k in range(0, len(pts), 9):  # trilha de bolinhas, como casas de um tabuleiro
+        x, y = pts[k]
+        cor = (LAR, PET, AMA, ROSA)[(k // 9) % 4]
+        d.ellipse((x - 16, y - 16, x + 16, y + 16), fill=tuple(int(v + (255 - v) * 0.45) for v in cor))
+    furo(d)
+    lg = E.logo(640)
+    img.alpha_composite(lg, (int(CW / 2 - lg.width / 2), 170))
+    E.cola(img, E.pilula(monitor(n), 80, AMA, MAR, fonte_titulo=True), CW / 2, 760, -2)
+    nome(img, n, 960, LAR, s=170)
+    d = ImageDraw.Draw(img)
+    d.rounded_rectangle((120, 1200, CW - 120, 1420), 30, fill=BR, outline=MAR, width=6)
+    d.text((CW / 2, 1268), "A gente ensina,", font=E.lilita(62), fill=PET, anchor="mm")
+    d.text((CW / 2, 1348), "você joga!", font=E.lilita(62), fill=LAR, anchor="mm")
+    d.text((CW / 2, 1530), "@suavez_bg", font=E.fig(46, 900), fill=MAR, anchor="mm")
+    return img
+
+
+def seta(w, h, cor):
+    im = Image.new("RGBA", (w + 12, h + 12), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    pts = [(0, h * 0.3), (w * 0.55, h * 0.3), (w * 0.55, 0), (w, h / 2), (w * 0.55, h), (w * 0.55, h * 0.7), (0, h * 0.7)]
+    d.polygon([(x + 10, y + 10) for x, y in pts], fill=MAR)
+    d.polygon(pts, fill=cor, outline=MAR)
+    d.line(pts + [pts[0]], fill=MAR, width=6)
+    return im
+
+
+def cracha_h(n):
+    """Trocadilho com o nome da loja: o marcador de turno 'É A VEZ DE:' apontando para o nome."""
+    img = Image.new("RGBA", (CW, CH), AMA + (255,))
+    d = ImageDraw.Draw(img)
+    for k in range(-CH, CW, 110):
+        d.line((k, 0, k + CH, CH), fill=(255, 210, 70), width=40)
+    furo(d)
+    lg = E.logo(470)
+    img.alpha_composite(lg, (int(CW / 2 - lg.width / 2), 140))
+    E.cola(img, E.titulo("É A VEZ DE:", 110, BR, larg_max=CW - 200), CW / 2, 640, -2)
+    d = ImageDraw.Draw(img)
+    d.rounded_rectangle((90 + 12, 760 + 12, CW - 90 + 12, 1000 + 12), 40, fill=MAR)
+    d.rounded_rectangle((90, 760, CW - 90, 1000), 40, fill=BR, outline=MAR, width=7)
+    if n:
+        E.cola(img, E.titulo(n, 150, LAR, larg_max=CW - 330), CW / 2, 880, 0)
+    else:
+        d.line((230, 930, CW - 230, 930), fill=MAR, width=4)
+    E.cola(img, seta(150, 110, PET), 70, 880, 0)
+    E.cola(img, seta(150, 110, PET).transpose(Image.FLIP_LEFT_RIGHT), CW - 70, 880, 0)
+    E.cola(img, E.pilula(monitor(n) + " DE JOGOS", 62, PET, BR, fonte_titulo=True), CW / 2, 1110, 1.5)
+    d = ImageDraw.Draw(img)
+    d.text((CW / 2, 1300), "Travou na jogada?", font=E.fig(52, 900), fill=MAR, anchor="mm")
+    d.text((CW / 2, 1370), "Me chama que eu explico!", font=E.fig(52, 900), fill=MAR, anchor="mm")
+    d.text((CW / 2, 1530), "@suavez_bg", font=E.fig(46, 900), fill=PET, anchor="mm")
+    return img
+
+
+def cracha_i(n):
+    """Limpo, de 'equipe': faixa petróleo com o logo, nome numa faixa laranja, QR do acervo no pé."""
+    img = Image.new("RGBA", (CW, CH), BR + (255,))
+    d = ImageDraw.Draw(img)
+    d.rectangle((0, 0, CW, 640), fill=PET)
+    rnd = random.Random(4)
+    for _ in range(70):
+        x, y, r = rnd.uniform(0, CW), rnd.uniform(0, 640), rnd.uniform(3, 6)
+        d.ellipse((x - r, y - r, x + r, y + r), fill=(60, 150, 175))
+    furo(d)
+    lg = E.logo(600)
+    img.alpha_composite(lg, (int(CW / 2 - lg.width / 2), 200))
+    d.rectangle((0, 640, CW, 660), fill=AMA)
+    d.rectangle((0, 700, CW, 920), fill=LAR)
+    if n:
+        E.cola(img, E.titulo(n, 160, BR, larg_max=CW - 140), CW / 2, 810, 0)
+    else:
+        d.line((150, 870, CW - 150, 870), fill=BR, width=5)
+    d.text((CW / 2, 1000), monitor(n) + " · JOGOS DE TABULEIRO", font=E.lilita(54), fill=PET, anchor="mm")
+    d.line((140, 1065, CW - 140, 1065), fill=(225, 215, 200), width=4)
+    q = TB.qr(300)
+    img.paste(q, (120, 1150))
+    d.text((470, 1200), "Alugue jogos", font=E.lilita(52), fill=LAR, anchor="lm")
+    d.text((470, 1260), "de tabuleiro", font=E.lilita(52), fill=LAR, anchor="lm")
+    d.text((470, 1330), "e jogue em casa!", font=E.fig(42, 900), fill=MAR, anchor="lm")
+    d.text((470, 1410), "@suavez_bg", font=E.fig(42, 900), fill=PET, anchor="lm")
+    d.rectangle((0, CH - 60, CW, CH), fill=PET)
+    return img
+
+
 OPCOES = {"A": cracha_a, "B": cracha_b, "C": cracha_c}
+OPCOES3 = {"G": cracha_g, "H": cracha_h, "I": cracha_i}
 OPCOES2 = {"D": cracha_d, "E": cracha_e, "F": cracha_f}
 
 
@@ -258,7 +358,7 @@ def main():
     os.makedirs(OUT, exist_ok=True)
     w = 420
     h = int(w * CH / CW)
-    for arq, ops in (("cracha_opcoes.jpg", OPCOES), ("cracha_opcoes2.jpg", OPCOES2)):
+    for arq, ops in (("cracha_opcoes.jpg", OPCOES), ("cracha_opcoes2.jpg", OPCOES2), ("cracha_opcoes3.jpg", OPCOES3)):
         folha_opcoes(arq, ops, w, h)
     print("ok")
 

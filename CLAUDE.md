@@ -1079,4 +1079,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   2ª rodada ("gostei, mas cria novas opções"): `cracha_opcoes2.jpg` = D INGRESSO STAFF (canhoto picotado "VALE 1 EXPLICAÇÃO
   DE JOGO", código de barras), E LETRAS DE MADEIRA tipo Scrabble (MONITOR e o nome em peças com pontos, papel de
   bolinhas), F TRILHA DE TABULEIRO na borda (casas coloridas, INÍCIO, "Travou no jogo? Não volte casas: me chama!").
-  Esperando ele escolher (PDFs `cracha_{A..F}_A4.pdf`).
+  3ª rodada ("mais focado na Sua Vez, sem o Beca’s, pra usar em qualquer evento"): `cracha_opcoes3.jpg` = G azul-claro
+  com confete, logo grande, "A gente ensina, você joga!"; H trocadilho "É A VEZ DE:" com setas apontando o nome, fundo
+  amarelo listrado; I "equipe" (faixa petróleo com logo, nome em faixa laranja, QR do acervo). Sem data nem café.
+  Esperando ele escolher (PDFs `cracha_{A..I}_A4.pdf`).
