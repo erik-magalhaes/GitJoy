@@ -227,53 +227,59 @@ def tracejado(d, box, cor, w=4, passo=22, traco=12):
         d.line((x1, y, x1, min(y + traco, y1)), fill=cor, width=w)
 
 
-def cupom():
-    """Cartãozinho 9 x 5 cm entregue a quem pagou: vale R$ 15 de consumação + cupom do 1º aluguel + QR do site."""
-    img = Image.new("RGBA", (CW, CH), BR + (255,))
+def vale(num=None):
+    """Vale R$ 15 de consumação (9 x 5 cm): a pessoa ENTREGA no caixa do Becas; numerado para conferir no fim do dia."""
+    img = Image.new("RGBA", (CW, CH), AMA + (255,))
     d = ImageDraw.Draw(img)
-    d.rectangle((0, 0, 22, CH), fill=LAR)  # faixa colorida na esquerda
-    d.rectangle((22, 0, 34, CH), fill=AMA)
-    # cabeçalho
+    d.rectangle((0, 0, 22, CH), fill=LAR)
+    d.rectangle((22, 0, 34, CH), fill=MAR)
     lg = E.logo(96)
     img.alpha_composite(lg, (58, 22))
     d.text((58 + lg.width + 16, 46), "TARDE DE JOGOS NO BECAS CAFÉ", font=E.lilita(34), fill=MAR, anchor="lm")
-    d.text((58 + lg.width + 16, 92), "sexta, 20/11 · 13h às 19h", font=E.fig(26, 700), fill=PET, anchor="lm")
-    # vale de consumação
-    vx0, vy0, vx1, vy1 = 58, 150, 690, 370
-    d.rounded_rectangle((vx0 + 7, vy0 + 7, vx1 + 7, vy1 + 7), 22, fill=MAR)
-    d.rounded_rectangle((vx0, vy0, vx1, vy1), 22, fill=AMA, outline=MAR, width=5)
-    d.text((vx0 + 30, vy0 + 42), "VALE CONSUMAÇÃO", font=E.fig(30, 900), fill=MAR, anchor="lm")
-    d.text((vx0 + 26, vy0 + 128), "R$ 15", font=E.lilita(118), fill=LAR, anchor="lm", stroke_width=5, stroke_fill=MAR)
-    d.text((vx0 + 360, vy0 + 112), "no Becas Café", font=E.fig(30, 800), fill=MAR, anchor="lm")
-    d.text((vx0 + 360, vy0 + 152), "em 20/11", font=E.fig(30, 800), fill=MAR, anchor="lm")
-    d.text((vx0 + 30, vy0 + 196), "entregue no caixa ao fazer o pedido", font=E.fig(23, 700), fill=MAR, anchor="lm")
-    # cupom do 1º aluguel
-    tracejado(d, (58, 400, 690, 520), PET)
-    d.text((82, 436), "10% OFF no seu 1º aluguel", font=E.fig(30, 900), fill=MAR, anchor="lm")
-    d.text((82, 486), "CUPOM:", font=E.fig(30, 800), fill=MAR, anchor="lm")
-    d.text((212, 488), CUPOM, font=E.lilita(50), fill=PET, anchor="lm")
-    d.text((374, 562), "Valeu por jogar com a gente!", font=E.fig(24, 700), fill=MAR, anchor="mm")
-    # QR do site
-    q = qr(290)
-    qx = CW - 335
-    img.paste(q, (qx, 150))
-    d.text((qx + 145, 470), "conheça o acervo", font=E.fig(26, 800), fill=MAR, anchor="mm")
-    d.text((qx + 145, 508), "e alugue no site", font=E.fig(26, 800), fill=MAR, anchor="mm")
-    d.text((qx + 145, 552), "@suavez_bg", font=E.fig(26, 900), fill=PET, anchor="mm")
+    d.text((58 + lg.width + 16, 92), "sexta, 20/11 · 13h às 19h", font=E.fig(26, 800), fill=MAR, anchor="lm")
+    cx = CW / 2 + 17
+    d.text((cx, 175), "VALE CONSUMAÇÃO", font=E.fig(44, 900), fill=MAR, anchor="mm")
+    d.text((cx, 300), "R$ 15", font=E.lilita(190), fill=LAR, anchor="mm", stroke_width=7, stroke_fill=MAR)
+    d.text((cx, 420), "válido no Becas Café em 20/11", font=E.fig(32, 800), fill=MAR, anchor="mm")
+    d.text((cx, 462), "entregue no caixa ao fazer o seu pedido", font=E.fig(26, 700), fill=MAR, anchor="mm")
+    # número do vale (para conferir com a lista de pagantes e evitar cópia)
+    n = f"Nº {num:03d}" if num else "Nº ____"
+    d.rounded_rectangle((CW - 230, CH - 92, CW - 34, CH - 34), 14, fill=BR, outline=MAR, width=4)
+    d.text((CW - 132, CH - 63), n, font=E.lilita(38), fill=MAR, anchor="mm")
     return img
 
 
-def folha_cupons():
+def cupom():
+    """Cartão que a pessoa LEVA pra casa (9 x 5 cm): 10% no 1º aluguel + QR do site."""
+    img = Image.new("RGBA", (CW, CH), BR + (255,))
+    d = ImageDraw.Draw(img)
+    d.rectangle((0, 0, 22, CH), fill=LAR)
+    d.rectangle((22, 0, 34, CH), fill=AMA)
+    lg = E.logo(150)
+    img.alpha_composite(lg, (64, 30))
+    d.text((66, 232), "Valeu por jogar com a gente!", font=E.fig(30, 800), fill=MAR, anchor="lm")
+    d.text((62, 315), "10% OFF", font=E.lilita(112), fill=LAR, anchor="lm", stroke_width=5, stroke_fill=MAR)
+    d.text((66, 395), "no seu 1º aluguel", font=E.fig(34, 800), fill=MAR, anchor="lm")
+    tracejado(d, (60, 436, 640, 540), PET)
+    d.text((350, 489), f"CUPOM: {CUPOM}", font=E.lilita(54), fill=PET, anchor="mm")
+    q = qr(300)
+    qx = CW - 345
+    img.paste(q, (qx, 70))
+    d.text((qx + 150, 420), "conheça o acervo", font=E.fig(27, 800), fill=MAR, anchor="mm")
+    d.text((qx + 150, 458), "e alugue no site", font=E.fig(27, 800), fill=MAR, anchor="mm")
+    d.text((qx + 150, 505), "@suavez_bg", font=E.fig(28, 900), fill=PET, anchor="mm")
+    return img
+
+
+def folha(cartoes):
+    """A4 com 10 cartões 9 x 5 cm (2 x 5) e marcas de corte."""
     A4 = (int(21 / 2.54 * DPI), int(29.7 / 2.54 * DPI))
-    folha = Image.new("RGB", A4, (255, 255, 255))
-    d = ImageDraw.Draw(folha)
-    c = cupom().convert("RGB")
+    fo = Image.new("RGB", A4, (255, 255, 255))
+    d = ImageDraw.Draw(fo)
     cols, lins = 2, 5
     mx, my = (A4[0] - cols * CW) // 2, (A4[1] - lins * CH) // 2
-    for i in range(lins):
-        for j in range(cols):
-            folha.paste(c, (mx + j * CW, my + i * CH))
-    # marcas de corte
+    for k, c in enumerate(cartoes):
+        fo.paste(c.convert("RGB"), (mx + (k % cols) * CW, my + (k // cols) * CH))
     for j in range(cols + 1):
         x = mx + j * CW
         d.line((x, my - 60, x, my - 15), fill=(120, 120, 120), width=3)
@@ -282,7 +288,10 @@ def folha_cupons():
         y = my + i * CH
         d.line((mx - 60, y, mx - 15, y), fill=(120, 120, 120), width=3)
         d.line((mx + cols * CW + 15, y, mx + cols * CW + 60, y), fill=(120, 120, 120), width=3)
-    return folha
+    return fo
+
+
+N_VALES = 40  # 4 folhas numeradas 001–040
 
 
 def main():
@@ -291,17 +300,14 @@ def main():
     p.convert("RGB").save(os.path.join(OUT, "post_1080x1350.png"))
     s.convert("RGB").save(os.path.join(OUT, "story_1080x1920.png"))
     cupom().convert("RGB").save(os.path.join(OUT, "cupom.png"), dpi=(DPI, DPI))
+    vale(1).convert("RGB").save(os.path.join(OUT, "vale.png"), dpi=(DPI, DPI))
     fl = flyer().convert("RGB").resize((1748, 2480), Image.LANCZOS).filter(ImageFilter.UnsharpMask(1.2, 60, 2))
     fl.save(os.path.join(OUT, "flyer_A5.png"), dpi=(DPI, DPI))
     fl.save(os.path.join(OUT, "flyer_A5.pdf"), resolution=DPI)
-    f = folha_cupons()
-    f.save(os.path.join(OUT, "cupons_A4.png"), dpi=(DPI, DPI))
-    f.save(os.path.join(OUT, "cupons_A4.pdf"), resolution=DPI)
-    sh = Image.new("RGB", (540 + 20 + 540, 960), (255, 255, 255))
-    sh.paste(p.convert("RGB").resize((540, 675)), (0, 0))
-    sh.paste(s.convert("RGB").resize((540, 960)), (560, 0))
-    sh.paste(cupom().convert("RGB").resize((531, 295)), (5, 680))
-    sh.save(os.path.join(OUT, "folha.jpg"), quality=90)
+    folha([cupom()] * 10).save(os.path.join(OUT, "cupons_A4.pdf"), resolution=DPI)
+    fv = [folha([vale(k * 10 + i + 1) for i in range(10)]) for k in range(N_VALES // 10)]
+    fv[0].save(os.path.join(OUT, "vales_A4_001-040.pdf"), resolution=DPI, save_all=True, append_images=fv[1:])
+    folha([vale()] * 10).save(os.path.join(OUT, "vales_A4_em_branco.pdf"), resolution=DPI)
     print("ok")
 
 
