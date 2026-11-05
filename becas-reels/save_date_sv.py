@@ -6,7 +6,7 @@ coisa boa". (O `save_date.py` com guarda-chuvinhas ficou como versão anterior.)
 10 s, identidade da Jéssica: azul-claro com trilha de casas, "?" claros flutuando, logo. Uma CARTA DE JOGO virada (verso
 petróleo com "?" amarelo) treme, vira e mostra "20 · NOVEMBRO · ANOTA AÍ!" (a única informação). Depois: "SAVE THE
 DATE!", "VEM COISA BOA POR AÍ...", "SÁBADO, AO MEIO-DIA, A GENTE CONTA TUDO!" e "fica ligado: ativa o lembrete" + seta.
-Área y≈1630–1800 LIVRE para o adesivo de contagem regressiva do Instagram.
+Área y≈1350–1560 LIVRE (meio da tela) para o adesivo de contagem regressiva do Instagram.
 
     /usr/bin/python3 save_date_sv.py --frame 0.6 1.6 6
     /usr/bin/python3 save_date_sv.py      # out/save_sv_{com_som,para_musica}_final.mp4
@@ -30,7 +30,8 @@ OUT = T.OUT
 DUR = 10.0
 AZUL = (227, 243, 246)
 CW_, CH_ = 470, 640  # carta
-CY = 985
+CY = 820
+KC = 0.78  # escala da carta (7/nov: o espaço do lembrete subiu para o meio da tela)
 T_VIRA = (1.25, 1.75)
 
 
@@ -121,8 +122,7 @@ def carta(img, t):
     else:
         face, sx = frente(), 1.0
     rot = treme + (2.5 * math.sin(t * 1.1) if t > T_VIRA[1] else 0)
-    if sx < 0.999:
-        face = face.resize((max(2, int(face.width * sx)), face.height), Image.BICUBIC)
+    face = face.resize((max(2, int(face.width * sx * KC)), int(face.height * KC)), Image.BICUBIC)
     E.cola(img, face, W / 2, y, rot)
 
 
@@ -138,11 +138,11 @@ def seta_baixo():
 def quadro(t):
     img = fundo().copy()
     flutua(img, t)
-    T.poe(img, T.logo(230), W / 2, 330, t, 0.1)
+    T.poe(img, T.logo(200), W / 2, 270, t, 0.1)
     carta(img, t)
-    T.poe(img, T.titulo("SAVE THE DATE!", 135, LAR), W / 2, 515, t, 1.9, -2)
-    T.poe(img, E.pilula("VEM COISA BOA POR AÍ...", 52, PET, BR, fonte_titulo=True), W / 2, 1395, t, 2.4, 1.5)
-    T.poe(img, E.pilula("SÁBADO, AO MEIO-DIA, A GENTE CONTA TUDO!", 36, AMA, MAR, fonte_titulo=True), W / 2, 1480, t,
+    T.poe(img, T.titulo("SAVE THE DATE!", 130, LAR), W / 2, 435, t, 1.9, -2)
+    T.poe(img, E.pilula("VEM COISA BOA POR AÍ...", 52, PET, BR, fonte_titulo=True), W / 2, 1135, t, 2.4, 1.5)
+    T.poe(img, E.pilula("SÁBADO, AO MEIO-DIA, A GENTE CONTA TUDO!", 36, AMA, MAR, fonte_titulo=True), W / 2, 1215, t,
           2.8, -1)
     if t > 3.3:
         a = min(1, (t - 3.3) / 0.3)
@@ -153,7 +153,7 @@ def quadro(t):
         txt.alpha_composite(seta_baixo(), (int(W / 2 + 270), int(bob)))
         if a < 1:
             txt.putalpha(txt.getchannel("A").point(lambda v: int(v * a)))
-        img.alpha_composite(txt, (0, 1525))
+        img.alpha_composite(txt, (0, 1255))
     return img.convert("RGB")
 
 
