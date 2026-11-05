@@ -928,6 +928,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   entra quem chegar"/19h, "Locadora" (não "Locação"). `gerar_pdf.py` tem `LUGARES` → versão com o nome do lugar
   (`out/proposta_becas.pdf`: título "TARDE DE JOGOS NO BECAS CAFÉ" e "o Becas" no texto). Detalhe do Becas que ele viu:
   guarda-chuvinhos coloridos pendurados no teto. O Direct do Instagram NÃO aceita PDF: `gerar_pdf.py` também salva cada página em JPEG 1440 px (`out/<nome>_paginaN.jpg`).
+  **Democrata Café (5/nov):** versão da proposta com o nome do lugar (`LUGARES["democrata"]` → `out/proposta_democrata.pdf` + JPEGs).
   **O Becas ACEITOU (3/nov)**; preocupação deles: espaço e não atrapalhar o movimento/ticket normal. Data em discussão
   (ideia dele: **20/11, feriado**, que não mexe com o sábado do café) → artes SEM data ("DATA EM BREVE"). Decisões dele:
   ingresso **R$ 30 com R$ 15 de consumação**, ~30 vagas (NÃO vai na arte: ele pediu para tirar), inscrição pelo **WhatsApp ou na hora no café**, cupom de **10% no

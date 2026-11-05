@@ -17,7 +17,7 @@ OUT = os.path.join(ROOT, "out")
 # versão BAR (3/nov, ele: "e bar mais sossegado?"): mesmo texto, trocando café → bar
 BAR = [("CAFÉ", "BAR"), ("café", "bar")]  # todas as menções são "o/do/no/seu café" (masculino), então troca direta
 
-LUGARES = {"becas": "Becas Café"}  # 3/nov: o Becas aceitou receber a proposta (sábado 13h–19h)
+LUGARES = {"becas": "Becas Café", "democrata": "Democrata Café"}  # 3/nov: o Becas aceitou receber a proposta (sábado 13h–19h)
 
 
 def render(html, final):
