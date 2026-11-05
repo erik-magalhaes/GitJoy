@@ -232,10 +232,11 @@ VL = int(5 / 2.54 * DPI)  # vale quadrado 5 x 5 cm (20 por A4)
 
 def vale(num=None):
     """Vale R$ 15 de consumação (5 x 5 cm): a pessoa ENTREGA no caixa do Becas; numerado para conferir no fim do dia."""
-    img = Image.new("RGBA", (VL, VL), AMA + (255,))
+    img = Image.new("RGBA", (VL, VL), BR + (255,))
     d = ImageDraw.Draw(img)
     d.rectangle((0, 0, VL, 18), fill=LAR)
     d.rectangle((0, VL - 18, VL, VL), fill=LAR)
+    d.rectangle((0, 0, VL - 1, VL - 1), outline=(190, 190, 190), width=2)  # linha de corte (fundo branco)
     lg = E.logo(84)
     img.alpha_composite(lg, (int(VL / 2 - lg.width / 2), 34))
     d.text((VL / 2, 158), "VALE CONSUMAÇÃO", font=E.fig(38, 900), fill=MAR, anchor="mm")
@@ -243,7 +244,7 @@ def vale(num=None):
     d.text((VL / 2, 368), "Becas Café · 20/11", font=E.fig(34, 900), fill=MAR, anchor="mm")
     d.text((VL / 2, 410), "entregue no caixa", font=E.fig(28, 700), fill=MAR, anchor="mm")
     n = f"Nº {num:03d}" if num else "Nº ____"
-    d.rounded_rectangle((VL / 2 - 110, 452, VL / 2 + 110, 518), 14, fill=BR, outline=MAR, width=4)
+    d.rounded_rectangle((VL / 2 - 110, 452, VL / 2 + 110, 518), 14, fill=AMA, outline=MAR, width=4)
     d.text((VL / 2, 486), n, font=E.lilita(40), fill=MAR, anchor="mm")
     return img
 
@@ -290,7 +291,7 @@ def folha(cartoes, cols=2, lins=5):
     return fo
 
 
-N_VALES = 40  # 2 folhas numeradas 001–040 (20 por folha)
+N_VALES = 50  # 3 folhas numeradas 001–050 (20 por folha; a última com 10)
 
 
 def main():
@@ -304,8 +305,9 @@ def main():
     fl.save(os.path.join(OUT, "flyer_A5.png"), dpi=(DPI, DPI))
     fl.save(os.path.join(OUT, "flyer_A5.pdf"), resolution=DPI)
     folha([cupom()] * 10).save(os.path.join(OUT, "cupons_A4.pdf"), resolution=DPI)
-    fv = [folha([vale(k * 20 + i + 1) for i in range(20)], 4, 5) for k in range(N_VALES // 20)]
-    fv[0].save(os.path.join(OUT, "vales_A4_001-040.pdf"), resolution=DPI, save_all=True, append_images=fv[1:])
+    nums = list(range(1, N_VALES + 1))
+    fv = [folha([vale(n) for n in nums[k:k + 20]], 4, 5) for k in range(0, N_VALES, 20)]
+    fv[0].save(os.path.join(OUT, f"vales_A4_001-{N_VALES:03d}.pdf"), resolution=DPI, save_all=True, append_images=fv[1:])
     folha([vale()] * 20, 4, 5).save(os.path.join(OUT, "vales_A4_em_branco.pdf"), resolution=DPI)
     print("ok")
 
