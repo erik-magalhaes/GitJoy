@@ -49,7 +49,8 @@ def calendario():
         d.ellipse((x - 16, 20, x + 16, 52), fill=CREME_ESC, outline=MAR, width=5)
     d.text((CAL_W / 2, 88), "NOVEMBRO", font=E.lilita(52), fill=BR, anchor="mm")
     d.text((CAL_W / 2, 270), "20", font=E.lilita(230), fill=LAR, anchor="mm", stroke_width=8, stroke_fill=MAR)
-    lg = TB.parceria(64)  # logos Sua Vez × Beca’s no pé da folha
+    lg = E.logo(190)  # 6/nov: teaser SEM o nome do café (ele pediu); só o logo da Sua Vez
+    lg = lg.resize((int(lg.width * 74 / lg.height), 74), Image.LANCZOS)
     im.alpha_composite(lg, (int(CAL_W / 2 - lg.width / 2), int(428 - lg.height / 2)))
     return im.resize((int(im.width * KC), int(im.height * KC)), Image.LANCZOS)
 
@@ -101,20 +102,20 @@ def quadro(t):
     else:
         SB.pendulo(img, W / 2, ang, W_UMB, ROSA, FIO, "cal", circulo(u) if u > 0 else None)
     T.poe(img, T.titulo("SAVE THE DATE!", 140, LAR), W / 2, 1228, t, 2.2, -2)
-    T.poe(img, E.pilula("TARDE DE JOGOS NO BECA’S CAFÉ", 44, PET, BR, fonte_titulo=True), W / 2, 1345, t, 2.6, 1)
-    T.poe(img, E.pilula("SEXTA (FERIADO) · 13H ÀS 19H", 40, AMA, MAR, fonte_titulo=True), W / 2, 1428, t, 2.9, -1)
-    T.poe(img, E.pilula("R. SOROCABA, 35 · MAUÁ", 30, BR, MAR, fonte_titulo=True), W / 2, 1498, t, 3.1, 1)
+    T.poe(img, E.pilula("VEM NOVIDADE POR AÍ...", 50, PET, BR, fonte_titulo=True), W / 2, 1350, t, 2.6, 1)
+    T.poe(img, E.pilula("SÁBADO, AO MEIO-DIA,", 42, AMA, MAR, fonte_titulo=True), W / 2, 1428, t, 2.9, -1)
+    T.poe(img, E.pilula("A GENTE CONTA TUDO!", 42, AMA, MAR, fonte_titulo=True), W / 2, 1495, t, 3.1, 1)
     if t > 3.4:  # dica do adesivo de contagem regressiva (o adesivo do Instagram vai logo abaixo)
         a = min(1, (t - 3.4) / 0.3)
         bob = 8 * math.sin(2 * math.pi * (t - 3.4) / 1.2)
         d = ImageDraw.Draw(img)
         txt = Image.new("RGBA", (W, 130), (0, 0, 0, 0))
         dt = ImageDraw.Draw(txt)
-        dt.text((W / 2 - 40, 45), "ativa o lembrete:", font=E.fig(40, 900), fill=MAR, anchor="mm")
-        txt.alpha_composite(seta_baixo(), (int(W / 2 + 160), int(0 + bob)))
+        dt.text((W / 2 - 60, 45), "ativa o lembrete pra não perder:", font=E.fig(40, 900), fill=MAR, anchor="mm")
+        txt.alpha_composite(seta_baixo(), (int(W / 2 + 285), int(0 + bob)))
         if a < 1:
             txt.putalpha(txt.getchannel("A").point(lambda v: int(v * a)))
-        img.alpha_composite(txt, (0, 1520))
+        img.alpha_composite(txt, (0, 1530))
         del d
     return img.convert("RGB")
 

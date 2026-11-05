@@ -1087,4 +1087,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   guarda-chuva rosa segurando uma FOLHA DE CALENDÁRIO (NOVEMBRO / 20, logos Sua Vez × Beca’s no pé, `SB.OBJ["cal"]`,
   escala `KC`) que balança; caneta vermelha circula o 20 (1,3–2,1 s); "SAVE THE DATE!", 3 pílulas (tarde de jogos no
   Beca’s, sexta (feriado) 13h às 19h, endereço) e "ativa o lembrete:" + seta. Área y≈1620–1790 LIVRE para o adesivo de
-  contagem regressiva do Instagram (ele vai colocar). Do 3,5 s em diante só balança. Saída `out/save_date_{com_som,para_musica}_final.mp4`.
+  contagem regressiva do Instagram (ele vai colocar). Do 3,5 s em diante só balança.
+  **6/nov, virou TEASER (pedido dele): SEM o nome do café** (só o logo da Sua Vez no calendário), "SAVE THE DATE!", "VEM
+  NOVIDADE POR AÍ...", "SÁBADO, AO MEIO-DIA, A GENTE CONTA TUDO!" e "ativa o lembrete pra não perder:"; o contador dele
+  aponta para o sábado meio-dia (revelação do evento). Saída `out/save_date_{com_som,para_musica}_final.mp4`.
