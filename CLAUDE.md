@@ -1051,3 +1051,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **Controle de ingressos (sugestão aceita):** venda antecipada por Pix no WhatsApp + planilha (sem Pix não é reserva), na porta
   lista + pulseira; cada pagante recebe DOIS cartões 9x5 cm (ele notou que o vale fica no caixa e o cupom se perderia): `vale(n)` QUADRADO 5x5 cm, fundo BRANCO com linha de corte cinza (pedidos dele: menor, 20 por A4, sem fundo amarelo) NUMERADO 001–050 (`vales_A4_001-050.pdf` = 3 folhas, a última com 10; + em branco) = VALE CONSUMAÇÃO R$ 15 no Becas em 20/11 (entregue
   no caixa; conferir nº com a lista) e `cupom()` que a pessoa LEVA (também 5x5 cm, 20 por A4, QR ~2,1 cm lido no teste) = 10% OFF no 1º aluguel (BECAS10) + QR do site (conferido com o leitor do OpenCV); `cupons_A4.pdf` = 10 por folha.
+- **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
+  preferida ("combina com a estética do lugar") e pediu mais peças nessa linha. Ideia nova: os guarda-chuvinhas SEGURAM as
+  coisas pelo cabo (`segura()`: fio do teto → guarda-chuva → argola → placa/caixa/número), como um móbile. Peças: stories de
+  CONTAGEM (faltam 7/3/2 dias, É AMANHÃ!, É HOJE!; disco pendurado; espaço livre ~y 1610–1760 para o adesivo de link),
+  carrossel 5 telas "PREVISÃO PRA SEXTA, 20/11: CHUVA DE JOGOS" (caixas chovendo, como funciona com 3 plaquinhas, caixas
+  penduradas, etiqueta R$ 30 + cupom 10%, reserva) e PLAQUINHAS DE MESA 1–8 (A4 dobrada ao meio, uma cor por mesa,
+  "Dúvida no jogo? Chama a gente!"). Marrom sobre contorno marrom fica ilegível no `E.titulo`: use cor clara.
