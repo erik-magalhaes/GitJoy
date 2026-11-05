@@ -100,7 +100,7 @@ def cracha_c(n):
     d = ImageDraw.Draw(img)
     d.rounded_rectangle((90, 905, CW - 90, 1135), 34, fill=BR, outline=MAR, width=7)
     if n:
-        E.cola(img, E.titulo(n, 140, PET, larg_max=CW - 260), CW / 2, 1020, 0)
+        E.cola(img, E.titulo(n, 140, (64, 170, 200), larg_max=CW - 260), CW / 2, 1020, 0)  # 5/nov: nome mais claro (pedido)
     else:
         d.line((170, 1070, CW - 170, 1070), fill=MAR, width=4)
     # QR do acervo + chamada
