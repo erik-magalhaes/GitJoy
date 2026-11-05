@@ -343,9 +343,9 @@ def _miolo(img, x0, y0, x1, y1, story, so, k):
     if mostra("data"):
         tracejado(d, x0 + 30, x1 - 30, y, MOSTARDA)
     y += 24 * k
-    fd = _cabe(d, "SEXTA, 20/11 · 13H", "Anton-Regular.ttf", int(104 * k), larg)
+    fd = _cabe(d, "SEXTA, 20/11 · 13H ÀS 19H", "Anton-Regular.ttf", int(104 * k), larg)
     if mostra("data"):
-        d.text((cx, y), "SEXTA, 20/11 · 13H", font=fd, fill=CREME_TXT, anchor="mt")
+        d.text((cx, y), "SEXTA, 20/11 · 13H ÀS 19H", font=fd, fill=CREME_TXT, anchor="mt")
     y += fd.size * 1.12
     fp = _cabe(d, "R$ 30 por pessoa, e R$ 15 viram consumação no café", "SpaceGrotesk.ttf", int(32 * k), larg, (700,))
     if mostra("data"):

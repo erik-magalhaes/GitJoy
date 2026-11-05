@@ -179,7 +179,7 @@ def texto_pixel(img, linhas, cx, y, s, entre=1.5):
     return y
 
 
-INFO = [("SEXTA, 20/11 · 13H", VERMELHO), ("BECAS CAFÉ · R. SOROCABA, 35", TINTA), ("R$ 30 (R$ 15 VIRAM CAFÉ)", VERMELHO),
+INFO = [("SEXTA, 20/11 · 13H ÀS 19H", VERMELHO), ("BECAS CAFÉ · R. SOROCABA, 35", TINTA), ("R$ 30 (R$ 15 VIRAM CAFÉ)", VERMELHO),
         ("A GENTE ENSINA TODOS OS JOGOS", TINTA), ("RESERVE: (11) 97793-3910", VERMELHO)]
 
 
@@ -210,8 +210,8 @@ def story():
     palavra(img, "DE", W / 2, 830, 160, 2)
     palavra(img, "JOGOS!", W / 2, 1010, 160, 3)
     d = ImageDraw.Draw(img)
-    d.rounded_rectangle((60, 1130, W - 60, 1450), 20, fill=(246, 232, 200), outline=(150, 112, 70), width=3)
-    texto_pixel(img, INFO, W / 2, 1160, 40, 1.8)
+    d.rounded_rectangle((60, 1120, W - 60, 1490), 20, fill=(246, 232, 200), outline=(150, 112, 70), width=3)
+    texto_pixel(img, INFO, W / 2, 1148, 40, 1.72)
     cartas_borda(img, W, H, 4, 1690)  # o adesivo de link vai entre o texto e as cartas (y ~1480–1640)
     return img
 
@@ -304,7 +304,7 @@ def cena_jogo(img, t):
     d.text((RW / 2, 1575), titulo[:n], font=f, fill=TINTA, anchor="mm")
 
 
-INFO_R = [("NO BECAS CAFÉ", TINTA), ("R. SOROCABA, 35 · MAUÁ", TINTA), ("SEXTA, 20/11 · 13H", VERMELHO), ("R$ 30 (R$ 15 VIRAM CAFÉ)", TINTA),
+INFO_R = [("NO BECAS CAFÉ", TINTA), ("R. SOROCABA, 35 · MAUÁ", TINTA), ("SEXTA, 20/11 · 13H ÀS 19H", VERMELHO), ("R$ 30 (R$ 15 VIRAM CAFÉ)", TINTA),
           ("A GENTE ENSINA TODOS OS JOGOS", TINTA), ("RESERVE: (11) 97793-3910", VERMELHO),
           ("COMENTA: QUAL JOGO VOCÊ", TINTA), ("QUER APRENDER?", TINTA)]
 

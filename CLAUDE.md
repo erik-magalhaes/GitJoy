@@ -1041,10 +1041,13 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   música, amigo secreto, decoração; no último item "fazer a galera se divertir junta (sem celular)" rabisca ???; carimbo
   "RESOLVIDO: CHAMA A SUA VEZ!"; polaroides com as cenas deles; post-its; 23 s). Fatos: ABC Paulista + SP capital,
   WhatsApp (11) 97793-3910, "a gente leva os jogos e fica o evento todo ensinando"; nada de "já atendemos".
-- **TARDE DE JOGOS NO BECAS FECHADA (5/nov):** **sexta, 20/11/2026 (feriado), a partir das 13h**, Becas Café, **Rua Sorocaba,
+- **TARDE DE JOGOS NO BECAS FECHADA (5/nov):** **sexta, 20/11/2026 (feriado), das 13h às 19h**, Becas Café, **Rua Sorocaba,
   35 – Mauá (CEP 09370-150; endereço do Restaurant Guru, pedi para ele confirmar)**; R$ 30 com R$ 15 de consumação; monitoria
   (eles levam os jogos e ensinam); cupom de 10% no 1º aluguel (BECAS10, precisa ser criado no site). Constantes `DATA` e
   `ENDERECO` + `selo_data`/`selo_endereco` em `promo/tarde_becas.py` (usadas também em `becas-reels/tarde.py`); horário de
-  término não definido (a arte diz só "13H"). Kit: post, story, **flyer A5** (`flyer()`: o post + caixa com QR do site, 300 dpi,
+  término: 19h (todas as peças dizem "13H ÀS 19H"). Kit: post, story, **flyer A5** (`flyer()`: o post + caixa com QR do site, 300 dpi,
   PNG + PDF), cupons A4 e o Reels das guarda-chuvinhas. Os 3 estilos alternativos (gamesday, retro60, letrinhas) também
   ganharam data e endereço (post, story e Reels).
+  **Controle de ingressos (sugestão aceita):** venda antecipada por Pix no WhatsApp + planilha (sem Pix não é reserva), na porta
+  lista + pulseira; cada pagante recebe o **cartãozinho 9x5 cm** (`cupom()`): VALE CONSUMAÇÃO R$ 15 no Becas em 20/11 (entregue
+  no caixa) + 10% OFF no 1º aluguel (BECAS10) + QR do site (conferido com o leitor do OpenCV); `cupons_A4.pdf` = 10 por folha.

@@ -120,7 +120,7 @@ def leque(img, cx, cy, h, passo):
         E.cola(img, caixa(nome, h), cx + a * passo, cy + abs(a) * h * 0.06, -a * 4.5)
 
 
-DATA = "SEXTA, 20/11 (FERIADO) · 13H"  # 5/nov: o Becas aceitou o feriado de 20/11, a partir das 13h
+DATA = "SEXTA, 20/11 (FERIADO) · 13H ÀS 19H"  # 5/nov: o Becas aceitou o feriado de 20/11, das 13h às 19h
 ENDERECO = "BECAS CAFÉ · RUA SOROCABA, 35 · MAUÁ"  # Restaurant Guru: R. Sorocaba, 35, Mauá, 09370-150
 
 
@@ -217,29 +217,49 @@ def qr(tam):
     return q.make_image(fill_color=MAR, back_color=BR).convert("RGB").resize((tam, tam), Image.NEAREST)
 
 
+def tracejado(d, box, cor, w=4, passo=22, traco=12):
+    x0, y0, x1, y1 = box
+    for x in range(x0, x1, passo):
+        d.line((x, y0, min(x + traco, x1), y0), fill=cor, width=w)
+        d.line((x, y1, min(x + traco, x1), y1), fill=cor, width=w)
+    for y in range(y0, y1, passo):
+        d.line((x0, y, x0, min(y + traco, y1)), fill=cor, width=w)
+        d.line((x1, y, x1, min(y + traco, y1)), fill=cor, width=w)
+
+
 def cupom():
+    """Cartãozinho 9 x 5 cm entregue a quem pagou: vale R$ 15 de consumação + cupom do 1º aluguel + QR do site."""
     img = Image.new("RGBA", (CW, CH), BR + (255,))
     d = ImageDraw.Draw(img)
-    d.rectangle((0, 0, 26, CH), fill=LAR)  # faixa colorida na esquerda
-    d.rectangle((26, 0, 40, CH), fill=AMA)
-    lg = E.logo(250)
-    img.alpha_composite(lg, (70, 34))
-    d.text((70, 250), "10% OFF", font=E.lilita(120), fill=LAR, anchor="lm", stroke_width=4, stroke_fill=MAR)
-    d.text((72, 335), "no seu 1º aluguel", font=E.fig(40, 800), fill=MAR, anchor="lm")
-    # código num retângulo tracejado
-    x0, y0, x1, y1 = 70, 380, 600, 470
-    for x in range(x0, x1, 22):
-        d.line((x, y0, min(x + 12, x1), y0), fill=MAR, width=4)
-        d.line((x, y1, min(x + 12, x1), y1), fill=MAR, width=4)
-    for y in range(y0, y1, 22):
-        d.line((x0, y, x0, min(y + 12, y1)), fill=MAR, width=4)
-        d.line((x1, y, x1, min(y + 12, y1)), fill=MAR, width=4)
-    d.text(((x0 + x1) / 2, (y0 + y1) / 2), f"CUPOM: {CUPOM}", font=E.lilita(54), fill=PET, anchor="mm")
-    d.text((72, 520), "Valeu por jogar com a gente no Becas!", font=E.fig(28, 700), fill=MAR, anchor="lm")
-    q = qr(300)
-    img.paste(q, (CW - 340, 130))
-    d.text((CW - 190, 470), "reserve no site", font=E.fig(28, 800), fill=MAR, anchor="mm")
-    d.text((CW - 190, 510), "@suavez_bg", font=E.fig(28, 800), fill=PET, anchor="mm")
+    d.rectangle((0, 0, 22, CH), fill=LAR)  # faixa colorida na esquerda
+    d.rectangle((22, 0, 34, CH), fill=AMA)
+    # cabeçalho
+    lg = E.logo(96)
+    img.alpha_composite(lg, (58, 22))
+    d.text((58 + lg.width + 16, 46), "TARDE DE JOGOS NO BECAS CAFÉ", font=E.lilita(34), fill=MAR, anchor="lm")
+    d.text((58 + lg.width + 16, 92), "sexta, 20/11 · 13h às 19h", font=E.fig(26, 700), fill=PET, anchor="lm")
+    # vale de consumação
+    vx0, vy0, vx1, vy1 = 58, 150, 690, 370
+    d.rounded_rectangle((vx0 + 7, vy0 + 7, vx1 + 7, vy1 + 7), 22, fill=MAR)
+    d.rounded_rectangle((vx0, vy0, vx1, vy1), 22, fill=AMA, outline=MAR, width=5)
+    d.text((vx0 + 30, vy0 + 42), "VALE CONSUMAÇÃO", font=E.fig(30, 900), fill=MAR, anchor="lm")
+    d.text((vx0 + 26, vy0 + 128), "R$ 15", font=E.lilita(118), fill=LAR, anchor="lm", stroke_width=5, stroke_fill=MAR)
+    d.text((vx0 + 360, vy0 + 112), "no Becas Café", font=E.fig(30, 800), fill=MAR, anchor="lm")
+    d.text((vx0 + 360, vy0 + 152), "em 20/11", font=E.fig(30, 800), fill=MAR, anchor="lm")
+    d.text((vx0 + 30, vy0 + 196), "entregue no caixa ao fazer o pedido", font=E.fig(23, 700), fill=MAR, anchor="lm")
+    # cupom do 1º aluguel
+    tracejado(d, (58, 400, 690, 520), PET)
+    d.text((82, 436), "10% OFF no seu 1º aluguel", font=E.fig(30, 900), fill=MAR, anchor="lm")
+    d.text((82, 486), "CUPOM:", font=E.fig(30, 800), fill=MAR, anchor="lm")
+    d.text((212, 488), CUPOM, font=E.lilita(50), fill=PET, anchor="lm")
+    d.text((374, 562), "Valeu por jogar com a gente!", font=E.fig(24, 700), fill=MAR, anchor="mm")
+    # QR do site
+    q = qr(290)
+    qx = CW - 335
+    img.paste(q, (qx, 150))
+    d.text((qx + 145, 470), "conheça o acervo", font=E.fig(26, 800), fill=MAR, anchor="mm")
+    d.text((qx + 145, 508), "e alugue no site", font=E.fig(26, 800), fill=MAR, anchor="mm")
+    d.text((qx + 145, 552), "@suavez_bg", font=E.fig(26, 900), fill=PET, anchor="mm")
     return img
 
 
