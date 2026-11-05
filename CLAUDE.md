@@ -35,6 +35,10 @@ tudo antes de começar um vídeo novo: aqui está o que funcionou, o que não fu
 
 ## A loja
 
+- **PRIMEIRO ALUGUEL (5/nov/2026):** o cliente achou a Sua Vez pelo **ChatGPT**, que indicou a loja quando ele procurou a
+  locação de um jogo específico em São Paulo. A partir daqui já existe cliente de verdade (antes: "nenhum aluguel ainda").
+  Depoimento/foto só com autorização do cliente; nunca inventar números de aluguel.
+
 - **Donos: Erik e Jéssica.** A Jéssica também pede peças (13/out/2026). Endereço: **Av. da Saudade, 96 – Mauá**.
   Pagamento Pix ou cartão. Plataforma do site: Acervo de Jogos. **Categorias e preços avulsos:** Pocket R$ 15 / 5 dias,
   Família R$ 30 / 5 dias, Estratégico R$ 45 / 5 dias, **Deluxe R$ 60 / 7 dias** (só Final Girl, Flamecraft, Wonderland's
