@@ -1049,5 +1049,5 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   PNG + PDF), cupons A4 e o Reels das guarda-chuvinhas. Os 3 estilos alternativos (gamesday, retro60, letrinhas) também
   ganharam data e endereço (post, story e Reels).
   **Controle de ingressos (sugestão aceita):** venda antecipada por Pix no WhatsApp + planilha (sem Pix não é reserva), na porta
-  lista + pulseira; cada pagante recebe DOIS cartões 9x5 cm (ele notou que o vale fica no caixa e o cupom se perderia): `vale(n)` amarelo NUMERADO (`vales_A4_001-040.pdf`, + em branco) = VALE CONSUMAÇÃO R$ 15 no Becas em 20/11 (entregue
+  lista + pulseira; cada pagante recebe DOIS cartões 9x5 cm (ele notou que o vale fica no caixa e o cupom se perderia): `vale(n)` amarelo QUADRADO 5x5 cm (pedido dele: menor, 20 por A4) NUMERADO (`vales_A4_001-040.pdf` = 2 folhas, + em branco) = VALE CONSUMAÇÃO R$ 15 no Becas em 20/11 (entregue
   no caixa; conferir nº com a lista) e `cupom()` que a pessoa LEVA = 10% OFF no 1º aluguel (BECAS10) + QR do site (conferido com o leitor do OpenCV); `cupons_A4.pdf` = 10 por folha.

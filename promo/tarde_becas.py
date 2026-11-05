@@ -227,25 +227,24 @@ def tracejado(d, box, cor, w=4, passo=22, traco=12):
         d.line((x1, y, x1, min(y + traco, y1)), fill=cor, width=w)
 
 
+VL = int(5 / 2.54 * DPI)  # vale quadrado 5 x 5 cm (20 por A4)
+
+
 def vale(num=None):
-    """Vale R$ 15 de consumação (9 x 5 cm): a pessoa ENTREGA no caixa do Becas; numerado para conferir no fim do dia."""
-    img = Image.new("RGBA", (CW, CH), AMA + (255,))
+    """Vale R$ 15 de consumação (5 x 5 cm): a pessoa ENTREGA no caixa do Becas; numerado para conferir no fim do dia."""
+    img = Image.new("RGBA", (VL, VL), AMA + (255,))
     d = ImageDraw.Draw(img)
-    d.rectangle((0, 0, 22, CH), fill=LAR)
-    d.rectangle((22, 0, 34, CH), fill=MAR)
-    lg = E.logo(96)
-    img.alpha_composite(lg, (58, 22))
-    d.text((58 + lg.width + 16, 46), "TARDE DE JOGOS NO BECAS CAFÉ", font=E.lilita(34), fill=MAR, anchor="lm")
-    d.text((58 + lg.width + 16, 92), "sexta, 20/11 · 13h às 19h", font=E.fig(26, 800), fill=MAR, anchor="lm")
-    cx = CW / 2 + 17
-    d.text((cx, 175), "VALE CONSUMAÇÃO", font=E.fig(44, 900), fill=MAR, anchor="mm")
-    d.text((cx, 300), "R$ 15", font=E.lilita(190), fill=LAR, anchor="mm", stroke_width=7, stroke_fill=MAR)
-    d.text((cx, 420), "válido no Becas Café em 20/11", font=E.fig(32, 800), fill=MAR, anchor="mm")
-    d.text((cx, 462), "entregue no caixa ao fazer o seu pedido", font=E.fig(26, 700), fill=MAR, anchor="mm")
-    # número do vale (para conferir com a lista de pagantes e evitar cópia)
+    d.rectangle((0, 0, VL, 18), fill=LAR)
+    d.rectangle((0, VL - 18, VL, VL), fill=LAR)
+    lg = E.logo(84)
+    img.alpha_composite(lg, (int(VL / 2 - lg.width / 2), 34))
+    d.text((VL / 2, 158), "VALE CONSUMAÇÃO", font=E.fig(38, 900), fill=MAR, anchor="mm")
+    d.text((VL / 2, 262), "R$ 15", font=E.lilita(150), fill=LAR, anchor="mm", stroke_width=6, stroke_fill=MAR)
+    d.text((VL / 2, 368), "Becas Café · 20/11", font=E.fig(34, 900), fill=MAR, anchor="mm")
+    d.text((VL / 2, 410), "entregue no caixa", font=E.fig(28, 700), fill=MAR, anchor="mm")
     n = f"Nº {num:03d}" if num else "Nº ____"
-    d.rounded_rectangle((CW - 230, CH - 92, CW - 34, CH - 34), 14, fill=BR, outline=MAR, width=4)
-    d.text((CW - 132, CH - 63), n, font=E.lilita(38), fill=MAR, anchor="mm")
+    d.rounded_rectangle((VL / 2 - 110, 452, VL / 2 + 110, 518), 14, fill=BR, outline=MAR, width=4)
+    d.text((VL / 2, 486), n, font=E.lilita(40), fill=MAR, anchor="mm")
     return img
 
 
@@ -271,12 +270,12 @@ def cupom():
     return img
 
 
-def folha(cartoes):
-    """A4 com 10 cartões 9 x 5 cm (2 x 5) e marcas de corte."""
+def folha(cartoes, cols=2, lins=5):
+    """A4 com cartões em grade (2 x 5 para 9 x 5 cm; 4 x 5 para os vales 5 x 5 cm) e marcas de corte."""
     A4 = (int(21 / 2.54 * DPI), int(29.7 / 2.54 * DPI))
     fo = Image.new("RGB", A4, (255, 255, 255))
     d = ImageDraw.Draw(fo)
-    cols, lins = 2, 5
+    CW, CH = cartoes[0].size
     mx, my = (A4[0] - cols * CW) // 2, (A4[1] - lins * CH) // 2
     for k, c in enumerate(cartoes):
         fo.paste(c.convert("RGB"), (mx + (k % cols) * CW, my + (k // cols) * CH))
@@ -291,7 +290,7 @@ def folha(cartoes):
     return fo
 
 
-N_VALES = 40  # 4 folhas numeradas 001–040
+N_VALES = 40  # 2 folhas numeradas 001–040 (20 por folha)
 
 
 def main():
@@ -305,9 +304,9 @@ def main():
     fl.save(os.path.join(OUT, "flyer_A5.png"), dpi=(DPI, DPI))
     fl.save(os.path.join(OUT, "flyer_A5.pdf"), resolution=DPI)
     folha([cupom()] * 10).save(os.path.join(OUT, "cupons_A4.pdf"), resolution=DPI)
-    fv = [folha([vale(k * 10 + i + 1) for i in range(10)]) for k in range(N_VALES // 10)]
+    fv = [folha([vale(k * 20 + i + 1) for i in range(20)], 4, 5) for k in range(N_VALES // 20)]
     fv[0].save(os.path.join(OUT, "vales_A4_001-040.pdf"), resolution=DPI, save_all=True, append_images=fv[1:])
-    folha([vale()] * 10).save(os.path.join(OUT, "vales_A4_em_branco.pdf"), resolution=DPI)
+    folha([vale()] * 20, 4, 5).save(os.path.join(OUT, "vales_A4_em_branco.pdf"), resolution=DPI)
     print("ok")
 
 
