@@ -250,24 +250,25 @@ def vale(num=None):
 
 
 def cupom():
-    """Cartão que a pessoa LEVA pra casa (9 x 5 cm): 10% no 1º aluguel + QR do site."""
-    img = Image.new("RGBA", (CW, CH), BR + (255,))
+    """Cartão que a pessoa LEVA pra casa (5 x 5 cm, igual ao vale): 10% no 1º aluguel + QR do site."""
+    img = Image.new("RGBA", (VL, VL), BR + (255,))
     d = ImageDraw.Draw(img)
-    d.rectangle((0, 0, 22, CH), fill=LAR)
-    d.rectangle((22, 0, 34, CH), fill=AMA)
-    lg = E.logo(150)
-    img.alpha_composite(lg, (64, 30))
-    d.text((66, 232), "Valeu por jogar com a gente!", font=E.fig(30, 800), fill=MAR, anchor="lm")
-    d.text((62, 315), "10% OFF", font=E.lilita(112), fill=LAR, anchor="lm", stroke_width=5, stroke_fill=MAR)
-    d.text((66, 395), "no seu 1º aluguel", font=E.fig(34, 800), fill=MAR, anchor="lm")
-    tracejado(d, (60, 436, 640, 540), PET)
-    d.text((350, 489), f"CUPOM: {CUPOM}", font=E.lilita(54), fill=PET, anchor="mm")
-    q = qr(300)
-    qx = CW - 345
-    img.paste(q, (qx, 70))
-    d.text((qx + 150, 420), "conheça o acervo", font=E.fig(27, 800), fill=MAR, anchor="mm")
-    d.text((qx + 150, 458), "e alugue no site", font=E.fig(27, 800), fill=MAR, anchor="mm")
-    d.text((qx + 150, 505), "@suavez_bg", font=E.fig(28, 900), fill=PET, anchor="mm")
+    d.rectangle((0, 0, VL, 18), fill=PET)
+    d.rectangle((0, VL - 18, VL, VL), fill=PET)
+    d.rectangle((0, 0, VL - 1, VL - 1), outline=(190, 190, 190), width=2)  # linha de corte
+    d.text((VL / 2, 92), "10% OFF", font=E.lilita(112), fill=LAR, anchor="mm", stroke_width=5, stroke_fill=MAR)
+    d.text((VL / 2, 168), "no seu 1º aluguel", font=E.fig(34, 900), fill=MAR, anchor="mm")
+    q = qr(250)  # ~2,1 cm impresso
+    img.paste(q, (36, 210))
+    x0, x1 = 312, 560
+    cx = (x0 + x1) / 2
+    d.text((cx, 228), "CUPOM:", font=E.fig(28, 900), fill=MAR, anchor="mm")
+    tracejado(d, (x0, 252, x1, 322), PET, w=3, passo=18, traco=10)
+    d.text((cx, 288), CUPOM, font=E.lilita(46), fill=PET, anchor="mm")
+    d.text((cx, 360), "conheça o", font=E.fig(24, 800), fill=MAR, anchor="mm")
+    d.text((cx, 390), "acervo no site", font=E.fig(24, 800), fill=MAR, anchor="mm")
+    d.text((cx, 438), "@suavez_bg", font=E.fig(26, 900), fill=PET, anchor="mm")
+    d.text((VL / 2, 508), "Valeu por jogar com a gente!", font=E.fig(28, 800), fill=MAR, anchor="mm")
     return img
 
 
@@ -304,7 +305,7 @@ def main():
     fl = flyer().convert("RGB").resize((1748, 2480), Image.LANCZOS).filter(ImageFilter.UnsharpMask(1.2, 60, 2))
     fl.save(os.path.join(OUT, "flyer_A5.png"), dpi=(DPI, DPI))
     fl.save(os.path.join(OUT, "flyer_A5.pdf"), resolution=DPI)
-    folha([cupom()] * 10).save(os.path.join(OUT, "cupons_A4.pdf"), resolution=DPI)
+    folha([cupom()] * 20, 4, 5).save(os.path.join(OUT, "cupons_A4.pdf"), resolution=DPI)
     nums = list(range(1, N_VALES + 1))
     fv = [folha([vale(n) for n in nums[k:k + 20]], 4, 5) for k in range(0, N_VALES, 20)]
     fv[0].save(os.path.join(OUT, f"vales_A4_001-{N_VALES:03d}.pdf"), resolution=DPI, save_all=True, append_images=fv[1:])

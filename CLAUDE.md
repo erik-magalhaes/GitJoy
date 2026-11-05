@@ -1050,4 +1050,4 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   ganharam data e endereço (post, story e Reels).
   **Controle de ingressos (sugestão aceita):** venda antecipada por Pix no WhatsApp + planilha (sem Pix não é reserva), na porta
   lista + pulseira; cada pagante recebe DOIS cartões 9x5 cm (ele notou que o vale fica no caixa e o cupom se perderia): `vale(n)` QUADRADO 5x5 cm, fundo BRANCO com linha de corte cinza (pedidos dele: menor, 20 por A4, sem fundo amarelo) NUMERADO 001–050 (`vales_A4_001-050.pdf` = 3 folhas, a última com 10; + em branco) = VALE CONSUMAÇÃO R$ 15 no Becas em 20/11 (entregue
-  no caixa; conferir nº com a lista) e `cupom()` que a pessoa LEVA = 10% OFF no 1º aluguel (BECAS10) + QR do site (conferido com o leitor do OpenCV); `cupons_A4.pdf` = 10 por folha.
+  no caixa; conferir nº com a lista) e `cupom()` que a pessoa LEVA (também 5x5 cm, 20 por A4, QR ~2,1 cm lido no teste) = 10% OFF no 1º aluguel (BECAS10) + QR do site (conferido com o leitor do OpenCV); `cupons_A4.pdf` = 10 por folha.
