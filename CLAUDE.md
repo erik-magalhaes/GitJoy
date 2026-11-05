@@ -1071,3 +1071,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   carrossel "chuva de jogos" (capa e reserva), stories de contagem (rodapé), plaquinhas de mesa (os 2 logos à direita), Reels
   das guarda-chuvinhas e story em vídeo. Os 3 estilos alternativos (gamesday, retro60, letrinhas) NÃO foram atualizados
   (eles seguiram com as guarda-chuvinhas).
+- **CRACHÁS da monitoria (`promo/cracha.py`, 5/nov):** para economizar na camiseta, eles vão usar crachá no cordão.
+  10 x 14 cm em pé (porta-crachá comum), 300 dpi, A4 com 4 (Erik, Jéssica e 2 com o nome em branco). 3 opções em
+  `out/becas/cracha_opcoes.jpg`: A guarda-chuvinhas (logo, pílula MONITORIA, nome, "Dúvida no jogo? Me chama!", Sua Vez ×
+  Beca’s), B CARTA DE JOGO (petróleo, carta creme com índice "SV", "CLASSE: MONITOR/MONITORA", habilidade especial), C bloco
+  laranja listrado (MONITORIA enorme, nome em faixa branca, QR do acervo "Gostou do jogo? Aluga e joga em casa!").
+  Esperando ele escolher.
