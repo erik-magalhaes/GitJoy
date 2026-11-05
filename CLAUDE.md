@@ -1028,3 +1028,16 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   A câmera fica ALTA (h ≥ 1650 px do tabuleiro_x4, `CHAVES`): de perto borra. Artes em `assets/artes/` (ampliadas x4); a
   Criatura saiu (o selo "1 Escolha seus aliados" cobre a arte) e o meeple recortado ficou deformado (não usar).
   Quando eles gravarem o final de verdade (abrir o olho na mesa e falar a frase), trocar `cena_sai` depois de T_OLHO pelo clipe.
+- **3 Reels "chama a Sua Vez pro seu evento de fim de ano" (`festa-reels/`, 5/nov, pedido dele: "seja criativo, não use a
+  mesma coisa de sempre"; ele pediu os TRÊS e liberou voz de IA "se precisar"):** base `comum_festa.py` (cenas REAIS deles
+  via `becas-reels/kit.py`, entrega com som / para música a −15,5 LUFS). `previsao.py` = PREVISÃO DO TEMPO da
+  confraternização (estúdio azul de telejornal, AO VIVO, mapa do SALÃO DA FESTA com mesa do amigo secreto/buffet/pista/
+  cantinho do celular, nuvem + neve + frente fria "90% de chance de climão", "rajadas de celular", ALERTA, frente quente com o
+  logo, "imagens do satélite" = cenas deles, cartões jogos/monitoria/ABC+SP, mapa de sol "100% de risada", cartão final;
+  narração edge-tts Antonio +10% em `voz/` (fora do git), legenda tipo closed caption; 40 s). `grilos.py` = O SILÊNCIO DA
+  FESTA (tela escura, legendas de som [grilos] [alguém tosse] [garfo raspando no prato], medidor de ANIMAÇÃO quase zerado,
+  dado rolando → "...ATÉ ALGUÉM CHAMAR A SUA VEZ" → cortes secos com as cenas deles e o medidor subindo até 100%; sem
+  narração; 25 s). `lista.py` = A LISTA DA FESTA (folha de caderno na mesa de madeira, caneta escreve e marca ✓ comida,
+  música, amigo secreto, decoração; no último item "fazer a galera se divertir junta (sem celular)" rabisca ???; carimbo
+  "RESOLVIDO: CHAMA A SUA VEZ!"; polaroides com as cenas deles; post-its; 23 s). Fatos: ABC Paulista + SP capital,
+  WhatsApp (11) 97793-3910, "a gente leva os jogos e fica o evento todo ensinando"; nada de "já atendemos".
