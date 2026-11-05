@@ -30,7 +30,7 @@ SR = 44100
 FT = os.path.join(C.REPO, "taco-reels", "assets", "fonts")
 TINTA = (24, 40, 110)
 VERM = (205, 30, 40)
-ITENS = ["comida", "música", "amigo secreto", "decoração", "fazer a galera se divertir junta (sem celular)"]
+ITENS = ["comida", "música", "amigo secreto", "decoração", "fazer a galera se divertir (sem celular)"]
 T_ITEM = [0.7, 1.95, 3.2, 4.45, 5.7]  # começo da escrita de cada item
 T_RABISCO, T_CARIMBO = 7.6, 8.9
 POLA = [("art", 0.6, "leilão disputado!"), ("critter", 1.0, "risada garantida"), ("unlock", 1.0, "todo mundo junto")]
@@ -141,8 +141,8 @@ def folha(t):
             if T_RABISCO <= t:  # a caneta para e rabisca "???"
                 u = (t - T_RABISCO) / 1.0
                 n = int(3 * min(1, u * 1.4))
-                d.text((bx + 470, by + 62), "?" * max(1, n) if u > 0 else "", font=marcador(70), fill=VERM, anchor="lm")
-                pena = (bx + 470 + 10 * math.sin(t * 40), by + 62 + 6 * math.cos(t * 33)) if t < T_CARIMBO else None
+                d.text((bx + 525, by + 62), "?" * max(1, n) if u > 0 else "", font=marcador(70), fill=VERM, anchor="lm")
+                pena = (bx + 525 + 10 * math.sin(t * 40), by + 62 + 6 * math.cos(t * 33)) if t < T_CARIMBO else None
     return im, pena
 
 

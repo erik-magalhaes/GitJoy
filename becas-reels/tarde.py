@@ -141,7 +141,8 @@ def c_gancho(img, t):
     poe(img, E.pilula("SUA VEZ  ×  BECAS CAFÉ", 40, BR, MAR, fonte_titulo=True), W / 2, 520, t, 0.5, -1.5)
     poe(img, titulo("BORA JOGAR\nNUM CAFÉ?", 150, LAR), W / 2, 790, t, 0.05, -3)
     poe(img, titulo("TARDE\nDE JOGOS", 140, PET), W / 2, 1180, t, 1.3, 2)
-    poe(img, TB.selo_data(44), 800, 1400, t, 2.2, 6)
+    poe(img, TB.selo_data(44), W / 2, 1400, t, 2.2, 2)
+    poe(img, TB.selo_endereco(34), W / 2, 1490, t, 2.6, -1)
 
 
 def c_como(img, t):
@@ -183,9 +184,10 @@ def c_quem(img, t):
 def c_cta(img, t):
     poe(img, logo(300), W / 2, 470, t, 0.05)
     poe(img, titulo("TARDE DE JOGOS\nNO BECAS CAFÉ", 104, LAR), W / 2, 740, t, 0.35, -2)
-    poe(img, TB.selo_data(44), W / 2, 920, t, 0.8, 3)
-    poe(img, inscricao(), W / 2, 1150, t, 1.2, 0)
-    poe(img, E.texto("Comenta aqui: qual jogo\nvocê quer aprender?", 42, MAR, 800), W / 2, 1460, t, 2.2)
+    poe(img, TB.selo_data(44), W / 2, 905, t, 0.8, 2)
+    poe(img, TB.selo_endereco(34), W / 2, 990, t, 1.0, -1)
+    poe(img, inscricao(), W / 2, 1190, t, 1.2, 0)
+    poe(img, E.texto("Comenta aqui: qual jogo\nvocê quer aprender?", 42, MAR, 800), W / 2, 1480, t, 2.2)
 
 
 CENAS = [(c_gancho, DUR_GANCHO), (c_como, DUR_COMO), (c_jogos, DUR_JOGOS), (c_preco, DUR_PRECO),

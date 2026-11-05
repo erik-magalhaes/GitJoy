@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """TARDE DE JOGOS NO BECAS CAFÉ (3/nov/2026). O Becas aceitou; a data ainda está sendo discutida (a ideia dele é o
-feriado de 20/11, que não atrapalha o sábado do café), então as artes saem SEM data ("DATA EM BREVE").
+feriado de 20/11, que não atrapalha o sábado do café). 5/nov: FECHADO = sexta, 20/11 (feriado), a partir das 13h,
+Rua Sorocaba, 35, Mauá (DATA e ENDERECO abaixo).
 Decisões dele: ingresso R$ 30 com R$ 15 de consumação no café, ~30 vagas, inscrição pelo WhatsApp da loja ou na hora,
 no café; cupom de 10% no 1º aluguel para quem participar.
 
@@ -119,8 +120,16 @@ def leque(img, cx, cy, h, passo):
         E.cola(img, caixa(nome, h), cx + a * passo, cy + abs(a) * h * 0.06, -a * 4.5)
 
 
+DATA = "SEXTA, 20/11 (FERIADO) · 13H"  # 5/nov: o Becas aceitou o feriado de 20/11, a partir das 13h
+ENDERECO = "BECAS CAFÉ · RUA SOROCABA, 35 · MAUÁ"  # Restaurant Guru: R. Sorocaba, 35, Mauá, 09370-150
+
+
 def selo_data(s):
-    return E.pilula("DATA EM BREVE", s, AMA, MAR, fonte_titulo=True)
+    return E.pilula(DATA, s, AMA, MAR, fonte_titulo=True)
+
+
+def selo_endereco(s):
+    return E.pilula(ENDERECO, s, BR, PET, fonte_titulo=True)
 
 
 def card_info(w):
@@ -158,8 +167,9 @@ def post():
     img = fundo(W, H, [60, 120, 40, 105, 50, 115], 140)
     E.cola(img, E.pilula("SUA VEZ  ×  BECAS CAFÉ", 32, BR, MAR, fonte_titulo=True), W / 2, 300, -1.5)
     E.cola(img, E.titulo("TARDE DE JOGOS", 118, LAR), W / 2, 410, -2)
-    E.cola(img, selo_data(36), 820, 500, 6)
-    leque(img, W / 2, 632, 190, 145)
+    E.cola(img, selo_data(34), W / 2, 505, 1.5)
+    E.cola(img, selo_endereco(26), W / 2, 572, -1)
+    leque(img, W / 2, 680, 170, 140)
     E.cola(img, card_info(900), W / 2, 930, 0)
     E.cola(img, inscricao(900), W / 2, 1228, 0)
     return img
@@ -170,12 +180,28 @@ def story():
     img = fundo(W, H, [120, 210, 90, 190, 100, 200], 160)
     E.cola(img, E.pilula("SUA VEZ  ×  BECAS CAFÉ", 38, BR, MAR, fonte_titulo=True), W / 2, 470, -1.5)
     E.cola(img, E.titulo("TARDE\nDE JOGOS", 170, LAR), W / 2, 680, -2)
-    E.cola(img, selo_data(44), 850, 835, 6)
-    leque(img, W / 2, 1040, 240, 160)
+    E.cola(img, selo_data(42), W / 2, 845, 1.5)
+    E.cola(img, selo_endereco(32), W / 2, 925, -1)
+    leque(img, W / 2, 1085, 220, 155)
     E.cola(img, card_info(920), W / 2, 1378, 0)
     E.cola(img, inscricao(920), W / 2, 1672, 0)
     lg = E.logo(165)
     img.alpha_composite(lg, (int(W / 2 - lg.width / 2), 1798))
+    return img
+
+
+def flyer():
+    """Flyer A5 (14,8 x 21 cm) para imprimir/deixar no balcão: o post em cima + faixa com QR do site."""
+    W, H = 1080, 1528  # proporção A5
+    img = fundo(W, H, [60, 120, 40, 105, 50, 115], 140)
+    p = post()
+    img.alpha_composite(p.crop((0, 230, 1080, 1350)), (0, 230))
+    d = ImageDraw.Draw(img)
+    d.rounded_rectangle((70, 1368, W - 70, 1508), 28, fill=BR, outline=MAR, width=6)
+    q = qr(118)
+    img.paste(q, (96, 1379))
+    d.text((240, 1408), "Conheça o nosso acervo:", font=E.fig(32, 800), fill=MAR, anchor="lm")
+    d.text((240, 1458), "suavez.acervodejogos.com.br · @suavez_bg", font=E.fig(30, 700), fill=PET, anchor="lm")
     return img
 
 
@@ -245,6 +271,9 @@ def main():
     p.convert("RGB").save(os.path.join(OUT, "post_1080x1350.png"))
     s.convert("RGB").save(os.path.join(OUT, "story_1080x1920.png"))
     cupom().convert("RGB").save(os.path.join(OUT, "cupom.png"), dpi=(DPI, DPI))
+    fl = flyer().convert("RGB").resize((1748, 2480), Image.LANCZOS).filter(ImageFilter.UnsharpMask(1.2, 60, 2))
+    fl.save(os.path.join(OUT, "flyer_A5.png"), dpi=(DPI, DPI))
+    fl.save(os.path.join(OUT, "flyer_A5.pdf"), resolution=DPI)
     f = folha_cupons()
     f.save(os.path.join(OUT, "cupons_A4.png"), dpi=(DPI, DPI))
     f.save(os.path.join(OUT, "cupons_A4.pdf"), resolution=DPI)

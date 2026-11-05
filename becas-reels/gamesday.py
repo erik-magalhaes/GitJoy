@@ -343,17 +343,17 @@ def _miolo(img, x0, y0, x1, y1, story, so, k):
     if mostra("data"):
         tracejado(d, x0 + 30, x1 - 30, y, MOSTARDA)
     y += 24 * k
-    fd = _cabe(d, "DATA EM BREVE", "Anton-Regular.ttf", int(104 * k), larg)
+    fd = _cabe(d, "SEXTA, 20/11 · 13H", "Anton-Regular.ttf", int(104 * k), larg)
     if mostra("data"):
-        d.text((cx, y), "DATA EM BREVE", font=fd, fill=CREME_TXT, anchor="mt")
+        d.text((cx, y), "SEXTA, 20/11 · 13H", font=fd, fill=CREME_TXT, anchor="mt")
     y += fd.size * 1.12
     fp = _cabe(d, "R$ 30 por pessoa, e R$ 15 viram consumação no café", "SpaceGrotesk.ttf", int(32 * k), larg, (700,))
     if mostra("data"):
         d.text((cx, y), "R$ 30 por pessoa, e R$ 15 viram consumação no café", font=fp, fill=MOSTARDA, anchor="mt")
     y += fp.size * 1.5
-    fl = F("Anton-Regular.ttf", int(58 * k))
+    fl = _cabe(d, "@ BECAS CAFÉ · R. SOROCABA, 35", "Anton-Regular.ttf", int(58 * k), larg)
     if mostra("data"):
-        d.text((cx, y), "@ BECAS CAFÉ", font=fl, fill=CREME_TXT, anchor="mt")
+        d.text((cx, y), "@ BECAS CAFÉ · R. SOROCABA, 35", font=fl, fill=CREME_TXT, anchor="mt")
     y += fl.size * 1.3
     fr = F("Anton-Regular.ttf", int(50 * k))
     fn = F("Anton-Regular.ttf", int(64 * k))

@@ -234,7 +234,7 @@ def titulo(img, cx, y, s=1.0, a=1.0, n_letras=None):
         d.text((cx, yy), txt, font=f, fill=cor, anchor="mt")
 
 
-INFO = [("TARDE DE JOGOS · BECAS CAFÉ", 34, PET_ESC), ("data em breve", 34, LAR),
+INFO = [("Becas Café · R. Sorocaba, 35", 34, PET_ESC), ("sexta, 20/11 (feriado) · 13h", 34, LAR),
         ("R$ 30 (R$ 15 viram consumação)", 32, PET_ESC), ("a gente ensina todos os jogos", 32, PET_ESC),
         ("reserve: (11) 97793-3910", 34, LAR), ("ou chegue no dia!", 30, PET_ESC)]
 
