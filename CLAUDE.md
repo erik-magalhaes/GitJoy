@@ -1091,3 +1091,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **6/nov, virou TEASER (pedido dele): SEM o nome do café** (só o logo da Sua Vez no calendário), "SAVE THE DATE!", "VEM
   NOVIDADE POR AÍ...", "SÁBADO, AO MEIO-DIA, A GENTE CONTA TUDO!" e "ativa o lembrete pra não perder:"; o contador dele
   aponta para o sábado meio-dia (revelação do evento). Saída `out/save_date_{com_som,para_musica}_final.mp4`.
+- **SAVE THE DATE — MISTÉRIO com a cara da Sua Vez (`becas-reels/save_date_sv.py`, 6/nov):** ele achou o das
+  guarda-chuvinhas "muito na temática do café" e pediu algo da SUA VEZ, sem tarde de jogos, "sem nada", só mistério:
+  "fica ligado, vem coisa boa; a novidade sai no sábado ao meio-dia" (ele põe o contador do Instagram). 10 s: azul-claro
+  com trilha de casas e "?" flutuando, logo; CARTA DE JOGO virada (verso petróleo listrado com "?" amarelo) treme, vira e
+  mostra NOVEMBRO / 20 / "ANOTA AÍ!"; "SAVE THE DATE!", "VEM COISA BOA POR AÍ...", "SÁBADO, AO MEIO-DIA, A GENTE CONTA
+  TUDO!", "fica ligado: ativa o lembrete" + seta; área y≈1630–1800 livre para o adesivo. Trilha marimba pop.
+  Saída `out/save_sv_{com_som,para_musica}_final.mp4`.
