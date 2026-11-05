@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""TARDE DE JOGOS NO BECAS CAFÉ (3/nov/2026). O Becas aceitou; a data ainda está sendo discutida (a ideia dele é o
+"""TARDE DE JOGOS NO BECA’S CAFÉ (3/nov/2026). O Becas aceitou; a data ainda está sendo discutida (a ideia dele é o
 feriado de 20/11, que não atrapalha o sábado do café). 5/nov: FECHADO = sexta, 20/11 (feriado), a partir das 13h,
 Rua Sorocaba, 35, Mauá (DATA e ENDERECO abaixo).
 Decisões dele: ingresso R$ 30 com R$ 15 de consumação no café, ~30 vagas, inscrição pelo WhatsApp da loja ou na hora,
@@ -121,7 +121,7 @@ def leque(img, cx, cy, h, passo):
 
 
 DATA = "SEXTA, 20/11 (FERIADO) · 13H ÀS 19H"  # 5/nov: o Becas aceitou o feriado de 20/11, das 13h às 19h
-ENDERECO = "BECAS CAFÉ · RUA SOROCABA, 35 · MAUÁ"  # Restaurant Guru: R. Sorocaba, 35, Mauá, 09370-150
+ENDERECO = "BECA’S CAFÉ · RUA SOROCABA, 35 · MAUÁ"  # Restaurant Guru: R. Sorocaba, 35, Mauá, 09370-150
 
 
 def selo_data(s):
@@ -130,6 +130,39 @@ def selo_data(s):
 
 def selo_endereco(s):
     return E.pilula(ENDERECO, s, BR, PET, fonte_titulo=True)
+
+
+LOGO_BECAS = os.path.join(ROOT, "assets", "logo_becas_orig.jpg")  # logo que eles mandaram (5/nov): "Beca’s Café"
+
+
+def logo_becas(h):
+    """Logo do Beca’s Café num cartão verde com contorno marrom e sombra sólida (mesma cara do logo da Sua Vez)."""
+    im = Image.open(LOGO_BECAS).convert("RGB").crop((178, 60, 1329, 905))
+    w = int(im.width * h / im.height)
+    im = im.resize((w, h), Image.LANCZOS)
+    s, ow, r = 9, 6, int(h * 0.12)
+    out = Image.new("RGBA", (w + s + 2, h + s + 2), (0, 0, 0, 0))
+    d = ImageDraw.Draw(out)
+    d.rounded_rectangle((s, s, s + w, s + h), r, fill=MAR)
+    m = Image.new("L", (w, h), 0)
+    ImageDraw.Draw(m).rounded_rectangle((0, 0, w - 1, h - 1), r, fill=255)
+    out.paste(im, (0, 0), m)
+    d.rounded_rectangle((0, 0, w, h), r, outline=MAR, width=ow)
+    return out
+
+
+def parceria(h):
+    """Sua Vez × Beca’s Café, lado a lado, na mesma altura."""
+    a = E.logo(int(h * 1.75))
+    a = a.resize((int(a.width * h / a.height), h), Image.LANCZOS)
+    b = logo_becas(int(h * 0.97))
+    f = E.lilita(int(h * 0.42))
+    gap = int(h * 0.45)
+    out = Image.new("RGBA", (a.width + b.width + 2 * gap, max(a.height, b.height)), (0, 0, 0, 0))
+    out.alpha_composite(a, (0, (out.height - a.height) // 2))
+    out.alpha_composite(b, (a.width + 2 * gap, (out.height - b.height) // 2))
+    ImageDraw.Draw(out).text((a.width + gap, out.height / 2), "×", font=f, fill=MAR, anchor="mm")
+    return out
 
 
 def card_info(w):
@@ -165,7 +198,7 @@ def inscricao(w):
 def post():
     W, H = 1080, 1350
     img = fundo(W, H, [60, 120, 40, 105, 50, 115], 140)
-    E.cola(img, E.pilula("SUA VEZ  ×  BECAS CAFÉ", 32, BR, MAR, fonte_titulo=True), W / 2, 300, -1.5)
+    E.cola(img, parceria(118), W / 2, 285, 0)
     E.cola(img, E.titulo("TARDE DE JOGOS", 118, LAR), W / 2, 410, -2)
     E.cola(img, selo_data(34), W / 2, 505, 1.5)
     E.cola(img, selo_endereco(26), W / 2, 572, -1)
@@ -178,15 +211,13 @@ def post():
 def story():
     W, H = 1080, 1920
     img = fundo(W, H, [120, 210, 90, 190, 100, 200], 160)
-    E.cola(img, E.pilula("SUA VEZ  ×  BECAS CAFÉ", 38, BR, MAR, fonte_titulo=True), W / 2, 470, -1.5)
+    E.cola(img, parceria(138), W / 2, 440, 0)
     E.cola(img, E.titulo("TARDE\nDE JOGOS", 170, LAR), W / 2, 680, -2)
     E.cola(img, selo_data(42), W / 2, 845, 1.5)
     E.cola(img, selo_endereco(32), W / 2, 925, -1)
     leque(img, W / 2, 1085, 220, 155)
     E.cola(img, card_info(920), W / 2, 1378, 0)
     E.cola(img, inscricao(920), W / 2, 1672, 0)
-    lg = E.logo(165)
-    img.alpha_composite(lg, (int(W / 2 - lg.width / 2), 1798))
     return img
 
 
@@ -237,11 +268,11 @@ def vale(num=None):
     d.rectangle((0, 0, VL, 18), fill=LAR)
     d.rectangle((0, VL - 18, VL, VL), fill=LAR)
     d.rectangle((0, 0, VL - 1, VL - 1), outline=(190, 190, 190), width=2)  # linha de corte (fundo branco)
-    lg = E.logo(84)
+    lg = parceria(78)
     img.alpha_composite(lg, (int(VL / 2 - lg.width / 2), 34))
     d.text((VL / 2, 158), "VALE CONSUMAÇÃO", font=E.fig(38, 900), fill=MAR, anchor="mm")
     d.text((VL / 2, 262), "R$ 15", font=E.lilita(150), fill=LAR, anchor="mm", stroke_width=6, stroke_fill=MAR)
-    d.text((VL / 2, 368), "Becas Café · 20/11", font=E.fig(34, 900), fill=MAR, anchor="mm")
+    d.text((VL / 2, 368), "Beca’s Café · 20/11", font=E.fig(34, 900), fill=MAR, anchor="mm")
     d.text((VL / 2, 410), "entregue no caixa", font=E.fig(28, 700), fill=MAR, anchor="mm")
     n = f"Nº {num:03d}" if num else "Nº ____"
     d.rounded_rectangle((VL / 2 - 110, 452, VL / 2 + 110, 518), 14, fill=AMA, outline=MAR, width=4)

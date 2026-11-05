@@ -1065,3 +1065,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   segura de anúncio: nada importante acima de y≈300 nem abaixo de y≈1560. Narração = ELES gravam 4 falas
   (`gravador/Gravar_narracao_Story.html`, arquivos `becasstory_narracao_NN`); com `narracao_story/frase_NN.wav` o script
   estica cada cena para a fala, abaixa a trilha e põe legenda. Saída `out/story_becas_{com_som,para_musica}_final.mp4`.
+- **LOGO DO CAFÉ (5/nov):** eles mandaram o logo: o nome é **"Beca’s Café"** (com apóstrofo; antes eu escrevia "Becas") →
+  `promo/assets/logo_becas_orig.jpg` (verde-oliva, letras creme). `tarde_becas.logo_becas(h)` (cartão com contorno marrom e
+  sombra, como o logo da Sua Vez) e `parceria(h)` (Sua Vez × Beca’s lado a lado) entraram no post, story, vale (topo),
+  carrossel "chuva de jogos" (capa e reserva), stories de contagem (rodapé), plaquinhas de mesa (os 2 logos à direita), Reels
+  das guarda-chuvinhas e story em vídeo. Os 3 estilos alternativos (gamesday, retro60, letrinhas) NÃO foram atualizados
+  (eles seguiram com as guarda-chuvinhas).

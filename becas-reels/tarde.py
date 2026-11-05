@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reels da TARDE DE JOGOS NO BECAS CAFÉ (3/nov/2026, pedido dele: "faz também um Reels para divulgar o evento").
+"""Reels da TARDE DE JOGOS NO BECA’S CAFÉ (3/nov/2026, pedido dele: "faz também um Reels para divulgar o evento").
 Mesmo visual das artes (`promo/tarde_becas.py`): creme quente com confete claro e os GUARDA-CHUVINHOS coloridos do
 teto do Becas pendurados no alto, agora BALANÇANDO (caem no gancho e ficam num vaivém). Sem narração (texto na tela),
 ~30 s; entrega _com_trilha e _para_musica (−15,5 LUFS). Data ainda não definida → "DATA EM BREVE".
@@ -95,6 +95,11 @@ def logo(w):
 
 
 @lru_cache(None)
+def parc(h):
+    return TB.parceria(h)
+
+
+@lru_cache(None)
 def caixa(nome, h):
     return TB.caixa(nome, h)
 
@@ -138,7 +143,7 @@ def passo(n, txt, cor):
 
 # ---------------------------------------------------------------- cenas (tudo entre y 380 e 1580)
 def c_gancho(img, t):
-    poe(img, E.pilula("SUA VEZ  ×  BECAS CAFÉ", 40, BR, MAR, fonte_titulo=True), W / 2, 520, t, 0.5, -1.5)
+    poe(img, parc(120), W / 2, 520, t, 0.5)
     poe(img, titulo("BORA JOGAR\nNUM CAFÉ?", 150, LAR), W / 2, 790, t, 0.05, -3)
     poe(img, titulo("TARDE\nDE JOGOS", 140, PET), W / 2, 1180, t, 1.3, 2)
     poe(img, TB.selo_data(44), W / 2, 1400, t, 2.2, 2)
@@ -182,8 +187,8 @@ def c_quem(img, t):
 
 
 def c_cta(img, t):
-    poe(img, logo(300), W / 2, 470, t, 0.05)
-    poe(img, titulo("TARDE DE JOGOS\nNO BECAS CAFÉ", 104, LAR), W / 2, 740, t, 0.35, -2)
+    poe(img, parc(150), W / 2, 470, t, 0.05)
+    poe(img, titulo("TARDE DE JOGOS\nNO BECA’S CAFÉ", 104, LAR), W / 2, 740, t, 0.35, -2)
     poe(img, TB.selo_data(44), W / 2, 905, t, 0.8, 2)
     poe(img, TB.selo_endereco(34), W / 2, 990, t, 1.0, -1)
     poe(img, inscricao(), W / 2, 1190, t, 1.2, 0)

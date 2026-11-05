@@ -105,13 +105,13 @@ def story_contagem(n):
         cor = BR
     cx, cy = segura(img, W / 2, 140, 400, PET if n != "hoje" else ROSA, disco(560, cor, linhas), gap=36, rot=-3)
     y = cy + 330
-    E.cola(img, E.titulo("TARDE DE JOGOS\nNO BECAS CAFÉ", 92, LAR), W / 2, y + 30, -1.5)
+    E.cola(img, E.titulo("TARDE DE JOGOS\nNO BECA’S CAFÉ", 92, LAR), W / 2, y + 30, -1.5)
     E.cola(img, TB.selo_data(40), W / 2, y + 190, 1.5)
     E.cola(img, TB.selo_endereco(30), W / 2, y + 268, -1)
     txt = "Hoje das 13h às 19h: chega e joga!" if n == "hoje" else "Garanta sua mesa: " + WHATS
     E.cola(img, E.pilula(txt, 36, PET, BR), W / 2, y + 360, 0)
     # y ~1610–1760 fica livre para o adesivo de link do Instagram
-    lg = E.logo(150)
+    lg = TB.parceria(120)
     img.alpha_composite(lg, (int(W / 2 - lg.width / 2), H - lg.height - 40))
     return img
 
@@ -138,7 +138,8 @@ def tela_capa():
         segura(img, x, y, w, CORES[k], seed=k)
     E.cola(img, E.pilula("PREVISÃO PRA SEXTA, 20/11:", 40, BR, MAR, fonte_titulo=True), W / 2, 470, -1.5)
     E.cola(img, E.titulo("CHUVA\nDE JOGOS", 170, LAR), W / 2, 680, -2)
-    E.cola(img, E.pilula("no Becas Café · 13h às 19h", 40, PET, BR), W / 2, 900, 1.5)
+    E.cola(img, E.pilula("no Beca’s Café · 13h às 19h", 40, PET, BR), W / 2, 900, 1.5)
+    E.cola(img, TB.parceria(92), W / 2, 1035, 0)
     E.cola(img, E.pilula("arrasta pro lado  →", 30, AMA, MAR), W / 2, 1270, 0)
     return img
 
@@ -159,7 +160,7 @@ def tela_como():
     cabecalho(img, "COMO FUNCIONA?", 760)
     lista = placa(900, 300, BR, [("A gente leva os jogos e ensina todos", E.fig(40, 900), MAR),
                                  ("Jogos rápidos, pra quem nunca jogou", E.fig(40, 900), PET),
-                                 ("Café e comidinhas do Becas", E.fig(40, 900), MAR)])
+                                 ("Café e comidinhas do Beca’s", E.fig(40, 900), MAR)])
     E.cola(img, lista, W / 2, 1000, 0)
     E.cola(img, E.pilula("Venha sozinho, em dupla ou com a galera", 36, AMA, MAR), W / 2, 1230, -1)
     return img
@@ -202,7 +203,7 @@ def tela_reserva():
     E.cola(img, TB.selo_endereco(28), W / 2, 712, -1)
     E.cola(img, TB.inscricao(900), W / 2, 880, 0)
     E.cola(img, E.pilula("Comenta: com quem você vai?", 40, AMA, MAR), W / 2, 1080, -1.5)
-    lg = E.logo(190)
+    lg = TB.parceria(130)
     img.alpha_composite(lg, (int(W / 2 - lg.width / 2), 1170))
     return img
 
@@ -215,10 +216,10 @@ def plaquinha(n):
     cor = CORES[(n - 1) % 5]
     E.cola(img, TB.guarda_chuva(760, cor, n), 560, 600, -6)
     E.cola(img, E.titulo(f"MESA {n}", 360, cor if cor != AMA else LAR), 1800, 460, -1.5)
-    E.cola(img, E.pilula("Tarde de Jogos · Sua Vez × Becas Café", 70, BR, MAR, fonte_titulo=True), 1800, 820, 1)
+    E.cola(img, E.pilula("Tarde de Jogos · Sua Vez × Beca’s Café", 70, BR, MAR, fonte_titulo=True), 1800, 820, 1)
     E.cola(img, E.pilula("Dúvida no jogo? Chama a gente!", 62, PET, BR), 1800, 1040, 0)
-    lg = E.logo(560)
-    E.cola(img, lg, 3020, 620, 3)
+    E.cola(img, E.logo(470), 3020, 380, 3)
+    E.cola(img, TB.logo_becas(300), 3020, 880, -2)
     return img
 
 

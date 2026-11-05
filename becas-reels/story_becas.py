@@ -33,7 +33,7 @@ from motor import FPS  # noqa: E402
 OUT = T.OUT
 NARR = os.path.join(T.ROOT, "narracao_story")
 FALAS = [
-    "Bora jogar num café? Sexta, dia 20, feriado, tem Tarde de Jogos no Becas!",
+    "Bora jogar num café? Sexta, dia 20, feriado, tem Tarde de Jogos no Beca’s!",
     "A gente leva os jogos e ensina tudo na mesa. Não precisa saber jogar nada!",
     "Trinta reais, e quinze viram consumação no café.",
     "Das 13 às 19h. Garante a sua mesa pelo WhatsApp!",
@@ -172,7 +172,7 @@ def poe(img, im, x, y, t, t0, rot=0.0, d=0.35):
 
 
 def c_gancho(img, t):
-    poe(img, E.pilula("SUA VEZ  ×  BECAS CAFÉ", 40, BR, MAR, fonte_titulo=True), W / 2, 560, t, 0.25, -1.5)
+    poe(img, T.parc(120), W / 2, 560, t, 0.25)
     poe(img, T.titulo("BORA JOGAR\nNUM CAFÉ?", 160, LAR), W / 2, 830, t, 0.0, -3)
     poe(img, T.titulo("TARDE\nDE JOGOS", 130, PET), W / 2, 1180, t, 0.9, 2)
     poe(img, E.pilula("SEXTA, 20/11 · FERIADO", 46, AMA, MAR, fonte_titulo=True), W / 2, 1430, t, 1.5, 2)
@@ -192,8 +192,8 @@ def c_preco(img, t):
 
 
 def c_cta(img, t):
-    poe(img, T.logo(250), W / 2, 420, t, 0.0)
-    poe(img, T.titulo("TARDE DE JOGOS\nNO BECAS CAFÉ", 100, LAR), W / 2, 660, t, 0.25, -2)
+    poe(img, T.parc(130), W / 2, 420, t, 0.0)
+    poe(img, T.titulo("TARDE DE JOGOS\nNO BECA’S CAFÉ", 100, LAR), W / 2, 660, t, 0.25, -2)
     poe(img, TB.selo_data(42), W / 2, 830, t, 0.6, 2)
     poe(img, TB.selo_endereco(32), W / 2, 912, t, 0.8, -1)
     poe(img, T.inscricao(), W / 2, 1120, t, 1.0, 0)
