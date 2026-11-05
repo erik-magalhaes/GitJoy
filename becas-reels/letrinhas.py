@@ -312,15 +312,15 @@ INFO_R = [("NO BECAS CAFÉ", TINTA), ("R. SOROCABA, 35 · MAUÁ", TINTA), ("SEXT
 def cena_info(img, t):
     u = t - INFO_T
     d = ImageDraw.Draw(img)
-    d.rounded_rectangle((60, 1100, RW - 60, 1660), 20, fill=(246, 232, 200), outline=(150, 112, 70), width=3)
-    n = int(u / 0.03)
+    d.rounded_rectangle((60, 1085, RW - 60, 1665), 20, fill=(246, 232, 200), outline=(150, 112, 70), width=3)
+    n = int(u / 0.022)
     linhas = []
     for txt, cor in INFO_R:
         linhas.append((txt[:max(0, n)], cor))
         n -= len(txt)
         if n <= 0:
             break
-    texto_pixel(img, linhas, RW / 2, 1135, 42, 1.75)
+    texto_pixel(img, linhas, RW / 2, 1115, 42, 1.62)
 
 
 def quadro(t):
@@ -357,7 +357,7 @@ def audio(com, sem):
         ev += [(t0, S.carta_vira(), 0.7), (t0 + 0.28, S.carta_vira(), 0.4)]
         ev += [(t0 + 0.2 + j * 0.04 * 2, S.bip(2200, 0.03), 0.18) for j in range(len(JOGOS[k][2]) // 2)]
     tot = sum(len(x[0]) for x in INFO_R)
-    ev += [(INFO_T + j * 0.06, S.bip(1900, 0.03), 0.2) for j in range(tot // 2)]
+    ev += [(INFO_T + j * 0.044, S.bip(1900, 0.03), 0.2) for j in range(tot // 2)]
     mus = S.musica_cafe(RDUR)
     S.grava(com, RDUR, ev, mus, musica_ganho=0.45, fx_ganho=0.85)
     S.grava(sem, RDUR, ev, None, fx_ganho=0.85)
