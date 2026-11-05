@@ -292,7 +292,7 @@ def folha(cartoes, cols=2, lins=5):
     return fo
 
 
-N_VALES = 50  # 3 folhas numeradas 001–050 (20 por folha; a última com 10)
+N_VALES = 60  # 3 folhas completas, numeradas 001–060 (20 por folha)
 
 
 def main():
@@ -305,7 +305,8 @@ def main():
     fl = flyer().convert("RGB").resize((1748, 2480), Image.LANCZOS).filter(ImageFilter.UnsharpMask(1.2, 60, 2))
     fl.save(os.path.join(OUT, "flyer_A5.png"), dpi=(DPI, DPI))
     fl.save(os.path.join(OUT, "flyer_A5.pdf"), resolution=DPI)
-    folha([cupom()] * 20, 4, 5).save(os.path.join(OUT, "cupons_A4.pdf"), resolution=DPI)
+    fc = folha([cupom()] * 20, 4, 5)
+    fc.save(os.path.join(OUT, "cupons_A4.pdf"), resolution=DPI, save_all=True, append_images=[fc, fc])  # 3 folhas = 60
     nums = list(range(1, N_VALES + 1))
     fv = [folha([vale(n) for n in nums[k:k + 20]], 4, 5) for k in range(0, N_VALES, 20)]
     fv[0].save(os.path.join(OUT, f"vales_A4_001-{N_VALES:03d}.pdf"), resolution=DPI, save_all=True, append_images=fv[1:])
