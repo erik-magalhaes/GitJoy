@@ -1083,3 +1083,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   com confete, logo grande, "A gente ensina, você joga!"; H trocadilho "É A VEZ DE:" com setas apontando o nome, fundo
   amarelo listrado; I "equipe" (faixa petróleo com logo, nome em faixa laranja, QR do acervo). Sem data nem café.
   Esperando ele escolher (PDFs `cracha_{A..I}_A4.pdf`).
+- **SAVE THE DATE em vídeo para os Stories (`becas-reels/save_date.py`, 5/nov):** 10 s, guarda-chuvinhas balançando + um
+  guarda-chuva rosa segurando uma FOLHA DE CALENDÁRIO (NOVEMBRO / 20, logos Sua Vez × Beca’s no pé, `SB.OBJ["cal"]`,
+  escala `KC`) que balança; caneta vermelha circula o 20 (1,3–2,1 s); "SAVE THE DATE!", 3 pílulas (tarde de jogos no
+  Beca’s, sexta (feriado) 13h às 19h, endereço) e "ativa o lembrete:" + seta. Área y≈1620–1790 LIVRE para o adesivo de
+  contagem regressiva do Instagram (ele vai colocar). Do 3,5 s em diante só balança. Saída `out/save_date_{com_som,para_musica}_final.mp4`.
