@@ -1058,3 +1058,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   carrossel 5 telas "PREVISÃO PRA SEXTA, 20/11: CHUVA DE JOGOS" (caixas chovendo, como funciona com 3 plaquinhas, caixas
   penduradas, etiqueta R$ 30 + cupom 10%, reserva) e PLAQUINHAS DE MESA 1–8 (A4 dobrada ao meio, uma cor por mesa,
   "Dúvida no jogo? Chama a gente!"). Marrom sobre contorno marrom fica ilegível no `E.titulo`: use cor clara.
+- **STORY EM VÍDEO da Tarde no Becas (`becas-reels/story_becas.py`, 5/nov):** ele vai PROMOVER o Stories e quer vídeo com as
+  guarda-chuvinhas, "pode ser narrado". 16 s: gancho "BORA JOGAR NUM CAFÉ?" → guarda-chuva grande segurando uma POLAROIDE
+  com as cenas REAIS deles (troca a cada 1,15 s), tudo balançando como pêndulo (`pendulo()`: sprite com o pivô no centro,
+  girado inteiro) → etiqueta R$ 30 pendurada → CTA com data, endereço, WhatsApp e "Manda pra quem vai com você!". Área
+  segura de anúncio: nada importante acima de y≈300 nem abaixo de y≈1560. Narração = ELES gravam 4 falas
+  (`gravador/Gravar_narracao_Story.html`, arquivos `becasstory_narracao_NN`); com `narracao_story/frase_NN.wav` o script
+  estica cada cena para a fala, abaixa a trilha e põe legenda. Saída `out/story_becas_{com_som,para_musica}_final.mp4`.
