@@ -1076,4 +1076,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   `out/becas/cracha_opcoes.jpg`: A guarda-chuvinhas (logo, pílula MONITORIA, nome, "Dúvida no jogo? Me chama!", Sua Vez ×
   Beca’s), B CARTA DE JOGO (petróleo, carta creme com índice "SV", "CLASSE: MONITOR/MONITORA", habilidade especial), C bloco
   laranja listrado (MONITORIA enorme, nome em faixa branca, QR do acervo "Gostou do jogo? Aluga e joga em casa!").
-  Esperando ele escolher.
+  2ª rodada ("gostei, mas cria novas opções"): `cracha_opcoes2.jpg` = D INGRESSO STAFF (canhoto picotado "VALE 1 EXPLICAÇÃO
+  DE JOGO", código de barras), E LETRAS DE MADEIRA tipo Scrabble (MONITOR e o nome em peças com pontos, papel de
+  bolinhas), F TRILHA DE TABULEIRO na borda (casas coloridas, INÍCIO, "Travou no jogo? Não volte casas: me chama!").
+  Esperando ele escolher (PDFs `cracha_{A..F}_A4.pdf`).

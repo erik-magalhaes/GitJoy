@@ -115,7 +115,126 @@ def cracha_c(n):
     return img
 
 
+# ---------------------------------------------------------------- D: ingresso (2ª rodada, 5/nov)
+def cracha_d(n):
+    img = Image.new("RGBA", (CW, CH), MAR + (255,))
+    d = ImageDraw.Draw(img)
+    rnd = random.Random(9)
+    for _ in range(120):
+        x, y, r = rnd.uniform(0, CW), rnd.uniform(0, CH), rnd.uniform(3, 6)
+        d.ellipse((x - r, y - r, x + r, y + r), fill=(95, 60, 38))
+    furo(d)
+    m, top, bot, corte = 70, 120, CH - 60, 1200
+    d.rounded_rectangle((m, top, CW - m, bot), 40, fill=CREME)
+    for x in (m, CW - m):  # recortes do picote
+        d.ellipse((x - 45, corte - 45, x + 45, corte + 45), fill=MAR)
+    for x in range(m + 60, CW - m - 60, 38):
+        d.line((x, corte, x + 20, corte), fill=(180, 160, 140), width=5)
+    d.rectangle((m, top, CW - m, top + 120), fill=LAR)
+    d.rounded_rectangle((m, top, CW - m, top + 160), 40, fill=None)
+    d.text((CW / 2, top + 62), "INGRESSO STAFF · ACESSO TOTAL", font=E.lilita(52), fill=BR, anchor="mm")
+    lg = E.logo(380)
+    img.alpha_composite(lg, (int(CW / 2 - lg.width / 2), top + 165))
+    E.cola(img, E.titulo("MONITORIA", 150, LAR, larg_max=CW - 220), CW / 2, 715, -1.5)
+    nome(img, n, 900, PET, s=150)
+    d = ImageDraw.Draw(img)
+    d.text((CW / 2, 1065), "TARDE DE JOGOS · 20/11 · 13H ÀS 19H", font=E.fig(40, 900), fill=MAR, anchor="mm")
+    d.text((CW / 2, 1125), "BECA’S CAFÉ · MAUÁ", font=E.fig(40, 800), fill=PET, anchor="mm")
+    # canhoto
+    d.text((CW / 2, corte + 85), "VALE 1 EXPLICAÇÃO DE JOGO", font=E.lilita(54), fill=ROSA, anchor="mm")
+    d.text((CW / 2, corte + 145), "(ou quantas você precisar!)", font=E.fig(40, 800), fill=MAR, anchor="mm")
+    rnd = random.Random(3)
+    x = 230
+    while x < CW - 230:  # código de barras
+        w = rnd.choice((4, 6, 10, 14))
+        d.rectangle((x, corte + 200, x + w, corte + 330), fill=MAR)
+        x += w + rnd.choice((5, 8, 12))
+    d.text((CW / 2, corte + 370), "Nº 0001 · @suavez_bg", font=E.fig(32, 800), fill=MAR, anchor="mm")
+    return img
+
+
+# ---------------------------------------------------------------- E: letras de madeira (tipo Scrabble)
+PONTOS = {"A": 1, "E": 1, "I": 1, "O": 1, "S": 1, "R": 1, "T": 1, "M": 1, "N": 3, "C": 2, "K": 5, "J": 5, "É": 1,
+          "U": 1, "D": 2, "V": 4, "Z": 8, "Ç": 3, "Ã": 1}
+
+
+def peca(letra, t, cor=(236, 208, 160)):
+    im = Image.new("RGBA", (t + 12, t + 12), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    d.rounded_rectangle((8, 10, t + 8, t + 10), int(t * 0.14), fill=(120, 80, 45))
+    d.rounded_rectangle((0, 0, t, t), int(t * 0.14), fill=cor, outline=(150, 105, 60), width=4)
+    d.rounded_rectangle((8, 8, t - 8, t - 8), int(t * 0.1), outline=(250, 230, 195), width=3)
+    d.text((t / 2, t / 2 + 2), letra, font=E.lilita(int(t * 0.62)), fill=MAR, anchor="mm")
+    d.text((t - 20, t - 18), str(PONTOS.get(letra, 2)), font=E.fig(int(t * 0.2), 900), fill=MAR, anchor="mm")
+    return im
+
+
+def fileira(img, palavra, cy, t, gap=10, rot=True, cor=(236, 208, 160)):
+    rnd = random.Random(len(palavra))
+    w = len(palavra) * (t + gap) - gap
+    x0 = CW / 2 - w / 2
+    for k, c in enumerate(palavra):
+        p = peca(c, t, cor)
+        if rot:
+            p = p.rotate(rnd.uniform(-5, 5), expand=True, resample=Image.BICUBIC)
+        img.alpha_composite(p, (int(x0 + k * (t + gap) + t / 2 - p.width / 2), int(cy - p.height / 2)))
+
+
+def cracha_e(n):
+    img = Image.new("RGBA", (CW, CH), (250, 244, 232, 255))
+    d = ImageDraw.Draw(img)
+    for y in range(0, CH, 70):  # bolinhas vermelhas do papel (a referência das letrinhas)
+        for x in range((y // 70) % 2 * 35, CW, 70):
+            d.ellipse((x - 9, y - 9, x + 9, y + 9), fill=(226, 120, 110))
+    furo(d)
+    lg = E.logo(400)
+    img.alpha_composite(lg, (int(CW / 2 - lg.width / 2), 130))
+    fileira(img, "MONITOR" if n != "JÉSSICA" else "MONITORA", 640, 118 if n != "JÉSSICA" else 112, cor=(250, 200, 120))
+    if n:
+        fileira(img, n, 900, 150 if len(n) <= 5 else 132)
+    else:
+        for k in range(6):
+            img.alpha_composite(peca(" ", 132), (int(CW / 2 - 3 * 142 + k * 142), 830))
+    d = ImageDraw.Draw(img)
+    d.rounded_rectangle((110, 1110, CW - 110, 1330), 30, fill=BR, outline=MAR, width=6)
+    d.text((CW / 2, 1175), "TRAVOU NO JOGO?", font=E.lilita(62), fill=LAR, anchor="mm")
+    d.text((CW / 2, 1255), "É só me chamar na sua mesa!", font=E.fig(44, 900), fill=MAR, anchor="mm")
+    E.cola(img, TB.parceria(110), CW / 2, 1480, 0)
+    return img
+
+
+# ---------------------------------------------------------------- F: trilha de tabuleiro na borda
+def cracha_f(n):
+    img = Image.new("RGBA", (CW, CH), CREME + (255,))
+    d = ImageDraw.Draw(img)
+    cores = [LAR, PET, AMA, ROSA, (118, 176, 65)]
+    c = 118  # tamanho da casa
+    cols, lins = CW // c, CH // c
+    ox, oy = (CW - cols * c) / 2, (CH - lins * c) / 2
+    casas = [(i, 0) for i in range(cols)] + [(cols - 1, j) for j in range(1, lins)] + \
+            [(i, lins - 1) for i in range(cols - 2, -1, -1)] + [(0, j) for j in range(lins - 2, 0, -1)]
+    for k, (i, j) in enumerate(casas):
+        x, y = ox + i * c, oy + j * c
+        d.rectangle((x + 4, y + 4, x + c - 4, y + c - 4), fill=cores[k % 5], outline=MAR, width=4)
+    # casa INÍCIO no canto de baixo à esquerda
+    x, y = ox, oy + (lins - 1) * c
+    d.rectangle((x + 4, y + 4, x + c - 4, y + c - 4), fill=BR, outline=MAR, width=4)
+    d.text((x + c / 2, y + c / 2), "INÍCIO", font=E.lilita(28), fill=MAR, anchor="mm")
+    d.rounded_rectangle((CW / 2 - 70, oy + 30, CW / 2 + 70, oy + 58), 14, fill=CREME, outline=(170, 160, 150), width=3)
+    lg = E.logo(400)
+    img.alpha_composite(lg, (int(CW / 2 - lg.width / 2), int(oy + c + 50)))
+    E.cola(img, E.pilula("MONITORA" if n == "JÉSSICA" else "MONITOR", 80, PET, BR, fonte_titulo=True), CW / 2, 640, -2)
+    nome(img, n, 840, LAR, s=160)
+    d = ImageDraw.Draw(img)
+    d.text((CW / 2, 1020), "Travou no jogo?", font=E.lilita(60), fill=ROSA, anchor="mm")
+    d.text((CW / 2, 1090), "Não volte casas:", font=E.fig(44, 900), fill=MAR, anchor="mm")
+    d.text((CW / 2, 1145), "me chama na sua mesa!", font=E.fig(44, 900), fill=MAR, anchor="mm")
+    E.cola(img, TB.parceria(100), CW / 2, 1340, 0)
+    return img
+
+
 OPCOES = {"A": cracha_a, "B": cracha_b, "C": cracha_c}
+OPCOES2 = {"D": cracha_d, "E": cracha_e, "F": cracha_f}
 
 
 def folha_a4(f):
@@ -139,15 +258,20 @@ def main():
     os.makedirs(OUT, exist_ok=True)
     w = 420
     h = int(w * CH / CW)
+    for arq, ops in (("cracha_opcoes.jpg", OPCOES), ("cracha_opcoes2.jpg", OPCOES2)):
+        folha_opcoes(arq, ops, w, h)
+    print("ok")
+
+
+def folha_opcoes(arq, ops, w, h):
     sh = Image.new("RGB", (3 * w + 4 * 30, h + 110), (240, 236, 228))
     d = ImageDraw.Draw(sh)
-    for k, (letra, f) in enumerate(OPCOES.items()):
+    for k, (letra, f) in enumerate(ops.items()):
         c = f("ERIK").convert("RGB").resize((w, h), Image.LANCZOS)
         sh.paste(c, (30 + k * (w + 30), 90))
         d.text((30 + k * (w + 30) + w / 2, 45), f"OPÇÃO {letra}", font=E.lilita(48), fill=MAR, anchor="mm")
         folha_a4(f).save(os.path.join(OUT, f"cracha_{letra}_A4.pdf"), resolution=DPI)
-    sh.save(os.path.join(OUT, "cracha_opcoes.jpg"), quality=90)
-    print("ok")
+    sh.save(os.path.join(OUT, arq), quality=90)
 
 
 if __name__ == "__main__":
