@@ -900,7 +900,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
 - **Capa do TOP 10 da JÉSSICA (`gravados-reels/capa_top10_jessica.py`, 6/nov):** igual à `--simples` do Erik (quadro em
   tela cheia, "TOP 10 / ÀS / CEGAS" amarelo à esquerda, logo no canto de cima à direita). Quadros mais nítidos (±0,4 s) do
   151838 → `assets/capa/jess_top10_b*.jpg`; 4 opções (b13.20, b14.70, b07.00, b16.00) em `out/capa_top10_jessica_opcoes.jpg`;
-  no 151657 a carta fica em cima do título. Escolhida → `python3 capa_top10_jessica.py <quadro>`.
+  no 151657 a carta fica em cima do título. **Escolhida: b13.20** (opção 1, "b014" da folha de quadros) → `out/capa_top10_jessica.png`.
 - **Stories "SEMANA CURTA" (`feed-sua-vez/story_semana_curta.py`, 2/nov, feriado de Finados; pedido dele: levar gente pro
   site, "as pessoas ainda não têm alugado"):** conceito AGENDA (folha de agenda creme com espiral sobre mesa laranja
   listrada), 3 telas: 1 "SÉRIE OU JOGO? / Hoje à noite, você vai de quê?" + espaço livre (y 1000–1380) para a ENQUETE
