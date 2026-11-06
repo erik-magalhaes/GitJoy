@@ -1051,11 +1051,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **Controle de ingressos (sugestão aceita):** venda antecipada por Pix no WhatsApp + planilha (sem Pix não é reserva), na porta
   lista + pulseira; cada pagante recebe DOIS cartões 9x5 cm (ele notou que o vale fica no caixa e o cupom se perderia): `vale(n)` QUADRADO 5x5 cm, fundo BRANCO com linha de corte cinza (pedidos dele: menor, 20 por A4, sem fundo amarelo) NUMERADO 001–060 (`vales_A4_001-060.pdf` = 3 folhas COMPLETAS, pedido dele; + em branco) = VALE CONSUMAÇÃO R$ 15 no Becas em 20/11 (entregue
   no caixa; conferir nº com a lista) e `cupom()` que a pessoa LEVA (também 5x5 cm, 20 por A4, QR ~2,1 cm lido no teste) = 10% OFF no 1º aluguel (BECAS10) + QR do site (conferido com o leitor do OpenCV); `cupons_A4.pdf` = 3 folhas de 20 = 60.
-- **LISTA DE JOGOS da Tarde no Beca’s (6/nov, 30 jogos, fechada com ele):** 1, 2, 3, Lucha!, Bananagrams, boop., Canvas, Código
+- **LISTA DE JOGOS da Tarde no Beca’s (6/nov, 30 jogos, fechada com ele):** Bananagrams, boop., Canvas, Código
   Secreto: Imagens, Coffee Rush, Dixit, Dobble Disney (NÃO está no site), Draftosaurus, Drácula vs Van Helsing, Flip 7: A
-  Vingança, Go Cuckoo!, Gravity Superstar, Hitster, Hive, King of Tokyo, Last Message, Marrakech, Next Station: London,
-  Perfil Express: Filmes e Séries, Santorini, Say my Name, Splendor Duel, Spyfall, Sushi Go!, Take Time, Tapalavras, Telma,
-  The Mind, Uga Buga. Ele TIROU: Ref!, Tesouro do Dragão, Patchwork, Azul Duel, Cartógrafos, BraveRats (→ 1, 2, 3, Lucha!), Spot it! Hip (→ Dobble Disney).
+  Vingança, Go Cuckoo!, Gravity Superstar, Hitster (levar 2 das 3 edições, 1 tocando por vez), Hive, King of Tokyo, Last Message, Marrakech, Next Station: London,
+  Perfil Express: Filmes e Séries, Santorini, Say my Name, Splendor Duel, Spyfall, Sushi Go!, Taco Gato Cabra Queijo Pizza, Take Time, Tapalavras, Telma,
+  The Mind, Uga Buga. Ele TIROU: Ref!, Tesouro do Dragão, Patchwork, Azul Duel, Cartógrafos, BraveRats e 1, 2, 3, Lucha! (→ Taco Gato Cabra Queijo Pizza), Spot it! Hip (→ Dobble Disney).
   Eu deixei de fora: Throw Throw Burrito e Happy Salmon (barulho/coisa voando no café), jogos de bebida e +18, jogos longos.
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
   preferida ("combina com a estética do lugar") e pediu mais peças nessa linha. Ideia nova: os guarda-chuvinhas SEGURAM as
