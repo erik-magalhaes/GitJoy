@@ -7,7 +7,7 @@ fazer todos", com cuidado com ROSTOS (clientes, criança) e PLACAS DE CARRO.
              BECA’S CAFÉ"; área y≈1350–1580 LIVRE para o adesivo de link.
     chegar   "Como chegar" ~22 s: o caminho acelerado (igreja → calçada → Alquifarma → bandeira → portão), barrinha de
              GPS no alto, e fecha com endereço, data e WhatsApp. O nome da igreja NÃO foi confirmado: só "a igreja".
-    gostinho "Um gostinho do que te espera" ~25 s: entrada, guarda-chuvinhas, salão, vitrine, brownie, a careta da
+    gostinho "Um gostinho do que te espera" ~25 s: entrada, guarda-chuvinhas, salão, vitrine, bolo nuvem, a careta da
              Jéssica, "agora imagina isso com um jogo na mesa..." e o convite.
     fotos    Carrossel 1080x1350 "Conheça o Beca’s" (5 telas) com quadros dos vídeos + o convite.
 
@@ -52,6 +52,52 @@ BORRA = {  # 7/nov, ele: "borrou demais, ninguém se importa de aparecer; no má
                (14.95, 15.25, (850, 760, 1080, 1060)),
                (15.25, 16.2, (920, 700, 1080, 1030))],
 }
+# placas (e um rosto) que andam no quadro: (t do bruto, cx, cy, meia-largura, meia-altura), interpolado
+TRILHAS = {
+    "rota": [
+        [(5.4, 60, 1025, 60, 35), (6.0, 195, 1027, 60, 35), (6.5, 330, 1043, 60, 35), (7.0, 454, 1053, 60, 35),
+         (7.5, 541, 1085, 60, 35), (8.0, 619, 1092, 60, 35), (8.5, 622, 1101, 60, 35), (9.0, 612, 1101, 60, 35),
+         (9.5, 629, 1143, 70, 40), (9.75, 606, 1179, 80, 45), (10.0, 557, 1220, 100, 55), (10.25, 450, 1309, 120, 60),
+         (10.5, 324, 1403, 160, 90), (10.75, 159, 1610, 200, 120), (11.0, 60, 1760, 200, 150),
+         (11.2, 0, 1850, 200, 150)],  # Clio na frente da igreja
+        [(24.9, 830, 720, 70, 50), (25.5, 855, 740, 70, 55), (26.0, 875, 750, 75, 60), (26.5, 881, 765, 80, 65),
+         (27.0, 890, 785, 90, 75), (27.5, 935, 805, 115, 90), (28.0, 965, 808, 120, 95), (28.5, 995, 885, 120, 105),
+         (29.0, 990, 940, 120, 115), (29.3, 1000, 980, 120, 115)],  # van escolar (2 placas)
+        [(29.8, 454, 843, 55, 35), (30.5, 476, 875, 55, 35), (31.0, 450, 885, 60, 35), (31.5, 292, 924, 65, 40),
+         (32.0, 136, 1021, 75, 45), (32.5, 30, 1100, 80, 50), (33.0, 30, 1200, 90, 60), (33.5, 194, 1553, 120, 60),
+         (34.0, 466, 1870, 150, 70), (34.25, 560, 1950, 150, 70)],  # HB20 branco
+        [(35.9, 1040, 1050, 80, 60), (36.25, 946, 1102, 70, 45), (36.5, 949, 1118, 70, 45), (36.75, 914, 1183, 75, 50),
+         (37.0, 1040, 1250, 90, 60), (37.25, 1040, 1310, 90, 70), (37.6, 1040, 1420, 90, 80),
+         (37.8, 1080, 1500, 60, 60)],  # carro preto antes da bandeira
+        [(55.25, 280, 790, 55, 60), (55.5, 298, 721, 60, 65), (56.0, 418, 608, 75, 85), (56.5, 520, 540, 90, 100),
+         (57.0, 583, 494, 100, 110)],  # rosto da cliente sentada no salão (a criança está de costas)
+    ],
+}
+
+
+def trilha_box(kf, ts):
+    if ts < kf[0][0] or ts > kf[-1][0]:
+        return None
+    for a, b in zip(kf, kf[1:]):
+        if a[0] <= ts <= b[0]:
+            u = (ts - a[0]) / max(1e-6, b[0] - a[0])
+            return tuple(a[i] + (b[i] - a[i]) * u for i in range(1, 5))
+    return kf[-1][1:]
+
+
+def borra_box(img, cx, cy, hw, hh):
+    x0, y0, x1, y1 = int(max(0, cx - hw)), int(max(0, cy - hh)), int(min(W, cx + hw)), int(min(H, cy + hh))
+    if x1 - x0 < 4 or y1 - y0 < 4:
+        return img
+    reg = img.crop((x0, y0, x1, y1))
+    m = Image.new("L", reg.size, 0)
+    ImageDraw.Draw(m).rounded_rectangle((6, 6, reg.width - 6, reg.height - 6), 18, fill=255)
+    m = m.filter(ImageFilter.GaussianBlur(6))
+    img = img.copy()
+    img.paste(reg.filter(ImageFilter.GaussianBlur(16)), (x0, y0), m)
+    return img
+
+
 TILT = {"salao": None, "ceu": None, "entrada": None}  # desfoque abaixo de y: DESLIGADO (ele achou horrível)
 
 
@@ -76,6 +122,10 @@ def privado(img, nome, ts, tilt=None):
     for t0, t1, box in BORRA.get(nome, []):
         if t0 <= ts <= t1:
             img = Image.composite(img.filter(ImageFilter.GaussianBlur(26)), img, _mask(box))
+    for kf in TRILHAS.get(nome, []):
+        b = trilha_box(kf, ts)
+        if b:
+            img = borra_box(img, *b)
     if tilt is not None:
         img = Image.composite(img.filter(ImageFilter.GaussianBlur(22)), img, _tilt_mask(tilt))
     return img
@@ -310,18 +360,19 @@ def r_audio():
 
 
 # ======================================================================== COMO CHEGAR
-C_PL = [Plano("rota", 0.0, 3.4, 1.62),  # esquina → igreja
-        Plano("rota", 12.0, 6.2, 2.0),  # calçada, "ESCOLAR", Alquifarma
-        Plano("rota", 39.0, 4.6, 1.55),  # bandeira do Beca’s → portão
-        Plano("jardim", 5.2, 2.4, 1.0, z=(1.25, 1.35), ay=0.15, tilt=TILT["ceu"])]
-C_ETQ = [  # (plano, u0, texto, cor, fg)
-    (0, 0.3, "COMEÇA NA IGREJA MATRIZ", AMA, MAR),
-    (1, 0.3, "SEGUE PELA CALÇADA...", AMA, MAR),
-    (1, 3.6, "PASSA A ALQUIFARMA", BR, PET),
-    (2, 0.3, "OLHA A BANDEIRA DO BECA’S!", AMA, MAR),
-    (2, 2.7, "CHEGOU! É SÓ ENTRAR", LAR, BR),
-    (3, 0.2, "E OLHA O QUE TE ESPERA...", AMA, MAR),
+C_VEL = 2.7  # 7/nov, ele: "o caminho inteiro, acelera pra caber" (antes eram 3 trechos)
+C_PL = [Plano("rota", 0.0, 56.8 / C_VEL, C_VEL)]
+C_SRC = [  # (t do bruto, texto, cor, fg)
+    (1.0, "COMEÇA NA IGREJA MATRIZ", AMA, MAR),
+    (12.0, "SEGUE PELA CALÇADA...", AMA, MAR),
+    (20.5, "PASSA A ALQUIFARMA", BR, PET),
+    (29.5, "DESCE A RUA...", AMA, MAR),
+    (38.3, "OLHA A BANDEIRA DO BECA’S!", AMA, MAR),
+    (43.3, "CHEGOU! É SÓ ENTRAR", LAR, BR),
+    (49.5, "OLHA ESSE TETO!", AMA, MAR),
+    (53.6, "BEM-VINDO AO BECA’S!", BR, PET),
 ]
+C_ETQ = [(0, src / C_VEL, txt, cor, fg) for src, txt, cor, fg in C_SRC]
 C_PARADAS = ["MATRIZ", "ALQUIFARMA", "BANDEIRA", "BECA’S"]
 C_INI = inicios(C_PL)
 C_VID = sum(p.d for p in C_PL)
@@ -335,7 +386,7 @@ def gps(img, t):
     img.alpha_composite(painel, (x0 - 40, y - 85))
     d = ImageDraw.Draw(img)
     xs = [x0 + 40 + k * (x1 - x0 - 80) / 3 for k in range(4)]
-    marcos = [0.4, C_INI[1] + 3.6, C_INI[2] + 0.3, C_INI[2] + 2.7]  # chega em cada parada junto com a etiqueta
+    marcos = [1.0 / C_VEL, 20.5 / C_VEL, 38.3 / C_VEL, 43.3 / C_VEL]  # chega em cada parada junto com a etiqueta
     prog = 3.0
     for k in range(3):
         if t < marcos[k + 1]:
@@ -414,9 +465,7 @@ def c_audio():
     ev = [(0.1, S.cartao(), 0.4)]
     for kp, u0, *_ in C_ETQ:
         ev.append((C_INI[kp] + u0, S.cartao(), 0.32))
-    for a in C_INI[1:]:
-        ev.append((a - 0.05, S.sopro(0.3), 0.3))
-    ev += [(C_INI[2] + 2.7, S.plim(), 0.45), (C_VID, S.sino(), 0.45), (C_VID + 0.35, S.cartao(), 0.4),
+    ev += [(43.3 / C_VEL, S.plim(), 0.45), (C_VID, S.sino(), 0.45), (C_VID + 0.35, S.cartao(), 0.4),
            (C_VID + 0.9, S.cartao(), 0.3)]
     return ev, S.musica_pop(C_DUR + 0.5, 0.0), 0.4
 
@@ -428,9 +477,10 @@ G_PL = [Plano("jardim", 5.0, 3.2, 0.9, z=(1.25, 1.38), ay=0.15, tilt=TILT["ceu"]
         Plano("vitrine", 8.2, 2.2, 1.0, z=(1.08, 1.0)),
         Plano("brownie", 0.0, 3.4, 1.0, z=(1.0, 1.08)),
         Plano("brownie", 4.0, 2.0, 0.85),
-        Plano("jardim", 14.85, 3.0, 0.3, z=(1.0, 1.05), ay=0.6)]
+        Plano("jardim", 2.5, 3.2, 0.03)]  # 7/nov: o final com a Jéssica séria saiu → mesa vazia do pátio
+G_MESA = [(105, 1110, -6), (235, 1095, 3), (355, 1125, -3)]  # caixas pousando no tampo da mesa redonda (quadro de 2,5 s)
 G_TXT = ["UM GOSTINHO DO QUE\nTE ESPERA NO BECA’S...", "SALÃO ACONCHEGANTE", "VITRINE DE DAR\nÁGUA NA BOCA",
-         "COOKIES!", "BROWNIE COM CHANTILLY\nE MORANGO", "", "AGORA IMAGINA ISSO\nCOM UM JOGO NA MESA..."]
+         "COOKIES!", "BOLO NUVEM\nCOM MORANGO", "", "AGORA IMAGINA ISSO\nCOM UM JOGO NA MESA..."]
 G_INI = inicios(G_PL)
 G_VID = sum(p.d for p in G_PL)
 G_DUR = G_VID + 5.8
@@ -471,8 +521,8 @@ def g_quadro(t):
             K.poe(img, etq("TESTADO PELA JÉSSICA", 44, AMA, MAR), W / 2, 1560, t, G_INI[5] + 0.6, 2)
         if k == 6:  # caixas de jogo pousando na mesa dela
             for j, n in enumerate(G_CAIXAS):
-                K.poe(img, caixa(n, 270), 170 + j * 250, 1590 + (j % 2) * 50, t, G_INI[6] + 1.0 + j * 0.3,
-                      (-8, 5, -3)[j], d=0.28)
+                x, y, r = G_MESA[j]
+                K.poe(img, caixa(n, 260), x, y, t, G_INI[6] + 0.9 + j * 0.3, r, d=0.28)
         K.marca(img)
         return img.convert("RGB")
     u = t - G_VID
@@ -495,7 +545,7 @@ def g_audio():
     ev = [(G_INI[k] + 0.15, S.cartao(), 0.3) for k in range(len(G_PL)) if G_TXT[k]]
     ev += [(a - 0.05, S.sopro(0.3), 0.25) for a in G_INI[1:]]
     ev += [(G_INI[5] + 0.35, S.dado(), 0.5), (G_INI[5] + 0.6, S.plim(), 0.35)]
-    ev += [(G_INI[6] + 1.0 + j * 0.3, S.cartao(), 0.4) for j in range(3)]
+    ev += [(G_INI[6] + 0.9 + j * 0.3, S.cartao(), 0.4) for j in range(3)]
     ev += [(G_VID, S.sino(), 0.45), (G_VID + 0.35, S.cartao(), 0.4), (G_VID + 1.0, S.cartao(), 0.3)]
     return ev, S.musica_cafe(G_DUR + 0.5), 0.45
 
@@ -636,8 +686,8 @@ def fotos():
          "A plaquinha redonda do Beca’s fica no portão\nbranco, pertinho da Igreja Matriz de Mauá.", PET),
         (quadro_bruto(vit, 4.2, "vitrine"), "A VITRINE", "DÁ VONTADE DE TUDO",
          "Tortas, brownies e cookies:\nescolher um só é o desafio.", LAR),
-        (quadro_bruto(bro, 1.2, "brownie"), "O BROWNIE", "APROVADO!",
-         "Brownie com chantilly e morango.\nA Jéssica testou (e aprovou).", ROSA),
+        (quadro_bruto(bro, 1.2, "brownie"), "O BOLO NUVEM", "APROVADO!",
+         "Bolo nuvem com morango.\nA Jéssica testou (e aprovou).", ROSA),
     ]):
         telas.append(pagina(im, leg, tit_, frase, cor, k))
     telas.append(convite_pagina("E NO DIA 20/11\nTEM JOGO LÁ!"))
