@@ -1068,6 +1068,13 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   date → boop., galera → Hitster, festa da empresa → Código Secreto: Imagens. **Rejeitado:** conceito "receita médica"
   (Dr. Sua Vez, Rx, carimbo) — ele não curtiu e achou informação demais; link embaixo (y≈1650) ficou baixo demais; saíram
   "ficar de boa em casa" (Canvas), "visita na sogra" (Take Time) e o Uga Buga na família. Saída `promo/out/plano_fds/`.
+- **Gravações NO BECA'S (6/nov, pasta "Becas" no Drive `1KPZeiKXElsWPe9eagnIIW7utvZ6II15e`, liberada por link) →
+  `becas-reels/brutos/nov06/` (fora do git), todos verticais HEVC com áudio ambiente: 150333 (15,6 s, entrada pelo jardim →
+  guarda-chuvinhas → salão de madeira → Jéssica sentada a 14–15 s), 150657 (11 s, vitrine: torta, brownies, cookies),
+  150936 (16 s, cardápio "Bem-vindo(a) ao Beca's", plástico brilhando, mostra preços), 151125 (57 s, CAMINHO: igreja
+  grande de pedra com escadaria (nome a confirmar) → calçada "ESCOLAR" → farmácia Alquifarma → rua → bandeira e portão do
+  Beca's → guarda-chuvinhas → salão), 151353 (6 s, brownie com chantilly e morango + Jéssica comendo, careta). Há clientes
+  e uma criança no fundo de alguns planos: evitar close nos rostos deles.
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
   preferida ("combina com a estética do lugar") e pediu mais peças nessa linha. Ideia nova: os guarda-chuvinhas SEGURAM as
   coisas pelo cabo (`segura()`: fio do teto → guarda-chuva → argola → placa/caixa/número), como um móbile. Peças: stories de
