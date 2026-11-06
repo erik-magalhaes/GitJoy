@@ -1082,7 +1082,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   3ª rodada ("mais focado na Sua Vez, sem o Beca’s, pra usar em qualquer evento"): `cracha_opcoes3.jpg` = G azul-claro
   com confete, logo grande, "A gente ensina, você joga!"; H trocadilho "É A VEZ DE:" com setas apontando o nome, fundo
   amarelo listrado; I "equipe" (faixa petróleo com logo, nome em faixa laranja, QR do acervo). Sem data nem café.
-  **Escolhida: C** (a Jéssica, 5/nov), com o nome em azul-petróleo CLARO (64,170,200) porque o petróleo escuro ficava difícil de ler → `cracha_C_A4.pdf`.
+  **Escolhida: C** (a Jéssica, 5/nov), com o nome em azul-petróleo CLARO (64,170,200) porque o petróleo escuro ficava difícil de ler → `cracha_C_A4.pdf`; só Erik + Jéssica (1 folha A4, os 2 lado a lado, pedido dele) → `cracha_C_Erik_Jessica.pdf` (`folha_a4(f, nomes)`).
 - **SAVE THE DATE em vídeo para os Stories (`becas-reels/save_date.py`, 5/nov):** 10 s, guarda-chuvinhas balançando + um
   guarda-chuva rosa segurando uma FOLHA DE CALENDÁRIO (NOVEMBRO / 20, logos Sua Vez × Beca’s no pé, `SB.OBJ["cal"]`,
   escala `KC`) que balança; caneta vermelha circula o 20 (1,3–2,1 s); "SAVE THE DATE!", 3 pílulas (tarde de jogos no

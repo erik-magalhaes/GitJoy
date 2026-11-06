@@ -337,17 +337,20 @@ OPCOES3 = {"G": cracha_g, "H": cracha_h, "I": cracha_i}
 OPCOES2 = {"D": cracha_d, "E": cracha_e, "F": cracha_f}
 
 
-def folha_a4(f):
+def folha_a4(f, nomes=None):
+    nomes = nomes or NOMES
     A4 = (int(21 / 2.54 * DPI), int(29.7 / 2.54 * DPI))
     fo = Image.new("RGB", A4, (255, 255, 255))
     d = ImageDraw.Draw(fo)
-    mx, my = (A4[0] - 2 * CW) // 2, (A4[1] - 2 * CH) // 2
-    for k, n in enumerate(NOMES):
+    lins = (len(nomes) + 1) // 2
+    mx, my = (A4[0] - 2 * CW) // 2, (A4[1] - lins * CH) // 2
+    for k, n in enumerate(nomes):
         fo.paste(f(n).convert("RGB"), (mx + (k % 2) * CW, my + (k // 2) * CH))
     for j in range(3):  # marcas de corte
         x = mx + j * CW
         d.line((x, my - 50, x, my - 12), fill=(120, 120, 120), width=3)
-        d.line((x, my + 2 * CH + 12, x, my + 2 * CH + 50), fill=(120, 120, 120), width=3)
+        d.line((x, my + lins * CH + 12, x, my + lins * CH + 50), fill=(120, 120, 120), width=3)
+    for j in range(lins + 1):
         y = my + j * CH
         d.line((mx - 50, y, mx - 12, y), fill=(120, 120, 120), width=3)
         d.line((mx + 2 * CW + 12, y, mx + 2 * CW + 50, y), fill=(120, 120, 120), width=3)
