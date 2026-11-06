@@ -1057,6 +1057,12 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Eu Sou uma Banana, Santorini, Say my Name, Splendor Duel, Spyfall, Sushi Go!, Taco Gato Cabra Queijo Pizza, Take Time, Tapalavras, Telma,
   The Mind, Uga Buga, Wandering Towers. Ele TIROU: Ref!, Last Message (→ Break the Cube), Next Station (→ Wandering Towers), Perfil Express e Splito ("muito confuso") (→ Eu Sou uma Banana), Tesouro do Dragão, Patchwork, Azul Duel, Cartógrafos, BraveRats e 1, 2, 3, Lucha! (→ Taco Gato Cabra Queijo Pizza), Spot it! Hip (→ Dobble Disney).
   Eu deixei de fora: Throw Throw Burrito e Happy Salmon (barulho/coisa voando no café), jogos de bebida e +18, jogos longos.
+- **Stories ENQUETE "qual é o plano pro fim de semana?" + RECEITA de jogo (`promo/story_plano_fds.py`, 6/nov, ideia dele):**
+  tela 1 = pergunta (petróleo) + espaço LIVRE y≈930–1400 para a enquete do Instagram (máx. 4 opções); depois 1 story por
+  plano no conceito RECEITA MÉDICA ("Dr. Sua Vez, especialista em fim de semana sem tédio": papel de receituário, Rx, caixa
+  oficial, ficha do site, modo de usar, efeito colateral, carimbo RECEITADO!, fundo de cor com cruzinhas/comprimidos).
+  6 planos para ele escolher 4: almoço em família → Uga Buga, date → boop., galera → Hitster, de boa em casa → Canvas,
+  festa da empresa → Código Secreto: Imagens, visita na sogra → Take Time. Saída `promo/out/plano_fds/`.
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
   preferida ("combina com a estética do lugar") e pediu mais peças nessa linha. Ideia nova: os guarda-chuvinhas SEGURAM as
   coisas pelo cabo (`segura()`: fio do teto → guarda-chuva → argola → placa/caixa/número), como um móbile. Peças: stories de
