@@ -1060,7 +1060,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
 - **Stories ENQUETE "qual é o plano pro fim de semana?" + 1 jogo por plano (`promo/story_plano_fds.py`, 6/nov, ideia dele):**
   tela 1 = pergunta (petróleo com confete) + espaço LIVRE y≈930–1400 para a enquete (4 opções). Depois 1 story por plano:
   fundo de cor com confete, "SEU PLANO:" + plano, cartão branco com caixa oficial, nome, ficha e UMA frase, "RESERVA ESSE
-  JOGO AQUI:" + seta e espaço LIVRE y≈1255–1490 para o adesivo de LINK do jogo no site. Planos: almoço em família → Dixit,
+  JOGO AQUI:" + seta e espaço LIVRE y≈1255–1490 para o adesivo de LINK do jogo no site. Planos: almoço em família → Dixit: Disney Edition (ele trocou o Dixit normal),
   date → boop., galera → Hitster, festa da empresa → Código Secreto: Imagens. **Rejeitado:** conceito "receita médica"
   (Dr. Sua Vez, Rx, carimbo) — ele não curtiu e achou informação demais; link embaixo (y≈1650) ficou baixo demais; saíram
   "ficar de boa em casa" (Canvas), "visita na sogra" (Take Time) e o Uga Buga na família. Saída `promo/out/plano_fds/`.

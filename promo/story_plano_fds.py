@@ -6,7 +6,7 @@ Stories seguintes (um por plano): fundo de cor com confete, "SEU PLANO:" + o pla
 nome, ficha do site e UMA frase; embaixo "RESERVA ESSE JOGO AQUI:" + seta e espaço LIVRE y≈1255–1490 para o adesivo de
 LINK do jogo no site. 2ª rodada (pedido dele): a 1ª versão era uma "receita médica" (ele não gostou e achou informação
 demais), o link ficava baixo demais (y≈1650–1790), saiu o "ficar de boa em casa" (Canvas) e o jogo da família trocou
-(Uga Buga → Dixit). Ficaram 4 planos (a "visita na sogra" com Take Time também saiu).
+(Uga Buga → Dixit → Dixit: Disney Edition, pedido dele). Ficaram 4 planos (a "visita na sogra" com Take Time também saiu).
 
     /usr/bin/python3 promo/story_plano_fds.py      # promo/out/plano_fds/*.png + previa.jpg
 """
@@ -27,7 +27,7 @@ ROSA, VERDE, ROXO = (236, 106, 140), (86, 164, 104), (108, 63, 160)
 LIVRE = (0, 1255, W, 1490)  # adesivo de link
 
 PLANOS = [  # (arquivo, plano, cor, jogo, caixa, ficha, frase)
-    ("1_familia", "ALMOÇO EM FAMÍLIA", LARANJA, "Dixit", R("hobby-reels/assets/caixas/dixit.png"),
+    ("1_familia", "ALMOÇO EM FAMÍLIA", LARANJA, "Dixit Disney", R("hobby-reels/assets/acervo/dixit_disney_edition.png"),
      "3 A 6 PESSOAS · 30 MIN", "Uma imagem, uma dica e a família inteira tentando adivinhar."),
     ("2_date", "DATE COM O MOZÃO", ROSA, "boop.", R("gravados-reels/assets/lista/boop.png"),
      "2 PESSOAS · 30 MIN", "Uma partida antes do filme. Ou no lugar dele."),
