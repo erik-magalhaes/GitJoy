@@ -1095,6 +1095,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   atrás do portão, na cliente atrás da Jéssica (a câmera gira: caixas em 3 faixas de tempo para não pegar o rosto DELA), na
   atendente atrás dos cookies e na equipe ao fundo do brownie; `TILT` = desfoque abaixo de y (teto, salão) onde há clientes.
   Cardápio não usado. Saída `out/{revela,chegar,gostinho}_{com_som,para_musica}_final.mp4` e `out/conheca_becas/`.
+  **7/nov, ele: "borrou demais, ninguém se importa de aparecer no vídeo; no máximo um rosto ou outro, ficou horrível"** →
+  TILT desligado e `BORRA` só na cliente de perto atrás da Jéssica. Regra: em vídeo do lugar, NÃO borrar gente ao fundo
+  nem salão; placas de carro continuam evitadas pela escolha dos trechos.
   **A igreja do caminho é a IGREJA MATRIZ de Mauá** (Paróquia Matriz Imaculada Conceição, Praça Monsenhor Alexandre
   Venâncio Arminas, 1, bem no centro; ele confirmou "matriz"). 2ª rodada: "COMEÇA NA IGREJA MATRIZ", GPS com MATRIZ, pílula
   "PERTINHO DA IGREJA MATRIZ, NO CENTRO DE MAUÁ", e os 3 formatos: `revela_reels`, `chegar_stories`, `gostinho_stories`

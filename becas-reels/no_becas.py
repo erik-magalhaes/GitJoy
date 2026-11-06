@@ -47,16 +47,12 @@ for _n, _a in {"rota": "20261106_151125.mp4", "jardim": "20261106_150333.mp4", "
     K.CLIPES[_n] = (os.path.join(NOV, _a), "BECA’S")
 
 # desfoque de privacidade: nome → [(t0, t1 do bruto, caixa 1080x1920)]
-BORRA = {
-    "rota": [(3.0, 5.8, (240, 800, 760, 1010)),  # gente pequena na porta da igreja
-             (42.8, 45.6, (840, 940, 1080, 1280))],  # carro vermelho atrás do portão
-    "jardim": [(14.6, 14.95, (760, 830, 1080, 1120)),  # cliente atrás da Jéssica (a câmera gira até ela)
+BORRA = {  # 7/nov, ele: "borrou demais, ninguém se importa de aparecer; no máximo um rosto ou outro"
+    "jardim": [(14.6, 14.95, (760, 830, 1080, 1120)),  # só a cliente de perto, atrás da Jéssica (a câmera gira até ela)
                (14.95, 15.25, (850, 760, 1080, 1060)),
                (15.25, 16.2, (920, 700, 1080, 1030))],
-    "vitrine": [(7.8, 10.8, (230, 120, 780, 820))],  # atendente atrás do vidro dos cookies
-    "brownie": [(3.4, 6.0, (760, 380, 1080, 1120))],  # equipe do café ao fundo
 }
-TILT = {"salao": 760, "ceu": 1060, "entrada": 720}  # desfoque abaixo de y
+TILT = {"salao": None, "ceu": None, "entrada": None}  # desfoque abaixo de y: DESLIGADO (ele achou horrível)
 
 
 def mascara_suave(box, r=40):
