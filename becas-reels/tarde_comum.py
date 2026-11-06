@@ -48,7 +48,6 @@ CENAS = [  # 2ª versão (7/nov): ele achou repetido → cada trecho só UMA vez
     # 3 virada
     (P("rota", 43.6, 1.4, 0.7, z=(1.0, 1.05)), None),
     (P("art", 0.0, 1.6, 1.0, z=(1.06, 1.0)), (525, 830)),  # placa redonda (xícara do logo) → íris
-    (P("jardim", 2.5, 1.7, 0.03), None),  # mesinha vazia do pátio: as caixas pousam
     (P("passaporte", 0.3, 1.2, 1.0, z=(1.0, 1.05)), None),
     # 4 experiência
     (P("bolo2", 18.3, 1.0, 1.0), None),
@@ -79,8 +78,8 @@ TEXTOS = [
     (0.15, INI[1], "VOCÊ É DO TIME QUE VAI\nÀ CAFETERIA SÓ PELO CAFÉ...", 70, BR),
     (INI[1] + 0.2, INI[4], "JÁ IMAGINOU TRANSFORMAR\nUMA TARDE COMUM EM UMA\nEXPERIÊNCIA DIFERENTE?", 66, BR),
     (INI[4] + 0.2, INI[10], "UM CAFÉ GOSTOSO...", 92, AMA),
-    (INI[10] + 0.15, INI[13], "...UMA MESA CHEIA\nDE POSSIBILIDADES...", 84, AMA),
-    (INI[14] + 0.3, VID, "...E BOAS HISTÓRIAS\nPRA CONTAR!", 88, AMA),
+    (INI[10] + 0.15, INI[12], "...UMA MESA CHEIA\nDE POSSIBILIDADES...", 84, AMA),
+    (INI[13] + 0.3, VID, "...E BOAS HISTÓRIAS\nPRA CONTAR!", 88, AMA),
 ]
 
 
@@ -116,10 +115,6 @@ def legenda(img, t):
 def quadro(t):
     if t < VID:
         img, k, u = video(t)
-        if k == 11:  # caixas pousando na mesinha vazia
-            for j, n in enumerate(CAIXAS):
-                x, y, r = MESA[j]
-                K.poe(img, NB.caixa(n, 260), x, y, t, INI[11] + 0.2 + j * 0.3, r, d=0.28)
         legenda(img, t)
         if t < INI[1]:
             K.poe(img, etq("...OU TAMBÉM PELA DIVERSÃO?", 54, AMA, MAR), W / 2, 1660, t, 1.6, 2)
@@ -158,8 +153,7 @@ def audio():
     for k, (_, ir) in enumerate(CENAS):
         if ir:
             ev.append((INI[k], S.sopro(0.4), 0.45))
-    ev += [(INI[11] + 0.2 + j * 0.3, S.cartao(), 0.4) for j in range(3)]
-    ev += [(INI[16], S.dado(), 0.35), (VID, S.sopro(0.3), 0.35), (VID + 0.1, S.cartao(), 0.3),
+    ev += [(INI[15], S.dado(), 0.35), (VID, S.sopro(0.3), 0.35), (VID + 0.1, S.cartao(), 0.3),
            (T_FIM, S.sino(), 0.45), (T_FIM + 0.35, S.cartao(), 0.4), (T_FIM + 1.0, S.cartao(), 0.3)]
     return ev, S.musica_cafe(DUR + 0.5), 0.45
 
