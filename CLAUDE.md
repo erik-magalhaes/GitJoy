@@ -1113,6 +1113,14 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   (corte seco café ↔ jogo de mesa deles, "+" estourando: salão+Art Society, vitrine+Critter Kitchen, bolo nuvem+Sushi Go,
   teto colorido+Canvas; ele vetou o "portão" como benefício) e "metade café, metade jogo" (tela dividida). O vídeo da PAREDE do café (Jéssica) ainda não chegou no
   Drive: salvar como `brutos/nov06/parede.mp4` que ele entra sozinho no gancho e no par "uma parede dessas" + Passaporte.
+  **ROTEIRO DELE "tarde comum → experiência" (`becas-reels/tarde_comum.py [--stories]`, 7/nov, ~36 s):** gancho com a
+  pergunta "Você é do time que vai à cafeteria só pelo café... ou também pela diversão?" (teto colorido) → ambiente
+  (salão, pátio) "Já imaginou transformar uma tarde comum...?" → desejo (capa do cardápio, vitrine, cookies, bolo nuvem)
+  "Um café gostoso..." → VIRADA com match cut em ÍRIS (`iris()`: a placa redonda com a XÍCARA do logo abre na mesa do Art
+  Society; a mesinha vazia do pátio recebe as caixas) "...uma mesa cheia de possibilidades..." → experiência (prato do bolo
+  → íris → carta de doce do Sushi Go; Unlock abrindo, mãos no Sky Team, fichas do Critter, cartas do Canvas, Take Time)
+  "...e boas histórias pra contar!" → tela dividida café/jogo "Café, jogos e boas companhias." → "VOCÊ VEM?" + convite.
+  NÃO há gravação de xícara sendo servida nem de dado rolando: se gravarem no dia (3 s de café chegando à mesa), entra no lugar da placa.
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
   preferida ("combina com a estética do lugar") e pediu mais peças nessa linha. Ideia nova: os guarda-chuvinhas SEGURAM as
   coisas pelo cabo (`segura()`: fio do teto → guarda-chuva → argola → placa/caixa/número), como um móbile. Peças: stories de
