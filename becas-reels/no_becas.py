@@ -33,6 +33,7 @@ import kit as K
 import sons as S
 from kit import E, TB, W, H, FPS, MAR, PET, LAR, AMA, BR, ROSA, out_back, ease
 
+FMT = "reels"  # "reels" ou "stories" (main decide; stories = espaço do adesivo de link no meio da tela)
 ROOT = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(ROOT)
 NOV = os.path.join(ROOT, "brutos", "nov06")
@@ -149,6 +150,21 @@ def seta(cor=BR, h=110):
     d.line((50, 5, 50, h - 40), fill=cor, width=15)
     d.polygon([(10, h - 52), (90, h - 52), (50, h)], fill=cor)
     return im
+
+
+def linha_link(img, t, t0, y=1185, txt="garanta sua mesa aqui:"):
+    """Stories: frase + seta apontando pro adesivo de link (y≈1350–1580 fica LIVRE)."""
+    if t < t0:
+        return
+    a = min(1, (t - t0) / 0.3)
+    bob = 8 * math.sin(2 * math.pi * (t - t0) / 1.2)
+    lin = Image.new("RGBA", (W, 140), (0, 0, 0, 0))
+    ImageDraw.Draw(lin).text((W / 2 - 60, 55), txt, font=E.fig(44, 900), fill=BR, anchor="mm", stroke_width=4,
+                             stroke_fill=MAR)
+    lin.alpha_composite(seta(BR), (int(W / 2 + 255), int(bob)))
+    if a < 1:
+        lin.putalpha(lin.getchannel("A").point(lambda v: int(v * a)))
+    img.alpha_composite(lin, (0, y))
 
 
 def escuro(img, a):
@@ -275,18 +291,14 @@ def r_quadro(t):
     K.poe(img, TB.selo_endereco(38), W / 2, 850, t, R_FIM + 1.0, 1)
     K.poe(img, etq("R$ 30 · R$ 15 VIRAM CONSUMAÇÃO NO CAFÉ", 36, BR, MAR), W / 2, 935, t, R_FIM + 1.2, -1)
     K.poe(img, etq("A GENTE LEVA OS JOGOS E ENSINA!", 40, LAR, BR), W / 2, 1025, t, R_FIM + 1.4, 1.5)
-    if u > 1.9:
-        a = min(1, (u - 1.9) / 0.3)
-        bob = 8 * math.sin(2 * math.pi * (u - 1.9) / 1.2)
-        lin = Image.new("RGBA", (W, 140), (0, 0, 0, 0))
-        ImageDraw.Draw(lin).text((W / 2 - 60, 55), "garanta sua mesa aqui:", font=E.fig(44, 900), fill=BR,
-                                 anchor="mm", stroke_width=4, stroke_fill=MAR)
-        lin.alpha_composite(seta(BR), (int(W / 2 + 255), int(bob)))
-        if a < 1:
-            lin.putalpha(lin.getchannel("A").point(lambda v: int(v * a)))
-        img.alpha_composite(lin, (0, 1185))
-    # y≈1350–1580 LIVRE para o adesivo de link
-    K.poe(img, etq(f"OU NO WHATSAPP {TB.WHATS}", 40, PET, BR), W / 2, 1660, t, R_FIM + 2.2)
+    if FMT == "stories":
+        linha_link(img, t, R_FIM + 1.9)
+        # y≈1350–1580 LIVRE para o adesivo de link
+        K.poe(img, etq(f"OU NO WHATSAPP {TB.WHATS}", 40, PET, BR), W / 2, 1660, t, R_FIM + 2.2)
+    else:
+        K.poe(img, etq("RESERVE PELO WHATSAPP:", 46, PET, BR), W / 2, 1210, t, R_FIM + 1.9, -1)
+        K.poe(img, tit(TB.WHATS, 96, AMA), W / 2, 1320, t, R_FIM + 2.1, 1)
+        K.poe(img, etq("COMENTA: QUEM VOCÊ LEVA JUNTO?", 42, BR, MAR), W / 2, 1480, t, R_FIM + 2.4, -1.5)
     confete(img, t, R_FIM)
     if flash > 0:
         img.alpha_composite(Image.new("RGBA", (W, H), (255, 255, 255, int(255 * flash))))
@@ -307,14 +319,14 @@ C_PL = [Plano("rota", 0.0, 3.4, 1.62),  # esquina → igreja
         Plano("rota", 39.0, 4.6, 1.55),  # bandeira do Beca’s → portão
         Plano("jardim", 5.2, 2.4, 1.0, z=(1.25, 1.35), ay=0.15, tilt=TILT["ceu"])]
 C_ETQ = [  # (plano, u0, texto, cor, fg)
-    (0, 0.3, "COMEÇA NA IGREJA", AMA, MAR),
+    (0, 0.3, "COMEÇA NA IGREJA MATRIZ", AMA, MAR),
     (1, 0.3, "SEGUE PELA CALÇADA...", AMA, MAR),
     (1, 3.6, "PASSA A ALQUIFARMA", BR, PET),
     (2, 0.3, "OLHA A BANDEIRA DO BECA’S!", AMA, MAR),
     (2, 2.7, "CHEGOU! É SÓ ENTRAR", LAR, BR),
     (3, 0.2, "E OLHA O QUE TE ESPERA...", AMA, MAR),
 ]
-C_PARADAS = ["IGREJA", "ALQUIFARMA", "BANDEIRA", "BECA’S"]
+C_PARADAS = ["MATRIZ", "ALQUIFARMA", "BANDEIRA", "BECA’S"]
 C_INI = inicios(C_PL)
 C_VID = sum(p.d for p in C_PL)
 C_DUR = C_VID + 5.6
@@ -387,9 +399,18 @@ def c_quadro(t):
     img = C_PL[-1].quadro(C_PL[-1].d - 0.01).filter(ImageFilter.GaussianBlur(12))
     escuro(img, min(140, u * 400))
     balanco(img, t)
-    K.poe(img, tit("ANOTA O ENDEREÇO!", 100, AMA), W / 2, 560, t, C_VID + 0.1, -2)
-    K.poe(img, card_convite(), W / 2, 1020, t, C_VID + 0.35, 1)
-    K.poe(img, etq("SALVA ESSE VÍDEO PRA NÃO SE PERDER!", 40, BR, MAR), W / 2, 1440, t, C_VID + 0.9, -1.5)
+    matriz = etq("PERTINHO DA IGREJA MATRIZ, NO CENTRO DE MAUÁ", 34, AMA, MAR)
+    if FMT == "stories":
+        K.poe(img, tit("ANOTA O ENDEREÇO!", 100, AMA), W / 2, 380, t, C_VID + 0.1, -2)
+        K.poe(img, matriz, W / 2, 490, t, C_VID + 0.25, 1)
+        K.poe(img, card_convite(), W / 2, 880, t, C_VID + 0.35, 1)
+        linha_link(img, t, C_VID + 0.9, 1200)
+        K.poe(img, etq("MANDA PRA QUEM VAI COM VOCÊ!", 40, BR, MAR), W / 2, 1660, t, C_VID + 1.1, -1.5)
+    else:
+        K.poe(img, tit("ANOTA O ENDEREÇO!", 100, AMA), W / 2, 560, t, C_VID + 0.1, -2)
+        K.poe(img, card_convite(), W / 2, 1020, t, C_VID + 0.35, 1)
+        K.poe(img, matriz, W / 2, 1420, t, C_VID + 0.7, 1)
+        K.poe(img, etq("SALVA ESSE VÍDEO PRA NÃO SE PERDER!", 40, BR, MAR), W / 2, 1520, t, C_VID + 0.9, -1.5)
     return img.convert("RGB")
 
 
@@ -462,9 +483,15 @@ def g_quadro(t):
     img = G_PL[-1].quadro(G_PL[-1].d - 0.01).filter(ImageFilter.GaussianBlur(12))
     escuro(img, min(140, u * 400))
     balanco(img, t)
-    K.poe(img, tit("VEM JOGAR COM A GENTE!", 92, AMA), W / 2, 540, t, G_VID + 0.1, -2)
-    K.poe(img, card_convite(), W / 2, 980, t, G_VID + 0.35, 1)
-    K.poe(img, etq("COMENTA: QUAL DOCE VOCÊ PEDE PRIMEIRO?", 38, BR, MAR), W / 2, 1420, t, G_VID + 1.0, -1.5)
+    if FMT == "stories":
+        K.poe(img, tit("VEM JOGAR COM A GENTE!", 92, AMA), W / 2, 420, t, G_VID + 0.1, -2)
+        K.poe(img, card_convite(), W / 2, 860, t, G_VID + 0.35, 1)
+        linha_link(img, t, G_VID + 0.9, 1190)
+        K.poe(img, etq("MANDA PRA QUEM VAI COM VOCÊ!", 40, BR, MAR), W / 2, 1660, t, G_VID + 1.1, -1.5)
+    else:
+        K.poe(img, tit("VEM JOGAR COM A GENTE!", 92, AMA), W / 2, 540, t, G_VID + 0.1, -2)
+        K.poe(img, card_convite(), W / 2, 980, t, G_VID + 0.35, 1)
+        K.poe(img, etq("COMENTA: QUAL DOCE VOCÊ PEDE PRIMEIRO?", 38, BR, MAR), W / 2, 1420, t, G_VID + 1.0, -1.5)
     return img.convert("RGB")
 
 
@@ -515,64 +542,128 @@ def polaroide(im, w, h, legenda):
     return c
 
 
-def fundo_foto():
-    img = Image.new("RGBA", (FW, FH), CREME + (255,))
+def fundo_foto(hh=FH):
+    img = Image.new("RGBA", (FW, hh), CREME + (255,))
     rnd = random.Random(3)
     d = ImageDraw.Draw(img)
-    for _ in range(60):
-        x, y, s = rnd.uniform(0, FW), rnd.uniform(0, FH), rnd.uniform(8, 16)
+    for _ in range(int(60 * hh / FH)):
+        x, y, s = rnd.uniform(0, FW), rnd.uniform(0, hh), rnd.uniform(8, 16)
         c = tuple(int(v + (255 - v) * 0.55) for v in rnd.choice([LAR, PET, AMA, ROSA, VERDE]))
         d.rounded_rectangle((x, y, x + s, y + s * 0.6), 3, fill=c)
     return img
 
 
+def pagina(im, leg, tit_, frase, cor, k, passo=None):
+    img = fundo_foto()
+    if passo:
+        E.cola(img, E.pilula(f"PASSO {passo}", 40, cor, BR, fonte_titulo=True), FW / 2, 58, -2)
+        E.cola(img, E.titulo(tit_, 78, cor, larg_max=1000), FW / 2, 185, -1)
+        E.cola(img, polaroide(im, 520, 690, leg), FW / 2, 745, (-3, 2.5, -2, 2)[k % 4])
+    else:
+        E.cola(img, E.titulo(tit_, 88, cor, larg_max=980), FW / 2, 92, -1.5)
+        E.cola(img, polaroide(im, 580, 780, leg), FW / 2, 680, (-3, 2.5, -2, 2)[k % 4])
+    E.cola(img, E.texto(frase, 36, MAR, 800, larg_max=960, entre=1.3), FW / 2, 1240, 0)
+    return img
+
+
+def capa_foto(foto, ay, chamada, titulo, hh=FH):
+    """Capa com a foto em tela cheia; hh=1920 faz a versão Story (texto acima da área do campo de resposta)."""
+    img = recorta(foto, FW, hh, ay=ay, z=1.0).convert("RGBA")
+    y0, yc = (700, 930) if hh == FH else (1050, 1320)
+    g = Image.new("RGBA", (FW, hh), (0, 0, 0, 0))
+    gd = ImageDraw.Draw(g)
+    for y in range(y0, hh):
+        gd.line((0, y, FW, y), fill=(25, 15, 8, int(200 * min(1, (y - y0) / (FH - 700)))))
+    img.alpha_composite(g)
+    E.cola(img, E.pilula(chamada, 44, AMA, MAR, fonte_titulo=True), FW / 2, yc, -2)
+    E.cola(img, E.titulo(titulo, 104, BR, larg_max=980), FW / 2, yc + 180, -1)
+    E.cola(img, TB.logo_becas(120), FW - 150, 120 if hh == FH else 330, 4)
+    return img
+
+
+def convite_pagina(titulo):
+    img = fundo_foto()
+    balanco(img, 0.6, alturas=(70, 130, 50, 115, 85, 150))
+    E.cola(img, E.titulo(titulo, 96, LAR, larg_max=980), FW / 2, 420, -1.5)
+    E.cola(img, card_convite(920, "reserve"), FW / 2, 860, 1)
+    E.cola(img, E.pilula("SALVA E MANDA PRA QUEM VAI COM VOCÊ!", 36, AMA, MAR, fonte_titulo=True), FW / 2, 1255, -1)
+    return img
+
+
+def story_de(tela):
+    """Tela do carrossel (1080x1350, fundo creme) como Story 1080x1920: o mesmo fundo continua em cima e embaixo e a
+    tela fica inteira na área segura do meio (y 285–1635)."""
+    bg = fundo_foto(H)
+    bg.alpha_composite(tela.convert("RGBA"), (0, 285))
+    return bg
+
+
+def story_final(titulo):
+    """Último Story: convite + espaço LIVRE (y≈1350–1580) para o adesivo de link."""
+    img = fundo_foto(H)
+    balanco(img, 0.6, alturas=(70, 130, 50, 115, 85, 150))
+    E.cola(img, E.titulo(titulo, 96, LAR, larg_max=980), W / 2, 390, -1.5)
+    E.cola(img, card_convite(920, "ou reserve"), W / 2, 830, 1)
+    lin = Image.new("RGBA", (W, 140), (0, 0, 0, 0))
+    ImageDraw.Draw(lin).text((W / 2 - 60, 55), "garanta sua mesa aqui:", font=E.fig(44, 900), fill=MAR, anchor="mm")
+    lin.alpha_composite(seta(MAR), (int(W / 2 + 255), 0))
+    img.alpha_composite(lin, (0, 1170))
+    E.cola(img, E.pilula("MANDA PRA QUEM VAI COM VOCÊ!", 40, AMA, MAR, fonte_titulo=True), W / 2, 1680, -1)
+    return img
+
+
+def salva(telas, pasta, final_story_titulo, capa_story):
+    os.makedirs(os.path.join(pasta, "stories"), exist_ok=True)
+    for k, im in enumerate(telas):
+        im.convert("RGB").save(os.path.join(pasta, f"{k + 1:02d}.png"))
+    stories = [capa_story] + [story_de(im) for im in telas[1:-1]] + [story_final(final_story_titulo)]
+    for k, im in enumerate(stories):
+        im.convert("RGB").save(os.path.join(pasta, "stories", f"story_{k + 1:02d}.png"))
+    for lista, nome, ww, hh in ((telas, "previa.jpg", FW, FH), (stories, "previa_stories.jpg", W, H)):
+        w = 300
+        h = int(w * hh / ww)
+        sh = Image.new("RGB", (len(lista) * (w + 10) + 10, h + 20), (240, 236, 228))
+        for k, im in enumerate(lista):
+            sh.paste(im.convert("RGB").resize((w, h), Image.LANCZOS), (10 + k * (w + 10), 10))
+        sh.save(os.path.join(pasta, nome), quality=88)
+    print("ok", pasta)
+
+
 def fotos():
-    pasta = os.path.join(OUT, "conheca_becas")
-    os.makedirs(pasta, exist_ok=True)
     jar, vit, bro, rota = (os.path.join(NOV, a) for a in ("20261106_150333.mp4", "20261106_150657.mp4",
                                                          "20261106_151353.mp4", "20261106_151125.mp4"))
+    # --- carrossel 1: conheça o Beca’s
     teto = quadro_bruto(jar, 7.6, "jardim", TILT["ceu"])
-    telas = []
-    # 1 capa: o teto de guarda-chuvinhas em tela cheia
-    img = recorta(teto, FW, FH, ay=0.12, z=1.0).convert("RGBA")
-    g = Image.new("RGBA", (FW, FH), (0, 0, 0, 0))
-    gd = ImageDraw.Draw(g)
-    for y in range(700, FH):
-        gd.line((0, y, FW, y), fill=(25, 15, 8, int(200 * (y - 700) / (FH - 700))))
-    img.alpha_composite(g)
-    E.cola(img, E.pilula("A GENTE FOI CONFERIR:", 44, AMA, MAR, fonte_titulo=True), FW / 2, 930, -2)
-    E.cola(img, E.titulo("VOCÊ JÁ CONHECE\nO BECA’S CAFÉ?", 104, BR, larg_max=980), FW / 2, 1110, -1)
-    E.cola(img, TB.logo_becas(120), FW - 150, 120, 4)
-    telas.append(img)
-    # 2..4 polaroides
+    telas = [capa_foto(teto, 0.12, "A GENTE FOI CONFERIR:", "VOCÊ JÁ CONHECE\nO BECA’S CAFÉ?")]
     for k, (im, leg, tit_, frase, cor) in enumerate([
         (quadro_bruto(rota, 44.6, "rota"), "O PORTÃO", "CHEGOU, ENTROU!",
-         "A plaquinha redonda do Beca’s fica\nno portão branco, bem no centro de Mauá.", PET),
+         "A plaquinha redonda do Beca’s fica no portão\nbranco, pertinho da Igreja Matriz de Mauá.", PET),
         (quadro_bruto(vit, 4.2, "vitrine"), "A VITRINE", "DÁ VONTADE DE TUDO",
          "Tortas, brownies e cookies:\nescolher um só é o desafio.", LAR),
         (quadro_bruto(bro, 1.2, "brownie"), "O BROWNIE", "APROVADO!",
          "Brownie com chantilly e morango.\nA Jéssica testou (e aprovou).", ROSA),
     ]):
-        img = fundo_foto()
-        E.cola(img, E.titulo(tit_, 88, cor, larg_max=980), FW / 2, 92, -1.5)
-        E.cola(img, polaroide(im, 580, 780, leg), FW / 2, 680, (-3, 2.5, -2)[k])
-        E.cola(img, E.texto(frase, 36, MAR, 800, larg_max=960, entre=1.3), FW / 2, 1235, 0)
-        telas.append(img)
-    # 5 o convite
-    img = fundo_foto()
-    balanco(img, 0.6, alturas=(70, 130, 50, 115, 85, 150))
-    E.cola(img, E.titulo("E NO DIA 20/11\nTEM JOGO LÁ!", 96, LAR, larg_max=980), FW / 2, 420, -1.5)
-    E.cola(img, card_convite(920, "reserve"), FW / 2, 860, 1)
-    E.cola(img, E.pilula("SALVA E MANDA PRA QUEM VAI COM VOCÊ!", 36, AMA, MAR, fonte_titulo=True), FW / 2, 1255, -1)
-    telas.append(img)
-    for k, im in enumerate(telas):
-        im.convert("RGB").save(os.path.join(pasta, f"{k + 1:02d}.png"))
-    w = 300
-    sh = Image.new("RGB", (len(telas) * (w + 10) + 10, int(w * FH / FW) + 20), (240, 236, 228))
-    for k, im in enumerate(telas):
-        sh.paste(im.convert("RGB").resize((w, int(w * FH / FW)), Image.LANCZOS), (10 + k * (w + 10), 10))
-    sh.save(os.path.join(pasta, "previa.jpg"), quality=88)
-    print("ok", pasta)
+        telas.append(pagina(im, leg, tit_, frase, cor, k))
+    telas.append(convite_pagina("E NO DIA 20/11\nTEM JOGO LÁ!"))
+    salva(telas, os.path.join(OUT, "conheca_becas"), "E NO DIA 20/11\nTEM JOGO LÁ!",
+          capa_foto(teto, 0.12, "A GENTE FOI CONFERIR:", "VOCÊ JÁ CONHECE\nO BECA’S CAFÉ?", H))
+    # --- carrossel 2: como chegar (passo a passo, saindo da Igreja Matriz)
+    band = quadro_bruto(rota, 41.0, "rota")
+    telas = [capa_foto(band, 0.25, "SAINDO DA IGREJA MATRIZ:", "COMO CHEGAR\nNO BECA’S CAFÉ")]
+    for k, (ts, leg, tit_, frase, cor) in enumerate([
+        (4.6, "IGREJA MATRIZ", "COMECE NA\nIGREJA MATRIZ",
+         "A Matriz de Mauá, bem no centro.\nDá pra usar de ponto de encontro!", PET),
+        (23.0, "ALQUIFARMA", "SIGA ATÉ\nA ALQUIFARMA",
+         "Desça pela calçada, passando\npela farmácia Alquifarma.", LAR),
+        (41.0, "A BANDEIRA", "PROCURE A\nBANDEIRA VERDE",
+         "A bandeira do Beca’s Café\nfica na frente da entrada.", VERDE),
+        (44.6, "O PORTÃO", "ENTRE PELO\nPORTÃO BRANCO",
+         "Plaquinha redonda no portão, guarda-chuvinhas\nno teto: chegou no Beca’s!", ROSA),
+    ]):
+        telas.append(pagina(quadro_bruto(rota, ts, "rota"), leg, tit_, frase, cor, k, passo=k + 1))
+    telas.append(convite_pagina("ANOTA AÍ:\nRUA SOROCABA, 35"))
+    salva(telas, os.path.join(OUT, "como_chegar"), "ANOTA AÍ:\nRUA SOROCABA, 35",
+          capa_foto(band, 0.25, "SAINDO DA IGREJA MATRIZ:", "COMO CHEGAR\nNO BECA’S CAFÉ", H))
 
 
 # ======================================================================== main
@@ -589,8 +680,11 @@ def render(fi):
 
 
 def main():
-    global _QF
+    global _QF, FMT
     peca = sys.argv[1]
+    padrao = "stories" if peca == "revela" else "reels"
+    FMT = "stories" if "--stories" in sys.argv else "reels" if "--reels" in sys.argv else padrao
+    nome = peca if FMT == padrao else f"{peca}_{FMT}"
     if peca == "fotos":
         fotos()
         return
@@ -599,17 +693,17 @@ def main():
     K.prepara([p.trecho() for p in planos])
     os.makedirs(OUT, exist_ok=True)
     if "--frame" in sys.argv:
-        ts = [float(x) for x in sys.argv[sys.argv.index("--frame") + 1:]]
-        K.folha([qf(x) for x in ts], os.path.join(OUT, f"frames_{peca}.jpg"))
+        ts = [float(x) for x in sys.argv[sys.argv.index("--frame") + 1:] if not x.startswith("--")]
+        K.folha([qf(x) for x in ts], os.path.join(OUT, f"frames_{nome}.jpg"))
         print("ok", durf())
         return
     ev, mus, mg = audiof()
     dur = durf()
-    com, sem = os.path.join(OUT, f"{peca}_com.wav"), os.path.join(OUT, f"{peca}_sem.wav")
+    com, sem = os.path.join(OUT, f"{nome}_com.wav"), os.path.join(OUT, f"{nome}_sem.wav")
     S.grava(com, dur, ev, mus, musica_ganho=mg, fx_ganho=0.8)
     S.grava(sem, dur, ev, None, fx_ganho=0.8)
-    K.entrega(peca, dur, render, com, sem)
-    print("ok", peca, dur)
+    K.entrega(nome, dur, render, com, sem)
+    print("ok", nome, dur)
 
 
 if __name__ == "__main__":

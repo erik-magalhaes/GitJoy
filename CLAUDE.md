@@ -64,6 +64,13 @@ tudo antes de começar um vídeo novo: aqui está o que funcionou, o que não fu
   CTA padrão: "aluga na Sua Vez, o link tá na bio". Não escreva só "retire em Mauá": cite também a entrega.
 - O dono fala português do Brasil, usa **o celular** para quase tudo e grava a narração ele mesmo.
 
+## REGRA (6/nov/2026): toda peça em 3 formatos
+
+- **Tudo que eu fizer, pensar em Reels, carrossel e Stories** (pedido dele). Vídeo: versão Reels (CTA "comenta",
+  WhatsApp/link na bio, sem buraco) e versão Stories (espaço LIVRE no MEIO, y≈1350–1580, para o adesivo de link, com
+  "garanta sua mesa aqui:" + seta). Carrossel 1080x1350 + as mesmas telas como Stories 1080x1920 (tela no meio, y 285–1635;
+  último Story com o espaço do link). Ver `becas-reels/no_becas.py` (`--reels`/`--stories`, `salva()`, `story_de()`).
+
 ## O que todo vídeo precisa ter
 
 - Formato 1080x1920, com **duração entre 1:00 e 1:10**. Passar de 1 minuto é obrigatório porque é o que monetiza.
@@ -1088,6 +1095,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   atrás do portão, na cliente atrás da Jéssica (a câmera gira: caixas em 3 faixas de tempo para não pegar o rosto DELA), na
   atendente atrás dos cookies e na equipe ao fundo do brownie; `TILT` = desfoque abaixo de y (teto, salão) onde há clientes.
   Cardápio não usado. Saída `out/{revela,chegar,gostinho}_{com_som,para_musica}_final.mp4` e `out/conheca_becas/`.
+  **A igreja do caminho é a IGREJA MATRIZ de Mauá** (Paróquia Matriz Imaculada Conceição, Praça Monsenhor Alexandre
+  Venâncio Arminas, 1, bem no centro; ele confirmou "matriz"). 2ª rodada: "COMEÇA NA IGREJA MATRIZ", GPS com MATRIZ, pílula
+  "PERTINHO DA IGREJA MATRIZ, NO CENTRO DE MAUÁ", e os 3 formatos: `revela_reels`, `chegar_stories`, `gostinho_stories`
+  (+ os padrão) e o carrossel `out/como_chegar/` (capa + PASSO 1–4: Matriz, Alquifarma, bandeira verde, portão branco +
+  "ANOTA AÍ: RUA SOROCABA, 35"), cada carrossel com `stories/story_NN.png`.
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
   preferida ("combina com a estética do lugar") e pediu mais peças nessa linha. Ideia nova: os guarda-chuvinhas SEGURAM as
   coisas pelo cabo (`segura()`: fio do teto → guarda-chuva → argola → placa/caixa/número), como um móbile. Peças: stories de
