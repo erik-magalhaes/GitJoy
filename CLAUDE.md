@@ -1104,6 +1104,15 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   "PERTINHO DA IGREJA MATRIZ, NO CENTRO DE MAUÁ", e os 3 formatos: `revela_reels`, `chegar_stories`, `gostinho_stories`
   (+ os padrão) e o carrossel `out/como_chegar/` (capa + PASSO 1–4: Matriz, Alquifarma, bandeira verde, portão branco +
   "ANOTA AÍ: RUA SOROCABA, 35"), cada carrossel com `stories/story_NN.png`.
+  **3ª rodada (7/nov):** (1) "como chegar" com o caminho INTEIRO (0–56,8 s a 2,7x, `C_VEL`; etiquetas por tempo do bruto em
+  `C_SRC`) e as placas com desfoque PEQUENO que acompanha o carro (`TRILHAS`: keyframes medidos a 4 q/s; Clio, van escolar,
+  HB20, carro preto) + só o rosto da cliente sentada no salão (55–57 s; a criança está de costas); (2) é **BOLO NUVEM** com
+  morango (não brownie) no vídeo e no carrossel; (3) o gostinho NÃO fecha mais na Jéssica séria (eles não gostaram): fecha
+  na mesinha redonda vazia do pátio (150333 a 2,5 s, quadro parado) com as caixas pousando no tampo (`G_MESA`).
+  **Opções NOVAS** (`becas-reels/cafe_e_jogo.py combo|metade [--stories]`, sem mexer nas outras): "café + jogo = combo"
+  (corte seco café ↔ jogo de mesa deles, "+" estourando: salão+Art Society, vitrine+Critter Kitchen, bolo nuvem+Sushi Go,
+  portão+Canvas) e "metade café, metade jogo" (tela dividida). O vídeo da PAREDE do café (Jéssica) ainda não chegou no
+  Drive: salvar como `brutos/nov06/parede.mp4` que ele entra sozinho no gancho e no par "uma parede dessas" + Passaporte.
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
   preferida ("combina com a estética do lugar") e pediu mais peças nessa linha. Ideia nova: os guarda-chuvinhas SEGURAM as
   coisas pelo cabo (`segura()`: fio do teto → guarda-chuva → argola → placa/caixa/número), como um móbile. Peças: stories de
