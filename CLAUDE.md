@@ -1127,6 +1127,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   nuvem 0–4 e 18–21, a Jéssica comendo 5–7 e rindo com a colherada que a criança de rosa dá 22–24; o rosto da criança
   aparece de perto em 15–17 e 25 s: evitar). Gancho agora na parede; chegada da rua (bandeira, 36,6 s a 2x); a Jéssica
   rindo na tela dividida do fim; fundo do convite = a parede.
+  **3ª (7/nov):** ele achou longo e "tosca" a montagem da mesinha com as 3 caixas → SAIU (38,3 s). **Ele vai NARRAR:**
+  gravador `becas-reels/gravador/Gravar_narracao_Tarde.html` (7 falas = os textos da tela + "Você vem? ... Garante a sua mesa
+  pelo WhatsApp!", arquivos `becastarde_narracao_NN`):
+  `https://raw.githack.com/erik-magalhaes/GitJoy/7442d9b78b8abeeba5573e597b99084324b54a3e/becas-reels/gravador/Gravar_narracao_Tarde.html`.
+  Ao receber: tratar a voz, esticar/encolher cada bloco de cenas (TEXTOS) para a fala, legenda pela fala real.
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
   preferida ("combina com a estética do lugar") e pediu mais peças nessa linha. Ideia nova: os guarda-chuvinhas SEGURAM as
   coisas pelo cabo (`segura()`: fio do teto → guarda-chuva → argola → placa/caixa/número), como um móbile. Peças: stories de
