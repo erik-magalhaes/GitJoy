@@ -4,6 +4,7 @@
 Story 1: a pergunta + espaço LIVRE no meio (y≈930–1400) para a ENQUETE do Instagram (máx. 4 opções).
 Stories seguintes: conceito RECEITA MÉDICA ("Dr. Sua Vez, especialista em fim de semana sem tédio"): papel de receituário
 com "Rx", a caixa OFICIAL, ficha do site, "modo de usar", "efeito colateral" e carimbo. 6 planos para ele escolher 4.
+Espaço LIVRE y≈1650–1790 em cada receita para o adesivo de LINK do jogo no site (pedido dele).
 
     /usr/bin/python3 promo/story_plano_fds.py      # promo/out/plano_fds/*.png + previa.jpg
 """
@@ -116,9 +117,9 @@ def pergunta():
 def receita(plano, cor, nome, caixa, ficha, modo, efeito, semente):
     img = fundo(cor, semente)
     claro = cor in (AMARELO,)
-    E.cola(img, E.logo(230), W / 2, 210, -2)
-    E.cola(img, E.titulo("O SEU PLANO PEDE...", 70, BRANCO if not claro else PETROLEO, larg_max=W - 120), W / 2, 345, -1)
-    pw, ph, x0, y0 = 920, 1170, 80, 420
+    E.cola(img, E.logo(210), W / 2, 165, -2)
+    E.cola(img, E.titulo("O SEU PLANO PEDE...", 70, BRANCO if not claro else PETROLEO, larg_max=W - 120), W / 2, 290, -1)
+    pw, ph, x0, y0 = 920, 1150, 80, 355
     papel = E.bloco(pw, ph, PAPEL, raio=30, ow=7, sombra=14)
     d = ImageDraw.Draw(papel)
     for y in range(330, ph - 40, 58):  # pauta clarinha
@@ -147,7 +148,9 @@ def receita(plano, cor, nome, caixa, ficha, modo, efeito, semente):
     d.text((50, ph - 60), "assinado: Dr. Sua Vez", font=E.fig(26, 600), fill=MARROM, anchor="lm")
     img.alpha_composite(papel, (x0, y0))
     E.cola(img, carimbo("RECEITADO!"), x0 + pw - 190, y0 + ph - 80)
-    E.cola(img, E.pilula("ALUGA NO LINK DA BIO · @SUAVEZ_BG", 36, BRANCO, MARROM, fonte_titulo=True), W / 2, 1680, -1)
+    E.cola(img, E.pilula("RESERVA ESSE JOGO AQUI:", 40, BRANCO, MARROM, fonte_titulo=True), W / 2 - 50, 1580, -1)
+    E.cola(img, seta(BRANCO if not claro else MARROM, 100), W / 2 + 255, 1590)
+    # y≈1650–1790 fica LIVRE para o adesivo de link do Instagram
     return img
 
 

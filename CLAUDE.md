@@ -1062,7 +1062,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   plano no conceito RECEITA MÉDICA ("Dr. Sua Vez, especialista em fim de semana sem tédio": papel de receituário, Rx, caixa
   oficial, ficha do site, modo de usar, efeito colateral, carimbo RECEITADO!, fundo de cor com cruzinhas/comprimidos).
   6 planos para ele escolher 4: almoço em família → Uga Buga, date → boop., galera → Hitster, de boa em casa → Canvas,
-  festa da empresa → Código Secreto: Imagens, visita na sogra → Take Time. Saída `promo/out/plano_fds/`.
+  festa da empresa → Código Secreto: Imagens, visita na sogra → Take Time. Saída `promo/out/plano_fds/`. 2ª rodada: espaço
+  LIVRE y≈1650–1790 em cada receita para o adesivo de LINK do jogo no site ("RESERVA ESSE JOGO AQUI:" + seta).
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
   preferida ("combina com a estética do lugar") e pediu mais peças nessa linha. Ideia nova: os guarda-chuvinhas SEGURAM as
   coisas pelo cabo (`segura()`: fio do teto → guarda-chuva → argola → placa/caixa/número), como um móbile. Peças: stories de
