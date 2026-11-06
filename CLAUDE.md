@@ -1075,6 +1075,19 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   grande de pedra com escadaria (nome a confirmar) → calçada "ESCOLAR" → farmácia Alquifarma → rua → bandeira e portão do
   Beca's → guarda-chuvinhas → salão), 151353 (6 s, brownie com chantilly e morango + Jéssica comendo, careta). Há clientes
   e uma criança no fundo de alguns planos: evitar close nos rostos deles.
+  **As 4 peças (`becas-reels/no_becas.py <revela|chegar|gostinho|fotos>`, 6/nov, ele: "faz todos", cuidado com ROSTOS e
+  PLACAS):** `revela` (14,7 s, pro sábado ao meio-dia: a carta "?" do save_date_sv vira e ABRE em tela cheia com o vídeo →
+  bandeira/portão → guarda-chuvinhas → "TARDE DE JOGOS NO BECA’S CAFÉ!" com data, endereço, preço e "garanta sua mesa aqui:"
+  + seta; y≈1350–1580 LIVRE pro adesivo de link; WhatsApp embaixo), `chegar` (22,3 s, barrinha de GPS IGREJA → ALQUIFARMA →
+  BANDEIRA → BECA’S, etiquetas na hora certa, fecha com o cartão do convite + "salva esse vídeo"), `gostinho` (24,4 s:
+  guarda-chuvinhas, salão, vitrine, cookies, brownie, careta da Jéssica com carimbo APROVADO, "agora imagina isso com um
+  jogo na mesa..." com Dixit/Hitster/Telma pousando na mesa dela, convite + "qual doce você pede primeiro?") e `fotos`
+  (carrossel 1080x1350, 5 telas: capa com o teto, portão, vitrine, brownie, convite). **Privacidade:** do caminho (151125)
+  só entram 0–5,5 s, 12–24,4 s e 39–46 s (placas legíveis: Clio 6–11 s, van 25,5–29,5, HB20 30–35,5, carro preto 36–37;
+  salão cheio com mulher e criança 55–57 s); `BORRA` (caixas com borda suave, tempo do bruto) na porta da igreja, num carro
+  atrás do portão, na cliente atrás da Jéssica (a câmera gira: caixas em 3 faixas de tempo para não pegar o rosto DELA), na
+  atendente atrás dos cookies e na equipe ao fundo do brownie; `TILT` = desfoque abaixo de y (teto, salão) onde há clientes.
+  Cardápio não usado. Saída `out/{revela,chegar,gostinho}_{com_som,para_musica}_final.mp4` e `out/conheca_becas/`.
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
   preferida ("combina com a estética do lugar") e pediu mais peças nessa linha. Ideia nova: os guarda-chuvinhas SEGURAM as
   coisas pelo cabo (`segura()`: fio do teto → guarda-chuva → argola → placa/caixa/número), como um móbile. Peças: stories de
