@@ -1054,8 +1054,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
 - **LISTA DE JOGOS da Tarde no Beca’s (6/nov, 30 jogos, fechada com ele):** Bananagrams, boop., Break the Cube, Canvas, Código
   Secreto: Imagens, Coffee Rush, Dixit, Dobble Disney (NÃO está no site), Draftosaurus, Drácula vs Van Helsing, Flip 7: A
   Vingança, Go Cuckoo!, Gravity Superstar, Hitster (levar 2 das 3 edições, 1 tocando por vez), Hive, King of Tokyo, Marrakech,
-  Santorini, Say my Name, Splendor Duel, Splito, Spyfall, Sushi Go!, Taco Gato Cabra Queijo Pizza, Take Time, Tapalavras, Telma,
-  The Mind, Uga Buga, Wandering Towers. Ele TIROU: Ref!, Last Message (→ Break the Cube), Next Station (→ Wandering Towers), Perfil Express (→ Splito), Tesouro do Dragão, Patchwork, Azul Duel, Cartógrafos, BraveRats e 1, 2, 3, Lucha! (→ Taco Gato Cabra Queijo Pizza), Spot it! Hip (→ Dobble Disney).
+  Eu Sou uma Banana, Santorini, Say my Name, Splendor Duel, Spyfall, Sushi Go!, Taco Gato Cabra Queijo Pizza, Take Time, Tapalavras, Telma,
+  The Mind, Uga Buga, Wandering Towers. Ele TIROU: Ref!, Last Message (→ Break the Cube), Next Station (→ Wandering Towers), Perfil Express e Splito ("muito confuso") (→ Eu Sou uma Banana), Tesouro do Dragão, Patchwork, Azul Duel, Cartógrafos, BraveRats e 1, 2, 3, Lucha! (→ Taco Gato Cabra Queijo Pizza), Spot it! Hip (→ Dobble Disney).
   Eu deixei de fora: Throw Throw Burrito e Happy Salmon (barulho/coisa voando no café), jogos de bebida e +18, jogos longos.
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
   preferida ("combina com a estética do lugar") e pediu mais peças nessa linha. Ideia nova: os guarda-chuvinhas SEGURAM as
