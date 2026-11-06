@@ -1121,6 +1121,12 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   → íris → carta de doce do Sushi Go; Unlock abrindo, mãos no Sky Team, fichas do Critter, cartas do Canvas, Take Time)
   "...e boas histórias pra contar!" → tela dividida café/jogo "Café, jogos e boas companhias." → "VOCÊ VEM?" + convite.
   NÃO há gravação de xícara sendo servida nem de dado rolando: se gravarem no dia (3 s de café chegando à mesa), entra no lugar da placa.
+  **2ª versão (7/nov, "você repetiu muito os vídeos"):** cada trecho entra UMA vez. Achei 2 brutos do Beca’s que eu NÃO
+  tinha usado (a listagem do Drive vem paginada: SEMPRE listar tudo, ex. `title contains '20261106'`): **150726** (8,8 s:
+  a PAREDE pintada "Beca’s Café" com pés de café 0–5 s, teto e saída pro pátio 5–8 s) e **151311** (26 s: colher no bolo
+  nuvem 0–4 e 18–21, a Jéssica comendo 5–7 e rindo com a colherada que a criança de rosa dá 22–24; o rosto da criança
+  aparece de perto em 15–17 e 25 s: evitar). Gancho agora na parede; chegada da rua (bandeira, 36,6 s a 2x); a Jéssica
+  rindo na tela dividida do fim; fundo do convite = a parede.
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
   preferida ("combina com a estética do lugar") e pediu mais peças nessa linha. Ideia nova: os guarda-chuvinhas SEGURAM as
   coisas pelo cabo (`segura()`: fio do teto → guarda-chuva → argola → placa/caixa/número), como um móbile. Peças: stories de

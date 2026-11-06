@@ -32,38 +32,42 @@ FMT = "reels"
 P = Plano
 
 # (plano, íris no começo: (cx, cy) do objeto redondo do plano ANTERIOR, ou None)
-CENAS = [
-    # 0 gancho
-    (P("jardim", 5.0, 3.2, 0.8, z=(1.25, 1.36), ay=0.15), None),
-    # 1 ambiente
-    (P("jardim", 11.4, 2.1, 0.9, z=(1.04, 1.1), ay=0.3), None),
-    (P("rota", 49.6, 2.1, 1.0, z=(1.0, 1.06)), None),
+CENAS = [  # 2ª versão (7/nov): ele achou repetido → cada trecho só UMA vez, com a parede, a chegada e o bolo nuvem
+    # 0 gancho: a parede pintada do café
+    (P("parede", 0.2, 3.2, 1.0, z=(1.0, 1.08), ay=0.4), None),
+    # 1 ambiente: chegando da rua (bandeira), o pátio de guarda-chuvinhas, o teto do salão
+    (P("rota", 36.6, 3.0, 2.0, z=(1.0, 1.04)), None),
+    (P("rota", 49.6, 2.0, 1.0, z=(1.0, 1.06)), None),
+    (P("parede", 5.2, 1.8, 1.2), None),
     # 2 desejo
-    (P("menu", 1.0, 1.1, 0.6, z=(1.08, 1.0)), None),
-    (P("vitrine", 2.4, 1.3, 1.0, z=(1.0, 1.05)), None),
-    (P("vitrine", 8.2, 1.1, 1.0, z=(1.08, 1.0)), None),
-    (P("brownie", 0.0, 1.4, 1.0, z=(1.0, 1.06)), None),
+    (P("menu", 1.0, 1.0, 0.6, z=(1.08, 1.0)), None),
+    (P("vitrine", 2.4, 1.2, 1.0, z=(1.0, 1.05)), None),
+    (P("vitrine", 8.2, 1.0, 1.0, z=(1.08, 1.0)), None),
+    (P("bolo2", 1.0, 1.4, 1.2), None),
+    (P("bolo2", 5.0, 1.4, 1.0), None),  # a Jéssica comendo o bolo nuvem
     # 3 virada
     (P("rota", 43.6, 1.4, 0.7, z=(1.0, 1.05)), None),
     (P("art", 0.0, 1.6, 1.0, z=(1.06, 1.0)), (525, 830)),  # placa redonda (xícara do logo) → íris
     (P("jardim", 2.5, 1.7, 0.03), None),  # mesinha vazia do pátio: as caixas pousam
     (P("passaporte", 0.3, 1.2, 1.0, z=(1.0, 1.05)), None),
     # 4 experiência
-    (P("brownie", 0.8, 1.0, 1.0, z=(1.06, 1.1)), None),
-    (P("sushi", 2.0, 1.4, 1.0), (540, 1060)),  # o prato do bolo → íris → carta de doce
+    (P("bolo2", 18.3, 1.0, 1.0), None),
+    (P("sushi", 2.0, 1.4, 1.0), (540, 1250)),  # a colher no bolo → íris → carta de doce
     (P("unlock", 0.3, 2.0, 1.2), None),
     (P("sky_dados", 4.0, 1.6, 1.5), None),
     (P("critter", 2.0, 1.4, 1.0), None),
     (P("canvas", 2.0, 1.5, 1.2), None),
     (P("taketime2", 1.0, 1.2, 1.0), None),
 ]
+K.CLIPES["parede"] = (os.path.join(NB.NOV, "20261106_150726.mp4"), "BECA’S")
+K.CLIPES["bolo2"] = (os.path.join(NB.NOV, "20261106_151311.mp4"), "BECA’S")
 K.CLIPES["menu"] = (os.path.join(NB.NOV, "20261106_150936.mp4"), "BECA’S")
 PL = [c for c, _ in CENAS]
 INI = NB.inicios(PL)
 VID = sum(p.d for p in PL)
 JUNTOS = 2.4  # cena 5: tela dividida
-J_CAFE = P("vitrine", 3.0, JUNTOS, 1.0)
-J_JOGO = P("critter", 0.3, JUNTOS, 1.0)
+J_CAFE = P("bolo2", 22.0, JUNTOS, 0.65)  # a Jéssica rindo com a colherada
+J_JOGO = P("sushi", 4.4, JUNTOS, 1.0)
 T_FIM = VID + JUNTOS
 DUR = T_FIM + 5.6
 IRIS = 0.4
@@ -72,11 +76,11 @@ CAIXAS = NB.G_CAIXAS
 
 # legendas: (início, fim, texto, tamanho, cor)
 TEXTOS = [
-    (0.15, 3.2, "VOCÊ É DO TIME QUE VAI\nÀ CAFETERIA SÓ PELO CAFÉ...", 70, BR),
-    (3.4, INI[3], "JÁ IMAGINOU TRANSFORMAR\nUMA TARDE COMUM EM UMA\nEXPERIÊNCIA DIFERENTE?", 66, BR),
-    (INI[3] + 0.2, INI[8], "UM CAFÉ GOSTOSO...", 92, AMA),
-    (INI[8] + 0.15, INI[11], "...UMA MESA CHEIA\nDE POSSIBILIDADES...", 84, AMA),
-    (INI[12] + 0.3, VID, "...E BOAS HISTÓRIAS\nPRA CONTAR!", 88, AMA),
+    (0.15, INI[1], "VOCÊ É DO TIME QUE VAI\nÀ CAFETERIA SÓ PELO CAFÉ...", 70, BR),
+    (INI[1] + 0.2, INI[4], "JÁ IMAGINOU TRANSFORMAR\nUMA TARDE COMUM EM UMA\nEXPERIÊNCIA DIFERENTE?", 66, BR),
+    (INI[4] + 0.2, INI[10], "UM CAFÉ GOSTOSO...", 92, AMA),
+    (INI[10] + 0.15, INI[13], "...UMA MESA CHEIA\nDE POSSIBILIDADES...", 84, AMA),
+    (INI[14] + 0.3, VID, "...E BOAS HISTÓRIAS\nPRA CONTAR!", 88, AMA),
 ]
 
 
@@ -112,12 +116,12 @@ def legenda(img, t):
 def quadro(t):
     if t < VID:
         img, k, u = video(t)
-        if k == 9:  # caixas pousando na mesinha vazia
+        if k == 11:  # caixas pousando na mesinha vazia
             for j, n in enumerate(CAIXAS):
                 x, y, r = MESA[j]
-                K.poe(img, NB.caixa(n, 260), x, y, t, INI[9] + 0.2 + j * 0.3, r, d=0.28)
+                K.poe(img, NB.caixa(n, 260), x, y, t, INI[11] + 0.2 + j * 0.3, r, d=0.28)
         legenda(img, t)
-        if t < 3.2:
+        if t < INI[1]:
             K.poe(img, etq("...OU TAMBÉM PELA DIVERSÃO?", 54, AMA, MAR), W / 2, 1660, t, 1.6, 2)
         K.marca(img)
         return img.convert("RGB")
@@ -125,13 +129,13 @@ def quadro(t):
         u = t - VID
         a, b = J_CAFE.quadro(u), J_JOGO.quadro(u)
         img = Image.new("RGBA", (W, H))
-        img.paste(CJ.metade(a, 0.45), (0, 0))
+        img.paste(CJ.metade(a, 0.15), (0, 0))
         img.paste(CJ.metade(b, 0.5), (0, CJ.HM))
         ImageDraw.Draw(img).rectangle((0, CJ.HM - 7, W, CJ.HM + 7), fill=MAR)
         K.poe(img, tit("CAFÉ, JOGOS E\nBOAS COMPANHIAS.", 90, BR), W / 2, CJ.HM, t, VID + 0.1, -1.5)
         K.marca(img)
         return img.convert("RGB")
-    img = J_CAFE.quadro(JUNTOS - 0.01).filter(ImageFilter.GaussianBlur(12))
+    img = PL[0].quadro(1.0).filter(ImageFilter.GaussianBlur(12))
     u = t - T_FIM
     NB.escuro(img, min(140, u * 400))
     NB.balanco(img, t)
@@ -154,8 +158,8 @@ def audio():
     for k, (_, ir) in enumerate(CENAS):
         if ir:
             ev.append((INI[k], S.sopro(0.4), 0.45))
-    ev += [(INI[9] + 0.2 + j * 0.3, S.cartao(), 0.4) for j in range(3)]
-    ev += [(INI[14], S.dado(), 0.35), (VID, S.sopro(0.3), 0.35), (VID + 0.1, S.cartao(), 0.3),
+    ev += [(INI[11] + 0.2 + j * 0.3, S.cartao(), 0.4) for j in range(3)]
+    ev += [(INI[16], S.dado(), 0.35), (VID, S.sopro(0.3), 0.35), (VID + 0.1, S.cartao(), 0.3),
            (T_FIM, S.sino(), 0.45), (T_FIM + 0.35, S.cartao(), 0.4), (T_FIM + 1.0, S.cartao(), 0.3)]
     return ev, S.musica_cafe(DUR + 0.5), 0.45
 
