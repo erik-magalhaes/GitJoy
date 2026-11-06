@@ -45,7 +45,7 @@ def pares(dc, dj):
           Plano("critter", 0.3, dj, 1.0), "CRITTER KITCHEN"),
          (Plano("brownie", 0.0, dc, 1.0, z=(1.0, 1.06)), "UM BOLO NUVEM",
           Plano("sushi", 0.3, dj, 1.0), "SUSHI GO!"),
-         (Plano("rota", 43.0, dc, 1.3), "UM PORTÃO PRA ENTRAR",
+         (Plano("jardim", 7.3, dc, 1.0, z=(1.2, 1.28), ay=0.12), "UM TETO COLORIDO",
           Plano("canvas", 1.4, dj, 1.0), "CANVAS")]
     if TEM_PAREDE:
         p.insert(1, (Plano("parede", 3.0, dc, 1.0, z=(1.04, 1.0)), "UMA PAREDE DESSAS",

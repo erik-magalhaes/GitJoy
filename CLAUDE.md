@@ -1111,7 +1111,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   na mesinha redonda vazia do pátio (150333 a 2,5 s, quadro parado) com as caixas pousando no tampo (`G_MESA`).
   **Opções NOVAS** (`becas-reels/cafe_e_jogo.py combo|metade [--stories]`, sem mexer nas outras): "café + jogo = combo"
   (corte seco café ↔ jogo de mesa deles, "+" estourando: salão+Art Society, vitrine+Critter Kitchen, bolo nuvem+Sushi Go,
-  portão+Canvas) e "metade café, metade jogo" (tela dividida). O vídeo da PAREDE do café (Jéssica) ainda não chegou no
+  teto colorido+Canvas; ele vetou o "portão" como benefício) e "metade café, metade jogo" (tela dividida). O vídeo da PAREDE do café (Jéssica) ainda não chegou no
   Drive: salvar como `brutos/nov06/parede.mp4` que ele entra sozinho no gancho e no par "uma parede dessas" + Passaporte.
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
   preferida ("combina com a estética do lugar") e pediu mais peças nessa linha. Ideia nova: os guarda-chuvinhas SEGURAM as
