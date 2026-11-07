@@ -1174,6 +1174,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   de `hobby-reels/assets/caixas/`) e **boop.** (foto do site recortada; sobra laranja tirada por cor ligada ao fundo) →
   `coffee-reels/out/{king_of_tokyo,boop}_9x16.png` (fora do git; refazer: caixa 900 px de largura no degradê creme +
   sombra). Ideias seguintes: Wingspan, Sushi Go!, Ticket to Ride, Dixit, Draftosaurus, Flamecraft.
+  **Montagem: `becas-reels/serie_caixa.py <king|boop> [--stories]`** (EPS: clipe do Gemini em `coffee-reels/brutos/`,
+  gancho, texto do meio, "comenta"): 10 s do clipe + gancho no alto + texto quando o bicho já saiu + tela final de ALUGUEL
+  (caixa recortada, `card_aluguel` com logo, "ALUGUE O ...", ficha do `acervo_site.json`, R$ e 5 dias, retirada em Mauá ou
+  entrega, link na bio) e "comenta"; Stories com "aluga aqui:" + espaço do link. King of Tokyo (`gemini2.mp4`, 10 s,
+  720x1280): o lagarto sai da caixa e pousa na mesa da sala com os dados — ótimo de primeira.
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
   preferida ("combina com a estética do lugar") e pediu mais peças nessa linha. Ideia nova: os guarda-chuvinhas SEGURAM as
   coisas pelo cabo (`segura()`: fio do teto → guarda-chuva → argola → placa/caixa/número), como um móbile. Peças: stories de
