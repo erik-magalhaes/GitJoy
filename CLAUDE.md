@@ -1154,6 +1154,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   ônibus". Saídas `out/mapa/`: `mapa_post.png` (1080x1350), `mapa_story.png` (espaço do adesivo "ABRE A ROTA NO SEU MAPS
   AQUI:" para ele pôr o link do Maps) e o vídeo de 12 s (`--reels` / `--stories`: o mapa se desenha, os ícones pulam, o
   bonequinho anda pela rota, o pin cai, o painel sobe).
+  **2ª rodada (7/nov, "ficou muito longe, não dá pra entender"):** zoom de 0,46 → 0,33 m/px: o mapa ficou GIRADO 20° no
+  sentido horário (`ROT`, com bússola apontando o norte) para a rota terminal → Beca’s ficar na diagonal da tela, e a faixa
+  "TARDE DE JOGOS" desceu para a borda do painel (libera o alto). `enquadra()` centra rota + ícones na faixa visível; as
+  etiquetas nunca saem da tela (Terminal acima do ícone, Matriz abaixo, fora do pin). No vídeo, o "VEM DE TREM OU DE
+  ÔNIBUS?" fica embaixo do mapa até o painel subir.
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
   preferida ("combina com a estética do lugar") e pediu mais peças nessa linha. Ideia nova: os guarda-chuvinhas SEGURAM as
   coisas pelo cabo (`segura()`: fio do teto → guarda-chuva → argola → placa/caixa/número), como um móbile. Peças: stories de

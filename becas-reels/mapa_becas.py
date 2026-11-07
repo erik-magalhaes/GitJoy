@@ -61,14 +61,23 @@ def mao(s):
 
 
 # ------------------------------------------------------------------ projeção
+ROT = 20  # 7/nov: mapa girado (horário) para a rota ficar na diagonal da tela e caber com mais zoom; tem bússola
+
+
 class Proj:
+    """centro = (lat, lon, ox, oy): o ponto geográfico cai em (w/2 + ox, h/2 + oy) (px em 1x)."""
     def __init__(self, w, h, centro, mpp):
-        self.w, self.h, self.c, self.mpp = w, h, centro, mpp
+        self.w, self.h, self.mpp = w, h, mpp
+        self.c = centro[:2]
+        self.ox, self.oy = (centro[2], centro[3]) if len(centro) > 3 else (0.0, 0.0)
         self.kx = 111320 * math.cos(math.radians(centro[0]))
+        self.co, self.si = math.cos(math.radians(ROT)), math.sin(math.radians(ROT))
 
     def __call__(self, p):
-        return ((p[1] - self.c[1]) * self.kx / self.mpp * SS + self.w * SS / 2,
-                -(p[0] - self.c[0]) * 111320 / self.mpp * SS + self.h * SS / 2)
+        x = (p[1] - self.c[1]) * self.kx / self.mpp
+        y = -(p[0] - self.c[0]) * 111320 / self.mpp
+        x, y = x * self.co - y * self.si, x * self.si + y * self.co
+        return ((x + self.ox) * SS + self.w * SS / 2, (y + self.oy) * SS + self.h * SS / 2)
 
 
 def denso(pts, passo):
@@ -353,9 +362,9 @@ def mapa(w, h, centro, mpp, prog=1.0, pins=1.0, tempo=0.0):
     q = lambda p: (P(p)[0] / SS, P(p)[1] / SS)  # noqa: E731
     ks = pins if isinstance(pins, tuple) else (pins,) * 4
     if max(ks) > 0:
-        for k, (cod, cor, pos, txt, sub, dx, dy) in zip(ks, (("1F68C", LAR, TERMINAL_C, "TERMINAL DE ÔNIBUS", "Terminal Municipal", 205, -10),
+        for k, (cod, cor, pos, txt, sub, dx, dy) in zip(ks, (("1F68C", LAR, TERMINAL_C, "TERMINAL DE ÔNIBUS", "Terminal Municipal", -40, -88),
                                                 ("1F686", TURQ, ESTACAO_C, "ESTAÇÃO MAUÁ", "Linha 10-Turquesa", -40, 98),
-                                                ("26EA", LILAS, MATRIZ_C, "IGREJA MATRIZ", None, -150, 30))):
+                                                ("26EA", LILAS, MATRIZ_C, "IGREJA MATRIZ", None, -40, 108))):
             if k <= 0:
                 continue
             x, y = q(pos)
@@ -363,7 +372,8 @@ def mapa(w, h, centro, mpp, prog=1.0, pins=1.0, tempo=0.0):
             cola(img, sp, x + (-30 if cod == "26EA" else 0), y)
             if k >= 1:
                 pl = pilula(txt, lilita(28), cor, sub=sub, fsub=fig(20, 800) if sub else None)
-                cola(img, pl, x + dx, y + dy)
+                px = min(w - pl.width / 2 - 12, max(pl.width / 2 + 12, x + dx))  # nunca sai da tela
+                cola(img, pl, px, y + dy)
         k = ks[3]
         x, y = q(R.ALQUI)
         if k > 0:
@@ -371,10 +381,28 @@ def mapa(w, h, centro, mpp, prog=1.0, pins=1.0, tempo=0.0):
         if k >= 1:
             ImageDraw.Draw(img).text((x + 50, y + 8), "Alquifarma", font=mao(28), fill=TINTA, anchor="lm",
                                      stroke_width=3, stroke_fill=PAPEL)
+    xs = [q(p)[0] for p in ROTA_TERM]
+    ys = [q(p)[1] for p in ROTA_TERM]
+    bussola(img, 82, min(ys) + 10)
     if 0 < prog < 1:  # quem está andando
         x, y = ponto_em(pt, prog)
         cola(img, selo("1F6B6", 64, AZUL), x / SS, y / SS - 34)
     return img, q
+
+
+def bussola(img, x, y, r=46):
+    """Rosa dos ventos à mão apontando o norte de verdade (o mapa está girado)."""
+    d = ImageDraw.Draw(img)
+    d.ellipse((x - r, y - r, x + r, y + r), fill=BR, outline=TINTA, width=4)
+    a = math.radians(-90 + ROT)  # norte na tela
+    ux, uy = math.cos(a), math.sin(a)
+    px, py = -uy, ux
+    pn = [(x + ux * r * 0.78, y + uy * r * 0.78), (x + px * 11, y + py * 11), (x - px * 11, y - py * 11)]
+    ps = [(x - ux * r * 0.7, y - uy * r * 0.7), (x + px * 11, y + py * 11), (x - px * 11, y - py * 11)]
+    d.polygon(pn, fill=VERMELHO, outline=TINTA)
+    d.polygon(ps, fill=(225, 215, 200), outline=TINTA)
+    nx, ny = x + ux * (r + 22), y + uy * (r + 22)
+    d.text((nx, ny), "N", font=lilita(34), fill=MAR, anchor="mm", stroke_width=4, stroke_fill=PAPEL)
 
 
 # ------------------------------------------------------------------ peças paradas
@@ -399,23 +427,23 @@ def minutos(m):
     return max(1, round(m / 75))
 
 
-def folha(w, h, n=3):
+def folha(w, h, n=3, ty=74, y0=128, passo=98):
     """Painel de baixo (como o do Maps): de trem / de ônibus."""
     im = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     d = ImageDraw.Draw(im)
     d.rounded_rectangle((0, 0, w, h + 60), 44, fill=BR, outline=MAR, width=6)
     d.rounded_rectangle((w / 2 - 50, 16, w / 2 + 50, 26), 5, fill=(215, 205, 195))
-    d.text((48, 74), "COMO CHEGAR", font=lilita(54), fill=MAR, anchor="lm")
-    d.text((48 + lilita(54).getlength("COMO CHEGAR ") , 76), "de trem ou ônibus", font=mao(46), fill=PET, anchor="lm")
+    d.text((48, ty), "COMO CHEGAR", font=lilita(54), fill=MAR, anchor="lm")
+    d.text((48 + lilita(54).getlength("COMO CHEGAR "), ty + 2), "de trem ou ônibus", font=mao(46), fill=PET, anchor="lm")
     linhas = [("1F686", TURQ, "De TREM: desce na Estação Mauá", f"Linha 10-Turquesa · uns {minutos(D_EST)} min a pé"),
               ("1F68C", LAR, "De ÔNIBUS: Terminal Municipal", f"do lado da estação · uns {minutos(D_TERM)} min a pé"),
               ("26EA", LILAS, "Passa pela Igreja Matriz", "e vira na Rua Sorocaba: é o nº 35!")]
-    y = 128
+    y = y0
     for cod, cor, a, b in linhas[:n]:
         im.alpha_composite(selo(cod, 70, cor), (34, y - 4))
         d.text((140, y + 22), a, font=fig(33, 900), fill=MAR, anchor="lm")
         d.text((140, y + 60), b, font=fig(27, 700), fill=(110, 92, 82), anchor="lm")
-        y += 98
+        y += passo
     return im
 
 
@@ -427,8 +455,20 @@ def titulo_folha(img, y):
     cola(img, pl, img.width / 2, y, -1.2)
 
 
-MPP = 0.46
-CENTRO = (-23.668478, -46.46108)  # terminal no alto, o Beca’s embaixo, os dois na parte visível
+MPP = 0.33  # 7/nov: era 0,46 ("ficou muito longe, não dá pra entender")
+MEIO = (-23.66876, -46.46112)  # meio do caminho terminal → Beca’s
+
+
+def enquadra(w, h, y0, y1, mpp):
+    """Centra a rota + estação/terminal/Matriz/Alquifarma na faixa visível y0..y1."""
+    P = Proj(w, h, MEIO, mpp)
+    pts = [P(p) for p in ROTA_TERM + [TERMINAL_C, ESTACAO_C, MATRIZ_C, R.ALQUI]]
+    cx = (min(x for x, _ in pts) + max(x for x, _ in pts)) / 2 / SS
+    cy = (min(y for _, y in pts) + max(y for _, y in pts)) / 2 / SS
+    return MEIO + (w / 2 - cx, (y0 + y1) / 2 - cy)
+
+
+CENTRO = enquadra(1080, 990, 170, 980, MPP)  # post: entre a barra de busca e o painel
 
 
 def pin_becas(tela, q):
@@ -440,26 +480,26 @@ def pin_becas(tela, q):
 
 def post():
     W, H = 1080, 1350
-    img, q = mapa(W, 1060, CENTRO, MPP)
+    Y0 = 990
+    img, q = mapa(W, Y0, CENTRO, MPP)
     tela = Image.new("RGBA", (W, H), PAPEL + (255,))
     tela.alpha_composite(img, (0, 0))
     pin_becas(tela, q)
     tela.alpha_composite(barra_busca(W - 80), (40, 40))
-    cola(tela, pilula("TARDE DE JOGOS · SEXTA, 20/11 · 13H ÀS 19H", lilita(34), AMA, fg=MAR), W / 2, 196, -1.2)
-    tela.alpha_composite(folha(W, 420), (0, H - 420))
+    tela.alpha_composite(folha(W, H - Y0, ty=82, y0=118, passo=78), (0, Y0))
+    cola(tela, pilula("TARDE DE JOGOS · SEXTA, 20/11 · 13H ÀS 19H", lilita(34), AMA, fg=MAR), W / 2, Y0 + 2, -1.2)
     return tela.convert("RGB")
 
 
 def story():
     W, H = 1080, 1920
     Y0 = 1060  # topo do painel
-    img, q = mapa(W, Y0 + 80, (CENTRO[0] + 40 * MPP / 111320, CENTRO[1]), MPP)
+    img, q = mapa(W, Y0 + 80, enquadra(W, Y0 + 80, 250, Y0 - 20, MPP), MPP)
     tela = Image.new("RGBA", (W, H), PAPEL + (255,))
     tela.alpha_composite(img, (0, 0))
     pin_becas(tela, q)
     tela.alpha_composite(barra_busca(W - 80), (40, 120))
-    cola(tela, pilula("TARDE DE JOGOS · SEXTA, 20/11 · 13H ÀS 19H", lilita(34), AMA, fg=MAR), W / 2, 276, -1.2)
-    fo = folha(W, H - Y0, n=2)
+    fo = folha(W, H - Y0, n=2, ty=96, y0=150)
     d = ImageDraw.Draw(fo)
     # espaço LIVRE no meio da tela para o adesivo de link (y≈1500–1640): o link da rota no Maps
     d.text((W / 2, 1418 - Y0), "ABRE A ROTA NO SEU MAPS AQUI:", font=lilita(44), fill=PET, anchor="mm")
@@ -467,6 +507,7 @@ def story():
     d.polygon(seta, fill=VERMELHO, outline=MAR)
     d.rounded_rectangle((150, 1496 - Y0, W - 150, 1640 - Y0), 30, outline=(220, 208, 196), width=4)
     tela.alpha_composite(fo, (0, Y0))
+    cola(tela, pilula("TARDE DE JOGOS · SEXTA, 20/11 · 13H ÀS 19H", lilita(34), AMA, fg=MAR), W / 2, Y0 + 2, -1.2)
     cola(tela, pilula("MANDA PRA QUEM VAI COM VOCÊ!", lilita(38), LAR), W / 2, 1735, -1.5)
     cola(tela, pilula("Rua Sorocaba, 35 · pertinho da Igreja Matriz", fig(30, 800), PET), W / 2, 1830, 0)
     return tela.convert("RGB")
@@ -507,12 +548,12 @@ def mapa_vazio():
     return mapa(VW, VH, CENTRO_V, MPP, prog=0, pins=0)[0]
 
 
-CENTRO_V = (CENTRO[0] + 40 * MPP / 111320 - (VH - Y0V - 80) / 2 * MPP / 111320, CENTRO[1])  # mapa na tela inteira
+CENTRO_V = enquadra(VW, VH, 250, Y0V - 20, MPP)  # mapa na tela inteira, a rota no mesmo lugar do story
 
 
 @lru_cache(None)
 def folha_video(fmt):
-    fo = folha(VW, VH - Y0V, n=3 if fmt == "reels" else 2)
+    fo = folha(VW, VH - Y0V, n=3 if fmt == "reels" else 2, ty=96, y0=150)
     d = ImageDraw.Draw(fo)
     if fmt == "stories":
         d.text((VW / 2, 1418 - Y0V), "ABRE A ROTA NO SEU MAPS AQUI:", font=lilita(44), fill=PET, anchor="mm")
@@ -550,15 +591,15 @@ def quadro(t):
         e = ease((t - 0.1) / 0.3)
         tela.alpha_composite(bb, (40, int(120 - 200 * (1 - e))))
     # gancho → faixa da tarde de jogos
-    if t < 3.3:
-        pop(tela, pilula("VEM DE TREM OU DE ÔNIBUS?", lilita(58), AMA, fg=MAR, padx=34), VW / 2, 300, t, 0.15, -2)
-    else:
-        pop(tela, pilula("TARDE DE JOGOS · SEXTA, 20/11 · 13H ÀS 19H", lilita(34), AMA, fg=MAR), VW / 2, 276, t, 3.3, -1.2)
+    if t < T_FOLHA:  # embaixo do mapa, onde não tem rota
+        pop(tela, pilula("VEM DE TREM OU DE ÔNIBUS?", lilita(58), AMA, fg=MAR, padx=34), VW / 2, 1420, t, 0.15, -2)
     # painel de baixo sobe
     if t >= T_FOLHA:
         e = ease((t - T_FOLHA) / 0.45)
         fo = folha_video(FMT)
         tela.alpha_composite(fo, (0, int(Y0V + (VH - Y0V) * (1 - e))))
+        pop(tela, pilula("TARDE DE JOGOS · SEXTA, 20/11 · 13H ÀS 19H", lilita(34), AMA, fg=MAR), VW / 2, Y0V + 2, t,
+            T_FOLHA + 0.45, -1.2)
         if FMT == "reels":
             pop(tela, pilula("COMENTA: VOCÊ VEM DE TREM OU DE ÔNIBUS?", lilita(36), LAR), VW / 2, 1610, t, T_FOLHA + 0.8, -1.5)
             pop(tela, pilula("Rua Sorocaba, 35 · pertinho da Igreja Matriz", fig(30, 800), PET), VW / 2, 1720, t, T_FOLHA + 1.0)
