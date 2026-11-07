@@ -28,7 +28,7 @@ EPS = {
     "boop": dict(clipe="gemini3.mp4", jogo="boop.", nome="BOOP.",
                  caixa="hobby-reels/assets/caixas/boop.png",
                  gancho="GATOS SÃO\nASSIM MESMO...", meio="EMPURRA-EMPURRA DE GATO!", t_meio=6.6,
-                 comenta="MARCA ALGUÉM QUE TEM UM GATO DESSES!", musica="marimba"),
+                 comenta="MARCA ALGUÉM QUE TEM UM GATO DESSES!", musica="marimba", deitado=True),
 }
 EP = None
 CLIPE = None
@@ -42,6 +42,10 @@ def configura(ep):
     EP = EPS[ep]
     K.CLIPES["serie_" + ep] = (os.path.join(ROOT, "coffee-reels", "brutos", EP["clipe"]), EP["nome"])
     CLIPE = Plano("serie_" + ep, 0.0, VID, 1.0)
+    if EP.get("deitado"):  # o Gemini devolveu 16:9: cena grande no meio, o próprio vídeo desfocado de fundo (nada cortado)
+        K.GRADE = ("split[a][b];[a]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,boxblur=28:2,"
+                   "eq=brightness=-0.06:saturation=0.9[bg];[b]scale=-2:760,crop=1080:760,hqdn3d=2:2:3:3,"
+                   "unsharp=5:5:0.4[fg];[bg][fg]overlay=0:(H-h)/2+90")
 
 
 def ficha():

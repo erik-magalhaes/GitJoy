@@ -1179,6 +1179,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   (caixa recortada, `card_aluguel` com logo, "ALUGUE O ...", ficha do `acervo_site.json`, R$ e 5 dias, retirada em Mauá ou
   entrega, link na bio) e "comenta"; Stories com "aluga aqui:" + espaço do link. King of Tokyo (`gemini2.mp4`, 10 s,
   720x1280): o lagarto sai da caixa e pousa na mesa da sala com os dados — ótimo de primeira.
+  **boop. (`gemini3.mp4`) veio DEITADO (1280x720)** mesmo com a imagem em pé: `deitado=True` troca o `K.GRADE` por um
+  filtro que põe a cena inteira no meio (altura 760) sobre o próprio vídeo desfocado (nada cortado). Os gatinhos saem da
+  caixa e se empurram na cama.
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
   preferida ("combina com a estética do lugar") e pediu mais peças nessa linha. Ideia nova: os guarda-chuvinhas SEGURAM as
   coisas pelo cabo (`segura()`: fio do teto → guarda-chuva → argola → placa/caixa/número), como um móbile. Peças: stories de
