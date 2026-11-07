@@ -1131,6 +1131,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   gravador `becas-reels/gravador/Gravar_narracao_Tarde.html` (7 falas = os textos da tela + "Você vem? ... Garante a sua mesa
   pelo WhatsApp!", arquivos `becastarde_narracao_NN`):
   `https://raw.githack.com/erik-magalhaes/GitJoy/7442d9b78b8abeeba5573e597b99084324b54a3e/becas-reels/gravador/Gravar_narracao_Tarde.html`.
+  **4ª (7/nov):** saiu o plano da mãozinha da criança com a colher no bolo (151311 18–21 s); no lugar, com a mesma
+  duração (38,3 s), a página "Bem-vindo(a) ao Beca’s Café" do cardápio (150936 3,4 s), que abre em íris na carta do Sushi Go.
   Ao receber: tratar a voz, esticar/encolher cada bloco de cenas (TEXTOS) para a fala, legenda pela fala real.
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
   preferida ("combina com a estética do lugar") e pediu mais peças nessa linha. Ideia nova: os guarda-chuvinhas SEGURAM as

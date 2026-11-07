@@ -50,8 +50,8 @@ CENAS = [  # 2ª versão (7/nov): ele achou repetido → cada trecho só UMA vez
     (P("art", 0.0, 1.6, 1.0, z=(1.06, 1.0)), (525, 830)),  # placa redonda (xícara do logo) → íris
     (P("passaporte", 0.3, 1.2, 1.0, z=(1.0, 1.05)), None),
     # 4 experiência
-    (P("bolo2", 18.3, 1.0, 1.0), None),
-    (P("sushi", 2.0, 1.4, 1.0), (540, 1250)),  # a colher no bolo → íris → carta de doce
+    (P("menu", 3.4, 1.0, 0.7, z=(1.0, 1.06)), None),  # 7/nov: no lugar da mãozinha com a colher, a página do cardápio
+    (P("sushi", 2.0, 1.4, 1.0), (540, 960)),  # cardápio → íris → carta de doce
     (P("unlock", 0.3, 2.0, 1.2), None),
     (P("sky_dados", 4.0, 1.6, 1.5), None),
     (P("critter", 2.0, 1.4, 1.0), None),
