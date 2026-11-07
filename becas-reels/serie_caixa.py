@@ -58,17 +58,17 @@ def ficha():
 
 def card_aluguel(w=920):
     jog, tempo, preco = ficha()
-    c = E.bloco(w, 560, NB.CREME if hasattr(NB, "CREME") else (250, 244, 232), raio=40, ow=8, sombra=14).copy()
+    c = E.bloco(w, 610, NB.CREME if hasattr(NB, "CREME") else (250, 244, 232), raio=40, ow=8, sombra=14).copy()
     d = ImageDraw.Draw(c)
-    lg = E.logo(230)
+    lg = E.logo(190)  # ~120 px de altura: termina em y≈146, o título começa em y≈172 (antes encavalava)
     c.alpha_composite(lg, (int(w / 2 - lg.width / 2), 26))
-    d.text((w / 2, 196), f"ALUGUE O {EP['nome']}", font=E.lilita(70 if len(EP["nome"]) < 12 else 60), fill=LAR,
+    d.text((w / 2, 212), f"ALUGUE O {EP['nome']}", font=E.lilita(70 if len(EP["nome"]) < 12 else 60), fill=LAR,
            anchor="mm", stroke_width=4, stroke_fill=MAR)
-    d.text((w / 2, 268), f"{jog} · {tempo}", font=E.fig(36, 800), fill=MAR, anchor="mm")
-    d.text((w / 2, 318), f"R$ {preco} · 5 DIAS DE JOGO", font=E.fig(36, 900), fill=PET, anchor="mm")
-    d.text((w / 2, 372), "Reserve online · retire em Mauá ou receba em casa", font=E.fig(30, 700), fill=MAR, anchor="mm")
-    d.rounded_rectangle((60, 430, w - 60, 510), 30, fill=PET)
-    d.text((w / 2, 470), "LINK NA BIO · @SUAVEZ_BG", font=E.lilita(42), fill=BR, anchor="mm")
+    d.text((w / 2, 290), f"{jog} · {tempo}", font=E.fig(36, 800), fill=MAR, anchor="mm")
+    d.text((w / 2, 340), f"R$ {preco} · 5 DIAS DE JOGO", font=E.fig(36, 900), fill=PET, anchor="mm")
+    d.text((w / 2, 394), "Reserve online · retire em Mauá ou receba em casa", font=E.fig(30, 700), fill=MAR, anchor="mm")
+    d.rounded_rectangle((60, 452, w - 60, 532), 30, fill=PET)
+    d.text((w / 2, 492), "LINK NA BIO · @SUAVEZ_BG", font=E.lilita(42), fill=BR, anchor="mm")
     return c
 
 
@@ -91,7 +91,7 @@ def quadro(t):
     u = t - VID
     NB.escuro(img, min(150, u * 400))
     if FMT == "stories":
-        K.poe(img, caixa(380), W / 2, 330, t, VID + 0.1, -3)
+        K.poe(img, caixa(340), W / 2, 315, t, VID + 0.1, -3)
         K.poe(img, card_aluguel(), W / 2, 820, t, VID + 0.35, 1)
         NB.linha_link(img, t, VID + 0.9, 1200, "aluga aqui:")
         K.poe(img, etq(EP["comenta"].replace("COMENTA: ", ""), 36, BR, MAR), W / 2, 1660, t, VID + 1.1, -1.5)

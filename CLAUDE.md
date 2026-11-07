@@ -1176,7 +1176,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   sombra). Ideias seguintes: Wingspan, Sushi Go!, Ticket to Ride, Dixit, Draftosaurus, Flamecraft.
   **Montagem: `becas-reels/serie_caixa.py <king|boop> [--stories]`** (EPS: clipe do Gemini em `coffee-reels/brutos/`,
   gancho, texto do meio, "comenta"): 10 s do clipe + gancho no alto + texto quando o bicho já saiu + tela final de ALUGUEL
-  (caixa recortada, `card_aluguel` com logo, "ALUGUE O ...", ficha do `acervo_site.json`, R$ e 5 dias, retirada em Mauá ou
+  (caixa recortada, `card_aluguel` com logo PEQUENO (190 px; com 230 encavalava no título), "ALUGUE O ...", ficha do `acervo_site.json`, R$ e 5 dias, retirada em Mauá ou
   entrega, link na bio) e "comenta"; Stories com "aluga aqui:" + espaço do link. King of Tokyo (`gemini2.mp4`, 10 s,
   720x1280): o lagarto sai da caixa e pousa na mesa da sala com os dados — ótimo de primeira.
   **boop. (`gemini3.mp4`) veio DEITADO (1280x720)** mesmo com a imagem em pé: `deitado=True` troca o `K.GRADE` por um
