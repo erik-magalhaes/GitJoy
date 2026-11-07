@@ -1159,6 +1159,15 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   "TARDE DE JOGOS" desceu para a borda do painel (libera o alto). `enquadra()` centra rota + ícones na faixa visível; as
   etiquetas nunca saem da tela (Terminal acima do ícone, Matriz abaixo, fora do pin). No vídeo, o "VEM DE TREM OU DE
   ÔNIBUS?" fica embaixo do mapa até o painel subir.
+- **"UM CAFÉ... NUM CAFÉ?" com a capa do Coffee Rush ANIMADA no Gemini (`becas-reels/cafe_rush.py`, 7/nov, ideia dele):**
+  eu escrevi o prompt do Veo (em inglês: capa ganha vida → câmera entra na vitrine → caixa numa mesa de café real com
+  xícara fumegando e guarda-chuvinhas coloridas no teto; SEM texto, só som de café) e fiz a imagem inicial vertical
+  `coffee-reels/out/coffee_rush_9x16.png` (caixa oficial Galápagos em fundo creme). **O Gemini devolveu 720x1280, 24 fps,
+  10 s** (`coffee-reels/brutos/gemini1.mp4`, fora do git): ele usou a foto QUADRADA com fundo transparente → bordas pretas
+  nos 4 primeiros segundos (`tira_preto`: preto ligado à borda vira creme); no meio o Gemini REDESENHOU a cena da capa (não é
+  a arte oficial) e de 7 a 10 s a caixa está numa mesa de madeira com as guarda-chuvinhas (ótimo). Reels: gancho "JÁ PENSOU
+  EM JOGAR UM CAFÉ... NUM CAFÉ?", "O COFFEE RUSH VAI ESTAR NA MESA!" + data, convite da tarde (como o `tarde_comum`) e
+  "COMENTA: CAFÉ PRETINHO OU COM LEITE?"; som = ambiente do próprio clipe + `musica_cafe`. 15,6 s, `--stories` com o link.
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
   preferida ("combina com a estética do lugar") e pediu mais peças nessa linha. Ideia nova: os guarda-chuvinhas SEGURAM as
   coisas pelo cabo (`segura()`: fio do teto → guarda-chuva → argola → placa/caixa/número), como um móbile. Peças: stories de
