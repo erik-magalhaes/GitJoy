@@ -1142,6 +1142,18 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Para compensar, encurtei a rota da chegada e 3 planos do desejo: **41,9 s**. Ele falou "E aí, você vem?" e "Garanta".
   `--sem-legenda` tira os textos falados. Quando a fala 6 chegar: tratar e renderizar de novo (a tela dividida estica sozinha).
   Ao receber: tratar a voz, esticar/encolher cada bloco de cenas (TEXTOS) para a fala, legenda pela fala real.
+- **MAPA "COMO CHEGAR DE TREM OU ÔNIBUS" (`becas-reels/mapa_becas.py`, 7/nov, pedido dele: "como o Google Maps, só que
+  sketch, colorido, bonitinho"):** ruas REAIS do OpenStreetMap (`mapa/area.osm`, baixado da API 0.6 `map?bbox=`; o Overpass
+  falha pelo proxy; Nominatim funciona) desenhadas à mão: traço tremido (`treme`), lápis de cor em hachura, avenidas amarelas,
+  trilhos da Linha 10-Turquesa com dormentes, praças verdes, estação/terminal/Matriz pintados, nomes das ruas em Patrick Hand.
+  Rota a pé = menor caminho no grafo das ruas (`mapa/rota.py`): **Estação Mauá (entrada sul) ≈ 200 m, uns 3 min**; **Terminal
+  Municipal de Mauá ≈ 340 m, uns 4 min** (passa pela estação e desce a Rua da Matriz até a Rua Sorocaba). O Beca’s (nº 35)
+  ficou perto da esquina da Rua Santa Cecília (o nº 69 é a Biomed; a Alquifarma é Santa Cecília 276): posição APROXIMADA.
+  Ícones OpenMoji (`mapa/openmoji/`, SVG → PNG com cairosvg) em selos redondos; rota = bolinhas azuis do Maps; pin vermelho
+  com a xícara + "CHEGOU!"; barra de busca "Beca’s Café · Rua Sorocaba, 35" e painel de baixo "COMO CHEGAR de trem ou
+  ônibus". Saídas `out/mapa/`: `mapa_post.png` (1080x1350), `mapa_story.png` (espaço do adesivo "ABRE A ROTA NO SEU MAPS
+  AQUI:" para ele pôr o link do Maps) e o vídeo de 12 s (`--reels` / `--stories`: o mapa se desenha, os ícones pulam, o
+  bonequinho anda pela rota, o pin cai, o painel sobe).
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
   preferida ("combina com a estética do lugar") e pediu mais peças nessa linha. Ideia nova: os guarda-chuvinhas SEGURAM as
   coisas pelo cabo (`segura()`: fio do teto → guarda-chuva → argola → placa/caixa/número), como um móbile. Peças: stories de
