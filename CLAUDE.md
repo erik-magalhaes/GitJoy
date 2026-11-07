@@ -1133,6 +1133,14 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   `https://raw.githack.com/erik-magalhaes/GitJoy/7442d9b78b8abeeba5573e597b99084324b54a3e/becas-reels/gravador/Gravar_narracao_Tarde.html`.
   **4ª (7/nov):** saiu o plano da mãozinha da criança com a colher no bolo (151311 18–21 s); no lugar, com a mesma
   duração (38,3 s), a página "Bem-vindo(a) ao Beca’s Café" do cardápio (150936 3,4 s), que abre em íris na carta do Sushi Go.
+  **NARRAÇÃO RECEBIDA (7/nov):** 6 dos 7 .webm (FALTA a fala 6, "Café, jogos e boas companhias."): `narracao_tarde/raw/`
+  → ffmpeg com a cadeia de voz a 44,1 kHz (`tmp_NN.wav`) → `tratar_tarde.py` (funções do `taco-reels/tratar_narracao.py`;
+  o `corta_resto_respiro` comia o "Um" da fala 3, então ele só vale se tirar < 0,3 s; o faster-whisper desta máquina falha
+  com caminho de arquivo (`av.open(metadata_errors)`): passe o áudio como array float32 a 16 kHz). Em `tarde_comum.py` cada
+  fala entra no começo do seu bloco (`VOZ_EM`), o gancho e o convite esticam para a fala, a etiqueta "...ou também" entra no
+  "ou" e o cartão do convite no "tarde"; a voz é somada DEPOIS da mixagem (`poe_voz`, sem o tanh) e a trilha abaixa sob ela.
+  Para compensar, encurtei a rota da chegada e 3 planos do desejo: **41,9 s**. Ele falou "E aí, você vem?" e "Garanta".
+  `--sem-legenda` tira os textos falados. Quando a fala 6 chegar: tratar e renderizar de novo (a tela dividida estica sozinha).
   Ao receber: tratar a voz, esticar/encolher cada bloco de cenas (TEXTOS) para a fala, legenda pela fala real.
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
   preferida ("combina com a estética do lugar") e pediu mais peças nessa linha. Ideia nova: os guarda-chuvinhas SEGURAM as
