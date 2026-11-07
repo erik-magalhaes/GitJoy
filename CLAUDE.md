@@ -1168,6 +1168,12 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   a arte oficial) e de 7 a 10 s a caixa está numa mesa de madeira com as guarda-chuvinhas (ótimo). Reels: gancho "JÁ PENSOU
   EM JOGAR UM CAFÉ... NUM CAFÉ?", "O COFFEE RUSH VAI ESTAR NA MESA!" + data, convite da tarde (como o `tarde_comum`) e
   "COMENTA: CAFÉ PRETINHO OU COM LEITE?"; som = ambiente do próprio clipe + `musica_cafe`. 15,6 s, `--stories` com o link.
+  **Série "A CAIXA GANHA VIDA" (ele aprovou, 7/nov):** capa animada no Gemini → personagem sai da caixa pro mundo real →
+  "aluga e leva pra casa". Funciona melhor com capa de POUCOS personagens grandes, uma ação por vídeo, imagem inicial 9:16 com
+  fundo creme (nunca quadrada/transparente) e SEM texto no prompt. Episódios 2 e 3 mandados: **King of Tokyo** (caixa 3D Devir
+  de `hobby-reels/assets/caixas/`) e **boop.** (foto do site recortada; sobra laranja tirada por cor ligada ao fundo) →
+  `coffee-reels/out/{king_of_tokyo,boop}_9x16.png` (fora do git; refazer: caixa 900 px de largura no degradê creme +
+  sombra). Ideias seguintes: Wingspan, Sushi Go!, Ticket to Ride, Dixit, Draftosaurus, Flamecraft.
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
   preferida ("combina com a estética do lugar") e pediu mais peças nessa linha. Ideia nova: os guarda-chuvinhas SEGURAM as
   coisas pelo cabo (`segura()`: fio do teto → guarda-chuva → argola → placa/caixa/número), como um móbile. Peças: stories de
