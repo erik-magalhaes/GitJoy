@@ -33,7 +33,7 @@ def isnet(f):
 def pontos(f):
     hsv = cv2.cvtColor(f, cv2.COLOR_BGR2HSV).astype(float)
     Hh, S, V = hsv[..., 0], hsv[..., 1] / 255, hsv[..., 2] / 255
-    sala = ((V > 0.5) & (S < 0.35)) | ((Hh > 70) & (Hh < 100) & (V > 0.35))  # parede/cadeira | sacola verde-água
+    sala = ((V > 0.5) & (S < 0.35)) | ((V > 0.3) & (S < 0.2)) | ((Hh > 70) & (Hh < 100) & (V > 0.35))  # parede/cadeira | sacola verde-água
     nao = ~sala
     run = ndimage.uniform_filter1d(nao.astype(float), 14, axis=0, origin=-6) > 0.95
     h, w = S.shape
@@ -41,7 +41,7 @@ def pontos(f):
     return b, S, Hh
 
 
-def reta(b, h, ant=None):
+def reta(b, h, ant=None, baixa=False):
     w = len(b)
     xs = np.arange(w)
     ok = b < h - 5
@@ -61,7 +61,8 @@ def reta(b, h, ant=None):
             continue
         c = Y[i] - a * X[i]
         r = np.abs(Y - (a * X + c))
-        inl = (r < 6).sum() + 0.15 * ((Y - (a * X + c)) > 6).sum()  # prefere a reta mais BAIXA (o resto fica acima)
+        acima = ((a * X + c) - Y) > 6
+        inl = (r < 6).sum() + 0.15 * (acima.sum() if baixa else (~acima & (r >= 6)).sum())
         if inl > bi:
             bi, best = inl, (a, c)
     a, c = best
@@ -111,7 +112,7 @@ def main():
         bi = np.clip(b.astype(int), 0, h - 1)
         sobre = ndimage.binary_dilation(objs, iterations=4)[bi, np.arange(len(b))]
         b = np.where(sobre, h, b)              # ponto da borda em cima de peça em pé não conta
-        ab = reta(b, h, ant)
+        ab = reta(b, h, ant, baixa=540 <= n <= 700)  # trilha de pontos: cadeira atrás, a borda é a reta de BAIXO
         if ant is not None and not teste and ab != (0.0, 0.0) and ant != (0.0, 0.0):
             ab = (0.6 * ab[0] + 0.4 * ant[0], 0.6 * ab[1] + 0.4 * ant[1])
         ant = ab

@@ -221,19 +221,22 @@ def pecas_q(n):
         a = (lab[sl] == i).sum()
         if a < 60:
             continue
-        r, g, b = [f[sl][..., j][lab[sl] == i].mean() for j in range(3)]
+        px = f[sl][lab[sl] == i]
+        r, g, b = px.mean(0)
+        sat = np.median(px.max(1) - px.min(1))
         cor = ROSA if r > b + 20 else CIANO
-        out.append((a, sl[1].start * 3, sl[0].start * 3, sl[1].stop * 3, sl[0].stop * 3, cor))
+        out.append((a, sl[1].start * 3, sl[0].start * 3, sl[1].stop * 3, sl[0].stop * 3, cor, sat))
     return sorted(out, reverse=True)
 
 
-def pecas(n, quantas=1, cmin=0, cmax=W):
+def pecas(n, quantas=1, cmin=0, cmax=W, satmin=0, hmin=0):
     """Caixas suavizadas (mediana de ±4 quadros) das maiores peças, da esquerda para a direita."""
     res = []
     for j in range(quantas):
         bs = []
         for q in range(n - 4, n + 5):
-            ps = [p for p in pecas_q(q) if cmin <= (p[1] + p[3]) / 2 <= cmax]
+            ps = [p for p in pecas_q(q) if cmin <= (p[1] + p[3]) / 2 <= cmax and p[6] >= satmin
+                  and p[4] - p[2] >= hmin]
             ps = sorted(ps[:quantas], key=lambda p: p[1])
             if len(ps) > j:
                 bs.append(ps[j])
@@ -243,8 +246,8 @@ def pecas(n, quantas=1, cmin=0, cmax=W):
     return res
 
 
-def mira(img, n, u, quantas, nome, cor=None, folga=1.15):
-    for b, c in pecas(n, quantas):
+def mira(img, n, u, quantas, nome, cor=None, folga=1.15, satmin=0, hmin=0):
+    for b, c in pecas(n, quantas, satmin=satmin, hmin=hmin):
         x0, y0, x1, y1 = b
         cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
         alvo(img, cx, cy, (x1 - x0) * folga + 40, (y1 - y0) * folga + 40, u, cor or c, nome)
@@ -253,28 +256,28 @@ def mira(img, n, u, quantas, nome, cor=None, folga=1.15):
 def hud_trecho(img, t, k, u, n):
     if k == "apoiadores":
         if u > 0.4:
-            mira(img, n, u - 0.4, 2, "APOIADOR")
+            mira(img, n, u - 0.4, 2, "APOIADOR", satmin=90)
         painel(img, ["EU TÔ DENTRO DO TABULEIRO!", "cada meeple é um apoiador", "numa das 5 regiões"], 1250,
                alpha=ease((u - 0.8) / 0.3))
     elif k == "castelo":
         if u > 1.2:
-            mira(img, n, u - 1.2, 1, "CASTELO", OURO)
+            mira(img, n, u - 1.2, 1, "CASTELO", OURO, satmin=90)
         painel(img, ["GANHOU A GUERRA NA REGIÃO?", "constrói um castelo e faz pontos"], 1250,
                alpha=ease((u - 1.5) / 0.3), cor=OURO)
     elif k == "alice":
         if u > 1.0:
-            mira(img, n, u - 1.0, 1, "LÍDER: ALICE", CIANO, 1.05)
+            mira(img, n, u - 1.0, 1, "LÍDER: ALICE", CIANO, 1.05, hmin=450)
         painel(img, ["VOCÊ É UM LÍDER", "e anda pela Festa do Chá", "juntando aliados"], 1300,
                alpha=ease((u - 1.8) / 0.3))
     elif k == "gato":
-        mira(img, n, u, 1, "RIVAL: GATO", VERM, 1.05)
+        mira(img, n, u, 1, "RIVAL: GATO", VERM, 1.05, hmin=450)
         if int(t * 4) % 2 == 0:
             texto(img, "INIMIGO À VISTA", fnt(F_VT, 64), (W / 2, 1330), VERM, stroke=3, scor=(20, 0, 0))
     elif k == "voo":
         texto(img, "> VOANDO PELO TABULEIRO...", fnt(F_VT, 60), (W / 2, 1300), CIANO, stroke=3, scor=(10, 0, 20))
     elif k == "trilha":
         if u > 0.6:
-            mira(img, n, u - 0.6, 2, None)
+            mira(img, n, u - 0.6, 3, None, satmin=90)
         painel(img, ["A CORRIDA PELOS PONTOS", "3 rodadas: mais pontos vence"], 1300, alpha=ease((u - 1.0) / 0.3),
                cor=ROSA)
     elif k == "cha":
@@ -282,7 +285,7 @@ def hud_trecho(img, t, k, u, n):
                alpha=ease((u - 0.4) / 0.3))
     elif k == "volta":
         if u > 1.0:
-            mira(img, n, u - 1.0, 1, "ALICE", CIANO, 1.05)
+            mira(img, n, u - 1.0, 1, "ALICE", CIANO, 1.05, hmin=300)
 
 
 def hud_vr(img, t, titulo):
