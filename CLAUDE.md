@@ -1039,6 +1039,16 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   A câmera fica ALTA (h ≥ 1650 px do tabuleiro_x4, `CHAVES`): de perto borra. Artes em `assets/artes/` (ampliadas x4); a
   Criatura saiu (o selo "1 Escolha seus aliados" cobre a arte) e o meeple recortado ficou deformado (não usar).
   Quando eles gravarem o final de verdade (abrir o olho na mesa e falar a frase), trocar `cena_sai` depois de T_OLHO pelo clipe.
+  **8/nov: ELES GRAVARAM o tabuleiro (`wonderland-reels/brutos/mesa.mp4`, Drive de brutos 20261108_125410, 32 s, câmera
+  rente à mesa) e pediram "primeira pessoa, mas APAGA O FUNDO, mexe bastante".** `mascara_mesa.py` (→ out/mask_mesa +
+  out/obj_mesa, 360x640, ~15 min): borda do tabuleiro = RETA (RANSAC) onde a "sala" (claro e pouco saturado; sacola
+  verde-água) acaba, ignorando colunas em cima de peças; acima da reta é fundo, MENOS as peças em pé do isnet (rembg
+  isnet-general-use acha Alice/Gato/meeples perfeito, mas apaga o tabuleiro: serve só pras peças; cadeira = componente
+  vazado, sai). Nos quadros 540–700 (trilha de pontos com cadeira atrás) a reta preferida é a de BAIXO. `pov_mesa.py`
+  (44,8 s): gancho com a lente ligando → trechos do bruto com o céu do País das Maravilhas (degradê roxo, sorriso do
+  Gato da capa como lua, estrelas e cartas oficiais flutuando com paralaxe do movimento da câmera, luz rosa no
+  horizonte), HUD VR com MIRAS que seguem as peças (caixas do isnet suavizadas) e regras em painéis → "DESCONECTANDO" →
+  abre o olho na MESMA mesa com a sala de verdade + "...ESSE JOGO É MUITO BOM!" → comenta e CTA do `vr.py`.
 - **3 Reels "chama a Sua Vez pro seu evento de fim de ano" (`festa-reels/`, 5/nov, pedido dele: "seja criativo, não use a
   mesma coisa de sempre"; ele pediu os TRÊS e liberou voz de IA "se precisar"):** base `comum_festa.py` (cenas REAIS deles
   via `becas-reels/kit.py`, entrega com som / para música a −15,5 LUFS). `previsao.py` = PREVISÃO DO TEMPO da
