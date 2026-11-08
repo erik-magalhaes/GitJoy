@@ -43,18 +43,18 @@ def texto_cartao(alfa=1.0):
     w, h = x1 - x0, y1 - y0
     im = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     d = ImageDraw.Draw(im)
-    cx = w / 2
+    cx = w / 2 - 28  # 8/nov: o guarda-chuvinha amarelo cobre a direita do cartão (de ~83% da largura) na altura do título
     p = TB.parceria(58)
-    im.alpha_composite(p, (int(cx - p.width / 2), 40))
+    im.alpha_composite(p, (int(w / 2 - p.width / 2), 40))
     d.text((cx, 172), "VOCÊ ESTÁ CONVIDADO PRA", font=E.fig(24, 800), fill=MAR, anchor="mm")
-    d.text((cx, 240), "TARDE", font=E.lilita(96), fill=LAR, anchor="mm", stroke_width=5, stroke_fill=MAR)
-    d.text((cx, 330), "DE JOGOS", font=E.lilita(84), fill=LAR, anchor="mm", stroke_width=5, stroke_fill=MAR)
-    d.rounded_rectangle((44, 392, w - 44, 452), 30, fill=PET)
-    d.text((cx, 422), "SEXTA, 20/11 (FERIADO)", font=E.lilita(36), fill=BR, anchor="mm")
-    d.text((cx, 492), "13H ÀS 19H", font=E.lilita(44), fill=MAR, anchor="mm")
-    d.text((cx, 548), "Beca’s Café · Rua Sorocaba, 35 · Mauá", font=E.fig(23, 800), fill=MAR, anchor="mm")
-    d.text((cx, 590), "R$ 30, e R$ 15 viram consumação", font=E.fig(23, 700), fill=PET, anchor="mm")
-    d.text((cx, 650), "a gente leva os jogos e ensina!", font=E.fig(24, 800), fill=MAR, anchor="mm")
+    d.text((cx, 238), "TARDE", font=E.lilita(86), fill=LAR, anchor="mm", stroke_width=5, stroke_fill=MAR)
+    d.text((cx, 318), "DE JOGOS", font=E.lilita(70), fill=LAR, anchor="mm", stroke_width=5, stroke_fill=MAR)
+    d.rounded_rectangle((cx - 186, 382, cx + 186, 438), 28, fill=PET)
+    d.text((cx, 410), "SEXTA, 20/11 (FERIADO)", font=E.lilita(32), fill=BR, anchor="mm")
+    d.text((cx, 480), "13H ÀS 19H", font=E.lilita(44), fill=MAR, anchor="mm")
+    d.text((cx, 534), "Beca’s Café · Rua Sorocaba, 35 · Mauá", font=E.fig(22, 800), fill=MAR, anchor="mm")
+    d.text((cx, 572), "R$ 30, e R$ 15 viram consumação", font=E.fig(22, 700), fill=PET, anchor="mm")
+    d.text((cx + 20, 622), "a gente leva os jogos e ensina!", font=E.fig(23, 800), fill=MAR, anchor="mm")
     if alfa < 1:
         im.putalpha(im.getchannel("A").point(lambda v: int(v * alfa)))
     return im

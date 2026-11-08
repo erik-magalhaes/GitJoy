@@ -1200,7 +1200,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   muito pra aparecer, fica muito tempo a folha branca"): o texto já vem no papel que SOBE do envelope (6,0 s) e o
   acompanha: `mascara_cartao` acha o papel creme em cada quadro (topo/esquerda medidos, largura 460, altura pela razão do
   cartão) e o texto só aparece onde há papel (o envelope e os guarda-chuvinhas na frente escondem); de 6,8 s em diante usa
-  o retângulo parado (292, 648, 793, 1362); 10–15 s
+  o retângulo parado (292, 648, 793, 1362). 3ª ("o S de JOGOS some"): o guarda-chuvinha amarelo do meeple petróleo fica
+  NA FRENTE da direita do cartão (de ~83% da largura, altura do título/data) e o rosa cobre o pé à esquerda → texto
+  deslocado 28 px pra esquerda, título menor (86/70), pílula 372 px; 10–15 s
   quadro parado com aproximação lenta + WhatsApp/comenta (Reels) ou "garanta sua mesa aqui:" (Stories). NÃO usar
   `tira_preto` em clipe sem borda preta (ele "pintava" de creme o escuro do café na borda).
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
