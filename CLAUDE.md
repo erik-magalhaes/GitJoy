@@ -1189,6 +1189,16 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   (dragãozinho acende as lâmpadas das lojinhas; Deluxe R$ 60 / 7 dias) → `coffee-reels/out/N_<jogo>_9x16.png`.
   Ao receber cada clipe: `coffee-reels/brutos/geminiN.mp4` + entrada nova em `EPS` do `serie_caixa.py` (conferir se veio
   deitado). Dixit precisa da tela final do convite (copiar de `cafe_rush.py`).
+- **CONVITE DOS MEEPLES (`becas-reels/convite_meeple.py`, 8/nov):** ele viu o modelo "Convite para festa" do Gemini (bicho
+  de FELTRO abrindo envelope). A raposa do exemplo não tinha a ver → pediu **meeples** e depois **de MADEIRA (não feltro)
+  segurando guarda-chuvinhas coloridas**. O modelo força feltro: usar o modo **Vídeos** normal + botão do formato em pé
+  (9:16; é o botão do retângulo embaixo da caixa de texto — por isso o boop. veio deitado). Prompt: 2 meeples de madeira
+  laranja e petróleo (cores do logo), guarda-chuvinhas de papel, café com guarda-chuvinhas no teto, envelope verde e
+  cartão em BRANCO parado de frente nos últimos 3 s (o Gemini erra letra/acento; EU escrevo). `meeple_a.mp4` (madeira) é o
+  usado; cartão imóvel de 7,3 s em diante em x 280–806, y 648–1364 (1080x1920). `meeple_b.mp4` = versão de feltro (sobra).
+  Texto no cartão (parceria Sua Vez × Beca’s, TARDE DE JOGOS, data, horário, endereço, preço) a partir de 7,4 s; 10–15 s
+  quadro parado com aproximação lenta + WhatsApp/comenta (Reels) ou "garanta sua mesa aqui:" (Stories). NÃO usar
+  `tira_preto` em clipe sem borda preta (ele "pintava" de creme o escuro do café na borda).
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
   preferida ("combina com a estética do lugar") e pediu mais peças nessa linha. Ideia nova: os guarda-chuvinhas SEGURAM as
   coisas pelo cabo (`segura()`: fio do teto → guarda-chuva → argola → placa/caixa/número), como um móbile. Peças: stories de
