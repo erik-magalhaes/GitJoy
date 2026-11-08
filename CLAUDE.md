@@ -1182,6 +1182,13 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **boop. (`gemini3.mp4`) veio DEITADO (1280x720)** mesmo com a imagem em pé: `deitado=True` troca o `K.GRADE` por um
   filtro que põe a cena inteira no meio (altura 760) sobre o próprio vídeo desfocado (nada cortado). Os gatinhos saem da
   caixa e se empurram na cama.
+  **8/nov: ele faz 3 por dia no Gemini.** Mandei imagens + prompts de mais 5, nesta ordem: 1 Wingspan (pássaro voa até a
+  estante), 2 Ticket to Ride (trem sai e anda no mapa até a mesa; caixa = foto do SITE, arte antiga), 3 Draftosaurus
+  (MeepleBR, `gravados-reels/assets/oficial/`; dinos num parquinho na mesa), 4 Dixit (cartas voam como portas de sonho
+  até a mesa do Beca’s com guarda-chuvinhas = episódio que fecha com o CONVITE da tarde, como o Coffee Rush), 5 Flamecraft
+  (dragãozinho acende as lâmpadas das lojinhas; Deluxe R$ 60 / 7 dias) → `coffee-reels/out/N_<jogo>_9x16.png`.
+  Ao receber cada clipe: `coffee-reels/brutos/geminiN.mp4` + entrada nova em `EPS` do `serie_caixa.py` (conferir se veio
+  deitado). Dixit precisa da tela final do convite (copiar de `cafe_rush.py`).
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
   preferida ("combina com a estética do lugar") e pediu mais peças nessa linha. Ideia nova: os guarda-chuvinhas SEGURAM as
   coisas pelo cabo (`segura()`: fio do teto → guarda-chuva → argola → placa/caixa/número), como um móbile. Peças: stories de
