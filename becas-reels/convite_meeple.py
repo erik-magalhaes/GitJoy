@@ -12,6 +12,10 @@ o cartão fica imóvel de 7,3 s em diante em x 280–806, y 648–1364 (medido e
 """
 import os
 import sys
+from functools import lru_cache
+
+import numpy as np
+from scipy import ndimage
 
 from PIL import Image, ImageDraw
 
@@ -26,8 +30,10 @@ K.CLIPES["meeple"] = (os.path.abspath(CLIPE_ARQ), "CONVITE")
 CLIPE = Plano("meeple", 0.0, 10.0, 1.0)
 VID = CLIPE.d
 DUR = VID + 5.0
-CARTAO = (280, 648, 806, 1364)
-T_TXT = 7.4
+CARTAO = (292, 648, 793, 1362)  # parado, de 6,8 s em diante (medido no cache 1080x1920)
+T_TXT = 6.0  # 8/nov, pedido dele: o texto já aparece quando o papel SOBE do envelope e acompanha o papel
+T_PARADO = 6.8
+RAZAO = (CARTAO[3] - CARTAO[1]) / (CARTAO[2] - CARTAO[0])
 FMT = "reels"
 
 
@@ -54,6 +60,59 @@ def texto_cartao(alfa=1.0):
     return im
 
 
+def mascara_cartao(img):
+    """Pixels do papel creme (sem o envelope, os meeples e os guarda-chuvinhas na frente)."""
+    f = np.asarray(img.convert("RGB")).astype(int)
+    R, G, B = f[..., 0], f[..., 1], f[..., 2]
+    m = (R > 175) & (G > 160) & (B > 125) & ((R - B) < 75) & ((R - G) < 40)
+    m[:350] = 0
+    m[1500:] = 0
+    m[:, :200] = 0
+    m[:, 880:] = 0
+    m = ndimage.binary_opening(m, iterations=2)
+    lab, n = ndimage.label(m)
+    if n == 0:
+        return None, None
+    tam = ndimage.sum(m, lab, range(1, n + 1))
+    k = int(np.argmax(tam)) + 1
+    m = ndimage.binary_fill_holes(ndimage.binary_closing(lab == k, iterations=4))
+    ys, xs = np.where(m)
+    return m, (int(np.percentile(xs, 1)), int(ys.min()))
+
+
+@lru_cache(None)
+def _texto(w, h):
+    return texto_cartao().resize((w, h), Image.LANCZOS)
+
+
+def poe_no_cartao(img, alfa):
+    if alfa <= 0:
+        return
+    m, canto = mascara_cartao(img)
+    if m is None:
+        return
+    if img_t_parado(img):
+        x0, y0, x1, y1 = CARTAO
+    else:  # subindo: largura do papel inteiro, topo e esquerda medidos no quadro
+        w = 460
+        x0, y0 = canto
+        x1, y1 = x0 + w, int(y0 + w * RAZAO)
+    tx = _texto(x1 - x0, y1 - y0)
+    lay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    lay.alpha_composite(tx, (x0, y0))
+    a = np.asarray(lay.getchannel("A")).astype(np.float32)
+    mm = ndimage.gaussian_filter(m.astype(np.float32), 1.2)
+    lay.putalpha(Image.fromarray((a * mm * alfa).astype(np.uint8)))
+    img.alpha_composite(lay)
+
+
+_T = [0.0]
+
+
+def img_t_parado(img):
+    return _T[0] >= T_PARADO
+
+
 def zoom(img, z, cx, cy):
     if z <= 1.0001:
         return img
@@ -64,10 +123,10 @@ def zoom(img, z, cx, cy):
 
 
 def quadro(t):
+    _T[0] = t
     img = CLIPE.quadro(min(t, VID - 0.01))  # sem tira_preto: aqui o escuro da borda é o próprio café
-    if t >= T_TXT:  # o convite "aparece escrito" no cartão
-        a = min(1.0, (t - T_TXT) / 0.6)
-        img.alpha_composite(texto_cartao(a), CARTAO[:2])
+    if t >= T_TXT:  # o convite já vem escrito no papel que sobe do envelope
+        poe_no_cartao(img, min(1.0, (t - T_TXT) / 0.2))
     if t > VID:
         u = min(1.0, (t - VID) / 4.5)
         img = zoom(img, 1 + 0.07 * NB.ease(u), (CARTAO[0] + CARTAO[2]) / 2, (CARTAO[1] + CARTAO[3]) / 2 + 60)

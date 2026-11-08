@@ -1196,7 +1196,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   laranja e petróleo (cores do logo), guarda-chuvinhas de papel, café com guarda-chuvinhas no teto, envelope verde e
   cartão em BRANCO parado de frente nos últimos 3 s (o Gemini erra letra/acento; EU escrevo). `meeple_a.mp4` (madeira) é o
   usado; cartão imóvel de 7,3 s em diante em x 280–806, y 648–1364 (1080x1920). `meeple_b.mp4` = versão de feltro (sobra).
-  Texto no cartão (parceria Sua Vez × Beca’s, TARDE DE JOGOS, data, horário, endereço, preço) a partir de 7,4 s; 10–15 s
+  Texto no cartão (parceria Sua Vez × Beca’s, TARDE DE JOGOS, data, horário, endereço, preço). 2ª rodada ("demorou
+  muito pra aparecer, fica muito tempo a folha branca"): o texto já vem no papel que SOBE do envelope (6,0 s) e o
+  acompanha: `mascara_cartao` acha o papel creme em cada quadro (topo/esquerda medidos, largura 460, altura pela razão do
+  cartão) e o texto só aparece onde há papel (o envelope e os guarda-chuvinhas na frente escondem); de 6,8 s em diante usa
+  o retângulo parado (292, 648, 793, 1362); 10–15 s
   quadro parado com aproximação lenta + WhatsApp/comenta (Reels) ou "garanta sua mesa aqui:" (Stories). NÃO usar
   `tira_preto` em clipe sem borda preta (ele "pintava" de creme o escuro do café na borda).
 - **Mais material com GUARDA-CHUVINHAS (`promo/becas_chuva.py`, 5/nov):** ele disse que a arte das guarda-chuvinhas é a
