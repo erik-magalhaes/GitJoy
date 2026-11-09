@@ -256,6 +256,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **4ª (9/nov): "precisa ser PRIMEIRA PESSOA, o olhar de quem corre"** → um plano só: Mixkit **40656** (POV andando num
   caminho de parque, já 1080x1920; o 4K não baixa, só o `-1080.mp4`) a 2x (`setpts=0.5*PTS`) + balanço de corrida
   (zoom 1,16 pra não aparecer borda na inclinação). Outros POV de caminho no Mixkit: 28827 (passarela no outono, deitado).
+  **5ª (9/nov, "esse vídeo tá perfeito"):** + OLHA PRA TRÁS: o mesmo vídeo ESPELHADO e de trás pra frente com os 4
+  mascotes vindo correndo no caminho (`atras()`, horizonte `DY_PARQUE`), e ao olhar pra frente de novo (chicote no sentido
+  contrário) já é a pista; frase: "É ASSIM QUE VOCÊ SE SENTE QUANDO JOGA / HOT STREAK!". 20,5 s.
 - **Reels do hobby (`hobby-reels/`):** ele pediu um vídeo explicando os jogos modernos para quem não conhece o hobby,
   com a comparação de preço (loja × aluguel) e a promoção progressiva. Escolheu o visual 1 (estante) e pediu que **eu mesmo
   fizesse a narração, "sem cara de IA"**. Voz: `pt-BR-AntonioNeural` (edge-tts), gerada por `gerar_voz.py`. O edge-tts

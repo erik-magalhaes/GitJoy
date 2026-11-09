@@ -22,9 +22,12 @@ from hs import W, H, FPS, RED, YEL, WHITE, INK, cola, placa, confete, pop, logo_
 OUT = HS.OUT
 STOCK = os.path.join(OUT, "stock")
 PLANOS = [("40656", 0.0, 5.0)]  # (clipe, início, fim): POV andando no parque (Mixkit 40656, vertical) a 2x = correndo
-T_VIRA, T_JOGO, T_CTA = 5.0, 5.45, 13.5
+# 0–3,6 correndo · 3,6–4,0 olha pra trás · 4,0–7,4 os mascotes vindo atrás (mesmo vídeo, espelhado e de trás pra
+# frente) · 7,4–7,85 olha pra frente de novo = a pista · frase · tela final
+T_OLHA, T_ATRAS, T_VIRA, T_JOGO, T_CTA = 3.6, 4.0, 7.4, 7.85, 15.5
 DUR = T_CTA + 5.0
-ULTRA = [(6.2, 0, -2.4), (7.4, 1, 2.4), (8.6, 2, -0.8), (9.8, 3, 0.8)]
+ULTRA = [(8.5, 0, -2.4), (9.6, 1, 2.4), (10.7, 2, -0.8), (11.8, 3, 0.8)]
+DY_PARQUE = 330   # horizonte do caminho do parque no quadro (~y 1150)
 
 
 def quadro_stock(t):
@@ -36,9 +39,16 @@ def quadro_stock(t):
             return Image.open(os.path.join(d, "%04d.jpg" % k)).convert("RGBA")
 
 
-def corrida(t):
-    """Olhar de quem corre: o POV a 2x + o balanço da cabeça a cada passo (sobe/desce, lado, inclinação)."""
-    im = quadro_stock(t).convert("RGB")
+def corrida(t, para_tras=False):
+    """Olhar de quem corre: o POV a 2x + o balanço da cabeça a cada passo (sobe/desce, lado, inclinação).
+    para_tras: o mesmo vídeo ESPELHADO e de trás pra frente (o caminho se afastando = olhando pra trás)."""
+    if para_tras:
+        d = os.path.join(STOCK, PLANOS[0][0])
+        n = len(os.listdir(d))
+        k = int(min(n, max(1, n - (t - T_OLHA) * 30)))
+        im = Image.open(os.path.join(d, "%04d.jpg" % k)).convert("RGB").transpose(Image.FLIP_LEFT_RIGHT)
+    else:
+        im = quadro_stock(t).convert("RGB")
     by, bx, br = P.balanco(t, 1.5)
     k = 1.16  # margem pro balanço e a inclinação não mostrarem borda preta
     im = im.resize((int(W * k), int(H * k)), Image.BICUBIC)
@@ -46,6 +56,27 @@ def corrida(t):
     y0 = (im.height - H) / 2 - by
     im = im.crop((int(x0), int(y0), int(x0) + W, int(y0) + H)).rotate(br, resample=Image.BICUBIC)
     return im.convert("RGBA")
+
+
+def atras(t):
+    img = corrida(t, True)
+    by, bx, br = P.balanco(t, 1.2)
+    u = t - T_ATRAS
+    for k in (3, 2, 1, 0):  # de trás pra frente na tela
+        nome = P.MASC[k][0]
+        x = (-0.85, 0.95, -0.3, 0.4)[k]
+        z = (3.0, 3.3, 4.6, 5.0)[k] - 0.9 * ease(seg(u, 0, 3.2))
+        P.mascote_frente(img, nome, x, z, t, k * 1.4, DY_PARQUE + by * 0.3, bx)
+    return img
+
+
+def chicote(a, b, u, sentido=1):
+    k = 120 * math.sin(u * math.pi)
+    a, b = P.borrao_h(a, k), P.borrao_h(b, k)
+    img = Image.new("RGBA", (W, H))
+    img.paste(a, (int(-sentido * W * u), 0))
+    img.paste(b, (int(sentido * W * (1 - u)), 0))
+    return img
 
 
 def jogo(t):
@@ -60,7 +91,7 @@ def jogo(t):
         P.mascote_frente(img, P.MASC[k][0], x, z, t, k * 1.3, by, bx, alt=1.9)
     confete(img, t, 80, 9, 0, 1600)
     u = t - T_JOGO
-    cola(img, placa("É ASSIM QUE VOCÊ\nSE SENTE JOGANDO", 78, WHITE, INK), 540, 1170, -2, pop(t, T_JOGO + 0.3))
+    cola(img, placa("É ASSIM QUE VOCÊ SE\nSENTE QUANDO JOGA", 78, WHITE, INK), 540, 1170, -2, pop(t, T_JOGO + 0.3))
     if u > 0.75:
         b = 1 + 0.03 * abs(math.sin(t * 5))
         cola(img, placa("HOT STREAK!", 120, RED, YEL), 540, 1430, 2, pop(t, T_JOGO + 0.75) * b)
@@ -70,20 +101,18 @@ def jogo(t):
 
 
 def vira(t):
-    u = ease(seg(t, T_VIRA, T_JOGO))
-    a, b = corrida(min(t, PLANOS[-1][2] - 0.01)), jogo(T_JOGO)
-    k = 120 * math.sin(u * math.pi)
-    a, b = P.borrao_h(a, k), P.borrao_h(b, k)
-    img = Image.new("RGBA", (W, H))
-    img.paste(a, (int(-W * u), 0))
-    img.paste(b, (int(W * (1 - u)), 0))
-    return img
+    """Olha pra frente de novo (chicote no sentido contrário) e já é a pista."""
+    return chicote(atras(t), jogo(T_JOGO), ease(seg(t, T_VIRA, T_JOGO)), -1)
 
 
 def frame(fi):
     t = fi / FPS
-    if t < T_VIRA:
+    if t < T_OLHA:
         img = corrida(t)
+    elif t < T_ATRAS:
+        img = chicote(corrida(t), atras(t), ease(seg(t, T_OLHA, T_ATRAS)), 1)
+    elif t < T_VIRA:
+        img = atras(t)
     elif t < T_JOGO:
         img = vira(t)
     elif t < T_CTA:
@@ -108,7 +137,8 @@ def audio():
     fx = np.zeros(n)
     fx += P.passos(0.0, T_VIRA, 0.6)[:n] if len(P.passos(0.0, T_VIRA, 0.6)) >= n else np.pad(P.passos(0.0, T_VIRA, 0.6), (0, n))[:n]
     fx += np.pad(P.respira(0.1, T_VIRA), (0, n))[:n]
-    cues = [(T_VIRA, "swoosh", 0.9), (T_JOGO, "crowd", 0.9), (T_JOGO + 0.05, "bugle", 0.8),
+    fx += np.pad(P.passos(T_ATRAS - 0.4, T_VIRA, 0.9, 3.2, grave=True), (0, n))[:n]  # os mascotes chegando
+    cues = [(T_OLHA, "swoosh", 0.9), (T_VIRA, "swoosh", 0.9), (T_JOGO, "crowd", 0.9), (T_JOGO + 0.05, "bugle", 0.8),
             (T_JOGO + 0.75, "pop", 0.6), (T_CTA, "cash", 0.6)]
     cues += [(t0 + 0.1, "boing", 0.45) for t0, _, _ in ULTRA]
     for t, nome, g in cues:
