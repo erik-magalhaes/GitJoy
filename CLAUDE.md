@@ -1049,6 +1049,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Gato da capa como lua, estrelas e cartas oficiais flutuando com paralaxe do movimento da câmera, luz rosa no
   horizonte), HUD VR com MIRAS que seguem as peças (caixas do isnet suavizadas) e regras em painéis → "DESCONECTANDO" →
   abre o olho na MESMA mesa com a sala de verdade + "...ESSE JOGO É MUITO BOM!" → comenta e CTA do `vr.py`.
+  **REJEITADO (9/nov): "ficou horrível".** Ele pediu um PROMPT pro Gemini (Veo) fazer o voo em 1ª pessoa a partir de
+  UMA FOTO do tabuleiro (mandei 3 prompts em inglês: mergulho na Festa do Chá, voo rasante até a Alice, giro no Gato).
+  Ao receber os clipes: montar como a série "a caixa ganha vida" (`serie_caixa.py`), sem recorte de fundo.
 - **3 Reels "chama a Sua Vez pro seu evento de fim de ano" (`festa-reels/`, 5/nov, pedido dele: "seja criativo, não use a
   mesma coisa de sempre"; ele pediu os TRÊS e liberou voz de IA "se precisar"):** base `comum_festa.py` (cenas REAIS deles
   via `becas-reels/kit.py`, entrega com som / para música a −15,5 LUFS). `previsao.py` = PREVISÃO DO TEMPO da
