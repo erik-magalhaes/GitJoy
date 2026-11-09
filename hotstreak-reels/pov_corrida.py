@@ -3,10 +3,10 @@
 atrás de mim... e de repente eu tô DENTRO do jogo". Tudo desenhado aqui (ele não quer Gemini nem gravar), no estilo
 chapado da arte do jogo, com os mascotes e a torcida OFICIAIS do manual (p_*.png, v_torcida_limpa.png).
 
-    0–4,2     rua em 1ª pessoa (perspectiva de verdade: casas, muros, árvores e postes passando, balanço do passo)
+    0–4,2     correndo na rua DE VERDADE (gravação deles na calçada da Matriz, 2x, balanço de corrida)
     4,2–4,7   olha pra trás (chicote com borrão)
-    4,7–8,4   os 4 mascotes correndo atrás de você na rua
-    8,4–9,0   bandeira quadriculada: a rua vira o jogo
+    4,7–8,4   os 4 mascotes correndo atrás de você na mesma rua (o vídeo de trás pra frente; espelhar deixava a placa da Alquifarma ao contrário)
+    8,4–8,9   olha pra frente de novo (chicote) e a rua virou a pista do Hot Streak
     9,0–15,4  pista do Hot Streak em 1ª pessoa, torcida, confete; os mascotes te ultrapassam com o nome BR
     15,4–19   "EM QUEM VOCÊ APOSTA?" com os 4
     19–24     tela final do hs.py
@@ -34,7 +34,7 @@ OUT = HS.OUT
 sys.path.insert(0, os.path.join(ROOT, "..", "listas-reels"))
 from base import final_loudness  # noqa: E402
 
-T_OLHA, T_ATRAS, T_VIRA, T_JOGO, T_COM, T_CTA, DUR = 4.2, 4.7, 8.4, 9.0, 15.4, 19.0, 24.0
+T_OLHA, T_ATRAS, T_VIRA, T_JOGO, T_COM, T_CTA, DUR = 4.2, 4.7, 8.4, 8.9, 15.4, 19.0, 24.0
 F = 950.0           # distância focal (px)
 HC = 1.55           # altura do olho (m)
 Y0 = 820            # horizonte na tela
@@ -209,8 +209,9 @@ def mascote_frente(img, nome, x, z, t, fase, dy=0.0, dx=0.0, alt=1.7):
     sq = 1 + 0.06 * math.cos(2 * ph)
     d = ImageDraw.Draw(img, "RGBA")
     gx, gy = proj(x, 0, z, dy, dx)
-    d.ellipse((gx - h * 0.3, gy - h * 0.04, gx + h * 0.3, gy + h * 0.04), fill=(20, 40, 20, 90))
-    cola(img, com_sombra(nome, int(min(2400, max(40, h)))), px, py - h * 0.5, 8 * math.sin(ph), 1.0, 1 / sq, sq)
+    d.ellipse((gx - h * 0.26, gy - h * 0.035, gx + h * 0.26, gy + h * 0.035), fill=(25, 25, 25, 70))
+    # +0,07h: o sprite com sombra tem margem embaixo; assim o pé encosta na sombra do chão
+    cola(img, com_sombra(nome, int(min(2400, max(40, h)))), px, py - h * 0.43, 8 * math.sin(ph), 1.0, 1 / sq, sq)
 
 
 def borrao_h(img, k):
@@ -220,9 +221,29 @@ def borrao_h(img, k):
     return Image.fromarray(a).convert("RGBA")
 
 
+# ---------------------------------------------------------------- rua DE VERDADE (gravação deles no Beca's, 6/nov)
+REAL = os.path.join(OUT, "rua_real")   # 151125 de 12 a 23 s (calçada da Matriz, sem placa de carro), 30 q/s
+NREAL = len(os.listdir(REAL)) if os.path.isdir(REAL) else 1
+DY_REAL = 20                            # horizonte da calçada no vídeo (~y 780)
+
+
+def rua_real(t, para_tras=False):
+    """Correndo de verdade: o vídeo deles a 2x com balanço de corrida. Pra trás = o mesmo trecho de trás pra frente."""
+    by, bx, br = balanco(t, 1.2)
+    s = 0.5 + t * 2.0 if not para_tras else 10.6 - (t - T_OLHA) * 1.7
+    n = int(min(NREAL, max(1, round(s * 30))))
+    im = Image.open(os.path.join(REAL, "%04d.jpg" % n)).convert("RGB")
+    k = 1.08
+    im = im.resize((int(W * k), int(H * k)), Image.BICUBIC)
+    x0 = (im.width - W) / 2 - bx
+    y0 = (im.height - H) / 2 - by * 0.8
+    im = im.crop((int(x0), int(y0), int(x0) + W, int(y0) + H)).rotate(br, resample=Image.BICUBIC)
+    return im.convert("RGBA")
+
+
 # ---------------------------------------------------------------- cenas
 def cena_rua(t):
-    img = rua(t, 7, True)
+    img = rua_real(t)
     if t < 3.3:
         cola(img, placa("EU TAVA SÓ\nCORRENDO NORMAL...", 84, WHITE, INK), 540, 360, -2, pop(t, 0.15))
     else:
@@ -235,12 +256,12 @@ def cena_rua(t):
 
 def cena_atras(t, olhando=1.0):
     by, bx, br = balanco(t, 1.3)
-    by += DY_RUA
-    img = rua(t, 11, False)
+    by = DY_REAL + by * 0.3
+    img = rua_real(t, True)
     u = t - T_ATRAS
     for k, (nome, _) in enumerate(MASC):
         x = (-0.95, 1.0, -0.4, 0.45)[k]
-        z = (3.3, 3.6, 4.9, 5.3)[k] - 0.9 * ease(seg(u, 0, 3.5))
+        z = (2.9, 3.2, 4.3, 4.6)[k] - 0.8 * ease(seg(u, 0, 3.5))
         mascote_frente(img, nome, x, z, t, k * 1.4, by, bx)
     if u > 0.2:
         cola(img, placa("...AÍ EU OLHEI\nPRA TRÁS!", 90, RED, YEL), 540, 330, 2, pop(t, T_ATRAS + 0.2))
@@ -252,7 +273,7 @@ def cena_atras(t, olhando=1.0):
 def cena_olha(t):
     """Chicote: a rua da frente sai pra esquerda borrada e a de trás entra pela direita."""
     u = ease(seg(t, T_OLHA, T_ATRAS))
-    a = rua(t, 7, True)
+    a = rua_real(t)
     b = cena_atras(t)
     k = 120 * math.sin(u * math.pi)
     a, b = borrao_h(a, k), borrao_h(b, k)
@@ -341,10 +362,16 @@ def cena_jogo(t):
 
 
 def cena_vira(t):
-    """Bandeira quadriculada passando: atrás dela a rua vira a pista do jogo."""
-    u = seg(t, T_VIRA, T_JOGO)
-    img = cena_atras(t) if u < 0.5 else cena_jogo(max(t, T_JOGO))
-    return HS.bandeirada(img, u)
+    """Olha pra FRENTE de novo (chicote no sentido contrário) e a rua virou a pista do Hot Streak."""
+    u = ease(seg(t, T_VIRA, T_JOGO))
+    a = cena_atras(t)
+    b = cena_jogo(T_JOGO + 0.2)
+    k = 120 * math.sin(u * math.pi)
+    a, b = borrao_h(a, k), borrao_h(b, k)
+    img = Image.new("RGBA", (W, H))
+    img.paste(a, (int(W * u), 0))
+    img.paste(b, (int(-W * (1 - u)), 0))
+    return img
 
 
 def cena_comenta(t):
@@ -427,7 +454,7 @@ def audio():
     fx += passos(0.0, T_VIRA, 0.5)
     fx += respira(0.1, T_VIRA)
     fx += passos(3.3, T_VIRA, 0.9, 3.2, grave=True)  # os mascotes chegando: TUM TUM
-    cues = [(T_OLHA, "swoosh", 0.9), (T_ATRAS + 1.4, "hit", 0.6), (T_VIRA, "crash", 0.7), (T_JOGO, "crowd", 0.9),
+    cues = [(T_OLHA, "swoosh", 0.9), (T_ATRAS + 1.4, "hit", 0.6), (T_VIRA, "swoosh", 0.9), (T_JOGO, "crowd", 0.9),
             (T_JOGO + 0.05, "bugle", 0.8), (T_COM, "ding", 0.6), (T_COM + 1.3, "pop", 0.6), (T_CTA, "cash", 0.6)]
     cues += [(t0 + 0.1, "boing", 0.5) for t0, _, _ in ULTRAPASSA]
     for t, nome, g in cues:

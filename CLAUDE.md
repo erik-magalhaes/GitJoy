@@ -240,6 +240,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   ultrapassando com o nome BR (JIBA, GLUGLU, BRINCO, MONA) → "E VOCÊ, EM QUEM APOSTA? COMENTA AQUI!" → `HS.cena_cta`.
   24 s, sem narração, `pov_{com_som,para_musica}_final.mp4` (passos, respiração, galope depois da virada).
   `foto_gemini.py` (imagem da pista pro Gemini) ficou sem uso.
+  **2ª rodada (9/nov): "o começo correndo como VIDA REAL; olha pra trás e vê os bonecos numa rua normal; olha pra frente e
+  é a pista".** A rua desenhada saiu: `rua_real()` usa a gravação DELES no caminho do Beca’s (151125, 12–23 s = calçada
+  da Matriz sem placa de carro → `out/rua_real/`, 30 q/s, leve hqdn3d/contraste) a 2x com balanço de corrida; olhando
+  pra trás = o MESMO trecho de trás pra frente (sem espelhar: a placa da Alquifarma ficava ao contrário) com os mascotes
+  pisando na calçada (sombra cinza, sprite descido 0,07h); olhar pra frente = chicote no sentido contrário direto na pista.
 - **Reels do hobby (`hobby-reels/`):** ele pediu um vídeo explicando os jogos modernos para quem não conhece o hobby,
   com a comparação de preço (loja × aluguel) e a promoção progressiva. Escolheu o visual 1 (estante) e pediu que **eu mesmo
   fizesse a narração, "sem cara de IA"**. Voz: `pt-BR-AntonioNeural` (edge-tts), gerada por `gerar_voz.py`. O edge-tts
