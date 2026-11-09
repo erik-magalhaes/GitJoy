@@ -245,6 +245,14 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   da Matriz sem placa de carro → `out/rua_real/`, 30 q/s, leve hqdn3d/contraste) a 2x com balanço de corrida; olhando
   pra trás = o MESMO trecho de trás pra frente (sem espelhar: a placa da Alquifarma ficava ao contrário) com os mascotes
   pisando na calçada (sombra cinza, sprite descido 0,07h); olhar pra frente = chicote no sentido contrário direto na pista.
+  **3ª rodada (9/nov): "não usa esse vídeo, usa um da internet sem direitos; não gostei de ficar DESCREVENDO; só
+  correndo e depois dentro do jogo com 'é assim que você se sente jogando Hot Streak'"** → `hotstreak-reels/sente.py`
+  (18,5 s): 3 planos de gente correndo do **Mixkit** (licença gratuita, sem atribuição; mixkit.co e assets.mixkit.co
+  passam pelo proxy, Pexels/Pixabay dão 403; `https://assets.mixkit.co/videos/<id>/<id>-2160.mp4`; brutos em
+  `hotstreak-reels/brutos/stock/`, fora do git): 40765 pés (P&B), 40748 moça vindo, 717 rapaz de costas; recorte 9:16 em
+  `out/stock/` → chicote → pista em 1ª pessoa com os mascotes passando (sem nomes) + "É ASSIM QUE VOCÊ SE SENTE JOGANDO /
+  HOT STREAK!" → `HS.cena_cta`. Sem gancho escrito na corrida (pedido dele). Busca de clipes: páginas
+  `mixkit.co/free-stock-video/discover/<termo>/`, ids e títulos nos links `/free-stock-video/<titulo>-<id>/`.
 - **Reels do hobby (`hobby-reels/`):** ele pediu um vídeo explicando os jogos modernos para quem não conhece o hobby,
   com a comparação de preço (loja × aluguel) e a promoção progressiva. Escolheu o visual 1 (estante) e pediu que **eu mesmo
   fizesse a narração, "sem cara de IA"**. Voz: `pt-BR-AntonioNeural` (edge-tts), gerada por `gerar_voz.py`. O edge-tts
