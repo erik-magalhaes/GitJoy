@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Hot Streak — "É ASSIM QUE VOCÊ SE SENTE JOGANDO HOT STREAK" (9/nov, 3ª rodada do POV): ele não quis a gravação deles
-nem os textos contando a história. Agora: só gente CORRENDO (vídeos LIVRES do Mixkit, licença gratuita sem atribuição:
-40765 pés, 40748 moça correndo, 717 rapaz de costas; 4K → recorte 9:16 em out/stock/) → chicote → dentro do jogo em 1ª
+nem os textos contando a história. Agora: o OLHAR de quem corre (vídeo LIVRE do Mixkit, licença gratuita sem atribuição:
+40656 = POV andando num caminho de parque, já vertical, a 2x + balanço de corrida; out/stock/40656) → chicote → jogo em 1ª
 pessoa (pista, torcida oficial, os 4 mascotes passando) com UMA frase só → tela final do hs.py.
 
     /usr/bin/python3 sente.py --frame 0.5 2 3.8 5 6.5 9 12 15
@@ -21,7 +21,7 @@ from hs import W, H, FPS, RED, YEL, WHITE, INK, cola, placa, confete, pop, logo_
 
 OUT = HS.OUT
 STOCK = os.path.join(OUT, "stock")
-PLANOS = [("40765", 0.0, 1.6), ("40748", 1.6, 3.3), ("717", 3.3, 5.0)]  # (clipe, início, fim) no vídeo
+PLANOS = [("40656", 0.0, 5.0)]  # (clipe, início, fim): POV andando no parque (Mixkit 40656, vertical) a 2x = correndo
 T_VIRA, T_JOGO, T_CTA = 5.0, 5.45, 13.5
 DUR = T_CTA + 5.0
 ULTRA = [(6.2, 0, -2.4), (7.4, 1, 2.4), (8.6, 2, -0.8), (9.8, 3, 0.8)]
@@ -37,11 +37,15 @@ def quadro_stock(t):
 
 
 def corrida(t):
-    img = quadro_stock(t)
-    for clip, a, b in PLANOS[1:]:  # cortes secos com um "flash" curtinho na batida
-        if 0 <= t - a < 0.08:
-            img.alpha_composite(Image.new("RGBA", (W, H), (255, 255, 255, 120)))
-    return img
+    """Olhar de quem corre: o POV a 2x + o balanço da cabeça a cada passo (sobe/desce, lado, inclinação)."""
+    im = quadro_stock(t).convert("RGB")
+    by, bx, br = P.balanco(t, 1.5)
+    k = 1.16  # margem pro balanço e a inclinação não mostrarem borda preta
+    im = im.resize((int(W * k), int(H * k)), Image.BICUBIC)
+    x0 = (im.width - W) / 2 - bx
+    y0 = (im.height - H) / 2 - by
+    im = im.crop((int(x0), int(y0), int(x0) + W, int(y0) + H)).rotate(br, resample=Image.BICUBIC)
+    return im.convert("RGBA")
 
 
 def jogo(t):

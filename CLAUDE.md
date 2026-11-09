@@ -253,6 +253,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   `out/stock/` → chicote → pista em 1ª pessoa com os mascotes passando (sem nomes) + "É ASSIM QUE VOCÊ SE SENTE JOGANDO /
   HOT STREAK!" → `HS.cena_cta`. Sem gancho escrito na corrida (pedido dele). Busca de clipes: páginas
   `mixkit.co/free-stock-video/discover/<termo>/`, ids e títulos nos links `/free-stock-video/<titulo>-<id>/`.
+  **4ª (9/nov): "precisa ser PRIMEIRA PESSOA, o olhar de quem corre"** → um plano só: Mixkit **40656** (POV andando num
+  caminho de parque, já 1080x1920; o 4K não baixa, só o `-1080.mp4`) a 2x (`setpts=0.5*PTS`) + balanço de corrida
+  (zoom 1,16 pra não aparecer borda na inclinação). Outros POV de caminho no Mixkit: 28827 (passarela no outono, deitado).
 - **Reels do hobby (`hobby-reels/`):** ele pediu um vídeo explicando os jogos modernos para quem não conhece o hobby,
   com a comparação de preço (loja × aluguel) e a promoção progressiva. Escolheu o visual 1 (estante) e pediu que **eu mesmo
   fizesse a narração, "sem cara de IA"**. Voz: `pt-BR-AntonioNeural` (edge-tts), gerada por `gerar_voz.py`. O edge-tts
