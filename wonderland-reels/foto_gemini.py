@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Imagem inicial 9:16 pro Gemini (Veo) fazer o voo em 1ª pessoa do Wonderland's War (9/nov: eles não querem gravar).
-Tudo OFICIAL da Galápagos: tabuleiro retificado e ampliado (tabuleiro_x4) em perspectiva sobre uma mesa de madeira
+Tudo OFICIAL da Galápagos (os originais da loja têm só 607 px: x4_02/x4_03 = ampliados 4x com ampliar_tab.py): tabuleiro retificado e ampliado (tabuleiro_x4) em perspectiva sobre uma mesa de madeira
 escura + os standees da foto oficial (gal_WLW001_03 com a máscara standees_rembg) em pé no meio do tabuleiro.
 
     /usr/bin/python3 foto_gemini.py   → out/gemini/wonderland_9x16.png
@@ -13,7 +13,8 @@ from PIL import Image, ImageFilter
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 O = os.path.join(ROOT, "assets", "orig")
-W, H = 1080, 1920
+W, H = 1440, 2560  # maior que o Reels: o Gemini recebe a imagem com mais detalhe
+K = W / 1080
 
 
 def mesa():
@@ -41,8 +42,8 @@ def tabuleiro():
 
 
 def standees(larg):
-    im = Image.open(os.path.join(O, "gal_WLW001_03.jpg")).convert("RGB")
-    m = Image.open(os.path.join(O, "standees_rembg.png")).convert("L")
+    im = Image.open(os.path.join(O, "x4_03.png")).convert("RGB")  # original 607 px ampliado 4x (Real-ESRGAN)
+    m = Image.open(os.path.join(O, "standees_rembg.png")).convert("L").resize(im.size, Image.LANCZOS)
     im.putalpha(m)
     im = im.crop(im.getbbox())
     return im.resize((larg, int(im.height * larg / im.width)), Image.LANCZOS)
@@ -50,7 +51,7 @@ def standees(larg):
 
 def tabuleiro_foto():
     """Foto oficial do jogo montado (render da Galápagos, fundo branco → transparente)."""
-    im = Image.open(os.path.join(O, "gal_WLW001_02.jpg")).convert("RGB")
+    im = Image.open(os.path.join(O, "x4_02.png")).convert("RGB")
     a = np.asarray(im).astype(np.int16)
     bran = (a.min(2) > 238).astype(np.uint8)
     n, lab = cv2.connectedComponents(bran)
@@ -68,16 +69,16 @@ def main():
     img = mesa()
     tf = tabuleiro_foto()
     tb = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    tb.alpha_composite(tf, ((W - tf.width) // 2 - 40, 1040 - tf.height // 2))
+    tb.alpha_composite(tf, (int((W - tf.width) // 2 - 40 * K), int(1040 * K - tf.height // 2)))
     sombra = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    sombra.putalpha(tb.getchannel("A").point(lambda v: int(v * 0.6)).filter(ImageFilter.GaussianBlur(25)))
-    img.alpha_composite(sombra, (0, 18))
+    sombra.putalpha(tb.getchannel("A").point(lambda v: int(v * 0.6)).filter(ImageFilter.GaussianBlur(25 * K)))
+    img.alpha_composite(sombra, (0, int(18 * K)))
     img.alpha_composite(tb)
-    s = standees(560)
-    x, y = (W - s.width) // 2 + 30, 1010 - s.height
+    s = standees(int(560 * K))
+    x, y = int((W - s.width) // 2 + 30 * K), int(1010 * K - s.height)
     sh = Image.new("RGBA", s.size, (0, 0, 0, 0))
     sh.putalpha(s.getchannel("A").point(lambda v: int(v * 0.45)))
-    sh = sh.resize((s.width, max(1, s.height // 6))).filter(ImageFilter.GaussianBlur(12))
+    sh = sh.resize((s.width, max(1, s.height // 6))).filter(ImageFilter.GaussianBlur(12 * K))
     img.alpha_composite(sh, (x + 20, y + s.height - sh.height // 2))
     img.alpha_composite(s, (x, y))
     os.makedirs(os.path.join(ROOT, "out", "gemini"), exist_ok=True)
@@ -85,5 +86,19 @@ def main():
     img.convert("RGB").save(os.path.join(ROOT, "out", "gemini", "wonderland_9x16.jpg"), quality=92)
 
 
+def personagens():
+    """Opção B: só os standees oficiais (bem nítidos depois de ampliar) grandes, de perto, na mesa de madeira."""
+    img = mesa()
+    s = standees(int(W * 0.96))
+    x, y = (W - s.width) // 2, int(H * 0.62) - s.height
+    sh = Image.new("RGBA", s.size, (0, 0, 0, 0))
+    sh.putalpha(s.getchannel("A").point(lambda v: int(v * 0.5)))
+    sh = sh.resize((s.width, max(1, s.height // 7))).filter(ImageFilter.GaussianBlur(16 * K))
+    img.alpha_composite(sh, (x + int(25 * K), y + s.height - sh.height // 2))
+    img.alpha_composite(s, (x, y))
+    img.convert("RGB").save(os.path.join(ROOT, "out", "gemini", "wonderland_personagens_9x16.png"))
+
+
 if __name__ == "__main__":
     main()
+    personagens()
