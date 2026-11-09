@@ -885,6 +885,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   post_1_sorteio + post_2_bonus (carrossel 1080x1350) e story_sorteio + story_bonus (1080x1920). Texto obrigatório:
   "não é patrocinada nem administrada pelo Instagram" (ele pediu para TIRAR da imagem o "não precisa alugar nem comprar
   nada": isso fica só na legenda). Prêmio: retirada em Mauá ou envio (sem citar custo de frete).
+  **Lembrete em vídeo para os Stories** (`promo/sorteio_story.py`, 9/nov, "bem rapidinho, só pra lembrar"): 9 s, mesmo
+  visual com as luzes pulsando na batida e o equalizador mexendo, LEMBRETE! / SORTEIO DO HITSTER!, disco girando atrás
+  da caixa, 3 passos, "toca aqui e participa:" + seta e espaço livre (y≈1450–1610) para o adesivo do post, datas, bônus
+  de +2 dias e o aviso do Instagram → `promo/out/sorteio/lembrete_{com_som,para_musica}_final.mp4`.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
 - **Reels "TIRA PRINT: qual jogador você é?" (1/nov, ideia dele: tarô + bichinho engraçado):** loop curto como o
   `roleta-reels/taro.py` (troca a cada 2 quadros), uma carta grande com bichinho + tipo de jogador + jogo do acervo.
