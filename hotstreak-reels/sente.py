@@ -24,9 +24,9 @@ STOCK = os.path.join(OUT, "stock")
 PLANOS = [("40656", 0.0, 5.0)]  # (clipe, início, fim): POV andando no parque (Mixkit 40656, vertical) a 2x = correndo
 # 0–3,6 correndo · 3,6–4,0 olha pra trás · 4,0–7,4 os mascotes vindo atrás (mesmo vídeo, espelhado e de trás pra
 # frente) · 7,4–7,85 olha pra frente de novo = a pista · frase · tela final
-T_OLHA, T_ATRAS, T_VIRA, T_JOGO, T_CTA = 3.6, 4.0, 7.4, 7.85, 15.5
+T_OLHA, T_ATRAS, T_VIRA, T_JOGO, T_CTA = 3.4, 3.95, 5.75, 6.3, 13.8   # olhar pra trás: 1,8 s (ele achou longo)
 DUR = T_CTA + 5.0
-ULTRA = [(8.5, 0, -2.4), (9.6, 1, 2.4), (10.7, 2, -0.8), (11.8, 3, 0.8)]
+ULTRA = [(6.9, 0, -2.4), (8.0, 1, 2.4), (9.1, 2, -0.8), (10.2, 3, 0.8)]
 DY_PARQUE = 330   # horizonte do caminho do parque no quadro (~y 1150)
 
 
@@ -71,12 +71,26 @@ def atras(t):
 
 
 def chicote(a, b, u, sentido=1):
-    k = 120 * math.sin(u * math.pi)
-    a, b = P.borrao_h(a, k), P.borrao_h(b, k)
-    img = Image.new("RGBA", (W, H))
-    img.paste(a, (int(-sentido * W * u), 0))
-    img.paste(b, (int(sentido * W * (1 - u)), 0))
-    return img
+    """VIRAR A CABEÇA: a vista desliza de lado com borrão, a cabeça inclina (roll), abaixa um pouco e dá um leve zoom
+    no meio do giro (como quem olha por cima do ombro); no meio passa um borrão das laterais (o resto do giro)."""
+    s = math.sin(u * math.pi)
+    faixa = Image.new("RGBA", (W * 2, H))
+    if sentido > 0:
+        faixa.paste(a, (0, 0))
+        faixa.paste(b, (W, 0))
+        x = W * u
+    else:
+        faixa.paste(b, (0, 0))
+        faixa.paste(a, (W, 0))
+        x = W * (1 - u)
+    img = faixa.crop((int(x), 0, int(x) + W, H))
+    img = P.borrao_h(img, 40 + 220 * s ** 1.5)
+    z = 1 + 0.26 * s  # zoom que cobre os cantos da inclinação
+    img = img.resize((int(W * z), int(H * z)), Image.BICUBIC)
+    img = img.rotate(sentido * 8 * s, resample=Image.BICUBIC)
+    dx = (img.width - W) / 2
+    dy = (img.height - H) / 2 - 50 * s  # a cabeça abaixa um pouco no meio do giro
+    return img.crop((int(dx), int(dy), int(dx) + W, int(dy) + H))
 
 
 def jogo(t):
@@ -95,8 +109,6 @@ def jogo(t):
     if u > 0.75:
         b = 1 + 0.03 * abs(math.sin(t * 5))
         cola(img, placa("HOT STREAK!", 120, RED, YEL), 540, 1430, 2, pop(t, T_JOGO + 0.75) * b)
-    if u < 0.15:
-        img.alpha_composite(Image.new("RGBA", (W, H), (255, 255, 255, int(220 * (1 - u / 0.15)))))
     return img
 
 

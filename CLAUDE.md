@@ -259,6 +259,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **5ª (9/nov, "esse vídeo tá perfeito"):** + OLHA PRA TRÁS: o mesmo vídeo ESPELHADO e de trás pra frente com os 4
   mascotes vindo correndo no caminho (`atras()`, horizonte `DY_PARQUE`), e ao olhar pra frente de novo (chicote no sentido
   contrário) já é a pista; frase: "É ASSIM QUE VOCÊ SE SENTE QUANDO JOGA / HOT STREAK!". 20,5 s.
+  **6ª ("tá legal"; a transição tem que PARECER a pessoa olhando pra trás e pra frente; o olhar pra trás longo):**
+  `chicote()` virou um GIRO DE CABEÇA (faixa a|b deslizando com borrão forte, zoom 1+0,26·sen que esconde os cantos da
+  inclinação de 8°, cabeça abaixando 50 px no meio, 0,55 s), sem flash branco ao chegar na pista; olhar pra trás 1,8 s. 18,8 s.
 - **Reels do hobby (`hobby-reels/`):** ele pediu um vídeo explicando os jogos modernos para quem não conhece o hobby,
   com a comparação de preço (loja × aluguel) e a promoção progressiva. Escolheu o visual 1 (estante) e pediu que **eu mesmo
   fizesse a narração, "sem cara de IA"**. Voz: `pt-BR-AntonioNeural` (edge-tts), gerada por `gerar_voz.py`. O edge-tts
