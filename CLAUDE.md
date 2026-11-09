@@ -232,6 +232,14 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   bata 100%** (no máximo avise). Voz acelerada 1,086x (atempo 1,06 × 1,025), corridinha a 62% e CTA_HOLD 2,3 → 69,5 s. **Narrado e entregue** (com e sem legenda).
   Gravador:
   `https://raw.githack.com/erik-magalhaes/GitJoy/24baf7085f0f95b8c9618b54b379541b9fecb2b5/hotstreak-reels/gravador/Gravar_narracao_HotStreak.html`.
+  **POV "tô só correndo na rua... olho pra trás... tô DENTRO do Hot Streak" (`hotstreak-reels/pov_corrida.py`, 9/nov,
+  ideia dele):** ele NÃO quer Gemini nem gravar ("é você criar, igual os outros") → tudo desenhado aqui: rua em
+  perspectiva de verdade (`proj`, casas/muros/árvores/postes chapados no estilo do jogo, balanço do passo, horizonte da rua
+  mais baixo `DY_RUA`), "TUM TUM!", chicote com borrão pra trás, os 4 mascotes OFICIAIS (p_*.png) correndo atrás na rua,
+  bandeira quadriculada (`HS.bandeirada`) → pista do jogo em 1ª pessoa com a torcida oficial, confete, os mascotes
+  ultrapassando com o nome BR (JIBA, GLUGLU, BRINCO, MONA) → "E VOCÊ, EM QUEM APOSTA? COMENTA AQUI!" → `HS.cena_cta`.
+  24 s, sem narração, `pov_{com_som,para_musica}_final.mp4` (passos, respiração, galope depois da virada).
+  `foto_gemini.py` (imagem da pista pro Gemini) ficou sem uso.
 - **Reels do hobby (`hobby-reels/`):** ele pediu um vídeo explicando os jogos modernos para quem não conhece o hobby,
   com a comparação de preço (loja × aluguel) e a promoção progressiva. Escolheu o visual 1 (estante) e pediu que **eu mesmo
   fizesse a narração, "sem cara de IA"**. Voz: `pt-BR-AntonioNeural` (edge-tts), gerada por `gerar_voz.py`. O edge-tts
