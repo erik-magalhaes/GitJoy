@@ -1179,10 +1179,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   perguntou a idade mínima):** linha das guarda-chuvinhas; em cada tela um guarda-chuvinha segura a CAIXA e outro uma
   ETIQUETA DE IDADE redonda ("A PARTIR DE 6 ANOS"), ficha com jogadores, tempo e uma frase. 1ª versão só com jogos de
   criança ("Vai levar a criançada?") → ele: "focou muito na idade; quero um MIX do evento, com jogos pra mais velhos também,
-  numa ESCADINHA 6, 8, 10, 12, 14" e **NADA de The Mind**. Atual: capa com a escadinha (degraus 6+ 7+ 8+ 10+ 13+ 14+ com uma
-  caixa em cima de cada) → Taco Gato 6+, UNO Stacko 7+ (Mattel, 2 a 10; pedido dele), Dixit 8+, King of Tokyo 8+, Splendor
+  numa ESCADINHA 6, 8, 10, 12, 14" e **NADA de The Mind**. Atual: capa com a escadinha (degraus 4+ 6+ 8+ 10+ 13+ 14+ com uma
+  caixa em cima de cada) → **UNO Stacko 4+** (2 a 10; a caixa da Mattel diz 7+, mas ELE pediu 4+ depois de eu avisar),
+  Dobble: Disney 6+ (Galápagos DOB114, 2 a 8, 15 min), Taco Gato 6+, Dixit 8+, King of Tokyo 8+, Splendor
   Duel 10+, Take Time 10+, Spyfall 13+ (PaperGames, 3 a 8), Hitster 14+, Coffee Rush 14+, Cores com Dicas 14+ (Grok, 3 a 10, 30 min,
-  lido na caixa) e Hot Streak 14+ (Galápagos, 2 a 9; o site diz 6+) — os dois últimos ele pediu: "tem jogos que a gente vai
+  lido na caixa) (pediu junto com o Hot Streak, que depois TIROU: "muita coisa com 14"; Hot Streak = 14+ na Galápagos, 6+ no site): "tem jogos que a gente vai
   levar que você não pôs" (a lista de 30 jogos de 6/nov NÃO é completa; pedir a lista atual) → "E tem muito mais na mesa" →
   "TRAZ A GALERA!" + "Comenta: qual desses você quer jogar?". 14 telas + 14 Stories (`out/becas/criancas/`).
   **Idade: o site da Sua Vez ERRA às vezes** (Coffee Rush 8+ no site, 14+ na Galápagos; Bananagrams 7+ × 8+; Spyfall

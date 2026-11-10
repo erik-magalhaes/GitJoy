@@ -7,8 +7,7 @@ outro segura uma ETIQUETA DE IDADE redonda grande ("A PARTIR DE 5 ANOS"), a info
 
 Idades CONFERIDAS na editora (o site da Sua Vez às vezes diverge, ex.: Coffee Rush aparece 8+ no site e é 14+ na
 Galápagos): Go Cuckoo 5+ (Devir), Taco Gato 6+ (PaperGames), Gravity Superstar, Bananagrams e Dixit 8+
-(API da Galápagos, x_faixaEtaria), Cores com Dicas 14+, 3 a 10, 30 min (caixa da Grok), Hot Streak 14+ e 2 a 9 (Galápagos; o site
-diz 6+), Draftosaurus 8+ (MeepleBR), King of Tokyo 8+ (Devir/IELLO), UNO Stacko 7+ e 2 a 10 (Mattel; ele pediu no lugar do The Mind:
+(API da Galápagos, x_faixaEtaria), Cores com Dicas 14+, 3 a 10, 30 min (caixa da Grok), Draftosaurus 8+ (MeepleBR), King of Tokyo 8+ (Devir/IELLO), UNO Stacko 2 a 10 (a caixa da Mattel diz 7+, mas ELE pediu 4+; ele pediu no lugar do The Mind:
 "pode ser jogado por criança mais jovem").
 
     /usr/bin/python3 criancas_becas.py
@@ -32,10 +31,12 @@ W, H = 1080, 1350
 
 # (nome, arquivo da caixa, idade, jogadores, tempo, frase, cor)
 JOGOS = [
+    ("UNO Stacko", "promo/assets/criancas/uno_stacko.png", 4, "2 a 10", "partida rápida",
+     "Tire da torre um bloco da cor ou do número pedido e ponha no topo. Derrubou, perdeu!", ROSA),
+    ("Dobble: Disney", "promo/assets/criancas/orig/dobble_disney_galapagos.png", 6, "2 a 8", "15 min",
+     "Duas cartas sempre têm UM personagem igual. Quem achar primeiro, leva!", PET),
     ("Taco Gato Cabra\nQueijo Pizza", "promo/assets/criancas/taco_gato.png", 6, "2 a 8", "10 min",
      "Vira a carta falando a palavra. Carta e palavra iguais? Todo mundo bate na pilha: o último leva!", AMA),
-    ("UNO Stacko", "promo/assets/criancas/uno_stacko.png", 7, "2 a 10", "partida rápida",
-     "Tire da torre um bloco da cor ou do número pedido e ponha no topo. Derrubou, perdeu!", ROSA),
     ("Dixit", "hobby-reels/assets/caixas/dixit.png", 8, "3 a 6", "30 min",
      "Dê uma pista sobre uma carta ilustrada e veja quem adivinha qual é!", LAR),
     ("King of Tokyo", "hobby-reels/assets/caixas/king_of_tokyo.png", 8, "2 a 6", "30 min",
@@ -52,12 +53,10 @@ JOGOS = [
      "Vire barista: junte os ingredientes e entregue os pedidos antes da fila crescer!", VERDE),
     ("Cores com Dicas", "promo/assets/criancas/orig/cores_com_dicas_grok.png", 14, "3 a 10", "30 min",
      "Dê uma dica de uma palavra e veja quem acha a cor certa no meio de 480 cores!", ROSA),
-    ("Hot Streak", "promo/assets/criancas/orig/hot_streak_galapagos.png", 14, "2 a 9", "30 min",
-     "Aposte em qual mascote vai ganhar a corrida mais maluca do mundo!", LAR),
 ]
 # os outros jogos da lista da tarde (caixas recortadas do site) para a tela "e tem muito mais"
 OUTROS = ["telma", "tapalavras", "say_my_name", "uga_buga", "santorini", "marrakech", "draftosaurus", "hive",
-          "wandering_towers", "canvas", "dixit_disney_edition", "break_the_cube"]
+          "wandering_towers", "canvas", "break_the_cube"]
 
 
 # ---------------------------------------------------------------- recortes (fotos de produto em fundo branco)
@@ -186,7 +185,7 @@ def tela_capa():
         BC.segura(img, x, y, wg, BC.CORES[k], seed=k)
     E.cola(img, E.pilula("TARDE DE JOGOS NO BECA’S · 20/11", 34, PET, BR, fonte_titulo=True), W / 2, 300, -1)
     E.cola(img, E.titulo("TEM JOGO PRA\nTODA IDADE!", 128, LAR), W / 2, 470, -2)
-    degraus = [(0, 6), (1, 7), (2, 8), (4, 10), (6, 13), (7, 14)]
+    degraus = [(0, 4), (1, 6), (3, 8), (5, 10), (7, 13), (8, 14)]
     cores = [AMA, ROSA, LAR, PET, VERDE, ROSA]
     base, larg, x0 = 1210, 168, 36
     d = ImageDraw.Draw(img)
