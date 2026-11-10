@@ -7,7 +7,8 @@ outro segura uma ETIQUETA DE IDADE redonda grande ("A PARTIR DE 5 ANOS"), a info
 
 Idades CONFERIDAS na editora (o site da Sua Vez às vezes diverge, ex.: Coffee Rush aparece 8+ no site e é 14+ na
 Galápagos): Go Cuckoo 5+ (Devir), Taco Gato 6+ (PaperGames), Gravity Superstar, Bananagrams e Dixit 8+
-(API da Galápagos, x_faixaEtaria), Draftosaurus 8+ (MeepleBR), King of Tokyo 8+ (Devir/IELLO), UNO Stacko 7+ e 2 a 10 (Mattel; ele pediu no lugar do The Mind:
+(API da Galápagos, x_faixaEtaria), Cores com Dicas 14+, 3 a 10, 30 min (caixa da Grok), Hot Streak 14+ e 2 a 9 (Galápagos; o site
+diz 6+), Draftosaurus 8+ (MeepleBR), King of Tokyo 8+ (Devir/IELLO), UNO Stacko 7+ e 2 a 10 (Mattel; ele pediu no lugar do The Mind:
 "pode ser jogado por criança mais jovem").
 
     /usr/bin/python3 criancas_becas.py
@@ -49,6 +50,10 @@ JOGOS = [
      "Ouça a música e encaixe na sua linha do tempo: ela saiu antes ou depois?", PET),
     ("Coffee Rush", "coffee-reels/assets/caixa.png", 14, "2 a 4", "30 min",
      "Vire barista: junte os ingredientes e entregue os pedidos antes da fila crescer!", VERDE),
+    ("Cores com Dicas", "promo/assets/criancas/orig/cores_com_dicas_grok.png", 14, "3 a 10", "30 min",
+     "Dê uma dica de uma palavra e veja quem acha a cor certa no meio de 480 cores!", ROSA),
+    ("Hot Streak", "promo/assets/criancas/orig/hot_streak_galapagos.png", 14, "2 a 9", "30 min",
+     "Aposte em qual mascote vai ganhar a corrida mais maluca do mundo!", LAR),
 ]
 # os outros jogos da lista da tarde (caixas recortadas do site) para a tela "e tem muito mais"
 OUTROS = ["telma", "tapalavras", "say_my_name", "uga_buga", "santorini", "marrakech", "draftosaurus", "hive",
@@ -206,7 +211,7 @@ def tela_jogo(k):
     topo_ficha = 1225 - fi.height
     y_gc = 36 + rnd.randint(0, 24)
     topo_caixa = y_gc - 6 + 14 + 0.75 * 190 + 2 + 20
-    cb = caixa(path, min(560, int(topo_ficha - 40 - topo_caixa)), 470)
+    cb = caixa(path, min(560, int(topo_ficha - 40 - topo_caixa)), 500)
     # caixa à esquerda, etiqueta à direita, cada uma no seu guarda-chuvinha
     BC.segura(img, 300, y_gc, 190, cor, cb, gap=20, rot=rnd.choice((-3, -2, 2, 3)), seed=k)
     BC.segura(img, 805, 90 + rnd.randint(0, 40), 170, BC.CORES[(k + 2) % 5], etiqueta_idade(idade, cor),

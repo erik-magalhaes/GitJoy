@@ -1181,8 +1181,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   criança ("Vai levar a criançada?") → ele: "focou muito na idade; quero um MIX do evento, com jogos pra mais velhos também,
   numa ESCADINHA 6, 8, 10, 12, 14" e **NADA de The Mind**. Atual: capa com a escadinha (degraus 6+ 7+ 8+ 10+ 13+ 14+ com uma
   caixa em cima de cada) → Taco Gato 6+, UNO Stacko 7+ (Mattel, 2 a 10; pedido dele), Dixit 8+, King of Tokyo 8+, Splendor
-  Duel 10+, Take Time 10+, Spyfall 13+ (PaperGames, 3 a 8), Hitster 14+, Coffee Rush 14+ → "E tem muito mais na mesa" →
-  "TRAZ A GALERA!" + "Comenta: qual desses você quer jogar?". 12 telas + 12 Stories (`out/becas/criancas/`).
+  Duel 10+, Take Time 10+, Spyfall 13+ (PaperGames, 3 a 8), Hitster 14+, Coffee Rush 14+, Cores com Dicas 14+ (Grok, 3 a 10, 30 min,
+  lido na caixa) e Hot Streak 14+ (Galápagos, 2 a 9; o site diz 6+) — os dois últimos ele pediu: "tem jogos que a gente vai
+  levar que você não pôs" (a lista de 30 jogos de 6/nov NÃO é completa; pedir a lista atual) → "E tem muito mais na mesa" →
+  "TRAZ A GALERA!" + "Comenta: qual desses você quer jogar?". 14 telas + 14 Stories (`out/becas/criancas/`).
   **Idade: o site da Sua Vez ERRA às vezes** (Coffee Rush 8+ no site, 14+ na Galápagos; Bananagrams 7+ × 8+; Spyfall
   13+ na PaperGames): conferir na editora — Galápagos `ccstore/v1/products/<ID>` → `x_faixaEtaria`; PaperGames
   `papergames.com.br/<jogo>/` ("Idade Recomendada"); Devir/Mattel pela loja.
