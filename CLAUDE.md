@@ -889,6 +889,18 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   visual com as luzes pulsando na batida e o equalizador mexendo, LEMBRETE! / SORTEIO DO HITSTER!, disco girando atrás
   da caixa, 3 passos, "toca aqui e participa:" + seta e espaço livre (y≈1450–1610) para o adesivo do post, datas, bônus
   de +2 dias e o aviso do Instagram → `promo/out/sorteio/lembrete_{com_som,para_musica}_final.mp4`.
+- **Tikal (`tikal-reels/`, 10/nov, pedido dele: "vídeo explicando, tipo animação"):** edição deles = **Super Meeple** (no Brasil
+  pela **Conclave**; site: Estratégico R$ 45, 2–4 jogadores, 90 min). Material OFICIAL da Super Meeple
+  (`supermeeple.com/en/tikal`, wp-content): manual francês `ReglesTikalBD.pdf`, renders `TIKALmeeple/tresors/temples` e a
+  capa 3497 px → `assets/orig/` (fora do git). `recortes.py` → `assets/pecas/`: hexágonos do manual a 400 dpi com máscara de
+  hexágono (lado plano em cima) + Real-ESRGAN (a seta branca da ruína tirada com inpaint), meeple branco sozinho (tingido por
+  cor em `pecas.meeple`) e as 8 fichas de tesouro (grade 4x2 medida com HoughCircles). **Regras conferidas** (manual +
+  rulespal): tira o hexágono do monte e encaixa; 10 PA: explorador no acampamento 1, andar 1 por LAJE do caminho, andar de
+  templo 2 (máx. 2 por templo/turno, 1 explorador por andar), cavar tesouro 3, trocar tesouro 3 (o outro não recusa),
+  acampamento 5, guardião 5 (precisa ter a maioria; templo fica seu até o fim; máx. 2); chefe vale 3 na maioria, empate
+  ninguém pontua; tesouros 1/3/6 (um, par, trinca); 3 vulcões (B, D, F) = contagem, cada um gasta 10 PA antes de contar;
+  contagem final depois do último hexágono. `conceitos.py` → out/conceitos.jpg: A mapa vivo, B trailer na selva, C caderno
+  do arqueólogo. Esperando ele escolher + roteiro de 9 falas mandado.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
 - **Reels "TIRA PRINT: qual jogador você é?" (1/nov, ideia dele: tarô + bichinho engraçado):** loop curto como o
   `roleta-reels/taro.py` (troca a cada 2 quadros), uma carta grande com bichinho + tipo de jogador + jogo do acervo.
