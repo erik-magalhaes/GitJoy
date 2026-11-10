@@ -936,6 +936,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   3,2 s depois da fala; `CORRIGE`: ticar→Tikal, tempos→templos, ruída→ruína, "alugue -te calma a sua vez"→"aluga o Tikal
   na Sua Vez"; o "comenta" vira tela final no "aluga") → `diario.py` (mistura própria `mixa_voz`: trilha abaixa sob a voz)
   → `out/diario_{legendado,sem_legenda}_final.mp4`, 68,9 s. Ele mudou a fala 8 ("...vimos quem conseguiu fazer mais pontos").
+  **2ª gravação (10/nov, "quero gravar de novo"; arquivos `_1.webm`, a 1ª ficou em `raw/v1/`):** ele improvisou mais ("Dia 2
+  / Dia 3 do diário de expedição", "acho que tem até uns vulcões", "Ele não pode recusar, mesmo!") e a voz somou 73 s →
+  `atempo=1.12` no tmp_NN.wav antes do tratamento, pausas ≤0,22 s, LEAD/TAIL 0,15/0,15, tela final 2,3 s → 69,8 s. O texto
+  da legenda é o que ele FALOU, conferido com o Whisper **medium** (`TEXTOS` + `alinha()` no narracao_diario.py: tempos do
+  small, repartidos pelas letras quando a contagem de palavras não bate). Títulos das páginas 4 e 6 viraram "Dia 2"/"Dia 3".
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
 - **Reels "TIRA PRINT: qual jogador você é?" (1/nov, ideia dele: tarô + bichinho engraçado):** loop curto como o
   `roleta-reels/taro.py` (troca a cada 2 quadros), uma carta grande com bichinho + tipo de jogador + jogo do acervo.

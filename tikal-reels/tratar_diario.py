@@ -34,7 +34,7 @@ def main():
         b = TN.corta_resto_respiro(a, sr)
         if len(b) > len(a) - 0.3 * sr:  # o "resto de respiro" às vezes leva uma palavra curta inteira ("Um")
             a = b
-        a = TN.encurta_pausas(a, sr, maxp=0.3)
+        a = TN.encurta_pausas(a, sr, maxp=0.22)
         out = os.path.join(NAR, f"frase_{n:02d}.wav")
         with wave.open(out, "wb") as w:
             w.setnchannels(1); w.setsampwidth(2); w.setframerate(sr)

@@ -115,7 +115,7 @@ def pg_pa(img, t, u, dur):
 
 
 def pg_templo(img, t, u, dur):
-    titulo(img, "Achei um templo!", u)
+    titulo(img, "Dia 2 · achei um templo!", u)
     poe_foto(img, "templo", 540, 860, -2, u, 0.0, 700, 620, 2)
     k1, k2 = dur * 0.4, dur * 0.62
     for j, kk in enumerate((k1, k2)):
@@ -142,7 +142,7 @@ def pg_tesouro(img, t, u, dur):
 
 
 def pg_maioria(img, t, u, dur):
-    titulo(img, "Quem manda no templo?", u)
+    titulo(img, "Dia 3 · quem manda no templo?", u)
     poe_foto(img, "templo", 540, 860, 2, u, 0.0, 700, 620, 4)
     t_chefe = dur * 0.55
     for k, (x, y) in enumerate([(760, 900), (850, 820), (820, 1000)]):

@@ -12,9 +12,41 @@ import wave
 AQUI = os.path.dirname(os.path.abspath(__file__))
 NAR = os.path.join(AQUI, "narracao_diario")
 NOMES = ["gancho", "hexagono", "pa", "templo", "tesouro", "maioria", "guardiao", "vulcao", "cta"]
-LEAD, TAIL, TELA_FINAL = 0.25, 0.35, 3.2
-CORRIGE = {"ticar": "Tikal", "tempos": "templos", "tempo.": "templo!", "ruída": "ruína", "campamento,": "acampamento,",
-           "Por": "Pôr", "alugue": "aluga", "-te": "o", "calma": "Tikal na", "a": "a"}
+LEAD, TAIL, TELA_FINAL = 0.15, 0.15, 2.3
+# 2ª gravação (10/nov): o que ELE falou (conferido com o Whisper medium). As palavras recebem os tempos do Whisper
+# small; se a contagem não bate, os tempos são repartidos pelas letras entre a 1ª e a última palavra ouvida.
+TEXTOS = [
+    "Diário de expedição, dia 1. Cheguei a Tikal e dizem que tem templos perdidos nessa selva.",
+    "A cada turno eu exploro um pedaço novo. Um templo, uma ruína com tesouro... acho que tem até uns vulcões.",
+    "Tenho 10 pontos de ação por turno. Colocar um explorador no acampamento me custou um. E cada pedra que eu encontro "
+    "no caminho me custa mais um.",
+    "Dia 2 do diário de expedição: eu achei um templo! Com dois pontos, escavei mais um andar e ele passou a valer mais.",
+    "Descobri que nas ruínas, se eu cavar um tesouro, custa 3 pontos. Se eu tiver 1, vale 1 ponto. 1 par vale 3. E se eu "
+    "tiver 3 iguais no final, valem 6 pontos.",
+    "Dia 3 do diário de expedição. Descobri que o templo só conta para quem tem mais exploradores nele. Ainda bem que os "
+    "chefes valem por 3.",
+    "Para me garantir, gastei cinco pontos e coloquei um guardião. O templo agora é meu até o final. E eu troquei um "
+    "tesouro com o rival. Ele não pode recusar, mesmo!",
+    "Eu sabia que tinha vulcões, e quando ele apareceu, foi hora de contar: os templos que eu domino e os tesouros que eu "
+    "possuo. E no final, quem teve mais pontos venceu.",
+    "Fim do diário de expedição, por enquanto. E você, escavaria templos ou roubaria tesouros? Comenta aqui! E aluga o "
+    "Tikal na Sua Vez. O link tá na bio.",
+]
+
+
+def alinha(ouvidas, texto):
+    """[(ini, fim, palavra)] do Whisper + texto certo → [(ini, fim, palavra certa)]."""
+    certas = texto.split()
+    if len(certas) == len(ouvidas):
+        return [(a, b, w) for (a, b, _), w in zip(ouvidas, certas)]
+    t0, t1 = ouvidas[0][0], ouvidas[-1][1]
+    pesos = [len(w) + 2 for w in certas]
+    tot, acc, out = sum(pesos), 0, []
+    for w, p in zip(certas, pesos):
+        a = t0 + (t1 - t0) * acc / tot
+        acc += p
+        out.append((a, t0 + (t1 - t0) * acc / tot, w))
+    return out
 
 
 def dur(n):
@@ -29,17 +61,13 @@ def main():
         n = k + 1
         d = dur(n)
         ws = []
-        for a, b, w in pal[f"{n:02d}"]:
-            w2 = CORRIGE.get(w, w)
-            if nome == "cta" and w == "a" and ws and ws[-1]["w"] == "Tikal na":
-                w2 = "Sua"  # "...Tikal na Sua Vez"
-                continue
-            ws.append({"w": w2, "ini": round(t + LEAD + a, 2), "fim": round(t + LEAD + b, 2)})
+        for a, b, w in alinha(pal[f"{n:02d}"], TEXTOS[k]):
+            ws.append({"w": w, "ini": round(t + LEAD + a, 2), "fim": round(t + LEAD + b, 2)})
         c = {"cena": nome, "ini": round(t, 3), "dur": round(LEAD + d + TAIL, 3), "fala": n, "voz_em": round(t + LEAD, 3),
              "palavras": ws}
         if nome == "cta":
-            ia = next(i for i, p in enumerate(pal["09"]) if p[2].startswith("alugue"))
-            c["t_comenta"] = round(LEAD + pal["09"][ia][0], 2)
+            ia = next(p for p in ws if p["w"] == "aluga")
+            c["t_comenta"] = round(ia["ini"] - t, 2)
             c["dur"] = round(LEAD + d + TELA_FINAL, 3)
         tl.append(c)
         t += c["dur"]
