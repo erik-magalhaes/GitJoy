@@ -918,6 +918,13 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Hand/Kalam, caneta azul), caneta vermelha (`circulo`, `seta`, `sublinha`), post-its com o custo em PA, 10 quadradinhos
   riscados com X, risquinhos de contagem e carimbos (GUARDADO, CONTAGEM!, COMENTA AQUI!). Som: violão dedilhado + chocalho,
   caneta riscando, página virando. Prévia `out/caderno_previa_final.mp4`. A mesma narração (`tikal_narracao_NN`) serve pros dois.
+  **2ª rodada do caderno ("mais realista as escritas e a folha, NADA DE ANIMAÇÃO"):** `papel.py` = folha fotografada
+  (fibras em várias escalas, luz do alto à esquerda, curvatura escura perto da espiral de ARAME, pauta impressa fina e
+  irregular) + tinta de esferográfica (**Caveat** do google/fonts em `assets/fonts/`, letra a letra com giro/altura/tamanho
+  variando, linha de base ondulando, falhas e pressão, aplicada em MULTIPLICAR sobre o papel). Nada pula, cresce, voa ou
+  vira: as peças só APARECEM no lugar (foto a foto), a página troca com corte seco, carimbos são impressos em multiplicar;
+  só a caneta escreve/circula no ritmo da mão. Texto sentado na pauta (`linha(n)`), legenda das fotos escrita na borda
+  branca. O "→" não existe na Caveat (usar "...").
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
 - **Reels "TIRA PRINT: qual jogador você é?" (1/nov, ideia dele: tarô + bichinho engraçado):** loop curto como o
   `roleta-reels/taro.py` (troca a cada 2 quadros), uma carta grande com bichinho + tipo de jogador + jogo do acervo.

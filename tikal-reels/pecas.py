@@ -16,7 +16,7 @@ CORES = {"vermelho": (214, 38, 70), "azul": (24, 140, 214), "laranja": (240, 118
 
 
 def fonte(nome, s):
-    for d in (os.path.join(REPO, "comum", "fontes"), os.path.join(REPO, "taco-reels", "assets", "fonts"),
+    for d in (os.path.join(ROOT, "assets", "fonts"), os.path.join(REPO, "comum", "fontes"), os.path.join(REPO, "taco-reels", "assets", "fonts"),
               os.path.join(REPO, "halloween-reels", "assets", "fonts"), os.path.join(REPO, "assinatura-reels", "assets", "fonts")):
         p = os.path.join(d, nome)
         if os.path.exists(p):
