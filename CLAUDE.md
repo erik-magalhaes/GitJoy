@@ -911,6 +911,13 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   `https://raw.githack.com/erik-magalhaes/GitJoy/853c8c22acbc846354f5acbea2eb900ced3c7819/tikal-reels/gravador/Gravar_narracao_Tikal.html`.
   Ao receber: `narracao/raw/` → tmp_NN.wav (cadeia de voz, 44,1 kHz) → tratar (taco-reels/tratar_narracao.py) → `narracao.py`
   (gerar `narracao/timeline.json` com cena/ini/dur/palavras) → `tikal.py` (lê a timeline sozinho).
+  **Opção C também (pedido dele, 10/nov): `caderno.py`** = CADERNO DO ARQUEÓLOGO com o MESMO roteiro e a MESMA linha do
+  tempo (importa `tikal` como T: TL, TEXTO, legenda): cada fala é uma página pautada (margem vermelha, furos de espiral,
+  nº da página) que VIRA saindo pela esquerda sobre a mesa de madeira; fotos instantâneas com fita (hexágonos, capa, caixa),
+  adesivos com borda branca (meeples tingidos, tesouros, logo do Tikal), escrita à mão que se revela (`escreve`, Patrick
+  Hand/Kalam, caneta azul), caneta vermelha (`circulo`, `seta`, `sublinha`), post-its com o custo em PA, 10 quadradinhos
+  riscados com X, risquinhos de contagem e carimbos (GUARDADO, CONTAGEM!, COMENTA AQUI!). Som: violão dedilhado + chocalho,
+  caneta riscando, página virando. Prévia `out/caderno_previa_final.mp4`. A mesma narração (`tikal_narracao_NN`) serve pros dois.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
 - **Reels "TIRA PRINT: qual jogador você é?" (1/nov, ideia dele: tarô + bichinho engraçado):** loop curto como o
   `roleta-reels/taro.py` (troca a cada 2 quadros), uma carta grande com bichinho + tipo de jogador + jogo do acervo.
