@@ -1175,14 +1175,17 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Eu Sou uma Banana, Santorini, Say my Name, Splendor Duel, Spyfall, Sushi Go!, Taco Gato Cabra Queijo Pizza, Take Time, Tapalavras, Telma,
   The Mind, Uga Buga, Wandering Towers. Ele TIROU: Ref!, Last Message (→ Break the Cube), Next Station (→ Wandering Towers), Perfil Express e Splito ("muito confuso") (→ Eu Sou uma Banana), Tesouro do Dragão, Patchwork, Azul Duel, Cartógrafos, BraveRats e 1, 2, 3, Lucha! (→ Taco Gato Cabra Queijo Pizza), Spot it! Hip (→ Dobble Disney).
   Eu deixei de fora: Throw Throw Burrito e Happy Salmon (barulho/coisa voando no café), jogos de bebida e +18, jogos longos.
-- **Carrossel "VAI LEVAR A CRIANÇADA?" da Tarde no Beca’s (`promo/criancas_becas.py`, 10/nov, ideia dele: uma moça
+- **Carrossel "TEM JOGO PRA TODA IDADE!" da Tarde no Beca’s (`promo/criancas_becas.py`, 10/nov, ideia dele: uma moça
   perguntou a idade mínima):** linha das guarda-chuvinhas; em cada tela um guarda-chuvinha segura a CAIXA e outro uma
-  ETIQUETA DE IDADE redonda ("A PARTIR DE 5 ANOS"), ficha com jogadores, tempo e uma frase. Ordem por idade: Go Cuckoo 5+,
-  Taco Gato 6+, **UNO Stacko 7+** (2 a 10; ele pediu no lugar do The Mind: "pode ser jogado por criança mais jovem"; caixa
-  Mattel da Ri Happy), Gravity Superstar, Draftosaurus, King of Tokyo, Dixit, Bananagrams (8+); "E tem muito mais na mesa"
-  e "TRAZ A CRIANÇADA!" + "Comenta: quantos anos tem a sua criança?". 11 telas + 11 Stories (`out/becas/criancas/`).
-  **Idade: o site da Sua Vez ERRA às vezes** (Coffee Rush 8+ no site, 14+ na Galápagos; Bananagrams 7+ × 8+): conferir na
-  editora — a API da Galápagos dá `x_faixaEtaria` em `ccstore/v1/products/<ID>`; a ficha do site tem idade na página do jogo.
+  ETIQUETA DE IDADE redonda ("A PARTIR DE 6 ANOS"), ficha com jogadores, tempo e uma frase. 1ª versão só com jogos de
+  criança ("Vai levar a criançada?") → ele: "focou muito na idade; quero um MIX do evento, com jogos pra mais velhos também,
+  numa ESCADINHA 6, 8, 10, 12, 14" e **NADA de The Mind**. Atual: capa com a escadinha (degraus 6+ 7+ 8+ 10+ 13+ 14+ com uma
+  caixa em cima de cada) → Taco Gato 6+, UNO Stacko 7+ (Mattel, 2 a 10; pedido dele), Dixit 8+, King of Tokyo 8+, Splendor
+  Duel 10+, Take Time 10+, Spyfall 13+ (PaperGames, 3 a 8), Hitster 14+, Coffee Rush 14+ → "E tem muito mais na mesa" →
+  "TRAZ A GALERA!" + "Comenta: qual desses você quer jogar?". 12 telas + 12 Stories (`out/becas/criancas/`).
+  **Idade: o site da Sua Vez ERRA às vezes** (Coffee Rush 8+ no site, 14+ na Galápagos; Bananagrams 7+ × 8+; Spyfall
+  13+ na PaperGames): conferir na editora — Galápagos `ccstore/v1/products/<ID>` → `x_faixaEtaria`; PaperGames
+  `papergames.com.br/<jogo>/` ("Idade Recomendada"); Devir/Mattel pela loja.
 - **Stories ENQUETE "qual é o plano pro fim de semana?" + 1 jogo por plano (`promo/story_plano_fds.py`, 6/nov, ideia dele):**
   tela 1 = pergunta (petróleo com confete) + espaço LIVRE y≈930–1400 para a enquete (4 opções). Depois 1 story por plano:
   fundo de cor com confete, "SEU PLANO:" + plano, cartão branco com caixa oficial, nome, ficha e UMA frase, "RESERVA ESSE

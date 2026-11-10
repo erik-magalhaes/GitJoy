@@ -31,26 +31,28 @@ W, H = 1080, 1350
 
 # (nome, arquivo da caixa, idade, jogadores, tempo, frase, cor)
 JOGOS = [
-    ("Go Cuckoo!", "gravados-reels/assets/oficial/go_cuckoo.png", 5, "2 a 5", "15 min",
-     "Equilibre ovos e galhos no ninho sem deixar nada cair!", LAR),
     ("Taco Gato Cabra\nQueijo Pizza", "promo/assets/criancas/taco_gato.png", 6, "2 a 8", "10 min",
      "Vira a carta falando a palavra. Carta e palavra iguais? Todo mundo bate na pilha: o último leva!", AMA),
     ("UNO Stacko", "promo/assets/criancas/uno_stacko.png", 7, "2 a 10", "partida rápida",
      "Tire da torre um bloco da cor ou do número pedido e ponha no topo. Derrubou, perdeu!", ROSA),
-    ("Gravity Superstar", "gravados-reels/assets/oficial/gravity_superstar.png", 8, "2 a 6", "30 min",
-     "Seu herói pula de nuvem em nuvem pegando estrelas, mas a gravidade puxa pra baixo!", PET),
-    ("Draftosaurus", "gravados-reels/assets/oficial/draftosaurus.png", 8, "2 a 5", "15 min",
-     "Escolha um dinossauro, passe o resto pro lado e monte o parque mais legal!", VERDE),
-    ("King of Tokyo", "hobby-reels/assets/caixas/king_of_tokyo.png", 8, "2 a 6", "30 min",
-     "Monstros gigantes rolam dados e brigam pra ser o rei de Tóquio!", ROSA),
     ("Dixit", "hobby-reels/assets/caixas/dixit.png", 8, "3 a 6", "30 min",
      "Dê uma pista sobre uma carta ilustrada e veja quem adivinha qual é!", LAR),
-    ("Bananagrams", "gravados-reels/assets/perguntas/bananagrams.png", 8, "1 a 8", "15 min",
-     "Monte palavras cruzadas com as suas letras antes de todo mundo!", AMA),
+    ("King of Tokyo", "hobby-reels/assets/caixas/king_of_tokyo.png", 8, "2 a 6", "30 min",
+     "Monstros gigantes rolam dados e brigam pra ser o rei de Tóquio!", VERDE),
+    ("Splendor Duel", "gravados-reels/assets/lista/splendor_duel.png", 10, "2", "30 min",
+     "Duelo pra dois: junte pedras preciosas, compre cartas e chegue ao prestígio antes do outro!", PET),
+    ("Take Time", "feed-posts/assets/take_time.png", 10, "2 a 4", "30 min",
+     "Cooperativo e quase sem conversar: todos juntos pra completar o relógio!", ROSA),
+    ("Spyfall", "promo/assets/criancas/spyfall_capa.png", 13, "3 a 8", "15 min",
+     "Todo mundo sabe o lugar... menos o espião! Pergunte e descubra quem é ele.", LAR),
+    ("Hitster", "gravados-reels/assets/lista/hitster.png", 14, "2 a 10", "30 min",
+     "Ouça a música e encaixe na sua linha do tempo: ela saiu antes ou depois?", PET),
+    ("Coffee Rush", "coffee-reels/assets/caixa.png", 14, "2 a 4", "30 min",
+     "Vire barista: junte os ingredientes e entregue os pedidos antes da fila crescer!", VERDE),
 ]
 # os outros jogos da lista da tarde (caixas recortadas do site) para a tela "e tem muito mais"
-OUTROS = ["hitster", "telma", "tapalavras", "say_my_name", "uga_buga", "santorini", "marrakech", "coffee_rush",
-          "splendor_duel", "hive", "wandering_towers", "spyfall", "canvas", "sushi_go"]
+OUTROS = ["telma", "tapalavras", "say_my_name", "uga_buga", "santorini", "marrakech", "draftosaurus", "hive",
+          "wandering_towers", "canvas", "dixit_disney_edition", "break_the_cube"]
 
 
 # ---------------------------------------------------------------- recortes (fotos de produto em fundo branco)
@@ -94,6 +96,8 @@ def caixa(path, hmax, wmax=None):
     if wmax and im.width * esc > wmax:
         esc = wmax / im.width
     im = im.resize((int(im.width * esc), int(im.height * esc)), Image.LANCZOS)
+    if "capa" in path:  # capa plana com fundo branco: contorno para não sumir no creme
+        ImageDraw.Draw(im).rectangle((0, 0, im.width - 1, im.height - 1), outline=MAR, width=5)
     sh = Image.new("RGBA", (im.width + 28, im.height + 28), (0, 0, 0, 0))
     sh.paste(MAR + (120,), (14, 18), im.getchannel("A"))
     sh = sh.filter(ImageFilter.GaussianBlur(6))
@@ -171,16 +175,26 @@ def rodape(img, txt="TARDE DE JOGOS NO BECA’S · 20/11"):
 
 # ---------------------------------------------------------------- telas
 def tela_capa():
+    """Capa com a ESCADINHA de idade: cada degrau (6+ ... 14+) com uma caixa em cima."""
     img = BC.fundo_leve(W, H, 41)
-    pos = [(150, 70, 140, -6), (390, 150, 130, 5), (690, 150, 130, -4), (930, 70, 140, 6)]
-    for k, ((x, y, wg, r), j) in enumerate(zip(pos, JOGOS[:4])):
-        BC.segura(img, x, y, wg, BC.CORES[k], caixa(j[1], 230, 210), gap=20, rot=r, seed=k)
-    E.cola(img, E.pilula("TEM JOGO PRA CRIANÇA?", 44, AMA, MAR, fonte_titulo=True), W / 2, 640, -1.5)
-    E.cola(img, E.titulo("VAI LEVAR\nA CRIANÇADA?", 132, LAR), W / 2, 830, -2)
-    E.cola(img, E.texto("Olha a idade, quantas pessoas jogam\ne o que é cada jogo da nossa mesa", 40, MAR, 800),
-           W / 2, 1035, 0)
-    E.cola(img, TB.parceria(84), W / 2, 1160, 0)
-    E.cola(img, E.pilula("arrasta pro lado  →", 30, AMA, MAR), W / 2, 1275, 0)
+    for k, (x, y, wg) in enumerate([(110, 50, 140), (330, 110, 120), (750, 110, 120), (970, 50, 140)]):
+        BC.segura(img, x, y, wg, BC.CORES[k], seed=k)
+    E.cola(img, E.pilula("TARDE DE JOGOS NO BECA’S · 20/11", 34, PET, BR, fonte_titulo=True), W / 2, 300, -1)
+    E.cola(img, E.titulo("TEM JOGO PRA\nTODA IDADE!", 128, LAR), W / 2, 470, -2)
+    degraus = [(0, 6), (1, 7), (2, 8), (4, 10), (6, 13), (7, 14)]
+    cores = [AMA, ROSA, LAR, PET, VERDE, ROSA]
+    base, larg, x0 = 1210, 168, 36
+    d = ImageDraw.Draw(img)
+    for k, (j, idade) in enumerate(degraus):
+        x = x0 + k * larg
+        h = 110 + k * 62
+        d.rounded_rectangle((x + 9, base - h + 9, x + larg + 9, base + 9), 14, fill=MAR)
+        d.rounded_rectangle((x, base - h, x + larg, base), 14, fill=cores[k], outline=MAR, width=6)
+        d.text((x + larg / 2, base - h + 52), f"{idade}+", font=E.lilita(62), fill=BR if cores[k] != AMA else MAR,
+               anchor="mm", stroke_width=4 if cores[k] != AMA else 0, stroke_fill=MAR)
+        cx = caixa(JOGOS[j][1], 175, 150)
+        img.alpha_composite(cx, (int(x + larg / 2 - cx.width / 2), int(base - h - cx.height + 10)))
+    E.cola(img, E.pilula("idade, quantos jogam e o que é cada um  →", 32, AMA, MAR), W / 2, 1290, 0)
     return img
 
 
@@ -218,11 +232,11 @@ def tela_mais():
 
 def tela_final():
     img = TB.fundo(W, H, [60, 120, 40, 105, 50, 115], 140)
-    E.cola(img, E.titulo("TRAZ A\nCRIANÇADA!", 136, LAR), W / 2, 450, -2)
+    E.cola(img, E.titulo("TRAZ A\nGALERA!", 140, LAR), W / 2, 450, -2)
     E.cola(img, TB.selo_data(38), W / 2, 640, 1.5)
     E.cola(img, TB.selo_endereco(28), W / 2, 712, -1)
     E.cola(img, TB.inscricao(900), W / 2, 880, 0)
-    E.cola(img, E.pilula("Comenta: quantos anos tem a sua criança?", 38, AMA, MAR), W / 2, 1080, -1.5)
+    E.cola(img, E.pilula("Comenta: qual desses você quer jogar?", 38, AMA, MAR), W / 2, 1080, -1.5)
     lg = TB.parceria(130)
     img.alpha_composite(lg, (int(W / 2 - lg.width / 2), 1170))
     return img
@@ -254,7 +268,7 @@ def seta(cor):
 def story_final():
     S = Image.new("RGBA", (1080, 1920))
     img = TB.fundo(1080, 1920, [60, 120, 40, 105, 50, 115], 140)
-    E.cola(img, E.titulo("TRAZ A\nCRIANÇADA!", 132, LAR), 540, 480, -2)
+    E.cola(img, E.titulo("TRAZ A\nGALERA!", 136, LAR), 540, 480, -2)
     E.cola(img, TB.selo_data(38), 540, 680, 1.5)
     E.cola(img, TB.selo_endereco(28), 540, 752, -1)
     E.cola(img, TB.inscricao(900), 540, 930, 0)
