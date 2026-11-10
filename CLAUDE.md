@@ -925,6 +925,12 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   vira: as peças só APARECEM no lugar (foto a foto), a página troca com corte seco, carimbos são impressos em multiplicar;
   só a caneta escreve/circula no ritmo da mão. Texto sentado na pauta (`linha(n)`), legenda das fotos escrita na borda
   branca. O "→" não existe na Caveat (usar "...").
+  **3ª: "DIÁRIO DA EXPEDIÇÃO" (`diario.py`, pedido dele: "só as imagens e poucas anotações, eu narro como se
+  estivesse documentando")**: mesmo papel/tinta, fotos GRANDES, anotações de 1–3 palavras (custos, = 1/3/6, chefe = 3,
+  carimbos). FALAS NOVAS em 1ª pessoa (`TEXTO` no diario.py; troca `T.TEXTO`/`T.TL` do tikal.py em tempo de import), cada
+  página = fala estimada a 15,5 letras/s + 0,8 s (69 s sem voz). Gravador (arquivos `tikaldiario_narracao_NN`):
+  `https://raw.githack.com/erik-magalhaes/GitJoy/ee1cd3d29d928afd15f7e6c6c9cfb4c15a2354be/tikal-reels/gravador/Gravar_narracao_TikalDiario.html`.
+  Ao receber: tratar → `narracao_diario/timeline.json` (cena/ini/dur/palavras) → `diario.py` lê sozinho.
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
 - **Reels "TIRA PRINT: qual jogador você é?" (1/nov, ideia dele: tarô + bichinho engraçado):** loop curto como o
   `roleta-reels/taro.py` (troca a cada 2 quadros), uma carta grande com bichinho + tipo de jogador + jogo do acervo.
