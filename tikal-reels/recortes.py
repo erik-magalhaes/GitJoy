@@ -115,6 +115,75 @@ def tesouros():
             k += 1
 
 
+# Peças DIGITAIS oficiais do Tikal no Board Game Arena (x.boardgamearena.net/.../games/tikal/260729-0805/img/
+# TikalTerrains.png, 6 colunas de 277 px × 8 linhas): arte limpa, sem compressão → Real-ESRGAN x4 = HD de verdade.
+BGA_HEX = {"vulcao": (1, 4), "clareira": (1, 1), "templo": (2, 3), "ruina": (0, 3)}
+
+
+def amplia4(im):
+    t = os.path.join(ORIG, "_tmp_in.png")
+    o = os.path.join(ORIG, "_tmp_out.png")
+    im.save(t)
+    subprocess.run(["/usr/bin/python3", AMPLIA, MODELO, t, o], check=True, stdout=subprocess.DEVNULL)
+    return Image.open(o).convert("RGB")
+
+
+def hexagonos_bga():
+    folha = Image.open(os.path.join(ORIG, "TikalTerrains.png")).convert("RGBA")
+    for nome, (r, c) in BGA_HEX.items():
+        y = round(r * folha.height / 8)
+        cel = folha.crop((c * 277, y, c * 277 + 277, y + 241))
+        a = np.asarray(cel).astype(np.float32)
+        al = a[..., 3] / 255
+        # fundo fora do hexágono = a própria arte borrada (o ESRGAN não inventa borda magenta/preta)
+        rgb = a[..., :3]
+        bl = cv2.GaussianBlur(rgb * al[..., None], (0, 0), 6) / np.maximum(cv2.GaussianBlur(al, (0, 0), 6), 1e-3)[..., None]
+        rgb = rgb * al[..., None] + bl * (1 - al[..., None])
+        pad = 12
+        rgb = cv2.copyMakeBorder(np.clip(rgb, 0, 255).astype(np.uint8), pad, pad, pad, pad, cv2.BORDER_REFLECT)
+        big = amplia4(Image.fromarray(rgb))
+        big = big.crop((pad * 4, pad * 4, big.width - pad * 4, big.height - pad * 4))
+        m = Image.fromarray((al * 255).astype(np.uint8)).resize(big.size, Image.LANCZOS)
+        m = Image.fromarray(np.clip((np.asarray(m).astype(np.float32) - 128) * 3 + 128, 0, 255).astype(np.uint8))
+        m = m.filter(ImageFilter.GaussianBlur(1.2))
+        bb = m.getbbox()
+        big.putalpha(m)
+        big = big.crop(bb)
+        big.save(os.path.join(PEC, f"hex_{nome}.png"))
+        print("hex bga", nome, big.size)
+
+
+def tesouros_bga():
+    """Fichas de tesouro do BGA (TikalTokens.png, PNG com alfa), na MESMA ordem dos tesouro_N antigos."""
+    folha = Image.open(os.path.join(ORIG, "TikalTokens.png")).convert("RGBA")
+    a = np.asarray(folha)[..., 3] > 128
+    lab, n = ndimage.label(a)
+    circ = []
+    for i, sl in enumerate(ndimage.find_objects(lab), 1):
+        w, h = sl[1].stop - sl[1].start, sl[0].stop - sl[0].start
+        if 120 < w < 170 and abs(w - h) < 8 and sl[1].start < 690:
+            circ.append((sl[0].start // 100, sl[1].start, sl))
+    circ.sort()
+    grade = {(r, k): sl for k, (r, _, sl) in enumerate([c for c in circ if c[0] == 0])} | \
+            {(r, k): sl for k, (r, _, sl) in enumerate([c for c in circ if c[0] != 0])}
+    ordem = [(0, 2), (0, 3), (1, 3), (1, 1), (1, 2), (1, 0), (0, 0), (0, 1)]
+    for k, (r, c) in enumerate(ordem):
+        sl = grade[(r if r == 0 else max(x[0] for x in grade), c)]
+        cel = folha.crop((sl[1].start - 6, sl[0].start - 6, sl[1].stop + 6, sl[0].stop + 6))
+        al = np.asarray(cel)[..., 3]
+        fundo = Image.new("RGB", cel.size, (60, 90, 110))
+        fundo.paste(cel, (0, 0), cel)
+        big = amplia4(fundo)
+        d = big.width
+        m = Image.new("L", (d * 4, d * 4), 0)
+        bb = Image.fromarray(al).getbbox()
+        ImageDraw.Draw(m).ellipse([v * 16 + 6 for v in bb[:2]] + [v * 16 - 6 for v in bb[2:]], fill=255)
+        big.putalpha(m.resize(big.size, Image.LANCZOS))
+        big = big.crop(big.getbbox())
+        big.save(os.path.join(PEC, f"tesouro_{k}.png"))
+        print("tesouro bga", k, big.size)
+
+
 if __name__ == "__main__":
     os.makedirs(PEC, exist_ok=True)
     import sys

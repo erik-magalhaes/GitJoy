@@ -941,6 +941,14 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   `atempo=1.12` no tmp_NN.wav antes do tratamento, pausas ≤0,22 s, LEAD/TAIL 0,15/0,15, tela final 2,3 s → 69,8 s. O texto
   da legenda é o que ele FALOU, conferido com o Whisper **medium** (`TEXTOS` + `alinha()` no narracao_diario.py: tempos do
   small, repartidos pelas letras quando a contagem de palavras não bate). Títulos das páginas 4 e 6 viraram "Dia 2"/"Dia 3".
+  **Imagens em HD (10/nov, ele: "o vulcão tá bem ruim; meeples com a cabeça cortada"):** os hexágonos do manual são
+  pedaços raster de ~140 px (não tem como ficar HD). Fonte MELHOR: as peças DIGITAIS oficiais do Tikal no **Board Game
+  Arena** (`x.boardgamearena.net/data/themereleases/current/games/tikal/260729-0805/img/` → TikalTerrains.png = 6x8
+  hexágonos de 277 px, TikalTokens.png = tesouros e totens com alfa, TikalBoard.jpg 2000 px; versão do jogo no JSON da
+  `gamepanel?game=tikal`) + fotos oficiais do jogo montado (`data/gamemedia/tikal/display/0..9.jpg`, ~1140 px, templos de
+  resina e meeples) → `assets/orig/` (fora do git). `recortes.py hexagonos_bga tesouros_bga` (ESRGAN x4 → ~1100 px).
+  Meeple novo = o BRANCO da foto display/8 (ESRGAN x4 + rembg isnet), cabeça inteira, tingido como antes.
+  **Para outros jogos: o BGA tem as peças digitais oficiais (css do jogo lista os sprites).**
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
 - **Reels "TIRA PRINT: qual jogador você é?" (1/nov, ideia dele: tarô + bichinho engraçado):** loop curto como o
   `roleta-reels/taro.py` (troca a cada 2 quadros), uma carta grande com bichinho + tipo de jogador + jogo do acervo.
