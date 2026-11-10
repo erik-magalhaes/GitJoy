@@ -12,7 +12,7 @@ import wave
 AQUI = os.path.dirname(os.path.abspath(__file__))
 NAR = os.path.join(AQUI, "narracao_diario")
 NOMES = ["gancho", "hexagono", "pa", "templo", "tesouro", "maioria", "guardiao", "vulcao", "cta"]
-LEAD, TAIL, TELA_FINAL = 0.15, 0.15, 2.3
+LEAD, TAIL, TELA_FINAL = 0.15, 0.15, 2.0
 # 2ª gravação (10/nov): o que ELE falou (conferido com o Whisper medium). As palavras recebem os tempos do Whisper
 # small; se a contagem não bate, os tempos são repartidos pelas letras entre a 1ª e a última palavra ouvida.
 TEXTOS = [
@@ -20,7 +20,8 @@ TEXTOS = [
     "A cada turno eu exploro um pedaço novo. Um templo, uma ruína com tesouro... acho que tem até uns vulcões.",
     "Tenho 10 pontos de ação por turno. Colocar um explorador no acampamento me custou um. E cada pedra que eu encontro "
     "no caminho me custa mais um.",
-    "Dia 2 do diário de expedição: eu achei um templo! Com dois pontos, escavei mais um andar e ele passou a valer mais.",
+    "Dia 2 do diário de expedição. Hoje eu achei um templo! Gastei dois pontos, escavei mais um andar e ele passou a valer "
+    "mais.",
     "Descobri que nas ruínas, se eu cavar um tesouro, custa 3 pontos. Se eu tiver 1, vale 1 ponto. 1 par vale 3. E se eu "
     "tiver 3 iguais no final, valem 6 pontos.",
     "Dia 3 do diário de expedição. Descobri que o templo só conta para quem tem mais exploradores nele. Ainda bem que os "
