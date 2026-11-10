@@ -900,7 +900,17 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   acampamento 5, guardião 5 (precisa ter a maioria; templo fica seu até o fim; máx. 2); chefe vale 3 na maioria, empate
   ninguém pontua; tesouros 1/3/6 (um, par, trinca); 3 vulcões (B, D, F) = contagem, cada um gasta 10 PA antes de contar;
   contagem final depois do último hexágono. `conceitos.py` → out/conceitos.jpg: A mapa vivo, B trailer na selva, C caderno
-  do arqueólogo. Esperando ele escolher + roteiro de 9 falas mandado.
+  do arqueólogo. Ele respondeu só "faz o vídeo" → fui de **B** (esconde a resolução baixa dos hexágonos).
+  **`tikal.py`** (65 s, 9 cenas, prévia sem voz `out/tikal_previa_final.mp4`): capa oficial em tela cheia (recorte abaixo do
+  logo e acima dos autores, Ken Burns lento, raios de luz), tabuleiro de hexágonos em PERSPECTIVA (`camera()` = homografia
+  foco/zoom/giro + inclinação fixa; peças em pé com `de_pe`), letreiro Cinzel dourado com halo escuro, 10 tabuletas de PA
+  apagando, placas de custo, andares de templo caindo com o selo do valor, tesouros 1/par/trinca, placar da maioria (chefe =
+  3), guardião subindo no templo, troca de tesouro, vulcão com tremor e brilho laranja, comenta e tela final com a caixa do
+  site ampliada (Real-ESRGAN). Trilha de selva sintetizada (`trilha()`: tambores, chocalho, marimba pentatônica). Gravador
+  (arquivos `tikal_narracao_NN`):
+  `https://raw.githack.com/erik-magalhaes/GitJoy/853c8c22acbc846354f5acbea2eb900ced3c7819/tikal-reels/gravador/Gravar_narracao_Tikal.html`.
+  Ao receber: `narracao/raw/` → tmp_NN.wav (cadeia de voz, 44,1 kHz) → tratar (taco-reels/tratar_narracao.py) → `narracao.py`
+  (gerar `narracao/timeline.json` com cena/ini/dur/palavras) → `tikal.py` (lê a timeline sozinho).
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
 - **Reels "TIRA PRINT: qual jogador você é?" (1/nov, ideia dele: tarô + bichinho engraçado):** loop curto como o
   `roleta-reels/taro.py` (troca a cada 2 quadros), uma carta grande com bichinho + tipo de jogador + jogo do acervo.
