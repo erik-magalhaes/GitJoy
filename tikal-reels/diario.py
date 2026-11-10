@@ -62,7 +62,8 @@ T.TL[:] = linha_do_tempo()
 T.DUR = T.TL[-1]["ini"] + T.TL[-1]["dur"]
 DUR = T.DUR
 _cta = T.TL[-1]
-T.T_COMENTA = _cta["dur"] - TELA_FINAL
+T.T_COMENTA = _cta.get("t_comenta", _cta["dur"] - TELA_FINAL)
+COM_VOZ = all(c.get("fala") for c in T.TL)
 
 
 # ------------------------------------------------------------------------------------------------ páginas
@@ -237,6 +238,35 @@ def cues():
     return ev
 
 
+def mixa_voz(path):
+    """Trilha + efeitos (S.grava) abaixando sob a voz dele; a voz entra depois, sem saturar."""
+    import wave
+    import numpy as np
+    from scipy.ndimage import uniform_filter1d
+    base = path.replace(".wav", "_base.wav")
+    S.grava(base, DUR, cues(), C.trilha(DUR + 0.5), musica_ganho=0.36, fx_ganho=0.8)
+    with wave.open(base) as w:
+        b = np.frombuffer(w.readframes(w.getnframes()), np.int16).reshape(-1, 2)[:, 0].astype(np.float64) / 32768
+    SR = S.SR
+    voz = np.zeros(len(b))
+    for c in T.TL:
+        with wave.open(os.path.join(T.P.ROOT, "narracao_diario", f"frase_{c['fala']:02d}.wav")) as w:
+            v = np.frombuffer(w.readframes(w.getnframes()), np.int16).astype(np.float64) / 32768
+        i0 = int(c["voz_em"] * SR)
+        v = v[:max(0, len(voz) - i0)]
+        voz[i0:i0 + len(v)] += v
+    env = uniform_filter1d((np.abs(voz) > 0.02).astype(float), int(0.25 * SR))
+    duck = 1 - 0.72 * np.clip(env * 3, 0, 1)
+    mix = b * duck * 0.8 + voz * 0.95
+    mix = mix / (np.abs(mix).max() + 1e-9) * 0.95
+    st = np.repeat((mix * 32767).astype(np.int16)[:, None], 2, 1)
+    with wave.open(path, "wb") as w:
+        w.setnchannels(2)
+        w.setsampwidth(2)
+        w.setframerate(SR)
+        w.writeframes(st.tobytes())
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--frame", type=float, nargs="*")
@@ -254,9 +284,15 @@ def main():
         sh.save(os.path.join(OUT, "frames_diario.jpg"), quality=88)
         print("ok", round(DUR, 1), [round(c["ini"], 1) for c in T.TL])
         return
-    nome = "diario_previa"
-    com = os.path.join(OUT, f"{nome}_com.wav")
-    S.grava(com, DUR, cues(), C.trilha(DUR + 0.5), musica_ganho=0.36, fx_ganho=0.8)
+    if COM_VOZ:
+        nome = "diario_sem_legenda" if a.sem_legenda else "diario_legendado"
+        com = os.path.join(OUT, "diario_voz.wav")
+        if not os.path.exists(com) or a.sem_legenda is False:
+            mixa_voz(com)
+    else:
+        nome = "diario_previa"
+        com = os.path.join(OUT, f"{nome}_com.wav")
+        S.grava(com, DUR, cues(), C.trilha(DUR + 0.5), musica_ganho=0.36, fx_ganho=0.8)
     n = int(round(DUR * FPS))
     base = os.path.join(OUT, f"{nome}.mp4")
     encode(base, render, list(range(n)), com)

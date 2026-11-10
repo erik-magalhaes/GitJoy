@@ -931,6 +931,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   página = fala estimada a 15,5 letras/s + 0,8 s (69 s sem voz). Gravador (arquivos `tikaldiario_narracao_NN`):
   `https://raw.githack.com/erik-magalhaes/GitJoy/ee1cd3d29d928afd15f7e6c6c9cfb4c15a2354be/tikal-reels/gravador/Gravar_narracao_TikalDiario.html`.
   Ao receber: tratar → `narracao_diario/timeline.json` (cena/ini/dur/palavras) → `diario.py` lê sozinho.
+  **NARRAÇÃO RECEBIDA (10/nov, 9 .webm nomeados):** cadeia de voz no ffmpeg → `tmp_NN.wav` → `tratar_diario.py` (cópia do
+  tratar_tarde: respiro/silêncio/pausas ≤0,3 s + Whisper small) → `narracao_diario.py` (LEAD 0,25 / TAIL 0,35, tela final
+  3,2 s depois da fala; `CORRIGE`: ticar→Tikal, tempos→templos, ruída→ruína, "alugue -te calma a sua vez"→"aluga o Tikal
+  na Sua Vez"; o "comenta" vira tela final no "aluga") → `diario.py` (mistura própria `mixa_voz`: trilha abaixa sob a voz)
+  → `out/diario_{legendado,sem_legenda}_final.mp4`, 68,9 s. Ele mudou a fala 8 ("...vimos quem conseguiu fazer mais pontos").
 - `architects-reels/arq.py` (planta azul) e `mlem-reels/mlem.py`/`stopmo.py` são versões **rejeitadas**. Ficam só como referência.
 - **Reels "TIRA PRINT: qual jogador você é?" (1/nov, ideia dele: tarô + bichinho engraçado):** loop curto como o
   `roleta-reels/taro.py` (troca a cada 2 quadros), uma carta grande com bichinho + tipo de jogador + jogo do acervo.

@@ -80,3 +80,5 @@ hotstreak-reels/brutos/
 *.log
 tikal-reels/assets/orig/
 tikal-reels/out/
+tikal-reels/narracao_diario/raw/
+tikal-reels/narracao_diario/tmp_*.wav
