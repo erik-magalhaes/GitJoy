@@ -1189,6 +1189,16 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **Idade: o site da Sua Vez ERRA às vezes** (Coffee Rush 8+ no site, 14+ na Galápagos; Bananagrams 7+ × 8+; Spyfall
   13+ na PaperGames): conferir na editora — Galápagos `ccstore/v1/products/<ID>` → `x_faixaEtaria`; PaperGames
   `papergames.com.br/<jogo>/` ("Idade Recomendada"); Devir/Mattel pela loja.
+- **Carrossel "O JOGO CERTO PRA CADA FESTA" (`feed-sua-vez/calendario_festas.py`, 11/nov, ideia dele):** folha de
+  opções `out/opcoes_eventos.jpg` (12 eventos × jogo) → ele TIROU Go Cuckoo ("a gente está usando muito") e Perfil Express.
+  Conceito CALENDÁRIO DE PAREDE (parede azul-clara com losangos, folha pendurada num prego com espiral de arame; em cima a
+  "foto do mês" colorida com o evento, a caixa, ficha do site e uma frase que se ajusta ao espaço; embaixo a grade do mês
+  com o dia circulado à caneta vermelha e a anotação em Caveat no cabeçalho). Ordem: Aniversário (Flip 7: A Vingança),
+  Amigo secreto (Mascarade, dez/2026), Réveillon (Telestrations na Madruga, 31/12), Carnaval (Happy Salmon, 9/2/2027),
+  Dia dos Namorados (Allumbra), Festa junina (Bohnanza, 24/6), Halloween (Paranormal Detectives), Churrasco (Throw Throw
+  Burrito), Festa do pijama (Scooby-Doo!), Chá revelação (Código Secreto: Imagens, time "é menina" × "é menino"); sem data
+  fixa = "QUALQUER MÊS". Final: "QUAL É O SEU PRÓXIMO EVENTO?" + aluguel + monitoria (WhatsApp, ABC e SP capital).
+  12 telas + 12 Stories (`out/calendario_festas/`).
 - **Stories ENQUETE "qual é o plano pro fim de semana?" + 1 jogo por plano (`promo/story_plano_fds.py`, 6/nov, ideia dele):**
   tela 1 = pergunta (petróleo com confete) + espaço LIVRE y≈930–1400 para a enquete (4 opções). Depois 1 story por plano:
   fundo de cor com confete, "SEU PLANO:" + plano, cartão branco com caixa oficial, nome, ficha e UMA frase, "RESERVA ESSE
