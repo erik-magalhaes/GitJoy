@@ -35,16 +35,12 @@ SITE = json.load(open(os.path.join(REPO, "comum", "dados", "acervo_site.json")))
 # (filme, pôster, jogo, nome no site, caixa, frase)
 LISTAS = {
     "animacao": [
-        ("Ratatouille", "ratatouille", "Critter Kitchen", "Critter Kitchen", f"{AC}/critter_kitchen.png",
-         "Bichinhos na cozinha disputando os melhores ingredientes pra agradar os clientes."),
         ("Alice no País das Maravilhas", "alice", "Wonderland's War", "Wonderland's War", f"{AC}/wonderland_s_war.png",
          "O Chapeleiro, a Rainha Vermelha e o Gato de Cheshire em guerra pelo País das Maravilhas."),
         ("Robin Hood", "robin_hood", "Unmatched: Robin Hood vs. Pé-Grande", "Unmatched: Robin Hood vs. Bigfoot",
          f"{AC}/unmatched_robin_hood_vs_bigfoot.png", "O próprio Robin Hood num duelo contra o Pé-Grande, cada um com seus golpes."),
-        ("Procurando Nemo", "nemo", "Sea Salt & Paper", "Sea Salt & Paper", f"{AC}/sea_salt_paper.png",
-         "Peixes, caranguejos, polvos e barquinhos de papel: junte as duplas e mergulhe nos pontos."),
-        ("Moana", "moana", "Survive the Island", "Survive The Island", f"{AC}/survive_the_island.png",
-         "Fuja da ilha que está afundando, num mar cheio de tubarões e monstros marinhos."),
+        ("Luca", "luca", "Deep Regrets", "Deep Regrets", f"{REPO}/hobby-reels/assets/caixas/deep_regrets.png",
+         "Pesque criaturas estranhas do fundo do mar... e torça pra não se arrepender de nenhuma."),
         ("Como Treinar o seu Dragão", "dragao", "Flamecraft", "Flamecraft", f"{AC}/flamecraft.png",
          "Dragõezinhos fofos trabalhando nas lojinhas da cidade, cada um com o seu talento."),
         ("Hotel Transilvânia", "hotel", "Drácula vs Van Helsing", "Dracula vs Van Helsing", f"{AC}/dracula_vs_van_helsing.png",
