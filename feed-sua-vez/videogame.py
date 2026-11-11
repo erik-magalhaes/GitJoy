@@ -30,6 +30,9 @@ GRADE = (28, 50, 80)
 CIANO = (110, 226, 240)
 CREME = (255, 246, 228)
 
+VG = os.path.join(ROOT, "assets", "videogame")  # capas OFICIAIS: Steam (library_600x900_2x) e Nintendo (Mario Kart 8 Deluxe)
+ARTE = {"AMONG US": "among_us.jpg", "JURASSIC WORLD EVOLUTION": "jurassic.jpg", "MINI METRO": "mini_metro.jpg",
+        "HADES": "hades.jpg", "MARIO KART": "mario_kart.jpg", "CIVILIZATION": "civ6.jpg", "GTA": "gta5.jpg"}
 # (videogame, jogo, nome no site (ficha), caixa, frase)
 PARES = [
     ("AMONG US", "The Resistance", "The Resistance", "the_resistance.png",
@@ -159,36 +162,64 @@ def ficha(nome_site):
     return f"{jog} · {d['tempo'].replace('min', ' min')} · R$ {d['preco']} / {dias} dias"
 
 
+@lru_cache(None)
+def arte(vg, h):
+    """Capa oficial do videogame em pé (2:3), cantos arredondados e contorno marrom."""
+    im = Image.open(os.path.join(VG, ARTE[vg])).convert("RGB")
+    if im.width > im.height:  # Mario Kart: arte deitada → recorte em pé no Mario
+        w = int(im.height * 2 / 3)
+        x = int(im.width * 0.80 - w / 2)
+        im = im.crop((max(0, min(im.width - w, x)), 0, max(0, min(im.width - w, x)) + w, im.height))
+    w = int(h * 2 / 3)
+    im = im.resize((w, h), Image.LANCZOS).convert("RGBA")
+    m = Image.new("L", (w, h), 0)
+    ImageDraw.Draw(m).rounded_rectangle((0, 0, w - 1, h - 1), radius=18, fill=255)
+    im.putalpha(m)
+    out = Image.new("RGBA", (w + 12, h + 12), (0, 0, 0, 0))
+    ImageDraw.Draw(out).rounded_rectangle((8, 8, w + 11, h + 11), radius=20, fill=E.MARROM)
+    out.alpha_composite(im, (0, 0))
+    ImageDraw.Draw(out).rounded_rectangle((0, 0, w - 1, h - 1), radius=18, outline=E.MARROM, width=5)
+    return out
+
+
 def tela_par(k):
     vg, nome, site, caixa, frase = PARES[k]
     img = fundo(k + 3)
     hud(img, k + 1, len(PARES))
     d = ImageDraw.Draw(img)
-    # tela do videogame
-    tw, th = 900, 300
+    # tela do videogame: capa oficial à esquerda, nome em pixel à direita
+    tw, th = 900, 420
     crt = tela_crt(tw, th)
     x0, y0 = (W - tw) // 2, 150
     img.alpha_composite(crt, (x0, y0))
+    a = arte(vg, th - 56)
+    img.alpha_composite(a, (x0 + 30, y0 + 26))
+    cx = x0 + 30 + a.width + (tw - 30 - a.width - 20) // 2
+    larg = tw - a.width - 90
     sv = E.texto("SE VOCÊ JOGA", 34, cor=CIANO, peso=900)
-    img.alpha_composite(sv, ((W - sv.width) // 2, y0 + 36))
-    yy = y0 + 36 + sv.height
-    f = pixel(64)
-    n_linhas = len(quebra(vg, f, 800))
-    s = 64 if n_linhas == 1 else 46
-    texto_pixel(img, vg, s, W // 2, yy + (34 if n_linhas == 1 else 18), E.AMARELO, larg=800, entre=1.45)
+    f = pixel(48)
+    s_ = 48
+    while (max(_lw(l, f) for l in quebra(vg, f, larg)) > larg or len(quebra(vg, f, larg)) > 3) and s_ > 20:
+        s_ -= 2
+        f = pixel(s_)
+    nl = len(quebra(vg, f, larg))
+    bloco_h = sv.height + 24 + int(s_ * 1.45) * nl
+    yt = y0 + (th - bloco_h) // 2
+    img.alpha_composite(sv, (cx - sv.width // 2, yt))
+    texto_pixel(img, vg, s_, cx, yt + sv.height + 24, E.AMARELO, larg=larg, entre=1.45)
     # seta "próxima fase"
-    seta_pixel(d, W // 2, y0 + th + 34, p=11)
+    seta_pixel(d, W // 2, y0 + th + 22, p=9)
     # cartão do tabuleiro
-    cw, ch = 900, 700
-    cy0 = y0 + th + 130
+    cw, ch = 900, 625
+    cy0 = y0 + th + 110
     card = E.bloco(cw, ch, CREME, raio=40, ow=8, sombra=14)
     img.alpha_composite(card, ((W - cw) // 2, cy0))
     pl = E.pilula("VAI CURTIR", 34, E.LARANJA, (255, 255, 255), fonte_titulo=True)
     img.alpha_composite(pl, ((W - pl.width) // 2, cy0 - pl.height // 2 - 4))
-    cx_img = E.jogo(os.path.join(AC, caixa), 360, larg=420)
+    cx_img = E.jogo(os.path.join(AC, caixa), 255, larg=360)
     img.alpha_composite(cx_img, ((W - cx_img.width) // 2, cy0 + 58))
     y = cy0 + 58 + cx_img.height + 10
-    t = E.titulo(nome, 66, cor=E.LARANJA, larg_max=820)
+    t = E.titulo(nome, 60, cor=E.LARANJA, larg_max=820)
     img.alpha_composite(t, ((W - t.width) // 2, y))
     y += t.height + 2
     fi = E.texto(ficha(site), 27, cor=E.PETROLEO, peso=800, larg_max=820)
