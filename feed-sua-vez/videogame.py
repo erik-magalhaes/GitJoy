@@ -36,8 +36,8 @@ PARES = [
      "Tem traidor na mesa e ninguém confia em ninguém. Só que aqui você olha na cara de quem mente."),
     ("JURASSIC WORLD EVOLUTION", "Dinosaur Island", "Dinosaur Island", "dinosaur_island.png",
      "Monte o seu parque, crie dinossauros, receba os visitantes... e torça pra nenhum fugir."),
-    ("STARDEW VALLEY", "Everdell Duo", "Everdell Duo", "everdell_duo.png",
-     "Uma vila tranquila de bichinhos pra construir sem pressa, carta por carta."),
+    ("MINI METRO", "Next Station: London", "Next Station: London", "next_station_london.png",
+     "Você desenha as linhas do metrô de Londres e tenta ligar o máximo de estações sem cruzar os trilhos."),
     ("HADES", "Clank! Catacombs", "Clank!: Catacombs", "clank_catacombs.png",
      "Desce na masmorra, monta o seu baralho no caminho e tenta sair vivo com o tesouro."),
     ("MARIO KART", "Unicorn Fever", "Unicorn Fever", "unicorn_fever.png",
@@ -230,6 +230,61 @@ def tela_capa():
     return img
 
 
+def tela_final(story=False):
+    HH = 1920 if story else H
+    img = fundo_alto(HH) if story else fundo(20)
+    d = ImageDraw.Draw(img)
+    for k in range(3):
+        coracao(d, 60 + k * 66, 56)
+    lg = E.logo(170)
+    img.alpha_composite(lg, ((W - lg.width) // 2, 34))
+    tw, th = 900, 300
+    y0 = 150 if not story else 170
+    img.alpha_composite(tela_crt(tw, th), ((W - tw) // 2, y0))
+    y = texto_pixel(img, "CONTINUE?", 60, W // 2, y0 + 60, E.AMARELO, larg=800)
+    texto_pixel(img, "SIM: ALUGA NA SUA VEZ!", 28, W // 2, y + 40, (255, 255, 255), larg=820)
+    cw, ch = 900, 480
+    cy0 = y0 + th + 60
+    img.alpha_composite(E.bloco(cw, ch, CREME, raio=40, ow=8, sombra=14), ((W - cw) // 2, cy0))
+    caixas = [os.path.join(AC, p[3]) for p in PARES]
+    lq = E.leque(caixas, 210, passo=0.5)
+    if lq.width > cw - 60:
+        lq = lq.resize((cw - 60, int(lq.height * (cw - 60) / lq.width)), Image.LANCZOS)
+    img.alpha_composite(lq, ((W - lq.width) // 2, cy0 + 30))
+    y = cy0 + 30 + lq.height - 10
+    for txt, s, cor, peso in [("Retire em Mauá ou receba em casa", 34, E.MARROM, 800),
+                              ("3 jogos = 7 dias pelo mesmo preço!", 32, E.PETROLEO, 800)]:
+        t = E.texto(txt, s, cor=cor, peso=peso, larg_max=820)
+        img.alpha_composite(t, ((W - t.width) // 2, y))
+        y += t.height
+    pl = E.pilula("LINK NA BIO · @SUAVEZ_BG", 32, E.AMARELO, E.MARROM, fonte_titulo=True)
+    img.alpha_composite(pl, ((W - pl.width) // 2, y + 10))
+    c = E.titulo("COMENTA: QUAL VIDEOGAME\nFICOU FALTANDO?", 54, cor=E.LARANJA, larg_max=960)
+    img.alpha_composite(c, ((W - c.width) // 2, cy0 + ch + 40))
+    if story:
+        yl = cy0 + ch + 40 + c.height + 30
+        t = E.texto("aluga aqui:", 40, cor=(255, 255, 255), peso=900)
+        img.alpha_composite(t, ((W - t.width) // 2, yl))
+        seta_pixel(d, W // 2, yl + t.height + 10, p=10)
+    return img
+
+
+def fundo_alto(hh, semente=7):
+    global H
+    h0 = H
+    H = hh
+    try:
+        return _fundo.__wrapped__(semente)
+    finally:
+        H = h0
+
+
+def story_de(tela, k):
+    st = fundo_alto(1920, 30 + k)
+    st.alpha_composite(tela, (0, 285))
+    return st
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     if "--teste" in sys.argv:
@@ -240,6 +295,17 @@ def main():
         f.save(os.path.join(OUT, "teste.jpg"), quality=90)
         print("ok teste")
         return
+    telas = [tela_capa()] + [tela_par(k) for k in range(len(PARES))] + [tela_final()]
+    os.makedirs(os.path.join(OUT, "stories"), exist_ok=True)
+    for i, t in enumerate(telas, 1):
+        t.convert("RGB").save(os.path.join(OUT, f"{i:02d}.png"))
+        st = tela_final(story=True) if i == len(telas) else story_de(t, i)
+        st.convert("RGB").save(os.path.join(OUT, "stories", f"story_{i:02d}.png"))
+    folha = Image.new("RGB", (5 * 360 + 60, 2 * 450 + 30), (255, 255, 255))
+    for i, t in enumerate(telas):
+        folha.paste(t.convert("RGB").resize((360, 450)), (10 + (i % 5) * 370, 10 + (i // 5) * 460))
+    folha.save(os.path.join(OUT, "previa.jpg"), quality=88)
+    print("ok", len(telas))
 
 
 if __name__ == "__main__":
