@@ -37,7 +37,7 @@ WHATS = "(11) 97793-3910"
 
 # (evento, (ano, mês, dia) ou None, nota da caneta, jogo, caixa, jogadores, tempo, frase, cor da foto do mês)
 EVENTOS = [
-    ("ANIVERSÁRIO", None, "o seu dia!", "Flip 7: A Vingança", "hobby-reels/assets/acervo/flip_7_a_vingan_a.png",
+    ("ANIVERSÁRIO", None, "o seu dia!", "Flip 7: A Vingança", "gravados-reels/assets/top10/flip_7_a_vinganca.png",
      "3 a 28", "20 min", "Vira mais uma carta ou para? Dá pra jogar com até 28 pessoas!", LAR),
     ("AMIGO SECRETO", (2026, 12, None), "dia da confra!", "Mascarade",
      "hobby-reels/assets/acervo/mascarade_second_edition.png", "4 a 12", "30 min",
