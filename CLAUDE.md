@@ -1383,3 +1383,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   mostra NOVEMBRO / 20 / "ANOTA AÍ!"; "SAVE THE DATE!", "VEM COISA BOA POR AÍ...", "SÁBADO, AO MEIO-DIA, A GENTE CONTA
   TUDO!", "fica ligado: ativa o lembrete" + seta; área y≈1350–1560 (MEIO da tela) livre para o adesivo (7/nov: ele achou o espaço embaixo baixo demais; carta menor KC 0,78 e tudo subiu). Trilha marimba pop.
   Saída `out/save_sv_{com_som,para_musica}_final.mp4`.
+- **Carrossel "SEU SIGNO, SEU JOGO" (12/nov, 2º da série "Seu mês, seu jogo"):** mesmo formato (bichinho do Gemini +
+  frase + caixa no canto). Jogos propostos (sem repetir o vídeo dos signos, o Seu mês e o "qual jogador você é"): Áries King
+  of Tokyo, Touro Harmonies, Gêmeos Dobro, Câncer Sea Salt & Paper, Leão Say my Name, Virgem Azul Duel, Libra Canvas,
+  Escorpião Spyfall, Sagitário Passaporte Mundo, Capricórnio 7 Wonders Duel, Aquário Sideral, Peixes Dixit. Prompt do
+  Gemini mandado (folha 4x3, fundo creme liso, mesmo estilo da 1ª folha do Seu mês). Esperando a folha deles.
