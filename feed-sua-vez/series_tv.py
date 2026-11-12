@@ -43,7 +43,7 @@ PARES = [
 TV = (190, 232, 890, 642)  # moldura da TV (x0, y0, x1, y1): tela 16:9 por dentro
 
 
-CORTE = {"ted": (0.05, 0.02, 0.95, 0.5), "barney": (0.05, 0.02, 0.95, 0.5), "lorelai": (0.15, 0.0, 0.85, 0.62)}
+CORTE = {}  # as fotos em rosto/ já estão recortadas no personagem
 
 
 @lru_cache(None)
