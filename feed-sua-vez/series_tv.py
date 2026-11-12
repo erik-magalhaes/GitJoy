@@ -43,9 +43,30 @@ PARES = [
 TV = (190, 232, 890, 642)  # moldura da TV (x0, y0, x1, y1): tela 16:9 por dentro
 
 
+CORTE = {"ted": (0.05, 0.02, 0.95, 0.5), "barney": (0.05, 0.02, 0.95, 0.5), "lorelai": (0.15, 0.0, 0.85, 0.62)}
+
+
 @lru_cache(None)
-def backdrop(nome, w, h):
-    im = Image.open(os.path.join(SER, nome + ".jpg")).convert("RGB")
+def rosto(nome, w, h):
+    """Foto do PERSONAGEM (assets/series/rosto/, das wikis da série) inteira na TV: em pé ela fica no meio, com as
+    laterais preenchidas pela própria foto desfocada (nada de cortar o rosto)."""
+    im = Image.open(os.path.join(SER, "rosto", nome + ".jpg")).convert("RGB")
+    if nome in CORTE:  # foto de corpo inteiro: só do peito pra cima, pro rosto aparecer grande
+        a, b, c, e = CORTE[nome]
+        im = im.crop((int(a * im.width), int(b * im.height), int(c * im.width), int(e * im.height)))
+    if im.width / im.height >= w / h * 0.98:
+        return backdrop.__wrapped__(nome, w, h, os.path.join(SER, "rosto"))
+    fundo = backdrop.__wrapped__(nome, w, h, os.path.join(SER, "rosto")).filter(ImageFilter.GaussianBlur(28))
+    fundo = Image.blend(fundo, Image.new("RGB", (w, h), (0, 0, 0)), 0.35)
+    nh = h
+    nw = int(im.width * nh / im.height)
+    fundo.paste(im.resize((nw, nh), Image.LANCZOS), ((w - nw) // 2, 0))
+    return fundo
+
+
+@lru_cache(None)
+def backdrop(nome, w, h, pasta=SER):
+    im = Image.open(os.path.join(pasta, nome + ".jpg")).convert("RGB")
     r = w / h
     if im.width / im.height > r:
         nw = int(im.height * r)
@@ -92,7 +113,7 @@ def tv(img, nome, dy=0):
     d.rounded_rectangle((x0, y0, x1, y1), radius=18, fill=(20, 20, 22), outline=E.MARROM, width=6)
     m = 18
     sw, sh = x1 - x0 - 2 * m, y1 - y0 - 2 * m
-    img.paste(backdrop(nome, sw, sh), (x0 + m, y0 + m))
+    img.paste(rosto(nome, sw, sh), (x0 + m, y0 + m))
     brilho = Image.new("RGBA", (sw, sh), (0, 0, 0, 0))  # reflexo
     ImageDraw.Draw(brilho).polygon([(0, 0), (int(sw * 0.35), 0), (int(sw * 0.15), sh), (0, sh)],
                                    fill=(255, 255, 255, 18))
@@ -127,7 +148,7 @@ def tela(k, story_h=None):
     nome, art, serie, imgn, jogo, site, caixa, frase, parede = PARES[k]
     hh = story_h or H
     dy = 285 if story_h else 0
-    btv = backdrop(imgn, 100, 56)
+    btv = rosto(imgn, 100, 56)
     img, piso = sala(parede, btv, hh, dy)
     tv(img, imgn, dy)
     d = ImageDraw.Draw(img)
@@ -174,7 +195,7 @@ def mosaico(w, h):
     im = Image.new("RGB", (w, h))
     cw, ch = w // 3, h // 2
     for i, p in enumerate(PARES):
-        im.paste(backdrop(p[3], cw, ch), ((i % 3) * cw, (i // 3) * ch))
+        im.paste(rosto(p[3], cw, ch), ((i % 3) * cw, (i // 3) * ch))
     return im
 
 
