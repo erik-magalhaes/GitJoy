@@ -36,8 +36,8 @@ SITE = json.load(open(os.path.join(REPO, "comum", "dados", "acervo_site.json")))
 # (personagem, emojis, jogo, nome no site, caixa, frase)
 LISTAS = {
     "friends": [
-        ("MONICA", "👩‍🍳", "Critter Kitchen", "Critter Kitchen", f"{AC}/critter_kitchen.png",
-         "Ela é chef: cozinha, ingrediente certo e prato perfeito. E ela PRECISA ganhar."),
+        ("MONICA", "🖼️", "Art Society", "Art Society", f"{AC}/art_society.png",
+         "Pendurar os quadros na parede, tudo certinho e alinhado. E ela PRECISA ganhar."),
         ("RACHEL", "🛍️", "High Society", "High Society", f"{AC}/high_society.png",
          "Leilão de luxo pra quem ama gastar... só não pode terminar com menos dinheiro que todo mundo."),
         ("ROSS", "🦖", "Draftosaurus", "Draftosaurus", f"{AC}/draftosaurus.png",
@@ -46,8 +46,17 @@ LISTAS = {
          "Ele é ator: interpreta até a mesa adivinhar. How you doin'?"),
         ("PHOEBE", "🐈", "Nekojima", "Nekojima", f"{AC}/nekojima.png",
          "Smelly cat, smelly cat... uma ilha inteira cheia de gatos."),
-        ("CHANDLER", "😏", "Ref! O jogo da referência", "Ref! O jogo da referência",
-         f"{AC}/ref_o_jogo_da_refer_ncia.png", "Piada com referência é a língua dele. Could it BE any more perfeito?"),
+        ("CHANDLER", "😏", "Blablabel", "Blablabel", f"{AC}/blablabel.png",
+         "Inventar nome pras coisas e fazer todo mundo rir. Could it BE any more perfeito?"),
+    ],
+    "joey": [
+        ("JOEY", "🍕", "Taco Gato Cabra Queijo Pizza", "Taco Gato Cabra Queso Pizza: Carpincho promo",
+         f"{REPO}/roleta-reels/assets/taco_gato.png",
+         "Taco, queijo, PIZZA! Ele bate na pilha primeiro... só pra não ter que dividir."),
+        ("JOEY", "🍗", "Critter Kitchen", "Critter Kitchen", f"{AC}/critter_kitchen.png",
+         "Um jogo inteiro sobre comida. Joey doesn't share food!"),
+        ("JOEY", "🎭", "Say my Name", "Say my Name", f"{AC}/say_my_name.png",
+         "Ele é ator: interpreta até a mesa adivinhar. How you doin'?"),
     ],
     "series": [
         ("ELEVEN", "🧇", "Stranger Things", "The Mind", "The Mind", f"{REPO}/roleta-reels/assets/the_mind.png",
@@ -361,6 +370,14 @@ def main():
     os.makedirs(os.path.join(out, "stories"), exist_ok=True)
     capa = capa_friends if modo == "friends" else capa_series
     tela = tela_friends if modo == "friends" else tela_series
+    if modo == "joey":
+        ts = [tela_friends(k, pares) for k in range(3)]
+        f = Image.new("RGB", (W * 3 + 80, H), (255, 255, 255))
+        for i, t in enumerate(ts):
+            f.paste(t.convert("RGB"), (i * (W + 40), 0))
+        f.resize((f.width // 2, f.height // 2)).save(os.path.join(ROOT, "out", "joey_opcoes.jpg"), quality=90)
+        print("ok joey")
+        return
     if "--teste" in sys.argv:
         a, b = capa(pares), tela(0, pares)
         f = Image.new("RGB", (W * 2 + 40, H), (255, 255, 255))
