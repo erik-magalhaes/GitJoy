@@ -2,7 +2,7 @@
 """LEMBRETE da Tarde de Jogos no Beca’s para os STORIES (12/nov/2026, pedido dele: "vídeo curto pro stories como
 lembrete do evento"). 9 s, visual das guarda-chuvinhas: os de `tarde.py` balançando no alto + um guarda-chuva rosa
 segurando a folha de calendário (NOVEMBRO / 20, agora com os logos Sua Vez × Beca’s) e a caneta vermelha circulando o 20.
-"LEMBRETE!", tarde de jogos, data/horário, endereço, preço e "garanta sua mesa aqui:" + seta com a área y≈1350–1580
+"VEM JOGAR!" (12/nov: ele não quis a palavra "lembrete"), tarde de jogos, data/horário, endereço, preço e "garanta sua mesa aqui:" + seta com a área y≈1350–1580
 LIVRE para o adesivo de link; WhatsApp embaixo. Sem "faltam N dias": serve para qualquer dia até o evento.
 
     /usr/bin/python3 lembrete_becas.py --frame 0.5 2 4 8.5   # out/frames_lembrete.jpg
@@ -93,7 +93,7 @@ def quadro(t):
     cam = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     SB.pendulo(cam, W / 2, ang, W_UMB, ROSA, FIO, "cal_lembrete", circulo(u) if u > 0 else None)
     img.alpha_composite(cam, (0, int(-(1 - T.out_back(entra, 1.2)) * 900)))
-    T.poe(img, T.titulo("LEMBRETE!", 150, LAR), W / 2, 1010, t, 1.8, -2)
+    T.poe(img, T.titulo("VEM JOGAR!", 150, LAR), W / 2, 1010, t, 1.8, -2)
     T.poe(img, E.pilula("TARDE DE JOGOS NO BECA’S CAFÉ", 46, PET, BR, fonte_titulo=True), W / 2, 1125, t, 2.2, 1)
     T.poe(img, TB.selo_data(38), W / 2, 1200, t, 2.5, -1)
     T.poe(img, TB.selo_endereco(30), W / 2, 1268, t, 2.7, 1)

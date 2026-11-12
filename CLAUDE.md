@@ -1392,6 +1392,6 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   `gemini_signos_x4.jpg`; signo + datas, frase, caixa no canto; facho do Leão esmaecido no topo; 2ª rodada "jogos pequenos": caixa 255 → 350 px, bichinho 480 px, frase em y 875) → `out/seu_signo/01..14.png`
   + `stories/` (último com "aluga aqui:" e espaço do link). Mandado.
 - **LEMBRETE da Tarde no Beca’s em vídeo para Stories (`becas-reels/lembrete_becas.py`, 12/nov):** 9 s, guarda-chuvinhas
-  + guarda-chuva rosa segurando o calendário NOVEMBRO/20 (com os logos Sua Vez × Beca’s), caneta circula o 20, "LEMBRETE!",
+  + guarda-chuva rosa segurando o calendário NOVEMBRO/20 (com os logos Sua Vez × Beca’s), caneta circula o 20, "VEM JOGAR!" (ele NÃO quis a palavra "lembrete"),
   tarde de jogos, data/horário, endereço, "R$ 30 · R$ 15 viram consumação", "garanta sua mesa aqui:" + seta, espaço livre
   y≈1490–1610 pro adesivo de link, WhatsApp embaixo. Sem "faltam N dias" (serve qualquer dia). `out/lembrete_becas_*_final.mp4`.
