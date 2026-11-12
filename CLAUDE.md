@@ -1387,4 +1387,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   frase + caixa no canto). Jogos propostos (sem repetir o vídeo dos signos, o Seu mês e o "qual jogador você é"): Áries King
   of Tokyo, Touro Harmonies, Gêmeos Dobro, Câncer Sea Salt & Paper, Leão Say my Name, Virgem Azul Duel, Libra Canvas,
   Escorpião Spyfall, Sagitário Passaporte Mundo, Capricórnio 7 Wonders Duel, Aquário Sideral, Peixes Dixit. Prompt do
-  Gemini mandado (folha 4x3, fundo creme liso, mesmo estilo da 1ª folha do Seu mês). Esperando a folha deles.
+  Gemini mandado (folha 4x3, fundo creme liso). **Feito: `feed-sua-vez/seu_signo.py`** (importa seu_mes; folha deles
+  `assets/seu_signo/gemini_signos.jpg`, só 1024 px → ampliada 4x com Real-ESRGAN (`wonderland-reels/ampliar_tab.py`) para
+  `gemini_signos_x4.png`; signo + datas, frase, caixa no canto; facho do Leão esmaecido no topo) → `out/seu_signo/01..14.png`
+  + `stories/` (último com "aluga aqui:" e espaço do link). Mandado.
