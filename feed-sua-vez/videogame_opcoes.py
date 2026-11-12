@@ -103,6 +103,33 @@ LISTAS = {  # nome → (título da folha, "se você ..." , pares)
         ("Dr. House", "Detective", "investigar o caso até o fim, sem confiar em ninguém",
          f"{AC}/detective_a_modern_crime_board_game.png"),
     ], "jogaria"),
+    "friends": ("FRIENDS: QUAL JOGO CADA UM JOGARIA?", "personagem", [
+        ("Monica (opção A)", "Critter Kitchen", "ela é chef: cozinha, ingrediente e prato perfeito", f"{AC}/critter_kitchen.png"),
+        ("Monica (opção B)", "Art Society", "pendurar os quadros certinhos na parede", f"{AC}/art_society.png"),
+        ("Rachel", "High Society", "leilão de luxo pra quem ama gastar", f"{AC}/high_society.png"),
+        ("Ross", "Draftosaurus", "dinossauros! (e ele estava dando um tempo)", f"{AC}/draftosaurus.png"),
+        ("Joey", "Say my Name", "ele é ator: interpretar até a mesa adivinhar", f"{AC}/say_my_name.png"),
+        ("Phoebe", "Nekojima", "Smelly Cat, smelly cat... uma ilha cheia de gatos", f"{AC}/nekojima.png"),
+        ("Chandler (opção A)", "Ref! O jogo da referência", "piada com referência é a língua dele",
+         f"{AC}/ref_o_jogo_da_refer_ncia.png"),
+        ("Chandler (opção B)", "Telestrations na Madruga (+18)", "o desenho mais sem noção da roda",
+         f"{GR}/top10/telestrations_madruga.png"),
+        ("Chandler (opção C)", "Blablabel", "inventar nome de coisa e fazer todo mundo rir", f"{AC}/blablabel.png"),
+    ], "jogaria"),
+    "series": ("QUE JOGO ESSE PERSONAGEM JOGARIA?", "personagem", [
+        ("Eleven (Stranger Things)", "The Mind", "jogo de ler a mente, sem falar nada", f"{REPO}/roleta-reels/assets/the_mind.png"),
+        ("Wandinha", "Paranormal Detectives", "conversar com fantasmas e descobrir como morreram",
+         f"{AC}/paranormal_detectives.png"),
+        ("Dustin (Stranger Things)", "Dungeon Fighter", "ele é do clube de RPG: masmorra e monstro", f"{AC}/dungeon_fighter.png"),
+        ("Velma (Scooby-Doo)", "Scooby-Doo!", "desmascarar o monstro com a turma toda", f"{GR}/oficial/scooby_doo.png"),
+        ("Daenerys (Game of Thrones)", "Flamecraft", "a mãe dos dragões... versão fofinha", f"{AC}/flamecraft.png"),
+        ("Ted Mosby (How I Met...)", "Architectura", "ele é arquiteto: construir a cidade perfeita", f"{AC}/architectura.png"),
+        ("Barney (How I Met...)", "Mascarade", "blefe na cara dura. Challenge accepted!", f"{AC}/mascarade_second_edition.png"),
+        ("Lorelai (Gilmore Girls)", "Coffee Rush", "café, café e mais café", f"{GR}/top10/coffee_rush.png"),
+        ("Round 6", "Flip 7: A Vingança", "arriscar mais uma... até perder tudo", f"{GR}/top10/flip_7_a_vinganca.png"),
+        ("O Professor (La Casa de Papel)", "Unlock!", "planejar a fuga e resolver tudo contra o tempo",
+         f"{AC}/unlock_timeless_adventures.png"),
+    ], "jogaria"),
 }
 CW, CH = 460, 560
 
