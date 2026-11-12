@@ -79,11 +79,35 @@ LISTAS = {  # nome → (título da folha, "se você ..." , pares)
         ("O Lobo de Wall Street", "High Society", "leilão de luxo pra quem gasta sem dó",
          f"{AC}/high_society.png"),
     ]),
+    "personagens": ("QUE JOGO ESSE PERSONAGEM JOGARIA?", "personagem", [
+        ("Sheldon (The Big Bang Theory)", "Hive", "xadrez sem tabuleiro, com regra explicada 3 vezes", f"{AC}/hive.png"),
+        ("Monica (Friends)", "Azul Duel", "tudo organizadinho, peça por peça, e ela PRECISA ganhar", f"{AC}/azul_duel.png"),
+        ("Rachel (Friends)", "Canvas", "montar a pintura mais bonita, camada por camada", f"{AC}/canvas.png"),
+        ("Ross (Friends)", "Draftosaurus", "dinossauros! (e ele vai dizer que estava dando um tempo)", f"{AC}/draftosaurus.png"),
+        ("Joey (Friends)", "Critter Kitchen", "é sobre comida. O Joey não divide comida", f"{AC}/critter_kitchen.png"),
+        ("Phoebe (Friends)", "Dixit", "a dica mais viajada da mesa é sempre dela", f"{REPO}/hobby-reels/assets/caixas/dixit.png"),
+        ("Chandler (Friends)", "Ref! O jogo da referência", "a piada com referência é a língua dele",
+         f"{AC}/ref_o_jogo_da_refer_ncia.png"),
+        ("Dwight (The Office)", "La Granja", "fazenda, colheita e muita beterraba", f"{AC}/la_granja.png"),
+        ("Jim (The Office)", "Sheriff of Nottingham", "cara de paisagem pra passar o contrabando",
+         f"{AC}/sheriff_of_nottingham_2nd_edition.png"),
+        ("Eleven (Stranger Things)", "The Mind", "jogo de ler a mente, sem falar nada", f"{REPO}/roleta-reels/assets/the_mind.png"),
+        ("Wandinha", "Paranormal Detectives", "conversar com fantasmas e descobrir como morreram",
+         f"{AC}/paranormal_detectives.png"),
+        ("Sherlock Holmes (série)", "MicroMacro: Crime City", "achar o culpado numa cidade cheia de pistas",
+         f"{AC}/micromacro_crime_city_full_house.png"),
+        ("Seu Madruga (Chaves)", "Bohnanza", "negociar feijão pra pagar o aluguel atrasado", f"{AC}/bohnanza.png"),
+        ("Bridgerton", "High Society", "leilões de luxo na alta sociedade", f"{AC}/high_society.png"),
+        ("Cersei (Game of Thrones)", "Coup", "mentir e trair pra ficar com o trono",
+         f"{AC}/coup_inquisition.png"),
+        ("Dr. House", "Detective", "investigar o caso até o fim, sem confiar em ninguém",
+         f"{AC}/detective_a_modern_crime_board_game.png"),
+    ], "jogaria"),
 }
 CW, CH = 460, 560
 
 
-def cartao(i, vg, tab, porque, caixa, se="se você joga"):
+def cartao(i, vg, tab, porque, caixa, se="se você joga", vai="vai gostar de"):
     c = E.bloco(CW, CH, E.BRANCO, raio=28, ow=5, sombra=8)
     d = ImageDraw.Draw(c)
     d.text((26, 18), str(i), font=E.lilita(46), fill=E.LARANJA)
@@ -94,7 +118,7 @@ def cartao(i, vg, tab, porque, caixa, se="se você joga"):
     cx = E.jogo(caixa, 250, larg=300)
     c.alpha_composite(cx, ((CW - cx.width) // 2, 60 + t2.height + 12))
     y = 60 + t2.height + 12 + cx.height + 10
-    t3 = E.texto("vai gostar de", 22, cor=E.PETROLEO, peso=700)
+    t3 = E.texto(vai, 22, cor=E.PETROLEO, peso=700)
     c.alpha_composite(t3, ((CW - t3.width) // 2, y))
     t4 = E.texto(tab, 28, cor=E.LARANJA, peso=900, larg_max=CW - 50)
     c.alpha_composite(t4, ((CW - t4.width) // 2, y + 30))
@@ -105,7 +129,8 @@ def cartao(i, vg, tab, porque, caixa, se="se você joga"):
 
 def main():
     nome = sys.argv[1] if len(sys.argv) > 1 else "videogame"
-    titulo, se, PARES = LISTAS[nome]
+    titulo, se, PARES = LISTAS[nome][:3]
+    vai = LISTAS[nome][3] if len(LISTAS[nome]) > 3 else "vai gostar de"
     PARES = PARES or PARES_VG
     cols = 4
     lins = (len(PARES) + cols - 1) // cols
@@ -114,7 +139,7 @@ def main():
     t = E.titulo(titulo, 64, cor=E.AMARELO, larg_max=W - 60)
     img.alpha_composite(t, ((W - t.width) // 2, 30))
     for i, p in enumerate(PARES):
-        c = cartao(i + 1, *p, se=se)
+        c = cartao(i + 1, *p, se=se, vai=vai)
         img.alpha_composite(c, (40 + (i % cols) * (CW + 30), 150 + (i // cols) * (CH + 30)))
     os.makedirs(os.path.join(ROOT, "out"), exist_ok=True)
     img.convert("RGB").save(os.path.join(ROOT, "out", f"opcoes_{nome}.jpg"), quality=90)
