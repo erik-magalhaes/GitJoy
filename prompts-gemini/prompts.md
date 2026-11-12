@@ -35,3 +35,24 @@ A cute illustrated map in board game style, vertical 9:16, plain light backgroun
 
 ## 9. Cena de evento desenhada (enquanto não há foto real)
 A cute cartoon illustration, vertical 9:16, of a cheerful company year-end party where groups of people of different ages play board games at round tables, laughing, with a monitor in a teal t-shirt explaining a game, string lights and balloons. Generic game boxes with no artwork, NO TEXT anywhere. Funny cute doodle style, thick dark brown outlines, flat colors in orange, teal and yellow. Clearly an illustration, not a photo.
+
+# MASCOTES 3D (capivara = Jéssica, coruja = Erik) — rodada 2 (12/nov)
+Sempre na MESMA conversa, grade 3x2, fundo creme liso (#F2EDE4), sem texto.
+
+## A. Segurando coisas EM BRANCO (eu escrevo o texto)
+Using exactly these same 3D characters, create ONE image: a 3x2 grid of 6 poses, plain flat light cream background (#F2EDE4), soft contact shadows, generous empty space, nothing touching the edges, NO TEXT anywhere (all signs, screens and papers must be completely blank): 1 the capybara holding up a big blank white sign with both hands, 2 the owl holding up a big blank white sign, 3 the owl pointing at a big blank whiteboard on an easel, 4 the capybara holding a smartphone facing the viewer with a blank white screen, 5 the owl talking into an orange megaphone, 6 the capybara and the owl together holding a long blank white banner. High-quality 3D animated movie style, full body.
+
+## B. Jogando de verdade
+Using exactly these same 3D characters, create ONE image: a 3x2 grid of 6 scenes, plain flat light cream background (#F2EDE4), soft contact shadows, generous empty space, NO TEXT: 1 the capybara rolling two dice with excitement, 2 the owl holding a fan of playing cards with a suspicious face, 3 the capybara opening a board game box with sparkles coming out, 4 the owl sitting at a small table thinking hard over a game board, 5 the capybara secretly peeking at the owl's cards, 6 both sitting at a small round table playing, seen from the front. Generic games, no artwork on boxes or cards. High-quality 3D animated movie style.
+
+## C. Carinhas de reação (close)
+Using exactly these same 3D characters, create ONE image: a 4x2 grid of 8 close-up head-and-shoulders portraits, plain flat light cream background (#F2EDE4), generous empty space, NO TEXT: top row the capybara (in love with heart eyes, suspicious side-eye, furious, mind blown); bottom row the owl (in love with heart eyes, suspicious side-eye, furious, mind blown). High-quality 3D animated movie style.
+
+## D. Série "a Coruja explica, a Capivara resume"
+Using exactly these same 3D characters, create ONE image: a 3x2 grid of 6 scenes of the two together, plain flat light cream background (#F2EDE4), soft contact shadows, generous empty space, NO TEXT: 1 the owl talking excitedly holding a very long unrolled scroll of rules that falls to the floor, while the capybara yawns, 2 the capybara raising a paw to interrupt with a confident smile, 3 the owl frozen with mouth open, shocked, 4 the owl doing a facepalm while the capybara smiles proudly, 5 the capybara sleeping on top of the rulebook, 6 both pointing down at the viewer, excited. High-quality 3D animated movie style.
+
+## E. Cenários 3D no mesmo estilo (vazios, formato EM PÉ 9:16, um por vez)
+- Cozy 3D animated movie style scene, vertical 9:16: a warm living room with a big empty wooden table in the foreground, sofa, plants, string lights, late afternoon light. No characters, no text, no board games, table top empty.
+- Cozy 3D animated movie style scene, vertical 9:16: a small charming board game rental shop with wooden shelves full of generic colorful game boxes (no artwork, no text), a counter in front, warm light. No characters, no text.
+- Cozy 3D animated movie style scene, vertical 9:16: a charming café with many small colorful paper cocktail umbrellas hanging from the ceiling (orange, teal, yellow, pink, green), wooden tables, plants, warm light. No characters, no text.
+- Cozy 3D animated movie style scene, vertical 9:16: a living room decorated for Christmas, tree with lights, gifts, fireplace, a big empty wooden table in front. No characters, no text.
