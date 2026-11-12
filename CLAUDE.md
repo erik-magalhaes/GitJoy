@@ -1403,3 +1403,6 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
 - **MASCOTES = DUPLA (12/nov):** o meeple com cara ficou "horroroso" (não usar). Escolha dele: **capivara = a Jéssica**
   (aluguéis/entrega, jeito tranquilo) e **coruja = o Erik** ("a que sempre explica" = monitoria), no estilo doodle dos
   bichinhos. Ele escolheu a "C2" da folha do Gemini (provavelmente a cena das duas juntas); prompts de poses da dupla mandados.
+  **Estilo escolhido (12/nov): 3D de filme / boneco de vinil** (painel 1 de `mascote/assets/estilos_2x2.jpg` → recorte
+  `mascote/assets/referencia_3d.png`): capivara com cachecol petróleo e caixas laranja/petróleo; coruja com óculos
+  redondos, gravata-borboleta petróleo e livro petróleo. Ele achou o doodle "simples e genérico". Prompts das poses em 3D mandados.
