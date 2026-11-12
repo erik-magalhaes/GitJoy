@@ -42,8 +42,9 @@ LISTAS = {
          "Leilão de luxo pra quem ama gastar... só não pode terminar com menos dinheiro que todo mundo."),
         ("ROSS", "🦖", "Draftosaurus", "Draftosaurus", f"{AC}/draftosaurus.png",
          "Dinossauros! Ele explicaria cada espécie. (E ainda diria que estava dando um tempo.)"),
-        ("JOEY", "🎭", "Say my Name", "Say my Name", f"{AC}/say_my_name.png",
-         "Ele é ator: interpreta até a mesa adivinhar. How you doin'?"),
+        ("JOEY", "🍕", "Taco Gato Cabra Queijo Pizza", "Taco Gato Cabra Queso Pizza: Carpincho promo",
+         f"{REPO}/roleta-reels/assets/taco_gato.png",
+         "Taco, queijo, PIZZA! Ele bate na pilha primeiro... só pra não ter que dividir."),
         ("PHOEBE", "🐈", "Nekojima", "Nekojima", f"{AC}/nekojima.png",
          "Smelly cat, smelly cat... uma ilha inteira cheia de gatos."),
         ("CHANDLER", "😏", "Blablabel", "Blablabel", f"{AC}/blablabel.png",
@@ -228,7 +229,7 @@ def tela_series(k, pares):
     img = _app(H).copy()
     barra_app(img)
     d = ImageDraw.Draw(img)
-    y = 170
+    y = 270
     d.text((60, y), "Porque você assistiu", font=E.fig(34, 600), fill=(170, 170, 180))
     d.text((60, y + 44), serie, font=E.lilita(62), fill=(255, 255, 255))
     y += 140
@@ -293,10 +294,10 @@ def capa_series(pares):
     d = ImageDraw.Draw(img)
     t = E.titulo("QUE JOGO ESSE\nPERSONAGEM\nJOGARIA?", 112, cor=(255, 255, 255), contorno=(0, 0, 0), sw=0,
                  sombra=0, larg_max=980)
-    centro(img, t, W / 2, 170)
-    d.text((W // 2, 170 + t.height + 10), "Uma seleção baseada no que você assiste", font=E.fig(34, 600),
+    centro(img, t, W / 2, 210)
+    d.text((W // 2, 210 + t.height + 10), "Uma seleção baseada no que você assiste", font=E.fig(34, 600),
            fill=(170, 170, 180), anchor="ma")
-    y = 170 + t.height + 90
+    y = 210 + t.height + 90
     tw, th = 300, 300
     for i, (nome, emj, *_r) in enumerate(pares):
         x = 60 + (i % 3) * (tw + 30)
