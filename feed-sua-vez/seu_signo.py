@@ -46,7 +46,7 @@ def tela_signo(k):
     img = papel(cor, k + 31)
     letra(img, sig, 110, W / 2, 150, semente=k)
     letra(img, datas, 46, W / 2, 250, (90, 70, 70), sw=1, semente=k + 20)
-    b = bicho(k, 540)
+    b = bicho(k, 480)
     if b.width > 860:
         b = b.resize((860, int(b.height * 860 / b.width)), Image.LANCZOS)
     if k == 4:  # o facho do holofote do Leão foi cortado reto no topo da célula: some aos poucos
@@ -54,12 +54,13 @@ def tela_signo(k):
         n = int(b.height * 0.22)
         a[:n] *= np.linspace(0, 1, n)[:, None]
         b.putalpha(Image.fromarray(a.astype(np.uint8)))
-    img.alpha_composite(b, (int(W / 2 - b.width / 2), int(600 - b.height / 2)))
-    letra(img, frase, 66, W / 2, 968, semente=k + 50)
-    cx = caixa(rec, 255, 270)
-    x0 = int(W - 30 - cx.width)
-    img.alpha_composite(cx, (x0, int(H + 30 - cx.height)))
-    letra(img, "jogo: " + jogo, 40, (200 + x0 + 40) / 2, 1205, (80, 70, 70), sw=1, semente=k + 90)
+    img.alpha_composite(b, (int(W / 2 - b.width / 2), int(555 - b.height / 2)))
+    letra(img, frase, 62, W / 2, 875, semente=k + 50)
+    # 12/nov: "achei os jogos pequenos" → caixa bem maior, inteira, no canto de baixo à direita
+    cx = caixa(rec, 350, 380)
+    x0 = int(W - 5 - cx.width)
+    img.alpha_composite(cx, (x0, int(H + 15 - cx.height)))
+    letra(img, "jogo: " + jogo, 44, (200 + x0 + 40) / 2, 1215, (80, 70, 70), sw=1, semente=k + 90)
     selo(img, 34, H - 128, 150)
     return img
 

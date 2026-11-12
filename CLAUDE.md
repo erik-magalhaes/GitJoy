@@ -1389,5 +1389,5 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Escorpião Spyfall, Sagitário Passaporte Mundo, Capricórnio 7 Wonders Duel, Aquário Sideral, Peixes Dixit. Prompt do
   Gemini mandado (folha 4x3, fundo creme liso). **Feito: `feed-sua-vez/seu_signo.py`** (importa seu_mes; folha deles
   `assets/seu_signo/gemini_signos.jpg`, só 1024 px → ampliada 4x com Real-ESRGAN (`wonderland-reels/ampliar_tab.py`) para
-  `gemini_signos_x4.jpg`; signo + datas, frase, caixa no canto; facho do Leão esmaecido no topo) → `out/seu_signo/01..14.png`
+  `gemini_signos_x4.jpg`; signo + datas, frase, caixa no canto; facho do Leão esmaecido no topo; 2ª rodada "jogos pequenos": caixa 255 → 350 px, bichinho 480 px, frase em y 875) → `out/seu_signo/01..14.png`
   + `stories/` (último com "aluga aqui:" e espaço do link). Mandado.
