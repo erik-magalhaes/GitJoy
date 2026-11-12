@@ -56,7 +56,11 @@ def main():
     os.makedirs(POS, exist_ok=True)
     os.makedirs(OUT, exist_ok=True)
     feitos = []
+    import sys
+    so = sys.argv[1:]
     for folha, linhas in FOLHAS.items():
+        if (so and folha not in so) or not os.path.exists(os.path.join(FOL, folha + "_x4.png")):
+            continue
         im = Image.open(os.path.join(FOL, folha + "_x4.png")).convert("RGB")
         a = np.asarray(im).astype(float)
         fundo = np.median(np.r_[a[:20].reshape(-1, 3), a[-20:].reshape(-1, 3)], 0)

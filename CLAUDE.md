@@ -1406,3 +1406,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **Estilo escolhido (12/nov): 3D de filme / boneco de vinil** (painel 1 de `mascote/assets/estilos_2x2.jpg` → recorte
   `mascote/assets/referencia_3d.png`): capivara com cachecol petróleo e caixas laranja/petróleo; coruja com óculos
   redondos, gravata-borboleta petróleo e livro petróleo. Ele achou o doodle "simples e genérico". Prompts das poses em 3D mandados.
+  **Poses recortadas** (`mascote/recortes.py`: folhas ampliadas 4x com ESRGAN → corte nas faixas vazias → rembg isnet) em
+  `mascote/assets/poses/<capivara|coruja|dupla|natal>_<pose>.png` + conferência `mascote/out/poses_verde.jpg`. A
+  `capivara_comemorando` tem uma mão fantasma meio transparente (não usar sem limpar).
+- **CONVITE COM OS MASCOTES (`becas-reels/convite_mascotes.py [--reels]`, 12/nov):** 10 s, guarda-chuvinhas + calendário
+  20/11 pendurado (de `lembrete_becas`), a capivara passa de patinete trazendo os jogos, a coruja aponta pro calendário e
+  a capivara acena (pulam pra dentro e respiram), "VEM JOGAR COM A GENTE!" + data/endereço/preço, no fim os dois fazem
+  joinha. Stories: "garanta sua mesa aqui:" + espaço do link; Reels: "Comenta: qual jogo você quer aprender?" + WhatsApp.
