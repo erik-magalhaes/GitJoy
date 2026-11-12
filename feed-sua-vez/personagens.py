@@ -179,11 +179,41 @@ def tela_friends(k, pares):
     return img
 
 
+def logo_friends(s=120):
+    """F·R·I·E·N·D·S com as bolinhas coloridas entre as letras (como o logo da série)."""
+    letras = list("FRIENDS")
+    cores = [(232, 64, 64), (60, 150, 220), (246, 196, 52), (232, 64, 64), (60, 150, 220), (246, 196, 52)]
+    ims = [E.titulo(l, s, cor=(255, 255, 255)) for l in letras]
+    r = int(s * 0.09)
+    gap = int(s * 0.12)
+    w = sum(i.width for i in ims) + (len(ims) - 1) * (2 * r + 2 * gap) - len(ims) * int(s * 0.18)
+    h = max(i.height for i in ims)
+    out = Image.new("RGBA", (w + 40, h), (0, 0, 0, 0))
+    d = ImageDraw.Draw(out)
+    x = 10
+    for k, im in enumerate(ims):
+        out.alpha_composite(im, (x, 0))
+        x += im.width - int(s * 0.18)
+        if k < len(ims) - 1:
+            cx, cy = x + gap + r, int(h * 0.42)
+            d.ellipse((cx - r - 4, cy - r - 4, cx + r + 4, cy + r + 4), fill=E.MARROM)
+            d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=cores[k])
+            x += 2 * r + 2 * gap
+    return out.crop(out.getbbox())
+
+
 def capa_friends(pares):
     img = _porta(H).copy()
     olho_magico(img, W // 2, 140, 380, 196)
-    t = E.titulo("QUE JOGO CADA\nAMIGO JOGARIA?", 108, cor=AMARELO_PORTA, larg_max=1000)
-    centro(img, t, W / 2, 270)
+    t1 = E.titulo("QUE JOGO CADA", 96, cor=AMARELO_PORTA, larg_max=1000)
+    centro(img, t1, W / 2, 262)
+    lf = logo_friends(150)
+    if lf.width > W - 100:
+        lf = lf.resize((W - 100, int(lf.height * (W - 100) / lf.width)), Image.LANCZOS)
+    centro(img, lf, W / 2, 262 + t1.height - 6)
+    t2 = E.titulo("JOGARIA?", 96, cor=AMARELO_PORTA, larg_max=1000)
+    centro(img, t2, W / 2, 262 + t1.height + lf.height + 4)
+    t = Image.new("RGBA", (1, t1.height + lf.height + t2.height - 30))
     y = 270 + t.height + 10
     for i, (nome, emj, *_r) in enumerate(pares):
         c = E.pilula(f"{nome}", 42, CREME, E.MARROM, fonte_titulo=True)
