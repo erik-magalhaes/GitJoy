@@ -1400,3 +1400,6 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   8 expressões; passo 4: Natal/fim de ano), 6 cenários vazios 9:16 (mesa vista de cima, sala, estante, café com
   guarda-chuvinhas, mesa de Natal, piquenique) pra eu pousar as caixas oficiais, kit de 20 figurinhas, série de bichinhos
   "como cada um reage quando perde", mapa ilustrado ABC+SP e cena de evento DESENHADA. Ele vai gerar e mandar aos poucos.
+- **MASCOTES = DUPLA (12/nov):** o meeple com cara ficou "horroroso" (não usar). Escolha dele: **capivara = a Jéssica**
+  (aluguéis/entrega, jeito tranquilo) e **coruja = o Erik** ("a que sempre explica" = monitoria), no estilo doodle dos
+  bichinhos. Ele escolheu a "C2" da folha do Gemini (provavelmente a cena das duas juntas); prompts de poses da dupla mandados.
