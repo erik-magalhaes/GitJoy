@@ -40,7 +40,7 @@ PARES = [
      "Café, café e mais café: atenda os pedidos antes que o cliente vá embora.", (84, 100, 76)),
 ]
 
-TV = (140, 240, 940, 690)  # moldura da TV (x0, y0, x1, y1): tela 16:9 por dentro
+TV = (190, 232, 890, 642)  # moldura da TV (x0, y0, x1, y1): tela 16:9 por dentro
 
 
 @lru_cache(None)
@@ -97,10 +97,6 @@ def tv(img, nome, dy=0):
     ImageDraw.Draw(brilho).polygon([(0, 0), (int(sw * 0.35), 0), (int(sw * 0.15), sh), (0, sh)],
                                    fill=(255, 255, 255, 18))
     img.alpha_composite(brilho, (x0 + m, y0 + m))
-    # pé da TV
-    cx = (x0 + x1) // 2
-    d.rectangle((cx - 16, y1, cx + 16, y1 + 40), fill=(30, 30, 32))
-    d.rounded_rectangle((cx - 120, y1 + 36, cx + 120, y1 + 50), radius=6, fill=(30, 30, 32))
     return (x0 + m, y0 + m, sw, sh)
 
 
@@ -144,7 +140,13 @@ def tela(k, story_h=None):
     img.alpha_composite(pl, (sx + 18, sy + sh - pl.height - 18))
     # mesinha com a caixa
     tampo = mesinha(img, piso + 150)
-    cx = E.jogo(caixa, 250, larg=320)
+    cx = E.jogo(caixa, 330, larg=400)
+    halo = Image.new("L", (cx.width + 260, cx.height + 200), 0)
+    ImageDraw.Draw(halo).ellipse((70, 70, halo.width - 70, halo.height - 70), fill=140)
+    halo = halo.filter(ImageFilter.GaussianBlur(50))
+    luz = Image.new("RGBA", halo.size, (255, 236, 190, 0))
+    luz.putalpha(halo)
+    img.alpha_composite(luz, ((W - luz.width) // 2, tampo - cx.height - 90))
     sh_ = Image.new("RGBA", (cx.width + 60, 40), (0, 0, 0, 0))
     ImageDraw.Draw(sh_).ellipse((0, 0, cx.width + 60, 40), fill=(0, 0, 0, 90))
     sh_ = sh_.filter(ImageFilter.GaussianBlur(8))
@@ -156,7 +158,7 @@ def tela(k, story_h=None):
     fi = E.texto("  ·  ".join(P.ficha_partes(site)), 26, cor=E.PETROLEO, peso=800, larg_max=cw - 60)
     fr = E.texto(frase, 28, cor=E.MARROM, peso=600, larg_max=cw - 80, entre=1.25)
     ch = tn.height + fi.height + fr.height + 30
-    yc = tampo + 150
+    yc = tampo + 130
     if story_h is None:
         yc = min(yc, H - ch - 20)
     img.alpha_composite(E.bloco(cw, ch, CREME, raio=30, ow=6, sombra=10), ((W - cw) // 2, yc))
@@ -165,6 +167,83 @@ def tela(k, story_h=None):
     P.centro(img, fr, W / 2, yc + 10 + tn.height + fi.height)
     lg = E.logo(140)
     img.alpha_composite(lg, (W - lg.width - 26, TV[1] + dy - lg.height - 6 if False else 26 + dy))
+    return img
+
+
+def mosaico(w, h):
+    im = Image.new("RGB", (w, h))
+    cw, ch = w // 3, h // 2
+    for i, p in enumerate(PARES):
+        im.paste(backdrop(p[3], cw, ch), ((i % 3) * cw, (i // 3) * ch))
+    return im
+
+
+def tela_tv_custom(conteudo, titulo, cor_parede, hh=H):
+    dy = (hh - H) // 2 if hh != H else 0
+    img, piso = sala(cor_parede, conteudo.resize((100, 56)), hh, dy)
+    x0, y0, x1, y1 = TV[0], TV[1] + dy, TV[2], TV[3] + dy
+    d = ImageDraw.Draw(img)
+    d.rounded_rectangle((x0 + 10, y0 + 14, x1 + 10, y1 + 14), radius=18, fill=(0, 0, 0, 120))
+    d.rounded_rectangle((x0, y0, x1, y1), radius=18, fill=(20, 20, 22), outline=E.MARROM, width=6)
+    m = 18
+    img.paste(conteudo.resize((x1 - x0 - 2 * m, y1 - y0 - 2 * m), Image.LANCZOS), (x0 + m, y0 + m))
+    t = E.titulo(titulo, 74, cor=(255, 255, 255), larg_max=760)
+    P.centro(img, t, W / 2 - 70, 34 + dy)
+    lg = E.logo(140)
+    img.alpha_composite(lg, (W - lg.width - 26, 26 + dy))
+    tampo = mesinha(img, piso + 150)
+    return img, tampo, dy
+
+
+def capa():
+    img, tampo, _ = tela_tv_custom(mosaico(1200, 676), "QUE JOGO ESSE\nPERSONAGEM JOGARIA?", (70, 66, 92))
+    lq = E.leque([p[6] for p in PARES], 250, passo=0.5)
+    if lq.width > W - 120:
+        lq = lq.resize((W - 120, int(lq.height * (W - 120) / lq.width)), Image.LANCZOS)
+    img.alpha_composite(lq, ((W - lq.width) // 2, tampo - lq.height + 40))
+    cw = 940
+    t1 = E.titulo("ELEVEN · DUSTIN · WANDINHA", 44, cor=E.LARANJA, larg_max=cw - 60)
+    t2 = E.titulo("TED · BARNEY · LORELAI", 44, cor=E.LARANJA, larg_max=cw - 60)
+    ch = t1.height + t2.height + 30
+    yc = H - ch - 30
+    img.alpha_composite(E.bloco(cw, ch, CREME, raio=30, ow=6, sombra=10), ((W - cw) // 2, yc))
+    P.centro(img, t1, W / 2, yc + 12)
+    P.centro(img, t2, W / 2, yc + 12 + t1.height)
+    return img
+
+
+def final(story=False):
+    hh = 1920 if story else H
+    tela_txt = Image.new("RGB", (1200, 676), (24, 24, 30))
+    dt = ImageDraw.Draw(tela_txt)
+    dt.text((600, 250), "E VOCÊ?", font=E.lilita(170), fill=(255, 255, 255), anchor="mm")
+    dt.text((600, 430), "qual personagem você é na mesa?", font=E.fig(52, 700), fill=(255, 214, 102), anchor="mm")
+    img, tampo, dy = tela_tv_custom(tela_txt, "E VOCÊ,\nJOGARIA QUAL?", (84, 70, 96), hh)
+    lq = E.leque([p[6] for p in PARES], 230, passo=0.5)
+    if lq.width > W - 140:
+        lq = lq.resize((W - 140, int(lq.height * (W - 140) / lq.width)), Image.LANCZOS)
+    img.alpha_composite(lq, ((W - lq.width) // 2, tampo - lq.height + 40))
+    cw = 940
+    linhas = [E.texto("Aluga na Sua Vez: retire em Mauá ou receba em casa", 30, cor=E.MARROM, peso=800),
+              E.texto("3 jogos = 7 dias pelo mesmo preço!", 30, cor=E.PETROLEO, peso=800),
+              E.pilula("LINK NA BIO · @SUAVEZ_BG", 30, E.AMARELO, E.MARROM, fonte_titulo=True),
+              E.titulo("MARCA O AMIGO QUE É A WANDINHA DO GRUPO!", 38, cor=E.LARANJA, larg_max=cw - 60)]
+    ch = sum(l.height for l in linhas) + 40
+    yc = tampo + 120
+    if not story:
+        yc = H - ch - 24
+    img.alpha_composite(E.bloco(cw, ch, CREME, raio=30, ow=6, sombra=10), ((W - cw) // 2, yc))
+    y = yc + 14
+    for l in linhas:
+        P.centro(img, l, W / 2, y)
+        y += l.height + 4
+    if story:
+        tt = E.texto("aluga aqui:", 42, cor=(255, 255, 255), peso=900)
+        y = yc + ch + 40
+        P.centro(img, tt, W / 2, y)
+        d = ImageDraw.Draw(img)
+        cx, yy = W // 2, y + tt.height + 10
+        d.polygon([(cx - 34, yy), (cx + 34, yy), (cx, yy + 46)], fill=E.LARANJA, outline=E.MARROM, width=5)
     return img
 
 
@@ -178,6 +257,20 @@ def main():
         f.save(os.path.join(OUT, "teste.jpg"), quality=90)
         print("ok teste")
         return
+    telas = [capa()] + [tela(k) for k in range(len(PARES))] + [final()]
+    stories = [None] + [tela(k, story_h=1920) for k in range(len(PARES))] + [final(story=True)]
+    for i, (t, st) in enumerate(zip(telas, stories), 1):
+        t.convert("RGB").save(os.path.join(OUT, f"{i:02d}.png"))
+        if st is None:
+            st = t.resize((W, 1920)).filter(ImageFilter.GaussianBlur(40))
+            st = Image.blend(st.convert("RGB"), Image.new("RGB", (W, 1920), (30, 28, 40)), 0.35).convert("RGBA")
+            st.alpha_composite(t, (0, 285))
+        st.convert("RGB").save(os.path.join(OUT, "stories", f"story_{i:02d}.png"))
+    folha = Image.new("RGB", (4 * 370 + 10, 2 * 460 + 10), (255, 255, 255))
+    for i, t in enumerate(telas):
+        folha.paste(t.convert("RGB").resize((360, 450)), (10 + (i % 4) * 370, 10 + (i // 4) * 460))
+    folha.save(os.path.join(OUT, "previa.jpg"), quality=88)
+    print("ok", len(telas))
 
 
 if __name__ == "__main__":
