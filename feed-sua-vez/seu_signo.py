@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Carrossel "SEU SIGNO, SEU JOGO" (12/nov/2026), 2º da série do "Seu mês, seu jogo" (mesmo visual, importa seu_mes):
 bichinhos que ELES fizeram no Gemini (folha 4x3, na ordem dos signos, ampliada 4x com Real-ESRGAN →
-assets/seu_signo/gemini_signos_x4.png), frase do signo, caixa do jogo no canto. 1080x1350 + Stories 1080x1920.
+assets/seu_signo/gemini_signos_x4.jpg), frase do signo, caixa do jogo no canto. 1080x1350 + Stories 1080x1920.
 
     python3 seu_signo.py   # out/seu_signo/01..14.png + stories/ + out/seu_signo_previa.jpg
 """
@@ -15,7 +15,7 @@ import seu_mes as SM
 from seu_mes import W, H, E, letra, caixa, bicho, selo, papel
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
-SM.GEMINI = os.path.join(ROOT, "assets", "seu_signo", "gemini_signos_x4.png")
+SM.GEMINI = os.path.join(ROOT, "assets", "seu_signo", "gemini_signos_x4.jpg")
 SM.FUNDO_GEMINI = np.array([245, 237, 214], float)
 
 SIGNOS = [  # (signo, datas, frase, jogo, recorte, fundo pastel)
