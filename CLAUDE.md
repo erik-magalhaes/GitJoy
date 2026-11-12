@@ -1395,3 +1395,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   + guarda-chuva rosa segurando o calendário NOVEMBRO/20 (com os logos Sua Vez × Beca’s), caneta circula o 20, "VEM JOGAR!" (ele NÃO quis a palavra "lembrete"),
   tarde de jogos, data/horário, endereço, "R$ 30 · R$ 15 viram consumação", "garanta sua mesa aqui:" + seta, espaço livre
   y≈1490–1610 pro adesivo de link, WhatsApp embaixo. Sem "faltam N dias" (serve qualquer dia). `out/lembrete_becas_*_final.mp4`.
+- **PROMPTS DO GEMINI (12/nov):** `prompts-gemini/prompts.md` = mascote da Sua Vez (passo 1: 3 opções de meeple de
+  madeira nas cores do logo; passo 2: folha 4x3 de 12 poses NA MESMA conversa com a opção escolhida; passo 3: 4 lados +
+  8 expressões; passo 4: Natal/fim de ano), 6 cenários vazios 9:16 (mesa vista de cima, sala, estante, café com
+  guarda-chuvinhas, mesa de Natal, piquenique) pra eu pousar as caixas oficiais, kit de 20 figurinhas, série de bichinhos
+  "como cada um reage quando perde", mapa ilustrado ABC+SP e cena de evento DESENHADA. Ele vai gerar e mandar aos poucos.
