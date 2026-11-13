@@ -1442,3 +1442,6 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   ASSINATURAS → por enquanto NÃO usar isso em peças novas.** Banners Rejoy agora: 01 alugue, 02 queridinhos, 03 "ALUGAR É
   SIMPLES ASSIM" (escolhe → recebe em casa ou retira em Mauá → joga 5 dias), 04 "TEM JOGO PRA TODO ROLÊ" (a dois: Splendor
   Duel/Azul Duel; família: Trio/Flip 7; galera: The Resistance/Coup), 05 eventos.
+- **IMAGEM DE ABERTURA da página da loja na Rejoy (`banners/abertura.py`, 13/nov):** arte quadrada 1080x1080 e larga
+  1920x1080, SEM TEXTO (regra da Rejoy: a página põe o nome da loja e pode cobrir as bordas): azul-claro com trilha,
+  arco de caixas oficiais do site atrás da salsicha (entregando) + coruja (acenando) → `banners/out/abertura_{quadrada,larga}.png`.
