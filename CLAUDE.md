@@ -1161,7 +1161,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   WhatsApp (11) 97793-3910, "a gente leva os jogos e fica o evento todo ensinando"; nada de "já atendemos".
 - **TARDE DE JOGOS NO BECAS FECHADA (5/nov):** **sexta, 20/11/2026 (feriado), das 13h às 19h**, Becas Café, **Rua Sorocaba,
   35 – Mauá (CEP 09370-150; endereço do Restaurant Guru, pedi para ele confirmar)**; R$ 30 com R$ 15 de consumação; monitoria
-  (eles levam os jogos e ensinam); cupom de 10% no 1º aluguel (BECAS10, precisa ser criado no site). Constantes `DATA` e
+  (eles levam os jogos e ensinam); cupom de 5% no 1º aluguel (BECAS5 desde 13/nov; antes era 10%/BECAS10; precisa ser criado no site). Constantes `DATA` e
   `ENDERECO` + `selo_data`/`selo_endereco` em `promo/tarde_becas.py` (usadas também em `becas-reels/tarde.py`); horário de
   término: 19h (todas as peças dizem "13H ÀS 19H"). Kit: post, story, **flyer A5** (`flyer()`: o post + caixa com QR do site, 300 dpi,
   PNG + PDF), cupons A4 e o Reels das guarda-chuvinhas. Os 3 estilos alternativos (gamesday, retro60, letrinhas) também
@@ -1418,4 +1418,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
 - **IMPRESSOS DA TARDE NO BECA’S (`promo/imprimir_becas.py`, 13/nov):** junta tudo em `promo/out/becas/imprimir/`
   numerado: 00 guia (o que imprimir, papel, quantidade), 01 vales 001–060, 02 vales em branco, 03 cupons BECAS10 (60),
   04 crachás Erik/Jéssica, 05 plaquinhas mesas 1–8, 06 flyer A5, 07 LISTA DE CONTROLE (001–060: nome, WhatsApp, Pix,
-  chegou, cupom) + `TUDO_para_imprimir.pdf` (20 págs). Rodar antes tarde_becas.py, becas_chuva.py e cracha.py.
+  chegou, cupom) + `TUDO_para_imprimir.pdf`. Rodar antes tarde_becas.py, becas_chuva.py e cracha.py.
+  **13/nov, ele:** NÃO precisa de plaquinha de mesa; o cupom virou **5% (código BECAS5**, no padrão JOGAMAUA5/JOGAABC5;
+  eles precisam criar no site); imprimir hoje só fichas de consumação, cupons 5%, crachás e flyer (2 A5 por A4). Atual:
+  00 guia, 01 fichas 001–060, 02 cupons BECAS5, 03 crachás, 04 flyer 2 por A4, 05 lista de controle (opcional, fora do
+  TUDO); `TUDO_para_imprimir.pdf` = 8 págs.

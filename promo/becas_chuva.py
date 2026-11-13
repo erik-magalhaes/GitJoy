@@ -190,7 +190,7 @@ def tela_preco():
         segura(img, x, y, w, (PET, VERDE)[k], seed=k + 4)
     cabecalho(img, "E QUANTO É?", 1000, PET)
     bonus = placa(860, 150, BR, [("E MAIS: quem joga ganha um cupom", E.fig(36, 900), MAR),
-                                 ("de 10% no 1º aluguel na Sua Vez", E.fig(36, 900), PET)])
+                                 ("de 5% no 1º aluguel na Sua Vez", E.fig(36, 900), PET)])
     E.cola(img, bonus, W / 2, 1180, 1)
     return img
 

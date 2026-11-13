@@ -20,34 +20,25 @@ A4 = (2480, 3508)
 MAR, PET, LAR = E.MARROM, E.PETROLEO, E.LARANJA
 
 # (arquivo de saída, origem, páginas, como imprimir, quantas cópias)
-ITENS = [
+ITENS = [  # 13/nov: ele tirou as plaquinhas; hoje imprime só estes 4
     ("01_vales_consumacao_001-060.pdf", "vales_A4_001-060.pdf", 3,
-     "A4 sulfite (ou 120 g), colorido, tamanho real (100%). Cortar nas linhas cinza: 20 vales de 5x5 cm por folha.",
-     "1 de cada folha (3 folhas = 60 vales numerados). Fica no CAIXA do Beca’s."),
-    ("02_vales_em_branco.pdf", "vales_A4_em_branco.pdf", 1,
-     "Igual aos vales. Sem número: só se passar de 60 pessoas.", "Opcional: 1 folha (20 vales)."),
-    ("03_cupons_10off_BECAS10.pdf", "cupons_A4.pdf", 3,
+     "A4 sulfite (ou 120 g), colorido, tamanho real (100%). Cortar nas linhas cinza: 20 fichas de 5x5 cm por folha.",
+     "3 folhas = 60 fichas numeradas. Ficam no CAIXA do Beca’s."),
+    ("02_cupons_5off_BECAS5.pdf", "cupons_A4.pdf", 3,
      "A4, colorido, 100%. Cortar: 20 cupons de 5x5 cm por folha.",
-     "3 folhas = 60 cupons. Cada pagante LEVA um. Criar o cupom BECAS10 no site antes!"),
-    ("04_crachas_Erik_Jessica.pdf", "cracha_C_Erik_Jessica.pdf", 1,
+     "3 folhas = 60 cupons. Cada pagante LEVA um. Criar o cupom BECAS5 (5%) no site antes!"),
+    ("03_crachas_Erik_Jessica.pdf", "cracha_C_Erik_Jessica.pdf", 1,
      "A4, colorido, 100%, de preferência papel 180 g. Cortar cada crachá (10x14 cm) e pôr no porta-crachá.",
      "1 folha (Erik + Jéssica)."),
-    ("05_plaquinhas_mesas_1-8.pdf", "plaquinhas_mesa.pdf", 8,
-     "A4, colorido, 100%, papel 180 g. Dobrar ao meio na horizontal (fica em pé na mesa).",
-     "8 folhas = mesas 1 a 8 (imprime só as mesas que o Beca’s tiver)."),
-    ("06_flyer_A5.pdf", "flyer_A5.pdf", 1,
-     "A5 (meia folha A4), colorido. Pra deixar no balcão/divulgar antes; 2 por A4 se cortar.",
-     "Opcional: 10 a 20, pra espalhar antes do evento."),
+    ("04_flyer_2_por_A4.pdf", "flyer_2porA4.pdf", 1,
+     "A4, colorido, 100%. Cortar ao meio: 2 flyers A5 por folha.", "Quantas quiser (cada folha = 2 flyers)."),
 ]
 
-
-TIT = {"01_vales_consumacao_001-060.pdf": "VALES CONSUMAÇÃO R$ 15 (001 A 060)",
-       "02_vales_em_branco.pdf": "VALES EM BRANCO (RESERVA)",
-       "03_cupons_10off_BECAS10.pdf": "CUPONS 10% OFF (BECAS10)",
-       "04_crachas_Erik_Jessica.pdf": "CRACHÁS ERIK E JÉSSICA",
-       "05_plaquinhas_mesas_1-8.pdf": "PLAQUINHAS DAS MESAS 1 A 8",
-       "06_flyer_A5.pdf": "FLYER A5",
-       "07_lista_de_controle.pdf": "LISTA DE CONTROLE"}
+TIT = {"01_vales_consumacao_001-060.pdf": "FICHAS DE CONSUMAÇÃO R$ 15 (001 A 060)",
+       "02_cupons_5off_BECAS5.pdf": "CUPONS 5% OFF (BECAS5)",
+       "03_crachas_Erik_Jessica.pdf": "CRACHÁS ERIK E JÉSSICA",
+       "04_flyer_2_por_A4.pdf": "FLYER TARDE DE JOGOS (2 POR A4)",
+       "05_lista_de_controle.pdf": "LISTA DE CONTROLE (OPCIONAL)"}
 
 
 def pagina():
@@ -96,7 +87,7 @@ def guia():
     d.text((A4[0] / 2, 310), "Sexta, 20/11 · imprimir tudo em TAMANHO REAL (100%, sem \"ajustar à página\")",
            font=E.fig(46, 700), fill=PET, anchor="mm")
     y = 430
-    for k, (arq, _, n, como, qtd) in enumerate(ITENS + [("07_lista_de_controle.pdf", None, 2,
+    for k, (arq, _, n, como, qtd) in enumerate(ITENS + [("05_lista_de_controle.pdf", None, 2,
                                                           "A4 preto e branco. Na prancheta, na entrada.",
                                                           "2 folhas (001 a 060).")]):
         d.rounded_rectangle((170, y, A4[0] - 170, y + 380), 30, fill=(255, 247, 233), outline=MAR, width=5)
@@ -125,17 +116,25 @@ def main():
     os.makedirs(DST, exist_ok=True)
     for f in os.listdir(DST):
         os.remove(os.path.join(DST, f))
+    # flyer A5 duas vezes numa A4 em pé (cada um girado 90°)
+    fl = Image.open(os.path.join(OUT, "flyer_A5.png")).convert("RGB")
+    a4 = pagina()
+    f2 = fl.rotate(90, expand=True).resize((A4[0], A4[1] // 2), Image.LANCZOS)
+    a4.paste(f2, (0, 0))
+    a4.paste(f2, (0, A4[1] // 2))
+    ImageDraw.Draw(a4).line((0, A4[1] // 2, A4[0], A4[1] // 2), fill=(170, 170, 170), width=3)
+    a4.save(os.path.join(OUT, "flyer_2porA4.pdf"), resolution=DPI)
     for arq, orig, _, _, _ in ITENS:
         shutil.copy(os.path.join(OUT, orig), os.path.join(DST, arq))
     lc = lista_controle()
-    lc[0].save(os.path.join(DST, "07_lista_de_controle.pdf"), resolution=DPI, save_all=True, append_images=lc[1:])
+    lc[0].save(os.path.join(DST, "05_lista_de_controle.pdf"), resolution=DPI, save_all=True, append_images=lc[1:])
     g = guia()
     g.save(os.path.join(DST, "00_GUIA_o_que_imprimir.pdf"), resolution=DPI)
     # PDF único com tudo, na ordem
     import fitz
     tudo = fitz.open()
     for f in sorted(os.listdir(DST)):
-        if f.endswith(".pdf") and not f.startswith("TUDO"):
+        if f.endswith(".pdf") and not f.startswith(("TUDO", "00_", "05_")):
             tudo.insert_pdf(fitz.open(os.path.join(DST, f)))
     tudo.save(os.path.join(DST, "TUDO_para_imprimir.pdf"), deflate=True)
     print("ok", len(tudo), "páginas")
