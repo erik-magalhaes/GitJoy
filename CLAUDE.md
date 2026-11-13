@@ -1415,3 +1415,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   20/11 pendurado (de `lembrete_becas`), a capivara passa de patinete trazendo os jogos, a coruja aponta pro calendário e
   a capivara acena (pulam pra dentro e respiram), "VEM JOGAR COM A GENTE!" + data/endereço/preço, no fim os dois fazem
   joinha. Stories: "garanta sua mesa aqui:" + espaço do link; Reels: "Comenta: qual jogo você quer aprender?" + WhatsApp.
+- **IMPRESSOS DA TARDE NO BECA’S (`promo/imprimir_becas.py`, 13/nov):** junta tudo em `promo/out/becas/imprimir/`
+  numerado: 00 guia (o que imprimir, papel, quantidade), 01 vales 001–060, 02 vales em branco, 03 cupons BECAS10 (60),
+  04 crachás Erik/Jéssica, 05 plaquinhas mesas 1–8, 06 flyer A5, 07 LISTA DE CONTROLE (001–060: nome, WhatsApp, Pix,
+  chegou, cupom) + `TUDO_para_imprimir.pdf` (20 págs). Rodar antes tarde_becas.py, becas_chuva.py e cracha.py.
