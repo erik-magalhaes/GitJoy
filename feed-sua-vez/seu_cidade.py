@@ -21,8 +21,8 @@ SM.GEMINI = os.path.join(ROOT, "assets", "seu_cidade", "gemini_cidades_x4.jpg")
 CIDADES = [  # (cidade, frase, jogo, recorte (relativo a hobby-reels/assets/acervo), fundo pastel)
     ("SANTO ANDRÉ", "TRILHEIRO DE PARANAPIACABA:\nNÃO SAI DE CASA SEM MAPA", "Cartographers", "cartographers",
      (220, 236, 214)),
-    ("SÃO BERNARDO\nDO CAMPO", "CRIADO NO MEIO DOS MOTORES:\nSÓ PENSA EM CORRIDA", "Hot Streak",
-     "../caixas/hot_streak", (214, 226, 240)),
+    ("SÃO BERNARDO\nDO CAMPO", "CRIADO NO MEIO DOS MOTORES:\nSÓ PENSA EM CORRIDA", "Heat: Pedal to the Metal",
+     "../../../feed-sua-vez/assets/seu_cidade/heat", (214, 226, 240)),
     ("SÃO CAETANO\nDO SUL", "TUDO ARRUMADINHO,\nCADA COISA NO SEU QUADRADO", "Patchwork",
      "../../../roleta-reels/assets/patchwork", (240, 226, 210)),
     ("DIADEMA", "NÃO PARA DE DANÇAR E\nSABE O ANO DE TODA MÚSICA", "Hitster", "hitster", (250, 214, 206)),
@@ -66,7 +66,7 @@ def tela_cidade(k):
         b = b.resize((820, int(b.height * 820 / b.width)), Image.LANCZOS)
     img.alpha_composite(b, (int(W / 2 - b.width / 2), int(580 - b.height / 2)))
     letra(img, frase, 60, W / 2, 900, semente=k + 50)
-    cx = caixa(rec, 350, 480 if "hot_streak" in rec else 380)
+    cx = caixa(rec, 350, 380)
     x0 = int(W - 5 - cx.width)
     img.alpha_composite(cx, (x0, int(H + 15 - cx.height)))
     letra(img, "jogo: " + jogo, 44, (200 + x0 + 40) / 2, 1215, (80, 70, 70), sw=1, semente=k + 90)

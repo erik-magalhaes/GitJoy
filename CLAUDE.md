@@ -1452,6 +1452,6 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   QR dos impressos do Beca's agora aponta para **https://suavez.rejoy.com.br/** (`tarde_becas.SITE`).
 - **Carrossel "SUA CIDADE, SEU JOGO" (`feed-sua-vez/seu_cidade.py`, 13/nov, 3º da série dos bichinhos):** folha 4x2 do
   Gemini (`assets/seu_cidade/gemini_cidades.jpg` → `_x4` com Real-ESRGAN): Santo André tatu/Cartographers, São Bernardo
-  guaxinim/Hot Streak, São Caetano gato/Patchwork, Diadema papagaio/Hitster, Mauá quati maquinista/Ticket to Ride,
+  guaxinim/Heat: Pedal to the Metal (eles TÊM, ainda não está no site; caixa 3D Galápagos HET001 → `assets/seu_cidade/heat.png`), São Caetano gato/Patchwork, Diadema papagaio/Hitster, Mauá quati maquinista/Ticket to Ride,
   Ribeirão Pires capivara na rede/Savernake Forest, Rio Grande da Serra tucano/Treasure Island, São Paulo pombo/Metro.
   10 telas + Stories. Os prompts dos próximos (quando perde; dia da semana + feriado) estão em `prompts-gemini/prompts.md`.
