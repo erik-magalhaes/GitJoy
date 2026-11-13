@@ -1450,3 +1450,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   JSON-LD da página é só a miniatura de 256 px) → 172 fotos com o nome do jogo, cópias JPG q95 em 2 zips (< 30 MB cada),
   zip dos originais webp e `lista.csv`. Ele queria EXATAMENTE as fotos do site, sem as fotos extras da galeria.
   QR dos impressos do Beca's agora aponta para **https://suavez.rejoy.com.br/** (`tarde_becas.SITE`).
+- **Carrossel "SUA CIDADE, SEU JOGO" (`feed-sua-vez/seu_cidade.py`, 13/nov, 3º da série dos bichinhos):** folha 4x2 do
+  Gemini (`assets/seu_cidade/gemini_cidades.jpg` → `_x4` com Real-ESRGAN): Santo André tatu/Cartographers, São Bernardo
+  guaxinim/Hot Streak, São Caetano gato/Patchwork, Diadema papagaio/Hitster, Mauá quati maquinista/Ticket to Ride,
+  Ribeirão Pires capivara na rede/Savernake Forest, Rio Grande da Serra tucano/Treasure Island, São Paulo pombo/Metro.
+  10 telas + Stories. Os prompts dos próximos (quando perde; dia da semana + feriado) estão em `prompts-gemini/prompts.md`.
