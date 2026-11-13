@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """BANNERS do carrossel do topo do site novo (plataforma Rejoy, 13/nov/2026). 1600x900 (tamanho ideal que ele passou). Identidade da Jéssica (estilo.py) + mascotes 3D
-(capivara = Jéssica, coruja = Erik) + caixas OFICIAIS. Um fundo diferente por banner.
+(salsicha = Jéssica, coruja = Erik; 13/nov a capivara virou salsicha) + caixas OFICIAIS. Um fundo diferente por banner.
 Sem "mais alugados" (não há dado de aluguel: nunca inventar) → "queridinhos da casa".
 
     /usr/bin/python3 rejoy.py   → out/banner_0N_*.png + out/banners_previa.jpg
@@ -68,7 +68,7 @@ def b1_hero():
     esq(img, E.texto("e jogue em casa com quem você gosta", 46, MAR, 800), 118, 470)
     esq(img, E.pilula("+ DE 160 JOGOS · A PARTIR DE R$ 15", 40, AMA, MAR, fonte_titulo=True), 112, 570)
     esq(img, E.pilula("RETIRE EM MAUÁ OU RECEBA EM CASA", 36, PET, BR, fonte_titulo=True), 112, 670)
-    mascote(img, "capivara_pilha", 540, 1140, 860)
+    mascote(img, "salsicha_entregando", 520, 1130, 860)
     mascote(img, "coruja_acenando", 470, 1400, 860)
     logo_canto(img)
     return img
@@ -135,7 +135,7 @@ def b4_assinatura():
         b = plano(320, 360, cor, n, p, ls)
         E.cola(img, b, 300 + k * 360, 480, (-1.5, 0, 1.5)[k])
     E.cola(img, E.pilula("TROCAS SEM LIMITE NO MÊS", 40, AMA, MAR, fonte_titulo=True), 660, 760, 0)
-    mascote(img, "capivara_joinha", 480, 1380, 880)
+    mascote(img, "salsicha_joinha", 480, 1380, 880)
     logo_canto(img)
     return img
 
@@ -148,13 +148,64 @@ def b5_eventos():
     esq(img, E.pilula("ABC PAULISTA E SÃO PAULO CAPITAL", 36, BR, ROXO, fonte_titulo=True), 98, 650)
     esq(img, E.pilula("ORÇAMENTO NO WHATSAPP (11) 97793-3910", 36, AMA, MAR, fonte_titulo=True), 98, 750)
     mascote(img, "coruja_explicando", 600, 1110, 870)
-    mascote(img, "capivara_entregando", 500, 1400, 870)
+    mascote(img, "salsicha_joinha", 500, 1410, 870)
     logo_canto(img)
     return img
 
 
-BANNERS = [("01_alugue", b1_hero), ("02_queridinhos", b2_queridinhos), ("03_prazo_progressivo", b3_prazo),
-           ("04_assinaturas", b4_assinatura), ("05_eventos", b5_eventos)]
+def passo(n, tit, txt, cor):
+    w, h = 400, 400
+    b = E.bloco(w, h, BR, raio=34, ow=7, sombra=12).copy()
+    d = ImageDraw.Draw(b)
+    d.ellipse((w / 2 - 62, 34, w / 2 + 62, 158), fill=cor, outline=MAR, width=6)
+    d.text((w / 2, 98), str(n), font=E.lilita(84), fill=BR, anchor="mm", stroke_width=4, stroke_fill=MAR)
+    d.text((w / 2, 212), tit, font=E.lilita(50), fill=MAR, anchor="mm")
+    t = E.texto(txt, 32, PET, 800, larg_max=330)
+    b.alpha_composite(t, (int(w / 2 - t.width / 2), 262))
+    return b
+
+
+def b3_como():
+    img = E.fundo_xadrez(W, H).copy()
+    E.cola(img, E.titulo("ALUGAR É SIMPLES ASSIM", 96, LAR), 700, 150, -1)
+    for k, (tit, txt, cor) in enumerate([("ESCOLHE", "o jogo no site e reserva online", PET),
+                                         ("RECEBE", "em casa ou retira em Mauá", LAR),
+                                         ("JOGA", "5 dias com quem você gosta", (219, 39, 119))]):
+        E.cola(img, passo(k + 1, tit, txt, cor), 270 + k * 420, 540, (-2, 1, -1)[k])
+    mascote(img, "salsicha_acenando", 470, 1420, 880)
+    logo_canto(img)
+    return img
+
+
+def card_role(tit, nomes, cor):
+    w, h = 440, 520
+    b = E.bloco(w, h, cor, raio=36, ow=7, sombra=12).copy()
+    d = ImageDraw.Draw(b)
+    d.text((w / 2, 70), tit, font=E.lilita(60), fill=BR, anchor="mm", stroke_width=5, stroke_fill=MAR)
+    c1 = caixa(os.path.join(LISTA, nomes[0] + ".png"), 250)
+    c2 = caixa(os.path.join(LISTA, nomes[1] + ".png"), 250)
+    E.cola(b, c1, w * 0.36, 330, 4)
+    E.cola(b, c2, w * 0.64, 345, -4)
+    return b
+
+
+def b4_role():
+    img = Image.new("RGBA", (W, H), PET + (255,))
+    d = ImageDraw.Draw(img)
+    for y in range(30, H, 60):
+        for x in range(30 + (30 if (y // 60) % 2 else 0), W, 60):
+            d.ellipse((x - 3, y - 3, x + 3, y + 3), fill=(46, 142, 168))
+    E.cola(img, E.titulo("TEM JOGO PRA TODO ROLÊ", 96, AMA), 680, 130, -1)
+    for k, (tit, ns, cor) in enumerate([("A DOIS", ["splendor_duel", "azul_duel"], (219, 39, 119)),
+                                        ("EM FAMÍLIA", ["trio", "flip_7"], LAR),
+                                        ("COM A GALERA", ["the_resistance", "coup"], (108, 63, 160))]):
+        E.cola(img, card_role(tit, ns, cor), 240 + k * 470, 540, (-1.5, 0, 1.5)[k])
+    logo_canto(img)
+    return img
+
+
+BANNERS = [("01_alugue", b1_hero), ("02_queridinhos", b2_queridinhos), ("03_como_funciona", b3_como),
+           ("04_todo_role", b4_role), ("05_eventos", b5_eventos)]
 
 
 def main():

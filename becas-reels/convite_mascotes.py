@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""CONVITE da Tarde de Jogos no Beca’s com os MASCOTES (12/nov/2026, pedido dele): a capivara (Jéssica) e a coruja (Erik)
+"""CONVITE da Tarde de Jogos no Beca’s com os MASCOTES (12/nov/2026, pedido dele): a salsicha (Jéssica; até 13/nov era uma capivara) e a coruja (Erik)
 em 3D, recortadas das folhas do Gemini (`mascote/assets/poses/`), no visual das guarda-chuvinhas.
 
-10 s: guarda-chuvinhas caem; a capivara passa de patinete trazendo os jogos; a coruja aponta para o calendário pendurado
-(NOVEMBRO / 20, caneta circula); a capivara acena; "VEM JOGAR COM A GENTE!", data/horário, endereço e preço; no fim os
+10 s: guarda-chuvinhas caem; a salsicha passa de patinete trazendo os jogos; a coruja aponta para o calendário pendurado
+(NOVEMBRO / 20, caneta circula); a salsicha acena; "VEM JOGAR COM A GENTE!", data/horário, endereço e preço; no fim os
 dois trocam de pose (joinha). Stories: "garanta sua mesa aqui:" + seta e y≈1440–1600 LIVRE para o adesivo de link.
 Reels: "Comenta: qual jogo você quer aprender?" + WhatsApp no lugar do espaço do link.
 
@@ -65,12 +65,12 @@ def mascote(img, nome, h, cx, base, t, t0, espelha=False, fase=0.0):
 
 
 def patinete(img, t):
-    """A capivara de patinete atravessa a tela trazendo os jogos (0,6–3,0 s)."""
+    """A salsicha de patinete atravessa a tela trazendo os jogos (0,6–3,0 s)."""
     t0, t1 = 0.6, 3.0
     if not t0 <= t <= t1:
         return
     u = (t - t0) / (t1 - t0)
-    p = pose("capivara_patinete", 420)
+    p = pose("salsicha_patinete", 420)
     x = -p.width + u * (W + 2 * p.width)
     y = 1590 - p.height + 6 * math.sin(2 * math.pi * t * 4)
     for k in range(3):  # linhas de velocidade
@@ -99,7 +99,7 @@ def quadro(t):
     # a dupla dos dois lados do calendário; no fim trocam para o joinha
     fim = t >= 6.2
     mascote(img, "coruja_joinha" if fim else "coruja_apontando", 490, 215, 915, t, 1.6, fase=0.5)
-    mascote(img, "capivara_joinha" if fim else "capivara_acenando", 490, 870, 915, t, 1.9, espelha=not fim, fase=1.7)
+    mascote(img, "salsicha_joinha" if fim else "salsicha_acenando", 490, 870, 915, t, 1.9, espelha=not fim, fase=1.7)
     patinete(img, t)
     T.poe(img, T.titulo("VEM JOGAR\nCOM A GENTE!", 104, LAR), W / 2, 1015, t, 3.0, -2)
     T.poe(img, E.pilula("TARDE DE JOGOS NO BECA’S CAFÉ", 44, PET, BR, fonte_titulo=True), W / 2, 1150, t, 3.4, 1)

@@ -28,6 +28,12 @@ FOLHAS = {  # folha: (linhas de nomes, da esquerda pra direita)
     "dupla_ref": [["dupla_referencia"]],
     "dupla_cenas": [["dupla_acenando", "dupla_explicando", "dupla_vitoria"],
                     ["dupla_highfive", "dupla_aponta_baixo", "dupla_abraco"]],
+    # 13/nov: a capivara virou uma SALSICHA (dachshund) de cachecol rosa = a Jéssica
+    "salsicha_ref": [["dupla2_referencia"]],
+    "salsicha_1": [["salsicha_acenando", "salsicha_apontando", "salsicha_aponta_baixo"],
+                   ["salsicha_comemorando", "salsicha_entregando", "salsicha_joinha"]],
+    "salsicha_2": [["salsicha_patinete", "salsicha_rindo", "salsicha_surpresa"],
+                   ["salsicha_pufe", "salsicha_chorando", "salsicha_pilha"]],
     "dupla_natal": [["natal_acenando", "natal_presente", "natal_pisca_pisca"],
                     ["natal_amigo_secreto", "natal_brinde", "natal_dormindo"]],
 }

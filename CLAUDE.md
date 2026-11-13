@@ -1433,3 +1433,12 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   oficiais; sem "mais alugados" porque não há dado), 03 prazo progressivo 3/5/7 → 7/10/15 (xadrez amarelo, degraus), 04
   assinaturas Silver/Gold/Platinum (petróleo pontilhado), 05 eventos (roxo, coruja explicando + capivara entregando, ABC + SP,
   WhatsApp). "Por editora" ficou como sugestão (falta escolher quais).
+- **13/nov: A CAPIVARA VIROU SALSICHA (dachshund de cachecol ROSA) = a Jéssica.** Folhas `mascote/assets/folhas/salsicha_{ref,1,2}.jpg`
+  → poses `salsicha_*` (acenando, apontando, aponta_baixo, comemorando, entregando, joinha, patinete, rindo, surpresa, pufe,
+  chorando, pilha) + `dupla2_referencia`. Na folha 2 (rindo, surpresa, pufe, chorando, pilha) ela está de COLEIRA e sem
+  cachecol (inconsistência do Gemini: preferir as de cachecol). As poses `capivara_*`, `dupla_*` e `natal_*` (com capivara)
+  NÃO valem mais; a dupla e o Natal precisam ser pedidos de novo ao Gemini com a salsicha. Trocado nos banners e no
+  `convite_mascotes.py`. **Também 13/nov: eles não sabem se vão manter o prazo progressivo (3/5/7 jogos) nem as
+  ASSINATURAS → por enquanto NÃO usar isso em peças novas.** Banners Rejoy agora: 01 alugue, 02 queridinhos, 03 "ALUGAR É
+  SIMPLES ASSIM" (escolhe → recebe em casa ou retira em Mauá → joga 5 dias), 04 "TEM JOGO PRA TODO ROLÊ" (a dois: Splendor
+  Duel/Azul Duel; família: Trio/Flip 7; galera: The Resistance/Coup), 05 eventos.
