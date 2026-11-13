@@ -152,6 +152,40 @@ def flyer_pb():
     return img.convert("L").convert("RGB")
 
 
+def flyer_pb_a6():
+    """A6 (10,5 x 14,8 cm, 4 por A4): só o essencial — data, lugar, preço, WhatsApp e QR (sem a lista de itens)."""
+    w, h = 1240, 1748
+    img = Image.new("RGBA", (w, h), BR + (255,))
+    d = ImageDraw.Draw(img)
+    rnd = random.Random(8)
+    for k, y in enumerate([70, 130, 55, 120, 75]):
+        x = (k + 0.5) * w / 5 + rnd.uniform(-12, 12)
+        d.line([(x, 0), (x, y)], fill=CINZA, width=3)
+        g = guarda_chuva_pb(int(150 * rnd.uniform(0.9, 1.08)), k).rotate(rnd.uniform(-9, 9), expand=True,
+                                                                           resample=Image.BICUBIC)
+        img.alpha_composite(g, (int(x - g.width / 2), int(y - 6)))
+    cola(img, logos_pb(118), w / 2, 395)
+    cola(img, titulo("TARDE", 190), w / 2, 565)
+    cola(img, titulo("DE JOGOS", 190), w / 2, 745)
+    cola(img, pilula("SEXTA, 20/11 (FERIADO)", 50), w / 2, 905)
+    cola(img, pilula("13H ÀS 19H · BECA’S CAFÉ", 46, cheia=False), w / 2, 995)
+    d.text((w / 2, 1065), "Rua Sorocaba, 35 · Mauá", font=E.fig(42, 800), fill=K, anchor="mm")
+    y0 = 1120
+    d.rounded_rectangle((70, y0, w - 70, y0 + 190), 32, outline=K, width=6)
+    d.text((115, y0 + 95), "R$ 30", font=E.lilita(130), fill=K, anchor="lm")
+    d.text((520, y0 + 70), "R$ 15 viram", font=E.fig(46, 800), fill=K, anchor="lm")
+    d.text((520, y0 + 125), "consumação no café", font=E.fig(46, 800), fill=K, anchor="lm")
+    y1 = 1335
+    d.rounded_rectangle((70, y1, w - 70, y1 + 170), 32, fill=K)
+    d.text((w / 2, y1 + 55), "RESERVE PELO WHATSAPP", font=E.lilita(52), fill=BR, anchor="mm")
+    d.text((w / 2, y1 + 120), TB.WHATS, font=E.lilita(64), fill=BR, anchor="mm")
+    q = TB.qr(170).convert("L").point(lambda v: 0 if v < 128 else 255).convert("RGB")
+    img.paste(q, (90, 1540))
+    d.text((295, 1590), "A gente ensina os jogos!", font=E.fig(42, 800), fill=K, anchor="lm")
+    d.text((295, 1655), "@suavez_bg", font=E.fig(42, 700), fill=K, anchor="lm")
+    return img.convert("L").convert("RGB")
+
+
 def main():
     f = flyer_pb()
     f.save(os.path.join(OUT, "flyer_pb_A5.png"))
@@ -164,6 +198,18 @@ def main():
     ImageDraw.Draw(a4).line((0, A4[1] // 2, A4[0], A4[1] // 2), fill=(170, 170, 170), width=3)
     os.makedirs(os.path.join(OUT, "imprimir"), exist_ok=True)
     a4.save(os.path.join(OUT, "imprimir", "04b_flyer_PB_2_por_A4.pdf"), resolution=DPI)
+    f6 = flyer_pb_a6()
+    f6.save(os.path.join(OUT, "flyer_pb_A6.png"))
+    a4 = Image.new("RGB", A4, BR)
+    cw, ch = A4[0] // 2, A4[1] // 2
+    f6r = f6.resize((cw, ch), Image.LANCZOS)
+    for i in range(2):
+        for j in range(2):
+            a4.paste(f6r, (i * cw, j * ch))
+    dd = ImageDraw.Draw(a4)
+    dd.line((cw, 0, cw, A4[1]), fill=(170, 170, 170), width=3)
+    dd.line((0, ch, A4[0], ch), fill=(170, 170, 170), width=3)
+    a4.save(os.path.join(OUT, "imprimir", "04c_flyer_PB_pequeno_4_por_A4.pdf"), resolution=DPI)
     print("ok")
 
 

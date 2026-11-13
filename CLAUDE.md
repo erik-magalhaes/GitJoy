@@ -1426,4 +1426,4 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
 - **FLYER PRETO E BRANCO (`promo/flyer_pb.py`, 13/nov, pedido dele pra economizar na impressão):** desenho próprio pra
   P&B (não é o colorido em cinza): fundo branco, guarda-chuvinhas em traço com gomos hachurados, "TARDE DE JOGOS" vazado
   com contorno e sombra preta, pílula preta da data, pílula contornada do endereço, caixa do preço, faixa preta do
-  WhatsApp, logos em cinza, QR lido no OpenCV → `out/becas/flyer_pb_A5.{png,pdf}` + `imprimir/04b_flyer_PB_2_por_A4.pdf`.
+  WhatsApp, logos em cinza, QR lido no OpenCV → `out/becas/flyer_pb_A5.{png,pdf}` + `imprimir/04b_flyer_PB_2_por_A4.pdf`. **Pequeno A6, 4 por A4** (`flyer_pb_a6`, só o essencial: data, lugar, R$ 30/15, WhatsApp, QR) → `flyer_pb_A6.png` + `imprimir/04c_flyer_PB_pequeno_4_por_A4.pdf`.
