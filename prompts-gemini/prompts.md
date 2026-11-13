@@ -56,3 +56,82 @@ Using exactly these same 3D characters, create ONE image: a 3x2 grid of 6 scenes
 - Cozy 3D animated movie style scene, vertical 9:16: a small charming board game rental shop with wooden shelves full of generic colorful game boxes (no artwork, no text), a counter in front, warm light. No characters, no text.
 - Cozy 3D animated movie style scene, vertical 9:16: a charming café with many small colorful paper cocktail umbrellas hanging from the ceiling (orange, teal, yellow, pink, green), wooden tables, plants, warm light. No characters, no text.
 - Cozy 3D animated movie style scene, vertical 9:16: a living room decorated for Christmas, tree with lights, gifts, fireplace, a big empty wooden table in front. No characters, no text.
+
+---
+
+## Carrosséis de bichinhos, série "Seu ___, seu jogo" (13/nov)
+
+Dica: anexar a folha do "Seu mês" (`feed-sua-vez/assets/seu_mes/gemini_12_v1.jpg`) como referência de estilo.
+
+### A. Sua cidade, seu jogo (8 bichinhos, folha 4x2)
+
+```
+Usando a imagem anexada como referência de ESTILO (mesmo traço, mesmas cores suaves, mesmo jeitinho fofo e engraçado), crie uma folha com 8 bichinhos, em uma grade de 4 colunas e 2 linhas.
+
+Regras da folha:
+- fundo creme claro, liso e uniforme em toda a imagem, sem textura, sem sombra no chão, sem moldura
+- cada bichinho inteiro (corpo todo, nada cortado), centralizado no seu espaço, todos no mesmo tamanho
+- bastante espaço vazio entre um bichinho e outro
+- NENHUM texto, letra, número ou placa escrita
+
+Os 8 bichinhos (um para cada cidade, com uma piadinha da cidade):
+1. Santo André: um tatu explorador com mochila e mapa, no meio da neblina de Paranapiacaba
+2. São Bernardo do Campo: um guaxinim mecânico de macacão, com chave inglesa e mancha de graxa no rosto
+3. São Caetano do Sul: um gato elegante de suéter e cachecol, tudo arrumadinho e impecável
+4. Diadema: um papagaio de boné e fone de ouvido dançando hip hop
+5. Mauá: um quati maquinista com quepe de trem e apito na boca
+6. Ribeirão Pires: uma capivara relaxada deitada numa rede, segurando uma barra de chocolate
+7. Rio Grande da Serra: um tucano aventureiro com mochila e cantil, pronto pra trilha na serra
+8. São Paulo capital: um pombo de terno correndo atrasado, com copo de café e celular na mão
+```
+
+Jogos: Santo André → Cartographers · São Bernardo → Hot Streak · São Caetano → Patchwork · Diadema → Hitster ·
+Mauá → Ticket to Ride · Ribeirão Pires → Savernake Forest · Rio Grande da Serra → Treasure Island · São Paulo → Metro
+
+### B. Como você reage quando perde? (6 bichinhos, folha 3x2)
+
+```
+Usando a imagem anexada como referência de ESTILO (mesmo traço, mesmas cores suaves, mesmo jeitinho fofo e engraçado), crie uma folha com 6 bichinhos, em uma grade de 3 colunas e 2 linhas.
+
+Regras da folha:
+- fundo creme claro, liso e uniforme em toda a imagem, sem textura, sem sombra no chão, sem moldura
+- cada bichinho inteiro (corpo todo, nada cortado), centralizado no seu espaço, todos no mesmo tamanho
+- bastante espaço vazio entre um bichinho e outro
+- NENHUM texto, letra, número ou placa escrita
+
+Os 6 bichinhos, cada um reagindo de um jeito depois de perder um jogo de tabuleiro:
+1. um touro furioso virando uma mesinha, com cartas voando
+2. um galo com faixa de lutador na cabeça, punhos levantados, pedindo revanche
+3. um gato de nariz empinado e olhos fechados, com cara de "eu deixei você ganhar"
+4. um sapo bravo apontando com raiva para um dado
+5. um panda feliz e distraído comendo bambu, sem nem perceber que perdeu
+6. uma lhama dramática desmaiando, com a mão na testa
+```
+
+Jogos: vira a mesa → Coup · revanche → Flip 7: A Vingança · "deixei ganhar" → Sushi Go! · culpa o dado → Dice Colony ·
+nem percebeu → Wandering Towers · drama → Por favor, não corte minha cabeça!
+
+### C. Seu dia da semana, seu jogo (7 dias + feriado, folha 4x2)
+
+```
+Usando a imagem anexada como referência de ESTILO (mesmo traço, mesmas cores suaves, mesmo jeitinho fofo e engraçado), crie uma folha com 8 bichinhos, em uma grade de 4 colunas e 2 linhas.
+
+Regras da folha:
+- fundo creme claro, liso e uniforme em toda a imagem, sem textura, sem sombra no chão, sem moldura
+- cada bichinho inteiro (corpo todo, nada cortado), centralizado no seu espaço, todos no mesmo tamanho
+- bastante espaço vazio entre um bichinho e outro
+- NENHUM texto, letra, número ou placa escrita
+
+Os 8 bichinhos (um para cada dia da semana e um para o feriado):
+1. Segunda: um urso de pijama com olheiras, abraçado numa xícara de café gigante, mal-humorado
+2. Terça: uma tartaruga de tênis de corrida tentando ser rápida, suando
+3. Quarta: uma cabra escalando uma pilha de blocos, no meio da subida
+4. Quinta: um coelho ansioso olhando para um relógio de bolso
+5. Sexta: um guaxinim festeiro de chapéu de festa, jogando confete
+6. Sábado: um texugo aventureiro com capacete de lanterna, pronto pra uma longa missão
+7. Domingo: uma preguiça de pijama e pantufas, deitada no sofá com uma mantinha
+8. Feriado: um pato de óculos escuros com mala de viagem e boia na cintura
+```
+
+Jogos: segunda → The Mind · terça → Flash 10 · quarta → Santorini · quinta → Take Time · sexta → Throw Throw Burrito ·
+sábado → Clank! Catacombs · domingo → Dixit: Disney Edition · feriado → Sky Team
