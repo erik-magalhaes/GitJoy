@@ -1445,3 +1445,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
 - **IMAGEM DE ABERTURA da página da loja na Rejoy (`banners/abertura.py`, 13/nov):** arte quadrada 1080x1080 e larga
   1920x1080, SEM TEXTO (regra da Rejoy: a página põe o nome da loja e pode cobrir as bordas): azul-claro com trilha,
   arco de caixas oficiais do site atrás da salsicha (entregando) + coruja (acenando) → `banners/out/abertura_{quadrada,larga}.png`.
+- **FOTOS DO SITE ANTIGO PARA A REJOY (`site-fotos/baixar.py`, 13/nov):** baixa a foto PRINCIPAL de cada jogo (a do
+  cartão da vitrine em `/boardgames?page=N`, `arquivos-publicos.acervodejogos.com.br/<id>`, webp 1024 px; o "image" do
+  JSON-LD da página é só a miniatura de 256 px) → 172 fotos com o nome do jogo, cópias JPG q95 em 2 zips (< 30 MB cada),
+  zip dos originais webp e `lista.csv`. Ele queria EXATAMENTE as fotos do site, sem as fotos extras da galeria.
+  QR dos impressos do Beca's agora aponta para **https://suavez.rejoy.com.br/** (`tarde_becas.SITE`).
