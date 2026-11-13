@@ -30,7 +30,7 @@ MAR, PET, LAR, AMA, BR = E.MARROM, E.PETROLEO, E.LARANJA, E.AMARELO, E.BRANCO
 ROSA = (219, 39, 119)
 CREME = (255, 247, 233)
 WHATS = "(11) 97793-3910"
-SITE = "https://suavez.acervodejogos.com.br/"
+SITE = "https://suavez.rejoy.com.br/"
 CUPOM = "BECAS5"  # 13/nov: ele mudou para 5% (padrão JOGAMAUA5 / JOGAABC5); precisa ser criado no site
 JOGOS = ["hitster", "dixit", "telma", "tapalavras", "say_my_name", "uga_buga"]
 
@@ -232,7 +232,7 @@ def flyer():
     q = qr(118)
     img.paste(q, (96, 1379))
     d.text((240, 1408), "Conheça o nosso acervo:", font=E.fig(32, 800), fill=MAR, anchor="lm")
-    d.text((240, 1458), "suavez.acervodejogos.com.br · @suavez_bg", font=E.fig(30, 700), fill=PET, anchor="lm")
+    d.text((240, 1458), "suavez.rejoy.com.br · @suavez_bg", font=E.fig(30, 700), fill=PET, anchor="lm")
     return img
 
 
