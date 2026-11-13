@@ -1427,3 +1427,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   P&B (não é o colorido em cinza): fundo branco, guarda-chuvinhas em traço com gomos hachurados, "TARDE DE JOGOS" vazado
   com contorno e sombra preta, pílula preta da data, pílula contornada do endereço, caixa do preço, faixa preta do
   WhatsApp, logos em cinza, QR lido no OpenCV → `out/becas/flyer_pb_A5.{png,pdf}` + `imprimir/04b_flyer_PB_2_por_A4.pdf`. **Pequeno A6, 4 por A4** (`flyer_pb_a6`, só o essencial: data, lugar, R$ 30/15, WhatsApp, QR) → `flyer_pb_A6.png` + `imprimir/04c_flyer_PB_pequeno_4_por_A4.pdf`.
+- **SITE NOVO NA REJOY (13/nov):** eles estão trocando o Acervo de Jogos pela plataforma **Rejoy**, que tem carrossel de
+  banners no topo. `banners/rejoy.py` → `banners/out/banner_0N_*.png` (1920x640, 3:1; tamanho da Rejoy NÃO confirmado — a
+  busca não achou a especificação; o importante fica no meio x≈300–1620): 01 "ALUGUE JOGOS DE TABULEIRO" (azul-claro com
+  trilha, capivara com pilha de caixas + coruja acenando), 02 "OS QUERIDINHOS DA CASA" (laranja com confete, 5 caixas
+  oficiais; sem "mais alugados" porque não há dado), 03 prazo progressivo 3/5/7 → 7/10/15 (xadrez amarelo, degraus), 04
+  assinaturas Silver/Gold/Platinum (petróleo pontilhado), 05 eventos (roxo, coruja explicando + capivara entregando, ABC + SP,
+  WhatsApp). "Por editora" ficou como sugestão (falta escolher quais).
