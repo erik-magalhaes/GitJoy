@@ -19,20 +19,20 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 SM.GEMINI = os.path.join(ROOT, "assets", "seu_cidade", "gemini_cidades_x4.jpg")
 
 CIDADES = [  # (cidade, frase, jogo, recorte (relativo a hobby-reels/assets/acervo), fundo pastel)
-    ("SANTO ANDRÉ", "TRILHEIRO DE PARANAPIACABA:\nNÃO SAI DE CASA SEM MAPA", "Cartographers", "cartographers",
+    ("SANTO ANDRÉ", "CASA DE PARANAPIACABA:\nNEBLINA, TRILHA E MAPA NA MÃO", "Cartographers", "cartographers",
      (220, 236, 214)),
-    ("SÃO BERNARDO\nDO CAMPO", "CRIADO NO MEIO DOS MOTORES:\nSÓ PENSA EM CORRIDA", "Heat: Pedal to the Metal",
+    ("SÃO BERNARDO\nDO CAMPO", "CAPITAL DO AUTOMÓVEL:\nAQUI O MOTOR NUNCA PARA", "Heat: Pedal to the Metal",
      "../../../feed-sua-vez/assets/seu_cidade/heat", (214, 226, 240)),
-    ("SÃO CAETANO\nDO SUL", "TUDO ARRUMADINHO,\nCADA COISA NO SEU QUADRADO", "Patchwork",
+    ("SÃO CAETANO\nDO SUL", "PEQUENININHA: CABE EM QUALQUER\nCANTO E SE AJEITA EM TODO LUGAR", "Patchwork",
      "../../../roleta-reels/assets/patchwork", (240, 226, 210)),
-    ("DIADEMA", "NÃO PARA DE DANÇAR E\nSABE O ANO DE TODA MÚSICA", "Hitster", "hitster", (250, 214, 206)),
-    ("MAUÁ", "TERRA DO BARÃO DE MAUÁ:\nNASCEU EM CIMA DOS TRILHOS", "Ticket to Ride", "ticket_to_ride",
+    ("DIADEMA", "BERÇO DO HIP HOP NO ABC:\nAQUI SEMPRE TEM MÚSICA TOCANDO", "Hitster", "hitster", (250, 214, 206)),
+    ("MAUÁ", "TERRA DO BARÃO DE MAUÁ:\nCRESCEU EM VOLTA DOS TRILHOS", "Ticket to Ride", "ticket_to_ride",
      (252, 230, 196)),
-    ("RIBEIRÃO PIRES", "SÓ QUER SOSSEGO, MATO\nE UM CHOCOLATINHO", "Savernake Forest", "savernake_forest",
+    ("RIBEIRÃO PIRES", "TERRA DO FESTIVAL DO CHOCOLATE:\nMATA, SOSSEGO E CHOCOLATINHO", "Savernake Forest", "savernake_forest",
      (236, 222, 206)),
-    ("RIO GRANDE\nDA SERRA", "VIVE SUBINDO A SERRA\nATRÁS DE UM TESOURO", "Treasure Island", "treasure_island",
+    ("RIO GRANDE\nDA SERRA", "NO ALTO DA SERRA DO MAR:\nCADA TRILHA ESCONDE UM TESOURO", "Treasure Island", "treasure_island",
      (212, 234, 226)),
-    ("SÃO PAULO", "SEMPRE ATRASADO\nE MORANDO NO METRÔ", "Metro", "metro", (226, 222, 236)),
+    ("SÃO PAULO", "A CIDADE QUE NUNCA PARA:\nTUDO ACONTECE NO METRÔ", "Metro", "metro", (226, 222, 236)),
 ]
 
 

@@ -1461,5 +1461,6 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   "deixou ganhar"/Sushi Go! (a LATA em inglês da foto do site, recortada do laranja → `assets/seu_perde/sushi_go.png`),
   sapo culpa o dado/Dice Colony, panda nem percebeu/Wandering Towers, hamster dramático/Por favor, não corte minha cabeça!
   8 telas + Stories. `sem_sombra()` tira a sombra clara do chão; o creme da folha é medido na borda (`FUNDO_GEMINI`).
-  **Cidades:** ele perguntou se ficou preconceituoso; sugeri trocar frases de São Caetano (menor cidade do ABC),
-  Diadema (berço do hip hop no ABC) e Ribeirão Pires (Festival do Chocolate) — esperando ele responder.
+  **Cidades (13/nov):** ele achou que podia soar preconceituoso → TODAS as frases descrevem a CIDADE, não quem mora lá
+  (Paranapiacaba, capital do automóvel, pequenininha que cabe em qualquer canto, berço do hip hop, Barão de Mauá e os
+  trilhos, Festival do Chocolate, Serra do Mar, cidade que nunca para). Regra para peças sobre lugares: falar do lugar.
