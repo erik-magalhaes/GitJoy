@@ -1423,3 +1423,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   eles precisam criar no site); imprimir hoje só fichas de consumação, cupons 5%, crachás e flyer (2 A5 por A4). Atual:
   00 guia, 01 fichas 001–060, 02 cupons BECAS5, 03 crachás, 04 flyer 2 por A4, 05 lista de controle (opcional, fora do
   TUDO); `TUDO_para_imprimir.pdf` = 8 págs.
+- **FLYER PRETO E BRANCO (`promo/flyer_pb.py`, 13/nov, pedido dele pra economizar na impressão):** desenho próprio pra
+  P&B (não é o colorido em cinza): fundo branco, guarda-chuvinhas em traço com gomos hachurados, "TARDE DE JOGOS" vazado
+  com contorno e sombra preta, pílula preta da data, pílula contornada do endereço, caixa do preço, faixa preta do
+  WhatsApp, logos em cinza, QR lido no OpenCV → `out/becas/flyer_pb_A5.{png,pdf}` + `imprimir/04b_flyer_PB_2_por_A4.pdf`.
