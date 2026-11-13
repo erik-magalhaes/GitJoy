@@ -357,8 +357,36 @@ def folha_a4(f, nomes=None):
     return fo
 
 
+def folha_dupla(f, nomes=("ERIK", "JÉSSICA"), esc=0.95, sangria=24, gap_cm=1.5):
+    """13/nov ("não corre risco de ficar ruim pra cortar?"): os 2 crachás UM EMBAIXO DO OUTRO com 1,5 cm entre eles
+    (lado a lado sobravam só 5 mm de margem na A4, a impressora corta), a 95% (9,5 x 13,3 cm: entra folgado no
+    porta-crachá 10 x 14) e com 2 mm de SANGRIA (a borda do desenho continua pra fora da linha de corte: se a tesoura
+    desviar um pouco, não aparece filete branco). Marcas de corte nos 4 cantos de cada um."""
+    import numpy as np
+    A4 = (int(21 / 2.54 * DPI), int(29.7 / 2.54 * DPI))
+    fo = Image.new("RGB", A4, (255, 255, 255))
+    d = ImageDraw.Draw(fo)
+    w, h = int(CW * esc), int(CH * esc)
+    gap = int(gap_cm / 2.54 * DPI)
+    x0 = (A4[0] - w) // 2
+    y0 = (A4[1] - 2 * h - gap) // 2
+    for k, n in enumerate(nomes):
+        c = np.asarray(f(n).convert("RGB").resize((w, h), Image.LANCZOS))
+        c = np.pad(c, ((sangria, sangria), (sangria, sangria), (0, 0)), mode="edge")
+        y = y0 + k * (h + gap)
+        fo.paste(Image.fromarray(c), (x0 - sangria, y - sangria))
+        for cx in (x0, x0 + w):  # marcas de corte fora da sangria
+            for cy in (y, y + h):
+                sx = -1 if cx == x0 else 1
+                sy = -1 if cy == y else 1
+                d.line((cx, cy + sy * (sangria + 10), cx, cy + sy * (sangria + 70)), fill=(90, 90, 90), width=3)
+                d.line((cx + sx * (sangria + 10), cy, cx + sx * (sangria + 70), cy), fill=(90, 90, 90), width=3)
+    return fo
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
+    folha_dupla(OPCOES["C"]).save(os.path.join(OUT, "cracha_C_Erik_Jessica.pdf"), resolution=DPI)
     w = 420
     h = int(w * CH / CW)
     for arq, ops in (("cracha_opcoes.jpg", OPCOES), ("cracha_opcoes2.jpg", OPCOES2), ("cracha_opcoes3.jpg", OPCOES3)):
