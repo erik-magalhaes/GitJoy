@@ -30,14 +30,15 @@ ITENS = [  # 13/nov: ele tirou as plaquinhas; hoje imprime só estes 4
     ("03_crachas_Erik_Jessica.pdf", "cracha_C_Erik_Jessica.pdf", 1,
      "A4, colorido, 100%, de preferência papel 180 g. Cortar cada crachá (10x14 cm) e pôr no porta-crachá.",
      "1 folha (Erik + Jéssica)."),
-    ("04_flyer_2_por_A4.pdf", "flyer_2porA4.pdf", 1,
-     "A4, colorido, 100%. Cortar ao meio: 2 flyers A5 por folha.", "Quantas quiser (cada folha = 2 flyers)."),
+    ("04_flyers_4_por_A4_x8.pdf", "flyer_4porA4_x8.pdf", 8,
+     "A4, colorido, 100%. Cortar em 4: flyers de 10,5 x 14,8 cm (cruz cinza no meio da folha).",
+     "8 folhas iguais = 32 flyers (pediu ~30)."),
 ]
 
 TIT = {"01_vales_consumacao_001-060.pdf": "FICHAS DE CONSUMAÇÃO R$ 15 (001 A 060)",
        "02_cupons_5off_BECAS5.pdf": "CUPONS 5% OFF (BECAS5)",
        "03_crachas_Erik_Jessica.pdf": "CRACHÁS ERIK E JÉSSICA",
-       "04_flyer_2_por_A4.pdf": "FLYER TARDE DE JOGOS (2 POR A4)",
+       "04_flyers_4_por_A4_x8.pdf": "FLYERS TARDE DE JOGOS (4 POR A4)",
        "05_lista_de_controle.pdf": "LISTA DE CONTROLE (OPCIONAL)"}
 
 
@@ -116,14 +117,18 @@ def main():
     os.makedirs(DST, exist_ok=True)
     for f in os.listdir(DST):
         os.remove(os.path.join(DST, f))
-    # flyer A5 duas vezes numa A4 em pé (cada um girado 90°)
     fl = Image.open(os.path.join(OUT, "flyer_A5.png")).convert("RGB")
+    # 13/nov: ~30 flyers → 4 por A4 (A6, 10,5 x 14,8 cm) x 8 folhas = 32
     a4 = pagina()
-    f2 = fl.rotate(90, expand=True).resize((A4[0], A4[1] // 2), Image.LANCZOS)
-    a4.paste(f2, (0, 0))
-    a4.paste(f2, (0, A4[1] // 2))
-    ImageDraw.Draw(a4).line((0, A4[1] // 2, A4[0], A4[1] // 2), fill=(170, 170, 170), width=3)
-    a4.save(os.path.join(OUT, "flyer_2porA4.pdf"), resolution=DPI)
+    cw, ch = A4[0] // 2, A4[1] // 2
+    f4 = fl.resize((cw, ch), Image.LANCZOS)
+    for i in range(2):
+        for j in range(2):
+            a4.paste(f4, (i * cw, j * ch))
+    dd = ImageDraw.Draw(a4)
+    dd.line((cw, 0, cw, A4[1]), fill=(170, 170, 170), width=3)
+    dd.line((0, ch, A4[0], ch), fill=(170, 170, 170), width=3)
+    a4.save(os.path.join(OUT, "flyer_4porA4_x8.pdf"), resolution=DPI, save_all=True, append_images=[a4] * 7)
     for arq, orig, _, _, _ in ITENS:
         shutil.copy(os.path.join(OUT, orig), os.path.join(DST, arq))
     lc = lista_controle()

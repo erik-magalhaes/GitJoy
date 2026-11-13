@@ -1420,9 +1420,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   04 crachás Erik/Jéssica, 05 plaquinhas mesas 1–8, 06 flyer A5, 07 LISTA DE CONTROLE (001–060: nome, WhatsApp, Pix,
   chegou, cupom) + `TUDO_para_imprimir.pdf`. Rodar antes tarde_becas.py, becas_chuva.py e cracha.py.
   **13/nov, ele:** NÃO precisa de plaquinha de mesa; o cupom virou **5% (código BECAS5**, no padrão JOGAMAUA5/JOGAABC5;
-  eles precisam criar no site); imprimir hoje só fichas de consumação, cupons 5%, crachás e flyer (2 A5 por A4). Atual:
-  00 guia, 01 fichas 001–060, 02 cupons BECAS5, 03 crachás, 04 flyer 2 por A4, 05 lista de controle (opcional, fora do
-  TUDO); `TUDO_para_imprimir.pdf` = 8 págs.
+  eles precisam criar no site); imprimir hoje só fichas de consumação, cupons 5%, crachás e flyer. Ele NÃO gostou do flyer P&B (fica o colorido); flyer = **4 por A4 (A6), 8 folhas = 32 flyers** (ele pediu ~30). Atual:
+  00 guia, 01 fichas 001–060, 02 cupons BECAS5, 03 crachás, 04 flyers 4 por A4 x8, 05 lista de controle (opcional, fora do
+  TUDO); `TUDO_para_imprimir.pdf` = 15 págs.
 - **FLYER PRETO E BRANCO (`promo/flyer_pb.py`, 13/nov, pedido dele pra economizar na impressão):** desenho próprio pra
   P&B (não é o colorido em cinza): fundo branco, guarda-chuvinhas em traço com gomos hachurados, "TARDE DE JOGOS" vazado
   com contorno e sombra preta, pílula preta da data, pílula contornada do endereço, caixa do preço, faixa preta do
