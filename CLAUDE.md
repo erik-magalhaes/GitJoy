@@ -1455,3 +1455,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   guaxinim/Heat: Pedal to the Metal (eles TÊM, ainda não está no site; caixa 3D Galápagos HET001 → `assets/seu_cidade/heat.png`), São Caetano gato/Patchwork, Diadema papagaio/Hitster, Mauá quati maquinista/Ticket to Ride,
   Ribeirão Pires capivara na rede/Savernake Forest, Rio Grande da Serra tucano/Treasure Island, São Paulo pombo/Metro.
   10 telas + Stories. Os prompts dos próximos (quando perde; dia da semana + feriado) estão em `prompts-gemini/prompts.md`.
+- **Carrossel "COMO VOCÊ REAGE QUANDO PERDE?" (`feed-sua-vez/seu_perde.py`, 13/nov, 4º da série dos bichinhos):** folha 3x2
+  do Gemini (`assets/seu_perde/gemini_perde.jpg` → `_x4`; a lhama da 1ª folha (`_v1`) tinha a pata de trás na testa e o
+  Gemini errava sempre → virou HAMSTER desmaiado). Touro vira a mesa/Coup, galo revanche/Flip 7: A Vingança, gato
+  "deixou ganhar"/Sushi Go! (a LATA em inglês da foto do site, recortada do laranja → `assets/seu_perde/sushi_go.png`),
+  sapo culpa o dado/Dice Colony, panda nem percebeu/Wandering Towers, hamster dramático/Por favor, não corte minha cabeça!
+  8 telas + Stories. `sem_sombra()` tira a sombra clara do chão; o creme da folha é medido na borda (`FUNDO_GEMINI`).
+  **Cidades:** ele perguntou se ficou preconceituoso; sugeri trocar frases de São Caetano (menor cidade do ABC),
+  Diadema (berço do hip hop no ABC) e Ribeirão Pires (Festival do Chocolate) — esperando ele responder.
