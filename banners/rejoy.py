@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""BANNERS do carrossel do topo do site novo (plataforma Rejoy, 13/nov/2026). 1920x640 (3:1); o que importa fica no
-meio (x ~300–1620) pra sobreviver se a plataforma cortar as laterais. Identidade da Jéssica (estilo.py) + mascotes 3D
+"""BANNERS do carrossel do topo do site novo (plataforma Rejoy, 13/nov/2026). 1600x900 (tamanho ideal que ele passou). Identidade da Jéssica (estilo.py) + mascotes 3D
 (capivara = Jéssica, coruja = Erik) + caixas OFICIAIS. Um fundo diferente por banner.
 Sem "mais alugados" (não há dado de aluguel: nunca inventar) → "queridinhos da casa".
 
@@ -16,7 +15,7 @@ REPO = os.path.dirname(ROOT)
 sys.path.insert(0, os.path.join(REPO, "assinatura-reels"))
 import estilo as E  # noqa: E402
 
-W, H = 1920, 640
+W, H = 1600, 900
 OUT = os.path.join(ROOT, "out")
 POSES = os.path.join(REPO, "mascote", "assets", "poses")
 LISTA = os.path.join(REPO, "gravados-reels", "assets", "lista")
@@ -65,25 +64,24 @@ def logo_canto(img):
 
 def b1_hero():
     img = E.fundo(W, H, 3).copy()
-    esq(img, E.titulo("ALUGUE JOGOS\nDE TABULEIRO", 104, LAR), 330, 215)
-    esq(img, E.texto("e jogue em casa com quem você gosta", 44, MAR, 800), 345, 360)
-    esq(img, E.pilula("+ DE 160 JOGOS · A PARTIR DE R$ 15", 38, AMA, MAR, fonte_titulo=True), 340, 445)
-    esq(img, E.pilula("RETIRE EM MAUÁ OU RECEBA EM CASA", 34, PET, BR, fonte_titulo=True), 340, 530)
-    mascote(img, "capivara_pilha", 470, 1340, 610)
-    mascote(img, "coruja_acenando", 430, 1640, 615)
+    esq(img, E.titulo("ALUGUE JOGOS\nDE TABULEIRO", 108, LAR), 90, 290)
+    esq(img, E.texto("e jogue em casa com quem você gosta", 46, MAR, 800), 118, 470)
+    esq(img, E.pilula("+ DE 160 JOGOS · A PARTIR DE R$ 15", 40, AMA, MAR, fonte_titulo=True), 112, 570)
+    esq(img, E.pilula("RETIRE EM MAUÁ OU RECEBA EM CASA", 36, PET, BR, fonte_titulo=True), 112, 670)
+    mascote(img, "capivara_pilha", 540, 1140, 860)
+    mascote(img, "coruja_acenando", 470, 1400, 860)
     logo_canto(img)
     return img
 
 
 def b2_queridinhos():
-    img = E.fundo_confete(W, H, base=LAR, semente=5, n=70, livre=(260, 60, 1660, 600)).copy()
-    E.cola(img, E.titulo("OS QUERIDINHOS DA CASA", 92, AMA), W / 2, 105, -1.5)
+    img = E.fundo_confete(W, H, base=LAR, semente=5, n=70, livre=(80, 60, 1380, 860)).copy()
+    E.cola(img, E.titulo("OS QUERIDINHOS DA CASA", 100, AMA), 660, 150, -1.5)
     nomes = ["king_of_tokyo", "ticket_to_ride", "harmonies", "hitster", "dixit"]
-    xs = [460, 710, 960, 1210, 1460]
-    for k, (n, x) in enumerate(zip(nomes, xs)):
-        E.cola(img, caixa(os.path.join(LISTA, n + ".png"), 300), x, 395, (-1) ** k * 3)
-    E.cola(img, E.pilula("os jogos que a gente mais indica pra começar", 34, BR, MAR), W / 2, 590, 0)
-    mascote(img, "coruja_joinha", 330, 175, 625)
+    for k, n in enumerate(nomes):
+        E.cola(img, caixa(os.path.join(LISTA, n + ".png"), 320), 190 + k * 232, 480, (-1) ** k * 3)
+    E.cola(img, E.pilula("os jogos que a gente mais indica pra começar", 38, BR, MAR), 660, 770, 0)
+    mascote(img, "coruja_joinha", 420, 1440, 880)
     logo_canto(img)
     return img
 
@@ -99,13 +97,13 @@ def degrau(w, h, cor, jogos, dias):
 
 def b3_prazo():
     img = E.fundo_xadrez(W, H).copy()
-    esq(img, E.titulo("QUANTO MAIS JOGOS,\nMAIS DIAS!", 92, LAR), 300, 205)
-    esq(img, E.texto("Todos os jogos do carrinho ficam\nmais tempo, pelo mesmo preço.", 40, MAR, 800, alinha="lm"),
-        310, 405)
+    esq(img, E.titulo("QUANTO MAIS JOGOS,\nMAIS DIAS!", 100, LAR), 90, 230)
+    esq(img, E.texto("Todos os jogos do carrinho\nficam mais tempo,\npelo mesmo preço.", 44, MAR, 800, alinha="lm"),
+        110, 560)
     for k, (j, dd, cor) in enumerate([(3, 7, PET), (5, 10, LAR), (7, 15, (219, 39, 119))]):
-        h = 260 + k * 45
-        b = degrau(270, h, cor, j, dd)
-        img.alpha_composite(b, (1000 + k * 295, 600 - h))
+        h = 300 + k * 60
+        b = degrau(280, h, cor, j, dd)
+        img.alpha_composite(b, (700 + k * 300, 850 - h))
     logo_canto(img)
     return img
 
@@ -130,27 +128,27 @@ def b4_assinatura():
     for y in range(30, H, 60):
         for x in range(30 + (30 if (y // 60) % 2 else 0), W, 60):
             d.ellipse((x - 3, y - 3, x + 3, y + 3), fill=(46, 142, 168))
-    esq(img, E.titulo("ASSINE E\nTROQUE À\nVONTADE!", 80, AMA), 280, 250)
-    esq(img, E.texto("trocas sem limite no mês", 36, BR, 800), 300, 515)
+    E.cola(img, E.titulo("ASSINE E TROQUE À VONTADE!", 92, AMA), 660, 140, -1)
     for k, (n, p, cor, ls) in enumerate([("SILVER", "R$ 49", (150, 160, 170), ["1 jogo por vez", "Pocket e Família"]),
                                          ("GOLD", "R$ 89", (226, 168, 30), ["2 jogos por vez", "+ Estratégico"]),
                                          ("PLATINUM", "R$ 139", (120, 130, 200), ["3 jogos por vez", "acervo inteiro"])]):
-        b = plano(280, 340, cor, n, p, ls)
-        E.cola(img, b, 880 + k * 300, 330, (-1.5, 0, 1.5)[k])
-    mascote(img, "capivara_joinha", 360, 1770, 625)
+        b = plano(320, 360, cor, n, p, ls)
+        E.cola(img, b, 300 + k * 360, 480, (-1.5, 0, 1.5)[k])
+    E.cola(img, E.pilula("TROCAS SEM LIMITE NO MÊS", 40, AMA, MAR, fonte_titulo=True), 660, 760, 0)
+    mascote(img, "capivara_joinha", 480, 1380, 880)
     logo_canto(img)
     return img
 
 
 def b5_eventos():
     img = E.fundo_confete(W, H, base=ROXO, cores=(AMA, BR, LAR, (130, 200, 220)), semente=9, n=80,
-                          livre=(240, 40, 1500, 610)).copy()
-    esq(img, E.titulo("TEM EVENTO?\nA GENTE LEVA OS JOGOS!", 84, AMA), 300, 200)
-    esq(img, E.texto("e fica o evento todo ensinando a jogar", 40, BR, 800), 312, 375)
-    esq(img, E.pilula("ABC PAULISTA E SÃO PAULO CAPITAL", 34, BR, ROXO, fonte_titulo=True), 305, 455)
-    esq(img, E.pilula("ORÇAMENTO NO WHATSAPP (11) 97793-3910", 34, AMA, MAR, fonte_titulo=True), 305, 540)
-    mascote(img, "coruja_explicando", 470, 1420, 615)
-    mascote(img, "capivara_entregando", 400, 1660, 615)
+                          livre=(60, 60, 1560, 860)).copy()
+    esq(img, E.titulo("TEM EVENTO?\nA GENTE LEVA\nOS JOGOS!", 96, AMA), 90, 280)
+    esq(img, E.texto("e fica o evento todo ensinando a jogar", 40, BR, 800), 105, 545)
+    esq(img, E.pilula("ABC PAULISTA E SÃO PAULO CAPITAL", 36, BR, ROXO, fonte_titulo=True), 98, 650)
+    esq(img, E.pilula("ORÇAMENTO NO WHATSAPP (11) 97793-3910", 36, AMA, MAR, fonte_titulo=True), 98, 750)
+    mascote(img, "coruja_explicando", 600, 1110, 870)
+    mascote(img, "capivara_entregando", 500, 1400, 870)
     logo_canto(img)
     return img
 
@@ -166,9 +164,9 @@ def main():
         im = f().convert("RGB")
         im.save(os.path.join(OUT, f"banner_{nome}.png"))
         ims.append(im)
-    pv = Image.new("RGB", (960, len(ims) * 330 + 10), (255, 255, 255))
+    pv = Image.new("RGB", (2 * 810, 3 * 460), (255, 255, 255))
     for k, im in enumerate(ims):
-        pv.paste(im.resize((960, 320)), (0, 5 + k * 330))
+        pv.paste(im.resize((800, 450)), ((k % 2) * 810, (k // 2) * 460))
     pv.save(os.path.join(OUT, "banners_previa.jpg"), quality=88)
     print("ok")
 
