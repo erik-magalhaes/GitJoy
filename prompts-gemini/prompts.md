@@ -135,3 +135,33 @@ Os 8 bichinhos (um para cada dia da semana e um para o feriado):
 
 Jogos: segunda → The Mind · terça → Flash 10 · quarta → Santorini · quinta → Take Time · sexta → Throw Throw Burrito ·
 sábado → Clank! Catacombs · domingo → Dixit: Disney Edition · feriado → Sky Team
+
+### C2. Seu dia da semana, seu jogo — versão MONSTRINHOS E ETs (14/nov, substitui a C)
+
+Ele achou que estava "tudo meio igual, bichinho" e pediu algo mais viajado (ET, monstros). NÃO anexar a folha antiga
+(o estilo é outro de propósito).
+
+```
+Crie uma folha com 8 monstrinhos e alienígenas fofos e esquisitos, em uma grade de 4 colunas e 2 linhas.
+
+Estilo: ilustração cartoon divertida, contorno escuro grosso, cores vibrantes (roxo, verde-limão, laranja, rosa-choque, azul-turquesa), leve textura de giz/impressão risográfica, olhos grandes e expressivos. Nada de animais reais: são criaturas inventadas.
+
+Regras da folha:
+- fundo creme claro, liso e uniforme em toda a imagem, sem textura no fundo, sem sombra no chão, sem moldura
+- cada criatura inteira (corpo todo, nada cortado), centralizada no seu espaço, todas no mesmo tamanho
+- bastante espaço vazio entre uma e outra
+- NENHUM texto, letra, número ou placa escrita
+
+As 8 criaturas (uma para cada dia da semana e uma para o feriado):
+1. Segunda: um monstrinho peludo azul de um olho só, com uma olheira enorme, abraçado numa caneca de café fumegante, mal-humorado
+2. Terça: uma geleca verde-limão de tênis de corrida tentando ser rápida, escorrendo e suando
+3. Quarta: um monstrinho de três olhos escalando uma pilha de blocos coloridos, na metade da subida
+4. Quinta: um ET roxinho ansioso olhando um relógio de bolso, com as antenas tremendo
+5. Sexta: um monstrinho laranja de chifrinhos dançando com chapéu de festa, jogando confete
+6. Sábado: um polvo alienígena turquesa com capacete de lanterna e mochila, pronto para uma longa aventura
+7. Domingo: um monstro peludo rosa derretido de preguiça embaixo de uma mantinha, comendo pipoca
+8. Feriado: um ET verde de óculos escuros e boia na cintura, com uma mala, e um disco voador pequeno estacionado ao lado
+```
+
+Jogos (iguais à C): segunda → The Mind · terça → Flash 10 · quarta → Santorini · quinta → Take Time ·
+sexta → Throw Throw Burrito · sábado → Clank! Catacombs · domingo → Dixit: Disney Edition · feriado → Sky Team
