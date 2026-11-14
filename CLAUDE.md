@@ -1464,3 +1464,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **Cidades (13/nov):** ele achou que podia soar preconceituoso → TODAS as frases descrevem a CIDADE, não quem mora lá
   (Paranapiacaba, capital do automóvel, pequenininha que cabe em qualquer canto, berço do hip hop, Barão de Mauá e os
   trilhos, Festival do Chocolate, Serra do Mar, cidade que nunca para). Regra para peças sobre lugares: falar do lugar.
+- **Carrossel "SEU DIA DA SEMANA, SEU JOGO" (`feed-sua-vez/seu_semana.py`, 14/nov):** ele achou que estava "tudo meio
+  igual, bichinho" → MONSTRINHOS E ETs (prompt C2 em `prompts-gemini/prompts.md`, folha 4x2 SEM anexar a referência antiga)
+  e visual NOVO: fundo de ESPAÇO (roxo profundo, nebulosas, estrelas, planetinhas só nas laterais), monstros e caixas como
+  ADESIVOS (borda branca grossa + sombra, `adesivo()`), títulos em Dela Gothic One com sombra 3D colorida, texto em
+  Bricolage. Segunda The Mind, terça Flash 10, quarta Santorini, quinta Take Time, sexta Throw Throw Burrito, sábado
+  Clank! Catacombs, domingo Dixit: Disney Edition, feriado Sky Team. 10 telas + Stories. **Regra: variar a cara da série.**
