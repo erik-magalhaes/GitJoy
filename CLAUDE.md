@@ -1479,3 +1479,16 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   do sorteio, Taco). Peças ANTIGAS que não estão nem no Drive nem nesta máquina (out/ é perdido entre ambientes): casal,
   esse ou aquele, indica, trolley, take time, pedidos, listas (signos/tempo/pessoas/flags/novidades), eventos trilha,
   dinâmica coffee e carrosséis combos/mitos/amigo secreto/halloween/empresas/clássicos 3 — dá para renderizar de novo.
+- **COFFEE RUSH EM 1 MINUTO (`coffee-reels/umminuto.py`, 14/nov):** 7 vídeos da JÉSSICA no Drive de brutos
+  (VID_20261114_07xxxx/08xxxx → `coffee-reels/brutos/nov14/<hhmmss>.mp4`, fora do git). Pedido do Erik: "faz o vídeo
+  primeiro, depois eu narro por cima". Ela fala só no gancho (073758, câmera da frente = hflip: "E aproveitando o nosso
+  evento que está chegando, hoje eu vou te ensinar Coffee Rush em 1 minuto ou menos. Vamos?") e no fecho (084314, hflip:
+  "E esse é o Coffee Rush!"); o meio (fila de pedidos 074437, baristas 075750, ingredientes/xícara 075447, leque de
+  receitas 083950, entrega 075447 12,5–19,6, fila andando/penalidade 075656) fica SEM voz para a narração dele.
+  Relógio-XÍCARA (café visto de cima vira espuma, colherzinha de ponteiro) de 1:00 durante a explicação, selos das regras,
+  último quadro da mesa parado 2,3 s com "EXPLICADO EM 53 SEGUNDOS!", "VOCÊ SERIA UM BOM BARISTA? Comenta aqui!", tela
+  final + pílula "E NA MESA DA TARDE DE JOGOS NO BECA’S · 20/11". Trilha `sons.musica_cafe`. 75 s. Gravador (6 falas, uma
+  por cena, `coffee1min_narracao_NN`):
+  `https://raw.githack.com/erik-magalhaes/GitJoy/daabf378adafb9f8a8c8b32b3dd9fbee9fe3f18f/coffee-reels/gravador/Gravar_narracao_Coffee1min.html`.
+  Ao receber: tratar a voz → encaixar cada fala no início da sua cena (esticar/encolher a cena se precisar), legenda pela
+  fala real, recalcular o carimbo.
