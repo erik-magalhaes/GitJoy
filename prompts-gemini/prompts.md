@@ -165,3 +165,32 @@ As 8 criaturas (uma para cada dia da semana e uma para o feriado):
 
 Jogos (iguais à C): segunda → The Mind · terça → Flash 10 · quarta → Santorini · quinta → Take Time ·
 sexta → Throw Throw Burrito · sábado → Clank! Catacombs · domingo → Dixit: Disney Edition · feriado → Sky Team
+
+### D. Seu feriado favorito, seu jogo (14/nov, ideia da Jéssica)
+
+Estilo diferente dos anteriores (kawaii pastel). Não anexar folha antiga.
+
+```
+Crie uma folha com 8 personagens fofos, em uma grade de 4 colunas e 2 linhas, um para cada feriado.
+
+Estilo: ilustração kawaii bem fofa, traço limpo e arredondado, cores pastel alegres, olhinhos brilhantes e bochechas rosadas, leve sombreado suave. Personagens engraçados e carismáticos.
+
+Regras da folha:
+- fundo creme claro, liso e uniforme em toda a imagem, sem textura, sem sombra no chão, sem moldura
+- cada personagem inteiro (corpo todo, nada cortado), centralizado no seu espaço, todos no mesmo tamanho
+- bastante espaço vazio entre um e outro
+- NENHUM texto, letra, número ou placa escrita
+
+Os 8 personagens:
+1. Ano Novo: um reloginho de bolso fofo vestido de branco, com chapéu de festa, soprando uma língua de sogra, com fogos de artifício pequenos atrás
+2. Carnaval: uma arara colorida fantasiada, com purpurina, coroa de penas e serpentina
+3. Páscoa: um coelho fofo com uma cesta de ovos de chocolate, escondendo um ovo atrás das costas com carinha travessa
+4. Dia do Trabalhador: uma formiguinha de capacete de obra deitada numa espreguiçadeira, de óculos escuros, de folga
+5. Independência: um mico-leão-dourado com uma bandeirinha verde e amarela, pose de herói
+6. Dia das Crianças: um ursinho de pelúcia segurando um cata-vento e um pirulito gigante
+7. Natal: um Papai Noel gordinho e fofo com o saco de presentes nas costas
+8. Feriado que caiu no domingo: uma folhinha de calendário com bracinhos e perninhas, chorando de tristeza
+```
+
+Jogos: Ano Novo → Rebirth · Carnaval → Telma · Páscoa → Tesouro do Dragão · Dia do Trabalhador → Dwar7s Fall ·
+Independência → Bandido · Dia das Crianças → Uga Buga · Natal → Santa Kaos · feriado no domingo → Loser
