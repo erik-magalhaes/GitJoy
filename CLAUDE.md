@@ -1470,3 +1470,12 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   ADESIVOS (borda branca grossa + sombra, `adesivo()`), títulos em Dela Gothic One com sombra 3D colorida, texto em
   Bricolage. Segunda The Mind, terça Flash 10, quarta Santorini, quinta Take Time, sexta Throw Throw Burrito, sábado
   Clank! Catacombs, domingo Dixit: Disney Edition, feriado Sky Team. 10 telas + Stories. **Regra: variar a cara da série.**
+- **DRIVE CONFERIDO (14/nov):** pasta Videos tinha 13 vídeos (diario, sente, skyteam, top10 x2, micro, taro, custo, assinatura,
+  hobby x2, MLEM, Telestrations) + pasta Becas (chuva de jogos, revela, guarda-chuvas, gostinho/chegar para música); pasta
+  Carrosséis tinha só os 10 zips de 14/out. Mandei pelo chat: zips "Carrossel 11–19" (seu mês, signo, cidade, perde, semana,
+  calendário de festas, Becas toda idade, como chegar, conheça o Becas; JPG q93 com feed/ + stories/, em
+  `feed-sua-vez/out/zips/`) e os vídeos com som (tarde comum, lembrete, convites mascotes/meeple, café rush, mapa, combo,
+  metade, gamesday, retro60, letrinhas, colagem, tabuleiro, TVs, caixa King/boop, bichos, loops, festas, Wonderland, lembrete
+  do sorteio, Taco). Peças ANTIGAS que não estão nem no Drive nem nesta máquina (out/ é perdido entre ambientes): casal,
+  esse ou aquele, indica, trolley, take time, pedidos, listas (signos/tempo/pessoas/flags/novidades), eventos trilha,
+  dinâmica coffee e carrosséis combos/mitos/amigo secreto/halloween/empresas/clássicos 3 — dá para renderizar de novo.
