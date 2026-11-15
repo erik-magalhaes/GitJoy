@@ -40,7 +40,11 @@ INK = (63, 36, 18)  # marrom da identidade
 CREME, CAFE, LARANJA, PETROLEO = (250, 240, 222), (111, 64, 36), (244, 136, 37), (28, 124, 150)
 VERMELHO, VERDE, AMARELO = (214, 46, 52), (40, 150, 80), (255, 199, 31)
 GRADE = "hqdn3d=1.5:1.5:3:3,unsharp=5:5:0.35:5:5:0.0,eq=contrast=1.02:saturation=1.02"
-VOZ = "highpass=f=80,afftdn=nr=8:nf=-48,equalizer=f=250:t=q:w=1.2:g=-2,equalizer=f=3200:t=q:w=1.4:g=1.5"
+# voz da Jéssica com MUITA rua atrás (gravou perto da janela): rede neural de ruído (arnndn, modelo "sh" do rnnoise-models
+# em comum/rnnn/) + afftdn. Medido: rua nas pausas caiu 13–25 dB e a fala ficou no mesmo nível.
+RNNN = os.path.join(REPO, "comum", "rnnn", "sh.rnnn")
+VOZ = (f"highpass=f=90,aresample=48000,arnndn=m={RNNN}:mix=0.92,afftdn=nr=10:nf=-45,"
+       "equalizer=f=250:t=q:w=1.2:g=-2,equalizer=f=3200:t=q:w=1.4:g=1.5")
 
 # (arquivo, início, fim, tipo, espelha) — tempos no bruto
 TRECHOS = [
