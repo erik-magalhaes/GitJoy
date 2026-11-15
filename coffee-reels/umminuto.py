@@ -58,26 +58,35 @@ TRECHOS = [
     ("084314", 0.00, 3.25, "fecho", True),    # "E esse é o Coffee Rush!" (corta logo depois da fala: ela desliga a câmera)
 ]
 # selos das regras: (índice do trecho, segundos depois do início do trecho, texto, cor)
+# (tempos acertados pela fala do Erik; no trecho 5 o tempo é do BRUTO, que roda mais devagar: VEL)
 SELOS = [
-    (1, 0.4, "CADA UM TEM SUA CAFETERIA", PETROLEO),
-    (1, 4.6, "OS PEDIDOS CHEGAM DO LADO", LARANJA),
-    (2, 0.4, "ANDA ATÉ 3 CASAS", CAFE),
-    (2, 2.0, "SEM DIAGONAL!", VERMELHO),
-    (2, 4.6, "PEGA O INGREDIENTE DE CADA CASA", PETROLEO),
-    (2, 8.6, "MONTA NA XÍCARA", LARANJA),
-    (3, 0.4, "SIGA A RECEITA DO PEDIDO", CAFE),
-    (3, 3.6, "ENTREGOU! GUARDA O PEDIDO", VERDE),
+    (1, 1.0, "CADA UM TEM SUA CAFETERIA", PETROLEO),
+    (1, 3.0, "OS PEDIDOS CHEGAM DO LADO", LARANJA),
+    (2, 1.9, "ANDA ATÉ 3 CASAS", CAFE),
+    (2, 3.9, "SEM DIAGONAL!", VERMELHO),
+    (2, 6.3, "PEGA O INGREDIENTE DE CADA CASA", PETROLEO),
+    (2, 7.9, "MONTA NA XÍCARA", LARANJA),
+    (3, 1.4, "SIGA A RECEITA DO PEDIDO", CAFE),
+    (3, 2.7, "ENTREGOU! GUARDA O PEDIDO", VERDE),
     (4, 0.6, "FIM DA RODADA: A FILA ANDA", PETROLEO),
-    (4, 5.8, "PEDIDO PERDIDO = PENALIDADE", VERMELHO),
-    (4, 8.6, "FICHA DE PRESSA: +1 MOVIMENTO!", AMARELO),  # ela mostra a moedinha
-    (5, 0.4, "PODERES ESPECIAIS!", LARANJA),
+    (4, 5.6, "PEDIDO PERDIDO = PENALIDADE", VERMELHO),
+    (4, 7.5, "FICHA DE PRESSA: +1 MOVIMENTO!", AMARELO),  # ela mostra a moedinha
+    (5, 2.5, "PODERES ESPECIAIS!", LARANJA),
     (5, 4.6, "VIROU = PODER LIBERADO!", VERDE),
-    (6, 0.2, "MAIS CAFÉS ENTREGUES = VITÓRIA!", VERDE),
+    (6, 1.0, "MAIS CAFÉS ENTREGUES = VITÓRIA!", VERDE),
 ]
+# o vídeo dos poderes (8,3 s) é mais curto que a fala 5 (9,6 s): roda a 0,82x
+VEL = {5: 0.82}
+# narração do Erik (narracao/frase_NN.wav + palavras.json): fala N entra no trecho N, LEAD segundos depois do início
+NAR = os.path.join(ROOT, "narracao")
+LEAD = {1: 0.3, 2: 1.0, 3: 1.4, 4: 0.4, 5: 0.25, 6: 0.3}
+CORRIGE = {"Coffridge,": "Coffee Rush,", "figil": "ficha", "bebida": "a bebida", "mais": "a mais"}
+CORRIGE_EM = {"01": {"bebida"}, "04": {"figil", "mais"}}  # só nessas falas
+LEGENDA = True
 # notas fixas (ficam na tela mais tempo, embaixo do selo): (trecho, de, até, texto, cor)
 NOTAS = [
-    (4, 6.4, 12.6, "Perdeu um pedido? Ganha 1 ficha de pressa!", PETROLEO),
-    (5, 5.2, 8.3, "Um dos poderes: casa de fita dourada = pega 2!", LARANJA),
+    (4, 6.6, 12.6, "Perdeu um pedido? Ganha 1 ficha de pressa!", PETROLEO),
+    (5, 5.4, 8.3, "Um dos poderes: casa de fita dourada = pega 2!", LARANJA),
 ]
 # legendas da Jéssica (texto conferido de ouvido; o Whisper ouviu "Calfrush e Nelwing do Talmenis")
 LEG = [
@@ -96,8 +105,9 @@ ULT = max(i for i, tr in enumerate(TRECHOS) if tr[3] == "exp")  # último trecho
 def linha():
     tl, t = [], 0.0
     for i, (arq, a, b, tipo, esp) in enumerate(TRECHOS):
-        n = round((b - a) * FPS)
-        tl.append(dict(i=i, arq=arq, a=a, n=n, t0=t, tipo=tipo, esp=esp))
+        v = VEL.get(i, 1.0)
+        n = round((b - a) / v * FPS)
+        tl.append(dict(i=i, arq=arq, a=a, n=n, t0=t, tipo=tipo, esp=esp, v=v))
         t += n / FPS + (HOLD if i == ULT else 0)
     return tl
 
@@ -107,9 +117,37 @@ M = {"exp": TL[1]["t0"], "fim_exp": TL[ULT]["t0"] + TL[ULT]["n"] / FPS, "fecho":
 M["comenta"] = TL[ULT + 1]["t0"] + TL[ULT + 1]["n"] / FPS
 M["fim"] = M["comenta"] + COMENTA
 DUR = M["fim"] + FIM
-SELOS_T = [(TL[i]["t0"] + dt, txt, cor) for i, dt, txt, cor in SELOS]
-NOTAS_T = [(TL[i]["t0"] + a, TL[i]["t0"] + b, txt, cor) for i, a, b, txt, cor in NOTAS]
+SELOS_T = [(TL[i]["t0"] + dt / TL[i]["v"], txt, cor) for i, dt, txt, cor in SELOS]
+NOTAS_T = [(TL[i]["t0"] + a / TL[i]["v"], TL[i]["t0"] + b / TL[i]["v"], txt, cor) for i, a, b, txt, cor in NOTAS]
 LEG_T = [(TL[i]["t0"] + a, TL[i]["t0"] + b, txt) for i, a, b, txt in LEG]
+
+
+def legenda_narracao(maxc=24):
+    """Legenda da fala do Erik em pedaços de uma linha (o que ele FALOU, com as correções do Whisper)."""
+    pal = json.load(open(os.path.join(NAR, "palavras.json"), encoding="utf-8"))
+    out = []
+    for k, ws in sorted(pal.items()):
+        t0 = TL[int(k)]["t0"] + LEAD[int(k)]
+        ws = [[a, b, CORRIGE[w] if w in CORRIGE and (w not in sum(map(list, CORRIGE_EM.values()), []) or
+                                                    w in CORRIGE_EM.get(k, ())) else w] for a, b, w in ws]
+        pedacos, cur = [], []
+        for w in ws:
+            if cur and len(" ".join(x[2] for x in cur + [w])) > maxc:
+                pedacos.append(cur)
+                cur = []
+            cur.append(w)
+            if w[2][-1] in ".!?" or (w[2][-1] == "," and len(" ".join(x[2] for x in cur)) > 10):
+                pedacos.append(cur)
+                cur = []
+        if cur:
+            pedacos.append(cur)
+        for j, p in enumerate(pedacos):
+            fim = pedacos[j + 1][0][0] if j + 1 < len(pedacos) else p[-1][1] + 0.35
+            out.append((t0 + p[0][0], t0 + fim, " ".join(x[2] for x in p)))
+    return out
+
+
+LEG_N = legenda_narracao()
 
 
 # ---------------------------------------------------------------- relógio-xícara
@@ -201,8 +239,10 @@ def caixa(w):
     return im.resize((w, round(im.height * w / im.width)), Image.LANCZOS)
 
 
-def legenda(img, t, y):
-    for a, b, txt in LEG_T:
+def legenda(img, t, y, lista=None):
+    if not LEGENDA:
+        return
+    for a, b, txt in (LEG_T if lista is None else lista):
         if a <= t < b:
             sc = 0.85 + 0.15 * ease(min(1.0, (t - a) / 0.12))
             im = legenda_img(txt)
@@ -243,6 +283,8 @@ def overlay(t):
                 u = out_back(seg(lt, 0.0, 0.3)) * (1 - ease(seg(lt, dura - 0.2, dura)))
                 cola(img, pilula(txt, 60, cor), W / 2 + 70, 520, rot=-3 if len(prox) % 2 else 3,
                      sc=u * min(1.0, 860 / pilula(txt, 60, cor).width))
+    if M["exp"] <= t < M["fecho"]:
+        legenda(img, t, 1690, LEG_N)
     for a, b, txt, cor in NOTAS_T:
         if a <= t < b:
             u = out_back(seg(t - a, 0.0, 0.3)) * (1 - ease(seg(t, b - 0.2, b)))
@@ -262,6 +304,10 @@ def overlay(t):
     return img
 
 
+def overlay_cache_clear():
+    pass
+
+
 def tela_final(img, lt):
     cola(img, logo_card(300), W / 2, 215, sc=out_back(seg(lt, 0.0, 0.4)))
     cola(img, caixa(520), W / 2, 740, rot=-3, sc=out_back(seg(lt, 0.15, 0.5)))
@@ -279,7 +325,7 @@ def tela_final(img, lt):
 
 # ---------------------------------------------------------------- vídeo
 def ler(p):
-    vf = f"fps={FPS},scale={W}:{H}," + ("hflip," if p["esp"] else "") + GRADE
+    vf = (f"setpts=PTS/{p['v']}," if p["v"] != 1 else "") + f"fps={FPS},scale={W}:{H}," + ("hflip," if p["esp"] else "") + GRADE
     pr = subprocess.Popen([ffmpeg(), "-loglevel", "error", "-ss", f"{p['a']:.3f}", "-i",
                            os.path.join(BR, p["arq"] + ".mp4"), "-frames:v", str(p["n"]), "-vf", vf, "-f", "rawvideo",
                            "-pix_fmt", "rgb24", "-"], stdout=subprocess.PIPE)
@@ -369,6 +415,14 @@ def audio(path):
         x[-f:] *= np.linspace(1, 0, f)
         i = int(round(p["t0"] * sr))
         voz[i:i + len(x)] += x
+    for k in range(1, 7):  # narração do Erik, no mesmo nível da voz da Jéssica
+        with wave.open(os.path.join(NAR, f"frase_{k:02d}.wav")) as w:
+            x = np.frombuffer(w.readframes(w.getnframes()), np.int16).astype(np.float64) / 32768
+        q = int(0.03 * sr)
+        e = np.sqrt(np.convolve(x ** 2, np.ones(q) / q, "same"))
+        x = x * 10 ** (-20 / 20) / (np.sqrt((x[e > e.max() * 0.12] ** 2).mean()) + 1e-9)
+        i = int(round((TL[k]["t0"] + LEAD[k]) * sr))
+        voz[i:i + len(x)] += x
     vp = os.path.join(OUT, "umminuto_voz.wav")
     with wave.open(vp, "wb") as w:
         w.setnchannels(1)
@@ -431,9 +485,12 @@ def main():
                 break
         folha([ims[k] for k in sorted(ims)], os.path.join(OUT, "frames_umminuto.jpg"))
         return
+    global LEGENDA
     wav = os.path.join(OUT, "umminuto.wav")
     audio(wav)
-    render(os.path.join(OUT, "umminuto.mp4"), wav)
+    for LEGENDA, nome in ((True, "legendado"), (False, "sem_legenda")):
+        overlay_cache_clear()
+        render(os.path.join(OUT, f"umminuto_{nome}.mp4"), wav)
 
 
 if __name__ == "__main__":

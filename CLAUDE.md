@@ -1513,3 +1513,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   ótimo"): a voz da Jéssica tinha MUITA rua atrás → `arnndn` do ffmpeg com o modelo `comum/rnnn/sh.rnnn` (rnnoise-models,
   somnolent-hogwash; o cb.rnnn comia a voz em 12 dB) a mix 0,92 + afftdn: rua nas pausas −13 a −25 dB, fala no mesmo nível.
   Serve para qualquer gravação com barulho de fundo.** Falas finais (6) no gravador, no tempo de cada cena.
+  **NARRAÇÃO RECEBIDA (15/nov, 6 .webm nomeados):** cadeia de voz → `narracao/tmp_NN.wav` → `tratar_narracao.py` (cópia do
+  tratar_diario) → `frase_NN.wav` + `palavras.json`; a fala N entra no trecho N com `LEAD` próprio, selos acertados pela
+  fala, o vídeo dos poderes a 0,82x (`VEL`) porque a fala 5 é mais longa; legenda de 1 linha (`legenda_narracao`,
+  `CORRIGE`: Coffridge→Coffee Rush, figil→ficha). Ele mudou a fala 5: "Juntando três cartas de penalidade, você consegue
+  desbloquear poderes especiais" (mantido). Saída `out/umminuto_{legendado,sem_legenda}.mp4`, "EXPLICADO EM 56 SEGUNDOS!".
