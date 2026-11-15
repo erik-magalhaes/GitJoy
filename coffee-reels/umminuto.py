@@ -48,8 +48,8 @@ TRECHOS = [
     ("074437", 0.00, 9.70, "exp", False),     # a cafeteria: baristas fazendo café e os pedidos do lado (1º, pedido dele)
     ("075447", 0.00, 12.50, "exp", False),    # meeple ROSA anda 3 casas, pega os ingredientes, põe na xícara
     ("075447", 12.50, 19.60, "exp", False),   # xícara ao lado da receita, entrega
-    ("075858", 0.00, 8.30, "exp", False),     # PODERES: ela vira a peça de poder na cafeteria (até antes de virar a câmera pro balcão)
     ("075656", 0.00, 12.60, "exp", False),    # a fila anda, pedido cai = penalidade, ficha de pressa
+    ("075858", 0.00, 8.30, "exp", False),     # PODERES: ela vira a peça de poder na cafeteria (até antes de virar a câmera pro balcão)
     ("083950", 0.00, 4.20, "exp", False),     # leque de cartas de pedido entregues = quem tem mais vence (FIM, pedido dele)
     ("084314", 0.00, 3.25, "fecho", True),    # "E esse é o Coffee Rush!" (corta logo depois da fala: ela desliga a câmera)
 ]
@@ -63,17 +63,17 @@ SELOS = [
     (2, 8.6, "MONTA NA XÍCARA", LARANJA),
     (3, 0.4, "SIGA A RECEITA DO PEDIDO", CAFE),
     (3, 3.6, "ENTREGOU! GUARDA O PEDIDO", VERDE),
-    (4, 0.4, "PODERES ESPECIAIS!", LARANJA),
-    (4, 4.6, "VIROU = PODER LIBERADO!", VERDE),
-    (5, 0.6, "FIM DA RODADA: A FILA ANDA", PETROLEO),
-    (5, 5.8, "PEDIDO PERDIDO = PENALIDADE", VERMELHO),
-    (5, 8.6, "FICHA DE PRESSA: +1 MOVIMENTO!", AMARELO),  # ela mostra a moedinha
+    (4, 0.6, "FIM DA RODADA: A FILA ANDA", PETROLEO),
+    (4, 5.8, "PEDIDO PERDIDO = PENALIDADE", VERMELHO),
+    (4, 8.6, "FICHA DE PRESSA: +1 MOVIMENTO!", AMARELO),  # ela mostra a moedinha
+    (5, 0.4, "PODERES ESPECIAIS!", LARANJA),
+    (5, 4.6, "VIROU = PODER LIBERADO!", VERDE),
     (6, 0.2, "MAIS CAFÉS ENTREGUES = VITÓRIA!", VERDE),
 ]
 # notas fixas (ficam na tela mais tempo, embaixo do selo): (trecho, de, até, texto, cor)
 NOTAS = [
-    (4, 5.2, 8.3, "Um dos poderes: casa de fita dourada = pega 2!", LARANJA),
-    (5, 6.4, 12.6, "Perdeu um pedido? Ganha 1 ficha de pressa!", PETROLEO),
+    (4, 6.4, 12.6, "Perdeu um pedido? Ganha 1 ficha de pressa!", PETROLEO),
+    (5, 5.2, 8.3, "Um dos poderes: casa de fita dourada = pega 2!", LARANJA),
 ]
 # legendas da Jéssica (texto conferido de ouvido; o Whisper ouviu "Calfrush e Nelwing do Talmenis")
 LEG = [
