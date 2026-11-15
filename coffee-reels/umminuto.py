@@ -55,10 +55,11 @@ TRECHOS = [
 ]
 # selos das regras: (índice do trecho, segundos depois do início do trecho, texto, cor)
 SELOS = [
-    (1, 0.4, "ANDA ATÉ 3 CASAS", CAFE),
-    (1, 3.8, "SEM DIAGONAL!", VERMELHO),
-    (2, 0.5, "PEGA O INGREDIENTE DE CADA CASA", PETROLEO),
-    (2, 5.0, "MONTA NA XÍCARA", LARANJA),
+    (1, 0.3, "INGREDIENTE RARO VEM EM DOBRO!", LARANJA),  # ela aponta as casinhas de listra amarela
+    (1, 3.1, "ANDA ATÉ 3 CASAS", CAFE),
+    (2, 0.4, "SEM DIAGONAL!", VERMELHO),
+    (2, 3.9, "PEGA O INGREDIENTE DE CADA CASA", PETROLEO),
+    (2, 7.4, "MONTA NA XÍCARA", LARANJA),
     (3, 0.4, "SIGA A RECEITA DO PEDIDO", CAFE),
     (3, 3.6, "ENTREGOU! GUARDA O PEDIDO", VERDE),
     (4, 0.6, "FIM DA RODADA: A FILA ANDA", PETROLEO),
