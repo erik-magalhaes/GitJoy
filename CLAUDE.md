@@ -1489,7 +1489,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   último quadro da mesa parado 2,3 s com "EXPLICADO EM 53 SEGUNDOS!", "VOCÊ SERIA UM BOM BARISTA? Comenta aqui!", tela
   final + pílula "E NA MESA DA TARDE DE JOGOS NO BECA’S · 20/11". Trilha `sons.musica_cafe`. 75 s. Gravador (6 falas, uma
   por cena, `coffee1min_narracao_NN`):
-  `https://raw.githack.com/erik-magalhaes/GitJoy/39febf5426614d68f60c313e2132c44d9641ecff/coffee-reels/gravador/Gravar_narracao_Coffee1min.html`.
+  `https://raw.githack.com/erik-magalhaes/GitJoy/8bf95a2bf4c54284a09ba26f681dc2592cc5eef1/coffee-reels/gravador/Gravar_narracao_Coffee1min.html`.
   Ao receber: tratar a voz → encaixar cada fala no início da sua cena (esticar/encolher a cena se precisar), legenda pela
   fala real, recalcular o carimbo.
   **2ª rodada (15/nov, Erik):** SAIU o 074437 (fila de pedidos passando; não era o que ele queria mostrar) e o leque de
@@ -1501,4 +1501,5 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   (075656 ~9 s) = FICHA DE PRESSA: +1 movimento além dos 3; quem PERDE um pedido ganha 1 ficha (regra dita por ele; nota
   fixa embaixo, `NOTAS`). **3ª (15/nov): eu tinha entendido errado: o que saía era o tabuleiro de INGREDIENTES como 1º plano.
   Ordem certa: cafeteria (074437, baristas + pedidos do lado) → apontar casinhas + andar 3 (075750) → ingredientes (075447)
-  → receita/entrega → fila/pressa (075656) → leque (083950) = vitória.** 73,6 s, explicação 53 s; gravador com 6 falas.
+  → receita/entrega → fila/pressa (075656) → leque (083950) = vitória.** **4ª: saiu o 075750 (meeple AZUL); fica só o
+  075447 (meeple ROSA andando 3 casas; o selo do DOBRO no dedo dele a 3,9 s).** 66,2 s, explicação 46 s; gravador com 5 falas.
