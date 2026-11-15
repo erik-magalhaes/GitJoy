@@ -30,12 +30,11 @@ audio{height:36px}
 </div>
 <script>
 const LINES=[
-"(cena 1 · ~10 s · a fila de pedidos) No Coffee Rush, cada um tem a sua cafeteria. Os pedidos chegam nessa fila, e cada cartão mostra a bebida que o cliente quer.",
-"(cena 2 · ~7 s · os baristas no balcão) Na sua vez, você anda com o seu barista até três casas no balcão. Mas sem diagonal!",
-"(cena 3 · ~12 s · pegando os ingredientes) Em cada casa que ele passa, você pega aquele ingrediente: café, leite, gelo, chantilly… e vai montando a bebida na xícara.",
-"(cena 4 · ~4 s · o leque de receitas) Sempre seguindo a receita do cartão.",
-"(cena 5 · ~7 s · a entrega) Ficou igualzinha? Entrega pro cliente e ganha os pontos do pedido.",
-"(cena 6 · ~12 s · a fila andando) No fim de cada rodada, a fila anda uma casa. Se um pedido passar do fim da fila, o cliente desiste e você leva uma penalidade."
+"(cena 1 · ~7 s · mexendo o barista) No Coffee Rush, na sua vez você anda com o seu barista até três casas. Mas sem diagonal!",
+"(cena 2 · ~12 s · pegando os ingredientes) Em cada casa que ele passa, você pega aquele ingrediente: café, leite, gelo, chantilly… e vai montando a bebida na xícara.",
+"(cena 3 · ~7 s · a receita e a entrega) Seguindo a receita do pedido. Ficou igualzinha? Entrega pro cliente e guarda a cartinha.",
+"(cena 4 · ~12 s · a fila andando) No fim de cada rodada, a fila anda uma casa. Se um pedido passar do fim da fila, o cliente desiste e você leva uma penalidade.",
+"(cena 5 · ~4 s · o leque de cartas) No fim, quem tiver mais cafés entregues ganha!"
 ];
 const blobs=Array(LINES.length).fill(null);let stream=null,rec=null,curIdx=-1,chunks=[],an=null,raf=0;
 const list=document.getElementById('list');

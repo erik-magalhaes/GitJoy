@@ -45,36 +45,38 @@ VOZ = "highpass=f=80,afftdn=nr=8:nf=-48,equalizer=f=250:t=q:w=1.2:g=-2,equalizer
 # (arquivo, início, fim, tipo, espelha) — tempos no bruto
 TRECHOS = [
     ("073758", 0.00, 6.15, "gancho", True),   # "E aproveitando o nosso evento... Coffee Rush em 1 minuto ou menos. Vamos?"
-    ("074437", 0.00, 9.70, "exp", False),     # fila de pedidos + receitas + xícaras
-    ("075750", 0.00, 7.40, "exp", False),     # baristas andando no balcão de ingredientes
+    # (o 074437, a fila de pedidos passando, SAIU: pedido do Erik, 15/nov)
+    ("075750", 0.00, 7.40, "exp", False),     # mexendo o barista: anda 3 casinhas
     ("075447", 0.00, 12.50, "exp", False),    # anda, pega os ingredientes, põe na xícara
-    ("083950", 0.00, 4.20, "exp", False),     # leque de receitas
     ("075447", 12.50, 19.60, "exp", False),   # xícara ao lado da receita, entrega
     ("075656", 0.00, 12.60, "exp", False),    # a fila anda, pedido cai = penalidade, cliente novo
+    ("083950", 0.00, 4.20, "exp", False),     # leque de cartas de pedido entregues = quem tem mais vence (FIM, pedido dele)
     ("084314", 0.00, 5.00, "fecho", True),    # "E esse é o Coffee Rush!"
 ]
 # selos das regras: (índice do trecho, segundos depois do início do trecho, texto, cor)
 SELOS = [
-    (1, 0.4, "CADA UM TEM SUA CAFETERIA", PETROLEO),
-    (1, 4.6, "OS PEDIDOS CHEGAM NA FILA", LARANJA),
-    (2, 0.4, "ANDA ATÉ 3 CASAS", CAFE),
-    (2, 3.8, "SEM DIAGONAL!", VERMELHO),
-    (3, 0.5, "PEGA O INGREDIENTE DE CADA CASA", PETROLEO),
-    (3, 7.6, "MONTA NA XÍCARA", LARANJA),
-    (4, 0.3, "SIGA A RECEITA", CAFE),
-    (5, 3.0, "ENTREGOU! = PONTOS", VERDE),
-    (6, 0.6, "FIM DA RODADA: A FILA ANDA", PETROLEO),
-    (6, 5.8, "PASSOU DO FIM? PENALIDADE!", VERMELHO),
+    (1, 0.4, "ANDA ATÉ 3 CASAS", CAFE),
+    (1, 3.8, "SEM DIAGONAL!", VERMELHO),
+    (2, 0.5, "PEGA O INGREDIENTE DE CADA CASA", PETROLEO),
+    (2, 5.0, "MONTA NA XÍCARA", LARANJA),
+    (3, 0.4, "SIGA A RECEITA DO PEDIDO", CAFE),
+    (3, 3.6, "ENTREGOU! GUARDA O PEDIDO", VERDE),
+    (4, 0.6, "FIM DA RODADA: A FILA ANDA", PETROLEO),
+    (4, 5.8, "PASSOU DO FIM? PENALIDADE!", VERMELHO),
+    (5, 0.2, "MAIS CAFÉS ENTREGUES = VITÓRIA!", VERDE),
 ]
 # legendas da Jéssica (texto conferido de ouvido; o Whisper ouviu "Calfrush e Nelwing do Talmenis")
 LEG = [
     (0, 0.05, 1.70, "E aproveitando o nosso evento"),
     (0, 1.70, 3.30, "que está chegando,\nhoje eu vou te ensinar"),
     (0, 3.70, 5.95, "Coffee Rush em 1 minuto\nou menos. Vamos?"),
-    (7, 0.95, 3.30, "E esse é o Coffee Rush!"),
+    (6, 0.95, 3.30, "E esse é o Coffee Rush!"),
 ]
 CARIMBO, COMENTA, FIM = 0.15, 3.8, 4.6
 HOLD = 2.3  # o último quadro da mesa fica parado com o carimbo antes do fecho
+
+
+ULT = max(i for i, tr in enumerate(TRECHOS) if tr[3] == "exp")  # último trecho da explicação
 
 
 def linha():
@@ -82,13 +84,13 @@ def linha():
     for i, (arq, a, b, tipo, esp) in enumerate(TRECHOS):
         n = round((b - a) * FPS)
         tl.append(dict(i=i, arq=arq, a=a, n=n, t0=t, tipo=tipo, esp=esp))
-        t += n / FPS + (HOLD if i == 6 else 0)
+        t += n / FPS + (HOLD if i == ULT else 0)
     return tl
 
 
 TL = linha()
-M = {"exp": TL[1]["t0"], "fim_exp": TL[6]["t0"] + TL[6]["n"] / FPS, "fecho": TL[7]["t0"]}
-M["comenta"] = TL[7]["t0"] + TL[7]["n"] / FPS
+M = {"exp": TL[1]["t0"], "fim_exp": TL[ULT]["t0"] + TL[ULT]["n"] / FPS, "fecho": TL[ULT + 1]["t0"]}
+M["comenta"] = TL[ULT + 1]["t0"] + TL[ULT + 1]["n"] / FPS
 M["fim"] = M["comenta"] + COMENTA
 DUR = M["fim"] + FIM
 SELOS_T = [(TL[i]["t0"] + dt, txt, cor) for i, dt, txt, cor in SELOS]
@@ -294,7 +296,7 @@ def quadros():
                 yield zoom(fr, 1.0 + 0.06 * k / max(1, p["n"]))
             else:
                 yield fr
-        if p["i"] == 6:
+        if p["i"] == ULT:
             for _ in range(round(HOLD * FPS)):
                 yield zoom(ultimo, 1.06)
     base = Image.fromarray(ultimo).filter(ImageFilter.GaussianBlur(20))
