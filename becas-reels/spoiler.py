@@ -220,6 +220,14 @@ def audio(nome):
     return com, sem
 
 
+def render_story(fi):
+    return quadro(fi / FPS, "story").convert("RGB").tobytes()
+
+
+def render_reels(fi):
+    return quadro(fi / FPS, "reels").convert("RGB").tobytes()
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     if "--fotos" in sys.argv:
@@ -237,7 +245,7 @@ def main():
         return
     nome = "spoiler_reels" if modo == "reels" else "spoiler_stories"
     com, sem = audio(nome)
-    K.entrega(nome, DUR, lambda fi: quadro(fi / FPS, modo).convert("RGB").tobytes(), com, sem)
+    K.entrega(nome, DUR, render_reels if modo == "reels" else render_story, com, sem)
     print("ok")
 
 
