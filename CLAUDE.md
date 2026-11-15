@@ -1175,6 +1175,13 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Eu Sou uma Banana, Santorini, Say my Name, Splendor Duel, Spyfall, Sushi Go!, Taco Gato Cabra Queijo Pizza, Take Time, Tapalavras, Telma,
   The Mind, Uga Buga, Wandering Towers. Ele TIROU: Ref!, Last Message (→ Break the Cube), Next Station (→ Wandering Towers), Perfil Express e Splito ("muito confuso") (→ Eu Sou uma Banana), Tesouro do Dragão, Patchwork, Azul Duel, Cartógrafos, BraveRats e 1, 2, 3, Lucha! (→ Taco Gato Cabra Queijo Pizza), Spot it! Hip (→ Dobble Disney).
   Eu deixei de fora: Throw Throw Burrito e Happy Salmon (barulho/coisa voando no café), jogos de bebida e +18, jogos longos.
+- **SPOILER da Tarde no Beca’s (`becas-reels/spoiler.py`, 15/nov, pedido dele: "foto e vídeo tipo spoiler do que vai
+  ter no evento, pra lembrar de reservar"):** 12 jogos que ELE listou (Santorini, Hot Streak, Código Secreto, Flip 7,
+  UNO No Mercy, Drácula vs Van Helsing, Hive, Dixit Disney, Hitster, Hitster Verão, Marrakech, UNO Stacko); caixas novas em
+  `promo/assets/spoiler/` (UNO Show 'Em No Mercy da Ri Happy, Hitster Verão HIT002 e Dixit Disney DIX631 da Galápagos).
+  Guarda-chuvinhas + fita amarela "SPOILER" + "ALERTA DE SPOILER!" + grade 4x3 de cartas "?" que viram as caixas uma por
+  batida (118 bpm, `musica_pop`) com o nome em pílula; "+ E TEM MUITO MAIS NA MESA!", data, endereço e reserva.
+  `--fotos` → `out/spoiler/{post,story}.png`; `--reels`/`--stories` → `out/spoiler_{reels,stories}_*_final.mp4` (15 s).
 - **Carrossel "TEM JOGO PRA TODA IDADE!" da Tarde no Beca’s (`promo/criancas_becas.py`, 10/nov, ideia dele: uma moça
   perguntou a idade mínima):** linha das guarda-chuvinhas; em cada tela um guarda-chuvinha segura a CAIXA e outro uma
   ETIQUETA DE IDADE redonda ("A PARTIR DE 6 ANOS"), ficha com jogadores, tempo e uma frase. 1ª versão só com jogos de
