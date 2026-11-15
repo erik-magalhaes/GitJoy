@@ -55,7 +55,7 @@ TRECHOS = [
     ("075656", 0.00, 12.60, "exp", False),    # a fila anda, pedido cai = penalidade, ficha de pressa
     ("075858", 0.00, 8.30, "exp", False),     # PODERES: ela vira a peça de poder na cafeteria (até antes de virar a câmera pro balcão)
     ("083950", 0.00, 4.20, "exp", False),     # leque de cartas de pedido entregues = quem tem mais vence (FIM, pedido dele)
-    ("084314", 0.00, 3.25, "fecho", True),    # "E esse é o Coffee Rush!" (corta logo depois da fala: ela desliga a câmera)
+    ("084314", 1.15, 3.25, "fecho", True),    # "E esse é o Coffee Rush!" (começa 0,2 s antes da fala, que vem em 1,35 s; corta logo depois)
 ]
 # selos das regras: (índice do trecho, segundos depois do início do trecho, texto, cor)
 # (tempos acertados pela fala do Erik; no trecho 5 o tempo é do BRUTO, que roda mais devagar: VEL)
@@ -93,7 +93,7 @@ LEG = [
     (0, 0.05, 1.70, "E aproveitando o nosso evento"),
     (0, 1.70, 3.30, "que está chegando,\nhoje eu vou te ensinar"),
     (0, 3.70, 5.95, "Coffee Rush em 1 minuto\nou menos. Vamos?"),
-    (7, 0.95, 3.25, "E esse é o Coffee Rush!"),
+    (7, 0.15, 2.10, "E esse é o Coffee Rush!"),
 ]
 CARIMBO, COMENTA, FIM = 0.15, 3.8, 4.6
 HOLD = 2.3  # o último quadro da mesa fica parado com o carimbo antes do fecho
@@ -182,30 +182,81 @@ def digital(txt, cor):
     return texto(txt, "lilita", 64, cor, INK, 6, 5, INK)
 
 
+XW, XH, SS = 300, 330, 2  # relógio = xícara de vidro (como as do jogo) enchendo de café; cheia = 1 minuto
+
+
+def _forma(d, fill=None, outline=None, width=0):
+    k = SS
+    d.polygon([(40 * k, 118 * k), (220 * k, 118 * k), (206 * k, 250 * k), (54 * k, 250 * k)], fill=fill)
+    d.rounded_rectangle((54 * k, 200 * k, 206 * k, 296 * k), radius=46 * k, fill=fill)
+
+
+@lru_cache(None)
+def _mascara():
+    m = Image.new("L", (XW * SS, XH * SS), 0)
+    _forma(ImageDraw.Draw(m), fill=255)
+    return m
+
+
+def xicara_cheia(frac, t, caindo):
+    k = SS
+    im = Image.new("RGBA", (XW * k, XH * k), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    d.ellipse((24 * k, 282 * k, 236 * k, 318 * k), fill=(0, 0, 0, 80))  # sombra/pires
+    d.ellipse((204 * k, 150 * k, 270 * k, 250 * k), outline=INK, width=16 * k)  # asa
+    d.ellipse((204 * k, 150 * k, 270 * k, 250 * k), outline=(214, 236, 242), width=7 * k)
+    vidro = Image.new("RGBA", im.size, (230, 245, 250, 150))
+    cafe = Image.new("RGBA", im.size, (0, 0, 0, 0))
+    dc = ImageDraw.Draw(cafe)
+    topo = 294 - frac * (294 - 126)
+    if frac > 0.002:
+        for yy in range(int(topo * k), 300 * k, 2):  # mais escuro no fundo
+            u = (yy / k - topo) / max(1, 300 - topo)
+            dc.line((0, yy, XW * k, yy), fill=tuple(int(c * (1 - 0.35 * u)) for c in (150, 88, 44)) + (255,), width=2)
+        onda = [(x * k, (topo + 3 * math.sin(x / 13 + t * 9)) * k) for x in range(30, 232, 4)]
+        dc.polygon(onda + [(232 * k, (topo + 12) * k), (30 * k, (topo + 12) * k)], fill=(214, 160, 100, 255))  # crema
+        for b in range(7):  # bolhinhas na crema
+            bx = 60 + (b * 37 + int(t * 40)) % 140
+            dc.ellipse(((bx - 3) * k, (topo + 2) * k, (bx + 3) * k, (topo + 8) * k), fill=(240, 205, 160, 255))
+    vidro.alpha_composite(cafe)
+    m = _mascara()
+    im.paste(vidro, (0, 0), m)
+    # reflexo do vidro
+    d.line((66 * k, 140 * k, 80 * k, 262 * k), fill=(255, 255, 255, 170), width=9 * k)
+    d.line((40 * k, 118 * k, 54 * k, 250 * k), fill=INK, width=8 * k)
+    d.line((220 * k, 118 * k, 206 * k, 250 * k), fill=INK, width=8 * k)
+    d.arc((54 * k, 200 * k, 206 * k, 296 * k), 0, 180, fill=INK, width=8 * k)
+    d.line((36 * k, 118 * k, 224 * k, 118 * k), fill=INK, width=8 * k)  # borda
+    if caindo:  # o filete de café caindo do alto e respingando
+        for yy in range(0, int(topo * k), 2):
+            w = (8 + 1.0 * math.sin(yy / (9 * k) - t * 22)) * k
+            cx = (130 + 1.2 * math.sin(yy / (23 * k) + t * 5)) * k
+            d.line((cx - w, yy, cx + w, yy), fill=(120, 68, 32, 255), width=2)
+        for g in range(4):
+            fase = (t * 2.4 + g / 4) % 1
+            gx = 130 + (g - 1.5) * 22 * fase
+            gy = topo - 18 * math.sin(math.pi * fase)
+            d.ellipse(((gx - 4) * k, (gy - 4) * k, (gx + 4) * k, (gy + 4) * k), fill=(120, 68, 32, 255))
+    elif frac > 0.9:  # cheia: fumacinha
+        for g in range(3):
+            fase = (t * 0.6 + g / 3) % 1
+            a = int(170 * math.sin(math.pi * fase))
+            pts = [((96 + g * 34 + 8 * math.sin(v / 9 + t * 3 + g)) * k, (108 - v - 50 * fase) * k) for v in range(0, 70, 4)]
+            d.line(pts, fill=(255, 255, 255, a), width=6 * k)
+    return im.resize((XW, XH), Image.LANCZOS)
+
+
 def relogio(img, t, x, y, sc=1.0):
     t0, t1 = M["exp"], M["fim_exp"]
     usado = min(max(0.0, t - t0), t1 - t0)
     resta = max(0.0, 60 - usado)
-    im = xicara().copy()
-    d = ImageDraw.Draw(im)
-    c = im.width / 2
-    r2 = R - 30
-    if usado > 0:  # o café vai "acabando": a parte do tempo que passou fica creme (espuma)
-        sb = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        ImageDraw.Draw(sb).pieslice((c - r2, c - r2, c + r2, c + r2), -90, -90 + 360 * usado / 60,
-                                    fill=(236, 214, 178, 215))
-        im.alpha_composite(sb)
-    a = math.radians(-90 + 360 * usado / 60)  # ponteiro = colherzinha
-    d.line((c, c, c + math.cos(a) * (r2 + 4), c + math.sin(a) * (r2 + 4)), fill=(220, 220, 226), width=10)
-    d.ellipse((c + math.cos(a) * (r2 - 6) - 12, c + math.sin(a) * (r2 - 6) - 12, c + math.cos(a) * (r2 - 6) + 12,
-               c + math.sin(a) * (r2 - 6) + 12), fill=(220, 220, 226), outline=INK, width=3)
-    d.ellipse((c - 13, c - 13, c + 13, c + 13), fill=LARANJA, outline=INK, width=4)
     urgente = resta < 10.5 and t < t1
-    pulso = 1.0 + (0.06 * max(0.0, math.cos((t - t0) * 2 * math.pi)) if urgente else 0.0)
-    cola(img, im, x, y, sc=sc * pulso)
+    caindo = t0 <= t < t1
+    pulso = 1.0 + (0.05 * max(0.0, math.cos((t - t0) * 2 * math.pi)) if urgente else 0.0)
+    cola(img, xicara_cheia(usado / 60, t, caindo), x, y, sc=sc * pulso)
     s_ = int(math.ceil(resta - 1e-6)) if t < t1 else int(round(resta))
-    cola(img, digital(f"0:{s_:02d}" if s_ < 60 else "1:00", (255, 110, 110) if urgente else WHITE), x - 20,
-         y + (R + 50) * sc, sc=sc)
+    cola(img, digital(f"0:{s_:02d}" if s_ < 60 else "1:00", (255, 110, 110) if urgente else WHITE), x - 10,
+         y + (XH / 2 + 26) * sc, sc=sc)
 
 
 # ---------------------------------------------------------------- textos

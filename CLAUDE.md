@@ -1517,4 +1517,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   tratar_diario) → `frase_NN.wav` + `palavras.json`; a fala N entra no trecho N com `LEAD` próprio, selos acertados pela
   fala, o vídeo dos poderes a 0,82x (`VEL`) porque a fala 5 é mais longa; legenda de 1 linha (`legenda_narracao`,
   `CORRIGE`: Coffridge→Coffee Rush, figil→ficha). Ele mudou a fala 5: "Juntando três cartas de penalidade, você consegue
-  desbloquear poderes especiais" (mantido). Saída `out/umminuto_{legendado,sem_legenda}.mp4`, "EXPLICADO EM 56 SEGUNDOS!".
+  desbloquear poderes especiais" (mantido). Saída `out/umminuto_{legendado,sem_legenda}.mp4`, "EXPLICADO EM 56 SEGUNDOS!". **2ª:** o fecho começa em 1,15 s do 084314
+  (a fala vem em 1,35 s; ela ficava parada) e o relógio virou uma XÍCARA DE VIDRO de lado (como as do jogo) enchendo com
+  um filete de café caindo, crema com bolhinhas, cheia = 1 minuto, fumacinha no fim (`xicara_cheia`; o pedido foi da
+  Jéssica: "não gostei do jeito que tá"). Pegadinha do PIL: `rounded_rectangle` sem fill nem outline desenha em BRANCO.
