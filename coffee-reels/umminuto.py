@@ -51,7 +51,7 @@ TRECHOS = [
     ("075447", 12.50, 19.60, "exp", False),   # xícara ao lado da receita, entrega
     ("075656", 0.00, 12.60, "exp", False),    # a fila anda, pedido cai = penalidade, cliente novo
     ("083950", 0.00, 4.20, "exp", False),     # leque de cartas de pedido entregues = quem tem mais vence (FIM, pedido dele)
-    ("084314", 0.00, 5.00, "fecho", True),    # "E esse é o Coffee Rush!"
+    ("084314", 0.00, 3.25, "fecho", True),    # "E esse é o Coffee Rush!" (corta logo depois da fala: ela desliga a câmera)
 ]
 # selos das regras: (índice do trecho, segundos depois do início do trecho, texto, cor)
 SELOS = [
@@ -70,7 +70,7 @@ LEG = [
     (0, 0.05, 1.70, "E aproveitando o nosso evento"),
     (0, 1.70, 3.30, "que está chegando,\nhoje eu vou te ensinar"),
     (0, 3.70, 5.95, "Coffee Rush em 1 minuto\nou menos. Vamos?"),
-    (6, 0.95, 3.30, "E esse é o Coffee Rush!"),
+    (6, 0.95, 3.25, "E esse é o Coffee Rush!"),
 ]
 CARIMBO, COMENTA, FIM = 0.15, 3.8, 4.6
 HOLD = 2.3  # o último quadro da mesa fica parado com o carimbo antes do fecho

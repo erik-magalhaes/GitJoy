@@ -1495,4 +1495,5 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **2ª rodada (15/nov, Erik):** SAIU o 074437 (fila de pedidos passando; não era o que ele queria mostrar) e o leque de
   cartas (083950) foi para o FIM da explicação = "quem tem MAIS CAFÉS ENTREGUES (cartinhas de pedido) ganha". Ordem:
   barista 3 casas → ingredientes/xícara → receita + entrega → fila anda/penalidade → leque = vitória. 65,6 s, explicação
-  43 s. Gravador agora com 5 falas (mesmo arquivo e nomes; link com o hash do commit novo).
+  43 s. Gravador agora com 5 falas (mesmo arquivo e nomes; link com o hash do commit novo). O fecho corta em 3,25 s,
+  logo depois do "...Coffee Rush!" (o resto é ela desligando a câmera) → 63,9 s.
