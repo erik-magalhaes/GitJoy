@@ -47,9 +47,10 @@ JOGOS = [
 BPM = 118
 BEAT = 60 / BPM
 T_REV0 = 4 * BEAT  # 1ª revelação (2,03 s)
-T_REV = [T_REV0 + k * BEAT for k in range(len(JOGOS))]
-T_FIM_REV = T_REV[-1] + BEAT
-DUR = 15.0
+# 15/nov, pedido dele: "liberar mais rápido, fileira por fileira" → uma fileira a cada 2 batidas (em onda)
+T_REV = [T_REV0 + (k // 4) * 2 * BEAT + (k % 4) * 0.07 for k in range(len(JOGOS))]
+T_FIM_REV = T_REV0 + 6 * BEAT
+DUR = 12.0
 
 # layouts: y de cada peça (vídeo/story 1080x1920 e post 1080x1350)
 LAY = {
@@ -161,27 +162,14 @@ def quadro(t, modo="story", img=None):
         img = T.fundo().copy()
     topo(img, t, L)
     grade(img, t, L)
-    # nome do jogo que acabou de virar
-    if T_REV0 <= t < T_FIM_REV + 0.1:
-        k = min(len(JOGOS) - 1, int((t - T_REV0) / BEAT))
-        lt = t - T_REV[k]
-        E.cola(img, pil(JOGOS[k][0], 54, AMA), W / 2, L["nome"], (-1) ** k * 2, out_back(min(1, lt / 0.2), 2))
     if t >= T_FIM_REV:
         T.poe(img, mais(), W / 2, L["nome"], t, T_FIM_REV, 2)
         t1 = T_FIM_REV + 0.6
         T.poe(img, TB.selo_data(38), W / 2, L["data"], t, t1, -1)
         T.poe(img, TB.selo_endereco(30), W / 2, L["end"], t, t1 + 0.2, 1)
-        if L["extra"] == "link":  # Stories: área y≈1480–1640 LIVRE para o adesivo de link
-            if t > t1 + 0.5:
-                al = min(1, (t - t1 - 0.5) / 0.3)
-                bob = 8 * math.sin(2 * math.pi * (t - t1) / 1.2)
-                tx = Image.new("RGBA", (W, 130), (0, 0, 0, 0))
-                ImageDraw.Draw(tx).text((W / 2 - 60, 45), "garanta sua mesa aqui:", font=E.fig(42, 900), fill=MAR,
-                                        anchor="mm")
-                tx.alpha_composite(seta_baixo(), (int(W / 2 + 205), int(bob)))
-                tx.putalpha(tx.getchannel("A").point(lambda v: int(v * al)))
-                img.alpha_composite(tx, (0, 1390))
-            T.poe(img, pil("ou no WhatsApp " + TB.WHATS, 36, BR, MAR, False), W / 2, 1700, t, t1 + 0.8, 0)
+        if L["extra"] == "link":  # Stories: sem "garanta aqui" (o adesivo de link fica o vídeo todo; pedido dele)
+            T.poe(img, pil("R$ 30 · R$ 15 VIRAM CONSUMAÇÃO", 34, AMA), W / 2, 1430, t, t1 + 0.4, -1)
+            T.poe(img, pil("RESERVE NO WHATSAPP " + TB.WHATS, 36, PET, BR), W / 2, 1502, t, t1 + 0.6, 1)
         elif L["extra"] == "whats":  # Reels: reserva + comenta, tudo acima de y≈1590
             T.poe(img, pil("R$ 30 · R$ 15 VIRAM CONSUMAÇÃO", 34, AMA), W / 2, 1425, t, t1 + 0.4, -1)
             T.poe(img, pil("GARANTA SUA MESA: WHATSAPP " + TB.WHATS, 36, PET, BR), W / 2, 1495, t, t1 + 0.6, 1)
@@ -209,8 +197,10 @@ def audio(nome):
     ev = [(0.08 * k + 0.05, S.sino() * 0.25, 0.25) for k in range(len(T.CHUVAS))]
     ev += [(0.25, S.fita(), 0.6), (0.45, S.estouro(), 0.35), (0.75, S.cartao(), 0.35)]
     for k, tr in enumerate(T_REV):
-        ev.append((tr, S.cartao(), 0.55))
-        ev.append((tr + 0.02, S.plim() if k % 2 else S.sino(), 0.3))
+        ev.append((tr, S.cartao(), 0.4))
+        if k % 4 == 0:
+            ev.append((tr + 0.02, S.estouro(), 0.35))
+            ev.append((tr + 0.04, S.plim() if k // 4 % 2 else S.sino(), 0.35))
     ev += [(T_FIM_REV, S.estouro(), 0.5), (T_FIM_REV + 0.6, S.cartao(), 0.35), (T_FIM_REV + 0.8, S.cartao(), 0.35),
            (T_FIM_REV + 1.2, S.sino(), 0.4)]
     mus = S.musica_pop(DUR + 0.5, 0.0, BPM)
