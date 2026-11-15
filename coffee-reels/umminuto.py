@@ -46,7 +46,6 @@ VOZ = "highpass=f=80,afftdn=nr=8:nf=-48,equalizer=f=250:t=q:w=1.2:g=-2,equalizer
 TRECHOS = [
     ("073758", 0.00, 6.15, "gancho", True),   # "E aproveitando o nosso evento... Coffee Rush em 1 minuto ou menos. Vamos?"
     ("074437", 0.00, 9.70, "exp", False),     # a cafeteria: baristas fazendo café e os pedidos do lado (1º, pedido dele)
-    ("075750", 0.00, 7.40, "exp", False),     # mexendo o barista: anda 3 casinhas
     ("075447", 0.00, 12.50, "exp", False),    # anda, pega os ingredientes, põe na xícara
     ("075447", 12.50, 19.60, "exp", False),   # xícara ao lado da receita, entrega
     ("075656", 0.00, 12.60, "exp", False),    # a fila anda, pedido cai = penalidade, cliente novo
@@ -57,28 +56,29 @@ TRECHOS = [
 SELOS = [
     (1, 0.4, "CADA UM TEM SUA CAFETERIA", PETROLEO),
     (1, 4.6, "OS PEDIDOS CHEGAM DO LADO", LARANJA),
-    (2, 0.3, "INGREDIENTE RARO VEM EM DOBRO!", LARANJA),  # ela aponta as casinhas de listra amarela
-    (2, 3.1, "ANDA ATÉ 3 CASAS", CAFE),
-    (3, 0.4, "SEM DIAGONAL!", VERMELHO),
-    (3, 3.9, "PEGA O INGREDIENTE DE CADA CASA", PETROLEO),
-    (3, 7.4, "MONTA NA XÍCARA", LARANJA),
-    (4, 0.4, "SIGA A RECEITA DO PEDIDO", CAFE),
-    (4, 3.6, "ENTREGOU! GUARDA O PEDIDO", VERDE),
-    (5, 0.6, "FIM DA RODADA: A FILA ANDA", PETROLEO),
-    (5, 5.8, "PEDIDO PERDIDO = PENALIDADE", VERMELHO),
-    (5, 8.6, "FICHA DE PRESSA: +1 MOVIMENTO!", AMARELO),  # ela mostra a moedinha
-    (6, 0.2, "MAIS CAFÉS ENTREGUES = VITÓRIA!", VERDE),
+    # (o 075750, meeple AZUL, saiu: pedido dele, 15/nov; fica só o meeple ROSA andando 3 casas no 075447)
+    (2, 0.4, "ANDA ATÉ 3 CASAS", CAFE),
+    (2, 2.0, "SEM DIAGONAL!", VERMELHO),
+    (2, 3.9, "INGREDIENTE RARO VEM EM DOBRO!", LARANJA),  # ela aponta as casinhas com o dedo
+    (2, 6.8, "PEGA O INGREDIENTE DE CADA CASA", PETROLEO),
+    (2, 9.6, "MONTA NA XÍCARA", LARANJA),
+    (3, 0.4, "SIGA A RECEITA DO PEDIDO", CAFE),
+    (3, 3.6, "ENTREGOU! GUARDA O PEDIDO", VERDE),
+    (4, 0.6, "FIM DA RODADA: A FILA ANDA", PETROLEO),
+    (4, 5.8, "PEDIDO PERDIDO = PENALIDADE", VERMELHO),
+    (4, 8.6, "FICHA DE PRESSA: +1 MOVIMENTO!", AMARELO),  # ela mostra a moedinha
+    (5, 0.2, "MAIS CAFÉS ENTREGUES = VITÓRIA!", VERDE),
 ]
 # notas fixas (ficam na tela mais tempo, embaixo do selo): (trecho, de, até, texto, cor)
 NOTAS = [
-    (5, 6.4, 12.6, "Perdeu um pedido? Ganha 1 ficha de pressa!", PETROLEO),
+    (4, 6.4, 12.6, "Perdeu um pedido? Ganha 1 ficha de pressa!", PETROLEO),
 ]
 # legendas da Jéssica (texto conferido de ouvido; o Whisper ouviu "Calfrush e Nelwing do Talmenis")
 LEG = [
     (0, 0.05, 1.70, "E aproveitando o nosso evento"),
     (0, 1.70, 3.30, "que está chegando,\nhoje eu vou te ensinar"),
     (0, 3.70, 5.95, "Coffee Rush em 1 minuto\nou menos. Vamos?"),
-    (7, 0.95, 3.25, "E esse é o Coffee Rush!"),
+    (6, 0.95, 3.25, "E esse é o Coffee Rush!"),
 ]
 CARIMBO, COMENTA, FIM = 0.15, 3.8, 4.6
 HOLD = 2.3  # o último quadro da mesa fica parado com o carimbo antes do fecho
