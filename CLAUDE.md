@@ -1489,11 +1489,12 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   último quadro da mesa parado 2,3 s com "EXPLICADO EM 53 SEGUNDOS!", "VOCÊ SERIA UM BOM BARISTA? Comenta aqui!", tela
   final + pílula "E NA MESA DA TARDE DE JOGOS NO BECA’S · 20/11". Trilha `sons.musica_cafe`. 75 s. Gravador (6 falas, uma
   por cena, `coffee1min_narracao_NN`):
-  `https://raw.githack.com/erik-magalhaes/GitJoy/5f629edf1659db61c2965a92791a4690fb0a42ff/coffee-reels/gravador/Gravar_narracao_Coffee1min.html`.
+  `https://raw.githack.com/erik-magalhaes/GitJoy/78a383ca355d5262ca69711896cdd7e8d4549cd0/coffee-reels/gravador/Gravar_narracao_Coffee1min.html`.
   Ao receber: tratar a voz → encaixar cada fala no início da sua cena (esticar/encolher a cena se precisar), legenda pela
   fala real, recalcular o carimbo.
   **2ª rodada (15/nov, Erik):** SAIU o 074437 (fila de pedidos passando; não era o que ele queria mostrar) e o leque de
   cartas (083950) foi para o FIM da explicação = "quem tem MAIS CAFÉS ENTREGUES (cartinhas de pedido) ganha". Ordem:
   barista 3 casas → ingredientes/xícara → receita + entrega → fila anda/penalidade → leque = vitória. 65,6 s, explicação
   43 s. Gravador agora com 5 falas (mesmo arquivo e nomes; link com o hash do commit novo). O fecho corta em 3,25 s,
-  logo depois do "...Coffee Rush!" (o resto é ela desligando a câmera) → 63,9 s.
+  logo depois do "...Coffee Rush!" (o resto é ela desligando a câmera) → 63,9 s. No começo do 075750 ela APONTA as
+  casinhas de listra amarela = ingrediente raro, vem em DOBRO (selo); "sem diagonal" foi pro 075447.
