@@ -49,7 +49,6 @@ TRECHOS = [
     ("075447", 0.00, 12.50, "exp", False),    # meeple ROSA anda 3 casas, pega os ingredientes, põe na xícara
     ("075447", 12.50, 19.60, "exp", False),   # xícara ao lado da receita, entrega
     ("075858", 0.00, 8.30, "exp", False),     # PODERES: ela vira a peça de poder na cafeteria (até antes de virar a câmera pro balcão)
-    ("075750", 0.00, 3.40, "exp", False),     # o dedo dele nas casas de FITA DOURADA (poder liberado = pega 2)
     ("075656", 0.00, 12.60, "exp", False),    # a fila anda, pedido cai = penalidade, ficha de pressa
     ("083950", 0.00, 4.20, "exp", False),     # leque de cartas de pedido entregues = quem tem mais vence (FIM, pedido dele)
     ("084314", 0.00, 3.25, "fecho", True),    # "E esse é o Coffee Rush!" (corta logo depois da fala: ela desliga a câmera)
@@ -66,23 +65,22 @@ SELOS = [
     (3, 3.6, "ENTREGOU! GUARDA O PEDIDO", VERDE),
     (4, 0.4, "PODERES ESPECIAIS!", LARANJA),
     (4, 4.6, "VIROU = PODER LIBERADO!", VERDE),
-    (5, 0.2, "FITA DOURADA = PEGA 2!", AMARELO),  # ele aponta as casas de fita dourada
-    (6, 0.6, "FIM DA RODADA: A FILA ANDA", PETROLEO),
-    (6, 5.8, "PEDIDO PERDIDO = PENALIDADE", VERMELHO),
-    (6, 8.6, "FICHA DE PRESSA: +1 MOVIMENTO!", AMARELO),  # ela mostra a moedinha
-    (7, 0.2, "MAIS CAFÉS ENTREGUES = VITÓRIA!", VERDE),
+    (5, 0.6, "FIM DA RODADA: A FILA ANDA", PETROLEO),
+    (5, 5.8, "PEDIDO PERDIDO = PENALIDADE", VERMELHO),
+    (5, 8.6, "FICHA DE PRESSA: +1 MOVIMENTO!", AMARELO),  # ela mostra a moedinha
+    (6, 0.2, "MAIS CAFÉS ENTREGUES = VITÓRIA!", VERDE),
 ]
 # notas fixas (ficam na tela mais tempo, embaixo do selo): (trecho, de, até, texto, cor)
 NOTAS = [
-    (5, 0.5, 3.4, "Liberou o poder na cafeteria? Nessa casa você pega 2!", LARANJA),
-    (6, 6.4, 12.6, "Perdeu um pedido? Ganha 1 ficha de pressa!", PETROLEO),
+    (4, 5.2, 8.3, "Um dos poderes: casa de fita dourada = pega 2!", LARANJA),
+    (5, 6.4, 12.6, "Perdeu um pedido? Ganha 1 ficha de pressa!", PETROLEO),
 ]
 # legendas da Jéssica (texto conferido de ouvido; o Whisper ouviu "Calfrush e Nelwing do Talmenis")
 LEG = [
     (0, 0.05, 1.70, "E aproveitando o nosso evento"),
     (0, 1.70, 3.30, "que está chegando,\nhoje eu vou te ensinar"),
     (0, 3.70, 5.95, "Coffee Rush em 1 minuto\nou menos. Vamos?"),
-    (8, 0.95, 3.25, "E esse é o Coffee Rush!"),
+    (7, 0.95, 3.25, "E esse é o Coffee Rush!"),
 ]
 CARIMBO, COMENTA, FIM = 0.15, 3.8, 4.6
 HOLD = 2.3  # o último quadro da mesa fica parado com o carimbo antes do fecho
@@ -244,7 +242,8 @@ def overlay(t):
     for a, b, txt, cor in NOTAS_T:
         if a <= t < b:
             u = out_back(seg(t - a, 0.0, 0.3)) * (1 - ease(seg(t, b - 0.2, b)))
-            cola(img, pilula(txt, 46, cor), W / 2, 1560, rot=-1, sc=u)
+            pl = pilula(txt, 46, cor)
+            cola(img, pl, W / 2, 1560, rot=-1, sc=u * min(1.0, 980 / pl.width))
     # relógio até o fim da explicação + carimbo (que fica no começo do fecho), depois sai voando
     fim = M["fim_exp"]
     sai = ease(seg(t, M["fecho"] - 0.3, M["fecho"] + 0.1))

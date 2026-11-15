@@ -1507,4 +1507,5 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   vídeo dele VIRANDO as cartinhas de poder da cafeteria (não estava no Drive): entra logo antes do 075750 (`# PODERES`).**
   69,6 s, explicação 49,5 s; gravador com 6 falas. **6ª (15/nov): chegou o 075858 (Drive, VID_20261114_075858): ela
   VIRA a peça de poder na cafeteria (0–8,3 s; depois a câmera vai pro balcão) → entra antes do 075750, selos "PODERES
-  ESPECIAIS!" e "VIROU = PODER LIBERADO!".** 77,9 s, explicação 57,8 s (a narração reajusta).
+  ESPECIAIS!" e "VIROU = PODER LIBERADO!".** **7ª: saiu de vez o 075750 (tabuleiro de ingredientes com os meeples); a
+  fita dourada virou nota embaixo do vídeo dos poderes.** 74,5 s, explicação 54,4 s.
