@@ -33,7 +33,7 @@ const LINES=[
 "(cena 1 · ~7 s · apontando as casinhas e mexendo o barista) Essas casinhas têm os ingredientes mais raros: passou nelas, ganha em dobro! Na sua vez, você anda até três casas…",
 "(cena 2 · ~12 s · pegando os ingredientes) …mas sem diagonal! Em cada casa que passa, você pega aquele ingrediente: café, leite, gelo… e vai montando a bebida na xícara.",
 "(cena 3 · ~7 s · a receita e a entrega) Seguindo a receita do pedido. Ficou igualzinha? Entrega pro cliente e guarda a cartinha.",
-"(cena 4 · ~12 s · a fila andando) No fim de cada rodada, a fila anda uma casa. Se um pedido passar do fim da fila, o cliente desiste e você leva uma penalidade.",
+"(cena 4 · ~12 s · a fila andando e a moedinha) No fim de cada rodada, a fila anda. Se um pedido passar do fim, o cliente desiste: é penalidade… mas você ganha uma ficha de pressa, que deixa andar uma casa a mais!",
 "(cena 5 · ~4 s · o leque de cartas) No fim, quem tiver mais cafés entregues ganha!"
 ];
 const blobs=Array(LINES.length).fill(null);let stream=null,rec=null,curIdx=-1,chunks=[],an=null,raf=0;

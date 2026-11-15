@@ -63,8 +63,13 @@ SELOS = [
     (3, 0.4, "SIGA A RECEITA DO PEDIDO", CAFE),
     (3, 3.6, "ENTREGOU! GUARDA O PEDIDO", VERDE),
     (4, 0.6, "FIM DA RODADA: A FILA ANDA", PETROLEO),
-    (4, 5.8, "PASSOU DO FIM? PENALIDADE!", VERMELHO),
+    (4, 5.8, "PEDIDO PERDIDO = PENALIDADE", VERMELHO),
+    (4, 8.6, "FICHA DE PRESSA: +1 MOVIMENTO!", AMARELO),  # ela mostra a moedinha
     (5, 0.2, "MAIS CAFÉS ENTREGUES = VITÓRIA!", VERDE),
+]
+# notas fixas (ficam na tela mais tempo, embaixo do selo): (trecho, de, até, texto, cor)
+NOTAS = [
+    (4, 6.4, 12.6, "Perdeu um pedido? Ganha 1 ficha de pressa!", PETROLEO),
 ]
 # legendas da Jéssica (texto conferido de ouvido; o Whisper ouviu "Calfrush e Nelwing do Talmenis")
 LEG = [
@@ -95,6 +100,7 @@ M["comenta"] = TL[ULT + 1]["t0"] + TL[ULT + 1]["n"] / FPS
 M["fim"] = M["comenta"] + COMENTA
 DUR = M["fim"] + FIM
 SELOS_T = [(TL[i]["t0"] + dt, txt, cor) for i, dt, txt, cor in SELOS]
+NOTAS_T = [(TL[i]["t0"] + a, TL[i]["t0"] + b, txt, cor) for i, a, b, txt, cor in NOTAS]
 LEG_T = [(TL[i]["t0"] + a, TL[i]["t0"] + b, txt) for i, a, b, txt in LEG]
 
 
@@ -229,6 +235,10 @@ def overlay(t):
                 u = out_back(seg(lt, 0.0, 0.3)) * (1 - ease(seg(lt, dura - 0.2, dura)))
                 cola(img, pilula(txt, 60, cor), W / 2 + 70, 520, rot=-3 if len(prox) % 2 else 3,
                      sc=u * min(1.0, 860 / pilula(txt, 60, cor).width))
+    for a, b, txt, cor in NOTAS_T:
+        if a <= t < b:
+            u = out_back(seg(t - a, 0.0, 0.3)) * (1 - ease(seg(t, b - 0.2, b)))
+            cola(img, pilula(txt, 46, cor), W / 2, 1560, rot=-1, sc=u)
     # relógio até o fim da explicação + carimbo (que fica no começo do fecho), depois sai voando
     fim = M["fim_exp"]
     sai = ease(seg(t, M["fecho"] - 0.3, M["fecho"] + 0.1))
