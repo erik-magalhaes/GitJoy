@@ -1489,7 +1489,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   último quadro da mesa parado 2,3 s com "EXPLICADO EM 53 SEGUNDOS!", "VOCÊ SERIA UM BOM BARISTA? Comenta aqui!", tela
   final + pílula "E NA MESA DA TARDE DE JOGOS NO BECA’S · 20/11". Trilha `sons.musica_cafe`. 75 s. Gravador (6 falas, uma
   por cena, `coffee1min_narracao_NN`):
-  `https://raw.githack.com/erik-magalhaes/GitJoy/ff0e7d9d145f82b232a109d81029ae644b566ee9/coffee-reels/gravador/Gravar_narracao_Coffee1min.html`.
+  `https://raw.githack.com/erik-magalhaes/GitJoy/12070190907340be413ec041e2fbd049521949d1/coffee-reels/gravador/Gravar_narracao_Coffee1min.html`.
   Ao receber: tratar a voz → encaixar cada fala no início da sua cena (esticar/encolher a cena se precisar), legenda pela
   fala real, recalcular o carimbo.
   **2ª rodada (15/nov, Erik):** SAIU o 074437 (fila de pedidos passando; não era o que ele queria mostrar) e o leque de
@@ -1508,4 +1508,5 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   69,6 s, explicação 49,5 s; gravador com 6 falas. **6ª (15/nov): chegou o 075858 (Drive, VID_20261114_075858): ela
   VIRA a peça de poder na cafeteria (0–8,3 s; depois a câmera vai pro balcão) → entra antes do 075750, selos "PODERES
   ESPECIAIS!" e "VIROU = PODER LIBERADO!".** **7ª: saiu de vez o 075750 (tabuleiro de ingredientes com os meeples); a
-  fita dourada virou nota embaixo do vídeo dos poderes.** 74,5 s, explicação 54,4 s.
+  fita dourada virou nota embaixo do vídeo dos poderes.** 74,5 s, explicação 54,4 s. **8ª: os poderes (075858) foram
+  para DEPOIS da fila/fim da rodada (075656), logo antes do leque; falas 4 e 5 trocadas no gravador.**
