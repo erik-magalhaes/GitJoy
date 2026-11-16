@@ -1184,7 +1184,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **R$ 1.200 = até 30 pessoas, 4 h de evento, 2 monitores** (deslocamento no ABC e SP capital incluso — eu pus isso no PDF);
   **hora extra R$ 250**; folga de 5 pessoas (até 35 pelo mesmo valor); mais de 35 = orçamento. Desconto de lançamento sugerido (R$ 990 em troca de fotos e depoimento)
   só se ele pedir condição. `proposta-evento/proposta.html` → `gerar_pdf.py` (usa o `render` do proposta-cafe) →
-  `out/proposta_confraternizacao.pdf` + JPEGs. Não escrever "a gente fica o evento todo" junto com preço por hora (confunde). Confraternização = adultos: foco em jogos de festa e +18 (Telestrations na Madruga, Amigos de Merda, Spyfall, Hitster, Código Secreto; Sorriu Bebeu / Faz ou Bebe se tiver bebida), NÃO os de estratégia tipo King of Tokyo.
+  `out/proposta_confraternizacao.pdf` + JPEGs. Não escrever "a gente fica o evento todo" junto com preço por hora (confunde). Confraternização: jogos de festa EQUILIBRADOS (Hitster, Código Secreto, Flip 7, Spyfall, Telma/Say my Name) + um "Cantinho +18 (opcional)" com Telestrations na Madruga e Amigos de Merda; ele achou "pesadão" só com +18. Nada de estratégia tipo King of Tokyo.
 - **CARROSSÉIS FEITOS EM OUTRA CONVERSA (branch `origin/ccr-656ca413-ba1ryu`, 11–12/nov, NÃO estão nesta branch):**
   `feed-sua-vez/personagens.py friends` ("Que jogo cada FRIENDS jogaria?", porta roxa: Monica Art Society, Rachel High
   Society, Ross Draftosaurus, Joey Taco Gato, Phoebe Nekojima, Chandler Blablabel), `series_tv.py` (TV na sala: Eleven The
