@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Proposta – Confraternização com jogos</title>
+<style>
+@font-face { font-family: Lilita; src: url("../assinatura-reels/assets/fonts/LilitaOne.ttf"); }
+@font-face { font-family: Figtree; src: url("../assinatura-reels/assets/fonts/Figtree.ttf"); font-weight: 300 900; }
+:root { --marrom:#3F2412; --pet:#1C7C96; --lar:#F48825; --ama:#FFC71F; --creme:#FFF8EC; --azul:#E3F3F6; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+@page { size: A4; margin: 0; }
+body { font-family: Figtree, sans-serif; color: var(--marrom); font-size: 11.5pt; line-height: 1.38; }
+.pag { width: 210mm; height: 297mm; padding: 14mm 15mm 12mm; position: relative; overflow: hidden;
+       background: var(--creme); page-break-after: always; }
+.pag:last-child { page-break-after: auto; }
+.faixa { position: absolute; left: 0; right: 0; height: 9mm;
+         background: repeating-linear-gradient(90deg, var(--lar) 0 18mm, var(--ama) 18mm 36mm, var(--pet) 36mm 54mm); }
+.faixa.topo { top: 0; } .faixa.pe { bottom: 0; }
+h1, h2, .lil { font-family: Lilita, sans-serif; font-weight: 400; letter-spacing: .3px; }
+header { display: flex; justify-content: space-between; align-items: center; margin-top: 4mm; }
+.logo { background: #fff; border: 2.2px solid var(--marrom); border-radius: 12px; padding: 6px 12px;
+        box-shadow: 4px 4px 0 var(--marrom); }
+.logo img { height: 15mm; display: block; }
+.tag { font-weight: 800; font-size: 9.5pt; text-transform: uppercase; letter-spacing: 1.5px; color: var(--pet); }
+h1 { font-size: 38pt; line-height: .98; color: var(--lar); margin: 5mm 0 2mm;
+     -webkit-text-stroke: 1.6px var(--marrom); text-shadow: 3px 3px 0 var(--marrom); }
+.sub { font-size: 13.5pt; font-weight: 600; max-width: 165mm; }
+h2 { font-size: 17pt; color: var(--pet); margin: 6mm 0 2.5mm; }
+.caixas { display: flex; gap: 4mm; align-items: flex-end; justify-content: center; margin: 4mm 0 0; height: 29mm; }
+.caixas img { max-height: 27mm; max-width: 24mm; filter: drop-shadow(3px 4px 0 rgba(63,36,18,.35)); }
+.cards { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+.card { background: #fff; border: 2.2px solid var(--marrom); border-radius: 14px; padding: 4mm 4.5mm;
+        box-shadow: 4px 4px 0 var(--marrom); }
+.card b { color: var(--pet); }
+ul { padding-left: 5mm; } li { margin: 1mm 0; }
+.ing { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; margin-top: 2mm; }
+.ing .card { text-align: center; padding: 4.5mm 4mm 4mm; }
+.preco { font-family: Lilita; font-size: 34pt; line-height: 1; color: var(--marrom); margin: 1.5mm 0; }
+.ing .A { background: var(--azul); } .ing .B { background: #FFF1C9; }
+.rot { font-family: Lilita; font-size: 13pt; color: #fff; background: var(--pet); display: inline-block;
+       padding: 1mm 4mm; border-radius: 99px; border: 2px solid var(--marrom); }
+.ing .B .rot { background: var(--lar); }
+.conta { font-size: 10pt; margin-top: 2mm; text-align: left; }
+.nota { font-size: 9.5pt; color: #6b5040; margin-top: 3mm; }
+table { width: 100%; border-collapse: collapse; }
+td { padding: 1.6mm 2mm; border-bottom: 1.5px dashed #d9c7b2; vertical-align: top; }
+td.h { font-family: Lilita; color: var(--lar); width: 30mm; font-size: 12pt; }
+.contato { margin-top: 6mm; background: var(--pet); color: #fff; border: 2.2px solid var(--marrom);
+           border-radius: 16px; box-shadow: 4px 4px 0 var(--marrom); padding: 5mm 6mm;
+           display: flex; justify-content: space-between; align-items: center; }
+.contato .lil { font-size: 19pt; color: var(--ama); -webkit-text-stroke: .6px var(--marrom); }
+.contato .dados { text-align: right; font-weight: 700; font-size: 12pt; line-height: 1.5; }
+.pac { background:#fff; border:2.2px solid var(--marrom); border-radius:18px; box-shadow:5px 5px 0 var(--marrom);
+       display:grid; grid-template-columns: 62mm 1fr; overflow:hidden; margin-top:3mm; }
+.pac .esq { background: var(--lar); color:#fff; text-align:center; padding:5mm 3mm; border-right:2.2px solid var(--marrom); }
+.pac .esq .preco { color:#fff; -webkit-text-stroke:1.2px var(--marrom); text-shadow:3px 3px 0 var(--marrom); font-size:40pt; }
+.pac .esq .det { font-weight:800; font-size:11pt; }
+.pac .dir { padding:4.5mm 5mm; }
+.extras { display:grid; grid-template-columns: 1fr 1fr; gap:4mm; margin-top:4mm; }
+.extras .card { text-align:center; } .extras .lil { font-size:20pt; color:var(--lar); -webkit-text-stroke:.6px var(--marrom); }
+.perfis { display:grid; grid-template-columns: 1fr 1fr; gap:3.5mm; }
+.perfis .card { display:flex; gap:3mm; align-items:center; padding:3mm 4mm; }
+.perfis img { height:21mm; max-width:19mm; object-fit:contain; filter: drop-shadow(2px 3px 0 rgba(63,36,18,.35)); }
+.perfis .t { font-size:10pt; }
+</style>
+</head><body>
+
+<section class="pag">
+  <div class="faixa topo"></div>
+  <header>
+    <div class="tag">Proposta para confraternização de fim de ano</div>
+    <div class="logo"><img src="../voodoo-reels/assets/logo_suavez.png" alt="Sua Vez"></div>
+  </header>
+
+  <h1>CONFRATERNIZAÇÃO<br>COM JOGOS DE TABULEIRO</h1>
+  <p class="sub">A Sua Vez leva os jogos até a sua empresa, monta as mesas e ensina as regras. O time só precisa
+  chegar, sentar e jogar.</p>
+
+  <div class="caixas">
+    <img src="../hobby-reels/assets/acervo/hitster.png"><img src="../hobby-reels/assets/caixas/c_digo_secreto_imagens.png"><img src="../hobby-reels/assets/acervo/dixit.png">
+    <img src="../hobby-reels/assets/caixas/king_of_tokyo.png"><img src="../hobby-reels/assets/acervo/telma.png"><img src="../gravados-reels/assets/top10/flip_7_a_vinganca.png">
+  </div>
+
+  <h2>Por que jogos na confraternização</h2>
+  <div class="cards">
+    <div class="card"><b>Integra todo mundo.</b> Gente de setores diferentes na mesma mesa, conversando e rindo junto.</div>
+    <div class="card"><b>Sem celular na mão.</b> O jogo prende a atenção e a festa não vira cada um no seu canto.</div>
+    <div class="card"><b>Pra todos os perfis.</b> Jogos rápidos e fáceis pra quem nunca jogou, e desafios pra quem já gosta.</div>
+    <div class="card"><b>Zero trabalho pra quem organiza.</b> A gente leva, monta, ensina e desmonta no final.</div>
+  </div>
+
+  <h2>Investimento</h2>
+  <div class="pac">
+    <div class="esq">
+      <div class="lil" style="font-size:14pt">PACOTE</div>
+      <div class="preco lil">R$ 1.200</div>
+      <div class="det">até 30 pessoas<br>4 horas de evento</div>
+    </div>
+    <div class="dir">
+      <ul>
+        <li><b>2 monitores</b> o tempo todo, explicando as regras e ajudando as mesas</li>
+        <li><b>Seleção de jogos</b> escolhida para o perfil do grupo</li>
+        <li><b>Montagem e desmontagem</b> das mesas de jogo</li>
+        <li><b>Deslocamento incluso</b> no ABC Paulista e em São Paulo capital</li>
+      </ul>
+    </div>
+  </div>
+  <div class="extras">
+    <div class="card"><div class="lil">+ R$ 250</div>por hora extra de evento<br><span class="nota">(com os 2 monitores)</span></div>
+    <div class="card"><div class="lil">+ de 30 pessoas?</div>A gente monta um orçamento<br>sob medida para o seu grupo</div>
+  </div>
+  <div class="faixa pe"></div>
+</section>
+
+<section class="pag">
+  <div class="faixa topo"></div>
+  <header>
+    <div class="tag">Como funciona</div>
+    <div class="logo"><img src="../voodoo-reels/assets/logo_suavez.png" alt="Sua Vez"></div>
+  </header>
+
+  <h2>Jogos pra cada tipo de pessoa</h2>
+  <div class="perfis">
+    <div class="card"><img src="../hobby-reels/assets/acervo/hitster.png"><div class="t"><b>Pra animar a galera</b><br>Hitster: adivinhe o ano da música. Todo mundo canta junto.</div></div>
+    <div class="card"><img src="../hobby-reels/assets/caixas/c_digo_secreto_imagens.png"><div class="t"><b>Pra jogar em times</b><br>Código Secreto: Imagens, perfeito pra disputa entre setores.</div></div>
+    <div class="card"><img src="../hobby-reels/assets/acervo/dixit.png"><div class="t"><b>Pra quem gosta de criatividade</b><br>Dixit: cartas ilustradas e muita imaginação.</div></div>
+    <div class="card"><img src="../hobby-reels/assets/caixas/king_of_tokyo.png"><div class="t"><b>Pros competitivos</b><br>King of Tokyo: monstros gigantes e dados pra todo lado.</div></div>
+    <div class="card"><img src="../hobby-reels/assets/acervo/telma.png"><div class="t"><b>Pra rir muito</b><br>Telma e Say my Name: jogos de grupo, rápidos e engraçados.</div></div>
+    <div class="card"><img src="../gravados-reels/assets/top10/flip_7_a_vinganca.png"><div class="t"><b>Pra quem nunca jogou</b><br>Flip 7: aprende em 1 minuto e não quer mais parar.</div></div>
+  </div>
+  <p class="nota">Os jogos são só exemplos: o nosso acervo tem mais de 160 títulos, e a seleção final é montada com você.</p>
+
+  <h2>Como são as 4 horas</h2>
+  <table>
+    <tr><td class="h">Antes</td><td>A gente chega antes do horário e monta as mesas de jogo (esse tempo não conta nas 4 horas).</td></tr>
+    <tr><td class="h">1ª hora</td><td>Boas-vindas e jogos rápidos de grupo, pra todo mundo se soltar.</td></tr>
+    <tr><td class="h">2ª e 3ª</td><td>As mesas trocam de jogo; a gente indica o próximo conforme o grupo de cada mesa.</td></tr>
+    <tr><td class="h">4ª hora</td><td>Jogos em times pra fechar com todo mundo junto, e encerramento.</td></tr>
+  </table>
+
+  <h2>O que precisamos da empresa</h2>
+  <ul>
+    <li><b>Mesas e cadeiras</b> para os jogos (umas 6 mesas para 30 pessoas).</li>
+    <li>Um espaço <b>coberto e bem iluminado</b>.</li>
+    <li>A data, o horário e o endereço, para a gente reservar a agenda.</li>
+  </ul>
+
+  <div class="contato">
+    <div class="lil">VAMOS JOGAR?</div>
+    <div class="dados">WhatsApp (11) 97793-3910<br>@suavez_bg · suavez.rejoy.com.br</div>
+  </div>
+  <div class="faixa pe"></div>
+</section>
+</body></html>
