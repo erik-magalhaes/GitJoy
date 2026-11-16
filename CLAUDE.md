@@ -1175,6 +1175,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Eu Sou uma Banana, Santorini, Say my Name, Splendor Duel, Spyfall, Sushi Go!, Taco Gato Cabra Queijo Pizza, Take Time, Tapalavras, Telma,
   The Mind, Uga Buga, Wandering Towers. Ele TIROU: Ref!, Last Message (→ Break the Cube), Next Station (→ Wandering Towers), Perfil Express e Splito ("muito confuso") (→ Eu Sou uma Banana), Tesouro do Dragão, Patchwork, Azul Duel, Cartógrafos, BraveRats e 1, 2, 3, Lucha! (→ Taco Gato Cabra Queijo Pizza), Spot it! Hip (→ Dobble Disney).
   Eu deixei de fora: Throw Throw Burrito e Happy Salmon (barulho/coisa voando no café), jogos de bebida e +18, jogos longos.
+- **FLIP 7: A VINGANÇA recortado de novo (16/nov, ele: "a imagem dele está cortada em tudo"):** o canto de cima à
+  esquerda (tampa creme sob a luz laranja) sumia no limiar de cor. Novo recorte da foto do site (`site-fotos/out/fotos/`):
+  laranja por matiz/saturação + polígono dos 6 cantos medidos + casco convexo, erosão 7 px. Substituiu
+  `gravados-reels/assets/top10/flip_7_a_vinganca.png`, `top10/flip_7_a_vingan_a.png` e `hobby-reels/assets/acervo/flip_7_a_vingan_a.png`
+  (agora os dois servem). O Flip 7 normal da Grok (`lista/flip_7.png`) está ok.
 - **1º PEDIDO DE EVENTO (16/nov): Rodrigo, confraternização de fim de ano da empresa dele, ~30 pessoas.** Preço do Erik:
   **R$ 1.200 = até 30 pessoas, 4 h de evento, 2 monitores** (deslocamento no ABC e SP capital incluso — eu pus isso no PDF);
   **hora extra R$ 250**; folga de 5 pessoas (até 35 pelo mesmo valor); mais de 35 = orçamento. Desconto de lançamento sugerido (R$ 990 em troca de fotos e depoimento)
