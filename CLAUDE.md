@@ -1175,6 +1175,12 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Eu Sou uma Banana, Santorini, Say my Name, Splendor Duel, Spyfall, Sushi Go!, Taco Gato Cabra Queijo Pizza, Take Time, Tapalavras, Telma,
   The Mind, Uga Buga, Wandering Towers. Ele TIROU: Ref!, Last Message (→ Break the Cube), Next Station (→ Wandering Towers), Perfil Express e Splito ("muito confuso") (→ Eu Sou uma Banana), Tesouro do Dragão, Patchwork, Azul Duel, Cartógrafos, BraveRats e 1, 2, 3, Lucha! (→ Taco Gato Cabra Queijo Pizza), Spot it! Hip (→ Dobble Disney).
   Eu deixei de fora: Throw Throw Burrito e Happy Salmon (barulho/coisa voando no café), jogos de bebida e +18, jogos longos.
+- **CARROSSÉIS FEITOS EM OUTRA CONVERSA (branch `origin/ccr-656ca413-ba1ryu`, 11–12/nov, NÃO estão nesta branch):**
+  `feed-sua-vez/personagens.py friends` ("Que jogo cada FRIENDS jogaria?", porta roxa: Monica Art Society, Rachel High
+  Society, Ross Draftosaurus, Joey Taco Gato, Phoebe Nekojima, Chandler Blablabel), `series_tv.py` (TV na sala: Eleven The
+  Mind, Dustin Dungeon Fighter, Wandinha Paranormal Detectives, Ted Architectura, Barney Dungeons & Drinks, Lorelai Coffee
+  Rush), `cinema.py` (filmes/animações × tabuleiro) e `videogame.py`. Para gerar: `git worktree add <pasta>
+  origin/ccr-656ca413-ba1ryu` e rodar lá. 16/nov: reenviei Friends e séries (o final cita "3 jogos = 7 dias").
 - **SPOILER da Tarde no Beca’s (`becas-reels/spoiler.py`, 15/nov, pedido dele: "foto e vídeo tipo spoiler do que vai
   ter no evento, pra lembrar de reservar"):** 12 jogos que ELE listou (Santorini, Hot Streak, Código Secreto, Flip 7,
   UNO No Mercy, Drácula vs Van Helsing, Hive, Dixit Disney, Hitster, Hitster Verão, Marrakech, UNO Stacko); caixas novas em
