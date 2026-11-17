@@ -41,8 +41,8 @@ JOGOS = [
      "Dê uma pista sobre uma carta com personagens da Disney e veja quem adivinha qual é!", LAR),
     ("King of Tokyo", "hobby-reels/assets/caixas/king_of_tokyo.png", 8, "2 a 6", "30 min",
      "Monstros gigantes rolam dados e brigam pra ser o rei de Tóquio!", VERDE),
-    ("Splendor Duel", "gravados-reels/assets/lista/splendor_duel.png", 10, "2", "30 min",
-     "Duelo pra dois: junte pedras preciosas, compre cartas e chegue ao prestígio antes do outro!", PET),
+    ("We Will Rock You", "promo/assets/criancas/we_will_rock_you.png", 10, "4 a 12", "15 min",  # 17/nov: no lugar do Splendor Duel (Buró)
+     "Bate no ritmo da música do Queen, faz o seu sinal e o de outro jogador. Perdeu o ritmo, dançou!", PET),
     ("Take Time", "feed-posts/assets/take_time.png", 10, "2 a 4", "30 min",
      "Cooperativo e quase sem conversar: todos juntos pra completar o relógio!", ROSA),
     ("Spyfall", "promo/assets/criancas/spyfall_capa.png", 13, "3 a 8", "15 min",
