@@ -45,8 +45,7 @@ JOGOS = [  # 17/nov: só os 6 da escadinha da capa, um por idade (pedido dele)
      "Ouça a música e encaixe na sua linha do tempo: ela saiu antes ou depois?", ROSA),
 ]
 # os outros jogos da lista da tarde (caixas recortadas do site) para a tela "e tem muito mais"
-OUTROS = ["king_of_tokyo", "take_time", "telma", "tapalavras", "say_my_name", "uga_buga", "santorini", "marrakech", "draftosaurus", "hive",
-          "wandering_towers", "canvas", "break_the_cube"]
+OUTROS = ["marrakech", "/hobby-reels/assets/caixas/boop", "telma", "tapalavras", "say_my_name", "/promo/assets/criancas/taco_gato", "santorini", "draftosaurus", "hive", "/hobby-reels/assets/caixas/c_digo_secreto_imagens", "/promo/assets/spoiler/uno_no_mercy", "break_the_cube"]  # 17/nov: trocas da tela 8 pedidas por ele
 
 
 # ---------------------------------------------------------------- recortes (fotos de produto em fundo branco)
@@ -213,7 +212,9 @@ def tela_jogo(k):
 def tela_mais():
     img = BC.fundo_leve(W, H, 61)
     E.cola(img, E.titulo("E TEM MUITO\nMAIS NA MESA!", 104, LAR), W / 2, 200, -1.5)
-    cxs = [n for n in OUTROS if os.path.exists(os.path.join(TB.CX, n + ".png"))][:12]
+    raiz = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    cxs = [(raiz + n if n.startswith("/") else n) for n in OUTROS]
+    cxs = [n for n in cxs if os.path.exists(os.path.join(TB.CX, n + ".png"))][:12]
     cols, x0, y0, dx, dy = 4, 150, 420, 260, 265
     for k, n in enumerate(cxs):
         x = x0 + (k % cols) * dx + (65 if k >= 8 else 0) * (len(cxs) - 8 == 3)
