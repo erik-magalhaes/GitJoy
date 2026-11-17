@@ -37,8 +37,8 @@ JOGOS = [
      "Duas cartas sempre têm UM personagem igual. Quem achar primeiro, leva!", PET),
     ("Taco Gato Cabra\nQueijo Pizza", "promo/assets/criancas/taco_gato.png", 6, "2 a 8", "10 min",
      "Vira a carta falando a palavra. Carta e palavra iguais? Todo mundo bate na pilha: o último leva!", AMA),
-    ("Dixit", "hobby-reels/assets/caixas/dixit.png", 8, "3 a 6", "30 min",
-     "Dê uma pista sobre uma carta ilustrada e veja quem adivinha qual é!", LAR),
+    ("Dixit: Disney", "promo/assets/spoiler/dixit_disney.png", 8, "3 a 6", "30 min",  # 17/nov: ele trocou o Dixit normal
+     "Dê uma pista sobre uma carta com personagens da Disney e veja quem adivinha qual é!", LAR),
     ("King of Tokyo", "hobby-reels/assets/caixas/king_of_tokyo.png", 8, "2 a 6", "30 min",
      "Monstros gigantes rolam dados e brigam pra ser o rei de Tóquio!", VERDE),
     ("Splendor Duel", "gravados-reels/assets/lista/splendor_duel.png", 10, "2", "30 min",
