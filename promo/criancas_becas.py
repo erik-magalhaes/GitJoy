@@ -30,32 +30,22 @@ VERDE = BC.VERDE
 W, H = 1080, 1350
 
 # (nome, arquivo da caixa, idade, jogadores, tempo, frase, cor)
-JOGOS = [
+JOGOS = [  # 17/nov: só os 6 da escadinha da capa, um por idade (pedido dele)
     ("UNO Stacko", "promo/assets/criancas/uno_stacko.png", 4, "2 a 10", "partida rápida",
      "Tire da torre um bloco da cor ou do número pedido e ponha no topo. Derrubou, perdeu!", ROSA),
     ("Dobble: Disney", "promo/assets/criancas/orig/dobble_disney_galapagos.png", 6, "2 a 8", "15 min",
      "Duas cartas sempre têm UM personagem igual. Quem achar primeiro, leva!", PET),
-    ("Taco Gato Cabra\nQueijo Pizza", "promo/assets/criancas/taco_gato.png", 6, "2 a 8", "10 min",
-     "Vira a carta falando a palavra. Carta e palavra iguais? Todo mundo bate na pilha: o último leva!", AMA),
     ("Dixit: Disney", "promo/assets/spoiler/dixit_disney.png", 8, "3 a 6", "30 min",  # 17/nov: ele trocou o Dixit normal
      "Dê uma pista sobre uma carta com personagens da Disney e veja quem adivinha qual é!", LAR),
-    ("King of Tokyo", "hobby-reels/assets/caixas/king_of_tokyo.png", 8, "2 a 6", "30 min",
-     "Monstros gigantes rolam dados e brigam pra ser o rei de Tóquio!", VERDE),
     ("We Will Rock You", "promo/assets/criancas/we_will_rock_you.png", 10, "4 a 12", "15 min",  # 17/nov: no lugar do Splendor Duel (Buró)
-     "Bate no ritmo da música do Queen, faz o seu sinal e o de outro jogador. Perdeu o ritmo, dançou!", PET),
-    ("Take Time", "feed-posts/assets/take_time.png", 10, "2 a 4", "30 min",
-     "Cooperativo e quase sem conversar: todos juntos pra completar o relógio!", ROSA),
+     "Bate no ritmo da música do Queen, faz o seu sinal e o de outro jogador. Perdeu o ritmo, dançou!", VERDE),
     ("Spyfall", "promo/assets/criancas/spyfall_capa.png", 13, "3 a 8", "15 min",
-     "Todo mundo sabe o lugar... menos o espião! Pergunte e descubra quem é ele.", LAR),
+     "Todo mundo sabe o lugar... menos o espião! Pergunte e descubra quem é ele.", AMA),
     ("Hitster", "gravados-reels/assets/lista/hitster.png", 14, "2 a 10", "30 min",
-     "Ouça a música e encaixe na sua linha do tempo: ela saiu antes ou depois?", PET),
-    ("Coffee Rush", "coffee-reels/assets/caixa.png", 14, "2 a 4", "30 min",
-     "Vire barista: junte os ingredientes e entregue os pedidos antes da fila crescer!", VERDE),
-    ("Cores com Dicas", "promo/assets/criancas/orig/cores_com_dicas_grok.png", 14, "3 a 10", "30 min",
-     "Dê uma dica de uma palavra e veja quem acha a cor certa no meio de 480 cores!", ROSA),
+     "Ouça a música e encaixe na sua linha do tempo: ela saiu antes ou depois?", ROSA),
 ]
 # os outros jogos da lista da tarde (caixas recortadas do site) para a tela "e tem muito mais"
-OUTROS = ["telma", "tapalavras", "say_my_name", "uga_buga", "santorini", "marrakech", "draftosaurus", "hive",
+OUTROS = ["king_of_tokyo", "take_time", "telma", "tapalavras", "say_my_name", "uga_buga", "santorini", "marrakech", "draftosaurus", "hive",
           "wandering_towers", "canvas", "break_the_cube"]
 
 
@@ -185,7 +175,7 @@ def tela_capa():
         BC.segura(img, x, y, wg, BC.CORES[k], seed=k)
     E.cola(img, E.pilula("TARDE DE JOGOS NO BECA’S · 20/11", 34, PET, BR, fonte_titulo=True), W / 2, 300, -1)
     E.cola(img, E.titulo("TEM JOGO PRA\nTODA IDADE!", 128, LAR), W / 2, 470, -2)
-    degraus = [(0, 4), (1, 6), (3, 8), (5, 10), (7, 13), (8, 14)]
+    degraus = [(0, 4), (1, 6), (2, 8), (3, 10), (4, 13), (5, 14)]
     cores = [AMA, ROSA, LAR, PET, VERDE, ROSA]
     base, larg, x0 = 1210, 168, 36
     d = ImageDraw.Draw(img)

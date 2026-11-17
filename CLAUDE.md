@@ -1208,7 +1208,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Duel 10+, Take Time 10+, Spyfall 13+ (PaperGames, 3 a 8), Hitster 14+, Coffee Rush 14+, Cores com Dicas 14+ (Grok, 3 a 10, 30 min,
   lido na caixa) (pediu junto com o Hot Streak, que depois TIROU: "muita coisa com 14"; Hot Streak = 14+ na Galápagos, 6+ no site): "tem jogos que a gente vai
   levar que você não pôs" (a lista de 30 jogos de 6/nov NÃO é completa; pedir a lista atual) → "E tem muito mais na mesa" →
-  "TRAZ A GALERA!" + "Comenta: qual desses você quer jogar?". 14 telas + 14 Stories (`out/becas/criancas/`). **17/nov:** Dixit → Dixit: Disney (DIX631) e Splendor Duel → **We Will Rock You** (Buró, 10+, 4 a 12, 15 min; caixa da loja Nuvemshop `loja.burobrasil.com/produtos/we-will-rock-you/` → `promo/assets/criancas/we_will_rock_you.png`).
+  "TRAZ A GALERA!" + "Comenta: qual desses você quer jogar?". 14 telas + 14 Stories (`out/becas/criancas/`). **17/nov:** Dixit → Dixit: Disney (DIX631) e Splendor Duel → **We Will Rock You** (Buró, 10+, 4 a 12, 15 min; caixa da loja Nuvemshop `loja.burobrasil.com/produtos/we-will-rock-you/` → `promo/assets/criancas/we_will_rock_you.png`). **Depois: o carrossel ficou SÓ com os 6 da escadinha, um por idade (UNO Stacko 4+, Dobble: Disney 6+, Dixit: Disney 8+, We Will Rock You 10+, Spyfall 13+, Hitster 14+) → 9 telas** (capa, 6 jogos, "e tem muito mais", traz a galera).
   **Idade: o site da Sua Vez ERRA às vezes** (Coffee Rush 8+ no site, 14+ na Galápagos; Bananagrams 7+ × 8+; Spyfall
   13+ na PaperGames): conferir na editora — Galápagos `ccstore/v1/products/<ID>` → `x_faixaEtaria`; PaperGames
   `papergames.com.br/<jogo>/` ("Idade Recomendada"); Devir/Mattel pela loja.
