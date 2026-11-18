@@ -176,8 +176,31 @@ def tela(k, j, resposta):
     return img.convert("RGB")
 
 
+def capa():
+    """Story de abertura, antes das perguntas."""
+    img = fundo(0)
+    E.cola(img, E.logo(230), W / 2, 170)
+    E.cola(img, E.titulo("BORA\nJOGAR?", 170, E.AMARELO), W / 2, 470, -3)
+    E.cola(img, E.pilula("Tá a fim de um joguinho?", 46, E.BRANCO), W / 2, 700, 2)
+    # 3 sombras de caixas em leque, com "?"
+    for k, (n, dx, rot) in enumerate([("wingspan", -300, 9), ("dixit", 0, -3), ("coup_inquisition", 300, -9)]):
+        sb = sombra(caixa(n, 300 if k != 1 else 360, 330))
+        E.cola(img, sb, W / 2 + dx, 1020 + (0 if k == 1 else 40), rot)
+    E.cola(img, E.titulo("?", 150, E.AMARELO), W / 2 + 10, 1010, 8)
+    E.cola(img, E.titulo("QUE JOGO É ESSE?", 92, E.BRANCO, larg_max=980), W / 2, 1300, -1)
+    E.cola(img, E.texto("7 jogos escondidos na sombra.\nSerá que você acerta todos?", 46, E.BRANCO, 800, larg_max=900),
+           W / 2, 1450)
+    pl = E.pilula("Toca pra começar", 44, E.AMARELO, fonte_titulo=True)
+    E.cola(img, pl, W / 2 - 30, 1610, -1)
+    d = ImageDraw.Draw(img)
+    x = W / 2 - 30 + pl.width / 2 + 30
+    d.polygon([(x, 1580), (x + 50, 1608), (x, 1636)], fill=E.AMARELO, outline=E.MARROM, width=5)
+    return img.convert("RGB")
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
+    capa().save(os.path.join(OUT, "00_capa.png"))
     miniaturas = []
     for k, j in enumerate(JOGOS, 1):
         for resp in (False, True):

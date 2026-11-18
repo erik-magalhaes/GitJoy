@@ -1217,6 +1217,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   silhueta chapada virava um retângulo igual pra todos), "?", selo da categoria (Pocket/Família/Estratégico/Deluxe pelo
   preço do site) + jogadores + tempo, 3 dicas e 3 opções A/B/C; resposta com a caixa colorida, nome e a opção certa em
   verde. 7 jogos (Hive, Ticket to Ride, Dixit, Draftosaurus, Wingspan, Flamecraft, Coup) → `out/quiz_sombra/NN_{pergunta,resposta}.png`.
+  Capa de abertura `00_capa.png` ("BORA JOGAR? / Tá a fim de um joguinho?", 3 sombras com "?", "7 jogos escondidos na sombra", "Toca pra começar").
   2ª rodada: a PERGUNTA não tem mais as opções desenhadas: "QUAL É? VOTA AQUI:" + seta e espaço LIVRE (y≈1400–1760) para o adesivo de quiz/enquete do Instagram (a pessoa interage); as opções vão no adesivo. A resposta continua com as 3 opções e a certa em verde.
 - **Carrossel "O JOGO CERTO PRA CADA FESTA" (`feed-sua-vez/calendario_festas.py`, 11/nov, ideia dele):** folha de
   opções `out/opcoes_eventos.jpg` (12 eventos × jogo) → ele TIROU Go Cuckoo ("a gente está usando muito") e Perfil Express.
