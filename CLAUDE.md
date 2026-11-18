@@ -1212,6 +1212,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **Idade: o site da Sua Vez ERRA às vezes** (Coffee Rush 8+ no site, 14+ na Galápagos; Bananagrams 7+ × 8+; Spyfall
   13+ na PaperGames): conferir na editora — Galápagos `ccstore/v1/products/<ID>` → `x_faixaEtaria`; PaperGames
   `papergames.com.br/<jogo>/` ("Idade Recomendada"); Devir/Mattel pela loja.
+- **Stories "QUE JOGO É ESSE?" (`promo/quiz_sombra.py`, 18/nov, ideia dele: tipo "qual é esse Pokémon?"):** raios amarelos
+  sobre petróleo, a "sombra" da caixa (caixa escura com só o volume e manchas borradas da arte, sem dar pra ler o nome;
+  silhueta chapada virava um retângulo igual pra todos), "?", selo da categoria (Pocket/Família/Estratégico/Deluxe pelo
+  preço do site) + jogadores + tempo, 3 dicas e 3 opções A/B/C; resposta com a caixa colorida, nome e a opção certa em
+  verde. 7 jogos (Hive, Ticket to Ride, Dixit, Draftosaurus, Wingspan, Flamecraft, Coup) → `out/quiz_sombra/NN_{pergunta,resposta}.png`.
 - **Carrossel "O JOGO CERTO PRA CADA FESTA" (`feed-sua-vez/calendario_festas.py`, 11/nov, ideia dele):** folha de
   opções `out/opcoes_eventos.jpg` (12 eventos × jogo) → ele TIROU Go Cuckoo ("a gente está usando muito") e Perfil Express.
   Conceito CALENDÁRIO DE PAREDE (parede azul-clara com losangos, folha pendurada num prego com espiral de arame; em cima a
