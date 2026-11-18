@@ -209,7 +209,7 @@ def final():
     for k, (j, (dx, dy)) in enumerate(zip(JOGOS, pos)):
         E.cola(img, com_borda(caixa(j[0], 230, 220)), W / 2 + dx, 870 + dy, rots[k])
     E.cola(img, E.titulo("TODOS ESSES JOGOS\nESTÃO NO NOSSO SITE!", 74, E.BRANCO, larg_max=980), W / 2, 1360, -1)
-    E.cola(img, E.texto("Aluga e leva a diversão pra casa:\nretira em Mauá ou recebe em casa.", 40, E.BRANCO, 800,
+    E.cola(img, E.texto("Alugue e jogue!\nRetire em Mauá ou receba em casa.", 40, E.BRANCO, 800,
                         larg_max=940), W / 2, 1515)
     E.cola(img, E.pilula("O LINK TÁ NA BIO · @SUAVEZ_BG", 46, E.AMARELO, fonte_titulo=True), W / 2, 1660, 1)
     return img.convert("RGB")
