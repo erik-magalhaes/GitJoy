@@ -107,7 +107,7 @@ def com_borda(cx):
 
 
 def interrogacao(img):
-    E.cola(img, E.titulo("?", 230, E.AMARELO), 880, 820, 12)
+    E.cola(img, E.titulo("?", 210, E.AMARELO), 870, 780, 12)
 
 
 def opcao(letra, txt, estado):
@@ -135,16 +135,16 @@ def tela(k, j, resposta):
     E.cola(img, E.logo(230), W / 2, 170)
     E.cola(img, E.titulo("QUE JOGO\nÉ ESSE?" if not resposta else "É O...", 120, E.AMARELO, larg_max=980),
            W / 2, 365 if not resposta else 320, -2)
-    cx = caixa(nome, 430, 540)
+    cx = caixa(nome, 430 if resposta else 380, 540 if resposta else 480)
     if resposta:
         E.cola(img, com_borda(cx), W / 2, 715, -4)
         E.cola(img, E.titulo(titulo_jogo.upper() + "!", 92, E.BRANCO, larg_max=960), W / 2, 990, 2)
     else:
-        E.cola(img, sombra(cx), W / 2, 730, -4)
+        E.cola(img, sombra(cx), W / 2, 700, -4)
         interrogacao(img)
     # categoria + ficha
     cor, cor_t = E.CAT[cat]
-    y = 1110 if resposta else 1015
+    y = 1110 if resposta else 950
     selos = [E.pilula(cat, 40, cor, cor_t, fonte_titulo=True), E.pilula(jog, 34, E.BRANCO), E.pilula(tempo, 34, E.BRANCO)]
     tot = sum(s.width for s in selos) + 18 * 2
     x = W / 2 - tot / 2
@@ -160,8 +160,14 @@ def tela(k, j, resposta):
             yy = 100 + i * 56
             d.ellipse((42, yy - 9, 60, yy + 9), fill=E.PETROLEO)
             d.text((80, yy), t, font=E.fig(38, 800), fill=E.MARROM, anchor="lm")
-        E.cola(img, bl, W / 2, 1215, 0)
-    y0 = 1435 if not resposta else 1260
+        E.cola(img, bl, W / 2, 1140, 0)
+    if not resposta:
+        # espaço LIVRE (y ~1370–1760) para o adesivo de QUIZ/ENQUETE do Instagram
+        E.cola(img, E.pilula("QUAL É? VOTA AQUI:", 40, E.AMARELO, fonte_titulo=True), W / 2, 1310, -1)
+        d = ImageDraw.Draw(img)
+        d.polygon([(W / 2 - 34, 1360), (W / 2 + 34, 1360), (W / 2, 1400)], fill=E.AMARELO, outline=E.MARROM, width=5)
+        return img.convert("RGB")
+    y0 = 1260
     for i, t in enumerate(opcoes):
         est = None if not resposta else (i == certa)
         E.cola(img, opcao("ABC"[i], t, est), W / 2, y0 + i * 117, (-1, 1, -1)[i])
