@@ -1159,6 +1159,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   música, amigo secreto, decoração; no último item "fazer a galera se divertir junta (sem celular)" rabisca ???; carimbo
   "RESOLVIDO: CHAMA A SUA VEZ!"; polaroides com as cenas deles; post-its; 23 s). Fatos: ABC Paulista + SP capital,
   WhatsApp (11) 97793-3910, "a gente leva os jogos e fica o evento todo ensinando"; nada de "já atendemos".
+  **Abertura "ALERTA NO CELULAR" na previsão (`festa-reels/alerta_celular.py`, 18/nov, pedido dele):** 6,4 s de tela de
+  bloqueio (18:42, sexta-feira), notificação do "Grupo da firma" ("quem vai animar a festa esse ano?" / "ninguém, né..."),
+  celular vibra e abre ALERTA EXTREMO da "Defesa Civil da DIVERSÃO" (paródia: nunca o nome do órgão de verdade nem o tom
+  oficial de emergência) com "PREVISÃO DE CHUVA DE JOGOS na sua confraternização", dedo toca "VER BOLETIM", zoom + flash
+  e emenda (concat) no `previsao_*_final.mp4` → `out/previsao_alerta_{com_som,para_musica}_final.mp4` (46,8 s).
 - **TARDE DE JOGOS NO BECAS FECHADA (5/nov):** **sexta, 20/11/2026 (feriado), das 13h às 19h**, Becas Café, **Rua Sorocaba,
   35 – Mauá (CEP 09370-150; endereço do Restaurant Guru, pedi para ele confirmar)**; R$ 30 com R$ 15 de consumação; monitoria
   (eles levam os jogos e ensinam); cupom de 5% no 1º aluguel (BECAS5 desde 13/nov; antes era 10%/BECAS10; precisa ser criado no site). Constantes `DATA` e
