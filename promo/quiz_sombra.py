@@ -198,8 +198,26 @@ def capa():
     return img.convert("RGB")
 
 
+def final():
+    """Story de encerramento: agradece e manda pro site."""
+    img = fundo(3)
+    E.cola(img, E.logo(230), W / 2, 170)
+    E.cola(img, E.titulo("VALEU POR\nJOGAR!", 150, E.AMARELO), W / 2, 450, -2)
+    E.cola(img, E.pilula("Quantos você acertou?", 46, E.BRANCO), W / 2, 650, 2)
+    pos = [(-375, 0), (-125, 0), (125, 0), (375, 0), (-250, 270), (0, 270), (250, 270)]
+    rots = (-6, 4, -3, 6, 5, -4, 3)
+    for k, (j, (dx, dy)) in enumerate(zip(JOGOS, pos)):
+        E.cola(img, com_borda(caixa(j[0], 230, 220)), W / 2 + dx, 870 + dy, rots[k])
+    E.cola(img, E.titulo("TODOS ESSES JOGOS\nESTÃO NO NOSSO SITE!", 74, E.BRANCO, larg_max=980), W / 2, 1360, -1)
+    E.cola(img, E.texto("Aluga e leva a diversão pra casa:\nretira em Mauá ou recebe em casa.", 40, E.BRANCO, 800,
+                        larg_max=940), W / 2, 1515)
+    E.cola(img, E.pilula("O LINK TÁ NA BIO · @SUAVEZ_BG", 46, E.AMARELO, fonte_titulo=True), W / 2, 1660, 1)
+    return img.convert("RGB")
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
+    final().save(os.path.join(OUT, "99_final.png"))
     capa().save(os.path.join(OUT, "00_capa.png"))
     miniaturas = []
     for k, j in enumerate(JOGOS, 1):
