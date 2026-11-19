@@ -115,9 +115,17 @@ def quadro(t, modo="stories"):
           T_TIT + 0.35, 1)
     T.poe(img, TB.selo_data(38), W / 2, 1205, t, T_TIT + 0.6, -1)
     T.poe(img, TB.selo_endereco(30), W / 2, 1273, t, T_TIT + 0.8, 1)
+    t_cta = T_TIT + 1.4
+    if modo == "confirmados":  # pra mandar no WhatsApp de quem JÁ reservou
+        T.poe(img, E.pilula("SUA MESA JÁ TÁ GUARDADA!", 44, VERDE, BR, fonte_titulo=True), W / 2, 1345, t,
+              T_TIT + 1.0, -1)
+        T.poe(img, E.pilula("Seus R$ 15 de consumação te esperam no café", 34, BR, MAR), W / 2, 1425, t, t_cta, 1)
+        T.poe(img, E.pilula("A gente leva os jogos e ensina tudo!", 34, AMA, MAR), W / 2, 1495, t, t_cta + 0.25, -1)
+        T.poe(img, T.titulo("TE ESPERAMOS!", 80, PET), W / 2, 1600, t, t_cta + 0.5, 1)
+        confete(img, t)
+        return img.convert("RGB")
     T.poe(img, E.pilula("R$ 30 · R$ 15 VIRAM CONSUMAÇÃO", 34, AMA, MAR, fonte_titulo=True), W / 2, 1335, t,
           T_TIT + 1.0, -1)
-    t_cta = T_TIT + 1.4
     if modo == "stories":  # área y≈1440–1600 livre para o adesivo de link
         if t > t_cta:
             a = min(1, (t - t_cta) / 0.3)
@@ -146,6 +154,10 @@ def render_reels(fi):
     return quadro(fi / FPS, "reels").tobytes()
 
 
+def render_confirmados(fi):
+    return quadro(fi / FPS, "confirmados").tobytes()
+
+
 def audio(nome):
     ev = [(0.08 * k + 0.4, S.sino() * 0.25, 0.25) for k in range(len(T.CHUVAS))]
     ev += [(0.45, S.sino(), 0.4), (T_FLIP, S.rasgo(), 0.6), (T_FLIP + 0.1, S.sopro(0.5, False), 0.3),
@@ -171,6 +183,11 @@ def main():
     os.makedirs(d, exist_ok=True)
     quadro(DUR - 0.1, "stories").save(os.path.join(d, "story_amanha.png"))
     quadro(DUR - 0.1, "reels").crop((0, 200, W, 1550)).save(os.path.join(d, "post_amanha.png"))
+    quadro(DUR - 0.1, "confirmados").crop((0, 200, W, 1700)).save(os.path.join(d, "whats_confirmados.png"))
+    if "--confirmados" in sys.argv:
+        com, sem = audio("amanha_confirmados")
+        K.entrega("amanha_confirmados", DUR, render_confirmados, com, sem)
+        return
     for nome, rnd in (("amanha_stories", render_stories), ("amanha_reels", render_reels)):
         com, sem = audio(nome)
         K.entrega(nome, DUR, rnd, com, sem)

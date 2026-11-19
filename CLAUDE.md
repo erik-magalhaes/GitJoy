@@ -1435,6 +1435,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   o 20, caneta circula, estoura confete e entra "É AMANHÃ!" + tarde de jogos, data, endereço, preço. Stories (espaço do link
   + WhatsApp) e Reels ("Comenta: qual jogo você quer jogar amanhã?" + reserve no WhatsApp), 9,5 s, música pop; PNG
   `out/amanha/story_amanha.png` e `post_amanha.png` (1080x1350 = recorte y 200–1550 do último quadro do Reels).
+  Versão pro WhatsApp de quem JÁ reservou (`--confirmados`): "SUA MESA JÁ TÁ GUARDADA!", "Seus R$ 15 de consumação te
+  esperam no café", "A gente leva os jogos e ensina tudo!", "TE ESPERAMOS!" → `out/amanha/whats_confirmados.png` (1080x1500) +
+  `out/amanha_confirmados_*_final.mp4`.
 - **PROMPTS DO GEMINI (12/nov):** `prompts-gemini/prompts.md` = mascote da Sua Vez (passo 1: 3 opções de meeple de
   madeira nas cores do logo; passo 2: folha 4x3 de 12 poses NA MESMA conversa com a opção escolhida; passo 3: 4 lados +
   8 expressões; passo 4: Natal/fim de ano), 6 cenários vazios 9:16 (mesa vista de cima, sala, estante, café com
