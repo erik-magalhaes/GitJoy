@@ -1572,3 +1572,20 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   (a fala vem em 1,35 s; ela ficava parada) e o relógio virou uma XÍCARA DE VIDRO de lado (como as do jogo) enchendo com
   um filete de café caindo, crema com bolhinhas, cheia = 1 minuto, fumacinha no fim (`xicara_cheia`; o pedido foi da
   Jéssica: "não gostei do jeito que tá"). Pegadinha do PIL: `rounded_rectangle` sem fill nem outline desenha em BRANCO.
+- **METRO "como se joga" em COLAGEM (`metro-reels/metro.py`, 19/nov, pedido dele: "como se fosse uma colagem"):** edição
+  deles = **Calamity Games / Queen Games (2021)**, Dirk Henn; site: Família R$ 30, 2–6 jogadores, 30 min. Peças OFICIAIS
+  DIGITAIS do **Board Game Arena** (`x.boardgamearena.net/data/themereleases/current/games/metro/250927-0126/img/`:
+  main_board_2.jpg 1480 px, tiles_2.png = 8x5 peças de 150 px (0–23 laranja com setinha = as peças do jogo; 32 = verso,
+  33 = estação central), wagons_2.png (8 cores × 4 linhas), tokens_2.png (fichas de estação 1–32)) em `assets/orig/`,
+  ampliadas 4x com Real-ESRGAN (`*_x4.png`, fora do git; refazer com `wonderland-reels/ampliar_tab.py`). Pontas dos
+  trilhos em 0,32 e 0,675 de cada lado; peça 18 = 4 retas, 17 = 4 curvas de canto, 16 = 4 retornos, 15 = 2 verticais + 2
+  retornos. Regras do Gamehelpmetro (BGA). Visual COLAGEM PARISIENSE (verde-Guimard, papel rasgado com fibra, fita
+  crepe, letras recortadas, etiquetas datilografadas Special Elite, caneta Permanent Marker, carimbos, marca-texto
+  traçando a linha; tudo pousa a 12 poses/s) — diferente da colagem azul do Becas. Mini tabuleiro 2x3 de exemplo: vagão
+  azul à esquerda de (1,0), laranja embaixo de (1,0), estação 12 em cima de (0,1); peças 18 → 17 → 15 = linha de 3 peças;
+  "proibido" = peça 17 no canto ligando 2 estações. Trilha = valsa musette de acordeão sintetizada. Prévia sem voz
+  `out/metro_previa_final.mp4` (~68 s). Gravador (arquivos `metro_narracao_NN`):
+  `https://raw.githack.com/erik-magalhaes/GitJoy/72080b41f420b8765bd5af495d731bebc9595398/metro-reels/gravador/Gravar_narracao_Metro.html`.
+  Ao receber: `narracao/raw/` → tmp_NN.wav (cadeia de voz, 44,1 kHz) → tratar (como `tikal-reels/tratar_diario.py`) →
+  `narracao/timeline.json` (cena/ini/dur/palavras, nomes em `NOMES`) → `metro.py` lê sozinho.
+
