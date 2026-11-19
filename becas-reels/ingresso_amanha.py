@@ -35,7 +35,7 @@ CREME = (255, 249, 236)
 TW, TH = 800, 1190     # ingresso
 PERF = 960             # linha do picote
 ROT = -3.0
-CX, CY = W / 2, 1000
+CX = W / 2
 
 
 # ---------------------------------------------------------------- fundo
@@ -74,7 +74,11 @@ def cabe(txt, larg, s, fonte=E.lilita):
 # ---------------------------------------------------------------- ingresso
 LINHAS = [("QUANDO", "AMANHÃ! SEXTA, 20/11"), ("HORÁRIO", "DAS 13H ÀS 19H"),
           ("ONDE", "BECA’S CAFÉ · RUA SOROCABA, 35 · MAUÁ"), ("INCLUI", "R$ 15 DE CONSUMAÇÃO NO CAFÉ\n+ JOGOS E MONITORIA")]
+LINHAS_PUB = LINHAS[:3] + [("VALOR", "R$ 30 · R$ 15 VIRAM CONSUMAÇÃO\n+ JOGOS E MONITORIA")]
 Y_LIN = [430, 560, 690, 820]
+# modo → (título 1, título 2, escala do ingresso, centro y do ingresso)
+MODOS = {"whats": ("SEU LUGAR TÁ", "GARANTIDO!", 1.0, 1000), "stories": ("AINDA DÁ TEMPO!", "É AMANHÃ!", 0.72, 875),
+         "reels": ("AINDA DÁ TEMPO!", "É AMANHÃ!", 0.78, 900), "post": ("AINDA DÁ TEMPO!", "É AMANHÃ!", 0.78, 900)}
 
 
 def forma():
@@ -89,7 +93,7 @@ def forma():
 
 
 @lru_cache(None)
-def ingresso(n_lin=4):
+def ingresso(n_lin=4, pub=False):
     """Ingresso com as `n_lin` primeiras linhas (sem sombra, sem carimbo)."""
     m = forma()
     im = Image.new("RGBA", (TW, TH), CREME + (255,))
@@ -105,7 +109,7 @@ def ingresso(n_lin=4):
     p = TB.parceria(100)
     im.alpha_composite(p, (int(TW / 2 - p.width / 2), 312 - p.height // 2))
     # linhas
-    for k, (rot, val) in enumerate(LINHAS[:n_lin]):
+    for k, (rot, val) in enumerate((LINHAS_PUB if pub else LINHAS)[:n_lin]):
         y = Y_LIN[k]
         d.line((60, y - 22, TW - 60, y - 22), fill=(226, 212, 190), width=3)
         d.text((60, y), rot, font=E.fig(28, 900), fill=PET, anchor="lm")
@@ -136,15 +140,16 @@ def ingresso(n_lin=4):
 
 
 @lru_cache(None)
-def carimbo():
+def carimbo(pub=False):
     s = 390
     im = Image.new("RGBA", (s, s), (0, 0, 0, 0))
     d = ImageDraw.Draw(im)
     d.ellipse((6, 6, s - 6, s - 6), outline=VERM, width=14)
     d.ellipse((34, 34, s - 34, s - 34), outline=VERM, width=5)
     d.rectangle((0, s / 2 - 52, s, s / 2 + 52), fill=VERM)
-    d.text((s / 2, s / 2 + 2), "CONFIRMADO!", font=cabe("CONFIRMADO!", s - 30, 60), fill=CREME, anchor="mm")
-    d.text((s / 2, 102), "MESA GUARDADA", font=E.fig(28, 900), fill=VERM, anchor="mm")
+    meio, cima = ("VEM JOGAR!", "TE ESPERAMOS") if pub else ("CONFIRMADO!", "MESA GUARDADA")
+    d.text((s / 2, s / 2 + 2), meio, font=cabe(meio, s - 30, 60), fill=CREME, anchor="mm")
+    d.text((s / 2, 102), cima, font=E.fig(28, 900), fill=VERM, anchor="mm")
     d.text((s / 2, s - 100), "• 20/11 •", font=E.fig(30, 900), fill=VERM, anchor="mm")
     # tinta falhada
     a = np.array(im.getchannel("A")).astype(float)
@@ -191,17 +196,27 @@ def confete(img, t, cx, cy):
         d.rectangle((x - w / 2, y - s / 2, x + w / 2 + 1, y + s / 2), fill=cor + (al,))
 
 
-def quadro(t):
+def seta():
+    im = Image.new("RGBA", (90, 110), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    d.line((45, 5, 45, 75), fill=AMA, width=14)
+    d.polygon([(10, 62), (80, 62), (45, 105)], fill=AMA)
+    return im
+
+
+def quadro(t, modo="whats"):
     img = fundo().copy()
+    pub = modo != "whats"
+    t1, t2, ESC, CY = MODOS[modo]
     # título
-    T.poe(img, E.titulo("SEU LUGAR TÁ", 86, BR), W / 2, 205, t, 0.05, -2)
-    T.poe(img, E.titulo("GARANTIDO!", 128, AMA), W / 2, 320, t, 0.25, 2)
+    T.poe(img, E.titulo(t1, 86, BR), W / 2, 205, t, 0.05, -2)
+    T.poe(img, E.titulo(t2, 128, AMA), W / 2, 320, t, 0.25, 2)
     # ingresso
     n = 0 if t < T_LIN else min(4, 1 + int((t - T_LIN) / 0.22))
-    tk = ingresso(n).copy()
+    tk = ingresso(n, pub).copy()
     if t >= T_CAR:  # carimbo
         u = min(1.0, (t - T_CAR) / 0.13)
-        c = carimbo()
+        c = carimbo(pub)
         esc = 1.9 - 0.9 * u
         cs = c.resize((int(c.width * esc), int(c.height * esc)), Image.LANCZOS)
         if u < 1:
@@ -224,16 +239,46 @@ def quadro(t):
     tranco = 14 * math.exp(-dt * 14) * math.cos(dt * 60) if dt >= 0 else 0
     bob = 8 * math.sin(2 * math.pi * (t - T_FIM) / 2.4) if t > T_FIM else 0
     rot = ROT + (6 * (1 - e) if e < 1 else 0) + tranco * 0.08
+    if ESC != 1:
+        sh = sh.resize((int(sh.width * ESC), int(sh.height * ESC)), Image.LANCZOS)
     r = sh.rotate(rot, expand=True, resample=Image.BICUBIC)
     img.alpha_composite(r, (int(CX - r.width / 2), int(CY + dy + tranco + bob - r.height / 2)))
-    confete(img, t, CX + 30, 1300)
-    T.poe(img, E.titulo("TE ESPERAMOS AMANHÃ!", 78, BR), W / 2, 1655, t, T_FIM, -1)
-    T.poe(img, E.pilula("Dúvidas? WhatsApp " + TB.WHATS, 34, AMA, MAR), W / 2, 1770, t, T_FIM + 0.3, 1)
+    confete(img, t, CX + 30, CY + 300 * ESC)
+    if modo == "whats":
+        T.poe(img, E.titulo("TE ESPERAMOS AMANHÃ!", 78, BR), W / 2, 1655, t, T_FIM, -1)
+        T.poe(img, E.pilula("Dúvidas? WhatsApp " + TB.WHATS, 34, AMA, MAR), W / 2, 1770, t, T_FIM + 0.3, 1)
+    elif modo == "stories":  # y≈1450–1620 livre para o adesivo de link
+        if t > T_FIM:
+            a = min(1, (t - T_FIM) / 0.3)
+            bob = 8 * math.sin(2 * math.pi * (t - T_FIM) / 1.2)
+            txt = Image.new("RGBA", (W, 130), (0, 0, 0, 0))
+            dt_ = ImageDraw.Draw(txt)
+            dt_.text((W / 2 - 60, 45), "garanta sua mesa aqui:", font=E.fig(44, 900), fill=BR, anchor="mm")
+            txt.alpha_composite(seta(), (int(W / 2 + 215), int(bob)))
+            if a < 1:
+                txt.putalpha(txt.getchannel("A").point(lambda v: int(v * a)))
+            img.alpha_composite(txt, (0, 1335))
+        T.poe(img, E.pilula("ou no WhatsApp " + TB.WHATS, 36, AMA, MAR), W / 2, 1700, t, T_FIM + 0.3, 0)
+    elif modo == "reels":
+        T.poe(img, E.pilula("Comenta: qual jogo você quer jogar amanhã?", 36, BR, MAR), W / 2, 1470, t, T_FIM, 1)
+        T.poe(img, E.pilula("RESERVE NO WHATSAPP " + TB.WHATS, 36, LAR, BR, fonte_titulo=True), W / 2, 1555, t,
+              T_FIM + 0.3, -1)
+    else:  # post 1080x1350 = recorte y 128–1478
+        T.poe(img, E.pilula("RESERVE NO WHATSAPP " + TB.WHATS, 36, LAR, BR, fonte_titulo=True), W / 2, 1425, t,
+              T_FIM + 0.3, -1)
     return img.convert("RGB")
 
 
 def render(fi):
     return quadro(fi / FPS).tobytes()
+
+
+def render_stories(fi):
+    return quadro(fi / FPS, "stories").tobytes()
+
+
+def render_reels(fi):
+    return quadro(fi / FPS, "reels").tobytes()
 
 
 def pancada():
@@ -261,14 +306,21 @@ def main():
     os.makedirs(OUT, exist_ok=True)
     if "--frame" in sys.argv:
         ts = [float(x) for x in sys.argv[sys.argv.index("--frame") + 1:]]
-        K.folha([quadro(x) for x in ts], os.path.join(OUT, "frames_ingresso.jpg"))
+        K.folha([quadro(x, m) for x in ts for m in ("stories", "reels", "post")],
+                os.path.join(OUT, "frames_ingresso.jpg"))
         print("ok")
         return
     d = os.path.join(OUT, "amanha")
     os.makedirs(d, exist_ok=True)
     quadro(DUR - 0.6).save(os.path.join(d, "whats_ingresso.png"))
+    quadro(DUR - 0.6, "stories").save(os.path.join(d, "story_ingresso.png"))
+    quadro(DUR - 0.6, "post").crop((0, 128, W, 1478)).save(os.path.join(d, "post_ingresso.png"))
     com, sem = audio()
-    K.entrega("ingresso_amanha", DUR, render, com, sem)
+    if "--publico" in sys.argv:
+        K.entrega("ingresso_stories", DUR, render_stories, com, sem)
+        K.entrega("ingresso_reels", DUR, render_reels, com, sem)
+    else:
+        K.entrega("ingresso_amanha", DUR, render, com, sem)
     print("ok")
 
 
