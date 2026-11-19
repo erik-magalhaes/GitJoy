@@ -1588,4 +1588,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   `https://raw.githack.com/erik-magalhaes/GitJoy/72080b41f420b8765bd5af495d731bebc9595398/metro-reels/gravador/Gravar_narracao_Metro.html`.
   Ao receber: `narracao/raw/` → tmp_NN.wav (cadeia de voz, 44,1 kHz) → tratar (como `tikal-reels/tratar_diario.py`) →
   `narracao/timeline.json` (cena/ini/dur/palavras, nomes em `NOMES`) → `metro.py` lê sozinho.
-
+- **POST-JOGO "ACHE OS 5 ERROS" (`erros-post/erros.py`, 19/nov):** ele pediu um post do feed que fosse um jogo; mandei 4
+  ideias (Taco Gato no carrossel, siga o trilho do Metro, 5 erros, bingo do jogador) e ele escolheu os 5 ERROS. Foto
+  OFICIAL das cartas do Dixit (Galápagos DIX001_02.jpg, `assets/orig/dixit_cartas.jpg`); erros feitos no script com
+  cv2.inpaint + grão (tesoura das formigas, uma bolha de sabão, uma lua do cachorro de folhas, o peixinho) e troca de cor
+  (olho da menina azul → castanho). Recolorir a roda da carroça manchava a carroça amarela: só mexer em áreas isoladas.
+  Carrossel 1080x1350 (fundo amarelo listrado, identidade da Jéssica): 1 original + selo "1", 2 alterada + selo "2", 3
+  resposta com círculos numerados + "É o DIXIT: tem na Sua Vez!"; stories 1080x1920 iguais. `out/erros/conferencia.jpg`
+  mostra cada erro antes/depois. Ideias que sobraram: Taco Gato no carrossel e siga o trilho (peças do Metro já prontas).
