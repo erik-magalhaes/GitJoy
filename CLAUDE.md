@@ -1430,6 +1430,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   + guarda-chuva rosa segurando o calendário NOVEMBRO/20 (com os logos Sua Vez × Beca’s), caneta circula o 20, "VEM JOGAR!" (ele NÃO quis a palavra "lembrete"),
   tarde de jogos, data/horário, endereço, "R$ 30 · R$ 15 viram consumação", "garanta sua mesa aqui:" + seta, espaço livre
   y≈1490–1610 pro adesivo de link, WhatsApp embaixo. Sem "faltam N dias" (serve qualquer dia). `out/lembrete_becas_*_final.mp4`.
+- **"É AMANHÃ!" da Tarde no Beca’s (`becas-reels/amanha_becas.py`, 19/nov, véspera):** base do `lembrete_becas` (guarda-
+  chuvinhas + calendário pendurado): o calendário chega no 19, a folha é ARRANCADA e cai girando (som de rasgo), aparece
+  o 20, caneta circula, estoura confete e entra "É AMANHÃ!" + tarde de jogos, data, endereço, preço. Stories (espaço do link
+  + WhatsApp) e Reels ("Comenta: qual jogo você quer jogar amanhã?" + reserve no WhatsApp), 9,5 s, música pop; PNG
+  `out/amanha/story_amanha.png` e `post_amanha.png` (1080x1350 = recorte y 200–1550 do último quadro do Reels).
 - **PROMPTS DO GEMINI (12/nov):** `prompts-gemini/prompts.md` = mascote da Sua Vez (passo 1: 3 opções de meeple de
   madeira nas cores do logo; passo 2: folha 4x3 de 12 poses NA MESMA conversa com a opção escolhida; passo 3: 4 lados +
   8 expressões; passo 4: Natal/fim de ano), 6 cenários vazios 9:16 (mesa vista de cima, sala, estante, café com
