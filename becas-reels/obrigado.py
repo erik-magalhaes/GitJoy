@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""OBRIGADO da 1ª Tarde de Jogos (20/nov/2026): foram 23 PESSOAS (número dado pelo Erik). Material DELES no Drive de
+"""OBRIGADO da 1ª Tarde de Jogos (20/nov/2026). 2ª rodada (pedido dele): SEM número de pessoas, SEM "vai ter próxima?",
+sem carrossel; destaques = 6 horas, 35 jogos diferentes, muita gente nova; agradece @becascafe e @espacofamilyheaven. Material DELES no Drive de
 brutos → brutos/nov20/ (fora do git): 180822.mp4 (46 s, câmera passeando pelas mesas cheias e depois os jogos no
 balcão), fotos 151849 Cores com Dicas, 151857 Dixit, 151917 Hot Streak, 151926 Marrakech, 112018 a mesa de jogos
 montada, IMG_194900 = selfie Erik + Jéssica na porta do Beca’s (câmera da frente = ESPELHADA → flip).
@@ -32,7 +33,7 @@ GANCHO = 2.6
 # montagem: trechos do vídeo (início no bruto) ou fotos, um por corte
 MONT = [("v", 3.0), ("v", 5.0), ("f", "20261120_151857.jpg"), ("v", 13.5), ("v", 15.5), ("f", "20261120_151917.jpg"),
         ("v", 27.6), ("f", "20261120_151926.jpg"), ("v", 17.6), ("f", "20261120_151849.jpg")]
-ROTULOS = ["MESAS CHEIAS!", "MESAS CHEIAS!", "GENTE APRENDENDO", "GENTE APRENDENDO", "MUITA RISADA", "MUITA RISADA",
+ROTULOS = ["MESAS CHEIAS!", "MESAS CHEIAS!", "MUITA GENTE NOVA", "MUITA GENTE NOVA", "MUITA RISADA", "MUITA RISADA",
            "E COMPETIÇÃO!", "E COMPETIÇÃO!", "CAFÉ + JOGO", "CAFÉ + JOGO"]
 T_MONT = GANCHO
 T_JOGOS = T_MONT + len(MONT) * CORTE
@@ -72,14 +73,14 @@ def numero(n, s=330):
 def gancho(img, t):
     img.alpha_composite(K.quadro_clip("dia", 0.8, GANCHO, 1.0, t))
     K.escurece(img, 280, 1200, 175)
+    # 13:00 → 19:00 no relógio: "6 HORAS DE DIVERSÃO" (ele: não falar quantas pessoas foram)
+    h = int(min(6, max(0, (t - 0.3) / 1.4 * 6)))
     K.poe(img, K.titulo("FORAM", 96, BR), W / 2, 420, t, 0.05, -2)
-    n = int(min(23, max(0, (t - 0.3) / 1.4 * 23)))
     if t > 0.3:
-        cola_num = numero(n)
         bate = 1 + 0.12 * max(0, 1 - (t - 1.7) / 0.25) if t > 1.7 else 1
-        E.cola(img, cola_num, W / 2, 680, -3, bate, 1)
-    K.poe(img, K.titulo("PESSOAS!", 120, BR), W / 2, 930, t, 1.75, 2)
-    K.poe(img, E.pilula("NA NOSSA 1ª TARDE DE JOGOS", 44, LAR, BR, fonte_titulo=True), W / 2, 1075, t, 1.95, -1)
+        E.cola(img, numero(h), W / 2, 680, -3, bate, 1)
+    K.poe(img, K.titulo("HORAS DE\nDIVERSÃO!", 110, BR), W / 2, 965, t, 1.75, 2)
+    K.poe(img, E.pilula("NA NOSSA TARDE DE JOGOS", 44, LAR, BR, fonte_titulo=True), W / 2, 1150, t, 1.95, -1)
 
 
 def montagem(img, t):
@@ -95,14 +96,14 @@ def montagem(img, t):
     t0 = T_MONT + (k - (1 if k > 0 and ROTULOS[k - 1] == rot else 0)) * CORTE
     K.poe(img, K.etiqueta(rot, 64, AMA, MAR), W / 2, 1380, t, t0, -2 if k % 4 < 2 else 2)
     # contador fixo no canto
-    E.cola(img, E.pilula("23 PESSOAS", 34, PET, BR, fonte_titulo=True), 210, 150, -3, 1, 1)
+    E.cola(img, E.pilula("TARDE DE JOGOS", 34, PET, BR, fonte_titulo=True), 230, 150, -3, 1, 1)
 
 
 def jogos(img, t):
     u = t - T_JOGOS
     img.alpha_composite(K.quadro_clip("dia", 39.6, D_JOGOS, 1.0, u))
     K.escurece(img, 1180, 1560, 150)
-    K.poe(img, K.etiqueta("E MUITO JOGO NA MESA!", 62, LAR, BR), W / 2, 1380, t, T_JOGOS + 0.1, -2)
+    K.poe(img, K.etiqueta("35 JOGOS DIFERENTES!", 62, LAR, BR), W / 2, 1380, t, T_JOGOS + 0.1, -2)
 
 
 def selfie(img, t):
@@ -112,23 +113,23 @@ def selfie(img, t):
     K.escurece(img, 1150, 1620, 170)
     K.poe(img, K.titulo("OBRIGADO!", 150, AMA), W / 2, 1270, t, T_SELFIE + 0.3, -3)
     K.poe(img, E.pilula("a todo mundo que veio jogar com a gente", 38, BR, MAR), W / 2, 1420, t, T_SELFIE + 0.7, 1)
-    K.poe(img, E.pilula("e ao Beca’s Café pela parceria!", 38, AMA, MAR), W / 2, 1505, t, T_SELFIE + 1.1, -1)
+    K.poe(img, E.pilula("@becascafe e @espacofamilyheaven, valeu demais!", 36, AMA, MAR), W / 2, 1505, t,
+          T_SELFIE + 1.1, -1)
 
 
 def final(img, t, modo):
+    """Só agradecimento (ele não quis o "vai ter próxima?")."""
     base = T.fundo().copy()
     T.guarda_chuvas(base, t - T_FIM + 3)
     img.alpha_composite(base)
     K.poe(img, TB.parceria(130), W / 2, 560, t, T_FIM + 0.05)
-    K.poe(img, K.titulo("VAI TER\nPRÓXIMA?", 150, LAR), W / 2, 830, t, T_FIM + 0.3, -2)
-    if modo == "reels":
-        K.poe(img, E.pilula("Comenta EU VOU que a gente te avisa!", 42, PET, BR, fonte_titulo=True), W / 2, 1100, t,
-              T_FIM + 0.7, 1)
-        K.poe(img, E.pilula("Quem veio: conta qual jogo você mais curtiu!", 34, BR, MAR), W / 2, 1190, t, T_FIM + 1.0, -1)
-    else:  # stories: y≈1180–1520 livre para a caixinha de perguntas / enquete
-        K.poe(img, E.pilula("Conta pra gente: qual jogo você mais curtiu?", 38, PET, BR, fonte_titulo=True), W / 2,
-              1070, t, T_FIM + 0.7, 1)
-    K.poe(img, E.pilula("@suavez_bg · link na bio", 34, AMA, MAR), W / 2, 1650, t, T_FIM + 1.2, 0)
+    K.poe(img, K.titulo("VALEU DEMAIS!", 140, LAR), W / 2, 800, t, T_FIM + 0.3, -2)
+    K.poe(img, E.pilula("6 horas · 35 jogos · muita gente nova", 42, PET, BR, fonte_titulo=True), W / 2, 980, t,
+          T_FIM + 0.6, 1)
+    K.poe(img, E.pilula("Obrigado a todo mundo que veio jogar com a gente,", 34, BR, MAR), W / 2, 1090, t,
+          T_FIM + 0.9, -1)
+    K.poe(img, E.pilula("ao @becascafe e ao @espacofamilyheaven!", 34, AMA, MAR), W / 2, 1165, t, T_FIM + 1.1, 1)
+    K.poe(img, E.pilula("@suavez_bg", 34, LAR, BR, fonte_titulo=True), W / 2, 1650, t, T_FIM + 1.4, 0)
 
 
 def quadro(t, modo="reels"):
@@ -162,7 +163,7 @@ def render_stories(fi):
 
 
 def audio(nome):
-    ev = [(0.3 + j * 1.4 / 23, S.tic(), 0.25) for j in range(23)] + [(1.72, S.estouro(), 0.6), (1.75, S.plim(), 0.5)]
+    ev = [(0.3 + j * 1.4 / 6, S.tic(), 0.35) for j in range(6)] + [(1.72, S.estouro(), 0.6), (1.75, S.plim(), 0.5)]
     ev += [(T_MONT + k * CORTE, S.sopro(0.25), 0.3) for k in range(len(MONT))]
     ev += [(T_JOGOS, S.sopro(0.4), 0.4), (T_SELFIE, S.sino(), 0.45), (T_SELFIE + 0.3, S.estouro(), 0.5),
            (T_FIM, S.sopro(0.5, False), 0.4), (T_FIM + 0.3, S.plim(), 0.5)]
@@ -264,10 +265,10 @@ def main():
     K.prepara(TRECHOS)
     if "--frame" in sys.argv:
         ts = [float(x) for x in sys.argv[sys.argv.index("--frame") + 1:]]
-        K.folha([quadro(x) for x in ts] + [quadro(DUR - 0.2, "stories")], os.path.join(OUT, "frames_obrigado.jpg"))
+        K.folha([quadro(x) for x in ts], os.path.join(OUT, "frames_obrigado.jpg"))
         print("ok", DUR)
         return
-    for nome, rnd in (("obrigado_reels", render_reels), ("obrigado_stories", render_stories)):
+    for nome, rnd in (("obrigado_reels", render_reels),):
         com, sem = audio(nome)
         K.entrega(nome, DUR, rnd, com, sem)
     print("ok", DUR)

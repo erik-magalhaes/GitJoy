@@ -1608,3 +1608,9 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   contando, cortes na batida com MESAS CHEIAS / GENTE APRENDENDO / MUITA RISADA / E COMPETIÇÃO / CAFÉ + JOGO, "E MUITO JOGO
   NA MESA!", selfie + OBRIGADO, final guarda-chuvinhas "VAI TER PRÓXIMA? Comenta EU VOU" (Stories: espaço p/ caixinha de
   pergunta). `--fotos` → carrossel 6 telas (capa selfie, 4 polaroides, final) + stories.
+  **2ª rodada (20/nov, ele):** NÃO falar quantas pessoas foram (tirar o "23"); destaques = **6 horas de diversão, 35 jogos
+  diferentes, muita gente nova**; agradecer **@becascafe e @espacofamilyheaven** (confirmado por ele); SEM o "vai ter
+  próxima?" e SEM carrossel (ele não gostou da dinâmica) → só Reels (`obrigado.py`, final "VALEU DEMAIS!") + **stories
+  PESSOAL dele** (`story_pessoal.py`, 12,8 s, "sem frufru": só as cenas + uma frase por vez em texto branco simples tipo
+  Instagram, sem logo/selo/tela final: "que tarde!" / "6 horas de jogo, 35 jogos diferentes e muita gente nova" / selfie
+  "obrigado @becascafe e @espacofamilyheaven").
