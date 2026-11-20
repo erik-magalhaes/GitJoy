@@ -1596,3 +1596,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Carrossel 1080x1350 (fundo amarelo listrado, identidade da Jéssica): 1 original + selo "1", 2 alterada + selo "2", 3
   resposta com círculos numerados + "É o DIXIT: tem na Sua Vez!"; stories 1080x1920 iguais. `out/erros/conferencia.jpg`
   mostra cada erro antes/depois. Ideias que sobraram: Taco Gato no carrossel e siga o trilho (peças do Metro já prontas).
+- **TARDE DE JOGOS NO BECA’S ACONTECEU (20/nov/2026): 23 pessoas** (número dado pelo Erik; pode usar em peças).
+  1º evento deles: agora JÁ existe evento feito (antes: "ainda não fizeram evento"). Fotos/vídeos do dia e depoimentos só
+  com o que eles mandarem e com autorização de quem aparece. Próximos passos sugeridos: post/Reels de "obrigado" com
+  fotos reais, lembrete do cupom BECAS5 pra quem foi, nova data com o Beca’s.
