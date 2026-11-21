@@ -1623,3 +1623,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   nome do jogo nas fotos (`NOME_FOTO`), selfie com "FOI DEMAIS!", final = logo da Sua Vez + "QUER UMA TARDE ASSIM NO SEU
   EVENTO?" + "a gente leva os jogos e ensina todo mundo" + WhatsApp, e o agradecimento (quem veio, @becascafe,
   @espacofamilyheaven) só no pé. Chat: `out/chat/tarde_de_jogos_reels.mp4`.
+- **DOMINGO DE JOGOS MENSAL NO BECA’S (21/nov, em negociação):** a dona sugeriu um domingo por mês (o café NÃO abre
+  domingo). Ela queria R$ 60 (R$ 45 consumação + R$ 15 deles); o Erik propôs **R$ 40 = R$ 25 de consumação + R$ 15 da Sua
+  Vez** (sem custo pra eles, serve de vitrine) e ela "meio concordou". Dezembro: 6/12 é aniversário da filha deles; opções
+  13/12 ou 20/12. Minha recomendação: **13/12** e fixar o **"2º domingo do mês"** (13/12, 10/1, 14/2 — carnaval 2027 é 6–9/2),
+  pré-venda por Pix com mínimo combinado com o café até a quinta anterior. Esperando a decisão deles.
