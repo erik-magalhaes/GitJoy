@@ -33,8 +33,12 @@ GANCHO = 2.6
 # montagem: trechos do vídeo (início no bruto) ou fotos, um por corte
 MONT = [("v", 3.0), ("v", 5.0), ("f", "20261120_151857.jpg"), ("v", 13.5), ("v", 15.5), ("f", "20261120_151917.jpg"),
         ("v", 27.6), ("f", "20261120_151926.jpg"), ("v", 17.6), ("f", "20261120_151849.jpg")]
-ROTULOS = ["MESAS CHEIAS!", "MESAS CHEIAS!", "MUITA GENTE NOVA", "MUITA GENTE NOVA", "MUITA RISADA", "MUITA RISADA",
-           "E COMPETIÇÃO!", "E COMPETIÇÃO!", "CAFÉ + JOGO", "CAFÉ + JOGO"]
+ROTULOS = ["MESAS CHEIAS!", "MESAS CHEIAS!", "GENTE NOVA EM CADA MESA", "GENTE NOVA EM CADA MESA",
+           "A GENTE ENSINOU TUDO", "A GENTE ENSINOU TUDO", "MUITA RISADA...", "...E COMPETIÇÃO!", "CAFÉ + JOGO",
+           "CAFÉ + JOGO"]
+# nome do jogo que aparece nas fotos (selo pequeno no alto)
+NOME_FOTO = {"20261120_151857.jpg": "DIXIT", "20261120_151917.jpg": "HOT STREAK", "20261120_151926.jpg": "MARRAKECH",
+             "20261120_151849.jpg": "CORES COM DICAS"}
 T_MONT = GANCHO
 T_JOGOS = T_MONT + len(MONT) * CORTE
 D_JOGOS = 3.2
@@ -99,6 +103,8 @@ def montagem(img, t):
     else:
         img.alpha_composite(zoom(foto(ref), u / CORTE))
     K.escurece(img, 1180, 1560, 150)
+    if tipo == "f" and ref in NOME_FOTO:
+        E.cola(img, E.pilula(NOME_FOTO[ref], 40, AMA, MAR, fonte_titulo=True), W / 2, 300, 2, 1, 1)
     rot = ROTULOS[k]
     t0 = T_MONT + (k - (1 if k > 0 and ROTULOS[k - 1] == rot else 0)) * CORTE
     K.poe(img, K.etiqueta(rot, 64, AMA, MAR), W / 2, 1380, t, t0, -2 if k % 4 < 2 else 2)
@@ -118,25 +124,25 @@ def selfie(img, t):
     img.alpha_composite(zoom(foto("IMG_194900_261.jpg" if os.path.exists(os.path.join(BRUTO, "IMG_194900_261.jpg"))
                                   else "IMG_194900.jpg"), u, 0.05))
     K.escurece(img, 1150, 1620, 170)
-    K.poe(img, K.titulo("OBRIGADO!", 150, AMA), W / 2, 1270, t, T_SELFIE + 0.3, -3)
-    K.poe(img, E.pilula("a todo mundo que veio jogar com a gente", 38, BR, MAR), W / 2, 1420, t, T_SELFIE + 0.7, 1)
-    K.poe(img, E.pilula("@becascafe e @espacofamilyheaven, valeu demais!", 36, AMA, MAR), W / 2, 1505, t,
-          T_SELFIE + 1.1, -1)
+    K.poe(img, K.titulo("FOI DEMAIS!", 150, AMA), W / 2, 1290, t, T_SELFIE + 0.3, -3)
+    K.poe(img, E.pilula("uma tarde inteira de jogo, café e gente nova", 38, BR, MAR), W / 2, 1440, t,
+          T_SELFIE + 0.7, 1)
 
 
 def final(img, t, modo):
-    """Só agradecimento (ele não quis o "vai ter próxima?")."""
+    """Divulgação do evento (21/nov, ele: "não é só agradecimento, é sobre o evento"): convite pra levar a experiência
+    pro evento da pessoa + agradecimento no pé (sem o "vai ter próxima?")."""
     base = T.fundo().copy()
     T.guarda_chuvas(base, t - T_FIM + 3)
     img.alpha_composite(base)
-    K.poe(img, TB.parceria(130), W / 2, 560, t, T_FIM + 0.05)
-    K.poe(img, K.titulo("VALEU DEMAIS!", 140, LAR), W / 2, 800, t, T_FIM + 0.3, -2)
-    K.poe(img, E.pilula("6 horas · 35 jogos · muita gente nova", 42, PET, BR, fonte_titulo=True), W / 2, 980, t,
+    K.poe(img, E.logo(300), W / 2, 540, t, T_FIM + 0.05)
+    K.poe(img, K.titulo("QUER UMA TARDE\nASSIM NO SEU\nEVENTO?", 112, LAR), W / 2, 830, t, T_FIM + 0.3, -2)
+    K.poe(img, E.pilula("A gente leva os jogos e ensina todo mundo!", 40, PET, BR, fonte_titulo=True), W / 2, 1060, t,
           T_FIM + 0.6, 1)
-    K.poe(img, E.pilula("Obrigado a todo mundo que veio jogar com a gente,", 34, BR, MAR), W / 2, 1090, t,
-          T_FIM + 0.9, -1)
-    K.poe(img, E.pilula("ao @becascafe e ao @espacofamilyheaven!", 34, AMA, MAR), W / 2, 1165, t, T_FIM + 1.1, 1)
-    K.poe(img, E.pilula("@suavez_bg", 34, LAR, BR, fonte_titulo=True), W / 2, 1650, t, T_FIM + 1.4, 0)
+    K.poe(img, E.pilula(f"WHATSAPP {TB.WHATS}", 44, LAR, BR, fonte_titulo=True), W / 2, 1150, t, T_FIM + 0.8, -1)
+    K.poe(img, E.pilula("Obrigado a todo mundo que veio jogar com a gente,", 32, BR, MAR), W / 2, 1290, t, T_FIM + 1.1, 1)
+    K.poe(img, E.pilula("ao @becascafe e ao @espacofamilyheaven!", 32, AMA, MAR), W / 2, 1365, t, T_FIM + 1.25, -1)
+    K.poe(img, E.pilula("@suavez_bg", 34, AMA, MAR, fonte_titulo=True), W / 2, 1650, t, T_FIM + 1.4, 0)
 
 
 def intro(t):

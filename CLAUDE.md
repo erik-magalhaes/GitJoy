@@ -1618,3 +1618,8 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   @becascafe com o adesivo "LET'S PLAY!" e a marcação embutidos: guarda-chuvinhas → salão vazio → mesa com os jogos) →
   ABERTURA do Reels (6,6 s a 1,3x) com "ANTES DE ABRIR AS PORTAS..." e "TUDO PRONTO PRA JOGAR!", depois o resto igual
   (`D_INTRO`, `quadro()` desloca o tempo). 31,8 s.
+  **4ª (21/nov, ele): "não é só agradecimento, é sobre o EVENTO, divulgação de como foi legal"** → rótulos da montagem
+  MESAS CHEIAS / GENTE NOVA EM CADA MESA / A GENTE ENSINOU TUDO / MUITA RISADA... / ...E COMPETIÇÃO! / CAFÉ + JOGO, selo com o
+  nome do jogo nas fotos (`NOME_FOTO`), selfie com "FOI DEMAIS!", final = logo da Sua Vez + "QUER UMA TARDE ASSIM NO SEU
+  EVENTO?" + "a gente leva os jogos e ensina todo mundo" + WhatsApp, e o agradecimento (quem veio, @becascafe,
+  @espacofamilyheaven) só no pé. Chat: `out/chat/tarde_de_jogos_reels.mp4`.
