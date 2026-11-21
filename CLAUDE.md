@@ -1614,3 +1614,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   PESSOAL dele** (`story_pessoal.py`, 12,8 s, "sem frufru": só as cenas + uma frase por vez em texto branco simples tipo
   Instagram, sem logo/selo/tela final: "que tarde!" / "6 horas de jogo, 35 jogos diferentes e muita gente nova" / selfie
   "obrigado @becascafe e @espacofamilyheaven").
+  **3ª rodada (21/nov):** ele mandou pelo chat mais um vídeo (`brutos/nov20/053620.mp4`, 9 s, 720p = repost do story do
+  @becascafe com o adesivo "LET'S PLAY!" e a marcação embutidos: guarda-chuvinhas → salão vazio → mesa com os jogos) →
+  ABERTURA do Reels (6,6 s a 1,3x) com "ANTES DE ABRIR AS PORTAS..." e "TUDO PRONTO PRA JOGAR!", depois o resto igual
+  (`D_INTRO`, `quadro()` desloca o tempo). 31,8 s.

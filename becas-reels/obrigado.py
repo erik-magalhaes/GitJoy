@@ -41,8 +41,15 @@ D_JOGOS = 3.2
 T_SELFIE = T_JOGOS + D_JOGOS
 D_SELFIE = 4.2
 T_FIM = T_SELFIE + D_SELFIE
-DUR = T_FIM + 5.0
-TRECHOS = [("dia", 0.8, GANCHO, 1.0), ("dia", 39.6, D_JOGOS, 1.0)] + \
+DUR_BASE = T_FIM + 5.0
+# 3ª rodada (21/nov): abertura com o vídeo do @becascafe (053620, repost do story deles com o adesivo "LET'S PLAY!":
+# guarda-chuvinhas → entrando no salão vazio → mesa com os jogos arrumados), a 1,3x
+K.CLIPES["intro"] = (os.path.join(BRUTO, "053620.mp4"), "")
+D_INTRO = 6.6
+VEL_INTRO = 1.3
+DUR_TOTAL = DUR_BASE + D_INTRO
+DUR = DUR_TOTAL
+TRECHOS = [("intro", 0.0, D_INTRO, VEL_INTRO), ("dia", 0.8, GANCHO, 1.0), ("dia", 39.6, D_JOGOS, 1.0)] + \
     [("dia", s, CORTE, 1.0) for k, s in MONT if k == "v"]
 
 
@@ -132,7 +139,21 @@ def final(img, t, modo):
     K.poe(img, E.pilula("@suavez_bg", 34, LAR, BR, fonte_titulo=True), W / 2, 1650, t, T_FIM + 1.4, 0)
 
 
+def intro(t):
+    img = K.quadro_clip("intro", 0.0, D_INTRO, VEL_INTRO, t)
+    K.escurece(img, 180, 520, 150)
+    K.poe(img, K.titulo("ANTES DE\nABRIR AS PORTAS...", 92, BR), W / 2, 340, t, 0.1, -2)
+    if t > 4.2:
+        K.escurece(img, 1180, 1460, 150)
+        K.poe(img, K.etiqueta("TUDO PRONTO PRA JOGAR!", 62, AMA, MAR), W / 2, 1320, t, 4.3, 2)
+    K.marca(img)
+    return img.convert("RGB")
+
+
 def quadro(t, modo="reels"):
+    if t < D_INTRO:
+        return intro(t)
+    t -= D_INTRO
     img = Image.new("RGBA", (W, H), (0, 0, 0, 255))
     if t < T_MONT:
         gancho(img, t)
@@ -145,7 +166,7 @@ def quadro(t, modo="reels"):
     else:
         final(img, t, modo)
     # flash rápido nas viradas de bloco
-    for tb in (T_MONT, T_JOGOS, T_SELFIE, T_FIM):
+    for tb in (0.0, T_MONT, T_JOGOS, T_SELFIE, T_FIM):
         dd = t - tb
         if 0 <= dd < 0.12:
             img.alpha_composite(Image.new("RGBA", (W, H), (255, 255, 255, int(200 * (1 - dd / 0.12)))))
@@ -167,6 +188,7 @@ def audio(nome):
     ev += [(T_MONT + k * CORTE, S.sopro(0.25), 0.3) for k in range(len(MONT))]
     ev += [(T_JOGOS, S.sopro(0.4), 0.4), (T_SELFIE, S.sino(), 0.45), (T_SELFIE + 0.3, S.estouro(), 0.5),
            (T_FIM, S.sopro(0.5, False), 0.4), (T_FIM + 0.3, S.plim(), 0.5)]
+    ev = [(t0 + D_INTRO, x, g) for t0, x, g in ev] + [(0.1, S.sopro(0.4), 0.3), (4.3, S.plim(), 0.4)]
     mus = S.musica_pop(DUR + 0.5, 0.0)
     com = os.path.join(OUT, f"{nome}_com.wav")
     sem = os.path.join(OUT, f"{nome}_sem.wav")
