@@ -77,9 +77,10 @@ def titulo(img, t):
     K.poe(img, K.titulo("...JOGO NO\nBECA’S CAFÉ!", 132, LAR), W / 2, 560, t, T_TIT + 0.05, -2)
     K.poe(img, E.pilula(f"DOMINGO DE JOGOS · {D.DATA.split(', ')[-1]}", 46, PET, BR, fonte_titulo=True), W / 2, 760,
           t, T_TIT + 0.35, 1)
+    K.poe(img, D.selo_fim_de_ano(38), W / 2, 850, t, T_TIT + 0.5, -1)
     if t > T_TIT + 0.6:
-        E.cola(img, D.painel_anim(t, T_TIT + 0.6), W / 2, 1150, 0, 0.82, 1)
-    K.poe(img, K.titulo("SÓ 30 VAGAS!", 110, D.VERM), W / 2, 1560, t, T_TIT + 2.4, 2)
+        E.cola(img, D.painel_anim(t, T_TIT + 0.6), W / 2, 1200, 0, 0.8, 1)
+    K.poe(img, K.titulo("SÓ 30 VAGAS!", 110, D.VERM), W / 2, 1590, t, T_TIT + 2.4, 2)
 
 
 def cta(img, t, modo):
@@ -171,9 +172,7 @@ FOTO = lambda n: os.path.join(D.BRUTO, n)  # noqa: E731
 
 
 def base_c(seed=3.0):
-    img = T.fundo().copy().crop((0, 0, CW, CH))
-    T.guarda_chuvas(img, seed)
-    return img
+    return D.fundo(seed).crop((0, 0, CW, CH))
 
 
 def tela_capa():
@@ -202,7 +201,7 @@ def tela_final(link=False):
     E.cola(img, E.titulo("SÓ 30 VAGAS!", 110, D.VERM), 540, 500, -2, 1, 1)
     E.cola(img, D.card(), 540, 880, 0, 0.92, 1)
     E.cola(img, E.pilula(f"RESERVE NO WHATSAPP {TB.WHATS}", 38, PET, BR, fonte_titulo=True), 540, 1200, -1, 1, 1)
-    E.cola(img, E.pilula("Comenta: com quem você vem?", 36, BR, MAR), 540, 1280, 1, 1, 1)
+    E.cola(img, E.pilula("Comenta: quem vem na sua confra?", 36, BR, MAR), 540, 1280, 1, 1, 1)
     return img.convert("RGB")
 
 

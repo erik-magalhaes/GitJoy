@@ -204,10 +204,69 @@ def seta():
     return s
 
 
-def fundo(t=3.0):
+NATAL = True   # 22/nov, ele: "é dezembro, não tem nada de Natal / Ano Novo / amigo secreto" → pisca-pisca + estrelinhas
+LUZ_CORES = [(226, 52, 52), (46, 160, 80), (255, 196, 40), (40, 140, 220), (240, 120, 200)]
+
+
+@lru_cache(None)
+def _estrelas():
+    """Estrelinhas douradas/vermelhas/verdes espalhadas (fica atrás de tudo)."""
     img = T.fundo().copy()
-    T.guarda_chuvas(img, t)
+    d = ImageDraw.Draw(img)
+    rnd = random.Random(21)
+    for _ in range(46):
+        x, y, r = rnd.uniform(0, W), rnd.uniform(380, H), rnd.uniform(9, 16)
+        c = rnd.choice([(244, 196, 70), (222, 90, 80), (90, 170, 100)])
+        c = tuple(int(v + (255 - v) * 0.35) for v in c)
+        pts = []
+        for k in range(10):
+            a = -math.pi / 2 + k * math.pi / 5
+            rr = r if k % 2 == 0 else r * 0.45
+            pts.append((x + rr * math.cos(a), y + rr * math.sin(a)))
+        d.polygon(pts, fill=c)
     return img
+
+
+def _fio_y(x):
+    """Fio do pisca-pisca em 3 barrigas pelo alto da tela."""
+    f = (x % 360) / 360
+    return 22 + 70 * math.sin(math.pi * f)
+
+
+@lru_cache(None)
+def _luzes(fase):
+    lay = Image.new("RGBA", (W, 160), (0, 0, 0, 0))
+    glow = Image.new("RGBA", (W, 160), (0, 0, 0, 0))
+    d = ImageDraw.Draw(lay)
+    g = ImageDraw.Draw(glow)
+    pts = [(x, _fio_y(x)) for x in range(-10, W + 12, 6)]
+    d.line(pts, fill=(60, 80, 50, 255), width=4)
+    for i, x in enumerate(range(20, W, 45)):
+        y = _fio_y(x) + 6
+        c = LUZ_CORES[i % len(LUZ_CORES)]
+        acesa = (i + fase) % 2 == 0
+        if acesa:
+            g.ellipse((x - 26, y - 6, x + 26, y + 46), fill=c + (150,))
+        cc = c if acesa else tuple(int(v * 0.55) for v in c)
+        d.rectangle((x - 5, y - 4, x + 5, y + 6), fill=(70, 70, 60, 255))
+        d.ellipse((x - 9, y + 4, x + 9, y + 30), fill=cc + (255,), outline=MAR, width=2)
+        if acesa:
+            d.ellipse((x - 4, y + 9, x + 1, y + 16), fill=(255, 255, 255, 200))
+    glow = glow.filter(ImageFilter.GaussianBlur(10))
+    glow.alpha_composite(lay)
+    return glow
+
+
+def fundo(t=3.0):
+    img = (_estrelas() if NATAL else T.fundo()).copy()
+    T.guarda_chuvas(img, t)
+    if NATAL:
+        img.alpha_composite(_luzes(int(max(0, t) * 2.5) % 2), (0, 0))
+    return img
+
+
+def selo_fim_de_ano(s=40):
+    return E.pilula("ESPECIAL DE FIM DE ANO", s, VERM, BR, fonte_titulo=True)
 
 
 # ---------------------------------------------------------------- vídeo
@@ -244,7 +303,8 @@ def titulo(img, t):
     K.poe(img, TB.parceria(110), W / 2, 560, t, T_TIT + 0.1)
     K.poe(img, K.titulo("DOMINGO\nDE JOGOS", 190, LAR), W / 2, 860, t, T_TIT + 0.35, -2)
     K.poe(img, K.etiqueta("NO BECA’S CAFÉ", 60, PET, BR), W / 2, 1100, t, T_TIT + 0.7, 2)
-    K.poe(img, K.etiqueta("UM DOMINGO POR MÊS, A TARDE TODA", 40, BR, MAR), W / 2, 1210, t, T_TIT + 1.0, -1)
+    K.poe(img, selo_fim_de_ano(44) if NATAL else K.etiqueta("UM DOMINGO POR MÊS, A TARDE TODA", 40, BR, MAR),
+          W / 2, 1210, t, T_TIT + 1.0, -1)
     K.poe(img, E.pilula(f"PRIMEIRO: {DATA}", 50, AMA, MAR, fonte_titulo=True), W / 2, 1330, t, T_TIT + 1.4, 1)
 
 
@@ -269,7 +329,7 @@ def cta(img, t, modo):
     else:
         K.poe(img, E.pilula(f"RESERVE NO WHATSAPP {TB.WHATS}", 42, PET, BR, fonte_titulo=True), W / 2, 1370, t,
               T_CTA + 0.8, -1)
-        K.poe(img, E.pilula("Comenta: com quem você vem?", 40, BR, MAR), W / 2, 1480, t, T_CTA + 1.1, 1)
+        K.poe(img, E.pilula("Comenta: quem vem na sua confra?", 40, BR, MAR), W / 2, 1480, t, T_CTA + 1.1, 1)
         K.poe(img, E.pilula("@suavez_bg", 34, AMA, MAR, fonte_titulo=True), W / 2, 1650, t, T_CTA + 1.3)
 
 
@@ -348,10 +408,10 @@ def polaroide(seg, w, h, legenda):
 
 
 def post():
-    img = T.fundo().copy().crop((0, 0, 1080, 1350))
-    T.guarda_chuvas(img, 3.0)
+    img = fundo(3.0).crop((0, 0, 1080, 1350))
     E.cola(img, E.titulo("DOMINGO\nDE JOGOS", 135, LAR), 540, 405, -2, 1, 1)
-    E.cola(img, E.pilula("NO BECA’S CAFÉ · UM DOMINGO POR MÊS", 36, PET, BR, fonte_titulo=True), 540, 575, 1, 1, 1)
+    E.cola(img, selo_fim_de_ano(36) if NATAL else E.pilula("NO BECA’S CAFÉ · UM DOMINGO POR MÊS", 36, PET, BR,
+           fonte_titulo=True), 540, 575, 1, 1, 1)
     E.cola(img, polaroide(14.0, 380, 285, "20/11: foi assim!"), 285, 815, -5, 1, 1)
     E.cola(img, painel(0), 790, 800, 3, 0.47, 1)
     E.cola(img, E.titulo("SÓ 30 VAGAS!", 96, VERM), 540, 1065, -2, 1, 1)
@@ -365,10 +425,11 @@ def story():
     img = fundo(3.0)
     E.cola(img, TB.parceria(90), W / 2, 470, 0, 1, 1)
     E.cola(img, E.titulo("DOMINGO\nDE JOGOS", 170, LAR), W / 2, 700, -2, 1, 1)
-    E.cola(img, E.titulo("SÓ 30 VAGAS!", 110, VERM), W / 2, 920, 2, 1, 1)
-    E.cola(img, card(), W / 2, 1290, 0, 0.92, 1)
-    E.cola(img, E.pilula("garanta sua vaga aqui:", 40, BR, MAR), W / 2, 1600, 0, 1, 1)
-    E.cola(img, seta(), W / 2, 1700, 0, 0.55, 1)
+    E.cola(img, selo_fim_de_ano(40), W / 2, 885, 1, 1, 1)
+    E.cola(img, E.titulo("SÓ 30 VAGAS!", 100, VERM), W / 2, 995, 2, 1, 1)
+    E.cola(img, card(), W / 2, 1325, 0, 0.88, 1)
+    E.cola(img, E.pilula("garanta sua vaga aqui:", 40, BR, MAR), W / 2, 1620, 0, 1, 1)
+    E.cola(img, seta(), W / 2, 1715, 0, 0.55, 1)
     return img.convert("RGB")
 
 

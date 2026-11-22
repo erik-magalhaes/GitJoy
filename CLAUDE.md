@@ -1647,3 +1647,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   pintar um quadro/Canvas → "...JOGO NO BECA’S CAFÉ!" + quadro de vagas → convite do `domingo.cta`) e carrossel "O QUE
   ROLA NO DOMINGO DE JOGOS?" (6 telas + stories: capa com 3 polaroides, A GENTE ENSINA, 35 JOGOS NA MESA, CAFÉ + JOGO,
   VEM DO SEU JEITO, SÓ 30 VAGAS). Polaroide paisagem de vídeo em pé: acertar `ay` pra não cortar rosto.
+  **Tema de FIM DE ANO (22/nov, ele: "é dezembro e não tem nada de Natal, Ano Novo, amigo secreto"):** `domingo.NATAL = True`
+  põe pisca-pisca piscando no alto (`_luzes`, 3 barrigas de fio, lâmpadas coloridas com brilho), estrelinhas
+  douradas/vermelhas/verdes no fundo (`_estrelas`) e o selo vermelho "ESPECIAL DE FIM DE ANO" (`selo_fim_de_ano`) em
+  todas as peças do domingo; o "comenta" virou "quem vem na sua confra?". Carrossel novo `becas-reels/domingo_natal.py`
+  (7 telas + stories): A CONFRA DE FIM DE ANO DA SUA TURMA (presentes desenhados só como enfeite) → AMIGO SECRETO? FAZ NA
+  MESA! (papelzinho "você tirou: ???") → JOGO DE FESTA PRO GRUPO TODO (Hitster, Telma, Say my Name, Dixit, Flip 7,
+  Mascarade, Tapalavras) → O LANCHE DA CONFRA (bolo nuvem) → FECHA O ANO JOGANDO (20/11) → VEM COM A TURMA TODA (quadro de
+  vagas) → convite "Marca aqui quem tem que vir na sua confra!". Não prometi juntar o grupo na mesma mesa (confirmar).
