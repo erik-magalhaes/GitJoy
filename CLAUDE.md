@@ -1632,3 +1632,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   30 vagas** (aqui o "só 30 vagas" VAI na arte, com contador de vagas), **pagamento SÓ antecipado** (Pix) e **mínimo de 15
   pessoas**, senão cancela e reembolsa. Sugeri: prazo do mínimo na quinta anterior, lista de espera, vaga transferível pra
   amigo (sem reembolso por desistência depois do prazo) e stories de "restam N vagas" só com números reais.
+  **O mínimo de 15 é INTERNO (ele, 22/nov): NUNCA aparece nas peças nem nas legendas.** Comunicação = vagas contadas.
+  **Kit (`becas-reels/domingo.py`, 22/nov):** peça-chave QUADRO DE VAGAS (painel de madeira com 30 ingressinhos 01–30;
+  vendidos levam carimbo RESERVADA). Reels/Stories 23 s: abre com o 053620 ("LEMBRA DA NOSSA TARDE DE JOGOS?") → 4 cortes
+  do 180822 (mesas cheias, gente nova, risada, 35 jogos) → "E AGORA... VAI SER TODO MÊS!" → DOMINGO DE JOGOS (guarda-
+  chuvinhas) → "SÓ 30 VAGAS!" com os ingressinhos entrando → convite (data, hora, endereço, R$ 40 / R$ 25 consumação,
+  "vaga só com pagamento antecipado"). `--fotos` → `out/domingo/`: post, story, `vagas/restam_NN.png` (30, 25, 20, 15, 10,
+  5, 3, 2, 1, 0 = ESGOTADO + lista de espera; `--vagas N` faz qualquer número) e `confirmacao/vaga_NN.png` (WhatsApp de
+  quem pagou). DATA/HORA/PRECO em constantes no topo: **13/12, 14h–19h e R$ 40 ainda A CONFIRMAR com o café.**
