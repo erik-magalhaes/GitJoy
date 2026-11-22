@@ -1640,3 +1640,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   "vaga só com pagamento antecipado"). `--fotos` → `out/domingo/`: post, story, `vagas/restam_NN.png` (30, 25, 20, 15, 10,
   5, 3, 2, 1, 0 = ESGOTADO + lista de espera; `--vagas N` faz qualquer número) e `confirmacao/vaga_NN.png` (WhatsApp de
   quem pagou). DATA/HORA/PRECO em constantes no topo: **13/12, 14h–19h e R$ 40 ainda A CONFIRMAR com o café.**
+  **Mais divulgação (`becas-reels/domingo_mais.py`, 22/nov, "usa vídeos e fotos de jogos"):** Reels/Stories 21,5 s "DOMINGO É
+  DIA DE..." (gancho "O QUE FAZER NO DOMINGO EM MAUÁ?" na parede do Beca’s → 9 cortes na batida alternando café e jogo:
+  aprender jogo novo/Art Society, café com doce/vitrine, rir com os amigos e conhecer gente nova/20-11, ganhar (ou não)/Sushi
+  Go, bolo nuvem, desvendar mistério/Unlock (início 2,6 s; antes a mesa preta enchia meia tela), pilotar um avião/Sky Team,
+  pintar um quadro/Canvas → "...JOGO NO BECA’S CAFÉ!" + quadro de vagas → convite do `domingo.cta`) e carrossel "O QUE
+  ROLA NO DOMINGO DE JOGOS?" (6 telas + stories: capa com 3 polaroides, A GENTE ENSINA, 35 JOGOS NA MESA, CAFÉ + JOGO,
+  VEM DO SEU JEITO, SÓ 30 VAGAS). Polaroide paisagem de vídeo em pé: acertar `ay` pra não cortar rosto.
