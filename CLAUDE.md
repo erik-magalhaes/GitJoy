@@ -1628,3 +1628,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Vez** (sem custo pra eles, serve de vitrine) e ela "meio concordou". Dezembro: 6/12 é aniversário da filha deles; opções
   13/12 ou 20/12. Minha recomendação: **13/12** e fixar o **"2º domingo do mês"** (13/12, 10/1, 14/2 — carnaval 2027 é 6–9/2),
   pré-venda por Pix com mínimo combinado com o café até a quinta anterior. Esperando a decisão deles.
+  **Regras decididas pelo Erik (22/nov):** diferente da tarde de 20/11 (que aceitava pagar na hora), agora é **ESCASSEZ: no máx.
+  30 vagas** (aqui o "só 30 vagas" VAI na arte, com contador de vagas), **pagamento SÓ antecipado** (Pix) e **mínimo de 15
+  pessoas**, senão cancela e reembolsa. Sugeri: prazo do mínimo na quinta anterior, lista de espera, vaga transferível pra
+  amigo (sem reembolso por desistência depois do prazo) e stories de "restam N vagas" só com números reais.
