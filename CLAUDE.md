@@ -1655,3 +1655,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   MESA! (papelzinho "você tirou: ???") → JOGO DE FESTA PRO GRUPO TODO (Hitster, Telma, Say my Name, Dixit, Flip 7,
   Mascarade, Tapalavras) → O LANCHE DA CONFRA (bolo nuvem) → FECHA O ANO JOGANDO (20/11) → VEM COM A TURMA TODA (quadro de
   vagas) → convite "Marca aqui quem tem que vir na sua confra!". Não prometi juntar o grupo na mesma mesa (confirmar).
+  **DESAFIO HITSTER ENTRE MESAS (22/nov, ele adorou; `becas-reels/desafio_hitster.py` → `out/desafio/`):** às 16h todo
+  mundo para ~20 min, cada MESA é um time; o Erik toca a música pelo app (sem mostrar a carta), a mesa escreve o ANO e
+  levanta a folha no 3-2-1; ano certo 3 / até 2 anos 2 / década certa 1; 10 músicas; desempate = música extra, ganha quem
+  chegar mais perto. Prêmio: **VOUCHER DO BECA’S pra próxima visita** para a mesa campeã (ideia dele; valor e validade a
+  combinar com o café → o voucher sai em branco). Peças: post + story (fundo de Natal, caixa oficial do Hitster, notinhas
+  desenhadas porque as fontes não têm ♪), placar A3 e A4 (mesas 1–8 × músicas 1–10), folha de palpites por mesa (10
+  quadrões), vouchers 9x5 numerados 01–10 (10 por A4), roteiro do apresentador (A4).
