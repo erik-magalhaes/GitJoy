@@ -56,26 +56,34 @@ FAMILIAS = [
 
 # ---------------------------------------------------------------- mesa
 def toalha(w, h):
-    """Toalha xadrez vichy vermelha, com tramas e um leve sombreado de luz."""
-    img = Image.new("RGB", (w, h), (246, 236, 228))
+    """Toalha xadrez escocês VERMELHO E VERDE (pedido dela: "nos tons vermelho e verde")."""
+    img = Image.new("RGBA", (w, h), (196, 32, 42, 255))
     lay = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     d = ImageDraw.Draw(lay)
-    q = 90
-    for x in range(0, w, q * 2):
-        d.rectangle((x, 0, x + q, h), fill=(188, 34, 44, 120))
-    for y in range(0, h, q * 2):
-        d.rectangle((0, y, w, y + q), fill=(188, 34, 44, 120))
-    img = img.convert("RGBA")
+    q = 200
+    for x in range(-40, w + q, q):  # faixas verdes largas (verde puro; o cruzamento fica verde-escuro)
+        d.rectangle((x, 0, x + 96, h), fill=(26, 120, 64, 255))
+    for y in range(-40, h + q, q):
+        d.rectangle((0, y, w, y + 96), fill=(26, 120, 64, 255))
+    for x in range(-40, w + q, q):
+        for y in range(-40, h + q, q):
+            d.rectangle((x, y, x + 96, y + 96), fill=(14, 78, 42, 255))
+    for x in range(-40, w + q, q):  # fios finos: escuro no meio do verde, dourado entre as faixas
+        d.rectangle((x + 44, 0, x + 52, h), fill=(10, 50, 30, 150))
+        d.rectangle((x + 146, 0, x + 150, h), fill=(240, 200, 90, 120))
+    for y in range(-40, h + q, q):
+        d.rectangle((0, y + 44, w, y + 52), fill=(10, 50, 30, 150))
+        d.rectangle((0, y + 146, w, y + 150), fill=(240, 200, 90, 120))
     img.alpha_composite(lay)
     rnd = random.Random(3)
     d = ImageDraw.Draw(img)
-    for _ in range(900):  # trama do tecido
+    for _ in range(1400):  # trama do tecido
         x, y = rnd.uniform(0, w), rnd.uniform(0, h)
-        d.line((x, y, x + rnd.uniform(4, 10), y), fill=(255, 255, 255, 18), width=1)
+        d.line((x, y, x + rnd.uniform(4, 10), y), fill=(255, 255, 255, 14), width=1)
     vin = Image.new("L", (w, h), 0)
     ImageDraw.Draw(vin).ellipse((-w * 0.3, -h * 0.2, w * 1.3, h * 1.2), fill=255)
     vin = vin.filter(ImageFilter.GaussianBlur(140))
-    esc = Image.new("RGBA", (w, h), (90, 20, 24, 255))
+    esc = Image.new("RGBA", (w, h), (40, 10, 12, 255))
     return Image.composite(img, esc, vin)
 
 
