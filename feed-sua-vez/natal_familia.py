@@ -62,12 +62,12 @@ def toalha(w, h):
     d = ImageDraw.Draw(lay)
     q = 200
     for x in range(-40, w + q, q):  # faixas verdes largas (verde puro; o cruzamento fica verde-escuro)
-        d.rectangle((x, 0, x + 96, h), fill=(26, 120, 64, 255))
+        d.rectangle((x, 0, x + 96, h), fill=(10, 74, 40, 255))
     for y in range(-40, h + q, q):
-        d.rectangle((0, y, w, y + 96), fill=(26, 120, 64, 255))
+        d.rectangle((0, y, w, y + 96), fill=(10, 74, 40, 255))
     for x in range(-40, w + q, q):
         for y in range(-40, h + q, q):
-            d.rectangle((x, y, x + 96, y + 96), fill=(14, 78, 42, 255))
+            d.rectangle((x, y, x + 96, y + 96), fill=(5, 46, 25, 255))
     for x in range(-40, w + q, q):  # fios finos: escuro no meio do verde, dourado entre as faixas
         d.rectangle((x + 44, 0, x + 52, h), fill=(10, 50, 30, 150))
         d.rectangle((x + 146, 0, x + 150, h), fill=(240, 200, 90, 120))

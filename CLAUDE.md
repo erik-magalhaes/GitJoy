@@ -1663,7 +1663,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   desenhadas porque as fontes não têm ♪), placar A3 e A4 (mesas 1–8 × músicas 1–10), folha de palpites por mesa (10
   quadrões), vouchers 9x5 numerados 01–10 (10 por A4), roteiro do apresentador (A4).
 - **Carrossel "QUAL JOGO LEVAR PRO NATAL?" (`feed-sua-vez/natal_familia.py`, 23/nov, pedido da Jéssica: "se sua família tem
-  muita briga, muita fofoca, gosta de festa..."):** conceito MESA DA CEIA vista de cima (toalha xadrez escocês VERMELHO E VERDE — 1ª versão era vichy vermelho que ficou rosado; ela pediu "tons vermelho e verde" —, pisca-pisca,
+  muita briga, muita fofoca, gosta de festa..."):** conceito MESA DA CEIA vista de cima (toalha xadrez escocês VERMELHO E VERDE-ESCURO (ela amou; pediu o verde mais escuro: 10,74,40) — 1ª versão era vichy vermelho que ficou rosado; ela pediu "tons vermelho e verde" —, pisca-pisca,
   cartão de lugar com o tipo de família, PRATO com a caixa oficial, talheres, bolinhas de Natal, cartão "LEVA:" com frase e
   ficha do site). Briga → Passaporte Mundo (cooperativo), fofoca → Spyfall, festa → Happy Salmon, criançada → Uga Buga,
   quem rouba no jogo → Coup, só pensa na ceia → Sushi Go!; final "ALUGA E LEVA PRA CEIA!" (retire em Mauá ou receba em
