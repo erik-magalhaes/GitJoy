@@ -1682,4 +1682,22 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
 - **Prêmio do Desafio Hitster TROCADO (24/nov, eles): 1 VOUCHER DE LOCAÇÃO POR PESSOA da mesa campeã** = 1 jogo Pocket ou
   Família por 5 dias, válido até 31/01/2027, resgate pelo WhatsApp, não acumula (não é mais o voucher do café).
   `desafio_hitster.voucher(n)` (9x5 cm, faixa vermelha listrada com logo e Nº, picote) e post/story/placar/roteiro atualizados.
+- **KIT FINAL DO DOMINGO 13/12 (24/nov), estilo aprovado = guarda-chuvinhas + pisca-pisca sobre FUNDO VERMELHO natalino
+  com flocos de neve** (`domingo_carrossel.fundo_natal("vermelho")`; `domingo.VERMELHO = True` põe tudo do domingo nele;
+  no vermelho, selo e pílulas que eram vermelhas viram VERDE (24,110,66) e "SÓ 30 VAGAS!" vira AMARELO). Selo = "ESPECIAL
+  DE NATAL" (não "fim de ano"). CTA = "RESERVE PELO LINK NA BIO" (WhatsApp só na lista de espera do ESGOTADO). NUNCA "pagou,
+  garantiu / acabou, acabou / vaga só com pagamento antecipado" nas artes: usar "VAGAS LIMITADAS: FAÇA SUA RESERVA!".
+  - `domingo_festa.py` (Reels/Stories 33 s, ELA AMOU): guarda-chuva rosa segura uma POLAROIDE pendurada que balança e
+    alterna cenas do evento (repost do @becascafe `brutos/nov24/festa.mp4` = nov20/144913, recortado `crop=576:770:72:215`
+    sem a moldura do story) com cenas do café (nov06: guarda-chuvas, bolo nuvem, vitrine, parede) → título → quadro de
+    vagas → convite. A versão "aesthetic" (`domingo_aesthetic.py`, serifada/bokeh) ela achou que "perdeu" o estilo.
+  - `domingo_carrossel.py` "VAI TER MAIS UM!" (7 telas + stories): capa com guarda-chuvas do café + selfie deles "com
+    monitoria!", lembra (mesas), como funciona (jogos expostos 112018 recortado de perto), 35 jogos (Cores com Dicas, Hot
+    Streak, DIXIT DISNEY = 151857; Marrakech = 151926), DESAFIO HITSTER "VALENDO PRÊMIO" (sem dizer o prêmio), 30 vagas,
+    convite. Fundo PARADO próprio (guarda-chuvas retos desenhados 3x e reduzidos; o do vídeo saía torto/serrilhado).
+    O coraçãozinho do story do Beca’s sai com `sem_coracao` (inpaint em ~285,415 do quadro recortado). Fotos boas: sem
+    ninguém olhando pra câmera, nada escondendo o rosto, nada de "dancinha".
+  - Pacote mandado: `out/pacote_domingo/` (1 carrossel, 2 post/story/vagas/confirmações, 3 desafio + PDFs) + vídeos.
+  - Jéssica gravou o "Qual jogo eu daria de presente pra..." (7 vídeos VID_20261123_06/07xxxx → `becas-reels/brutos/nov23/`,
+    fora do git): AINDA NÃO EDITADO (no cronograma: 1/12).
 
