@@ -271,7 +271,7 @@ def t_vagas():
     E.cola(img, E.titulo("SÓ 30 VAGAS!", 120, AMA), 540, 300, 2, 1, 1)
     E.cola(img, D.painel(0), 540, 760, 0, 0.92, 1)
     E.cola(img, E.pilula("VAGAS LIMITADAS!", 44, PET, BR, fonte_titulo=True), 540, 1180, -1, 1, 1)
-    E.cola(img, E.pilula("Faça sua reserva pelo WhatsApp", 38, AMA, MAR, fonte_titulo=False), 540, 1270, 1, 1, 1)
+    E.cola(img, E.pilula("Faça sua reserva pelo link na bio", 38, AMA, MAR, fonte_titulo=False), 540, 1270, 1, 1, 1)
     return img.convert("RGB")
 
 
@@ -280,7 +280,7 @@ def t_final():
     E.cola(img, TB.parceria(90), 540, 230, 0, 1, 1)
     E.cola(img, E.pilula("ESPECIAL DE NATAL", 40, (24, 110, 66), BR, fonte_titulo=True), 540, 345, -1, 1, 1)
     E.cola(img, D.card(), 540, 690, 0, 0.95, 1)
-    E.cola(img, E.pilula(f"RESERVE NO WHATSAPP {TB.WHATS}", 40, PET, BR, fonte_titulo=True), 540, 1050, -1, 1, 1)
+    E.cola(img, E.pilula("RESERVE PELO LINK NA BIO", 40, PET, BR, fonte_titulo=True), 540, 1050, -1, 1, 1)
     E.cola(img, E.pilula("Marca aqui quem vem com você!", 36, BR, MAR), 540, 1145, 1, 1, 1)
     E.cola(img, E.pilula("@suavez_bg  ×  @becascafe", 32, AMA, MAR, fonte_titulo=True), 540, 1250, 0, 1, 1)
     return img.convert("RGB")

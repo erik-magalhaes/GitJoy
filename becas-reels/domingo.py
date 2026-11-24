@@ -330,9 +330,9 @@ def cta(img, t, modo):
         K.poe(img, E.pilula("garanta sua vaga aqui:", 40, BR, MAR), W / 2, 1310, t, T_CTA + 0.8)
         if t > T_CTA + 1.0:
             E.cola(img, seta(), W / 2, 1420 + 10 * math.sin((t - T_CTA) * 6), 0, 0.7, 1)
-        K.poe(img, E.pilula(f"OU NO WHATSAPP {TB.WHATS}", 38, PET, BR, fonte_titulo=True), W / 2, 1680, t, T_CTA + 1.1)
+        K.poe(img, E.pilula("OU PELO LINK NA BIO", 38, PET, BR, fonte_titulo=True), W / 2, 1680, t, T_CTA + 1.1)
     else:
-        K.poe(img, E.pilula(f"RESERVE NO WHATSAPP {TB.WHATS}", 42, PET, BR, fonte_titulo=True), W / 2, 1370, t,
+        K.poe(img, E.pilula("RESERVE PELO LINK NA BIO", 42, PET, BR, fonte_titulo=True), W / 2, 1370, t,
               T_CTA + 0.8, -1)
         K.poe(img, E.pilula("Comenta: quem vem na sua confra?", 40, BR, MAR), W / 2, 1480, t, T_CTA + 1.1, 1)
         K.poe(img, E.pilula("@suavez_bg", 34, AMA, MAR, fonte_titulo=True), W / 2, 1650, t, T_CTA + 1.3)
@@ -422,7 +422,7 @@ def post():
     E.cola(img, E.titulo("SÓ 30 VAGAS!", 96, VERM), 540, 1065, -2, 1, 1)
     E.cola(img, E.pilula(f"{DATA} · {HORA}", 42, AMA, MAR, fonte_titulo=True), 540, 1170, 1, 1, 1)
     E.cola(img, E.pilula(f"{PRECO} · R$ 25 viram consumação no café", 30, BR, MAR), 540, 1240, -1, 1, 1)
-    E.cola(img, E.pilula(f"RESERVE: WHATSAPP {TB.WHATS}", 34, PET, BR, fonte_titulo=True), 540, 1305, 0, 1, 1)
+    E.cola(img, E.pilula("RESERVE PELO LINK NA BIO", 34, PET, BR, fonte_titulo=True), 540, 1305, 0, 1, 1)
     return img.convert("RGB")
 
 
@@ -470,7 +470,7 @@ def story_vagas(restam):
         txt = "garanta a sua aqui:" if restam > 1 else "é a última! garanta aqui:"
         E.cola(img, E.pilula(txt, 40, BR, MAR), W / 2, 1530, 0, 1, 1)
         E.cola(img, seta(), W / 2, 1625, 0, 0.5, 1)
-        E.cola(img, E.pilula(f"OU NO WHATSAPP {TB.WHATS}", 34, PET, BR, fonte_titulo=True), W / 2, 1830, 0, 1, 1)
+        E.cola(img, E.pilula("OU PELO LINK NA BIO", 34, PET, BR, fonte_titulo=True), W / 2, 1830, 0, 1, 1)
     return img.convert("RGB")
 
 

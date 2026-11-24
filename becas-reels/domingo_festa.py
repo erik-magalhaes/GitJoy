@@ -38,7 +38,7 @@ CENAS = [
     (os.path.join(NOV06, "20261106_150333.mp4"), CAFE.format(ay=0.2), 5.8, 2.1, "NO BECA’S CAFÉ..."),
     (BRUTO, CROP, 1.8, 2.1, "SALÃO CHEIO!"),
     (os.path.join(NOV06, "20261106_151311.mp4"), CAFE.format(ay=0.5), 0.0, 2.1, "CAFÉ, DOCINHO..."),
-    (BRUTO, CROP, 30.0, 2.1, "...JOGO PRA TODA IDADE"),
+    (BRUTO, CROP, 30.0, 2.1, "...JOGOS PRA TODAS AS IDADES"),
     (os.path.join(NOV06, "20261106_150657.mp4"), CAFE.format(ay=0.5), 7.6, 2.1, "LANCHINHO NA MESA"),
     (BRUTO, CROP, 50.4, 2.1, "E MUITA RISADA!"),
     (BRUTO, CROP, 40.2, 2.1, "GENTE NOVA EM CADA MESA"),
