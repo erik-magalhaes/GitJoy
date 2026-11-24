@@ -85,14 +85,14 @@ def anuncio(h):
     E.cola(img, passos, 745, oy + 830, 2, 1, 1)
     premio = E.bloco(940, 190, AMA, raio=34, ow=7, sombra=12).copy()
     d = ImageDraw.Draw(premio)
-    d.text((470, 62), "A MESA CAMPEÃ GANHA", font=E.lilita(50), fill=MAR, anchor="mm")
-    d.text((470, 130), "1 LOCAÇÃO GRÁTIS PRA CADA UM DA MESA!", font=E.lilita(40), fill=VERM, anchor="mm")
+    d.text((470, 62), "VALENDO PRÊMIO", font=E.lilita(54), fill=MAR, anchor="mm")
+    d.text((470, 130), "PRA MESA CAMPEÃ!", font=E.lilita(46), fill=VERM, anchor="mm")
     E.cola(img, premio, 540, oy + 1110, -1, 1, 1)
     if h == 1350:
-        E.cola(img, E.pilula(f"DOMINGO DE JOGOS · {D.DATA.split(', ')[-1]} · SÓ 30 VAGAS", 34, VERM, BR,
+        E.cola(img, E.pilula(f"DOMINGO DE JOGOS · {D.DATA.split(', ')[-1]} · SÓ 30 VAGAS", 34, (24, 110, 66), BR,
                              fonte_titulo=True), 540, 1280, 1, 1, 1)
     else:
-        E.cola(img, E.pilula(f"DOMINGO DE JOGOS · {D.DATA.split(', ')[-1]} · SÓ 30 VAGAS", 36, VERM, BR,
+        E.cola(img, E.pilula(f"DOMINGO DE JOGOS · {D.DATA.split(', ')[-1]} · SÓ 30 VAGAS", 36, (24, 110, 66), BR,
                              fonte_titulo=True), 540, oy + 1290, 1, 1, 1)
         E.cola(img, E.pilula("garanta a vaga da sua mesa:", 40, BR, MAR), 540, 1590, 0, 1, 1)
         E.cola(img, D.seta(), 540, 1690, 0, 0.5, 1)

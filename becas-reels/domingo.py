@@ -257,13 +257,20 @@ def _luzes(fase):
     return glow
 
 
-BASE_FUNDO = None          # função que devolve o fundo 1080x1920 (ex.: o vermelho natalino do carrossel)
-COR_SELO = VERM            # no fundo vermelho o selo fica verde
-COR_VAGAS = VERM           # no fundo vermelho o "SÓ 30 VAGAS!" fica amarelo
+VERMELHO = True            # 24/nov: tudo do domingo no fundo VERMELHO natalino com flocos (escolha deles)
+BASE_FUNDO = None          # função que devolve o fundo 1080x1920 (None + VERMELHO = o do carrossel)
+COR_SELO = (24, 110, 66) if VERMELHO else VERM   # no vermelho, selo verde
+COR_VAGAS = AMA if VERMELHO else VERM            # no vermelho, "SÓ 30 VAGAS!" amarelo
+
+
+@lru_cache(None)
+def _vermelho():
+    import domingo_carrossel as DC
+    return DC.fundo_natal("vermelho")
 
 
 def fundo(t=3.0):
-    img = (BASE_FUNDO() if BASE_FUNDO else _estrelas() if NATAL else T.fundo()).copy()
+    img = (BASE_FUNDO() if BASE_FUNDO else _vermelho() if VERMELHO else _estrelas() if NATAL else T.fundo()).copy()
     T.guarda_chuvas(img, t)
     if NATAL:
         img.alpha_composite(_luzes(int(max(0, t) * 2.5) % 2), (0, 0))
@@ -419,7 +426,7 @@ def post():
            fonte_titulo=True), 540, 575, 1, 1, 1)
     E.cola(img, polaroide(14.0, 380, 285, "20/11: foi assim!"), 285, 815, -5, 1, 1)
     E.cola(img, painel(0), 790, 800, 3, 0.47, 1)
-    E.cola(img, E.titulo("SÓ 30 VAGAS!", 96, VERM), 540, 1065, -2, 1, 1)
+    E.cola(img, E.titulo("SÓ 30 VAGAS!", 96, COR_VAGAS), 540, 1065, -2, 1, 1)
     E.cola(img, E.pilula(f"{DATA} · {HORA}", 42, AMA, MAR, fonte_titulo=True), 540, 1170, 1, 1, 1)
     E.cola(img, E.pilula(f"{PRECO} · R$ 25 viram consumação no café", 30, BR, MAR), 540, 1240, -1, 1, 1)
     E.cola(img, E.pilula("RESERVE PELO LINK NA BIO", 34, PET, BR, fonte_titulo=True), 540, 1305, 0, 1, 1)
@@ -431,7 +438,7 @@ def story():
     E.cola(img, TB.parceria(90), W / 2, 470, 0, 1, 1)
     E.cola(img, E.titulo("DOMINGO\nDE JOGOS", 170, LAR), W / 2, 700, -2, 1, 1)
     E.cola(img, selo_fim_de_ano(40), W / 2, 885, 1, 1, 1)
-    E.cola(img, E.titulo("SÓ 30 VAGAS!", 100, VERM), W / 2, 995, 2, 1, 1)
+    E.cola(img, E.titulo("SÓ 30 VAGAS!", 100, COR_VAGAS), W / 2, 995, 2, 1, 1)
     E.cola(img, card(), W / 2, 1325, 0, 0.88, 1)
     E.cola(img, E.pilula("garanta sua vaga aqui:", 40, BR, MAR), W / 2, 1620, 0, 1, 1)
     E.cola(img, seta(), W / 2, 1715, 0, 0.55, 1)
@@ -445,11 +452,11 @@ def story_vagas(restam):
     if restam >= VAGAS:
         t1, t2, cor = "VAGAS", "ABERTAS!", LAR
     elif restam == 0:
-        t1, t2, cor = "ESGOTADO!", "", VERM
+        t1, t2, cor = "ESGOTADO!", "", COR_VAGAS
     elif restam == 1:
-        t1, t2, cor = "ÚLTIMA", "VAGA!", VERM
+        t1, t2, cor = "ÚLTIMA", "VAGA!", COR_VAGAS
     elif restam <= 5:
-        t1, t2, cor = f"ÚLTIMAS {restam}", "VAGAS!", VERM
+        t1, t2, cor = f"ÚLTIMAS {restam}", "VAGAS!", COR_VAGAS
     else:
         t1, t2, cor = f"RESTAM {restam}", "VAGAS!", LAR
     E.cola(img, E.titulo(t1 + ("\n" + t2 if t2 else ""), 150, cor), W / 2, 560, -2, 1, 1)
