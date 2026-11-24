@@ -57,7 +57,7 @@ JOGOS = {  # foto do site, nome, linha do site, gosto, cena na mesa (arquivo, in
     "passaporte": ("passaporte_mundo", "Passaporte Mundo", "1 a 6 jogadores · 45 min", "VIAJAR", ("135233", 0.2), 181.48),
     "unlock": ("unlock_timeless_adventures", "Unlock!", "1 a 6 jogadores · 90 min", "ESCAPE ROOM", ("140020", 0.2), 267.28),
 }
-CORRIGE = {37.86: "Kitchen,", 64.32: "passa", 64.74: "numa", 66.88: "combo", 116.98: "Canvas.", 185.08: "encaixa",
+CORRIGE = {37.86: "Kitchen,", 37.46: "Critter Kitchen,", 39.06: "somos", 62.88: "Sushi Go,", 64.32: "passa", 64.74: "numa", 66.88: "combo", 116.98: "Canvas.", 185.08: "encaixa",
            293.00: "Sua", 293.18: "Vez."}
 DEPOIS_NOME = 0.9  # rosto até 0,9 s depois de ele começar a dizer o nome; depois, a cena do jogo
 GAP, PAD = 0.32, 0.1
