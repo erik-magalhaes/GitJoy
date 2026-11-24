@@ -1673,3 +1673,10 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   fala o jogo e o porquê; ela fica à ESQUERDA do quadro e a caixa OFICIAL entra à direita na edição quando ela diz o nome.
   Gancho sugerido: "Eu vou sortear uma pessoa e escolher na hora o jogo de tabuleiro que eu daria de presente pra ela."
   Esperando a gravação no Drive de brutos.
+- **DOMINGO DE JOGOS APROVADO PELO CAFÉ (24/nov): domingo, 13/12/2026, 13h–19h, R$ 40 (R$ 25 de consumação), máx. 30
+  vagas, pagamento só antecipado.** `domingo.py` já com `HORA = "DAS 13H ÀS 19H"`. Ela pediu o material TODO DO ZERO com
+  tema de Natal/festas (as peças de 22/nov viram rascunho; mostrar conceitos antes de fazer). Mínimo de 15 = INTERNO.
+  **Cronograma** em `becas-reels/cronograma_domingo.md`: rodízio EVENTO → JOGO → SITE a cada 3 dias de 24/11 a 10/12,
+  evento todo dia de 11 a 14/12 (últimas vagas, é amanhã, é hoje, como foi); "restam N" só com número real; prazo interno
+  do mínimo = quinta 10/12. Peças novas NÃO usam prazo progressivo nem assinatura (indefinidos desde 13/nov).
+

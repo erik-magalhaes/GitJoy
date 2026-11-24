@@ -42,7 +42,7 @@ K.CLIPES["intro"] = (os.path.join(BRUTO, "053620.mp4"), "")
 
 # ---- dados do evento (A CONFIRMAR com o café) ----
 DATA = "DOMINGO, 13/12"
-HORA = "DAS 14H ÀS 19H"
+HORA = "DAS 13H ÀS 19H"
 PRECO = "R$ 40"
 CONSUMO = "R$ 25 VIRAM CONSUMAÇÃO NO CAFÉ"
 ENDERECO = TB.ENDERECO
