@@ -266,7 +266,7 @@ def fundo(t=3.0):
 
 
 def selo_fim_de_ano(s=40):
-    return E.pilula("ESPECIAL DE FIM DE ANO", s, VERM, BR, fonte_titulo=True)
+    return E.pilula("ESPECIAL DE NATAL", s, VERM, BR, fonte_titulo=True)
 
 
 # ---------------------------------------------------------------- vídeo
