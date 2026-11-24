@@ -163,6 +163,26 @@ def t_jogos():
     return img.convert("RGB")
 
 
+def t_desafio():
+    import desafio_hitster as DH
+    img = base(3.3)
+    E.cola(img, E.titulo("E TEM\nDESAFIO HITSTER!", 104, LAR), 540, 290, -2, 1, 1)
+    E.cola(img, DH.caixa(430), 300, 720, -6, 1, 1)
+    for x, y, sz, c, r in ((150, 520, 70, VERM, -12), (930, 470, 60, PET, 10), (950, 960, 66, AMA, 8)):
+        E.cola(img, DH.nota(sz, c), x, y, r, 1, 1)
+    passos = E.bloco(500, 330, BR, raio=30, ow=6, sombra=10).copy()
+    d = ImageDraw.Draw(passos)
+    for k, txt in enumerate(("toca a música", "cada mesa chuta o ano", "chegou perto? pontua!")):
+        y = 62 + k * 100
+        d.ellipse((30, y - 30, 90, y + 30), fill=(LAR, PET, AMA)[k], outline=MAR, width=4)
+        d.text((60, y + 1), str(k + 1), font=E.lilita(40), fill=BR if k < 2 else MAR, anchor="mm")
+        d.text((110, y), txt, font=E.fig(34, 900), fill=MAR, anchor="lm")
+    E.cola(img, passos, 770, 730, 2, 1, 1)
+    E.cola(img, E.pilula("TODAS AS MESAS JOGAM JUNTAS", 42, PET, BR, fonte_titulo=True), 540, 1080, -1, 1, 1)
+    E.cola(img, E.titulo("VALENDO PRÊMIO!", 92, VERM), 540, 1200, 2, 1, 1)
+    return img.convert("RGB")
+
+
 def t_vagas():
     img = base(3.6)
     E.cola(img, E.titulo("SÓ 30 VAGAS!", 120, VERM), 540, 300, 2, 1, 1)
@@ -183,7 +203,7 @@ def t_final():
     return img.convert("RGB")
 
 
-TELAS = [t_capa, t_lembra, t_como, t_jogos, t_vagas, t_final]
+TELAS = [t_capa, t_lembra, t_como, t_jogos, t_desafio, t_vagas, t_final]
 
 
 def main():
