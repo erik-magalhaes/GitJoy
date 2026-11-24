@@ -53,6 +53,16 @@ def quadro_festa(t):
     return Image.open(dst).convert("RGB")
 
 
+def quadro_dia(t):
+    dst = os.path.join(D.OUT, "_fotos", f"dia_{t:.2f}.png")
+    os.makedirs(os.path.dirname(dst), exist_ok=True)
+    if not os.path.exists(dst):
+        subprocess.run([ffmpeg(), "-v", "error", "-y", "-ss", str(t), "-i", os.path.join(NOV20, "180822.mp4"),
+                        "-frames:v", "1", "-vf", "hqdn3d=2:2:3:3,eq=contrast=1.04:saturation=1.06,unsharp=5:5:0.4", dst],
+                       check=True)
+    return Image.open(dst).convert("RGB")
+
+
 def foto(nome):
     return ImageOps.exif_transpose(Image.open(os.path.join(NOV20, nome))).convert("RGB")
 
@@ -103,7 +113,7 @@ def base(seed):
 def t_capa():
     img = base(2.2)
     pendura(img, polaroide(quadro_festa(14.0), 330, 410, "mesa cheia!"), 290, 150, ROSA, 4, 150)
-    pendura(img, polaroide(quadro_festa(52.0), 330, 410, "e dancinha!", 0.35), 790, 130, AMA, -4, 150)
+    pendura(img, polaroide(foto("20261120_151926.jpg"), 330, 410, "Marrakech", 0.35), 790, 130, AMA, -4, 150)
     E.cola(img, E.titulo("VAI TER\nMAIS UM!", 120, LAR), 540, 1000, -2, 1, 1)
     E.cola(img, D.selo_fim_de_ano(42), 540, 1150, 1, 1, 1)
     E.cola(img, E.pilula("DOMINGO DE JOGOS · 13/12", 48, PET, BR, fonte_titulo=True), 540, 1235, -1, 1, 1)
@@ -115,7 +125,7 @@ def t_lembra():
     img = base(2.6)
     E.cola(img, E.titulo("LEMBRA DA NOSSA\nTARDE DE JOGOS?", 92, LAR), 540, 300, -2, 1, 1)
     pendura(img, polaroide(quadro_festa(49.5), 390, 500, "gente nova em cada mesa"), 290, 440, PET, -3)
-    pendura(img, polaroide(quadro_festa(34.0), 390, 500, "jogo pra toda idade"), 800, 470, ROSA, 3)
+    pendura(img, polaroide(quadro_dia(13.5), 390, 500, "jogo novo pra aprender", 0.6), 800, 470, ROSA, 3)
     E.cola(img, E.pilula("6 horas de jogo, 35 jogos e muita risada!", 38, BR, MAR), 540, 1270, 1, 1, 1)
     return img.convert("RGB")
 
@@ -123,7 +133,7 @@ def t_lembra():
 def t_como():
     img = base(3.1)
     E.cola(img, E.titulo("COMO\nFUNCIONA?", 100, LAR), 540, 270, -2, 1, 1)
-    pendura(img, polaroide(quadro_festa(39.0), 380, 360, "a gente ensina na hora", 0.35), 540, 410, AMA, -2, 150)
+    pendura(img, polaroide(foto("20261120_112018.jpg"), 560, 380, "os jogos esperando por você", 0.55), 540, 410, AMA, -2, 150)
     y = 1095
     for k, (txt, cor) in enumerate((("Você chega, senta e escolhe o jogo", LAR),
                                     ("A gente leva os jogos e ENSINA tudo", PET),
@@ -137,7 +147,7 @@ def t_jogos():
     E.cola(img, E.titulo("35 JOGOS\nNA MESA", 110, LAR), 540, 300, -2, 1, 1)
     pendura(img, polaroide(foto("20261120_151849.jpg"), 270, 360, "Cores com Dicas"), 190, 470, ROSA, 3, 130)
     pendura(img, polaroide(foto("20261120_151917.jpg"), 270, 360, "Hot Streak"), 540, 530, PET, -2, 130)
-    pendura(img, polaroide(foto("20261120_151857.jpg"), 270, 360, "Marrakech"), 890, 470, AMA, 3, 130)
+    pendura(img, polaroide(foto("20261120_151857.jpg"), 270, 360, "Dixit Disney"), 890, 470, AMA, 3, 130)
     E.cola(img, E.pilula("Do jogo rapidinho ao jogão: a gente indica o seu!", 34, BR, MAR), 540, 1270, 1, 1, 1)
     return img.convert("RGB")
 
@@ -146,8 +156,8 @@ def t_vagas():
     img = base(3.6)
     E.cola(img, E.titulo("SÓ 30 VAGAS!", 120, VERM), 540, 300, 2, 1, 1)
     E.cola(img, D.painel(0), 540, 760, 0, 0.92, 1)
-    E.cola(img, E.pilula("Vaga só com pagamento antecipado (Pix)", 38, PET, BR, fonte_titulo=False), 540, 1180, -1, 1, 1)
-    E.cola(img, E.pilula("Acabou, acabou!", 40, AMA, MAR, fonte_titulo=True), 540, 1270, 1, 1, 1)
+    E.cola(img, E.pilula("VAGAS LIMITADAS!", 44, PET, BR, fonte_titulo=True), 540, 1180, -1, 1, 1)
+    E.cola(img, E.pilula("Faça sua reserva pelo WhatsApp", 38, AMA, MAR, fonte_titulo=False), 540, 1270, 1, 1, 1)
     return img.convert("RGB")
 
 

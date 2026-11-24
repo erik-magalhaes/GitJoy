@@ -192,7 +192,7 @@ def card(w=920, link=False):
     d.text((w / 2, 372), "R$ 25 viram consumação no café", font=E.fig(34, 800), fill=MAR, anchor="mm")
     d.text((w / 2, 418), "+ jogos e monitoria a tarde toda", font=E.fig(32, 700), fill=MAR, anchor="mm")
     d.rounded_rectangle((50, 458, w - 50, 530), 30, fill=PET)
-    d.text((w / 2, 494), "VAGA SÓ COM PAGAMENTO ANTECIPADO", font=E.lilita(36), fill=BR, anchor="mm")
+    d.text((w / 2, 494), "VAGAS LIMITADAS: FAÇA SUA RESERVA!", font=E.lilita(36), fill=BR, anchor="mm")
     return c
 
 
@@ -312,7 +312,7 @@ def quadro_vagas(img, t):
     img.alpha_composite(fundo(t - T_TIT))
     K.poe(img, K.titulo("SÓ 30 VAGAS!", 150, VERM), W / 2, 560, t, T_QUADRO + 0.05, -2)
     E.cola(img, painel_anim(t, T_QUADRO), W / 2, 1050, 0, 1, 1)
-    K.poe(img, K.etiqueta("PAGOU, GARANTIU. ACABOU, ACABOU!", 44, AMA, MAR), W / 2, 1500, t, T_QUADRO + 2.4, 1)
+    K.poe(img, K.etiqueta("VAGAS LIMITADAS: FAÇA SUA RESERVA!", 44, AMA, MAR), W / 2, 1500, t, T_QUADRO + 2.4, 1)
 
 
 def cta(img, t, modo):
