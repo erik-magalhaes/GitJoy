@@ -1700,4 +1700,17 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   - Pacote mandado: `out/pacote_domingo/` (1 carrossel, 2 post/story/vagas/confirmações, 3 desafio + PDFs) + vídeos.
   - Jéssica gravou o "Qual jogo eu daria de presente pra..." (7 vídeos VID_20261123_06/07xxxx → `becas-reels/brutos/nov23/`,
     fora do git): AINDA NÃO EDITADO (no cronograma: 1/12).
+- **RESTO DO CRONOGRAMA DO DOMINGO FEITO (24/nov, "pode começar a criar todos"), tudo no estilo vermelho:**
+  `domingo_natal.py` (27/11 confra, refeito no fundo parado vermelho), `desafio_reels.py` (30/11 Reels/Stories do Desafio
+  Hitster, 22 s: polaroide → DESAFIO HITSTER + caixa + 3 passos → VALENDO PRÊMIO! com confete → convite),
+  `domingo_mais.py --fotos` (3/12 "o que rola", fundo vermelho), `contagem_domingo.py semana|ultimas|amanha|hoje`
+  (6, 11, 12 e 13/12: calendário DEZEMBRO/13 pendurado no guarda-chuva, título, info; Reels + Stories 11 s + post e
+  story PNG em `out/contagem/`), `vagas_reels.py --vendidas N` (9/12 "as vagas estão acabando": carimbos RESERVADA até o
+  número REAL → RESTAM N; só renderizar quando eles passarem o número). Pacote em `out/pacote_domingo/` (4 a 6 + videos_contagem).
+- **"Qual jogo eu daria de presente pra..." (`becas-reels/presente.py`, 24/nov):** cortes pelas palavras do Whisper
+  (`brutos/nov23/transc.json`), etiqueta kraft "PRA: ..." no alto, caixa OFICIAL com nome em pílula embaixo à direita
+  na palavra do jogo, legenda palavra a palavra agrupada por bloco, pisca-pisca no alto, "E VOCÊ?" + tela final vermelha.
+  Mãe → Art Society, Eric → "TAKTA" (Whisper small/medium; NÃO está no site; esperando o nome certo → `JOGO_ERIK`),
+  irmão → Hitster, sogra/sogro → Flip 7 (caixa da Vingança), sobrinha 6 anos → Tapalavras, cunhada → Root (ela diz
+  "Ruti"). ~131 s.
 
