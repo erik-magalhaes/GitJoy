@@ -121,7 +121,7 @@ def guarda_hd(w, cor, seed=3):
     return g.resize((round(g.width / 3), round(g.height / 3)), Image.LANCZOS)
 
 
-TEMA = "verde"   # "verde" | "vermelho" | "xadrez"
+TEMA = "vermelho"   # "verde" | "vermelho" | "xadrez"
 
 
 def floco(r, cor=(255, 255, 255), a=255):
@@ -209,7 +209,7 @@ def t_capa():
     pendura(img, polaroide(ImageOps.mirror(foto("IMG_194900.jpg")), 330, 410, "com monitoria!", 0.3), 790, 130, AMA, -4,
             150)
     E.cola(img, E.titulo("VAI TER\nMAIS UM!", 120, LAR), 540, 1000, -2, 1, 1)
-    E.cola(img, D.selo_fim_de_ano(42), 540, 1150, 1, 1, 1)
+    E.cola(img, E.pilula("ESPECIAL DE FIM DE ANO", 42, (24, 110, 66), BR, fonte_titulo=True), 540, 1150, 1, 1, 1)
     E.cola(img, E.pilula("DOMINGO DE JOGOS · 13/12", 48, PET, BR, fonte_titulo=True), 540, 1235, -1, 1, 1)
     E.cola(img, E.pilula("ARRASTA PRO LADO!", 30, AMA, MAR, fonte_titulo=True), 540, 1310, 1, 1, 1)
     return img.convert("RGB")
@@ -262,13 +262,13 @@ def t_desafio():
         d.text((110, y), txt, font=E.fig(34, 900), fill=MAR, anchor="lm")
     E.cola(img, passos, 770, 730, 2, 1, 1)
     E.cola(img, E.pilula("TODAS AS MESAS JOGAM JUNTAS", 42, PET, BR, fonte_titulo=True), 540, 1080, -1, 1, 1)
-    E.cola(img, E.titulo("VALENDO PRÊMIO!", 92, VERM), 540, 1200, 2, 1, 1)
+    E.cola(img, E.titulo("VALENDO PRÊMIO!", 92, AMA), 540, 1200, 2, 1, 1)
     return img.convert("RGB")
 
 
 def t_vagas():
     img = base(3.6)
-    E.cola(img, E.titulo("SÓ 30 VAGAS!", 120, VERM), 540, 300, 2, 1, 1)
+    E.cola(img, E.titulo("SÓ 30 VAGAS!", 120, AMA), 540, 300, 2, 1, 1)
     E.cola(img, D.painel(0), 540, 760, 0, 0.92, 1)
     E.cola(img, E.pilula("VAGAS LIMITADAS!", 44, PET, BR, fonte_titulo=True), 540, 1180, -1, 1, 1)
     E.cola(img, E.pilula("Faça sua reserva pelo WhatsApp", 38, AMA, MAR, fonte_titulo=False), 540, 1270, 1, 1, 1)
@@ -278,7 +278,7 @@ def t_vagas():
 def t_final():
     img = base(4.0)
     E.cola(img, TB.parceria(90), 540, 230, 0, 1, 1)
-    E.cola(img, D.selo_fim_de_ano(40), 540, 345, -1, 1, 1)
+    E.cola(img, E.pilula("ESPECIAL DE FIM DE ANO", 40, (24, 110, 66), BR, fonte_titulo=True), 540, 345, -1, 1, 1)
     E.cola(img, D.card(), 540, 690, 0, 0.95, 1)
     E.cola(img, E.pilula(f"RESERVE NO WHATSAPP {TB.WHATS}", 40, PET, BR, fonte_titulo=True), 540, 1050, -1, 1, 1)
     E.cola(img, E.pilula("Marca aqui quem vem com você!", 36, BR, MAR), 540, 1145, 1, 1, 1)
