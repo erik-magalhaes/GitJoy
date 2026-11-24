@@ -121,11 +121,63 @@ def guarda_hd(w, cor, seed=3):
     return g.resize((round(g.width / 3), round(g.height / 3)), Image.LANCZOS)
 
 
+TEMA = "verde"   # "verde" | "vermelho" | "xadrez"
+
+
+def floco(r, cor=(255, 255, 255), a=255):
+    """Floco de neve desenhado (6 braços com galhinhos)."""
+    import math
+    S_ = int(r * 2 + 8)
+    im = Image.new("RGBA", (S_, S_), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    c = S_ / 2
+    lw = max(2, int(r / 9))
+    for k in range(6):
+        ang = math.radians(60 * k + 90)
+        ex, ey = c + r * math.cos(ang), c - r * math.sin(ang)
+        d.line([(c, c), (ex, ey)], fill=cor + (a,), width=lw)
+        for f in (0.45, 0.7):
+            bx, by = c + r * f * math.cos(ang), c - r * f * math.sin(ang)
+            for s_ in (-1, 1):
+                a2 = ang + s_ * math.radians(40)
+                L = r * 0.28
+                d.line([(bx, by), (bx + L * math.cos(a2), by - L * math.sin(a2))], fill=cor + (a,), width=lw)
+    d.ellipse((c - lw * 1.5, c - lw * 1.5, c + lw * 1.5, c + lw * 1.5), fill=cor + (a,))
+    return im
+
+
+def fundo_natal(tema):
+    import random
+    import sys
+    if tema == "xadrez":
+        sys.path.insert(0, os.path.join(os.path.dirname(ROOT), "feed-sua-vez"))
+        import natal_familia as NF
+        img = NF.toalha(W, 1920)
+    else:
+        cor, cor2 = ((16, 82, 52), (34, 120, 76)) if tema == "verde" else ((168, 26, 34), (206, 48, 54))
+        img = Image.new("RGBA", (W, 1920), cor + (255,))
+        luz = Image.new("L", (W, 1920), 0)
+        ImageDraw.Draw(luz).ellipse((-200, 150, W + 200, 1500), fill=255)
+        luz = luz.filter(ImageFilter.GaussianBlur(220))
+        img = Image.composite(Image.new("RGBA", (W, 1920), cor2 + (255,)), img, luz)
+    rnd = random.Random(11)
+    for _ in range(70):
+        x, y, r = rnd.uniform(0, W), rnd.uniform(0, 1920), rnd.uniform(10, 34)
+        f = floco(r, a=int(rnd.uniform(70, 170)))
+        f = f.rotate(rnd.uniform(0, 60), resample=Image.BICUBIC)
+        img.alpha_composite(f, (int(x - f.width / 2), int(y - f.height / 2)))
+    d = ImageDraw.Draw(img)
+    for _ in range(160):
+        x, y, r = rnd.uniform(0, W), rnd.uniform(0, 1920), rnd.uniform(2, 5)
+        d.ellipse((x - r, y - r, x + r, y + r), fill=(255, 214, 110, int(rnd.uniform(120, 230))))
+    return img
+
+
 def fundo_parado(livres=()):
     """Fundo PARADO: guarda-chuvinhas retos (sem o balanço do vídeo) + pisca-pisca. `livres` = x das polaroides
     penduradas (o guarda-chuva do fundo ali sai, pra não embolar)."""
     import tarde as T
-    img = D._estrelas().copy()
+    img = fundo_natal(TEMA)
     d = ImageDraw.Draw(img)
     for k, (x, L, w, cor, _) in enumerate(T.CHUVAS):
         if any(abs(x - lx) < 120 for lx in livres):
