@@ -27,7 +27,7 @@ def quadro_nov06(arq, t):
 FOTOS = [  # (imagem, legenda, ay, giro, y)
     (lambda: DC.quadro_festa(49.5), "gente nova", 0.45, -6, 0),
     (lambda: DC.foto("20261120_151857.jpg"), "jogo bom", 0.5, 4, 25),
-    (lambda: quadro_nov06("151311", 0.5), "bolo nuvem", 0.5, -3, 5),
+    (lambda: quadro_nov06("151311", 0.5), "comidinhas", 0.5, -3, 5),
     (lambda: DC.quadro_festa(12.6), "muita risada", 0.4, 5, 20),
 ]
 
