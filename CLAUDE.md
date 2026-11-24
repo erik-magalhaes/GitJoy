@@ -1714,3 +1714,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   irmão → Hitster, sogra/sogro → Flip 7 (caixa da Vingança), sobrinha 6 anos → Tapalavras, cunhada → Root (ela diz
   "Ruti"). ~131 s.
 
+- **ANÁLISE DO INSTAGRAM (24/nov, prints dele):** Status da conta OK (sem bloqueio). 30 dias: 66 mil visualizações
+  (+1,4%), 25,4 mil contas, 41.959 seguidores (−220), 1.464 visitas ao perfil, 40 toques no link (2,7%). Posts
+  (carrossel) 32,1 mil > Reels 13,4 mil > Stories 12,2 mil. Reels de 300 a 2 mil: os melhores têm GENTE REAL (top 10 do
+  Erik 1.778, casal 1.738, Trolley 1.733, Take Time 1.194) ou o EVENTO local (Bora jogar num café 2.027, gostinho 1.880);
+  os piores são animação/explicação sem rosto (Marvel 294, eventos 314, alerta 339, tarô 373, Arquitetos 417).
+  Diagnóstico: alcance baixo por base de seguidores que não interage (41,9 mil seguidores × ~500 views por Reels), não
+  bloqueio. Recomendado: mais rosto/gravado, Reels de teste (só p/ não seguidores), gancho com gente nos 2 s, fixar posts
+  melhores (tirar o fixado só com o logo laranja), bio com chamada pro link.
