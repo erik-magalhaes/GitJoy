@@ -30,20 +30,25 @@ BRUTO = os.path.join(ROOT, "brutos", "nov24", "festa.mp4")   # = brutos/nov20/14
 CROP = "crop=576:770:72:215"                                  # só o vídeo, sem moldura/cabeçalho/legenda
 FW, FH = 720, 962                                             # foto dentro da polaroide
 
-# (início no bruto, duração, pílula embaixo)
+NOV06 = os.path.join(ROOT, "brutos", "nov06")
+CAFE = "scale=720:-2,crop=720:962:0:(ih-962)*{ay}"
+# (arquivo, recorte, início no bruto, duração, pílula embaixo): evento (repost) intercalado com o café
 CENAS = [
-    (12.6, 2.6, "LEMBRA DA NOSSA TARDE DE JOGOS?"),
-    (1.8, 2.3, "SALÃO CHEIO!"),
-    (30.0, 2.4, "TEM JOGO PRA TODA IDADE"),
-    (40.2, 2.3, "GENTE NOVA EM CADA MESA"),
-    (50.4, 2.3, "E MUITA RISADA!"),
-    (55.4, 2.4, "AGORA VEM A EDIÇÃO DE NATAL!"),
+    (BRUTO, CROP, 12.6, 2.4, "LEMBRA DA NOSSA TARDE DE JOGOS?"),
+    (os.path.join(NOV06, "20261106_150333.mp4"), CAFE.format(ay=0.2), 5.8, 2.1, "NO BECA’S CAFÉ..."),
+    (BRUTO, CROP, 1.8, 2.1, "SALÃO CHEIO!"),
+    (os.path.join(NOV06, "20261106_151311.mp4"), CAFE.format(ay=0.5), 0.0, 2.1, "CAFÉ, DOCINHO..."),
+    (BRUTO, CROP, 30.0, 2.1, "...JOGO PRA TODA IDADE"),
+    (os.path.join(NOV06, "20261106_150657.mp4"), CAFE.format(ay=0.5), 7.6, 2.1, "LANCHINHO NA MESA"),
+    (BRUTO, CROP, 50.4, 2.1, "E MUITA RISADA!"),
+    (BRUTO, CROP, 40.2, 2.1, "GENTE NOVA EM CADA MESA"),
+    (os.path.join(NOV06, "20261106_150726.mp4"), CAFE.format(ay=0.35), 1.6, 2.4, "AGORA VEM A EDIÇÃO DE NATAL!"),
 ]
 INI = []
 _t = 0.0
 for c in CENAS:
     INI.append(_t)
-    _t += c[1]
+    _t += c[3]
 T_TIT = _t
 T_QUADRO = T_TIT + 3.4
 T_CTA = T_QUADRO + 4.0
@@ -52,14 +57,14 @@ CACHE = os.path.join(OUT, "_cache_festa")
 
 
 def prepara():
-    for s, d, _ in CENAS:
-        pasta = os.path.join(CACHE, f"{s:.2f}_{d:.2f}")
+    for arq, crop, s, d, _ in CENAS:
+        pasta = os.path.join(CACHE, f"{os.path.basename(arq)}_{s:.2f}_{d:.2f}")
         if os.path.isdir(pasta) and os.listdir(pasta):
             continue
         os.makedirs(pasta, exist_ok=True)
-        vf = (f"fps={FPS},{CROP},scale={FW}:{FH}:flags=lanczos,hqdn3d=3:3:4:4,"
+        vf = (f"fps={FPS},{crop},scale={FW}:{FH}:flags=lanczos,hqdn3d=3:3:4:4,"
               "eq=contrast=1.04:saturation=1.08:gamma=1.02,colorbalance=rs=0.03:bs=-0.03,unsharp=5:5:0.4")
-        subprocess.run([ffmpeg(), "-v", "error", "-ss", str(s), "-t", str(d + 0.2), "-i", BRUTO, "-vf", vf, "-q:v", "2",
+        subprocess.run([ffmpeg(), "-v", "error", "-ss", str(s), "-t", str(d + 0.2), "-i", arq, "-vf", vf, "-q:v", "2",
                         os.path.join(pasta, "%04d.jpg")], check=True)
 
 
@@ -69,8 +74,8 @@ def _foto(caminho):
 
 
 def foto(k, u):
-    s, d, _ = CENAS[k]
-    pasta = os.path.join(CACHE, f"{s:.2f}_{d:.2f}")
+    arq, _, s, d, _ = CENAS[k]
+    pasta = os.path.join(CACHE, f"{os.path.basename(arq)}_{s:.2f}_{d:.2f}")
     n = len(os.listdir(pasta))
     return _foto(os.path.join(pasta, f"{max(0, min(n - 1, int(u * FPS))) + 1:04d}.jpg"))
 
@@ -89,7 +94,7 @@ def moldura():
     im.alpha_composite(sh.filter(ImageFilter.GaussianBlur(6)))
     d = ImageDraw.Draw(im)
     d.rectangle((0, 0, w - 1, h - 1), fill=D.CREME + (255,), outline=MAR, width=5)
-    txt = "tarde de jogos · 20/11"
+    txt = "tarde de jogos no Beca’s"
     f = E.fig(44, 800)
     d.text((w / 2, FH + M_TOP + M_BAIXO / 2), txt, font=f, fill=MAR, anchor="mm")
     return im
@@ -136,9 +141,9 @@ def polaroide(img, t):
     cai = max(0.0, 1 - t / 0.45) ** 2 * 900          # cai do teto no comecinho
     r = sp.rotate(balanco(t), resample=Image.BICUBIC)
     img.alpha_composite(r, (int(W / 2 - r.width / 2), int(-r.height / 2 - cai)))
-    rot = (-2, 2, -1, 1.5, -2, 1)[k]
+    rot = (-2, 2, -1, 1.5, -2, 1)[k % 6]
     s = 58 if k in (0, len(CENAS) - 1) else 64
-    K.poe(img, K.etiqueta(CENAS[k][2], s, AMA if k not in (0, len(CENAS) - 1) else VERM_ETQ, MAR if k not in (0, len(CENAS) - 1) else BR),
+    K.poe(img, K.etiqueta(CENAS[k][4], s, AMA if k not in (0, len(CENAS) - 1) else VERM_ETQ, MAR if k not in (0, len(CENAS) - 1) else BR),
           W / 2, 1475, t, INI[k] + 0.05, rot, d=0.25)
 
 
