@@ -147,7 +147,6 @@ def polaroide(img, t):
           W / 2, 1475, t, INI[k] + 0.05, rot, d=0.25)
 
 
-VERM_ETQ = D.VERM
 
 
 def quadro(t, modo="reels"):
@@ -171,6 +170,14 @@ def quadro(t, modo="reels"):
 
 
 D.T_TIT, D.T_QUADRO, D.T_CTA = T_TIT, T_QUADRO, T_CTA
+
+# fundo VERMELHO natalino com flocos de neve (o mesmo do carrossel, escolha deles em 24/nov)
+import domingo_carrossel as DC  # noqa: E402
+
+D.BASE_FUNDO = lru_cache(None)(lambda: DC.fundo_natal("vermelho"))
+D.COR_SELO = (24, 110, 66)
+D.COR_VAGAS = AMA
+VERM_ETQ = (24, 110, 66)
 
 
 def render_reels(fi):

@@ -257,8 +257,13 @@ def _luzes(fase):
     return glow
 
 
+BASE_FUNDO = None          # função que devolve o fundo 1080x1920 (ex.: o vermelho natalino do carrossel)
+COR_SELO = VERM            # no fundo vermelho o selo fica verde
+COR_VAGAS = VERM           # no fundo vermelho o "SÓ 30 VAGAS!" fica amarelo
+
+
 def fundo(t=3.0):
-    img = (_estrelas() if NATAL else T.fundo()).copy()
+    img = (BASE_FUNDO() if BASE_FUNDO else _estrelas() if NATAL else T.fundo()).copy()
     T.guarda_chuvas(img, t)
     if NATAL:
         img.alpha_composite(_luzes(int(max(0, t) * 2.5) % 2), (0, 0))
@@ -266,7 +271,7 @@ def fundo(t=3.0):
 
 
 def selo_fim_de_ano(s=40):
-    return E.pilula("ESPECIAL DE NATAL", s, VERM, BR, fonte_titulo=True)
+    return E.pilula("ESPECIAL DE NATAL", s, COR_SELO, BR, fonte_titulo=True)
 
 
 # ---------------------------------------------------------------- vídeo
@@ -310,7 +315,7 @@ def titulo(img, t):
 
 def quadro_vagas(img, t):
     img.alpha_composite(fundo(t - T_TIT))
-    K.poe(img, K.titulo("SÓ 30 VAGAS!", 150, VERM), W / 2, 560, t, T_QUADRO + 0.05, -2)
+    K.poe(img, K.titulo("SÓ 30 VAGAS!", 150, COR_VAGAS), W / 2, 560, t, T_QUADRO + 0.05, -2)
     E.cola(img, painel_anim(t, T_QUADRO), W / 2, 1050, 0, 1, 1)
     K.poe(img, K.etiqueta("VAGAS LIMITADAS: FAÇA SUA RESERVA!", 44, AMA, MAR), W / 2, 1500, t, T_QUADRO + 2.4, 1)
 
