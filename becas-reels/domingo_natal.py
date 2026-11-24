@@ -141,10 +141,11 @@ def t_final():
 
 
 TELAS = [t_capa, t_amigo, t_jogos,
-         lambda: t_foto(os.path.join(M.NOV06, "20261106_151311.mp4"), 1.6, "o bolo nuvem do Beca’s",
-                        "O LANCHE DA CONFRA", "R$ 25 do ingresso viram consumação no café: é só escolher!", seed=2.9),
-         lambda: t_foto(M.DIA, 13.5, "a tarde de 20/11", "FECHA O ANO JOGANDO",
-                        "Uma tarde pra rir, competir e conhecer gente nova antes das festas.", ay=0.3, seed=3.4, rot=3),
+         lambda: t_foto(os.path.join(M.NOV06, "20261106_150657.mp4"), 4.0, "os doces do Beca’s",
+                        "O LANCHE DA CONFRA", "R$ 25 do ingresso viram consumação no café: é só escolher!", ay=0.3,
+                        seed=2.9),
+         lambda: t_foto(M.DIA, 16.0, "a tarde de 20/11", "FECHA O ANO JOGANDO",
+                        "Uma tarde pra rir, competir e conhecer gente nova antes das festas.", ay=0.1, seed=3.4, rot=3),
          t_turma, t_final]
 
 

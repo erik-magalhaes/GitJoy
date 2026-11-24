@@ -206,16 +206,46 @@ def tela_final(link=False):
     return img.convert("RGB")
 
 
+def _festa(t):
+    import domingo_carrossel as DC
+    return DC.quadro_festa(t)
+
+
+def tela_img(im, leg, titulo, texto, ay=0.5, rot=-3):
+    """Igual a `tela`, mas com a foto já pronta (quadro limpo do repost do @becascafe)."""
+    import domingo_carrossel as DC
+    img = base_c()
+    E.cola(img, E.titulo(titulo, 96, LAR), 540, 420, -2, 1, 1)
+    p = DC.polaroide(im, 740, 560, leg, ay)
+    E.cola(img, p, 540, 870, rot, 1, 1)
+    fita(img, 540, 870 - p.height / 2 + 8, rot + 4)
+    E.cola(img, E.pilula(texto, 32, BR, MAR), 540, 1250, 1, 1, 1)
+    return img.convert("RGB")
+
+
+def tela_capa2():
+    """Capa só com quadros NÍTIDOS (24/nov: ela achou a 1ª versão tremida e com gente 'mal vestida')."""
+    img = base_c()
+    E.cola(img, polaroide(DIA, 42.25, 290, 400, "35 jogos"), 200, 860, -6, 1, 1)
+    E.cola(img, polaroide(os.path.join(NOV06, "20261106_150657.mp4"), 1.5, 290, 400, "doces do café"), 880, 860, 6,
+           1, 1)
+    E.cola(img, polaroide(os.path.join(NOV06, "20261106_150726.mp4"), 1.6, 290, 400, "no Beca’s", 0.3), 540, 930, -1,
+           1, 1)
+    E.cola(img, E.titulo("O QUE ROLA NO\nDOMINGO DE JOGOS?", 88, LAR), 540, 440, -2, 1, 1)
+    E.cola(img, E.pilula("ARRASTA PRO LADO!", 38, PET, BR, fonte_titulo=True), 540, 1280, 1, 1, 1)
+    return img.convert("RGB")
+
+
 TELAS = [
-    tela_capa,
-    lambda: tela(os.path.join(MESA, "art_society.mp4"), 1.0, "Art Society", "A GENTE ENSINA",
-                 "Nunca jogou? Melhor ainda: a gente explica tudo na mesa.", seed=2.6),
-    lambda: tela(DIA, 39.6, "os jogos de 20/11", "35 JOGOS NA MESA",
-                 "Do jogo rapidinho de cartas ao de estratégia.", rot=3, seed=3.4),
-    lambda: tela(os.path.join(NOV06, "20261106_150657.mp4"), 2.6, "a vitrine do Beca’s", "CAFÉ + JOGO",
-                 "Dos seus R$ 40, R$ 25 viram consumação no café.", seed=2.9),
-    lambda: tela(DIA, 3.0, "gente nova em cada mesa", "VEM DO SEU JEITO",
-                 "Sozinho, em dupla ou com a galera: tem mesa pra todo mundo.", ay=0.08, rot=2, seed=3.8),
+    tela_capa2,
+    lambda: tela_img(_festa(39.0), "a mesa do Hitster", "A GENTE ENSINA",
+                     "Nunca jogou? Melhor ainda: a gente explica tudo na mesa.", ay=0.3),
+    lambda: tela(DIA, 42.25, "os jogos de 20/11", "35 JOGOS NA MESA",
+                 "Do jogo rapidinho de cartas ao de estratégia.", ay=0.45, rot=3, seed=3.4),
+    lambda: tela(os.path.join(NOV06, "20261106_150726.mp4"), 1.6, "a parede do Beca’s", "CAFÉ + JOGO",
+                 "Dos seus R$ 40, R$ 25 viram consumação no café.", ay=0.35),
+    lambda: tela(DIA, 26.75, "amigas na mesa", "VEM DO SEU JEITO",
+                 "Sozinho, em dupla ou com a galera: tem mesa pra todo mundo.", ay=0.45, rot=2),
     tela_final,
 ]
 
