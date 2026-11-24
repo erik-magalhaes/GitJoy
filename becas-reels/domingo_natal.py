@@ -14,13 +14,14 @@ from PIL import Image, ImageDraw
 
 import domingo as D
 import domingo_mais as M
+import domingo_carrossel as DC
 from tarde import E, TB, W, MAR, PET, LAR, AMA, BR, ROSA
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(ROOT)
 PASTA = os.path.join(D.OUT, "domingo_natal")
 CW, CH = 1080, 1350
-VERM, VERDE = D.VERM, (46, 140, 76)
+VERM, VERDE = D.VERM, (24, 110, 66)
 ACERVO = os.path.join(REPO, "hobby-reels", "assets", "acervo")
 CAIXAS = [os.path.join(ACERVO, f) for f in ("hitster.png", "telma.png", "say_my_name.png", "dixit.png",
                                             "mascarade_second_edition.png", "tapalavras.png")]
@@ -59,7 +60,7 @@ def caixa(path, h):
 
 
 def base(seed=3.0):
-    return D.fundo(seed).crop((0, 0, CW, CH))
+    return DC.base()   # fundo parado vermelho natalino (o mesmo do carrossel "vai ter mais um")
 
 
 def papelzinho(txt1, txt2, w=520):
@@ -78,7 +79,7 @@ def papelzinho(txt1, txt2, w=520):
 
 def t_capa():
     img = base(2.2)
-    for x, y, w, cor, fita, rot in ((200, 1020, 260, VERM, AMA, -8), (540, 1060, 300, VERDE, VERM, 3),
+    for x, y, w, cor, fita, rot in ((200, 1020, 260, VERDE, AMA, -8), (540, 1060, 300, AMA, VERDE, 3),
                                     (875, 1010, 250, PET, AMA, 7)):
         E.cola(img, presente(w, cor, fita, x), x, y, rot, 1, 1)
     E.cola(img, E.titulo("A CONFRA DE\nFIM DE ANO\nDA SUA TURMA", 104, LAR), 540, 530, -2, 1, 1)
@@ -92,7 +93,7 @@ def t_amigo():
     img = base(2.6)
     E.cola(img, E.titulo("AMIGO SECRETO?\nFAZ NA MESA!", 104, LAR), 540, 440, -2, 1, 1)
     E.cola(img, papelzinho("você tirou:", "???"), 380, 800, -6, 1, 1)
-    E.cola(img, presente(240, VERM, AMA, 5), 840, 830, 8, 1, 1)
+    E.cola(img, presente(240, VERDE, AMA, 5), 840, 830, 8, 1, 1)
     E.cola(img, E.pilula("Sorteia no grupo e traz os presentes:", 36, BR, MAR), 540, 1105, 1, 1, 1)
     E.cola(img, E.pilula("a troca rola entre uma partida e outra!", 36, BR, MAR), 540, 1180, -1, 1, 1)
     return img.convert("RGB")
@@ -123,7 +124,7 @@ def t_turma():
     img = base(3.6)
     E.cola(img, E.titulo("VEM COM\nA TURMA TODA", 104, LAR), 540, 440, -2, 1, 1)
     E.cola(img, D.painel(0), 540, 830, 0, 0.66, 1)
-    E.cola(img, E.titulo("SÓ 30 VAGAS!", 96, VERM), 540, 1140, 2, 1, 1)
+    E.cola(img, E.titulo("SÓ 30 VAGAS!", 96, AMA), 540, 1140, 2, 1, 1)
     E.cola(img, E.pilula("Junta a galera e garante as vagas de todo mundo de uma vez.", 30, BR, MAR), 540, 1250, -1, 1,
            1)
     return img.convert("RGB")
@@ -134,7 +135,7 @@ def t_final():
     E.cola(img, TB.parceria(90), 540, 330, 0, 1, 1)
     E.cola(img, D.selo_fim_de_ano(40), 540, 450, -1, 1, 1)
     E.cola(img, D.card(), 540, 800, 0, 0.92, 1)
-    E.cola(img, E.pilula(f"RESERVE NO WHATSAPP {TB.WHATS}", 38, PET, BR, fonte_titulo=True), 540, 1130, -1, 1, 1)
+    E.cola(img, E.pilula("RESERVE PELO LINK NA BIO", 38, PET, BR, fonte_titulo=True), 540, 1130, -1, 1, 1)
     E.cola(img, E.pilula("Marca aqui quem tem que vir na sua confra!", 34, BR, MAR), 540, 1215, 1, 1, 1)
     return img.convert("RGB")
 
@@ -152,7 +153,7 @@ def main():
     ims = [f() for f in TELAS]
     for k, im in enumerate(ims):
         im.save(os.path.join(PASTA, f"{k + 1:02d}.png"))
-        M.story_de(im, k == len(ims) - 1).save(os.path.join(PASTA, "stories", f"story_{k + 1:02d}.png"))
+        DC.story_de(im, k == len(ims) - 1).save(os.path.join(PASTA, "stories", f"story_{k + 1:02d}.png"))
     sh = Image.new("RGB", (len(ims) * 340, 425), "white")
     for k, im in enumerate(ims):
         sh.paste(im.resize((340, 425)), (k * 340, 0))
