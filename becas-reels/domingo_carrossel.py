@@ -95,7 +95,7 @@ def polaroide(im, w, h, legenda, ay=0.5):
 
 def pendura(img, pol, x, y_umb, cor, rot=0, w_umb=170):
     """Guarda-chuva no alto (com fio do teto) segurando a polaroide por 2 fios."""
-    umb = TB.guarda_chuva(w_umb, cor, 3)
+    umb = guarda_hd(w_umb, cor, 3)
     hook = 14 + 0.75 * w_umb + 2
     S_ = int(max(pol.width, umb.width) + 80)
     alt = int(hook + 30 + pol.height + 40)
@@ -115,13 +115,44 @@ def pendura(img, pol, x, y_umb, cor, rot=0, w_umb=170):
     img.alpha_composite(r, (int(x - r.width / 2), int(y_umb - (r.height - alt) / 2 - 6)))
 
 
-def base(seed):
-    return D.fundo(seed).crop((0, 0, CW, CH))
+def guarda_hd(w, cor, seed=3):
+    """Guarda-chuva desenhado em 3x e reduzido (bordas lisas, sem cara de print do vídeo)."""
+    g = TB.guarda_chuva(w * 3, cor, seed)
+    return g.resize((round(g.width / 3), round(g.height / 3)), Image.LANCZOS)
+
+
+def fundo_parado(livres=()):
+    """Fundo PARADO: guarda-chuvinhas retos (sem o balanço do vídeo) + pisca-pisca. `livres` = x das polaroides
+    penduradas (o guarda-chuva do fundo ali sai, pra não embolar)."""
+    import tarde as T
+    img = D._estrelas().copy()
+    d = ImageDraw.Draw(img)
+    for k, (x, L, w, cor, _) in enumerate(T.CHUVAS):
+        if any(abs(x - lx) < 120 for lx in livres):
+            continue
+        d.line([(x, -5), (x, L)], fill=(150, 120, 100), width=3)
+        g = guarda_hd(w, cor, k)
+        img.alpha_composite(g, (int(x - g.width / 2), int(L - 6)))
+    img.alpha_composite(D._luzes(0), (0, 0))
+    return img
+
+
+def base(seed=0, livres=()):
+    return fundo_parado(livres).crop((0, 0, CW, CH))
+
+
+def story_de(tela, ultima=False):
+    st = fundo_parado()
+    st.alpha_composite(tela.convert("RGBA"), (0, 285 if not ultima else 160))
+    if ultima:
+        E.cola(st, E.pilula("garanta sua vaga aqui:", 40, BR, MAR), W / 2, 1560, 0, 1, 1)
+        E.cola(st, D.seta(), W / 2, 1660, 0, 0.5, 1)
+    return st.convert("RGB")
 
 
 # ---------------------------------------------------------------- telas
 def t_capa():
-    img = base(2.2)
+    img = base(livres=(290, 790))
     pendura(img, polaroide(quadro_cafe(6.5), 330, 410, "no Beca’s Café", 0.35), 290, 150, ROSA, 4, 150)
     pendura(img, polaroide(ImageOps.mirror(foto("IMG_194900.jpg")), 330, 410, "com monitoria!", 0.3), 790, 130, AMA, -4,
             150)
@@ -133,7 +164,7 @@ def t_capa():
 
 
 def t_lembra():
-    img = base(2.6)
+    img = base(livres=(290, 800))
     pendura(img, polaroide(quadro_festa(49.5), 390, 500, "gente nova em cada mesa"), 290, 440, PET, -3)
     pendura(img, polaroide(quadro_dia(13.5), 390, 500, "jogo novo pra aprender", 0.6), 800, 470, ROSA, 3)
     E.cola(img, E.titulo("LEMBRA DA NOSSA\nTARDE DE JOGOS?", 92, LAR), 540, 300, -2, 1, 1)
@@ -142,7 +173,7 @@ def t_lembra():
 
 
 def t_como():
-    img = base(3.1)
+    img = base(livres=(540,))
     pendura(img, polaroide(foto("20261120_112018.jpg").crop((1500, 860, 3360, 1560)), 660, 290, "os jogos esperando por você"), 540, 410, AMA, -2, 150)
     E.cola(img, E.titulo("COMO\nFUNCIONA?", 100, LAR), 540, 270, -2, 1, 1)
     y = 1095
@@ -154,7 +185,7 @@ def t_como():
 
 
 def t_jogos():
-    img = base(3.4)
+    img = base(livres=(190, 540, 890))
     pendura(img, polaroide(foto("20261120_151849.jpg"), 270, 360, "Cores com Dicas"), 190, 470, ROSA, 3, 130)
     pendura(img, polaroide(foto("20261120_151917.jpg"), 270, 360, "Hot Streak"), 540, 530, PET, -2, 130)
     pendura(img, polaroide(foto("20261120_151857.jpg"), 270, 360, "Dixit Disney"), 890, 470, AMA, 3, 130)
@@ -211,7 +242,7 @@ def main():
     ims = [f() for f in TELAS]
     for k, im in enumerate(ims):
         im.save(os.path.join(PASTA, f"{k + 1:02d}.png"))
-        M.story_de(im, k == len(ims) - 1).save(os.path.join(PASTA, "stories", f"story_{k + 1:02d}.png"))
+        story_de(im, k == len(ims) - 1).save(os.path.join(PASTA, "stories", f"story_{k + 1:02d}.png"))
     sh = Image.new("RGB", (len(ims) * 360, 450), "white")
     for k, im in enumerate(ims):
         sh.paste(im.resize((360, 450)), (k * 360, 0))
