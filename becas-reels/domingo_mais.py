@@ -172,14 +172,15 @@ FOTO = lambda n: os.path.join(D.BRUTO, n)  # noqa: E731
 
 
 def base_c(seed=3.0):
-    return D.fundo(seed).crop((0, 0, CW, CH))
+    import domingo_carrossel as DC  # fundo parado vermelho natalino (estilo aprovado em 24/nov)
+    return DC.base()
 
 
 def tela_capa():
     img = base_c(2.2)
-    E.cola(img, polaroide(DIA, 13.5, 330, 430, "rindo"), 245, 880, -7, 1, 1)
-    E.cola(img, polaroide(os.path.join(MESA, "sushi.mp4"), 2.4, 330, 430, "jogando"), 835, 880, 6, 1, 1)
-    E.cola(img, polaroide(os.path.join(NOV06, "20261106_151311.mp4"), 1.6, 330, 430, "e comendo!"), 540, 940, -1, 1, 1)
+    E.cola(img, polaroide(DIA, 13.5, 290, 400, "jogando"), 200, 860, -6, 1, 1)
+    E.cola(img, polaroide(os.path.join(MESA, "sushi.mp4"), 2.4, 290, 400, "aprendendo"), 880, 860, 6, 1, 1)
+    E.cola(img, polaroide(os.path.join(NOV06, "20261106_151311.mp4"), 1.6, 290, 400, "e comendo!"), 540, 930, -1, 1, 1)
     E.cola(img, E.titulo("O QUE ROLA NO\nDOMINGO DE JOGOS?", 88, LAR), 540, 440, -2, 1, 1)
     E.cola(img, E.pilula("ARRASTA PRO LADO!", 38, PET, BR, fonte_titulo=True), 540, 1280, 1, 1, 1)
     return img.convert("RGB")
@@ -198,10 +199,10 @@ def tela(arq, seg, leg, titulo, texto, ay=0.5, rot=-3, seed=3.0):
 def tela_final(link=False):
     img = base_c(4.0)
     E.cola(img, TB.parceria(90), 540, 330, 0, 1, 1)
-    E.cola(img, E.titulo("SÓ 30 VAGAS!", 110, D.VERM), 540, 500, -2, 1, 1)
+    E.cola(img, E.titulo("SÓ 30 VAGAS!", 110, D.COR_VAGAS), 540, 500, -2, 1, 1)
     E.cola(img, D.card(), 540, 880, 0, 0.92, 1)
-    E.cola(img, E.pilula(f"RESERVE NO WHATSAPP {TB.WHATS}", 38, PET, BR, fonte_titulo=True), 540, 1200, -1, 1, 1)
-    E.cola(img, E.pilula("Comenta: quem vem na sua confra?", 36, BR, MAR), 540, 1280, 1, 1, 1)
+    E.cola(img, E.pilula("RESERVE PELO LINK NA BIO", 38, PET, BR, fonte_titulo=True), 540, 1200, -1, 1, 1)
+    E.cola(img, E.pilula("Comenta: quem vem com você?", 36, BR, MAR), 540, 1280, 1, 1, 1)
     return img.convert("RGB")
 
 
@@ -209,7 +210,7 @@ TELAS = [
     tela_capa,
     lambda: tela(os.path.join(MESA, "art_society.mp4"), 1.0, "Art Society", "A GENTE ENSINA",
                  "Nunca jogou? Melhor ainda: a gente explica tudo na mesa.", seed=2.6),
-    lambda: tela(DIA, 39.6, "a mesa de 20/11", "35 JOGOS NA MESA",
+    lambda: tela(DIA, 39.6, "os jogos de 20/11", "35 JOGOS NA MESA",
                  "Do jogo rapidinho de cartas ao de estratégia.", rot=3, seed=3.4),
     lambda: tela(os.path.join(NOV06, "20261106_150657.mp4"), 2.6, "a vitrine do Beca’s", "CAFÉ + JOGO",
                  "Dos seus R$ 40, R$ 25 viram consumação no café.", seed=2.9),
@@ -220,6 +221,8 @@ TELAS = [
 
 
 def story_de(tela_img, ultima=False):
+    import domingo_carrossel as DC
+    return DC.story_de(tela_img, ultima)
     st = D.fundo(3.0)
     st.alpha_composite(tela_img.convert("RGBA"), (0, 285 if not ultima else 160))
     if ultima:
