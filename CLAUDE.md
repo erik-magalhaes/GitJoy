@@ -1679,4 +1679,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   **Cronograma** em `becas-reels/cronograma_domingo.md`: rodízio EVENTO → JOGO → SITE a cada 3 dias de 24/11 a 10/12,
   evento todo dia de 11 a 14/12 (últimas vagas, é amanhã, é hoje, como foi); "restam N" só com número real; prazo interno
   do mínimo = quinta 10/12. Peças novas NÃO usam prazo progressivo nem assinatura (indefinidos desde 13/nov).
+- **Prêmio do Desafio Hitster TROCADO (24/nov, eles): 1 VOUCHER DE LOCAÇÃO POR PESSOA da mesa campeã** = 1 jogo Pocket ou
+  Família por 5 dias, válido até 31/01/2027, resgate pelo WhatsApp, não acumula (não é mais o voucher do café).
+  `desafio_hitster.voucher(n)` (9x5 cm, faixa vermelha listrada com logo e Nº, picote) e post/story/placar/roteiro atualizados.
 

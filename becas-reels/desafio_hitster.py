@@ -2,13 +2,13 @@
 """DESAFIO HITSTER ENTRE MESAS no Domingo de Jogos (22/nov/2026, ele adorou a ideia). Às 16h todo mundo para por ~20 min,
 cada MESA vira um time: o Erik toca uma música do Hitster pelo app (sem mostrar a carta), cada mesa escreve O ANO e
 levanta a folha; ano certo = 3 pontos, até 2 anos de diferença = 2, década certa = 1; 10 músicas; a mesa campeã ganha um
-VOUCHER do Beca’s pra próxima visita (valor a combinar com o café: o voucher sai com o valor em branco).
+VOUCHER DE LOCAÇÃO POR PESSOA (24/nov, eles): 1 jogo Pocket ou Família por 5 dias, válido até 31/01/2027.
 
 Peças (out/desafio/):
 - post.png / story.png: anúncio no visual de fim de ano do domingo (caixa oficial do Hitster).
 - placar_A3.pdf e placar_A4.pdf: placar de parede, mesas 1–8 × músicas 1–10 + total.
 - palpites_mesas_1-8.pdf: uma folha por mesa com 10 quadrões numerados (escreve o ano com canetão e levanta a folha).
-- vouchers_A4.pdf: 10 vouchers 9 x 5 cm por folha, numerados 01–10 (valor e validade em branco).
+- vouchers_A4.pdf: 10 vouchers 9 x 5 cm por folha, numerados 01–10 (locação grátis).
 - roteiro_apresentador.pdf: o passo a passo do Erik, pontuação e desempate.
 
     /usr/bin/python3 desafio_hitster.py
@@ -86,7 +86,7 @@ def anuncio(h):
     premio = E.bloco(940, 190, AMA, raio=34, ow=7, sombra=12).copy()
     d = ImageDraw.Draw(premio)
     d.text((470, 62), "A MESA CAMPEÃ GANHA", font=E.lilita(50), fill=MAR, anchor="mm")
-    d.text((470, 130), "UM VOUCHER DO BECA’S PRA PRÓXIMA VISITA!", font=E.lilita(40), fill=VERM, anchor="mm")
+    d.text((470, 130), "1 LOCAÇÃO GRÁTIS PRA CADA UM DA MESA!", font=E.lilita(40), fill=VERM, anchor="mm")
     E.cola(img, premio, 540, oy + 1110, -1, 1, 1)
     if h == 1350:
         E.cola(img, E.pilula(f"DOMINGO DE JOGOS · {D.DATA.split(', ')[-1]} · SÓ 30 VAGAS", 34, VERM, BR,
@@ -137,7 +137,7 @@ def placar(tam):
     xs = [x0, x0 + larg_mesa] + [x0 + larg_mesa + j * col for j in range(1, MUSICAS + 1)] + [tam[0] - x0]
     for x in xs:
         d.line((x, y0, x, y0 + (MESAS + 1) * lh), fill=MAR, width=max(3, int(8 * k)))
-    leg = "ANO CERTINHO = 3   ·   ATÉ 2 ANOS = 2   ·   DÉCADA CERTA = 1   ·   A MESA CAMPEÃ GANHA VOUCHER DO BECA’S!"
+    leg = "ANO CERTINHO = 3   ·   ATÉ 2 ANOS = 2   ·   DÉCADA CERTA = 1   ·   MESA CAMPEÃ: 1 LOCAÇÃO GRÁTIS POR PESSOA!"
     d.text((tam[0] / 2, tam[1] - int(200 * k)), leg, font=E.lilita(int(84 * k)), fill=MAR, anchor="mm")
     return pg
 
@@ -166,24 +166,37 @@ def palpites(m):
 VW, VH = int(9 / 2.54 * DPI), int(5 / 2.54 * DPI)
 
 
+VALIDADE = "31/01/2027"
+
+
 def voucher(n):
+    """Voucher de LOCAÇÃO (24/nov, eles): 1 por pessoa da mesa campeã, 1 jogo Pocket ou Família por 5 dias."""
     img = Image.new("RGBA", (VW, VH), BR + (255,))
     d = ImageDraw.Draw(img)
-    d.rectangle((0, 0, VW, 22), fill=VERM)
-    d.rectangle((0, VH - 22, VW, VH), fill=VERM)
+    lw = 330
+    d.rectangle((0, 0, lw, VH), fill=VERM)
+    for k in range(0, VH, 34):  # listrinhas de papel de presente
+        d.line((0, k, lw, k + lw * 0.6), fill=(214, 60, 66), width=10)
+    d.rectangle((0, 0, lw, VH), outline=None)
+    lg = E.logo(230)
+    img.alpha_composite(lg, (int(lw / 2 - lg.width / 2), 50))
+    d.rounded_rectangle((lw / 2 - 110, VH - 150, lw / 2 + 110, VH - 70), 18, fill=AMA, outline=MAR, width=4)
+    d.text((lw / 2, VH - 110), f"Nº {n:02d}", font=E.lilita(46), fill=MAR, anchor="mm")
+    for y in range(10, VH, 28):  # picote
+        d.line((lw + 2, y, lw + 2, y + 14), fill=MAR, width=4)
+    x0 = lw + 40
+    d.text((x0, 70), "VOUCHER", font=E.lilita(62), fill=PET, anchor="lm")
+    d.text((x0, 160), "1 LOCAÇÃO GRÁTIS", font=E.lilita(78), fill=VERM, anchor="lm", stroke_width=3, stroke_fill=MAR)
+    d.text((x0, 250), "1 jogo Pocket ou Família", font=E.fig(40, 900), fill=MAR, anchor="lm")
+    d.text((x0, 300), "por 5 dias de jogo", font=E.fig(40, 900), fill=MAR, anchor="lm")
+    d.rounded_rectangle((x0, 345, VW - 40, 415), 35, fill=PET)
+    d.text(((x0 + VW - 40) / 2, 380), f"VÁLIDO ATÉ {VALIDADE}", font=E.lilita(40), fill=BR, anchor="mm")
+    d.text((x0, 455), f"Resgate pelo WhatsApp {TB.WHATS}", font=E.fig(28, 800), fill=MAR, anchor="lm")
+    d.text((x0, 495), "Retire em Mauá ou receba em casa · não acumula com outros cupons", font=E.fig(21, 700),
+           fill=MAR, anchor="lm")
+    d.text((x0, 535), "Mesa campeã do Desafio Hitster · Domingo de Jogos", font=E.fig(21, 700), fill=CINZA,
+           anchor="lm")
     d.rectangle((0, 0, VW - 1, VH - 1), outline=(190, 190, 190), width=2)
-    lg = TB.logo_becas(120)
-    img.alpha_composite(lg, (40, 70))
-    d.text((200 + 40, 92), "VOUCHER", font=E.lilita(84), fill=LAR, anchor="lm", stroke_width=4, stroke_fill=MAR)
-    d.text((200 + 44, 168), "MESA CAMPEÃ · DESAFIO HITSTER", font=E.fig(32, 900), fill=MAR, anchor="lm")
-    d.text((50, 268), "vale:", font=E.fig(40, 800), fill=MAR, anchor="lm")
-    d.line((160, 290, VW - 60, 290), fill=MAR, width=3)
-    d.text((50, 360), "na sua próxima visita ao Beca’s Café", font=E.fig(36, 800), fill=MAR, anchor="lm")
-    d.text((50, 450), "válido até ____/____", font=E.fig(34, 700), fill=MAR, anchor="lm")
-    d.rounded_rectangle((VW - 230, 410, VW - 40, 490), 16, fill=AMA, outline=MAR, width=4)
-    d.text((VW - 135, 450), f"Nº {n:02d}", font=E.lilita(42), fill=MAR, anchor="mm")
-    sv = E.logo(150)
-    img.alpha_composite(sv, (VW - sv.width - 40, 60))
     return img
 
 
@@ -199,7 +212,7 @@ def roteiro():
                    "Entregue a folha de palpites e um canetão por mesa; placar na parede."]),
         ("ABERTURA (2 MIN)", ["\"Pausa nos jogos! Agora cada mesa é um time.\"",
                               "Explique: toca a música, a mesa combina o ano, escreve no quadro da música e levanta.",
-                              "Conte o prêmio: a mesa campeã ganha voucher do Beca’s pra próxima visita."]),
+                              "Conte o prêmio: cada pessoa da mesa campeã ganha 1 locação grátis (Pocket ou Família, 5 dias)."]),
         ("CADA RODADA (~2 MIN)", ["Toque ~30 s da música, sem mostrar a carta.",
                                   "Conte 3-2-1: todas as mesas levantam a folha AO MESMO TEMPO.",
                                   "Revele o ano da carta e marque os pontos no placar:",
