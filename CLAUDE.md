@@ -1722,3 +1722,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Diagnóstico: alcance baixo por base de seguidores que não interage (41,9 mil seguidores × ~500 views por Reels), não
   bloqueio. Recomendado: mais rosto/gravado, Reels de teste (só p/ não seguidores), gancho com gente nos 2 s, fixar posts
   melhores (tirar o fixado só com o logo laranja), bio com chamada pro link.
+  **Público (print 24/nov):** cidades = São Paulo 13,5%, Rio 6,7%, BH 1,9%, Fortaleza 1,7%, Curitiba 1,6% (Mauá/ABC fora
+  do top 5 → base NACIONAL, quase toda fora da área de entrega); 56% mulheres, 25–34 anos 53%, 35–44 28%; seguidores
+  caindo devagar e sem parar; mais ativos 18h–21h (ter, seg, qui). Recomendado: postar ~18h, localização Mauá/Santo
+  André em todo post, collab com parceiros locais (Beca’s), impulsionar só com público de raio no ABC + SP.
