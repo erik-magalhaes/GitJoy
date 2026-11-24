@@ -25,6 +25,7 @@ from kit import W, H, FPS, OUT, TB
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 NOV06 = os.path.join(os.path.dirname(os.path.abspath(__file__)), "brutos", "nov06")
 MESA = os.path.join(K.BR_, "mesa")
+DIA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "brutos", "nov20", "180822.mp4")
 F_SERIF = os.path.join(REPO, "comum", "fontes", "DMSerifDisplay-Regular.ttf")
 F_ITAL = os.path.join(REPO, "halloween-reels", "assets", "fonts", "Cormorant-Italic.ttf")
 F_REG = os.path.join(REPO, "halloween-reels", "assets", "fonts", "Cormorant.ttf")
@@ -40,8 +41,9 @@ PLANOS = [
     ("a_parede", os.path.join(NOV06, "20261106_150726.mp4"), 1.6, 2.6, 0.6, "um domingo diferente", "no Beca’s Café"),
     ("a_bolo", os.path.join(NOV06, "20261106_151311.mp4"), 0.0, 2.5, 0.65, "café, doce...", ""),
     ("a_canvas", os.path.join(MESA, "canvas.mp4"), 3.4, 2.5, 0.7, "...e um jogo novo na mesa", ""),
-    ("a_sushi", os.path.join(MESA, "sushi.mp4"), 0.2, 2.4, 0.7, "pra rir com quem", "você gosta"),
+    ("a_mesona", DIA, 2.2, 2.8, 0.9, "pra rir com quem", "você gosta"),
     ("a_art", os.path.join(MESA, "art_society.mp4"), 0.4, 2.4, 0.7, "e fechar o ano", "jogando"),
+    ("a_balcao", DIA, 37.3, 2.6, 0.6, "mais de 30 jogos", "esperando por você"),
     ("a_vitrine", os.path.join(NOV06, "20261106_150657.mp4"), 7.6, 2.4, 0.7, "só 30 lugares", ""),
     ("a_critter", os.path.join(MESA, "critter.mp4"), 1.0, 2.5, 0.7, "13 de dezembro", "das 13h às 19h"),
 ]
@@ -279,6 +281,14 @@ def audio(nome):
     return com, sem
 
 
+def render_reels(fi):
+    return quadro(fi / FPS, "reels").tobytes()
+
+
+def render_stories(fi):
+    return quadro(fi / FPS, "stories").tobytes()
+
+
 def main():
     args = sys.argv[1:]
     modo = "stories" if "--stories" in args else "reels"
@@ -291,7 +301,7 @@ def main():
         return
     for m in ("reels", "stories"):
         com, sem = audio(f"aesthetic_{m}")
-        K.entrega(f"aesthetic_{m}", DUR, lambda fi, m=m: quadro(fi / FPS, m).tobytes(), com, sem)
+        K.entrega(f"aesthetic_{m}", DUR, render_reels if m == "reels" else render_stories, com, sem)
     print("ok", DUR)
 
 
