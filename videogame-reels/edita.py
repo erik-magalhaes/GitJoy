@@ -78,7 +78,7 @@ PLANOS = [
 ]
 VEL = {0: 1.12}  # gancho "Não tem jeito..." 12% mais rápido (pedido: "mais dinâmico")
 GANHO = {}
-FIM_FIXO = {4: 117.14}  # "...é o Heat." — o resto ("Metal to the Pedal", nome invertido) sai  # "E claro, todos esses jogos..." (o microfone satura): −3 dB só aqui
+FIM_FIXO = {4: 117.36}  # inclui o "t" final do Heat (chiado de 117,16 a 117,30)  # "...é o Heat." — o resto ("Metal to the Pedal", nome invertido) sai  # "E claro, todos esses jogos..." (o microfone satura): −3 dB só aqui
 # o que ele falou (legenda), corrigindo o Whisper
 CORRIGE = {"Dead": "Dead", "the": "by", "Light.": "Daylight.", "Light,": "Daylight,", "Hit": "Heat:",
            "Petal,": "Pedal,", "Petal.": "Pedal.", "biu.": "bio.", "pensarei": "pensando,", "trouxe": "eu trouxe o",
