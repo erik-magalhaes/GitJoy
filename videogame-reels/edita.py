@@ -75,10 +75,10 @@ PLANOS = [
     ("144818", 125.24, 129.26, 4, [("dig", 126.1, "forza"), ("capa", 127.4, "nfs")]),
     ("144818", 149.40, 156.12, 5, [("dig", 152.3, "dbd"), ("cx", 155.9, "dbd")]),
     ("144818", 190.26, 195.78, 6, [("missao", 190.2)]),
-    ("144818", 239.46, 244.86, 7, [("lista", 239.4)]),
 ]
 VEL = {0: 1.12}  # gancho "Não tem jeito..." 12% mais rápido (pedido: "mais dinâmico")
-GANHO = {8: 0.72}  # "E claro, todos esses jogos..." (o microfone satura): −3 dB só aqui
+GANHO = {}
+FIM_FIXO = {4: 117.14}  # "...é o Heat." — o resto ("Metal to the Pedal", nome invertido) sai  # "E claro, todos esses jogos..." (o microfone satura): −3 dB só aqui
 # o que ele falou (legenda), corrigindo o Whisper
 CORRIGE = {"Dead": "Dead", "the": "by", "Light.": "Daylight.", "Light,": "Daylight,", "Hit": "Heat:",
            "Petal,": "Pedal,", "Petal.": "Pedal.", "biu.": "bio.", "pensarei": "pensando,", "trouxe": "eu trouxe o",
@@ -90,7 +90,7 @@ FIM = 2.6  # tela final
 @lru_cache(None)
 def audio_bruto(nome):
     raw = subprocess.run([FF, "-v", "error", "-i", os.path.join(BR, nome + ".mp4"), "-ac", "1", "-ar", str(SR),
-                          "-af", "adeclip,highpass=f=80,afftdn=nr=8:nf=-45,equalizer=f=300:t=q:w=1:g=-2,"
+                          "-af", "highpass=f=80,afftdn=nr=8:nf=-45,equalizer=f=300:t=q:w=1:g=-2,"
                                  "equalizer=f=3200:t=q:w=1.2:g=2,acompressor=threshold=-20dB:ratio=2:attack=8:release=160",
                           "-f", "f32le", "-"], capture_output=True).stdout
     return np.frombuffer(raw, np.float32).copy()
@@ -163,6 +163,7 @@ def linha_do_tempo():
     tl, t, k = [], 0.0, 0
     for pk, (nome, w0, w1, fase, evs) in enumerate(PLANOS):
         a, b = corte(nome, w0, w1)
+        b = FIM_FIXO.get(pk, b)
         pcs = pedacos(nome, a, b)
         # pedacinho curto antes da 1ª pausa SEM nenhuma palavra = respiro; se tiver palavra (o "Agora" baixinho), fica
         pal = json.load(open(os.path.join(TRANS, nome + ".json")))
@@ -212,8 +213,8 @@ def palavras_tl():
                 txt = CORRIGE.get(txt, txt)
                 if txt == "Metal" and 116 < w["s"] < 125:
                     continue  # "Hit Metal to the Petal" → "Heat: Pedal to the Metal"
-                if txt == "Pedal," and 116 < w["s"] < 125:
-                    txt = "Pedal to the Metal,"
+                if txt == "Heat:" and 116 < w["s"] < 118:
+                    txt = "Heat."
                 if txt in ("to", "the") and 116 < w["s"] < 125:
                     continue
                 out.append((p["ini"] + (w["s"] - p["a"]) / p["vel"], p["ini"] + (w["e"] - p["a"]) / p["vel"], txt))
@@ -519,10 +520,33 @@ def limpa_bone(img, fx, fy):
     return Image.fromarray(a)
 
 
+def limpa_blusa(img, fx, fy):
+    """Fiapos brancos no moletom azul-marinho: mesmo critério do boné (claro isolado em vizinhança escura), da
+    altura do pescoço para baixo. A faixa bege do moletom não entra (vizinhança clara)."""
+    import cv2
+    a = np.array(img)
+    y0 = int(min(H - 10, fy + 230))
+    roi = a[y0:H, :]
+    cinza = cv2.cvtColor(roi, cv2.COLOR_RGB2GRAY).astype(np.int16)
+    med = cv2.medianBlur(roi, 9)
+    mg = cv2.cvtColor(med, cv2.COLOR_RGB2GRAY).astype(np.int16)
+    escuro = mg < 70
+    sus = ((cinza - mg) > 10) & escuro
+    n, lab, st, _ = cv2.connectedComponentsWithStats(sus.astype(np.uint8), 8)
+    grande = np.zeros(n, bool)
+    grande[1:] = st[1:, cv2.CC_STAT_AREA] > 45
+    pequeno = sus & ~grande[lab]
+    pequeno = cv2.dilate(pequeno.astype(np.uint8), np.ones((3, 3), np.uint8)).astype(bool) & escuro
+    roi[pequeno] = med[pequeno]
+    a[y0:H, :] = roi
+    return Image.fromarray(a)
+
+
 def realce(img, t, p):
     """Zoom no rosto (reenquadramento por pedaço + aproximação lenta) e a luz de rosto."""
     if p is not None:
         img = limpa_bone(img, *rosto_no_pedaco(p["k"]))
+        img = limpa_blusa(img, *rosto_no_pedaco(p["k"]))
         dt = t - p["ini"]
         z0 = [z for (tz, z) in p["zooms"] if tz <= dt][-1]
         tz0 = [tz for (tz, z) in p["zooms"] if tz <= dt][-1]
@@ -730,7 +754,7 @@ def mixa(path):
     mus = musica_game(DUR + 1)[:n]
     mus = np.pad(mus, (0, n - len(mus))) / (np.abs(mus).max() + 1e-9)
     env = np.convolve(np.abs(voz), np.ones(int(0.25 * SR)) / int(0.25 * SR), "same")
-    duck = 1 - 0.5 * np.clip(env / 0.05, 0, 1)
+    duck = 1 - 0.65 * np.clip(env / 0.05, 0, 1)
     fx = np.zeros(n)
     for p in TL:
         if p["fase"] in (1, 2, 3, 4, 5) and p["inicio_fase"]:
@@ -747,7 +771,7 @@ def mixa(path):
                 for i in range(3):
                     S.add(fx, S.bip(990 + 220 * i, 0.06), te + i * 0.45, 0.25)
     S.add(fx, S.plim(), DUR_FALA, 0.4)
-    mix = voz + mus * 0.17 * duck + fx * 0.6
+    mix = voz + mus * 0.12 * duck + fx * 0.6
     mix[int(DUR_FALA * SR):] += mus[int(DUR_FALA * SR):] * 0.1
     mix = mix / (np.abs(mix).max() + 1e-9) * 0.89
     st = np.repeat((mix * 32767).astype(np.int16)[:, None], 2, 1)
