@@ -53,7 +53,8 @@ CORTES = [
     ("071604", 0.0, 3.95, "FIM DA RODADA", False),
     ("071604", 4.3, 6.35, None, False),
     ("072121", 1.85, 6.1, "PONTUAÇÃO", False),
-    ("072121", 6.75, 13.75, None, False),
+    ("072121", 6.75, 13.20, None, False),
+    ("072121", 14.0, 15.0, None, False),         # ele fala "pedras", para e repete "em outra pedra": só a 2ª
     ("072121", 28.6, 33.3, None, True),
     ("072121", 39.6, 41.6, None, False),
     ("072308", 0.0, 2.46, "FIM DO JOGO", False),
@@ -72,13 +73,13 @@ MARCAS = [
     ("071048", "azuis", "TODOS DA MESMA COR!", AMAR, 540, 760),
     ("071048", "centro.", "O RESTO VAI PRO MEIO", PESS, 540, 760),
     ("071048", "esquerdo", "LINHAS DA ESQUERDA", MENTA, 540, 760),
-    ("071252", "quebrou", "AZULEJO QUEBRADO!", (255, 120, 140), 540, 510),
+    ("071252", "daqui", "QUEM PEGA O 1 COMEÇA A PRÓXIMA RODADA", CEU, 540, 510),
     ("071252", "negativos", "PONTOS NEGATIVOS!", (255, 120, 140), 540, 510),
     ("071604", "completas.", "SÓ LINHA COMPLETA", MENTA, 540, 760),
     ("072121", "pontinho", "+1", AMAR, 540, 800),
     ("072121", "mais", "+2", AMAR, 540, 800),
-    ("072121", "menos", "-1", (255, 120, 140), 540, 510),
-    ("072121", "quatro", "4 PONTOS!", AMAR, 540, 510),
+    ("072121", "menos", "-1", (255, 120, 140), 880, 1390),
+    ("072121", "quatro", "4 PONTOS!", AMAR, 830, 1390),
     ("072308", "dois", "LINHA +2", CEU, 540, 800),
     ("072308", "dez", "5 DA MESMA COR +10", ROSA, 540, 800),
     ("072308", "sete", "COLUNA +7", MENTA, 540, 800),
@@ -282,7 +283,8 @@ def marcas(img, t):
         t0 = ws[0]["s"]
         if t0 <= t < t0 + 2.4:
             curto = len(txt) <= 4
-            sp = T.placa(txt, 96 if curto else 60, T.VERM if cor == NEG else T.AZ_ESC)
+            tam = (64 if y > 1300 else 96) if curto else (46 if len(txt) > 24 else (48 if y > 1300 else 60))
+            sp = T.placa(txt, tam, T.VERM if cor == NEG else T.AZ_ESC)
             A.pop(img, sp, x, y, t, t0, 0, wob=False)
 
 
@@ -310,9 +312,9 @@ def sobre(img, t):
     marcas(img, t)
     ta = saida("071252", AST_071252)
     tb = ini_corte(7)
-    tc = ini_corte(11)
-    td = ini_corte(12) + 2.0
-    if (ta is not None and ta <= t < tb) or tc <= t < td:
+    tc = ini_corte(12)
+    td = ini_corte(13) + 2.0
+    if ta is not None and ta <= t < tb:    # 26/nov: no zoom da pontuação (072121) o cartão tapava a trilha de pontos
         A.pop(img, T.nota_asterisco(), W / 2, 800, t, ta if t < tb else tc, 0, wob=False)
     legenda(img, t)
     pecas_cantos(img, t)
