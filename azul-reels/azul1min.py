@@ -1,0 +1,430 @@
+#!/usr/bin/env python3
+"""AZUL MINI EM 1 MINUTO OU MENOS — GRAVADO pelo Erik (26/nov, 7 vídeos VID_20261126_07xxxx no Drive de brutos →
+brutos/nov26/<hhmmss>.mp4, fora do git; só a mesa, sem rosto). Edição no estilo ADESIVOS do `azul.py`: relógio-adesivo
+contando, títulos e pontos como adesivos com borda branca, legenda palavra a palavra, doodles nos cantos.
+Pedido dele: na parte dos azulejos QUEBRADOS (o chão / pontos negativos) um ASTERISCO explicando que o azulejo quebra
+quando não cabe na linha da esquerda (pegou mais do que cabe).
+A fala (~100 s) foi enxugada por frases (CORTES, tempos do bruto) + pausas ≤ GAP + fala a VEL para caber em 1 minuto.
+
+    /usr/bin/python3 azul1min.py --info          # texto de cada pedaço e duração
+    /usr/bin/python3 azul1min.py --frame 1 10 20 30 40 50 60
+    /usr/bin/python3 azul1min.py                 # out/azul1min_{legendado,sem_legenda}_final.mp4
+"""
+import json
+import math
+import os
+import subprocess
+import sys
+import wave
+from functools import lru_cache
+
+import numpy as np
+from PIL import Image, ImageDraw
+
+import azul as A
+from azul import K, S, W, H, FPS, BR, TINTA, ROSA, AMAR, MENTA, CEU, PESS, LILAS
+
+ROOT = os.path.dirname(os.path.abspath(__file__))
+BRUTO = os.path.join(ROOT, "brutos", "nov26")
+OUT = os.path.join(ROOT, "out")
+VEL = 1.2
+GAP = 0.15            # pausa máxima entre palavras
+SR = 44100
+VOZ = ("highpass=f=80,afftdn=nr=10:nf=-45,equalizer=f=300:t=q:w=1.2:g=-2,equalizer=f=3200:t=q:w=1.4:g=1.5,"
+       "acompressor=threshold=-20dB:ratio=2:attack=8:release=150")
+GRADE = "hqdn3d=2:1.5:3:3,eq=contrast=1.03:saturation=1.04:gamma=1.02,unsharp=5:5:0.35"
+# (arquivo, início, fim no bruto, título da parte ou None, asterisco?)
+CORTES = [
+    ("070944", 0.0, 4.3, "O TABULEIRO", False),
+    ("071048", 0.0, 3.6, "NA SUA VEZ", False),
+    ("071048", 4.9, 6.45, None, False),
+    ("071048", 8.75, 10.95, None, False),
+    ("071048", 13.2, 18.0, None, False),
+    ("071252", 0.0, 13.75, "OU PEGA DO MEIO", False),
+    ("071604", 0.0, 3.95, "FIM DA RODADA", False),
+    ("071604", 4.3, 6.35, None, False),
+    ("072121", 0.0, 6.1, "PONTUAÇÃO", False),
+    ("072121", 6.75, 13.75, None, False),
+    ("072121", 28.6, 33.3, None, True),
+    ("072121", 39.6, 41.6, None, False),
+    ("072308", 0.0, 4.6, "FIM DO JOGO", False),
+    ("072308", 7.3, 10.95, None, False),
+    ("072308", 11.45, 12.7, None, False),
+    ("072308", 15.6, 16.9, None, False),
+    ("072308", 17.1, 20.2, None, False),
+    ("072441", 0.0, 3.0, None, False),
+]
+# asterisco: do "quebrou" até o fim do 071252, e no "quebrei" do 072121
+AST_071252 = 6.6
+CORRIGE = {"Azumini": "Azul Mini", "a menos.": "ou menos.", "mostruário": "mostruário", "tabuleirinho.": "tabuleirinho."}
+# adesivos de ponto/marcos que entram NA PALAVRA (arquivo, palavra, texto, cor, x, y)
+MARCAS = [
+    ("070944", "parede", "A PAREDE", CEU, 760, 1250),
+    ("071048", "azuis", "TODOS DA MESMA COR!", AMAR, 540, 760),
+    ("071048", "centro.", "O RESTO VAI PRO MEIO", PESS, 540, 760),
+    ("071048", "esquerdo", "LINHAS DA ESQUERDA", MENTA, 540, 760),
+    ("071252", "quebrou", "AZULEJO QUEBRADO!", (255, 120, 140), 540, 510),
+    ("071252", "negativos", "PONTOS NEGATIVOS!", (255, 120, 140), 540, 510),
+    ("071604", "completas.", "SÓ LINHA COMPLETA", MENTA, 540, 760),
+    ("072121", "pontinho", "+1", AMAR, 540, 800),
+    ("072121", "mais", "+2", AMAR, 540, 800),
+    ("072121", "menos", "-1", (255, 120, 140), 540, 510),
+    ("072121", "quatro", "4 PONTOS!", AMAR, 540, 510),
+    ("072308", "dois", "LINHA +2", CEU, 540, 800),
+    ("072308", "dez", "5 DA MESMA COR +10", ROSA, 540, 800),
+    ("072308", "sete", "COLUNA +7", MENTA, 540, 800),
+]
+
+
+@lru_cache(None)
+def transc():
+    return json.load(open(os.path.join(BRUTO, "transc.json"), encoding="utf-8"))
+
+
+def pedacos():
+    """Cada corte vira pedaços de fala com pausas ≤ GAP. → [(arq, a, b, corte_idx, palavras)]"""
+    out = []
+    for ci, (f, a, b, _tit, _ast) in enumerate(CORTES):
+        ws = [w for w in transc()[f] if a - 0.05 <= w["s"] < b]
+        grupo = []
+        for w in ws:
+            if grupo and w["s"] - grupo[-1]["e"] > GAP + 0.1:
+                out.append(grupo)
+                grupo = []
+            grupo.append(w)
+        if grupo:
+            out.append(grupo)
+        for g in out[len(out) - 1:]:
+            pass
+        # marca o arquivo/corte em cada grupo novo
+        for k in range(len(out)):
+            if not isinstance(out[k], tuple):
+                g = out[k]
+                ini = max(a, g[0]["s"] - 0.06)
+                fim = min(b, g[-1]["e"] + 0.12)
+                out[k] = (f, ini, fim, ci, g)
+    return out
+
+
+PEDACOS = pedacos()
+
+
+def linha_tempo():
+    tl, t = [], 0.0
+    for f, a, b, ci, g in PEDACOS:
+        d = (b - a) / VEL
+        n = round((t + d) * FPS) - round(t * FPS)
+        tl.append(dict(f=f, a=a, b=b, ci=ci, g=g, t0=t, n=n))
+        t += n / FPS
+    return tl, t
+
+
+TL, T_FALA = linha_tempo()
+T_FIM_EXPL = next(p["t0"] for p in TL if p["f"] == "072441")   # o "E essa foi a explicação..." já é o fecho
+T_CARIMBO = T_FALA + 0.2
+T_COM = T_CARIMBO + 2.6
+T_CTA = T_COM + 4.0
+DUR = T_CTA + 5.6
+SEG_EXPL = T_FIM_EXPL
+
+
+def saida(f, tb):
+    """Tempo no bruto → tempo no vídeo (ou None se o trecho saiu)."""
+    for p in TL:
+        if p["f"] == f and p["a"] <= tb <= p["b"]:
+            return p["t0"] + (tb - p["a"]) / VEL
+    return None
+
+
+def palavras_saida():
+    res = []
+    for p in TL:
+        for w in p["g"]:
+            s = saida(p["f"], w["s"])
+            e = saida(p["f"], min(w["e"], p["b"]))
+            if s is not None:
+                res.append(dict(w=CORRIGE.get(w["w"], w["w"]), s=s, e=e or s + 0.2, f=p["f"], ci=p["ci"], raw=w["w"]))
+    return res
+
+
+PAL = palavras_saida()
+
+
+def ini_corte(ci):
+    return min(p["t0"] for p in TL if p["ci"] == ci)
+
+
+# ---------------------------------------------------------------- vídeo base (cortes + velocidade)
+def base():
+    """Concatena os pedaços (imagem e voz a VEL) → out/azul1min_base.mp4 + out/azul1min_voz.wav."""
+    os.makedirs(os.path.join(OUT, "_p"), exist_ok=True)
+    lista = []
+    for k, p in enumerate(TL):
+        dst = os.path.join(OUT, "_p", f"p{k:02d}.mp4")
+        d = p["n"] / FPS
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{p['a']:.3f}", "-t", f"{(p['b'] - p['a']) + 0.2:.3f}",
+                        "-i", os.path.join(BRUTO, p["f"] + ".mp4"),
+                        "-vf", f"setpts=PTS/{VEL},fps={FPS},scale={W}:{H},{GRADE}",
+                        "-af", f"atempo={VEL},{VOZ},aresample={SR}",
+                        "-t", f"{d:.4f}", "-c:v", "libx264", "-crf", "15", "-preset", "fast", "-c:a", "pcm_s16le",
+                        "-ar", str(SR), "-ac", "1", dst.replace(".mp4", ".mkv")], check=True)
+        lista.append(dst.replace(".mp4", ".mkv"))
+    with open(os.path.join(OUT, "_p", "lista.txt"), "w") as fh:
+        for l in lista:
+            fh.write(f"file '{l}'\n")
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i",
+                    os.path.join(OUT, "_p", "lista.txt"), "-c", "copy", os.path.join(OUT, "azul1min_base.mkv")],
+                   check=True)
+
+
+@lru_cache(None)
+def voz():
+    """Voz montada no tempo do vídeo, com 12 ms de rampa em cada emenda e ganho fixo."""
+    v = np.zeros(int((DUR + 1) * SR))
+    for k, p in enumerate(TL):
+        raw = subprocess.run(["ffmpeg", "-v", "error", "-i", os.path.join(OUT, "_p", f"p{k:02d}.mkv"), "-f", "s16le",
+                              "-ac", "1", "-ar", str(SR), "-"], capture_output=True).stdout
+        x = np.frombuffer(raw, np.int16).astype(np.float64) / 32768
+        n = int(round(p["n"] / FPS * SR))
+        x = np.pad(x, (0, max(0, n - len(x))))[:n]
+        r = int(0.012 * SR)
+        x[:r] *= np.linspace(0, 1, r)
+        x[-r:] *= np.linspace(1, 0, r)
+        i = int(round(p["t0"] * SR))
+        v[i:i + n] += x
+    rms = np.sqrt((v[np.abs(v) > 0.02] ** 2).mean())
+    return v * (10 ** (-18 / 20) / (rms + 1e-9))
+
+
+# ---------------------------------------------------------------- sobreposições
+def caixa_texto(txt, s, cor=BR):
+    return A.texto(txt, s, cor)
+
+
+@lru_cache(None)
+def asterisco():
+    """Nota do asterisco (pedido dele)."""
+    w = 1000
+    f1, f2 = A.fonte(60), A.fonte(48, fig=True)
+    linhas = ["o azulejo QUEBRA quando não", "cabe na linha da esquerda:", "você pegou mais do que cabe."]
+    h = 96 + 66 * len(linhas) + 34
+    im = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    d.rounded_rectangle((4, 4, w - 5, h - 5), 38, fill=(255, 248, 232), outline=TINTA, width=8)
+    d.text((38, 62), "*", font=A.fonte(120), fill=(236, 80, 80), anchor="lm")
+    d.text((110, 62), "QUANDO QUEBRA?", font=f1, fill=(236, 80, 80), anchor="lm")
+    for k, l in enumerate(linhas):
+        d.text((48, 140 + k * 66), l, font=f2, fill=TINTA, anchor="lm")
+    return A.adesivo(im, 12)
+
+
+def legenda(img, t):
+    """Palavra a palavra: até 3 palavras por vez, a falada em amarelo, adesivo branco com contorno."""
+    ativos = [w for w in PAL if w["s"] <= t < w["e"] + 0.35]
+    if not ativos or t >= T_FALA + 0.1:
+        return
+    w0 = ativos[-1]
+    idx = PAL.index(w0)
+    ini = idx - (idx % 3)
+    grupo = [w for w in PAL[ini:ini + 3] if w["ci"] == w0["ci"]]
+    f = A.fonte(64)
+    sw = 9
+    d0 = ImageDraw.Draw(Image.new("L", (1, 1)))
+    partes = [(w["w"].upper(), w is w0) for w in grupo]
+    larg = [d0.textbbox((0, 0), p, font=f, stroke_width=sw)[2] for p, _ in partes]
+    tot = sum(larg) + 22 * (len(partes) - 1)
+    im = Image.new("RGBA", (int(tot) + 20, 110), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    x = 10
+    for (p, on), lw in zip(partes, larg):
+        d.text((x, 55), p, font=f, fill=AMAR if on else BR, stroke_width=sw, stroke_fill=TINTA, anchor="lm")
+        x += lw + 22
+    if im.width > W - 60:
+        im = im.resize((W - 60, int(im.height * (W - 60) / im.width)), Image.LANCZOS)
+    A.cola(img, im, W / 2, 1520)
+
+
+def marcas(img, t):
+    for f, palavra, txt, cor, x, y in MARCAS:
+        ws = [w for w in PAL if w["f"] == f and w["raw"].lower().strip(",.!?") == palavra.strip(",.!?").lower()]
+        if not ws:
+            continue
+        t0 = ws[0]["s"]
+        if t0 <= t < t0 + 2.4:
+            sp = A.texto(txt, 92 if len(txt) <= 4 else 66, cor)
+            A.pop(img, sp, x, y, t, t0, -4 + (hash(txt) % 9))
+
+
+def doodles_cantos(img, t):
+    for k, (tipo, cor, x, y, s) in enumerate([("estrela", AMAR, 70, 330, 80), ("coracao", ROSA, 1010, 360, 70),
+                                              ("flor", LILAS, 60, 1740, 80), ("brilho", MENTA, 1020, 1700, 80)]):
+        b = 1 + 0.1 * math.sin(t * 2.5 + k)
+        A.cola(img, A.adesivo(A.doodle(tipo, s, cor), 6), x, y, 8 * math.sin(t * 1.4 + k), b)
+
+
+def sobre(img, t):
+    # gancho
+    if t < 3.2:
+        A.pop(img, A.texto("AZUL MINI", 130, (120, 200, 255)), W / 2, 520, t, 0.05, -3)
+        A.pop(img, A.texto("EM 1 MINUTO\nOU MENOS!", 96, AMAR), W / 2, 730, t, 0.35, 2)
+        A.pop(img, A.caixa_ad(380), 880, 1130, t, 0.6, 6)
+    # título da parte
+    for ci, c in enumerate(CORTES):
+        if c[3]:
+            t0 = ini_corte(ci)
+            prox = [ini_corte(k) for k in range(ci + 1, len(CORTES)) if CORTES[k][3]]
+            t1 = min(prox + [T_FIM_EXPL])
+            if t0 + (3.2 if ci == 0 else 0) <= t < t1:
+                A.pop(img, A.pilula(c[3], 46, BR, fig=False), W / 2, 320, t, max(t0, 3.2 if ci == 0 else t0), -2,
+                      wob=False)
+    marcas(img, t)
+    # asterisco: do "quebrou" até o fim do 071252, e no trecho do "quebrei" (072121)
+    ta = saida("071252", AST_071252)
+    tb = ini_corte(6)
+    tc = ini_corte(10)
+    td = ini_corte(11) + 2.0
+    if (ta is not None and ta <= t < tb) or tc <= t < td:
+        A.pop(img, asterisco(), W / 2, 800, t, ta if t < tb else tc, 1, wob=False)
+    legenda(img, t)
+    doodles_cantos(img, t)
+    # relógio: de 1:00 contando até o fim da explicação
+    if t < T_FIM_EXPL + 0.8:
+        rest = max(0.0, 60 - min(t, T_FIM_EXPL))
+        A.pop(img, A.relogio(rest, 170), 140, 140, t, 0.0, -4)
+    A.cola(img, K.logo(150), W - 110, 95)
+
+
+def carimbo(img, t):
+    u = t - T_CARIMBO
+    s = 1.6 - 0.6 * A.out_back(min(1, u / 0.3)) if u < 0.3 else 1.0
+    A.pop(img, A.texto("EXPLICADO EM\n%d SEGUNDOS!" % round(SEG_EXPL), 110, AMAR), W / 2, 900, t, T_CARIMBO, -6, s)
+    for k in range(10):
+        a = k * 0.628 + u * 0.8
+        A.pop(img, A.doodle(["estrela", "coracao", "brilho"][k % 3], 90, [AMAR, ROSA, MENTA, CEU][k % 4]),
+              W / 2 + 430 * math.cos(a), 900 + 430 * math.sin(a), t, T_CARIMBO + 0.2 + k * 0.05)
+
+
+# ---------------------------------------------------------------- quadros
+def frames_base():
+    p = subprocess.Popen(["ffmpeg", "-v", "error", "-i", os.path.join(OUT, "azul1min_base.mkv"), "-f", "rawvideo",
+                          "-pix_fmt", "rgb24", "-"], stdout=subprocess.PIPE)
+    n = W * H * 3
+    while True:
+        b = p.stdout.read(n)
+        if len(b) < n:
+            break
+        yield Image.frombytes("RGB", (W, H), b)
+
+
+def compoe(fr, t, leg=True):
+    A.T_COM, A.T_CTA = T_COM, T_CTA
+    if t < T_FALA:
+        img = fr.convert("RGBA")
+        global legenda
+        if not leg:
+            _l = legenda
+            legenda = lambda *a: None  # noqa: E731
+            sobre(img, t)
+            legenda = _l
+        else:
+            sobre(img, t)
+    else:
+        img = A.fundo(t)
+        if t < T_COM:
+            carimbo(img, t)
+        elif t < T_CTA:
+            A.cena_comenta(img, t)
+        else:
+            A.cena_cta(img, t)
+        if t < T_CTA:
+            A.cola(img, K.logo(150), W - 110, 95)
+    for tb in (T_FALA, T_COM, T_CTA):
+        if 0 <= t - tb < 0.1:
+            img.alpha_composite(Image.new("RGBA", (W, H), (255, 255, 255, int(170 * (1 - (t - tb) / 0.1)))))
+    return img.convert("RGB")
+
+
+def audio(path):
+    ev = [(0.05, S.estouro(), 0.4), (0.35, S.estouro(), 0.4), (0.6, S.plim(), 0.3)]
+    for ci, c in enumerate(CORTES):
+        if c[3] and ci:
+            ev.append((ini_corte(ci), S.plim(), 0.25))
+    for f, palavra, *_ in MARCAS:
+        ws = [w for w in PAL if w["f"] == f and w["raw"].lower().strip(",.!?") == palavra.strip(",.!?").lower()]
+        if ws:
+            ev.append((ws[0]["s"], S.estouro(), 0.3))
+    ev += [(T_CARIMBO, S.estouro(), 0.6), (T_CARIMBO + 0.05, S.sino(), 0.5), (T_COM, S.plim(), 0.45),
+           (T_CTA, S.carta_vira(), 0.5)]
+    n = int(DUR * SR)
+    fx = np.zeros(n)
+    for t, s_, g in ev:
+        S.add(fx, s_, t, g)
+    mus = S.musica_marimba_pop(DUR + 0.5)[:n]
+    mus = np.pad(mus, (0, n - len(mus))) / (np.abs(mus).max() + 1e-9)
+    v = voz()[:n]
+    env = np.convolve(np.abs(v), np.ones(int(0.25 * SR)) / int(0.25 * SR), "same")
+    duck = 1 - 0.75 * np.clip(env / (env.max() * 0.25 + 1e-9), 0, 1)
+    mix = v + mus * 0.16 * duck + fx * 0.35
+    mix = mix / (np.abs(mix).max() + 1e-9) * 0.89
+    st = np.repeat((mix * 32767).astype(np.int16)[:, None], 2, 1)
+    with wave.open(path, "wb") as w:
+        w.setnchannels(2)
+        w.setsampwidth(2)
+        w.setframerate(SR)
+        w.writeframes(st.tobytes())
+
+
+def render(saida_mp4, wav, leg):
+    p = subprocess.Popen(["ffmpeg", "-y", "-v", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}",
+                          "-framerate", str(FPS), "-i", "-", "-i", wav, "-c:v", "libx264", "-crf", "18", "-preset",
+                          "medium", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags",
+                          "+faststart", saida_mp4], stdin=subprocess.PIPE)
+    fb = frames_base()
+    ultimo = None
+    for k in range(int(round(DUR * FPS))):
+        t = k / FPS
+        fr = next(fb, None) if t < T_FALA else None
+        ultimo = fr or ultimo or Image.new("RGB", (W, H))
+        p.stdin.write(compoe(fr or ultimo, t, leg).tobytes())
+    p.stdin.close()
+    p.wait()
+
+
+def main():
+    os.makedirs(OUT, exist_ok=True)
+    print(f"explicação {SEG_EXPL:.1f} s, fala {T_FALA:.1f} s, total {DUR:.1f} s")
+    if "--info" in sys.argv:
+        for p in TL:
+            print(f"{p['t0']:6.2f} {p['f']} {p['a']:.2f}-{p['b']:.2f}", " ".join(w["w"] for w in p["g"]))
+        return
+    if not os.path.exists(os.path.join(OUT, "azul1min_base.mkv")) or "--base" in sys.argv:
+        base()
+    if "--frame" in sys.argv:
+        ts = [float(x) for x in sys.argv[sys.argv.index("--frame") + 1:]]
+        alvo = {round(x * FPS): x for x in ts}
+        ims = {}
+        fb = frames_base()
+        ult = None
+        for k in range(int(round(DUR * FPS))):
+            t = k / FPS
+            fr = next(fb, None) if t < T_FALA else None
+            ult = fr or ult
+            if k in alvo:
+                ims[k] = compoe(fr or ult, t)
+            if len(ims) == len(alvo):
+                break
+        K.folha([ims[k] for k in sorted(ims)], os.path.join(OUT, "frames_azul1min.jpg"))
+        return
+    wav = os.path.join(OUT, "azul1min.wav")
+    audio(wav)
+    for leg in (True, False):
+        nome = "legendado" if leg else "sem_legenda"
+        bruto = os.path.join(OUT, f"azul1min_{nome}.mp4")
+        render(bruto, wav, leg)
+        from base import final_loudness
+        final_loudness(bruto, bruto.replace(".mp4", "_final.mp4"))
+        print("ok", nome)
+
+
+if __name__ == "__main__":
+    main()
