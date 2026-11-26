@@ -1726,3 +1726,13 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   do top 5 → base NACIONAL, quase toda fora da área de entrega); 56% mulheres, 25–34 anos 53%, 35–44 28%; seguidores
   caindo devagar e sem parar; mais ativos 18h–21h (ter, seg, qui). Recomendado: postar ~18h, localização Mauá/Santo
   André em todo post, collab com parceiros locais (Beca’s), impulsionar só com público de raio no ABC + SP.
+- **AZUL MINI EM 1 MINUTO (`azul-reels/`, 25–26/nov):** edição Galápagos AZU501 (2–4 jogadores, 8+; NÃO achei no site —
+  avisei). 1ª versão só animada (`azul.py`, estilo ADESIVOS fofos da referência "Cute & Groovy" que ele mandou). Depois
+  ELE GRAVOU a mesa (7 vídeos VID_20261126_07xxxx → `brutos/nov26/`, fora do git) → `azul1min.py`: fala de ~100 s
+  enxugada por frases (`CORTES`) + pausas ≤0,15 s + 1,2x → explicação de 58 s; abertura da Jéssica (075617, câmera da
+  frente → hflip, 1,0x); ASTERISCO pedido por ele na parte do chão/pontos negativos ("o azulejo QUEBRA quando não cabe
+  na linha da esquerda"). **Ele: "os stickers a gente faz em outro tipo de vídeo; coloca na temática do jogo"** →
+  `tema.py`: azulejos portugueses azul e branco, placas creme com moldura azul dupla e pontas em losango (letreiro da
+  caixa), DM Serif Display, relógio = MOSTRUÁRIO (disco terracota com mandala), as 5 peças do jogo nos cantos.
+  Saída `out/azul1min_{legendado,sem_legenda}_final.mp4` (75 s, −15,5 LUFS) + `out/chat/`. **Ambiente novo (26/nov):**
+  instalar gdown, opencv-python-headless, imageio-ffmpeg, faster-whisper, qrcode, scipy no /usr/bin/python3.
