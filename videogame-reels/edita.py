@@ -171,7 +171,7 @@ def linha_do_tempo():
             k += 1
     # zoom: reenquadramento a cada ~2,4 s (referências de edição de Reels: corte ou zoom a cada 1,5–3 s), alternando
     # 100% / 112% / 106%, sempre diferente do anterior (o corte seco entre pedaços também troca o zoom)
-    niveis = [1.08, 1.17, 1.11, 1.2]
+    niveis = [1.22, 1.32, 1.26, 1.36]  # mais perto: mostra menos corpo (pedido dele)
     z = 0
     for p in tl:
         n = max(1, math.ceil(p["dur"] / 2.4))
