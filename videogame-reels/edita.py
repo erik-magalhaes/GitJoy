@@ -111,7 +111,16 @@ def corte(nome, w0, w1):
     ant = max([p["e"] for p in pal if p["e"] <= w0 - 0.05] or [0])
     prox = min([p["s"] for p in pal if p["s"] >= w1 + 0.15] or [len(a) / SR])
     lim = -30
-    s0 = max(ant + 0.08, w0 - 0.3)  # mais cedo que isso costuma ser respiro
+    ant_real = max([p["e"] for p in pal if p["s"] < w0 - 0.05] or [0])
+    if w0 - ant_real < 0.15:  # sem pausa antes (ex.: "...Pedal. Então"): corta no ponto mais quieto entre as palavras
+        e, n = energia(a, ant_real - 0.08, w0 + 0.06)
+        ini = ant_real - 0.08 + int(np.argmin(e)) * n / SR
+        f1 = min(w1 + 0.9, prox - 0.08)
+        e, n = energia(a, w1 - 0.1, f1)
+        voz = [i for i, x in enumerate(e) if x > lim]
+        fim = min(f1, w1 - 0.1 + (voz[-1] + 1) * n / SR + 0.1) if voz else w1 + 0.2
+        return round(ini, 3), round(fim, 3)
+    s0 = max(ant + 0.08, w0 - 0.18)  # mais cedo que isso costuma ser respiro
     e, n = energia(a, s0, w0 + 0.15)
     voz = [i for i, x in enumerate(e) if x > lim]
     ini = s0 + voz[0] * n / SR - 0.08 if voz else w0 - 0.15
@@ -122,14 +131,62 @@ def corte(nome, w0, w1):
     return round(max(ini, ant + 0.03), 3), round(fim, 3)
 
 
+PAUSA = 0.22  # pausa interna maior que isso vira corte seco
+
+
+def pedacos(nome, a, b):
+    """Divide [a, b] nas pausas internas (energia < −32 dB por mais de PAUSA), deixando 0,05 s de folga."""
+    au = audio_bruto(nome)
+    e, n = energia(au, a, b)
+    dt = n / SR
+    quieto = e < -32
+    out, ini, i = [], a, 0
+    while i < len(e):
+        if quieto[i]:
+            j = i
+            while j < len(e) and quieto[j]:
+                j += 1
+            if (j - i) * dt > PAUSA and i > 0 and j < len(e):
+                out.append((ini, a + i * dt + 0.05))
+                ini = a + j * dt - 0.05
+            i = j
+        else:
+            i += 1
+    out.append((ini, b))
+    return [(x, y) for x, y in out if y - x > 0.12]
+
+
 def linha_do_tempo():
-    tl, t = [], 0.0
-    for k, (nome, w0, w1, fase, evs) in enumerate(PLANOS):
+    tl, t, k = [], 0.0, 0
+    for pk, (nome, w0, w1, fase, evs) in enumerate(PLANOS):
         a, b = corte(nome, w0, w1)
-        nf = round((b - a) * FPS)
-        tl.append(dict(k=k, nome=nome, a=a, b=b, ini=t, dur=nf / FPS, fase=fase, evs=evs, zoom=[1.0, 1.08][k % 2]))
-        t += nf / FPS
+        pcs = pedacos(nome, a, b)
+        if len(pcs) > 1 and pcs[0][1] - pcs[0][0] < 0.6:  # pedacinho antes da 1ª pausa = respiro (conferido no Whisper)
+            pcs = pcs[1:]
+        for j, (x, y) in enumerate(pcs):
+            nf = max(1, round((y - x) * FPS))
+            tl.append(dict(k=k, pk=pk, nome=nome, a=x, b=x + nf / FPS, ini=t, dur=nf / FPS, fase=fase, evs=evs,
+                           primeira=(j == 0), inicio_fase=(j == 0 and (pk == 0 or PLANOS[pk - 1][3] != fase))))
+            t += nf / FPS
+            k += 1
+    # zoom: reenquadramento a cada ~2,4 s (referências de edição de Reels: corte ou zoom a cada 1,5–3 s), alternando
+    # 100% / 112% / 106%, sempre diferente do anterior (o corte seco entre pedaços também troca o zoom)
+    niveis = [1.0, 1.12, 1.05, 1.15]
+    z = 0
+    for p in tl:
+        n = max(1, math.ceil(p["dur"] / 2.4))
+        p["zooms"] = [(i * p["dur"] / n, niveis[(z + i) % len(niveis)]) for i in range(n)]
+        z += n
     return tl, t
+
+
+def src2out(pk, ts):
+    """Tempo do bruto (do plano pk) → tempo de saída (cai no pedaço seguinte se estiver numa pausa cortada)."""
+    ps = [p for p in TL if p["pk"] == pk]
+    for p in ps:
+        if ts < p["b"]:
+            return p["ini"] + max(0.0, ts - p["a"])
+    return ps[-1]["ini"] + ps[-1]["dur"]
 
 
 TL, DUR_FALA = linha_do_tempo()
@@ -141,7 +198,7 @@ def palavras_tl():
     for p in TL:
         pal = json.load(open(os.path.join(TRANS, p["nome"] + ".json")))
         for w in pal:
-            if p["a"] <= w["s"] < p["b"] - 0.02:
+            if p["a"] - 0.08 <= w["s"] < p["b"] - 0.02:
                 txt = w["w"]
                 if txt == "the" and p["nome"] == "144818" and 147 < w["s"] < 153:
                     continue  # "Dead by the Light" → "Dead by Daylight"
@@ -166,9 +223,8 @@ def base_video():
     lst = []
     for p in TL:
         o = os.path.join(OUT, "_planos", f"p{p['k']:02d}.mp4")
-        z = p["zoom"]
-        vf = (f"scale=1080:1920,crop=iw/{z}:ih/{z}:(iw-iw/{z})/2:min(ih-ih/{z}\\,max(0\\,ih*0.6-ih/{z}/2)),"
-              f"scale=1080:1920,hqdn3d=2:2:3:3,eq=contrast=1.03:saturation=1.03:gamma=1.02,unsharp=5:5:0.3,fps=30")
+        vf = ("scale=1080:1920,hqdn3d=3:3:4:4,eq=contrast=1.05:saturation=1.06,"
+              "colorbalance=rs=0.02:bs=-0.02:rm=0.025:bm=-0.025,unsharp=5:5:0.45,fps=30")
         nf = round(p["dur"] * FPS)
         subprocess.run([FF, "-v", "error", "-y", "-ss", str(p["a"]), "-i", os.path.join(BR, p["nome"] + ".mp4"),
                         "-frames:v", str(nf), "-vf", vf, "-an", "-c:v", "libx264", "-crf", "16", "-preset", "fast",
@@ -366,7 +422,7 @@ def estado(t):
     """Plano atual e os eventos já disparados (em tempo de saída)."""
     for p in TL:
         if p["ini"] <= t < p["ini"] + p["dur"]:
-            evs = [(p["ini"] + (e[1] - p["a"]), e) for e in p["evs"]]
+            evs = [(src2out(p["pk"], e[1]), e) for e in p["evs"]]
             return p, evs
     return None, []
 
@@ -401,11 +457,43 @@ def legenda(img, t):
             return
 
 
+FACE = (540, 1120)  # centro do rosto no quadro (ele fica sempre no mesmo lugar)
+
+
+@lru_cache(None)
+def mascara_luz():
+    """Luz de rosto: clareia uma elipse em volta do rosto e escurece de leve as bordas (vinheta)."""
+    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+    d = np.sqrt(((xx - FACE[0]) / 430) ** 2 + ((yy - FACE[1] + 60) / 520) ** 2)
+    luz = np.clip(1.15 - d, 0, 1) ** 1.5
+    v = np.sqrt(((xx - W / 2) / (W * 0.75)) ** 2 + ((yy - H / 2) / (H * 0.72)) ** 2)
+    vin = 1 - 0.16 * np.clip(v - 0.55, 0, 1) / 0.45
+    return luz[..., None], vin[..., None]
+
+
+def realce(img, t, p):
+    """Zoom no rosto (reenquadramento por pedaço + aproximação lenta) e a luz de rosto."""
+    if p is not None:
+        dt = t - p["ini"]
+        z0 = [z for (tz, z) in p["zooms"] if tz <= dt][-1]
+        tz0 = [tz for (tz, z) in p["zooms"] if tz <= dt][-1]
+        z = z0 * (1 + 0.035 * min((dt - tz0) / 3.0, 1))
+        if z > 1.001:
+            w, h = W / z, H / z
+            x0, y0 = FACE[0] - FACE[0] / z, FACE[1] - FACE[1] / z
+            img = img.resize((W, H), Image.BILINEAR, box=(x0, y0, x0 + w, y0 + h))
+    a = np.asarray(img, np.float32)
+    luz, vin = mascara_luz()
+    a = a + (255 - a) * 0.13 * luz  # clareia os médios do rosto sem estourar o branco
+    a = a * vin
+    return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
+
+
 def quadro(base, t):
-    img = base.convert("RGBA")
     if t >= DUR_FALA:
         return tela_final(t - DUR_FALA)
     p, evs = estado(t)
+    img = realce(base, t, p).convert("RGBA")
     lg = logo_marca()
     img.alpha_composite(lg, (W - lg.width - 22, 18))
     if p is None:
@@ -418,14 +506,14 @@ def quadro(base, t):
             if q["fase"] == p["fase"] and q["ini"] < p["ini"]:
                 for e in q["evs"]:
                     if e[0] in ("dig",):
-                        te_d, ev_d = q["ini"] + e[1] - q["a"], e
+                        te_d, ev_d = src2out(q["pk"], e[1]), e
     if ev_d is not None:
         k = back((t - te_d) / 0.35)
         if ev_d[0] == "dig":
             tela = gameplay(ev_d[2]).quadro(t - te_d)
             nome = NOME_DIG[ev_d[2]]
         elif ev_d[0] == "lista":
-            tela = tela_lista(te_d, t, "5 JOGOS PRA SE SENTIR NO VIDEOGAME" if p["k"] == 0 else "TODOS NA SUA VEZ!")
+            tela = tela_lista(te_d, t, "5 JOGOS PRA SE SENTIR NO VIDEOGAME" if p["pk"] == 0 else "TODOS NA SUA VEZ!")
             nome = None
         else:
             tela = tela_missao()
@@ -458,7 +546,7 @@ def quadro(base, t):
             if q["fase"] == p["fase"] and q["ini"] < p["ini"]:
                 for e in q["evs"]:
                     if e[0] == "cx":
-                        te_b, ev_b = q["ini"] + e[1] - q["a"], e
+                        te_b, ev_b = src2out(q["pk"], e[1]), e
     if ev_b is not None:
         k = back((t - te_b) / 0.4)
         cx = caixa(ev_b[2])
@@ -484,7 +572,7 @@ def quadro(base, t):
                 c = c.resize((max(2, int(c.width * ki)), max(2, int(c.height * ki))), Image.BICUBIC)
                 img.alpha_composite(c, (60, int(y + i * 90)))
     # ---------------- FASE n (flash no começo de cada jogo)
-    if p["fase"] in (1, 2, 3, 4, 5) and (p["k"] == 0 or TL[p["k"] - 1]["fase"] != p["fase"]):
+    if p["fase"] in (1, 2, 3, 4, 5) and p["inicio_fase"]:
         dt = t - p["ini"]
         if dt < 0.7:
             a = 1 - max(0, (dt - 0.45) / 0.25)
@@ -493,7 +581,7 @@ def quadro(base, t):
             f = f.resize((int(f.width * s), int(f.height * s)), Image.BICUBIC)
             if a < 1:
                 f.putalpha(f.getchannel("A").point(lambda v: int(v * a)))
-            img.alpha_composite(f, (int(W / 2 - f.width / 2), int(1180 - f.height / 2)))
+            img.alpha_composite(f, (int(W / 2 - f.width / 2), int(1330 - f.height / 2)))
     if p["fase"] in (1, 2, 3, 4, 5):
         h = pilula(f"FASE {p['fase']}/5", 28, E.AMARELO, E.MARROM)
         img.alpha_composite(h, (26, 30))
@@ -557,11 +645,12 @@ def mixa(path):
     duck = 1 - 0.65 * np.clip(env / 0.05, 0, 1)
     fx = np.zeros(n)
     for p in TL:
-        if p["fase"] in (1, 2, 3, 4, 5) and (p["k"] == 0 or TL[p["k"] - 1]["fase"] != p["fase"]):
+        if p["fase"] in (1, 2, 3, 4, 5) and p["inicio_fase"]:
             S.add(fx, S.sopro(0.4), p["ini"], 0.5)
             S.add(fx, S.bip(1320, 0.07), p["ini"] + 0.05, 0.25)
-        for e in p["evs"]:
-            te = p["ini"] + e[1] - p["a"]
+    for pk, pl in enumerate(PLANOS):
+        for e in pl[4]:
+            te = src2out(pk, e[1])
             if e[0] == "cx":
                 S.add(fx, S.plim(), te, 0.35)
             elif e[0] == "dig":
