@@ -1736,3 +1736,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   caixa), DM Serif Display, relógio = MOSTRUÁRIO (disco terracota com mandala), as 5 peças do jogo nos cantos.
   Saída `out/azul1min_{legendado,sem_legenda}_final.mp4` (75 s, −15,5 LUFS) + `out/chat/`. **Ambiente novo (26/nov):**
   instalar gdown, opencv-python-headless, imageio-ffmpeg, faster-whisper, qrcode, scipy no /usr/bin/python3.
+  **2ª rodada ("cortou o S de todos os finais: azuis virou azul"):** o Whisper marca o fim da palavra ANTES do "s"
+  → o fim de cada pedaço agora segue a ENERGIA (total + agudos, `borda()`), até 0,7 s depois da palavra, sem passar da
+  palavra seguinte. **Regra para cortes de fala: nunca usar o fim do Whisper sozinho; conferir o agudo no fim de cada
+  pedaço.** Para caber em 60 s saíram "E a pontuação é o seguinte" e "aí é hora de contar os pontos finais...". 77,7 s.
