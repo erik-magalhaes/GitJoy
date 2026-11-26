@@ -147,7 +147,7 @@ def pedacos(nome, a, b):
             while j < len(e) and quieto[j]:
                 j += 1
             if (j - i) * dt > PAUSA and i > 0 and j < len(e):
-                out.append((ini, a + i * dt + 0.05))
+                out.append((ini, a + i * dt + 0.12))  # rabo da palavra (fim de sílaba baixinho)
                 ini = a + j * dt - 0.05
             i = j
         else:
@@ -161,7 +161,10 @@ def linha_do_tempo():
     for pk, (nome, w0, w1, fase, evs) in enumerate(PLANOS):
         a, b = corte(nome, w0, w1)
         pcs = pedacos(nome, a, b)
-        if len(pcs) > 1 and pcs[0][1] - pcs[0][0] < 0.6:  # pedacinho antes da 1ª pausa = respiro (conferido no Whisper)
+        # pedacinho curto antes da 1ª pausa SEM nenhuma palavra = respiro; se tiver palavra (o "Agora" baixinho), fica
+        pal = json.load(open(os.path.join(TRANS, nome + ".json")))
+        if len(pcs) > 1 and pcs[0][1] - pcs[0][0] < 0.6 and not any(
+                pcs[0][0] - 0.05 <= w["s"] <= pcs[0][1] - 0.1 for w in pal):
             pcs = pcs[1:]
         for j, (x, y) in enumerate(pcs):
             nf = max(1, round((y - x) * FPS))
