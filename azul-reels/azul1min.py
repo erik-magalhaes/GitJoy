@@ -281,7 +281,9 @@ def marcas(img, t):
         if not ws:
             continue
         t0 = ws[0]["s"]
-        if t0 <= t < t0 + 2.4:
+        fim_corte = max(p["t0"] + p["n"] / FPS for p in TL if p["ci"] == ws[0]["ci"])
+        t1 = max(t0 + 0.9, min(t0 + 2.4, fim_corte + 0.3))   # 26/nov: some quando a fala muda de assunto
+        if t0 <= t < t1:
             curto = len(txt) <= 4
             tam = (64 if y > 1300 else 96) if curto else (46 if len(txt) > 24 else (48 if y > 1300 else 60))
             sp = T.placa(txt, tam, T.VERM if cor == NEG else T.AZ_ESC)
