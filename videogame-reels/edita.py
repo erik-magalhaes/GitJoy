@@ -103,22 +103,23 @@ def energia(a, t0, t1):
 
 
 def corte(nome, w0, w1):
-    """Começo: ponto mais quieto até 0,45 s antes da 1ª palavra; fim: o mais quieto até 0,5 s depois da última, sem
-    entrar na próxima palavra. Nunca corta palavra (o Whisper adianta/atrasa uns décimos)."""
+    """Começo: o início da voz (energia > −30 dB) logo antes da 1ª palavra, menos 0,08 s; fim: o ÚLTIMO quadro com
+    voz depois da última palavra (até a próxima palavra), mais 0,1 s. Uma consoante como o "p" faz um microssilêncio
+    no meio da palavra (Age of Em-p-ires): por isso não se corta no ponto mais quieto, e sim depois da última voz."""
     a = audio_bruto(nome)
     pal = json.load(open(os.path.join(TRANS, nome + ".json")))
     ant = max([p["e"] for p in pal if p["e"] <= w0 - 0.05] or [0])
     prox = min([p["s"] for p in pal if p["s"] >= w1 + 0.15] or [len(a) / SR])
-    s0, s1 = max(ant + 0.05, w0 - 0.45), w0 - 0.04
-    e, n = energia(a, s0, s1)
-    ini = s0 + int(np.argmin(e)) * n / SR if len(e) else w0 - 0.15
-    f0, f1 = w1 + 0.12, min(w1 + 0.55, prox - 0.06)
-    if f1 <= f0 + 0.02:
-        fim = max(w1 + 0.12, prox - 0.06)
-    else:
-        e, n = energia(a, f0, f1)
-        fim = f0 + int(np.argmin(e)) * n / SR + 0.03
-    return round(ini, 3), round(fim, 3)
+    lim = -30
+    s0 = max(ant + 0.08, w0 - 0.3)  # mais cedo que isso costuma ser respiro
+    e, n = energia(a, s0, w0 + 0.15)
+    voz = [i for i, x in enumerate(e) if x > lim]
+    ini = s0 + voz[0] * n / SR - 0.08 if voz else w0 - 0.15
+    f1 = min(w1 + 0.9, prox - 0.08)
+    e, n = energia(a, w1 - 0.1, f1)
+    voz = [i for i, x in enumerate(e) if x > lim]
+    fim = min(f1, w1 - 0.1 + (voz[-1] + 1) * n / SR + 0.1) if voz else w1 + 0.2
+    return round(max(ini, ant + 0.03), 3), round(fim, 3)
 
 
 def linha_do_tempo():
@@ -583,7 +584,8 @@ def mixa(path):
 def loudnorm(src, dst, alvo=-15.5):
     r = subprocess.run([FF, "-hide_banner", "-i", src, "-af", f"loudnorm=I={alvo}:TP=-2:LRA=11:print_format=json",
                         "-f", "null", "-"], capture_output=True, text=True).stderr
-    j = json.loads(r[r.rindex("{"):])
+    i0 = r.rindex("{")
+    j = json.loads(r[i0:r.index("}", i0) + 1])
     af = (f"loudnorm=I={alvo}:TP=-2:LRA=11:measured_I={j['input_i']}:measured_TP={j['input_tp']}:"
           f"measured_LRA={j['input_lra']}:measured_thresh={j['input_thresh']}:offset={j['target_offset']}:linear=true")
     subprocess.run([FF, "-v", "error", "-y", "-i", src, "-c:v", "copy", "-af", af, "-ar", "44100", "-c:a", "aac",
@@ -611,8 +613,10 @@ def main():
         print("ok frames")
         return
     wav = os.path.join(OUT, "_mix.wav")
-    mixa(wav)
     tmp = os.path.join(OUT, "_video.mp4")
+    if "--so-final" in sys.argv:
+        return finaliza(tmp)
+    mixa(wav)
     nf = int(round(DUR * FPS))
     wr = imageio_ffmpeg.write_frames(tmp, (W, H), fps=FPS, codec="libx264", quality=None,
                                      output_params=["-crf", "17", "-preset", "medium", "-pix_fmt", "yuv420p"],
@@ -626,6 +630,10 @@ def main():
         if i % 150 == 0:
             print(f"  {t:.1f}s")
     wr.close()
+    finaliza(tmp)
+
+
+def finaliza(tmp):
     final = os.path.join(OUT, "videogame_final.mp4")
     loudnorm(tmp, final)
     # versão para o chat (< 30 MB)
