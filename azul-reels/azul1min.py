@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """AZUL MINI EM 1 MINUTO OU MENOS — GRAVADO pelo Erik (26/nov, 7 vídeos VID_20261126_07xxxx no Drive de brutos →
-brutos/nov26/<hhmmss>.mp4, fora do git; só a mesa, sem rosto). Edição no estilo ADESIVOS do `azul.py`: relógio-adesivo
-contando, títulos e pontos como adesivos com borda branca, legenda palavra a palavra, doodles nos cantos.
+brutos/nov26/<hhmmss>.mp4, fora do git; só a mesa, sem rosto). Edição com a CARA DO AZUL (`tema.py`; ele recusou os adesivos fofos aqui): relógio = mostruário
+contando, placas creme com moldura azul, azulejos portugueses e as 5 peças nos cantos, legenda palavra a palavra.
+Abertura: a Jéssica (075617, espelhada) "Vem comigo aprender Azul Mini em 1 minuto ou menos".
 Pedido dele: na parte dos azulejos QUEBRADOS (o chão / pontos negativos) um ASTERISCO explicando que o azulejo quebra
 quando não cabe na linha da esquerda (pegou mais do que cabe).
 A fala (~100 s) foi enxugada por frases (CORTES, tempos do bruto) + pausas ≤ GAP + fala a VEL para caber em 1 minuto.
@@ -29,6 +30,12 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 BRUTO = os.path.join(ROOT, "brutos", "nov26")
 OUT = os.path.join(ROOT, "out")
 VEL = 1.2
+ESPELHADO = {"075617"}      # câmera da frente: a bolsa com "AZUL" saía ao contrário
+VEL_ARQ = {"075617": 1.0}   # a abertura vai na velocidade normal
+
+
+def vel(f):
+    return VEL_ARQ.get(f, VEL)
 GAP = 0.15            # pausa máxima entre palavras
 SR = 44100
 VOZ = ("highpass=f=80,afftdn=nr=10:nf=-45,equalizer=f=300:t=q:w=1.2:g=-2,equalizer=f=3200:t=q:w=1.4:g=1.5,"
@@ -36,6 +43,7 @@ VOZ = ("highpass=f=80,afftdn=nr=10:nf=-45,equalizer=f=300:t=q:w=1.2:g=-2,equaliz
 GRADE = "hqdn3d=2:1.5:3:3,eq=contrast=1.03:saturation=1.04:gamma=1.02,unsharp=5:5:0.35"
 # (arquivo, início, fim no bruto, título da parte ou None, asterisco?)
 CORTES = [
+    ("075617", 0.0, 2.75, None, False),          # abertura da Jéssica (26/nov): "Vem comigo aprender..."
     ("070944", 0.0, 4.3, "O TABULEIRO", False),
     ("071048", 0.0, 3.6, "NA SUA VEZ", False),
     ("071048", 4.9, 6.45, None, False),
@@ -113,7 +121,7 @@ PEDACOS = pedacos()
 def linha_tempo():
     tl, t = [], 0.0
     for f, a, b, ci, g in PEDACOS:
-        d = (b - a) / VEL
+        d = (b - a) / vel(f)
         n = round((t + d) * FPS) - round(t * FPS)
         tl.append(dict(f=f, a=a, b=b, ci=ci, g=g, t0=t, n=n))
         t += n / FPS
@@ -126,14 +134,15 @@ T_CARIMBO = T_FALA + 0.2
 T_COM = T_CARIMBO + 2.6
 T_CTA = T_COM + 4.0
 DUR = T_CTA + 5.6
-SEG_EXPL = T_FIM_EXPL
+T_EXP0 = next(p["t0"] for p in TL if p["f"] == "070944")       # a explicação (e o relógio) começa aqui
+SEG_EXPL = T_FIM_EXPL - T_EXP0
 
 
 def saida(f, tb):
     """Tempo no bruto → tempo no vídeo (ou None se o trecho saiu)."""
     for p in TL:
         if p["f"] == f and p["a"] <= tb <= p["b"]:
-            return p["t0"] + (tb - p["a"]) / VEL
+            return p["t0"] + (tb - p["a"]) / vel(f)
     return None
 
 
@@ -165,8 +174,8 @@ def base():
         d = p["n"] / FPS
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{p['a']:.3f}", "-t", f"{(p['b'] - p['a']) + 0.2:.3f}",
                         "-i", os.path.join(BRUTO, p["f"] + ".mp4"),
-                        "-vf", f"setpts=PTS/{VEL},fps={FPS},scale={W}:{H},{GRADE}",
-                        "-af", f"atempo={VEL},{VOZ},aresample={SR}",
+                        "-vf", f"setpts=PTS/{vel(p['f'])},fps={FPS},scale={W}:{H},{GRADE}" + (",hflip" if p["f"] in ESPELHADO else ""),
+                        "-af", f"atempo={vel(p['f'])},{VOZ},aresample={SR}",
                         "-t", f"{d:.4f}", "-c:v", "libx264", "-crf", "15", "-preset", "fast", "-c:a", "pcm_s16le",
                         "-ar", str(SR), "-ac", "1", dst.replace(".mp4", ".mkv")], check=True)
         lista.append(dst.replace(".mp4", ".mkv"))
@@ -204,7 +213,7 @@ NEG = (255, 120, 140)
 def legenda(img, t):
     """Palavra a palavra (até 3), serifa branca com contorno azul; a falada em dourado."""
     ativos = [w for w in PAL if w["s"] <= t < w["e"] + 0.35]
-    if not ativos or t >= T_FALA + 0.1:
+    if not ativos or t >= T_FALA + 0.1 or t < T_EXP0:
         return
     w0 = ativos[-1]
     idx = PAL.index(w0)
@@ -249,30 +258,29 @@ def pecas_cantos(img, t):
 
 def sobre(img, t):
     # gancho: letreiro AZUL MINI + placa + caixa
-    if t < 3.2:
-        A.pop(img, T.letreiro("AZUL MINI", 150), W / 2, 520, t, 0.05, 0, wob=False)
-        A.pop(img, T.placa("em 1 minuto ou menos", 62), W / 2, 720, t, 0.35, 0, wob=False)
-        A.pop(img, T.sombra(caixa_ok(380), 10, 0, 10, 0.45), 860, 1130, t, 0.6, 5, wob=False)
+    if t < T_EXP0:
+        A.pop(img, T.letreiro("AZUL MINI", 150), W / 2, 1330, t, 0.9, 0, wob=False)   # no peito (rosto livre)
+        A.pop(img, T.placa("em 1 minuto ou menos", 62), W / 2, 1530, t, 1.6, 0, wob=False)
     for ci, c in enumerate(CORTES):  # placa com o nome da parte
         if c[3]:
             t0 = ini_corte(ci)
             prox = [ini_corte(k) for k in range(ci + 1, len(CORTES)) if CORTES[k][3]]
             t1 = min(prox + [T_FIM_EXPL])
-            ta = max(t0, 3.2) if ci == 0 else t0
+            ta = t0
             if ta <= t < t1:
                 A.pop(img, T.placa(c[3], 58), W / 2 + 40, 300, t, ta, 0, wob=False)
     marcas(img, t)
     ta = saida("071252", AST_071252)
-    tb = ini_corte(6)
-    tc = ini_corte(10)
-    td = ini_corte(11) + 2.0
+    tb = ini_corte(7)
+    tc = ini_corte(11)
+    td = ini_corte(12) + 2.0
     if (ta is not None and ta <= t < tb) or tc <= t < td:
         A.pop(img, T.nota_asterisco(), W / 2, 800, t, ta if t < tb else tc, 0, wob=False)
     legenda(img, t)
     pecas_cantos(img, t)
-    if t < T_FIM_EXPL + 0.8:
-        rest = max(0.0, 60 - min(t, T_FIM_EXPL))
-        A.pop(img, T.mostruario(rest, 190, rest <= 10), 135, 135, t, 0.0, 0, wob=False)
+    if T_EXP0 - 0.3 < t < T_FIM_EXPL + 0.8:
+        rest = min(60.0, max(0.0, 60 - (min(t, T_FIM_EXPL) - T_EXP0)))
+        A.pop(img, T.mostruario(rest, 190, rest <= 10), 135, 135, t, T_EXP0 - 0.3, 0, wob=False)
     A.cola(img, K.logo(150), W - 110, 95)
 
 
