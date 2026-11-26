@@ -72,10 +72,11 @@ PLANOS = [
     ("144818", 114.32, 118.24, 4, [("cx", 116.9, "heat")]),
     ("144818", 125.24, 129.26, 4, [("dig", 126.1, "forza"), ("capa", 127.4, "nfs")]),
     ("144818", 149.40, 156.12, 5, [("dig", 152.3, "dbd"), ("cx", 155.9, "dbd")]),
-    ("144818", 140.08, 142.60, 5, [("chips", 140.1, ["5 JOGADORES", "4 SOBREVIVENTES", "1 ASSASSINO"])]),
     ("144818", 190.26, 195.78, 6, [("missao", 190.2)]),
     ("144818", 239.46, 244.86, 7, [("lista", 239.4)]),
 ]
+VEL = {0: 1.12}  # gancho "Não tem jeito..." 12% mais rápido (pedido: "mais dinâmico")
+GANHO = {8: 0.72}  # "E claro, todos esses jogos..." (o microfone satura): −3 dB só aqui
 # o que ele falou (legenda), corrigindo o Whisper
 CORRIGE = {"Dead": "Dead", "the": "by", "Light.": "Daylight.", "Light,": "Daylight,", "Hit": "Heat:",
            "Petal,": "Pedal,", "Petal.": "Pedal.", "biu.": "bio.", "pensarei": "pensando,", "trouxe": "eu trouxe o",
@@ -87,7 +88,7 @@ FIM = 2.6  # tela final
 @lru_cache(None)
 def audio_bruto(nome):
     raw = subprocess.run([FF, "-v", "error", "-i", os.path.join(BR, nome + ".mp4"), "-ac", "1", "-ar", str(SR),
-                          "-af", "highpass=f=80,afftdn=nr=8:nf=-45,equalizer=f=300:t=q:w=1:g=-2,"
+                          "-af", "adeclip,highpass=f=80,afftdn=nr=8:nf=-45,equalizer=f=300:t=q:w=1:g=-2,"
                                  "equalizer=f=3200:t=q:w=1.2:g=2,acompressor=threshold=-20dB:ratio=2:attack=8:release=160",
                           "-f", "f32le", "-"], capture_output=True).stdout
     return np.frombuffer(raw, np.float32).copy()
@@ -166,9 +167,10 @@ def linha_do_tempo():
         if len(pcs) > 1 and pcs[0][1] - pcs[0][0] < 0.6 and not any(
                 pcs[0][0] - 0.05 <= w["s"] <= pcs[0][1] - 0.1 for w in pal):
             pcs = pcs[1:]
+        v = VEL.get(pk, 1.0)
         for j, (x, y) in enumerate(pcs):
-            nf = max(1, round((y - x) * FPS))
-            tl.append(dict(k=k, pk=pk, nome=nome, a=x, b=x + nf / FPS, ini=t, dur=nf / FPS, fase=fase, evs=evs,
+            nf = max(1, round((y - x) / v * FPS))
+            tl.append(dict(k=k, pk=pk, nome=nome, a=x, b=x + nf / FPS * v, ini=t, dur=nf / FPS, fase=fase, evs=evs, vel=v,
                            primeira=(j == 0), inicio_fase=(j == 0 and (pk == 0 or PLANOS[pk - 1][3] != fase))))
             t += nf / FPS
             k += 1
@@ -177,7 +179,7 @@ def linha_do_tempo():
     niveis = [1.22, 1.32, 1.26, 1.36]  # mais perto: mostra menos corpo (pedido dele)
     z = 0
     for p in tl:
-        n = max(1, math.ceil(p["dur"] / 2.4))
+        n = max(1, math.ceil(p["dur"] / (1.3 if p["pk"] == 0 else 2.4)))  # no gancho, reenquadra mais rápido
         p["zooms"] = [(i * p["dur"] / n, niveis[(z + i) % len(niveis)]) for i in range(n)]
         z += n
     return tl, t
@@ -188,7 +190,7 @@ def src2out(pk, ts):
     ps = [p for p in TL if p["pk"] == pk]
     for p in ps:
         if ts < p["b"]:
-            return p["ini"] + max(0.0, ts - p["a"])
+            return p["ini"] + max(0.0, ts - p["a"]) / p["vel"]
     return ps[-1]["ini"] + ps[-1]["dur"]
 
 
@@ -212,7 +214,7 @@ def palavras_tl():
                     txt = "Pedal to the Metal,"
                 if txt in ("to", "the") and 116 < w["s"] < 125:
                     continue
-                out.append((p["ini"] + w["s"] - p["a"], p["ini"] + w["e"] - p["a"], txt))
+                out.append((p["ini"] + (w["s"] - p["a"]) / p["vel"], p["ini"] + (w["e"] - p["a"]) / p["vel"], txt))
     return out
 
 
@@ -229,6 +231,8 @@ def base_video():
         vf = ("scale=1080:1920,hqdn3d=3:3:4:4,smartblur=lr=1.2:ls=0.3:lt=-4,eq=contrast=1.05:saturation=1.06,"
               "colorbalance=rs=0.02:bs=-0.02:rm=0.025:bm=-0.025,unsharp=5:5:0.45,fps=30")
         nf = round(p["dur"] * FPS)
+        if p["vel"] != 1.0:
+            vf = f"setpts=PTS/{p['vel']}," + vf
         subprocess.run([FF, "-v", "error", "-y", "-ss", str(p["a"]), "-i", os.path.join(BR, p["nome"] + ".mp4"),
                         "-frames:v", str(nf), "-vf", vf, "-an", "-c:v", "libx264", "-crf", "16", "-preset", "fast",
                         o], check=True)
@@ -489,9 +493,34 @@ def rosto_no_pedaco(k):
     return tuple(float(x) for x in np.median(np.array(v), axis=0))
 
 
+def limpa_bone(img, fx, fy):
+    """Tira os pontinhos brancos (fiapos) do boné PRETO sem mexer no logo NY: na área do boné, pixel claro isolado
+    (bem mais claro que a mediana 9x9 em volta, e a vizinhança é escura) vira a mediana; manchas claras grandes
+    (o logo, a costura) ficam porque o pedaço claro conectado é grande."""
+    import cv2
+    a = np.array(img)
+    x0, x1 = int(max(0, fx - 260)), int(min(W, fx + 260))
+    y0, y1 = int(max(0, fy - 380)), int(min(H, fy - 40))
+    roi = a[y0:y1, x0:x1]
+    cinza = cv2.cvtColor(roi, cv2.COLOR_RGB2GRAY).astype(np.int16)
+    med = cv2.medianBlur(roi, 9)
+    mg = cv2.cvtColor(med, cv2.COLOR_RGB2GRAY).astype(np.int16)
+    sus = ((cinza - mg) > 8) & (mg < 60)
+    n, lab, st, _ = cv2.connectedComponentsWithStats(sus.astype(np.uint8), 8)
+    pequeno = np.zeros_like(sus)
+    for i in range(1, n):
+        if st[i, cv2.CC_STAT_AREA] <= 45:
+            pequeno[lab == i] = True
+    pequeno = cv2.dilate(pequeno.astype(np.uint8), np.ones((3, 3), np.uint8)).astype(bool) & (mg < 60)
+    roi[pequeno] = med[pequeno]
+    a[y0:y1, x0:x1] = roi
+    return Image.fromarray(a)
+
+
 def realce(img, t, p):
     """Zoom no rosto (reenquadramento por pedaço + aproximação lenta) e a luz de rosto."""
     if p is not None:
+        img = limpa_bone(img, *rosto_no_pedaco(p["k"]))
         dt = t - p["ini"]
         z0 = [z for (tz, z) in p["zooms"] if tz <= dt][-1]
         tz0 = [tz for (tz, z) in p["zooms"] if tz <= dt][-1]
@@ -647,22 +676,60 @@ def tela_final(dt):
 
 
 # ------------------------------------------------------------------------------------------------ som
+def musica_game(dur, bpm=128):
+    """Trilha "fase 1" de videogame, alegre: bateria four-on-the-floor com palma, baixo pulando de oitava, melodia em
+    onda quadrada fina (cara de console antigo) sobre C–G–Am–F, e um arpejo de "moedinha" a cada 4 compassos."""
+    out = np.zeros(int(dur * SR) + SR)
+    b = 60 / bpm
+    e = b / 2
+    acordes = ["C", "G", "Am", "F"]
+    raiz = {"C": "C2", "G": "G1", "Am": "A1", "F": "F1"}
+    mel = {"C": ["E5", "G5", "C6", "G5", "E5", "G5", "A5", "G5"], "G": ["D5", "G5", "B5", "G5", "D5", "G5", "A5", "B5"],
+           "Am": ["C5", "E5", "A5", "E5", "C6", "B5", "A5", "E5"], "F": ["C5", "F5", "A5", "F5", "C6", "A5", "G5", "E5"]}
+    n_comp = int(dur / (4 * b)) + 1
+    for c in range(n_comp):
+        ac = acordes[c % 4]
+        t0 = c * 4 * b
+        for k in range(4):  # batidas
+            t = t0 + k * b
+            S.add(out, S.kick(0.25), t, 0.55)
+            if k % 2 == 1:
+                S.add(out, S.clap(), t, 0.32)
+            S.add(out, S.chimbal(aberto=True), t + e, 0.1)
+        for k in range(8):  # colcheias
+            t = t0 + k * e
+            f = S.hz(raiz[ac]) * (2 if k % 2 else 1)
+            S.add(out, S.quadrada(f, e * 0.8, 0.5), t, 0.16)
+            S.add(out, S.chimbal(0.03), t + e / 2, 0.05)
+            if c >= 2 or k % 2 == 0:  # a melodia entra aos poucos
+                S.add(out, S.quadrada(S.hz(mel[ac][k]), e * 0.85, 0.125), t, 0.11)
+        if c % 4 == 3:  # moedinha
+            for i, nt in enumerate(["B5", "E6"]):
+                S.add(out, S.quadrada(S.hz(nt), 0.09 if i == 0 else 0.3, 0.5), t0 + 3.5 * b + i * 0.07, 0.12)
+    return out[:int(dur * SR)]
+
+
 def mixa(path):
     n = int(DUR * SR)
     voz = np.zeros(n, np.float32)
     for p in TL:
         a = audio_bruto(p["nome"])
-        s = a[int(p["a"] * SR): int(p["a"] * SR) + int(p["dur"] * SR)].copy()
+        s = a[int(p["a"] * SR): int(p["a"] * SR) + int(p["dur"] * p["vel"] * SR) + 1].copy()
+        if p["vel"] != 1.0:
+            s = np.frombuffer(subprocess.run([FF, "-v", "error", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-",
+                                              "-af", f"atempo={p['vel']}", "-f", "f32le", "-"], input=s.tobytes(),
+                                             capture_output=True).stdout, np.float32).copy()
+        s = s[:int(p["dur"] * SR)] * GANHO.get(p["pk"], 1.0)
         f = int(0.012 * SR)
         s[:f] *= np.linspace(0, 1, f)
         s[-f:] *= np.linspace(1, 0, f)
         i0 = int(p["ini"] * SR)
         voz[i0:i0 + len(s)] += s[: n - i0]
     voz = voz / (np.percentile(np.abs(voz), 99.7) + 1e-9) * 0.6
-    mus = S.musica_chip(DUR + 1)[:n]
+    mus = musica_game(DUR + 1)[:n]
     mus = np.pad(mus, (0, n - len(mus))) / (np.abs(mus).max() + 1e-9)
     env = np.convolve(np.abs(voz), np.ones(int(0.25 * SR)) / int(0.25 * SR), "same")
-    duck = 1 - 0.65 * np.clip(env / 0.05, 0, 1)
+    duck = 1 - 0.5 * np.clip(env / 0.05, 0, 1)
     fx = np.zeros(n)
     for p in TL:
         if p["fase"] in (1, 2, 3, 4, 5) and p["inicio_fase"]:
@@ -679,8 +746,8 @@ def mixa(path):
                 for i in range(3):
                     S.add(fx, S.bip(990 + 220 * i, 0.06), te + i * 0.45, 0.25)
     S.add(fx, S.plim(), DUR_FALA, 0.4)
-    mix = voz + mus * 0.12 * duck + fx * 0.6
-    mix[int(DUR_FALA * SR):] += mus[int(DUR_FALA * SR):] * 0.12
+    mix = voz + mus * 0.17 * duck + fx * 0.6
+    mix[int(DUR_FALA * SR):] += mus[int(DUR_FALA * SR):] * 0.1
     mix = mix / (np.abs(mix).max() + 1e-9) * 0.89
     st = np.repeat((mix * 32767).astype(np.int16)[:, None], 2, 1)
     with wave.open(path, "wb") as w:
