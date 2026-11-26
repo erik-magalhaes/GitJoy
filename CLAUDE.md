@@ -58,6 +58,9 @@ tudo antes de começar um vídeo novo: aqui está o que funcionou, o que não fu
 
 - **Sua Vez – Locação de Jogos de Tabuleiro**, Mauá e ABC (SP). Site: https://suavez.acervodejogos.com.br/
   (o logo veio de lá: `*/assets/logo_suavez.png`). Instagram: **@suavez_bg**.
+- **MUDOU (26/nov/2026): site novo, SEM o prazo progressivo (3/5/7 jogos = 7/10/15 dias acabou).** Agora a pessoa
+  escolhe **5 dias (preço menor) ou 7 dias (um pouco mais caro)**. NÃO usar mais "3 jogos = 7 dias" nas peças novas;
+  ele prefere não pôr essa informação na imagem. O que está abaixo sobre o prazo progressivo é histórico.
 - Aluguel de **5 dias**, com reserva online e **retirada em Mauá ou entrega em casa** (existe uma pequena taxa de entrega,
   mas ele pediu para **não citar a taxa** nas artes; o frete é combinado no checkout). Promoção de **prazo progressivo** (vale para todos os jogos do carrinho, pelo mesmo preço):
   **3 jogos = 7 dias, 5 jogos = 10 dias, 7 jogos = 15 dias** (arte em `promo/promo_progressivo.py`).

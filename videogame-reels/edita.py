@@ -52,7 +52,9 @@ CLIPES = {
     # GTA VI: o trailer só existe no YouTube → imagens OFICIAIS do site (rockstargames.com/VI) com zoom (Ken Burns)
     "gta": [(f"{GP}/gta6img/{i}.jpg", "img", 0.9) for i in (11, 5, 26, 8, 21, 12, 20, 4, 39, 44)],
     "among": [(f"{GP}/among_us.mp4", 21.5, 9.0)],
-    "aoe": [(f"{GP}/aoe2.mp4", 34.5, 5.0), (f"{GP}/aoe4.mp4", 0.5, 4.0)],
+    # só GAMEPLAY (os trailers de AoE alternam com cartelas de texto; trechos medidos por brilho/contraste)
+    "aoe": [(f"{GP}/aoe2.mp4", 36.8, 3.4), (f"{GP}/aoe1.mp4", 22.2, 4.4), (f"{GP}/aoe4s3.mp4", 21.0, 3.8),
+            (f"{GP}/aoe1.mp4", 40.0, 6.5)],
     "forza": [(f"{GP}/forza.mp4", 15.0, 18.0)],
     "dbd": [(f"{GP}/dbd.mp4", 30.5, 4.0), (f"{GP}/dbd.mp4", 4.5, 3.0), (f"{GP}/dbd.mp4", 46.0, 6.0)],
 }
@@ -68,7 +70,7 @@ PLANOS = [
     ("144733", 7.42, 13.90, 0, [("dig", 7.3, "gta"), ("lista", 11.5)]),
     ("144818", 12.56, 21.04, 1, [("dig", 12.4, "gta"), ("cx", 16.4, "bad")]),
     ("144818", 33.84, 43.80, 2, [("cx", 35.6, "res"), ("dig", 37.5, "among")]),
-    ("144818", 98.74, 104.20, 3, [("cx", 101.5, "ww"), ("dig", 103.7, "aoe")]),
+    ("144818", 98.74, 104.20, 3, [("dig", 99.9, "aoe"), ("cx", 101.6, "ww")]),
     ("144818", 114.32, 118.24, 4, [("cx", 116.9, "heat")]),
     ("144818", 125.24, 129.26, 4, [("dig", 126.1, "forza"), ("capa", 127.4, "nfs")]),
     ("144818", 149.40, 156.12, 5, [("dig", 152.3, "dbd"), ("cx", 155.9, "dbd")]),
@@ -656,8 +658,7 @@ def fundo_final():
         lq = lq.resize((W - 60, int(lq.height * (W - 60) / lq.width)), Image.LANCZOS)
     img.alpha_composite(lq, ((W - lq.width) // 2, 720))
     y = 720 + lq.height + 10
-    for tx, cor in [("5 dias de jogo · 3 jogos = 7 dias", (255, 255, 255)),
-                    ("RESERVE ONLINE · RETIRE EM MAUÁ OU RECEBA EM CASA", E.AMARELO)]:
+    for tx, cor in [("RESERVE ONLINE · RETIRE EM MAUÁ OU RECEBA EM CASA", E.AMARELO)]:
         tt = E.texto(tx, 40, cor=cor, peso=900, larg_max=980)
         img.alpha_composite(tt, ((W - tt.width) // 2, y))
         y += tt.height + 6
