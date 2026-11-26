@@ -171,7 +171,7 @@ def linha_do_tempo():
             k += 1
     # zoom: reenquadramento a cada ~2,4 s (referências de edição de Reels: corte ou zoom a cada 1,5–3 s), alternando
     # 100% / 112% / 106%, sempre diferente do anterior (o corte seco entre pedaços também troca o zoom)
-    niveis = [1.0, 1.12, 1.05, 1.15]
+    niveis = [1.08, 1.17, 1.11, 1.2]
     z = 0
     for p in tl:
         n = max(1, math.ceil(p["dur"] / 2.4))
@@ -223,7 +223,7 @@ def base_video():
     lst = []
     for p in TL:
         o = os.path.join(OUT, "_planos", f"p{p['k']:02d}.mp4")
-        vf = ("scale=1080:1920,hqdn3d=3:3:4:4,eq=contrast=1.05:saturation=1.06,"
+        vf = ("scale=1080:1920,hqdn3d=3:3:4:4,smartblur=lr=1.2:ls=0.3:lt=-4,eq=contrast=1.05:saturation=1.06,"
               "colorbalance=rs=0.02:bs=-0.02:rm=0.025:bm=-0.025,unsharp=5:5:0.45,fps=30")
         nf = round(p["dur"] * FPS)
         subprocess.run([FF, "-v", "error", "-y", "-ss", str(p["a"]), "-i", os.path.join(BR, p["nome"] + ".mp4"),
@@ -457,18 +457,33 @@ def legenda(img, t):
             return
 
 
-FACE = (540, 1120)  # centro do rosto no quadro (ele fica sempre no mesmo lugar)
+FACE = (580, 1220)  # centro do rosto NO BRUTO (medido; nas duas gravações ele fica no mesmo lugar)
+FACE_OUT = (540, 1220)  # onde o rosto fica na saída: centralizado
 
 
 @lru_cache(None)
 def mascara_luz():
     """Luz de rosto: clareia uma elipse em volta do rosto e escurece de leve as bordas (vinheta)."""
     yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
-    d = np.sqrt(((xx - FACE[0]) / 430) ** 2 + ((yy - FACE[1] + 60) / 520) ** 2)
+    d = np.sqrt(((xx - FACE_OUT[0]) / 430) ** 2 + ((yy - FACE_OUT[1] + 40) / 520) ** 2)
     luz = np.clip(1.15 - d, 0, 1) ** 1.5
     v = np.sqrt(((xx - W / 2) / (W * 0.75)) ** 2 + ((yy - H / 2) / (H * 0.72)) ** 2)
     vin = 1 - 0.16 * np.clip(v - 0.55, 0, 1) / 0.45
     return luz[..., None], vin[..., None]
+
+
+@lru_cache(None)
+def rosto_no_pedaco(k):
+    """Centro do rosto (mediana dos pontos do rosto.py dentro do pedaço): um valor fixo por pedaço = sem tremedeira."""
+    p = TL[k]
+    try:
+        d = json.load(open(os.path.join(OUT, f"rosto_{p['nome']}.json")))
+    except FileNotFoundError:
+        return FACE
+    v = [xy for ts, xy in d.items() if p["a"] - 0.1 <= float(ts) <= p["b"] + 0.1]
+    if not v:
+        return FACE
+    return tuple(float(x) for x in np.median(np.array(v), axis=0))
 
 
 def realce(img, t, p):
@@ -478,10 +493,12 @@ def realce(img, t, p):
         z0 = [z for (tz, z) in p["zooms"] if tz <= dt][-1]
         tz0 = [tz for (tz, z) in p["zooms"] if tz <= dt][-1]
         z = z0 * (1 + 0.035 * min((dt - tz0) / 3.0, 1))
-        if z > 1.001:
-            w, h = W / z, H / z
-            x0, y0 = FACE[0] - FACE[0] / z, FACE[1] - FACE[1] / z
-            img = img.resize((W, H), Image.BILINEAR, box=(x0, y0, x0 + w, y0 + h))
+        # sempre um pouco de zoom (≥ 1,08) para poder CENTRALIZAR o rosto na horizontal sem aparecer borda
+        w, h = W / z, H / z
+        fx, fy = rosto_no_pedaco(p["k"])
+        x0 = min(max(fx - FACE_OUT[0] / z, 0), W - w)
+        y0 = min(max(fy - FACE_OUT[1] / z, 0), H - h)
+        img = img.resize((W, H), Image.BICUBIC, box=(x0, y0, x0 + w, y0 + h))
     a = np.asarray(img, np.float32)
     luz, vin = mascara_luz()
     a = a + (255 - a) * 0.13 * luz  # clareia os médios do rosto sem estourar o branco
