@@ -22,6 +22,7 @@ import numpy as np
 from PIL import Image, ImageDraw
 
 import azul as A
+import tema as T
 from azul import K, S, W, H, FPS, BR, TINTA, ROSA, AMAR, MENTA, CEU, PESS, LILAS
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -196,30 +197,12 @@ def voz():
     return v * (10 ** (-18 / 20) / (rms + 1e-9))
 
 
-# ---------------------------------------------------------------- sobreposições
-def caixa_texto(txt, s, cor=BR):
-    return A.texto(txt, s, cor)
-
-
-@lru_cache(None)
-def asterisco():
-    """Nota do asterisco (pedido dele)."""
-    w = 1000
-    f1, f2 = A.fonte(60), A.fonte(48, fig=True)
-    linhas = ["o azulejo QUEBRA quando não", "cabe na linha da esquerda:", "você pegou mais do que cabe."]
-    h = 96 + 66 * len(linhas) + 34
-    im = Image.new("RGBA", (w, h), (0, 0, 0, 0))
-    d = ImageDraw.Draw(im)
-    d.rounded_rectangle((4, 4, w - 5, h - 5), 38, fill=(255, 248, 232), outline=TINTA, width=8)
-    d.text((38, 62), "*", font=A.fonte(120), fill=(236, 80, 80), anchor="lm")
-    d.text((110, 62), "QUANDO QUEBRA?", font=f1, fill=(236, 80, 80), anchor="lm")
-    for k, l in enumerate(linhas):
-        d.text((48, 140 + k * 66), l, font=f2, fill=TINTA, anchor="lm")
-    return A.adesivo(im, 12)
+# ---------------------------------------------------------------- sobreposições (tema do Azul: tema.py)
+NEG = (255, 120, 140)
 
 
 def legenda(img, t):
-    """Palavra a palavra: até 3 palavras por vez, a falada em amarelo, adesivo branco com contorno."""
+    """Palavra a palavra (até 3), serifa branca com contorno azul; a falada em dourado."""
     ativos = [w for w in PAL if w["s"] <= t < w["e"] + 0.35]
     if not ativos or t >= T_FALA + 0.1:
         return
@@ -227,21 +210,21 @@ def legenda(img, t):
     idx = PAL.index(w0)
     ini = idx - (idx % 3)
     grupo = [w for w in PAL[ini:ini + 3] if w["ci"] == w0["ci"]]
-    f = A.fonte(64)
-    sw = 9
+    f = T.serif(74)
+    sw = 7
     d0 = ImageDraw.Draw(Image.new("L", (1, 1)))
-    partes = [(w["w"].upper(), w is w0) for w in grupo]
+    partes = [(w["w"], w is w0) for w in grupo]
     larg = [d0.textbbox((0, 0), p, font=f, stroke_width=sw)[2] for p, _ in partes]
-    tot = sum(larg) + 22 * (len(partes) - 1)
-    im = Image.new("RGBA", (int(tot) + 20, 110), (0, 0, 0, 0))
+    tot = sum(larg) + 20 * (len(partes) - 1)
+    im = Image.new("RGBA", (int(tot) + 20, 120), (0, 0, 0, 0))
     d = ImageDraw.Draw(im)
     x = 10
     for (p, on), lw in zip(partes, larg):
-        d.text((x, 55), p, font=f, fill=AMAR if on else BR, stroke_width=sw, stroke_fill=TINTA, anchor="lm")
-        x += lw + 22
+        d.text((x, 60), p, font=f, fill=T.OURO if on else T.BRANCO, stroke_width=sw, stroke_fill=T.AZ_ESC, anchor="lm")
+        x += lw + 20
     if im.width > W - 60:
         im = im.resize((W - 60, int(im.height * (W - 60) / im.width)), Image.LANCZOS)
-    A.cola(img, im, W / 2, 1520)
+    A.cola(img, T.sombra(im, 6, 0, 5, 0.5), W / 2, 1520)
 
 
 def marcas(img, t):
@@ -251,57 +234,99 @@ def marcas(img, t):
             continue
         t0 = ws[0]["s"]
         if t0 <= t < t0 + 2.4:
-            sp = A.texto(txt, 92 if len(txt) <= 4 else 66, cor)
-            A.pop(img, sp, x, y, t, t0, -4 + (hash(txt) % 9))
+            curto = len(txt) <= 4
+            sp = T.placa(txt, 96 if curto else 60, T.VERM if cor == NEG else T.AZ_ESC)
+            A.pop(img, sp, x, y, t, t0, 0, wob=False)
 
 
-def doodles_cantos(img, t):
-    for k, (tipo, cor, x, y, s) in enumerate([("estrela", AMAR, 70, 330, 80), ("coracao", ROSA, 1010, 360, 70),
-                                              ("flor", LILAS, 60, 1740, 80), ("brilho", MENTA, 1020, 1700, 80)]):
-        b = 1 + 0.1 * math.sin(t * 2.5 + k)
-        A.cola(img, A.adesivo(A.doodle(tipo, s, cor), 6), x, y, 8 * math.sin(t * 1.4 + k), b)
+CANTOS = [("azul", 70, 300, -12), ("amarelo", 1010, 330, 10), ("vermelho", 62, 1760, 8), ("turquesa", 1015, 1730, -9)]
+
+
+def pecas_cantos(img, t):
+    for k, (cor, x, y, r) in enumerate(CANTOS):
+        A.cola(img, T.peca(cor, 96), x, y + 6 * math.sin(t * 1.8 + k), r + 4 * math.sin(t * 1.2 + k))
 
 
 def sobre(img, t):
-    # gancho
+    # gancho: letreiro AZUL MINI + placa + caixa
     if t < 3.2:
-        A.pop(img, A.texto("AZUL MINI", 130, (120, 200, 255)), W / 2, 520, t, 0.05, -3)
-        A.pop(img, A.texto("EM 1 MINUTO\nOU MENOS!", 96, AMAR), W / 2, 730, t, 0.35, 2)
-        A.pop(img, A.caixa_ad(380), 880, 1130, t, 0.6, 6)
-    # título da parte
-    for ci, c in enumerate(CORTES):
+        A.pop(img, T.letreiro("AZUL MINI", 150), W / 2, 520, t, 0.05, 0, wob=False)
+        A.pop(img, T.placa("em 1 minuto ou menos", 62), W / 2, 720, t, 0.35, 0, wob=False)
+        A.pop(img, T.sombra(caixa_ok(380), 10, 0, 10, 0.45), 860, 1130, t, 0.6, 5, wob=False)
+    for ci, c in enumerate(CORTES):  # placa com o nome da parte
         if c[3]:
             t0 = ini_corte(ci)
             prox = [ini_corte(k) for k in range(ci + 1, len(CORTES)) if CORTES[k][3]]
             t1 = min(prox + [T_FIM_EXPL])
-            if t0 + (3.2 if ci == 0 else 0) <= t < t1:
-                A.pop(img, A.pilula(c[3], 46, BR, fig=False), W / 2, 320, t, max(t0, 3.2 if ci == 0 else t0), -2,
-                      wob=False)
+            ta = max(t0, 3.2) if ci == 0 else t0
+            if ta <= t < t1:
+                A.pop(img, T.placa(c[3], 58), W / 2 + 40, 300, t, ta, 0, wob=False)
     marcas(img, t)
-    # asterisco: do "quebrou" até o fim do 071252, e no trecho do "quebrei" (072121)
     ta = saida("071252", AST_071252)
     tb = ini_corte(6)
     tc = ini_corte(10)
     td = ini_corte(11) + 2.0
     if (ta is not None and ta <= t < tb) or tc <= t < td:
-        A.pop(img, asterisco(), W / 2, 800, t, ta if t < tb else tc, 1, wob=False)
+        A.pop(img, T.nota_asterisco(), W / 2, 800, t, ta if t < tb else tc, 0, wob=False)
     legenda(img, t)
-    doodles_cantos(img, t)
-    # relógio: de 1:00 contando até o fim da explicação
+    pecas_cantos(img, t)
     if t < T_FIM_EXPL + 0.8:
         rest = max(0.0, 60 - min(t, T_FIM_EXPL))
-        A.pop(img, A.relogio(rest, 170), 140, 140, t, 0.0, -4)
+        A.pop(img, T.mostruario(rest, 190, rest <= 10), 135, 135, t, 0.0, 0, wob=False)
     A.cola(img, K.logo(150), W - 110, 95)
+
+
+@lru_cache(None)
+def caixa_ok(h):
+    c = A.caixa()
+    return c.resize((int(c.width * h / c.height), h), Image.LANCZOS)
+
+
+def fundo_tema(t):
+    """Parede de azulejos clareada, deslizando devagar."""
+    base_ = T.parede_azulejos(W, H + 180, 180, 0.5)
+    dy = int((t * 18) % 180)
+    return base_.crop((0, dy, W, dy + H)).copy()
+
+
+def painel(img, y0, y1):
+    p = Image.new("RGBA", (W - 100, y1 - y0), (0, 0, 0, 0))
+    T._moldura(ImageDraw.Draw(p), 2, 2, p.width - 3, p.height - 3, 30)
+    A.cola(img, T.sombra(p, 14, 0, 10, 0.4), W / 2, (y0 + y1) / 2)
 
 
 def carimbo(img, t):
     u = t - T_CARIMBO
-    s = 1.6 - 0.6 * A.out_back(min(1, u / 0.3)) if u < 0.3 else 1.0
-    A.pop(img, A.texto("EXPLICADO EM\n%d SEGUNDOS!" % round(SEG_EXPL), 110, AMAR), W / 2, 900, t, T_CARIMBO, -6, s)
-    for k in range(10):
-        a = k * 0.628 + u * 0.8
-        A.pop(img, A.doodle(["estrela", "coracao", "brilho"][k % 3], 90, [AMAR, ROSA, MENTA, CEU][k % 4]),
-              W / 2 + 430 * math.cos(a), 900 + 430 * math.sin(a), t, T_CARIMBO + 0.2 + k * 0.05)
+    s = 1.5 - 0.5 * A.out_back(min(1, u / 0.3)) if u < 0.3 else 1.0
+    A.pop(img, T.letreiro("Explicado em\n%d segundos!" % round(SEG_EXPL), 118), W / 2, 880, t, T_CARIMBO, -3, s,
+          wob=False)
+    for k, c in enumerate(list(T.PECAS) * 2):
+        a = k * 0.628 + u * 0.7
+        A.pop(img, T.peca(c, 110), W / 2 + 430 * math.cos(a), 880 + 520 * math.sin(a), t, T_CARIMBO + 0.15 + k * 0.05,
+              k * 17, wob=False)
+
+
+def comenta(img, t):
+    painel(img, 420, 1380)
+    A.pop(img, T.letreiro("E aí?", 150, T.OURO), W / 2, 590, t, T_COM, 0, wob=False)
+    A.pop(img, T.letreiro("Você seria quem\nquebra todos os\nazulejos?", 84), W / 2, 900, t, T_COM + 0.35, 0,
+          wob=False)
+    A.pop(img, T.placa("Comenta aqui!", 66, T.VERM), W / 2, 1230, t, T_COM + 0.8, 0, wob=False)
+    for k, c in enumerate(["vermelho", "preto", "amarelo", "azul", "turquesa"]):
+        A.pop(img, T.peca(c, 130), 180 + k * 180, 1560 + 18 * math.sin(t * 2.5 + k), t, T_COM + 1.1 + k * 0.1,
+              k * 9 - 18, wob=False)
+
+
+def cta(img, t):
+    painel(img, 230, 1700)
+    A.pop(img, K.logo(230), W / 2, 360, t, T_CTA, 0, wob=False)
+    A.pop(img, T.letreiro("Alugue o\nAzul Mini", 110), W / 2, 610, t, T_CTA + 0.15, 0, wob=False)
+    A.pop(img, T.sombra(caixa_ok(560), 12, 0, 10, 0.45), W / 2, 1060, t, T_CTA + 0.35, 2, wob=False)
+    A.pop(img, T.placa("2 a 4 jogadores · 8+", 46), W / 2, 1400, t, T_CTA + 0.6, 0, wob=False)
+    d = ImageDraw.Draw(img)
+    if t > T_CTA + 0.8:
+        d.text((W / 2, 1515), "RETIRE EM MAUÁ OU RECEBA EM CASA", font=T.fig(40), fill=T.AZ_ESC, anchor="mm")
+        d.text((W / 2, 1590), "LINK NA BIO · @SUAVEZ_BG", font=T.serif(52), fill=T.VERM, anchor="mm")
 
 
 # ---------------------------------------------------------------- quadros
@@ -316,34 +341,34 @@ def frames_base():
         yield Image.frombytes("RGB", (W, H), b)
 
 
+SEM_LEGENDA = False
+
+
 def compoe(fr, t, leg=True):
-    A.T_COM, A.T_CTA = T_COM, T_CTA
+    global legenda
     if t < T_FALA:
         img = fr.convert("RGBA")
-        global legenda
-        if not leg:
+        if leg:
+            sobre(img, t)
+        else:
             _l = legenda
             legenda = lambda *a: None  # noqa: E731
             sobre(img, t)
             legenda = _l
-        else:
-            sobre(img, t)
     else:
-        img = A.fundo(t)
+        img = fundo_tema(t)
         if t < T_COM:
             carimbo(img, t)
         elif t < T_CTA:
-            A.cena_comenta(img, t)
+            comenta(img, t)
         else:
-            A.cena_cta(img, t)
+            cta(img, t)
         if t < T_CTA:
             A.cola(img, K.logo(150), W - 110, 95)
     for tb in (T_FALA, T_COM, T_CTA):
         if 0 <= t - tb < 0.1:
             img.alpha_composite(Image.new("RGBA", (W, H), (255, 255, 255, int(170 * (1 - (t - tb) / 0.1)))))
     return img.convert("RGB")
-
-
 def audio(path):
     ev = [(0.05, S.estouro(), 0.4), (0.35, S.estouro(), 0.4), (0.6, S.plim(), 0.3)]
     for ci, c in enumerate(CORTES):
