@@ -52,11 +52,11 @@ CORTES = [
     ("071252", 0.0, 13.75, "OU PEGA DO MEIO", False),
     ("071604", 0.0, 3.95, "FIM DA RODADA", False),
     ("071604", 4.3, 6.35, None, False),
-    ("072121", 0.0, 6.1, "PONTUAÇÃO", False),
+    ("072121", 1.85, 6.1, "PONTUAÇÃO", False),
     ("072121", 6.75, 13.75, None, False),
     ("072121", 28.6, 33.3, None, True),
     ("072121", 39.6, 41.6, None, False),
-    ("072308", 0.0, 4.6, "FIM DO JOGO", False),
+    ("072308", 0.0, 2.46, "FIM DO JOGO", False),
     ("072308", 7.3, 10.95, None, False),
     ("072308", 11.45, 12.7, None, False),
     ("072308", 15.6, 16.9, None, False),
@@ -90,28 +90,66 @@ def transc():
     return json.load(open(os.path.join(BRUTO, "transc.json"), encoding="utf-8"))
 
 
+@lru_cache(None)
+def energias(f):
+    """Energia (dB) a cada 10 ms do áudio inteiro e da parte AGUDA (> 3 kHz, onde mora o "s")."""
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-i", os.path.join(BRUTO, f + ".mp4"), "-ac", "1", "-ar", "16000",
+                          "-f", "s16le", "-"], capture_output=True).stdout
+    x = np.frombuffer(raw, np.int16).astype(np.float64) / 32768
+    q = 160
+    n = len(x) // q
+    fr = x[:n * q].reshape(n, q)
+    tot = 20 * np.log10(np.sqrt((fr ** 2).mean(1)) + 1e-9)
+    hp = np.diff(x, prepend=0)                    # derivada = realça os agudos
+    hp = np.diff(hp, prepend=0)
+    ag = 20 * np.log10(np.sqrt((hp[:n * q].reshape(n, q) ** 2).mean(1)) + 1e-9)
+    return tot, ag, np.percentile(tot, 20), np.percentile(ag, 20)
+
+
+def borda(f, t, sentido, limite):
+    """Anda a partir de t (fim/início da palavra no Whisper) enquanto ainda há voz OU chiado de "s",
+    sem passar do limite (a palavra vizinha). Assim o "s" final e a 1ª consoante não são cortados."""
+    tot, ag, p_tot, p_ag = energias(f)
+    i = int(t / 0.01)
+    lim = int(limite / 0.01)
+    quietos = 0
+    while (i < lim if sentido > 0 else i > lim) and 0 <= i < len(tot):
+        voz = tot[i] > p_tot + 9 or ag[i] > p_ag + 10
+        quietos = 0 if voz else quietos + 1
+        if quietos >= 4:            # 40 ms de silêncio de verdade
+            break
+        i += sentido
+    return (i - sentido * quietos) * 0.01 + sentido * 0.05
+
+
 def pedacos():
-    """Cada corte vira pedaços de fala com pausas ≤ GAP. → [(arq, a, b, corte_idx, palavras)]"""
+    """Cada corte vira pedaços de fala com pausas ≤ GAP. → [(arq, a, b, corte_idx, palavras)]
+    26/nov: o fim de cada pedaço agora segue a ENERGIA (o Whisper termina a palavra antes do "s": cortava
+    "azuis", "paredes"...)."""
     out = []
     for ci, (f, a, b, _tit, _ast) in enumerate(CORTES):
-        ws = [w for w in transc()[f] if a - 0.05 <= w["s"] < b]
-        grupo = []
+        todas = transc()[f]
+        ws = [w for w in todas if a - 0.05 <= w["s"] < b]
+        grupos, grupo = [], []
         for w in ws:
             if grupo and w["s"] - grupo[-1]["e"] > GAP + 0.1:
-                out.append(grupo)
+                grupos.append(grupo)
                 grupo = []
             grupo.append(w)
         if grupo:
-            out.append(grupo)
-        for g in out[len(out) - 1:]:
-            pass
-        # marca o arquivo/corte em cada grupo novo
-        for k in range(len(out)):
-            if not isinstance(out[k], tuple):
-                g = out[k]
-                ini = max(a, g[0]["s"] - 0.06)
-                fim = min(b, g[-1]["e"] + 0.12)
-                out[k] = (f, ini, fim, ci, g)
+            grupos.append(grupo)
+        for g in grupos:
+            k0, k1 = todas.index(g[0]), todas.index(g[-1])
+            ant = todas[k0 - 1]["e"] + 0.03 if k0 > 0 else 0.0
+            prox = todas[k1 + 1]["s"] - 0.03 if k1 + 1 < len(todas) else g[-1]["e"] + 0.8
+            ini = max(ant, borda(f, g[0]["s"], -1, max(ant, g[0]["s"] - 0.15)))
+            fim = min(prox, borda(f, g[-1]["e"], 1, min(prox, g[-1]["e"] + 0.7)))
+            fim = max(fim, g[-1]["e"] + 0.08)
+            if k1 + 1 == len(todas):   # última fala do arquivo: deixa o fim respirar até o fim da gravação
+                fim = max(fim, min(g[-1]["e"] + 0.4, len(energias(f)[0]) * 0.01 - 0.02))
+            if out and out[-1][0] == f:
+                ini = max(ini, out[-1][2])
+            out.append((f, ini, fim, ci, g))
     return out
 
 
