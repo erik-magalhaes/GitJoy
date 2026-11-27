@@ -28,7 +28,7 @@ PRETO = (16, 14, 18)
 OURO = (255, 199, 31)
 VERMELHO = (226, 52, 52)
 BRANCO = (255, 255, 255)
-CAIXAS = [os.path.join(AC, f) for f in ("clank_catacombs.png", "king_of_tokyo.png", "hive.png")]  # a última = a "grátis"
+CAIXAS = [os.path.join(AC, f) for f in ("wingspan.png", "hitster.png", "sea_salt_paper.png")]  # a última = a "grátis"
 LINK = "suavez.acervodejogos.com.br"
 
 
@@ -88,22 +88,28 @@ def carimbo(txt="GRÁTIS", s=64, ang=14):
 
 
 def tres_caixas(h=330, gratis=True, k_gratis=1.0):
-    """As 3 caixas lado a lado; a menor (a mais barata) com o carimbo GRÁTIS."""
+    """As 3 caixas lado a lado; a menor (a mais barata) com o carimbo GRÁTIS. A margem de cima tem a altura do
+    carimbo, para ele nunca ficar cortado."""
     ims = [E.jogo(p, h, int(h * 1.05)) for p in CAIXAS]
     ims[2] = E.jogo(CAIXAS[2], int(h * 0.82), int(h * 0.9))
+    ims = [im.rotate([3, -2, -5][i], expand=True, resample=Image.BICUBIC) for i, im in enumerate(ims)]
+    c = carimbo(s=int(h * 0.19))
+    topo = c.height
     gap = 18
     w = sum(i.width for i in ims) + 2 * gap
-    out = Image.new("RGBA", (w + 60, h + 160), (0, 0, 0, 0))
+    alt = max(i.height for i in ims)
+    out = Image.new("RGBA", (w + 60, topo + alt + 20), (0, 0, 0, 0))
     x = 30
-    for i, im in enumerate(ims):
-        y = 60 + (h - im.height)
-        out.alpha_composite(im.rotate([3, -2, -5][i], expand=True, resample=Image.BICUBIC), (x, y))
+    xs = []
+    for im in ims:
+        out.alpha_composite(im, (x, topo + alt - im.height))
+        xs.append(x + im.width / 2)
         x += im.width + gap
     if gratis and k_gratis > 0.02:
-        c = carimbo()
-        c = c.resize((max(2, int(c.width * k_gratis)), max(2, int(c.height * k_gratis))), Image.BICUBIC)
-        cx = 30 + ims[0].width + ims[1].width + 2 * gap + ims[2].width / 2
-        out.alpha_composite(c, (int(cx - c.width / 2), int(60 + h - ims[2].height - c.height * 0.55)))
+        c2 = c.resize((max(2, int(c.width * k_gratis)), max(2, int(c.height * k_gratis))), Image.BICUBIC)
+        cx = min(xs[2], out.width - c2.width / 2 - 4)
+        y = topo + alt - ims[2].height - c2.height * 0.92  # em cima da caixa, sem tapar o nome
+        out.alpha_composite(c2, (int(cx - c2.width / 2), int(max(0, y))))
     return out
 
 
@@ -133,10 +139,10 @@ def story_promo():
     t = E.titulo("ALUGUE 3 JOGOS,\nO MAIS BARATO\nÉ POR NOSSA CONTA!", 92, cor=BRANCO, larg_max=1000)
     centro(img, t, W / 2, y)
     y += t.height - 10
-    cx = tres_caixas(280)
-    centro(img, cx, W / 2, y - 40)
+    cx = tres_caixas(270)
+    centro(img, cx, W / 2, y - 60)
     # espaço do adesivo de link: y ≈ 1350–1580 (livre)
-    seta_link(img, 1240)
+    seta_link(img, 1300)
     pl = E.pilula("SÓ ATÉ DOMINGO, 29/11", 44, OURO, E.MARROM, fonte_titulo=True)
     centro(img, pl, W / 2, 1610)
     return img
@@ -161,9 +167,9 @@ def story_como():
         card.alpha_composite(tx, (180, (170 - tx.height) // 2))
         centro(img, card, W / 2, y)
         y += 200
-    cx = tres_caixas(190)
-    centro(img, cx, W / 2, y - 90)
-    seta_link(img, 1290, "corre pro site:")
+    cx = tres_caixas(180)
+    centro(img, cx, W / 2, y - 120)
+    seta_link(img, 1300, "corre pro site:")
     pl = E.pilula("BLACK FRIDAY · SÓ ATÉ DOMINGO, 29/11", 36, OURO, E.MARROM, fonte_titulo=True)
     centro(img, pl, W / 2, 1610)
     return img
