@@ -110,7 +110,7 @@ def tres_caixas(h=330, gratis=True, k_gratis=1.0):
     for i, im in enumerate(ims):
         cx = x + larg[i] / 2
         out.alpha_composite(im, (int(cx - im.width / 2), alt - im.height))
-        if gratis and (i < 2 or k_gratis > 0.02):
+        if gratis and i == 2 and k_gratis > 0.02:  # só a etiqueta amarela (ele achou 'VOCÊ PAGA' forte)
             e = pagos[i] if i < 2 else nossa
             if i == 2 and k_gratis < 1:
                 e = e.resize((max(2, int(e.width * k_gratis)), max(2, int(e.height * k_gratis))), Image.BICUBIC)
