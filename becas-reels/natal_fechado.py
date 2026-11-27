@@ -52,7 +52,7 @@ def rodape(w=CW):
     d.line((0, 3, w, 3), fill=MAR, width=6)
     for x in range(-40, w + 40, 46):   # listrinha dourada
         d.line((x, 10, x + 14, 10), fill=AMA, width=3)
-    txt = "DOMINGO 13/12 · EVENTO FECHADO · SÓ COM RESERVA"
+    txt = "DOMINGO 13/12 · 30 VAGAS · RESERVE PELO LINK NA BIO"
     d.text((w / 2, 54), txt, font=D.cabe(txt, w - 60, 44), fill=BR, anchor="mm")
     return im
 
@@ -124,7 +124,7 @@ def base(livres=()):
 
 def t_capa():
     img = DC.base()
-    E.cola(img, carimbo(), 540, 330, -3, 1, 1)
+    E.cola(img, E.titulo("VEM AÍ!", 110, AMA), 540, 320, -3, 1, 1)
     E.cola(img, ingresso(), 540, 790, 1, 1, 1)
     E.cola(img, E.titulo("RESERVE JÁ!", 96, AMA), 540, 1185, -2, 1, 1)
     E.cola(img, E.pilula("ARRASTA PRO LADO →", 30, BR, MAR, fonte_titulo=True), 540, 1290, 1, 1, 1)
@@ -134,7 +134,7 @@ def t_capa():
 def t_exclusivo():
     img = base(livres=(540,))
     DC.pendura(img, pol("patio", 600, 560, "o Beca’s só pra gente", 0.4), 540, 390, ROSA, -2, 160)
-    E.cola(img, E.titulo("O CAFÉ ABRE\nSÓ PRA QUEM\nRESERVOU!", 92, AMA), 540, 280, -2, 1, 1)
+    E.cola(img, E.titulo("UM DOMINGO\nSÓ NOSSO NO\nBECA’S CAFÉ!", 92, AMA), 540, 280, -2, 1, 1)
     E.cola(img, E.pilula("O Beca’s não abre aos domingos: nesse, ele é todo nosso!", 31, BR, MAR), 540, 1180, 1, 1, 1)
     return img.convert("RGB")
 
@@ -168,7 +168,7 @@ def t_como():
                                     ("Faça a sua reserva antes do dia", PET),
                                     ("No domingo, é só chegar e jogar!", VERDE))):
         E.cola(img, passo(k + 1, txt, cor), 540, 560 + k * 185, (-1, 1, -1)[k], 1, 1)
-    E.cola(img, carimbo("NÃO TEM VENDA NA PORTA", "EVENTO FECHADO: SÓ COM RESERVA", 62), 540, 1130, 2, 1, 1)
+    E.cola(img, E.pilula("Garanta antes: as vagas são limitadas!", 38, AMA, MAR, fonte_titulo=True), 540, 1140, 2, 1, 1)
     return img.convert("RGB")
 
 
@@ -244,7 +244,7 @@ def faixa_video():
     im = Image.new("RGBA", (W, h), VERDE + (240,))
     d = ImageDraw.Draw(im)
     d.line((0, h - 3, W, h - 3), fill=MAR, width=6)
-    txt = "DOMINGO 13/12 · SÓ COM RESERVA · 30 VAGAS"
+    txt = "DOMINGO 13/12 · 30 VAGAS · RESERVE JÁ"
     d.text((W / 2, h / 2), txt, font=D.cabe(txt, W - 70, 46), fill=BR, anchor="mm")
     return im
 
@@ -253,7 +253,7 @@ def gancho(img, t):
     img.alpha_composite(ken("patio", 0.4, t, T_GANCHO))
     K.escurece(img, 380, 1500, 200)
     # tudo já na tela no 1º quadro (sem esperar animação)
-    E.cola(img, carimbo(), W / 2, 560, -3, 1 + 0.04 * max(0, 1 - t / 0.25), 1)
+    E.cola(img, E.pilula("ESPECIAL DE NATAL", 56, VERDE, BR, fonte_titulo=True), W / 2, 600, -3, 1 + 0.04 * max(0, 1 - t / 0.25), 1)
     E.cola(img, E.titulo("DOMINGO DE JOGOS\nDE NATAL", 104, AMA), W / 2, 860, -1, 1, 1)
     E.cola(img, E.pilula("DOMINGO, 13/12 · 13H ÀS 19H", 52, BR, MAR, fonte_titulo=True), W / 2, 1060, 1, 1, 1)
     E.cola(img, E.pilula("NO BECA’S CAFÉ · MAUÁ", 46, PET, BR, fonte_titulo=True), W / 2, 1160, -1, 1, 1)

@@ -70,8 +70,8 @@ def cena_premio(img, t):
     img.alpha_composite(D.fundo(t))
     K.poe(img, E.pilula("TODAS AS MESAS JOGAM JUNTAS", 52, PET, BR, fonte_titulo=True), W / 2, 780, t, T_PREMIO + 0.05)
     K.poe(img, K.titulo("VALENDO UM\n1, 2, 3, LUCHA!", 130, AMA), W / 2, 980, t, T_PREMIO + 0.45, -3)
-    K.poe(img, DH.caixa(330, DH.LUCHA), W / 2, 1290, t, T_PREMIO + 0.7, -5)
-    K.poe(img, E.pilula("a mesa campeã disputa a final!", 46, BR, MAR), W / 2, 1520, t, T_PREMIO + 0.9, 2)
+    K.poe(img, DH.caixa(400, DH.LUCHA), W / 2, 1300, t, T_PREMIO + 0.7, -5)
+    K.poe(img, E.pilula("a mesa campeã disputa a final!", 46, BR, MAR), W / 2, 1560, t, T_PREMIO + 0.9, 2)
     if u > 0.45:  # confete
         import random
         rnd = random.Random(5)
