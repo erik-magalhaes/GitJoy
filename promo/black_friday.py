@@ -243,47 +243,111 @@ def post_como():
     return img
 
 
+def vitrine(h=380, gap=36, refl=True):
+    """As 3 caixas EM PÉ, retas, numa prateleira escura com reflexo e sombra; brilho dourado atrás da 3ª (a do
+    aluguel por nossa conta) e a etiqueta amarela pendurada embaixo dela."""
+    ims = [E.jogo(p, h, int(h * 1.0)) for p in CAIXAS]
+    w = sum(i.width for i in ims) + 2 * gap
+    out = Image.new("RGBA", (w + 240, int(h * 1.95)), (0, 0, 0, 0))
+    base = h + 130
+    x = 120
+    pos = []
+    for im in ims:
+        pos.append((x, base - im.height))
+        x += im.width + gap
+    # brilho dourado atrás da 3ª
+    gx, gy = pos[2][0] + ims[2].width / 2, base - ims[2].height / 2
+    glow = Image.new("L", out.size, 0)
+    ImageDraw.Draw(glow).ellipse((gx - ims[2].width * 0.95, gy - ims[2].height * 0.85, gx + ims[2].width * 0.95,
+                                  gy + ims[2].height * 0.75), fill=200)
+    glow = glow.filter(ImageFilter.GaussianBlur(40))
+    out.alpha_composite(Image.composite(Image.new("RGBA", out.size, OURO + (255,)), Image.new("RGBA", out.size, (0, 0, 0, 0)),
+                                        glow.point(lambda v: int(v * 0.45))))
+    d = ImageDraw.Draw(out)
+    d.rounded_rectangle((70, base - 4, out.width - 70, base + 16), radius=8, fill=(60, 44, 30))  # prateleira
+    d.rectangle((70, base - 4, out.width - 70, base), fill=(110, 84, 50))
+    for (px, py), im in zip(pos, ims):
+        if refl:  # reflexo na prateleira
+            r = im.transpose(Image.FLIP_TOP_BOTTOM).crop((0, 0, im.width, int(im.height * 0.25)))
+            m = Image.new("L", r.size)
+            for yy in range(r.height):
+                ImageDraw.Draw(m).line((0, yy, r.width, yy), fill=int(70 * (1 - yy / r.height)))
+            r.putalpha(Image.composite(r.getchannel("A"), Image.new("L", r.size, 0), m).point(lambda v: min(v, 70)))
+            out.alpha_composite(r, (int(px), base + 16))
+        out.alpha_composite(im, (int(px), int(py)))
+    e = etiqueta("ALUGUEL POR\nNOSSA CONTA!", int(h * 0.085), OURO, E.MARROM, ang=-3)
+    ex = pos[2][0] + ims[2].width / 2
+    out.alpha_composite(e, (int(min(out.width - e.width - 4, ex - e.width / 2)), base + 28))
+    return out
+
+
+def titulo_2(s=96):
+    """ "ALUGUE 3 JOGOS / E PAGUE SÓ 2!" com o 2 grande em dourado."""
+    l1 = E.titulo("ALUGUE 3 JOGOS", s, cor=BRANCO, larg_max=1000)
+    a = E.titulo("E PAGUE SÓ", s, cor=BRANCO)
+    n = E.titulo("2!", int(s * 1.55), cor=OURO)
+    l2 = Image.new("RGBA", (a.width + n.width - 20, max(a.height, n.height)), (0, 0, 0, 0))
+    l2.alpha_composite(a, (0, l2.height - a.height - int(s * 0.08)))
+    l2.alpha_composite(n, (a.width - 20, 0))
+    sob = int(s * 0.75)
+    out = Image.new("RGBA", (max(l1.width, l2.width), l1.height + l2.height - sob), (0, 0, 0, 0))
+    out.alpha_composite(l2, ((out.width - l2.width) // 2, l1.height - sob))
+    out.alpha_composite(l1, ((out.width - l1.width) // 2, 0))
+    return out
+
+
+def fita_topo(img, y, s=84):
+    """Fita BLACK FRIDAY reta de ponta a ponta."""
+    t = E.titulo("BLACK FRIDAY", s, cor=OURO, contorno=(0, 0, 0), sw=7, sombra=0)
+    h = t.height + 36
+    b = Image.new("RGBA", (W + 200, h), (0, 0, 0, 255))
+    d = ImageDraw.Draw(b)
+    for x in range(-60, b.width + 60, 54):
+        d.polygon([(x, 0), (x + 27, 0), (x + 9, 12), (x - 18, 12)], fill=OURO)
+        d.polygon([(x, h - 12), (x + 27, h - 12), (x + 9, h), (x - 18, h)], fill=OURO)
+    b.alpha_composite(t, ((b.width - t.width) // 2, 18))
+    b = b.rotate(-2.5, expand=True, resample=Image.BICUBIC)
+    img.alpha_composite(b, (int(W / 2 - b.width / 2), int(y)))
+    return y + b.height
+
+
 def post_q():
-    """Versão QUADRADA 1080x1080 (o carrossel do Instagram corta em 1:1 por padrão)."""
+    """Versão QUADRADA 1080x1080, refeita (ele achou a 1ª pobre e com os jogos tortos)."""
     H = 1080
     img = fundo(H, 7)
-    lg = E.logo(150)
-    img.alpha_composite(lg, (W - lg.width - 30, 30))
-    fb = faixa_bf(760, 96)
-    centro(img, fb, W / 2 - 40, 40)
-    t = E.titulo("ALUGUE 3 JOGOS\nE PAGUE SÓ 2!", 78, cor=BRANCO, larg_max=1000)
-    centro(img, t, W / 2, 40 + fb.height - 14)
-    cx = tres_caixas(210)
-    centro(img, cx, W / 2, 40 + fb.height + t.height - 4)
+    y = fita_topo(img, 18)
+    t = titulo_2(84)
+    centro(img, t, W / 2, y - 6)
+    v = vitrine(300)
+    centro(img, v, W / 2, y + t.height - 120)
     pl = E.pilula("SÓ ATÉ DOMINGO, 29/11 · LINK NA BIO", 34, OURO, E.MARROM, fonte_titulo=True)
-    centro(img, pl, W / 2, H - pl.height - 34)
+    centro(img, pl, W / 2, H - pl.height - 30)
+    lg = E.logo(130)
+    img.alpha_composite(lg, (24, H - lg.height - 24))
     return img
 
 
 def post_como_q():
     H = 1080
     img = fundo(H, 8)
-    lg = E.logo(150)
-    img.alpha_composite(lg, (W - lg.width - 30, 30))
-    t = E.titulo("COMO FUNCIONA?", 88, cor=OURO, larg_max=760)
-    img.alpha_composite(t, (50, 40))
-    y = 40 + t.height + 14
+    y = fita_topo(img, 18, 70)
+    t = E.titulo("COMO FUNCIONA?", 92, cor=BRANCO, larg_max=980)
+    centro(img, t, W / 2, y + 6)
+    y += t.height + 24
     passos = [("1", "Escolha 3 jogos ou mais no site", E.LARANJA),
-              ("2", "No carrinho, o aluguel do mais barato fica por nossa conta", E.PETROLEO),
-              ("3", "Retire em Mauá ou receba em casa", (120, 70, 160))]
-    for n, txt, cor in passos:
-        card = E.bloco(900, 140, (255, 248, 232), raio=30, ow=6, sombra=9)
+              ("2", "O aluguel do mais barato\nfica por nossa conta", OURO),
+              ("3", "Retire em Mauá ou receba em casa", E.PETROLEO)]
+    for i, (n, txt, cor) in enumerate(passos):
+        card = E.bloco(940, 168, (255, 248, 232), raio=34, ow=7, sombra=10)
         d = ImageDraw.Draw(card)
-        d.ellipse((24, 20, 124, 120), fill=cor, outline=E.MARROM, width=5)
-        d.text((74, 72), n, font=E.lilita(66), fill=BRANCO, anchor="mm")
-        tx = E.texto(txt, 38, cor=E.MARROM, peso=800, larg_max=700, alinha="lm")
-        card.alpha_composite(tx, (150, (140 - tx.height) // 2))
+        d.rounded_rectangle((22, 22, 146, 146), radius=26, fill=cor, outline=E.MARROM, width=6)
+        d.text((84, 88), n, font=E.lilita(88), fill=BRANCO if cor != OURO else E.MARROM, anchor="mm")
+        tx = E.titulo(txt.upper(), 44, cor=E.MARROM, contorno=E.MARROM, sw=0, sombra=0, larg_max=730)
+        card.alpha_composite(tx, (176, (168 - tx.height) // 2))
         centro(img, card, W / 2, y)
-        y += 162
-    cx = tres_caixas(140)
-    centro(img, cx, W / 2, y - 6)
+        y += 192
     pl = E.pilula("SÓ ATÉ DOMINGO, 29/11 · LINK NA BIO", 34, OURO, E.MARROM, fonte_titulo=True)
-    centro(img, pl, W / 2, H - pl.height - 28)
+    centro(img, pl, W / 2, H - pl.height - 30)
     return img
 
 
