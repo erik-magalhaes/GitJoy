@@ -55,8 +55,8 @@ def degrade(img, y0, y1, cor, a0=0, a1=235):
     img.alpha_composite(Image.composite(Image.new("RGBA", (W, H), cor + (255,)), Image.new("RGBA", (W, H), (0, 0, 0, 0)), m))
 
 
-def capa_a():
-    img = quadro_dele()
+def capa_a(nome="144733", t=10.5):
+    img = quadro_dele(nome, t)
     # escurece o alto (título) e o pé (caixas)
     top = Image.new("L", (1, H))
     for y in range(H):
@@ -118,7 +118,21 @@ def capa_b():
     return img
 
 
+OPCOES = [("144818", 233.0), ("144733", 13.3), ("144818", 245.0), ("144818", 203.5)]
+
+
 def main():
+    if "--frames" in sys.argv:
+        ims = [capa_a(n, t) for n, t in OPCOES]
+        f = Image.new("RGB", (4 * 540 + 90, 960 + 70), (255, 255, 255))
+        dd = ImageDraw.Draw(f)
+        for i, im in enumerate(ims):
+            im.convert("RGB").save(os.path.join(OUT, f"capa_A{i + 1}.png"))
+            f.paste(im.convert("RGB").resize((540, 960)), (i * 570, 70))
+            dd.text((i * 570 + 250, 15), str(i + 1), fill=(0, 0, 0), font=E.lilita(44))
+        f.save(os.path.join(OUT, "capa_A_opcoes.jpg"), quality=90)
+        print("ok")
+        return
     a, b = capa_a(), capa_b()
     a.convert("RGB").save(os.path.join(OUT, "capa_A.png"))
     b.convert("RGB").save(os.path.join(OUT, "capa_B.png"))
