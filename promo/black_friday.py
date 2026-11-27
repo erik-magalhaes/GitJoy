@@ -279,7 +279,7 @@ def quadro_reels(t, stories=False):
     ims = [E.jogo(p, 280, 300) for p in CAIXAS]
     ims[2] = E.jogo(CAIXAS[2], 230, 250)
     xs = [W / 2 - 330, W / 2, W / 2 + 320]
-    base = 1180
+    base = 1300
     for i, im in enumerate(ims):
         kk = back((t - 2.2 - i * 0.35) / 0.4)
         if kk > 0.01:
@@ -296,26 +296,26 @@ def quadro_reels(t, stories=False):
         tx = E.texto("3 jogos ou mais no carrinho:\no mais barato sai de graça!", 44, cor=BRANCO, peso=800, larg_max=900)
         tx2 = tx.copy()
         tx2.putalpha(tx.getchannel("A").point(lambda v: int(v * a)))
-        centro(img, tx2, W / 2, 1220)
+        centro(img, tx2, W / 2, 1340)
     if t > 6.5:
         kk = back((t - 6.5) / 0.35)
         pl = E.pilula("SÓ ATÉ DOMINGO, 29/11", 48, OURO, E.MARROM, fonte_titulo=True)
         pl = pl.resize((max(2, int(pl.width * kk)), max(2, int(pl.height * kk))), Image.BICUBIC)
-        centro(img, pl, W / 2, 1400)
+        centro(img, pl, W / 2, 1490)
     if t > 8.0:
         kk = ease((t - 8.0) / 0.4)
         if stories:
             seta = Image.new("RGBA", (W, 400), (0, 0, 0, 0))
             seta_link(seta, 0, "garanta os seus aqui:")
             seta.putalpha(seta.getchannel("A").point(lambda v: int(v * kk)))
-            img.alpha_composite(seta, (0, 1500))
+            img.alpha_composite(seta, (0, 1580))
         else:
             pl = E.pilula("RESERVE PELO LINK NA BIO · @SUAVEZ_BG", 36, E.LARANJA, BRANCO, fonte_titulo=True)
             pl.putalpha(pl.getchannel("A").point(lambda v: int(v * kk)))
-            centro(img, pl, W / 2, 1530)
+            centro(img, pl, W / 2, 1600)
             c = E.texto("Comenta: quais 3 você levaria?", 40, cor=OURO, peso=900)
             c.putalpha(c.getchannel("A").point(lambda v: int(v * kk)))
-            centro(img, c, W / 2, 1640)
+            centro(img, c, W / 2, 1700)
     return img
 
 
