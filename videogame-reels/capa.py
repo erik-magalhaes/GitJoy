@@ -68,7 +68,7 @@ def capa_a(nome="144733", t=10.5):
         top.putpixel((0, y), a)
     img.alpha_composite(Image.composite(Image.new("RGBA", (W, H), NOITE + (255,)), Image.new("RGBA", (W, H), (0, 0, 0, 0)),
                                         top.resize((W, H))))
-    t1 = E.titulo("TÁ ESPERANDO\nO GTA 6?", 120, cor=E.AMARELO, larg_max=980)
+    t1 = E.titulo("VICIADO NO\nGTA VI?", 120, cor=E.AMARELO, larg_max=980)
     img.alpha_composite(t1, ((W - t1.width) // 2, 300))
     lq = E.leque([V.JOGOS[k][0] for k in ("bad", "res", "ww", "heat", "dbd")], 250, passo=0.56)
     if lq.width > W - 60:
