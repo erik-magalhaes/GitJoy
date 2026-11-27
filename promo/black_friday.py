@@ -243,6 +243,50 @@ def post_como():
     return img
 
 
+def post_q():
+    """Versão QUADRADA 1080x1080 (o carrossel do Instagram corta em 1:1 por padrão)."""
+    H = 1080
+    img = fundo(H, 7)
+    lg = E.logo(150)
+    img.alpha_composite(lg, (W - lg.width - 30, 30))
+    fb = faixa_bf(760, 96)
+    centro(img, fb, W / 2 - 40, 40)
+    t = E.titulo("ALUGUE 3 JOGOS\nE PAGUE SÓ 2!", 78, cor=BRANCO, larg_max=1000)
+    centro(img, t, W / 2, 40 + fb.height - 14)
+    cx = tres_caixas(210)
+    centro(img, cx, W / 2, 40 + fb.height + t.height - 4)
+    pl = E.pilula("SÓ ATÉ DOMINGO, 29/11 · LINK NA BIO", 34, OURO, E.MARROM, fonte_titulo=True)
+    centro(img, pl, W / 2, H - pl.height - 34)
+    return img
+
+
+def post_como_q():
+    H = 1080
+    img = fundo(H, 8)
+    lg = E.logo(150)
+    img.alpha_composite(lg, (W - lg.width - 30, 30))
+    t = E.titulo("COMO FUNCIONA?", 88, cor=OURO, larg_max=760)
+    img.alpha_composite(t, (50, 40))
+    y = 40 + t.height + 14
+    passos = [("1", "Escolha 3 jogos ou mais no site", E.LARANJA),
+              ("2", "No carrinho, o aluguel do mais barato fica por nossa conta", E.PETROLEO),
+              ("3", "Retire em Mauá ou receba em casa", (120, 70, 160))]
+    for n, txt, cor in passos:
+        card = E.bloco(900, 140, (255, 248, 232), raio=30, ow=6, sombra=9)
+        d = ImageDraw.Draw(card)
+        d.ellipse((24, 20, 124, 120), fill=cor, outline=E.MARROM, width=5)
+        d.text((74, 72), n, font=E.lilita(66), fill=BRANCO, anchor="mm")
+        tx = E.texto(txt, 38, cor=E.MARROM, peso=800, larg_max=700, alinha="lm")
+        card.alpha_composite(tx, (150, (140 - tx.height) // 2))
+        centro(img, card, W / 2, y)
+        y += 162
+    cx = tres_caixas(140)
+    centro(img, cx, W / 2, y - 6)
+    pl = E.pilula("SÓ ATÉ DOMINGO, 29/11 · LINK NA BIO", 34, OURO, E.MARROM, fonte_titulo=True)
+    centro(img, pl, W / 2, H - pl.height - 28)
+    return img
+
+
 def story_de(tela, semente):
     st = fundo(1920, semente)
     st.alpha_composite(tela, (0, 285))
@@ -373,7 +417,8 @@ def main():
         f.save(os.path.join(OUT, "frames.jpg"), quality=88)
         return
     saidas = {"story_1_promo": story_promo(), "story_2_como_funciona": story_como(), "story_3_ultimo_dia": story_ultimo(),
-              "post_1": post(), "post_2_como_funciona": post_como()}
+              "post_1": post(), "post_2_como_funciona": post_como(),
+              "quadrado_1": post_q(), "quadrado_2_como_funciona": post_como_q()}
     for n, im in saidas.items():
         im.convert("RGB").save(os.path.join(OUT, n + ".png"))
     os.makedirs(os.path.join(OUT, "stories_do_carrossel"), exist_ok=True)
