@@ -76,12 +76,12 @@ def ingresso(w=960, h=640):
     lx = w - fw - 70
     sel = E.pilula("ESPECIAL DE NATAL", 34, VERDE, BR, fonte_titulo=True)
     c.alpha_composite(sel, (int(cx - sel.width / 2), 38))
-    d.text((cx, 162), "DOMINGO\nDE JOGOS", font=E.lilita(84), fill=LAR, anchor="mm", align="center",
+    d.text((cx, 185), "DOMINGO\nDE JOGOS", font=E.lilita(72), fill=LAR, anchor="mm", align="center",
            stroke_width=5, stroke_fill=MAR, spacing=-6)
     dt = E.pilula("DOMINGO, 13/12 · 13H ÀS 19H", 34, AMA, MAR, fonte_titulo=True)
-    c.alpha_composite(dt, (int(cx - dt.width / 2), 262))
-    d.text((cx, 360), "Beca’s Café", font=E.fig(36, 900), fill=MAR, anchor="mm")
-    d.text((cx, 404), "Rua Sorocaba, 35 · Mauá", font=E.fig(30, 700), fill=MAR, anchor="mm")
+    c.alpha_composite(dt, (int(cx - dt.width / 2), 276))
+    d.text((cx, 368), "Beca’s Café", font=E.fig(36, 900), fill=MAR, anchor="mm")
+    d.text((cx, 410), "Rua Sorocaba, 35 · Mauá", font=E.fig(30, 700), fill=MAR, anchor="mm")
     d.text((cx, 470), "R$ 40", font=E.lilita(70), fill=PET, anchor="mm", stroke_width=4, stroke_fill=MAR)
     d.text((cx, 528), "R$ 25 viram consumação no café", font=E.fig(28, 800), fill=MAR, anchor="mm")
     d.rounded_rectangle((fw + 40, 560, w - 30, 616), 26, fill=D.VERM)
@@ -145,7 +145,7 @@ def t_cafe():
     DC.pendura(img, pol("bebidas", 270, 340, "bebidas da casa", 0.5), 540, 540, AMA, -2, 130)
     DC.pendura(img, pol("croissant", 270, 340, "croissant", 0.5), 880, 470, PET, 3, 130)
     E.cola(img, E.titulo("R$ 25 VIRAM\nCONSUMAÇÃO", 104, AMA), 540, 290, -2, 1, 1)
-    E.cola(img, E.pilula("Ingresso R$ 40: o lanche já tá incluso!", 36, BR, MAR), 540, 1180, 1, 1, 1)
+    E.cola(img, E.pilula("Escolhe o que quiser do cardápio do Beca’s!", 36, BR, MAR), 540, 1180, 1, 1, 1)
     return img.convert("RGB")
 
 
@@ -199,7 +199,7 @@ def fotos():
     ims = [f() for f in TELAS]
     for k, im in enumerate(ims):
         im.save(os.path.join(PASTA, f"{k + 1:02d}.png"))
-        DC.story_de(im, k == len(ims) - 1).save(os.path.join(PASTA, "stories", f"story_{k + 1:02d}.png"))
+        DC.story_de(im).save(os.path.join(PASTA, "stories", f"story_{k + 1:02d}.png"))
     sh = Image.new("RGB", (len(ims) * 360, 450), "white")
     for k, im in enumerate(ims):
         sh.paste(im.resize((360, 450)), (k * 360, 0))
@@ -297,7 +297,7 @@ def render_reels(fi):
 
 
 def render_stories(fi):
-    return quadro(fi / FPS, "stories").tobytes()
+    return quadro(fi / FPS, "reels").tobytes()   # sem o "garanta aqui" + seta (pedido dele): igual ao Reels
 
 
 def audio(nome):
