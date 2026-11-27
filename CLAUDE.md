@@ -1743,3 +1743,11 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   → o fim de cada pedaço agora segue a ENERGIA (total + agudos, `borda()`), até 0,7 s depois da palavra, sem passar da
   palavra seguinte. **Regra para cortes de fala: nunca usar o fim do Whisper sozinho; conferir o agudo no fim de cada
   pedaço.** Para caber em 60 s saíram "E a pontuação é o seguinte" e "aí é hora de contar os pontos finais...". 77,7 s.
+- **EVENTO FECHADO, foco no PRÓXIMO evento (`becas-reels/natal_fechado.py`, 27/nov):** ele achou o material do domingo
+  "focado no que já aconteceu" e com as infos só no fim. Regra: data + "EVENTO FECHADO · SÓ COM RESERVA" na 1ª tela/1º
+  segundo e FIXOS (rodapé verde no carrossel, faixa no vídeo). Fotos novas deles em `becas-reels/assets/natal/` (pátio,
+  lanche, bebidas, croissant, boop., Sea Salt & Paper, Flamecraft, Monkey Palace). Carrossel 7 telas + stories e vídeo 23 s.
+  **Prêmio do Desafio Hitster (27/nov, ele):** depois das 10 músicas, a mesa campeã vai pra GRANDE FINAL (+3 músicas,
+  cada um por si; empate = música extra, mais perto ganha); o vencedor leva o **1, 2, 3, Lucha!** e os outros da mesa
+  ganham o voucher de locação. `desafio_hitster.py` (premio_bloco, final_placar, cartao_final → final_A4.pdf) e
+  `desafio_reels.py` atualizados (o vídeo precisa de `brutos/nov24/festa.mp4`, que não está nesta máquina).

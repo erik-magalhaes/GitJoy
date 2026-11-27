@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 """DESAFIO HITSTER ENTRE MESAS no Domingo de Jogos (22/nov/2026, ele adorou a ideia). Às 16h todo mundo para por ~20 min,
 cada MESA vira um time: o Erik toca uma música do Hitster pelo app (sem mostrar a carta), cada mesa escreve O ANO e
-levanta a folha; ano certo = 3 pontos, até 2 anos de diferença = 2, década certa = 1; 10 músicas; a mesa campeã ganha um
-VOUCHER DE LOCAÇÃO POR PESSOA (24/nov, eles): 1 jogo Pocket ou Família por 5 dias, válido até 31/01/2027.
+levanta a folha; ano certo = 3 pontos, até 2 anos de diferença = 2, década certa = 1; 10 músicas.
+PRÊMIO (27/nov, ele): a mesa que mais pontuar vai pra GRANDE FINAL: mais 3 músicas, agora cada pessoa da mesa joga
+SOZINHA; quem fizer mais pontos leva o jogo 1, 2, 3, LUCHA! e os outros da mesa ganham um VOUCHER DE LOCAÇÃO no site
+(1 jogo Pocket ou Família por 5 dias, válido até 31/01/2027).
 
 Peças (out/desafio/):
 - post.png / story.png: anúncio no visual de fim de ano do domingo (caixa oficial do Hitster).
 - placar_A3.pdf e placar_A4.pdf: placar de parede, mesas 1–8 × músicas 1–10 + total.
 - palpites_mesas_1-8.pdf: uma folha por mesa com 10 quadrões numerados (escreve o ano com canetão e levanta a folha).
 - vouchers_A4.pdf: 10 vouchers 9 x 5 cm por folha, numerados 01–10 (locação grátis).
+- final_A4.pdf: placar da GRANDE FINAL (finalistas × 3 músicas) + cartões de palpite da final (4 por A4).
 - roteiro_apresentador.pdf: o passo a passo do Erik, pontuação e desempate.
 
     /usr/bin/python3 desafio_hitster.py
@@ -27,6 +30,8 @@ DPI = 300
 A4 = (2480, 3508)
 A3P = (4961, 3508)  # A3 deitado
 CAIXA = os.path.join(REPO, "hobby-reels", "assets", "acervo", "hitster.png")
+LUCHA = os.path.join(REPO, "hobby-reels", "assets", "acervo", "1_2_3_lucha.png")
+FINAL = 3
 VERM = D.VERM
 HORA_DESAFIO = "16H"
 MESAS = 8
@@ -34,8 +39,8 @@ MUSICAS = 10
 CINZA = (120, 120, 120)
 
 
-def caixa(h):
-    im = Image.open(CAIXA).convert("RGBA")
+def caixa(h, arq=CAIXA):
+    im = Image.open(arq).convert("RGBA")
     im = im.crop(im.getbbox())
     return im.resize((int(im.width * h / im.height), h), Image.LANCZOS)
 
@@ -83,11 +88,7 @@ def anuncio(h):
         d.text((60, y + 1), str(k + 1), font=E.lilita(40), fill=BR if k < 2 else MAR, anchor="mm")
         d.text((110, y), txt, font=E.fig(34, 900), fill=MAR, anchor="lm")
     E.cola(img, passos, 745, oy + 830, 2, 1, 1)
-    premio = E.bloco(940, 190, AMA, raio=34, ow=7, sombra=12).copy()
-    d = ImageDraw.Draw(premio)
-    d.text((470, 62), "VALENDO PRÊMIO", font=E.lilita(54), fill=MAR, anchor="mm")
-    d.text((470, 130), "PRA MESA CAMPEÃ!", font=E.lilita(46), fill=VERM, anchor="mm")
-    E.cola(img, premio, 540, oy + 1110, -1, 1, 1)
+    E.cola(img, premio_bloco(), 540, oy + 1120, -1, 1, 1)
     if h == 1350:
         E.cola(img, E.pilula(f"DOMINGO DE JOGOS · {D.DATA.split(', ')[-1]} · SÓ 30 VAGAS", 34, (24, 110, 66), BR,
                              fonte_titulo=True), 540, 1280, 1, 1, 1)
@@ -97,6 +98,20 @@ def anuncio(h):
         E.cola(img, E.pilula("garanta a vaga da sua mesa:", 40, BR, MAR), 540, 1590, 0, 1, 1)
         E.cola(img, D.seta(), 540, 1690, 0, 0.5, 1)
     return img.convert("RGB")
+
+
+def premio_bloco(w=960, h=250):
+    """Bloco do prêmio: caixa do 1, 2, 3, Lucha! + como funciona a final."""
+    c = E.bloco(w, h, AMA, raio=34, ow=7, sombra=12).copy()
+    d = ImageDraw.Draw(c)
+    cx = caixa(270, LUCHA).rotate(-6, expand=True, resample=Image.BICUBIC)
+    c.alpha_composite(cx, (14, int(h / 2 - cx.height / 2)))
+    x = 14 + cx.width + 18
+    d.text((x, 50), "QUEM VENCER LEVA O", font=E.lilita(38), fill=MAR, anchor="lm")
+    d.text((x, 108), "1, 2, 3, LUCHA!", font=E.lilita(60), fill=VERM, anchor="lm", stroke_width=3, stroke_fill=MAR)
+    d.text((x, 166), "A mesa campeã disputa a final:", font=E.fig(29, 900), fill=MAR, anchor="lm")
+    d.text((x, 204), "+3 músicas, cada um por si!", font=E.fig(29, 900), fill=MAR, anchor="lm")
+    return c
 
 
 # ---------------------------------------------------------------- impressos
@@ -137,7 +152,7 @@ def placar(tam):
     xs = [x0, x0 + larg_mesa] + [x0 + larg_mesa + j * col for j in range(1, MUSICAS + 1)] + [tam[0] - x0]
     for x in xs:
         d.line((x, y0, x, y0 + (MESAS + 1) * lh), fill=MAR, width=max(3, int(8 * k)))
-    leg = "ANO CERTINHO = 3   ·   ATÉ 2 ANOS = 2   ·   DÉCADA CERTA = 1   ·   MESA CAMPEÃ: 1 LOCAÇÃO GRÁTIS POR PESSOA!"
+    leg = "ANO CERTINHO = 3   ·   ATÉ 2 ANOS = 2   ·   DÉCADA CERTA = 1   ·   MESA CAMPEÃ VAI PRA GRANDE FINAL!"
     d.text((tam[0] / 2, tam[1] - int(200 * k)), leg, font=E.lilita(int(84 * k)), fill=MAR, anchor="mm")
     return pg
 
@@ -161,6 +176,49 @@ def palpites(m):
         d.text((x + 150, y + 58), f"MÚSICA {k + 1}", font=E.lilita(52), fill=BR, anchor="mm")
         d.text((x + bw - 40, y + bh - 40), "ANO", font=E.fig(44, 800), fill=(180, 170, 160), anchor="rs")
     return pg
+
+
+def final_placar():
+    """Placar da GRANDE FINAL: até 8 pessoas da mesa campeã × 3 músicas + total."""
+    pg = Image.new("RGB", (3508, 2480), BR)
+    d = ImageDraw.Draw(pg)
+    cabecalho(pg, "GRANDE FINAL", 190, 170)
+    d.text((pg.width / 2, 340), "a mesa campeã · 3 músicas · cada um por si · quem fizer mais pontos leva o 1, 2, 3, Lucha!",
+           font=E.fig(58, 800), fill=PET, anchor="mm")
+    x0, y0, ln, lt = 160, 450, 1200, 560
+    col = (pg.width - 2 * x0 - ln - lt) / FINAL
+    n = 8
+    lh = (pg.height - y0 - 260) / (n + 1)
+    d.rectangle((x0, y0, pg.width - x0, y0 + lh), fill=PET)
+    d.text((x0 + ln / 2, y0 + lh / 2), "NOME", font=E.lilita(80), fill=BR, anchor="mm")
+    for j in range(FINAL):
+        d.text((x0 + ln + (j + 0.5) * col, y0 + lh / 2), f"MÚSICA {j + 1}", font=E.lilita(70), fill=BR, anchor="mm")
+    d.text((pg.width - x0 - lt / 2, y0 + lh / 2), "TOTAL", font=E.lilita(80), fill=AMA, anchor="mm")
+    for i in range(n + 2):
+        d.line((x0, y0 + i * lh, pg.width - x0, y0 + i * lh), fill=MAR, width=8)
+    for x in [x0, x0 + ln] + [x0 + ln + j * col for j in range(1, FINAL + 1)] + [pg.width - x0]:
+        d.line((x, y0, x, y0 + (n + 1) * lh), fill=MAR, width=8)
+    d.text((pg.width / 2, pg.height - 140), "ANO CERTINHO = 3  ·  ATÉ 2 ANOS = 2  ·  DÉCADA CERTA = 1  ·  "
+           "EMPATE: 1 MÚSICA EXTRA, GANHA QUEM CHEGAR MAIS PERTO", font=E.lilita(62), fill=MAR, anchor="mm")
+    return pg
+
+
+def cartao_final():
+    """Cartão de palpite da final (1 por finalista), 4 por A4 em pé."""
+    w, h = A4[0] // 2, A4[1] // 2
+    c = Image.new("RGB", (w, h), BR)
+    d = ImageDraw.Draw(c)
+    d.rectangle((0, 0, w - 1, h - 1), outline=(190, 190, 190), width=3)
+    d.rounded_rectangle((50, 50, w - 50, 260), 40, fill=VERM, outline=MAR, width=8)
+    d.text((w / 2, 155), "GRANDE FINAL", font=E.lilita(120), fill=BR, anchor="mm", stroke_width=6, stroke_fill=MAR)
+    d.text((80, 340), "nome: ______________________", font=E.fig(58, 800), fill=MAR, anchor="lm")
+    for k in range(FINAL):
+        y = 430 + k * 420
+        d.rounded_rectangle((80, y, w - 80, y + 370), 30, outline=MAR, width=7)
+        d.rounded_rectangle((80, y, 400, y + 90), 30, fill=PET)
+        d.text((240, y + 46), f"MÚSICA {k + 1}", font=E.lilita(48), fill=BR, anchor="mm")
+        d.text((w - 110, y + 340), "ANO", font=E.fig(40, 800), fill=(180, 170, 160), anchor="rs")
+    return c
 
 
 VW, VH = int(9 / 2.54 * DPI), int(5 / 2.54 * DPI)
@@ -194,7 +252,7 @@ def voucher(n):
     d.text((x0, 455), f"Resgate pelo WhatsApp {TB.WHATS}", font=E.fig(28, 800), fill=MAR, anchor="lm")
     d.text((x0, 495), "Retire em Mauá ou receba em casa · não acumula com outros cupons", font=E.fig(21, 700),
            fill=MAR, anchor="lm")
-    d.text((x0, 535), "Mesa campeã do Desafio Hitster · Domingo de Jogos", font=E.fig(21, 700), fill=CINZA,
+    d.text((x0, 535), "Finalista do Desafio Hitster · Domingo de Jogos", font=E.fig(21, 700), fill=CINZA,
            anchor="lm")
     d.rectangle((0, 0, VW - 1, VH - 1), outline=(190, 190, 190), width=2)
     return img
@@ -212,13 +270,17 @@ def roteiro():
                    "Entregue a folha de palpites e um canetão por mesa; placar na parede."]),
         ("ABERTURA (2 MIN)", ["\"Pausa nos jogos! Agora cada mesa é um time.\"",
                               "Explique: toca a música, a mesa combina o ano, escreve no quadro da música e levanta.",
-                              "Conte o prêmio: cada pessoa da mesa campeã ganha 1 locação grátis (Pocket ou Família, 5 dias)."]),
+                              "Conte o prêmio: a mesa campeã vai pra GRANDE FINAL e quem vencer leva o 1, 2, 3, Lucha!"]),
         ("CADA RODADA (~2 MIN)", ["Toque ~30 s da música, sem mostrar a carta.",
                                   "Conte 3-2-1: todas as mesas levantam a folha AO MESMO TEMPO.",
                                   "Revele o ano da carta e marque os pontos no placar:",
                                   "ano certinho = 3 · até 2 anos de diferença = 2 · década certa = 1."]),
         ("DESEMPATE", ["Uma música extra: ganha a mesa que chegar MAIS PERTO do ano."]),
-        ("FINAL", ["Anuncie a campeã, entregue 1 voucher por pessoa da mesa e tire a foto da mesa!",
+        ("GRANDE FINAL", ["A mesa campeã vai pra frente: cada pessoa recebe um cartão da final.",
+                          "Mais 3 músicas, mesma pontuação, mas agora CADA UM POR SI (sem combinar!).",
+                          "Empate: 1 música extra, ganha quem chegar mais perto do ano.",
+                          "Quem vencer leva o 1, 2, 3, Lucha!; os outros da mesa ganham 1 voucher cada.",
+                          "Foto do campeão com a caixa e da mesa com os vouchers!",
                    "Filme 1 rodada (o 3-2-1 + a revelação): é o melhor vídeo pro Instagram."]),
     ]
     y = 470
@@ -247,7 +309,9 @@ def main():
     salva_pdf([placar((3508, 2480))], "placar_A4.pdf")
     salva_pdf([palpites(m) for m in range(1, MESAS + 1)], "palpites_mesas_1-8.pdf")
     salva_pdf([TB.folha([voucher(n) for n in range(1, 11)], 2, 5)], "vouchers_A4.pdf")
+    salva_pdf([final_placar(), TB.folha([cartao_final()] * 4, 2, 2)], "final_A4.pdf")
     salva_pdf([roteiro()], "roteiro_apresentador.pdf")
+    final_placar().resize((1400, 990)).save(os.path.join(PASTA, "previa_final.jpg"), quality=88)
     # prévias em JPG pro chat
     placar((3508, 2480)).resize((1400, 990)).save(os.path.join(PASTA, "previa_placar.jpg"), quality=88)
     palpites(1).resize((827, 1170)).save(os.path.join(PASTA, "previa_palpites.jpg"), quality=88)
