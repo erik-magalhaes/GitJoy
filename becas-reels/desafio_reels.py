@@ -53,7 +53,7 @@ def cena_desafio(img, t):
     u = t - T_DES
     img.alpha_composite(D.fundo(t))
     K.poe(img, K.titulo("DESAFIO\nHITSTER!", 150, LAR), W / 2, 640, t, T_DES + 0.05, -2)
-    K.poe(img, E.pilula("ÀS 16H, NO DOMINGO DE JOGOS", 40, VERDE, BR, fonte_titulo=True), W / 2, 870, t, T_DES + 0.4, 1)
+    K.poe(img, E.pilula("TODAS AS MESAS JOGAM JUNTAS", 42, VERDE, BR, fonte_titulo=True), W / 2, 870, t, T_DES + 0.4, 1)
     if u > 0.6:
         pulo = abs(math.sin((u - 0.6) * 3.2)) * 18
         E.cola(img, DH.caixa(470), 300, 1270 - pulo, -6 + 2 * math.sin(u * 2), 1, 1)
@@ -68,10 +68,10 @@ def cena_desafio(img, t):
 def cena_premio(img, t):
     u = t - T_PREMIO
     img.alpha_composite(D.fundo(t))
-    K.poe(img, E.pilula("TODAS AS MESAS JOGAM JUNTAS", 52, PET, BR, fonte_titulo=True), W / 2, 780, t, T_PREMIO + 0.05)
-    K.poe(img, K.titulo("VALENDO UM\n1, 2, 3, LUCHA!", 130, AMA), W / 2, 980, t, T_PREMIO + 0.45, -3)
+    K.poe(img, E.pilula("QUEM VENCER LEVA O", 56, PET, BR, fonte_titulo=True), W / 2, 820, t, T_PREMIO + 0.05)
+    K.poe(img, K.titulo("1, 2, 3, LUCHA!", 140, AMA), W / 2, 980, t, T_PREMIO + 0.45, -3)
     K.poe(img, DH.caixa(400, DH.LUCHA), W / 2, 1300, t, T_PREMIO + 0.7, -5)
-    K.poe(img, E.pilula("a mesa campeã disputa a final!", 46, BR, MAR), W / 2, 1560, t, T_PREMIO + 0.9, 2)
+    K.poe(img, E.pilula("e outros prêmios!", 46, BR, MAR), W / 2, 1560, t, T_PREMIO + 0.9, 2)
     if u > 0.45:  # confete
         import random
         rnd = random.Random(5)

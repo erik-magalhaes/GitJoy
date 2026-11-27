@@ -75,7 +75,7 @@ def anuncio(h):
     img = D.fundo(3.0).crop((0, 0, W, h))
     oy = 0 if h == 1350 else 120
     E.cola(img, E.titulo("DESAFIO\nHITSTER!", 150, LAR), 540, oy + 400, -2, 1, 1)
-    E.cola(img, E.pilula(f"ÀS {HORA_DESAFIO}: TODAS AS MESAS JOGAM JUNTAS", 38, PET, BR, fonte_titulo=True), 540,
+    E.cola(img, E.pilula("TODAS AS MESAS JOGAM JUNTAS", 42, PET, BR, fonte_titulo=True), 540,
            oy + 590, 1, 1, 1)
     E.cola(img, caixa(380), 290, oy + 850, -6, 1, 1)
     for x, y, s, c, r in ((150, oy + 640, 70, VERM, -12), (470, oy + 660, 56, PET, 10), (980, oy + 1000, 64, AMA, 8)):
@@ -104,13 +104,12 @@ def premio_bloco(w=960, h=250):
     """Bloco do prêmio: caixa do 1, 2, 3, Lucha! + como funciona a final."""
     c = E.bloco(w, h, AMA, raio=34, ow=7, sombra=12).copy()
     d = ImageDraw.Draw(c)
-    cx = caixa(270, LUCHA).rotate(-6, expand=True, resample=Image.BICUBIC)
-    c.alpha_composite(cx, (14, int(h / 2 - cx.height / 2)))
-    x = 14 + cx.width + 18
-    d.text((x, 50), "QUEM VENCER LEVA O", font=E.lilita(38), fill=MAR, anchor="lm")
-    d.text((x, 108), "1, 2, 3, LUCHA!", font=E.lilita(60), fill=VERM, anchor="lm", stroke_width=3, stroke_fill=MAR)
-    d.text((x, 166), "A mesa campeã disputa a final:", font=E.fig(29, 900), fill=MAR, anchor="lm")
-    d.text((x, 204), "+3 músicas, cada um por si!", font=E.fig(29, 900), fill=MAR, anchor="lm")
+    cx = caixa(205, LUCHA).rotate(-5, expand=True, resample=Image.BICUBIC)
+    c.alpha_composite(cx, (26, int(h / 2 - cx.height / 2)))
+    x = 26 + cx.width + 26
+    d.text((x, 62), "QUEM VENCER LEVA O", font=E.lilita(42), fill=MAR, anchor="lm")
+    d.text((x, 128), "1, 2, 3, LUCHA!", font=E.lilita(70), fill=VERM, anchor="lm", stroke_width=3, stroke_fill=MAR)
+    d.text((x, 194), "e outros prêmios!", font=E.lilita(42), fill=MAR, anchor="lm")
     return c
 
 
