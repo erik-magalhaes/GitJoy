@@ -110,7 +110,7 @@ def render_reels(fi):
 
 
 def render_stories(fi):
-    return quadro(fi / FPS, "stories").tobytes()
+    return quadro(fi / FPS, "reels").tobytes()
 
 
 def audio(nome):
