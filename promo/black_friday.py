@@ -76,40 +76,46 @@ def faixa_bf(w=900, s=118):
     return b.rotate(-4, expand=True, resample=Image.BICUBIC)
 
 
-def carimbo(txt="ALUGUEL R$ 0", s=64, ang=14):
+def etiqueta(txt, s, cor, cor_txt, ang=0):
+    """Etiqueta de preço pendurada embaixo da caixa (pílula com furinho), texto em 1 ou 2 linhas."""
+    linhas = txt.split("\n")
     f = E.lilita(s)
-    tw = ImageDraw.Draw(Image.new("L", (1, 1))).textlength(txt, font=f)
-    w, h = int(tw + 60), int(s * 1.45)
-    im = Image.new("RGBA", (w + 20, h + 20), (0, 0, 0, 0))
+    lw = max(ImageDraw.Draw(Image.new("L", (1, 1))).textlength(l, font=f) for l in linhas)
+    w, h = int(lw + 70), int(s * 1.15 * len(linhas) + 30)
+    im = Image.new("RGBA", (w + 14, h + 14), (0, 0, 0, 0))
     d = ImageDraw.Draw(im)
-    d.rounded_rectangle((10, 10, 10 + w, 10 + h), radius=18, fill=VERMELHO, outline=BRANCO, width=7)
-    d.text((10 + w / 2, 10 + h / 2 + 3), txt, font=f, fill=BRANCO, anchor="mm")
-    return im.rotate(ang, expand=True, resample=Image.BICUBIC)
+    d.rounded_rectangle((8, 8, 8 + w, 8 + h), radius=20, fill=E.MARROM)
+    d.rounded_rectangle((0, 0, w, h), radius=20, fill=cor, outline=E.MARROM, width=5)
+    for k, l in enumerate(linhas):
+        d.text((w / 2, 15 + s * 1.15 * (k + 0.5)), l, font=f, fill=cor_txt, anchor="mm")
+    return im.rotate(ang, expand=True, resample=Image.BICUBIC) if ang else im
 
 
 def tres_caixas(h=330, gratis=True, k_gratis=1.0):
-    """As 3 caixas lado a lado; a menor (a mais barata) com o carimbo GRÁTIS. A margem de cima tem a altura do
-    carimbo, para ele nunca ficar cortado."""
+    """As 3 caixas lado a lado com etiqueta EMBAIXO de cada uma: as 2 primeiras "VOCÊ PAGA" e a 3ª (a mais barata)
+    "ALUGUEL POR NOSSA CONTA" em destaque, ligeiramente maior — fica claro que é o aluguel do 3º jogo."""
     ims = [E.jogo(p, h, int(h * 1.05)) for p in CAIXAS]
     ims[2] = E.jogo(CAIXAS[2], int(h * 0.82), int(h * 0.9))
     ims = [im.rotate([3, -2, -5][i], expand=True, resample=Image.BICUBIC) for i, im in enumerate(ims)]
-    c = carimbo(s=int(h * 0.19))
-    topo = c.height
-    gap = 18
-    w = sum(i.width for i in ims) + 2 * gap
+    s = max(26, int(h * 0.13))
+    pagos = [etiqueta("VOCÊ\nPAGA", s, BRANCO, E.MARROM) for _ in range(2)]
+    nossa = etiqueta("ALUGUEL POR\nNOSSA CONTA!", int(s * 1.05), OURO, E.MARROM, ang=-4)
+    gap = 26
+    larg = [max(ims[i].width, (pagos + [nossa])[i].width) for i in range(3)]
+    w = sum(larg) + 2 * gap
     alt = max(i.height for i in ims)
-    out = Image.new("RGBA", (w + 60, topo + alt + 20), (0, 0, 0, 0))
-    x = 30
-    xs = []
-    for im in ims:
-        out.alpha_composite(im, (x, topo + alt - im.height))
-        xs.append(x + im.width / 2)
-        x += im.width + gap
-    if gratis and k_gratis > 0.02:
-        c2 = c.resize((max(2, int(c.width * k_gratis)), max(2, int(c.height * k_gratis))), Image.BICUBIC)
-        cx = min(xs[2], out.width - c2.width / 2 - 4)
-        y = topo + alt - ims[2].height - c2.height * 0.92  # em cima da caixa, sem tapar o nome
-        out.alpha_composite(c2, (int(cx - c2.width / 2), int(max(0, y))))
+    et_h = max(e.height for e in pagos + [nossa])
+    out = Image.new("RGBA", (w + 40, alt + et_h + 30), (0, 0, 0, 0))
+    x = 20
+    for i, im in enumerate(ims):
+        cx = x + larg[i] / 2
+        out.alpha_composite(im, (int(cx - im.width / 2), alt - im.height))
+        if gratis and (i < 2 or k_gratis > 0.02):
+            e = pagos[i] if i < 2 else nossa
+            if i == 2 and k_gratis < 1:
+                e = e.resize((max(2, int(e.width * k_gratis)), max(2, int(e.height * k_gratis))), Image.BICUBIC)
+            out.alpha_composite(e, (int(cx - e.width / 2), alt + 14))
+        x += larg[i] + gap
     return out
 
 
@@ -140,9 +146,9 @@ def story_promo():
     centro(img, t, W / 2, y)
     y += t.height - 10
     cx = tres_caixas(270)
-    centro(img, cx, W / 2, y - 60)
+    centro(img, cx, W / 2, y + 20)
     # espaço do adesivo de link: y ≈ 1350–1580 (livre)
-    seta_link(img, 1300)
+    seta_link(img, 1370)
     pl = E.pilula("SÓ ATÉ DOMINGO, 29/11", 44, OURO, E.MARROM, fonte_titulo=True)
     centro(img, pl, W / 2, 1610)
     return img
@@ -167,9 +173,9 @@ def story_como():
         card.alpha_composite(tx, (180, (170 - tx.height) // 2))
         centro(img, card, W / 2, y)
         y += 200
-    cx = tres_caixas(180)
-    centro(img, cx, W / 2, y - 120)
-    seta_link(img, 1300, "corre pro site:")
+    cx = tres_caixas(150)
+    centro(img, cx, W / 2, y - 10)
+    seta_link(img, 1400, "corre pro site:")
     pl = E.pilula("BLACK FRIDAY · SÓ ATÉ DOMINGO, 29/11", 36, OURO, E.MARROM, fonte_titulo=True)
     centro(img, pl, W / 2, 1610)
     return img
@@ -188,8 +194,8 @@ def story_ultimo():
     t3 = E.texto("3 jogos no carrinho: o aluguel do mais barato fica por nossa conta", 40, cor=BRANCO, peso=800, larg_max=880)
     centro(img, t3, W / 2, y)
     cx = tres_caixas(230)
-    centro(img, cx, W / 2, y + t3.height - 20)
-    seta_link(img, 1240)
+    centro(img, cx, W / 2, y + t3.height + 20)
+    seta_link(img, 1330)
     return img
 
 
@@ -204,7 +210,7 @@ def post():
     t = E.titulo("ALUGUE 3 JOGOS\nE PAGUE SÓ 2!", 88, cor=BRANCO, larg_max=1000)
     centro(img, t, W / 2, 60 + fb.height - 10)
     cx = tres_caixas(270)
-    centro(img, cx, W / 2, 60 + fb.height + t.height - 60)
+    centro(img, cx, W / 2, 60 + fb.height + t.height + 10)
     pl = E.pilula("SÓ ATÉ DOMINGO, 29/11 · LINK NA BIO", 38, OURO, E.MARROM, fonte_titulo=True)
     centro(img, pl, W / 2, H - pl.height - 50)
     return img
@@ -230,8 +236,8 @@ def post_como():
         card.alpha_composite(tx, (180, (170 - tx.height) // 2))
         centro(img, card, W / 2, y)
         y += 200
-    cx = tres_caixas(210)
-    centro(img, cx, W / 2, y - 80)
+    cx = tres_caixas(190)
+    centro(img, cx, W / 2, y - 10)
     pl = E.pilula("SÓ ATÉ DOMINGO, 29/11 · LINK NA BIO", 38, OURO, E.MARROM, fonte_titulo=True)
     centro(img, pl, W / 2, H - pl.height - 40)
     return img
@@ -293,9 +299,9 @@ def quadro_reels(t, stories=False):
             img.alpha_composite(im2, (int(xs[i] - im2.width / 2), int(base - im2.height - (1 - kk) * 500)))
     kg = back((t - 3.8) / 0.35)
     if kg > 0.02:
-        c = carimbo(s=60)
+        c = etiqueta("ALUGUEL POR\nNOSSA CONTA!", 28, OURO, E.MARROM, ang=-4)
         c = c.resize((max(2, int(c.width * kg)), max(2, int(c.height * kg))), Image.BICUBIC)
-        centro(img, c, xs[2], base - ims[2].height - c.height * 0.4)
+        centro(img, c, xs[2], base + 12)
     # 5,0: regra e prazo
     if t > 5.0:
         a = ease((t - 5.0) / 0.4)
