@@ -1162,9 +1162,14 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   música, amigo secreto, decoração; no último item "fazer a galera se divertir junta (sem celular)" rabisca ???; carimbo
   "RESOLVIDO: CHAMA A SUA VEZ!"; polaroides com as cenas deles; post-its; 23 s). Fatos: ABC Paulista + SP capital,
   WhatsApp (11) 97793-3910, "a gente leva os jogos e fica o evento todo ensinando"; nada de "já atendemos".
+  **Abertura "ALERTA NO CELULAR" na previsão (`festa-reels/alerta_celular.py`, 18/nov, pedido dele):** 6,4 s de tela de
+  bloqueio (18:42, sexta-feira), notificação do "Grupo da firma" ("quem vai animar a festa esse ano?" / "ninguém, né..."),
+  celular vibra e abre ALERTA EXTREMO da "Defesa Civil da DIVERSÃO" (paródia: nunca o nome do órgão de verdade nem o tom
+  oficial de emergência) com "PREVISÃO DE CHUVA DE JOGOS na sua confraternização", dedo toca "VER BOLETIM", zoom + flash
+  e emenda (concat) no `previsao_*_final.mp4` → `out/previsao_alerta_{com_som,para_musica}_final.mp4` (46,8 s).
 - **TARDE DE JOGOS NO BECAS FECHADA (5/nov):** **sexta, 20/11/2026 (feriado), das 13h às 19h**, Becas Café, **Rua Sorocaba,
   35 – Mauá (CEP 09370-150; endereço do Restaurant Guru, pedi para ele confirmar)**; R$ 30 com R$ 15 de consumação; monitoria
-  (eles levam os jogos e ensinam); cupom de 10% no 1º aluguel (BECAS10, precisa ser criado no site). Constantes `DATA` e
+  (eles levam os jogos e ensinam); cupom de 5% no 1º aluguel (BECAS5 desde 13/nov; antes era 10%/BECAS10; precisa ser criado no site). Constantes `DATA` e
   `ENDERECO` + `selo_data`/`selo_endereco` em `promo/tarde_becas.py` (usadas também em `becas-reels/tarde.py`); horário de
   término: 19h (todas as peças dizem "13H ÀS 19H"). Kit: post, story, **flyer A5** (`flyer()`: o post + caixa com QR do site, 300 dpi,
   PNG + PDF), cupons A4 e o Reels das guarda-chuvinhas. Os 3 estilos alternativos (gamesday, retro60, letrinhas) também
@@ -1178,6 +1183,29 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Eu Sou uma Banana, Santorini, Say my Name, Splendor Duel, Spyfall, Sushi Go!, Taco Gato Cabra Queijo Pizza, Take Time, Tapalavras, Telma,
   The Mind, Uga Buga, Wandering Towers. Ele TIROU: Ref!, Last Message (→ Break the Cube), Next Station (→ Wandering Towers), Perfil Express e Splito ("muito confuso") (→ Eu Sou uma Banana), Tesouro do Dragão, Patchwork, Azul Duel, Cartógrafos, BraveRats e 1, 2, 3, Lucha! (→ Taco Gato Cabra Queijo Pizza), Spot it! Hip (→ Dobble Disney).
   Eu deixei de fora: Throw Throw Burrito e Happy Salmon (barulho/coisa voando no café), jogos de bebida e +18, jogos longos.
+- **FLIP 7: A VINGANÇA recortado de novo (16/nov, ele: "a imagem dele está cortada em tudo"):** o canto de cima à
+  esquerda (tampa creme sob a luz laranja) sumia no limiar de cor. Novo recorte da foto do site (`site-fotos/out/fotos/`):
+  laranja por matiz/saturação + polígono dos 6 cantos medidos + casco convexo, erosão 7 px. Substituiu
+  `gravados-reels/assets/top10/flip_7_a_vinganca.png`, `top10/flip_7_a_vingan_a.png` e `hobby-reels/assets/acervo/flip_7_a_vingan_a.png`
+  (agora os dois servem). O Flip 7 normal da Grok (`lista/flip_7.png`) está ok.
+- **1º PEDIDO DE EVENTO (16/nov): Rodrigo, confraternização de fim de ano da empresa dele, ~30 pessoas.** Preço do Erik:
+  **R$ 1.200 = até 30 pessoas, 4 h de evento, 2 monitores** (deslocamento no ABC e SP capital incluso — eu pus isso no PDF);
+  **hora extra R$ 250**; folga de 5 pessoas (até 35 pelo mesmo valor); mais de 35 = orçamento. Desconto de lançamento sugerido (R$ 990 em troca de fotos e depoimento)
+  só se ele pedir condição. `proposta-evento/proposta.html` → `gerar_pdf.py` (usa o `render` do proposta-cafe) →
+  `out/proposta_confraternizacao.pdf` + JPEGs. Não escrever "a gente fica o evento todo" junto com preço por hora (confunde). Confraternização: jogos de festa EQUILIBRADOS (Hitster, Código Secreto, Flip 7, Spyfall, Telma/Say my Name) + um "Cantinho +18 (opcional)" com Telestrations na Madruga e Amigos de Merda; ele achou "pesadão" só com +18. Nada de estratégia tipo King of Tokyo.
+- **CARROSSÉIS FEITOS EM OUTRA CONVERSA (branch `origin/ccr-656ca413-ba1ryu`, 11–12/nov, NÃO estão nesta branch):**
+  `feed-sua-vez/personagens.py friends` ("Que jogo cada FRIENDS jogaria?", porta roxa: Monica Art Society, Rachel High
+  Society, Ross Draftosaurus, Joey Taco Gato, Phoebe Nekojima, Chandler Blablabel), `series_tv.py` (TV na sala: Eleven The
+  Mind, Dustin Dungeon Fighter, Wandinha Paranormal Detectives, Ted Architectura, Barney Dungeons & Drinks, Lorelai Coffee
+  Rush), `cinema.py` (filmes/animações × tabuleiro) e `videogame.py`. Para gerar: `git worktree add <pasta>
+  origin/ccr-656ca413-ba1ryu` e rodar lá. 16/nov: reenviei Friends e séries (o final cita "3 jogos = 7 dias").
+- **SPOILER da Tarde no Beca’s (`becas-reels/spoiler.py`, 15/nov, pedido dele: "foto e vídeo tipo spoiler do que vai
+  ter no evento, pra lembrar de reservar"):** 12 jogos que ELE listou (Santorini, Hot Streak, Código Secreto, Flip 7,
+  UNO No Mercy, Drácula vs Van Helsing, Hive, Dixit Disney, Hitster, Hitster Verão, Marrakech, UNO Stacko); caixas novas em
+  `promo/assets/spoiler/` (UNO Show 'Em No Mercy da Ri Happy, Hitster Verão HIT002 e Dixit Disney DIX631 da Galápagos).
+  Guarda-chuvinhas + fita amarela "SPOILER" + "ALERTA DE SPOILER!" + grade 4x3 de cartas "?" que viram as caixas uma por
+  batida (118 bpm, `musica_pop`) com o nome em pílula; "+ E TEM MUITO MAIS NA MESA!", data, endereço e reserva.
+  `--fotos` → `out/spoiler/{post,story}.png`; `--reels`/`--stories` → `out/spoiler_{reels,stories}_*_final.mp4` (15 s).
 - **Carrossel "TEM JOGO PRA TODA IDADE!" da Tarde no Beca’s (`promo/criancas_becas.py`, 10/nov, ideia dele: uma moça
   perguntou a idade mínima):** linha das guarda-chuvinhas; em cada tela um guarda-chuvinha segura a CAIXA e outro uma
   ETIQUETA DE IDADE redonda ("A PARTIR DE 6 ANOS"), ficha com jogadores, tempo e uma frase. 1ª versão só com jogos de
@@ -1188,10 +1216,17 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   Duel 10+, Take Time 10+, Spyfall 13+ (PaperGames, 3 a 8), Hitster 14+, Coffee Rush 14+, Cores com Dicas 14+ (Grok, 3 a 10, 30 min,
   lido na caixa) (pediu junto com o Hot Streak, que depois TIROU: "muita coisa com 14"; Hot Streak = 14+ na Galápagos, 6+ no site): "tem jogos que a gente vai
   levar que você não pôs" (a lista de 30 jogos de 6/nov NÃO é completa; pedir a lista atual) → "E tem muito mais na mesa" →
-  "TRAZ A GALERA!" + "Comenta: qual desses você quer jogar?". 14 telas + 14 Stories (`out/becas/criancas/`).
+  "TRAZ A GALERA!" + "Comenta: qual desses você quer jogar?". 14 telas + 14 Stories (`out/becas/criancas/`). **17/nov:** Dixit → Dixit: Disney (DIX631) e Splendor Duel → **We Will Rock You** (Buró, 10+, 4 a 12, 15 min; caixa da loja Nuvemshop `loja.burobrasil.com/produtos/we-will-rock-you/` → `promo/assets/criancas/we_will_rock_you.png`). **Depois: o carrossel ficou SÓ com os 6 da escadinha, um por idade (UNO Stacko 4+, Dobble: Disney 6+, Dixit: Disney 8+, We Will Rock You 10+, Spyfall 13+, Hitster 14+) → 9 telas** (capa, 6 jogos, "e tem muito mais", traz a galera). Tela 8 ("e tem muito mais"), escolha dele: Marrakech, boop., Telma, Tapalavras, Say my Name, Taco Gato, Santorini, Draftosaurus, Hive, Código Secreto: Imagens, UNO No Mercy, Happy Salmon (`OUTROS` aceita caminho a partir da raiz começando com "/").
   **Idade: o site da Sua Vez ERRA às vezes** (Coffee Rush 8+ no site, 14+ na Galápagos; Bananagrams 7+ × 8+; Spyfall
   13+ na PaperGames): conferir na editora — Galápagos `ccstore/v1/products/<ID>` → `x_faixaEtaria`; PaperGames
   `papergames.com.br/<jogo>/` ("Idade Recomendada"); Devir/Mattel pela loja.
+- **Stories "QUE JOGO É ESSE?" (`promo/quiz_sombra.py`, 18/nov, ideia dele: tipo "qual é esse Pokémon?"):** raios amarelos
+  sobre petróleo, a "sombra" da caixa (caixa escura com só o volume e manchas borradas da arte, sem dar pra ler o nome;
+  silhueta chapada virava um retângulo igual pra todos), "?", selo da categoria (Pocket/Família/Estratégico/Deluxe pelo
+  preço do site) + jogadores + tempo, 3 dicas e 3 opções A/B/C; resposta com a caixa colorida, nome e a opção certa em
+  verde. 7 jogos (Hive, Ticket to Ride, Dixit, Draftosaurus, Wingspan, Flamecraft, Coup) → `out/quiz_sombra/NN_{pergunta,resposta}.png`.
+  Capa de abertura `00_capa.png` ("BORA JOGAR? / Tá a fim de um joguinho?", 3 sombras com "?", "7 jogos escondidos na sombra", "Toca pra começar") e final `99_final.png` ("VALEU POR JOGAR!", as 7 caixas, "todos esses jogos estão no nosso site", link na bio).
+  2ª rodada: a PERGUNTA não tem mais as opções desenhadas: "QUAL É? VOTA AQUI:" + seta e espaço LIVRE (y≈1400–1760) para o adesivo de quiz/enquete do Instagram (a pessoa interage); as opções vão no adesivo. A resposta continua com as 3 opções e a certa em verde.
 - **Carrossel "O JOGO CERTO PRA CADA FESTA" (`feed-sua-vez/calendario_festas.py`, 11/nov, ideia dele):** folha de
   opções `out/opcoes_eventos.jpg` (12 eventos × jogo) → ele TIROU Go Cuckoo ("a gente está usando muito") e Perfil Express.
   Conceito CALENDÁRIO DE PAREDE (parede azul-clara com losangos, folha pendurada num prego com espiral de arame; em cima a
@@ -1370,7 +1405,7 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   3ª rodada ("mais focado na Sua Vez, sem o Beca’s, pra usar em qualquer evento"): `cracha_opcoes3.jpg` = G azul-claro
   com confete, logo grande, "A gente ensina, você joga!"; H trocadilho "É A VEZ DE:" com setas apontando o nome, fundo
   amarelo listrado; I "equipe" (faixa petróleo com logo, nome em faixa laranja, QR do acervo). Sem data nem café.
-  **Escolhida: C** (a Jéssica, 5/nov), com o nome em azul-petróleo CLARO (64,170,200) porque o petróleo escuro ficava difícil de ler → `cracha_C_A4.pdf`; só Erik + Jéssica (1 folha A4, os 2 lado a lado, pedido dele) → `cracha_C_Erik_Jessica.pdf` (`folha_a4(f, nomes)`).
+  **Escolhida: C** (a Jéssica, 5/nov), com o nome em azul-petróleo CLARO (64,170,200) porque o petróleo escuro ficava difícil de ler → `cracha_C_A4.pdf`; só Erik + Jéssica → `cracha_C_Erik_Jessica.pdf` (`folha_dupla`, 13/nov: lado a lado sobravam 5 mm de margem e um corte só entre os dois → agora UM EMBAIXO DO OUTRO, 1,5 cm entre eles, a 95% = 9,5 x 13,3 cm, 2 mm de sangria e marcas de corte nos cantos).
 - **SAVE THE DATE em vídeo para os Stories (`becas-reels/save_date.py`, 5/nov):** 10 s, guarda-chuvinhas balançando + um
   guarda-chuva rosa segurando uma FOLHA DE CALENDÁRIO (NOVEMBRO / 20, logos Sua Vez × Beca’s no pé, `SB.OBJ["cal"]`,
   escala `KC`) que balança; caneta vermelha circula o 20 (1,3–2,1 s); "SAVE THE DATE!", 3 pílulas (tarde de jogos no
@@ -1386,3 +1421,325 @@ e sem argumentos (gera com e sem legenda). Os vídeos ficam em `out/`, que **nã
   mostra NOVEMBRO / 20 / "ANOTA AÍ!"; "SAVE THE DATE!", "VEM COISA BOA POR AÍ...", "SÁBADO, AO MEIO-DIA, A GENTE CONTA
   TUDO!", "fica ligado: ativa o lembrete" + seta; área y≈1350–1560 (MEIO da tela) livre para o adesivo (7/nov: ele achou o espaço embaixo baixo demais; carta menor KC 0,78 e tudo subiu). Trilha marimba pop.
   Saída `out/save_sv_{com_som,para_musica}_final.mp4`.
+- **Carrossel "SEU SIGNO, SEU JOGO" (12/nov, 2º da série "Seu mês, seu jogo"):** mesmo formato (bichinho do Gemini +
+  frase + caixa no canto). Jogos propostos (sem repetir o vídeo dos signos, o Seu mês e o "qual jogador você é"): Áries King
+  of Tokyo, Touro Harmonies, Gêmeos Dobro, Câncer Sea Salt & Paper, Leão Say my Name, Virgem Azul Duel, Libra Canvas,
+  Escorpião Spyfall, Sagitário Passaporte Mundo, Capricórnio 7 Wonders Duel, Aquário Sideral, Peixes Dixit. Prompt do
+  Gemini mandado (folha 4x3, fundo creme liso). **Feito: `feed-sua-vez/seu_signo.py`** (importa seu_mes; folha deles
+  `assets/seu_signo/gemini_signos.jpg`, só 1024 px → ampliada 4x com Real-ESRGAN (`wonderland-reels/ampliar_tab.py`) para
+  `gemini_signos_x4.jpg`; signo + datas, frase, caixa no canto; facho do Leão esmaecido no topo; 2ª rodada "jogos pequenos": caixa 255 → 350 px, bichinho 480 px, frase em y 875) → `out/seu_signo/01..14.png`
+  + `stories/` (último com "aluga aqui:" e espaço do link). Mandado.
+- **LEMBRETE da Tarde no Beca’s em vídeo para Stories (`becas-reels/lembrete_becas.py`, 12/nov):** 9 s, guarda-chuvinhas
+  + guarda-chuva rosa segurando o calendário NOVEMBRO/20 (com os logos Sua Vez × Beca’s), caneta circula o 20, "VEM JOGAR!" (ele NÃO quis a palavra "lembrete"),
+  tarde de jogos, data/horário, endereço, "R$ 30 · R$ 15 viram consumação", "garanta sua mesa aqui:" + seta, espaço livre
+  y≈1490–1610 pro adesivo de link, WhatsApp embaixo. Sem "faltam N dias" (serve qualquer dia). `out/lembrete_becas_*_final.mp4`.
+- **"É AMANHÃ!" da Tarde no Beca’s (`becas-reels/amanha_becas.py`, 19/nov, véspera):** base do `lembrete_becas` (guarda-
+  chuvinhas + calendário pendurado): o calendário chega no 19, a folha é ARRANCADA e cai girando (som de rasgo), aparece
+  o 20, caneta circula, estoura confete e entra "É AMANHÃ!" + tarde de jogos, data, endereço, preço. Stories (espaço do link
+  + WhatsApp) e Reels ("Comenta: qual jogo você quer jogar amanhã?" + reserve no WhatsApp), 9,5 s, música pop; PNG
+  `out/amanha/story_amanha.png` e `post_amanha.png` (1080x1350 = recorte y 200–1550 do último quadro do Reels).
+  Versão pro WhatsApp de quem JÁ reservou (`--confirmados`): "SUA MESA JÁ TÁ GUARDADA!", "Seus R$ 15 de consumação te
+  esperam no café", "A gente leva os jogos e ensina tudo!", "TE ESPERAMOS!" → `out/amanha/whats_confirmados.png` (1080x1500) +
+  `out/amanha_confirmados_*_final.mp4`.
+  **Ele NÃO gostou do confirmados ("faz outro")** → `becas-reels/ingresso_amanha.py` (8 s): fundo petróleo listrado com
+  confete, "SEU LUGAR TÁ GARANTIDO!", INGRESSO creme (faixa laranja "TARDE DE JOGOS", Sua Vez × Beca’s, QUANDO/HORÁRIO/
+  ONDE/INCLUI, picote com meia-lua, canhoto "ADMITE: VOCÊ!" + código de barras) que sobe, carimbo vermelho "CONFIRMADO!
+  / MESA GUARDADA" batendo no canhoto com pancada + confete, "TE ESPERAMOS AMANHÃ!" e WhatsApp → `out/amanha/whats_ingresso.png`
+  + `out/ingresso_amanha_{com_som,para_musica}_final.mp4`.
+  Versão PÚBLICA (`--publico`, pedido dele: "algo pra stories ou feed"): "AINDA DÁ TEMPO! / É AMANHÃ!", linha VALOR (R$ 30 ·
+  R$ 15 viram consumação), carimbo "TE ESPERAMOS / VEM JOGAR!"; stories com "garanta sua mesa aqui:" + seta e espaço do
+  link (y≈1450–1620), reels com comenta + WhatsApp → `ingresso_{stories,reels}_*_final.mp4`, `out/amanha/{story,post}_ingresso.png`.
+- **PROMPTS DO GEMINI (12/nov):** `prompts-gemini/prompts.md` = mascote da Sua Vez (passo 1: 3 opções de meeple de
+  madeira nas cores do logo; passo 2: folha 4x3 de 12 poses NA MESMA conversa com a opção escolhida; passo 3: 4 lados +
+  8 expressões; passo 4: Natal/fim de ano), 6 cenários vazios 9:16 (mesa vista de cima, sala, estante, café com
+  guarda-chuvinhas, mesa de Natal, piquenique) pra eu pousar as caixas oficiais, kit de 20 figurinhas, série de bichinhos
+  "como cada um reage quando perde", mapa ilustrado ABC+SP e cena de evento DESENHADA. Ele vai gerar e mandar aos poucos.
+- **MASCOTES = DUPLA (12/nov):** o meeple com cara ficou "horroroso" (não usar). Escolha dele: **capivara = a Jéssica**
+  (aluguéis/entrega, jeito tranquilo) e **coruja = o Erik** ("a que sempre explica" = monitoria), no estilo doodle dos
+  bichinhos. Ele escolheu a "C2" da folha do Gemini (provavelmente a cena das duas juntas); prompts de poses da dupla mandados.
+  **Estilo escolhido (12/nov): 3D de filme / boneco de vinil** (painel 1 de `mascote/assets/estilos_2x2.jpg` → recorte
+  `mascote/assets/referencia_3d.png`): capivara com cachecol petróleo e caixas laranja/petróleo; coruja com óculos
+  redondos, gravata-borboleta petróleo e livro petróleo. Ele achou o doodle "simples e genérico". Prompts das poses em 3D mandados.
+  **Poses recortadas** (`mascote/recortes.py`: folhas ampliadas 4x com ESRGAN → corte nas faixas vazias → rembg isnet) em
+  `mascote/assets/poses/<capivara|coruja|dupla|natal>_<pose>.png` + conferência `mascote/out/poses_verde.jpg`. 36 poses (capivara 12,
+  coruja 12, dupla 6 + referência, Natal 6). Confete confunde o rembg: em `capivara_comemorando`, `coruja_comemorando` e
+  `natal_brinde` o alfa foi reforçado (buracos preenchidos); a mão direita da capivara comemorando ficou escura e as taças
+  do brinde sumiram (evitar essas duas ou pedir de novo ao Gemini).
+- **CONVITE COM OS MASCOTES (`becas-reels/convite_mascotes.py [--reels]`, 12/nov):** 10 s, guarda-chuvinhas + calendário
+  20/11 pendurado (de `lembrete_becas`), a capivara passa de patinete trazendo os jogos, a coruja aponta pro calendário e
+  a capivara acena (pulam pra dentro e respiram), "VEM JOGAR COM A GENTE!" + data/endereço/preço, no fim os dois fazem
+  joinha. Stories: "garanta sua mesa aqui:" + espaço do link; Reels: "Comenta: qual jogo você quer aprender?" + WhatsApp.
+- **IMPRESSOS DA TARDE NO BECA’S (`promo/imprimir_becas.py`, 13/nov):** junta tudo em `promo/out/becas/imprimir/`
+  numerado: 00 guia (o que imprimir, papel, quantidade), 01 vales 001–060, 02 vales em branco, 03 cupons BECAS10 (60),
+  04 crachás Erik/Jéssica, 05 plaquinhas mesas 1–8, 06 flyer A5, 07 LISTA DE CONTROLE (001–060: nome, WhatsApp, Pix,
+  chegou, cupom) + `TUDO_para_imprimir.pdf`. Rodar antes tarde_becas.py, becas_chuva.py e cracha.py.
+  **13/nov, ele:** NÃO precisa de plaquinha de mesa; o cupom virou **5% (código BECAS5**, no padrão JOGAMAUA5/JOGAABC5;
+  eles precisam criar no site); imprimir hoje só fichas de consumação, cupons 5%, crachás e flyer. Ele NÃO gostou do flyer P&B (fica o colorido); flyer = **4 por A4 (A6), 8 folhas = 32 flyers** (ele pediu ~30). Atual:
+  00 guia, 01 fichas 001–060, 02 cupons BECAS5, 03 crachás, 04 flyers 4 por A4 x8, 05 lista de controle (opcional, fora do
+  TUDO); `TUDO_para_imprimir.pdf` = 15 págs.
+- **FLYER PRETO E BRANCO (`promo/flyer_pb.py`, 13/nov, pedido dele pra economizar na impressão):** desenho próprio pra
+  P&B (não é o colorido em cinza): fundo branco, guarda-chuvinhas em traço com gomos hachurados, "TARDE DE JOGOS" vazado
+  com contorno e sombra preta, pílula preta da data, pílula contornada do endereço, caixa do preço, faixa preta do
+  WhatsApp, logos em cinza, QR lido no OpenCV → `out/becas/flyer_pb_A5.{png,pdf}` + `imprimir/04b_flyer_PB_2_por_A4.pdf`. **Pequeno A6, 4 por A4** (`flyer_pb_a6`, só o essencial: data, lugar, R$ 30/15, WhatsApp, QR) → `flyer_pb_A6.png` + `imprimir/04c_flyer_PB_pequeno_4_por_A4.pdf`.
+- **SITE NOVO NA REJOY (13/nov):** eles estão trocando o Acervo de Jogos pela plataforma **Rejoy**, que tem carrossel de
+  banners no topo. `banners/rejoy.py` → `banners/out/banner_0N_*.png` (**1600x900**, tamanho ideal da Rejoy que ele passou; a 1ª versão em 1920x640 foi refeita): 01 "ALUGUE JOGOS DE TABULEIRO" (azul-claro com
+  trilha, capivara com pilha de caixas + coruja acenando), 02 "OS QUERIDINHOS DA CASA" (laranja com confete, 5 caixas
+  oficiais; sem "mais alugados" porque não há dado), 03 prazo progressivo 3/5/7 → 7/10/15 (xadrez amarelo, degraus), 04
+  assinaturas Silver/Gold/Platinum (petróleo pontilhado), 05 eventos (roxo, coruja explicando + capivara entregando, ABC + SP,
+  WhatsApp). "Por editora" ficou como sugestão (falta escolher quais).
+- **13/nov: A CAPIVARA VIROU SALSICHA (dachshund de cachecol ROSA) = a Jéssica.** Folhas `mascote/assets/folhas/salsicha_{ref,1,2}.jpg`
+  → poses `salsicha_*` (acenando, apontando, aponta_baixo, comemorando, entregando, joinha, patinete, rindo, surpresa, pufe,
+  chorando, pilha) + `dupla2_referencia`. Na folha 2 (rindo, surpresa, pufe, chorando, pilha) ela está de COLEIRA e sem
+  cachecol (inconsistência do Gemini: preferir as de cachecol). As poses `capivara_*`, `dupla_*` e `natal_*` (com capivara)
+  NÃO valem mais; a dupla e o Natal precisam ser pedidos de novo ao Gemini com a salsicha. Trocado nos banners e no
+  `convite_mascotes.py`. **Também 13/nov: eles não sabem se vão manter o prazo progressivo (3/5/7 jogos) nem as
+  ASSINATURAS → por enquanto NÃO usar isso em peças novas.** Banners Rejoy agora: 01 alugue, 02 queridinhos, 03 "ALUGAR É
+  SIMPLES ASSIM" (escolhe → recebe em casa ou retira em Mauá → joga 5 dias), 04 "TEM JOGO PRA TODO ROLÊ" (a dois: Splendor
+  Duel/Azul Duel; família: Trio/Flip 7; galera: The Resistance/Coup), 05 eventos.
+- **IMAGEM DE ABERTURA da página da loja na Rejoy (`banners/abertura.py`, 13/nov):** arte quadrada 1080x1080 e larga
+  1920x1080, SEM TEXTO (regra da Rejoy: a página põe o nome da loja e pode cobrir as bordas): azul-claro com trilha,
+  arco de caixas oficiais do site atrás da salsicha (entregando) + coruja (acenando) → `banners/out/abertura_{quadrada,larga}.png`.
+- **FOTOS DO SITE ANTIGO PARA A REJOY (`site-fotos/baixar.py`, 13/nov):** baixa a foto PRINCIPAL de cada jogo (a do
+  cartão da vitrine em `/boardgames?page=N`, `arquivos-publicos.acervodejogos.com.br/<id>`, webp 1024 px; o "image" do
+  JSON-LD da página é só a miniatura de 256 px) → 172 fotos com o nome do jogo, cópias JPG q95 em 2 zips (< 30 MB cada),
+  zip dos originais webp e `lista.csv`. Ele queria EXATAMENTE as fotos do site, sem as fotos extras da galeria.
+  QR dos impressos do Beca's agora aponta para **https://suavez.rejoy.com.br/** (`tarde_becas.SITE`).
+- **Carrossel "SUA CIDADE, SEU JOGO" (`feed-sua-vez/seu_cidade.py`, 13/nov, 3º da série dos bichinhos):** folha 4x2 do
+  Gemini (`assets/seu_cidade/gemini_cidades.jpg` → `_x4` com Real-ESRGAN): Santo André tatu/Cartographers, São Bernardo
+  guaxinim/Heat: Pedal to the Metal (eles TÊM, ainda não está no site; caixa 3D Galápagos HET001 → `assets/seu_cidade/heat.png`), São Caetano gato/Patchwork, Diadema papagaio/Hitster, Mauá quati maquinista/Ticket to Ride,
+  Ribeirão Pires capivara na rede/Savernake Forest, Rio Grande da Serra tucano/Treasure Island, São Paulo pombo/Metro.
+  10 telas + Stories. Os prompts dos próximos (quando perde; dia da semana + feriado) estão em `prompts-gemini/prompts.md`.
+- **Carrossel "COMO VOCÊ REAGE QUANDO PERDE?" (`feed-sua-vez/seu_perde.py`, 13/nov, 4º da série dos bichinhos):** folha 3x2
+  do Gemini (`assets/seu_perde/gemini_perde.jpg` → `_x4`; a lhama da 1ª folha (`_v1`) tinha a pata de trás na testa e o
+  Gemini errava sempre → virou HAMSTER desmaiado). Touro vira a mesa/Coup, galo revanche/Flip 7: A Vingança, gato
+  "deixou ganhar"/Sushi Go! (a LATA em inglês da foto do site, recortada do laranja → `assets/seu_perde/sushi_go.png`),
+  sapo culpa o dado/Dice Colony, panda nem percebeu/Wandering Towers, hamster dramático/Por favor, não corte minha cabeça!
+  8 telas + Stories. `sem_sombra()` tira a sombra clara do chão; o creme da folha é medido na borda (`FUNDO_GEMINI`).
+  **Cidades (13/nov):** ele achou que podia soar preconceituoso → TODAS as frases descrevem a CIDADE, não quem mora lá
+  (Paranapiacaba, capital do automóvel, pequenininha que cabe em qualquer canto, berço do hip hop, Barão de Mauá e os
+  trilhos, Festival do Chocolate, Serra do Mar, cidade que nunca para). Regra para peças sobre lugares: falar do lugar.
+- **Carrossel "SEU DIA DA SEMANA, SEU JOGO" (`feed-sua-vez/seu_semana.py`, 14/nov):** ele achou que estava "tudo meio
+  igual, bichinho" → MONSTRINHOS E ETs (prompt C2 em `prompts-gemini/prompts.md`, folha 4x2 SEM anexar a referência antiga)
+  e visual NOVO: fundo de ESPAÇO (roxo profundo, nebulosas, estrelas, planetinhas só nas laterais), monstros e caixas como
+  ADESIVOS (borda branca grossa + sombra, `adesivo()`), títulos em Dela Gothic One com sombra 3D colorida, texto em
+  Bricolage. Segunda The Mind, terça Flash 10, quarta Santorini, quinta Take Time, sexta Throw Throw Burrito, sábado
+  Clank! Catacombs, domingo Dixit: Disney Edition, feriado Sky Team. 10 telas + Stories. **Regra: variar a cara da série.**
+- **DRIVE CONFERIDO (14/nov):** pasta Videos tinha 13 vídeos (diario, sente, skyteam, top10 x2, micro, taro, custo, assinatura,
+  hobby x2, MLEM, Telestrations) + pasta Becas (chuva de jogos, revela, guarda-chuvas, gostinho/chegar para música); pasta
+  Carrosséis tinha só os 10 zips de 14/out. Mandei pelo chat: zips "Carrossel 11–19" (seu mês, signo, cidade, perde, semana,
+  calendário de festas, Becas toda idade, como chegar, conheça o Becas; JPG q93 com feed/ + stories/, em
+  `feed-sua-vez/out/zips/`) e os vídeos com som (tarde comum, lembrete, convites mascotes/meeple, café rush, mapa, combo,
+  metade, gamesday, retro60, letrinhas, colagem, tabuleiro, TVs, caixa King/boop, bichos, loops, festas, Wonderland, lembrete
+  do sorteio, Taco). Peças ANTIGAS que não estão nem no Drive nem nesta máquina (out/ é perdido entre ambientes): casal,
+  esse ou aquele, indica, trolley, take time, pedidos, listas (signos/tempo/pessoas/flags/novidades), eventos trilha,
+  dinâmica coffee e carrosséis combos/mitos/amigo secreto/halloween/empresas/clássicos 3 — dá para renderizar de novo.
+- **COFFEE RUSH EM 1 MINUTO (`coffee-reels/umminuto.py`, 14/nov):** 7 vídeos da JÉSSICA no Drive de brutos
+  (VID_20261114_07xxxx/08xxxx → `coffee-reels/brutos/nov14/<hhmmss>.mp4`, fora do git). Pedido do Erik: "faz o vídeo
+  primeiro, depois eu narro por cima". Ela fala só no gancho (073758, câmera da frente = hflip: "E aproveitando o nosso
+  evento que está chegando, hoje eu vou te ensinar Coffee Rush em 1 minuto ou menos. Vamos?") e no fecho (084314, hflip:
+  "E esse é o Coffee Rush!"); o meio (fila de pedidos 074437, baristas 075750, ingredientes/xícara 075447, leque de
+  receitas 083950, entrega 075447 12,5–19,6, fila andando/penalidade 075656) fica SEM voz para a narração dele.
+  Relógio-XÍCARA (café visto de cima vira espuma, colherzinha de ponteiro) de 1:00 durante a explicação, selos das regras,
+  último quadro da mesa parado 2,3 s com "EXPLICADO EM 53 SEGUNDOS!", "VOCÊ SERIA UM BOM BARISTA? Comenta aqui!", tela
+  final + pílula "E NA MESA DA TARDE DE JOGOS NO BECA’S · 20/11". Trilha `sons.musica_cafe`. 75 s. Gravador (6 falas, uma
+  por cena, `coffee1min_narracao_NN`):
+  `https://raw.githack.com/erik-magalhaes/GitJoy/1e53af92fdcdf6c3f1f193e0f60d89066b6b9990/coffee-reels/gravador/Gravar_narracao_Coffee1min.html`.
+  Ao receber: tratar a voz → encaixar cada fala no início da sua cena (esticar/encolher a cena se precisar), legenda pela
+  fala real, recalcular o carimbo.
+  **2ª rodada (15/nov, Erik):** SAIU o 074437 (fila de pedidos passando; não era o que ele queria mostrar) e o leque de
+  cartas (083950) foi para o FIM da explicação = "quem tem MAIS CAFÉS ENTREGUES (cartinhas de pedido) ganha". Ordem:
+  barista 3 casas → ingredientes/xícara → receita + entrega → fila anda/penalidade → leque = vitória. 65,6 s, explicação
+  43 s. Gravador agora com 5 falas (mesmo arquivo e nomes; link com o hash do commit novo). O fecho corta em 3,25 s,
+  logo depois do "...Coffee Rush!" (o resto é ela desligando a câmera) → 63,9 s. No começo do 075750 ela APONTA as
+  casinhas de listra amarela = ingrediente raro, vem em DOBRO (selo); "sem diagonal" foi pro 075447. A moedinha amarela
+  (075656 ~9 s) = FICHA DE PRESSA: +1 movimento além dos 3; quem PERDE um pedido ganha 1 ficha (regra dita por ele; nota
+  fixa embaixo, `NOTAS`). **3ª (15/nov): eu tinha entendido errado: o que saía era o tabuleiro de INGREDIENTES como 1º plano.
+  Ordem certa: cafeteria (074437, baristas + pedidos do lado) → apontar casinhas + andar 3 (075750) → ingredientes (075447)
+  → receita/entrega → fila/pressa (075656) → leque (083950) = vitória.** **4ª: saiu o 075750 (meeple AZUL); fica só o
+  075447 (meeple ROSA andando 3 casas).** **5ª: o 075750 VOLTOU só com o dedo apontando (0–3,4 s), DEPOIS da entrega e ANTES
+  da fila: casas de FITA DOURADA = quando você LIBERA O PODER na cafeteria, pega 2 do ingrediente (selo + nota). Falta o
+  vídeo dele VIRANDO as cartinhas de poder da cafeteria (não estava no Drive): entra logo antes do 075750 (`# PODERES`).**
+  69,6 s, explicação 49,5 s; gravador com 6 falas. **6ª (15/nov): chegou o 075858 (Drive, VID_20261114_075858): ela
+  VIRA a peça de poder na cafeteria (0–8,3 s; depois a câmera vai pro balcão) → entra antes do 075750, selos "PODERES
+  ESPECIAIS!" e "VIROU = PODER LIBERADO!".** **7ª: saiu de vez o 075750 (tabuleiro de ingredientes com os meeples); a
+  fita dourada virou nota embaixo do vídeo dos poderes.** 74,5 s, explicação 54,4 s. **8ª: os poderes (075858) foram
+  para DEPOIS da fila/fim da rodada (075656), logo antes do leque; falas 4 e 5 trocadas no gravador.** **9ª ("ficou
+  ótimo"): a voz da Jéssica tinha MUITA rua atrás → `arnndn` do ffmpeg com o modelo `comum/rnnn/sh.rnnn` (rnnoise-models,
+  somnolent-hogwash; o cb.rnnn comia a voz em 12 dB) a mix 0,92 + afftdn: rua nas pausas −13 a −25 dB, fala no mesmo nível.
+  Serve para qualquer gravação com barulho de fundo.** Falas finais (6) no gravador, no tempo de cada cena.
+  **NARRAÇÃO RECEBIDA (15/nov, 6 .webm nomeados):** cadeia de voz → `narracao/tmp_NN.wav` → `tratar_narracao.py` (cópia do
+  tratar_diario) → `frase_NN.wav` + `palavras.json`; a fala N entra no trecho N com `LEAD` próprio, selos acertados pela
+  fala, o vídeo dos poderes a 0,82x (`VEL`) porque a fala 5 é mais longa; legenda de 1 linha (`legenda_narracao`,
+  `CORRIGE`: Coffridge→Coffee Rush, figil→ficha). Ele mudou a fala 5: "Juntando três cartas de penalidade, você consegue
+  desbloquear poderes especiais" (mantido). Saída `out/umminuto_{legendado,sem_legenda}.mp4`, "EXPLICADO EM 56 SEGUNDOS!". **2ª:** o fecho começa em 1,15 s do 084314
+  (a fala vem em 1,35 s; ela ficava parada) e o relógio virou uma XÍCARA DE VIDRO de lado (como as do jogo) enchendo com
+  um filete de café caindo, crema com bolhinhas, cheia = 1 minuto, fumacinha no fim (`xicara_cheia`; o pedido foi da
+  Jéssica: "não gostei do jeito que tá"). Pegadinha do PIL: `rounded_rectangle` sem fill nem outline desenha em BRANCO.
+- **METRO "como se joga" em COLAGEM (`metro-reels/metro.py`, 19/nov, pedido dele: "como se fosse uma colagem"):** edição
+  deles = **Calamity Games / Queen Games (2021)**, Dirk Henn; site: Família R$ 30, 2–6 jogadores, 30 min. Peças OFICIAIS
+  DIGITAIS do **Board Game Arena** (`x.boardgamearena.net/data/themereleases/current/games/metro/250927-0126/img/`:
+  main_board_2.jpg 1480 px, tiles_2.png = 8x5 peças de 150 px (0–23 laranja com setinha = as peças do jogo; 32 = verso,
+  33 = estação central), wagons_2.png (8 cores × 4 linhas), tokens_2.png (fichas de estação 1–32)) em `assets/orig/`,
+  ampliadas 4x com Real-ESRGAN (`*_x4.png`, fora do git; refazer com `wonderland-reels/ampliar_tab.py`). Pontas dos
+  trilhos em 0,32 e 0,675 de cada lado; peça 18 = 4 retas, 17 = 4 curvas de canto, 16 = 4 retornos, 15 = 2 verticais + 2
+  retornos. Regras do Gamehelpmetro (BGA). Visual COLAGEM PARISIENSE (verde-Guimard, papel rasgado com fibra, fita
+  crepe, letras recortadas, etiquetas datilografadas Special Elite, caneta Permanent Marker, carimbos, marca-texto
+  traçando a linha; tudo pousa a 12 poses/s) — diferente da colagem azul do Becas. Mini tabuleiro 2x3 de exemplo: vagão
+  azul à esquerda de (1,0), laranja embaixo de (1,0), estação 12 em cima de (0,1); peças 18 → 17 → 15 = linha de 3 peças;
+  "proibido" = peça 17 no canto ligando 2 estações. Trilha = valsa musette de acordeão sintetizada. Prévia sem voz
+  `out/metro_previa_final.mp4` (~68 s). Gravador (arquivos `metro_narracao_NN`):
+  `https://raw.githack.com/erik-magalhaes/GitJoy/72080b41f420b8765bd5af495d731bebc9595398/metro-reels/gravador/Gravar_narracao_Metro.html`.
+  Ao receber: `narracao/raw/` → tmp_NN.wav (cadeia de voz, 44,1 kHz) → tratar (como `tikal-reels/tratar_diario.py`) →
+  `narracao/timeline.json` (cena/ini/dur/palavras, nomes em `NOMES`) → `metro.py` lê sozinho.
+- **POST-JOGO "ACHE OS 5 ERROS" (`erros-post/erros.py`, 19/nov):** ele pediu um post do feed que fosse um jogo; mandei 4
+  ideias (Taco Gato no carrossel, siga o trilho do Metro, 5 erros, bingo do jogador) e ele escolheu os 5 ERROS. Foto
+  OFICIAL das cartas do Dixit (Galápagos DIX001_02.jpg, `assets/orig/dixit_cartas.jpg`); erros feitos no script com
+  cv2.inpaint + grão (tesoura das formigas, uma bolha de sabão, uma lua do cachorro de folhas, o peixinho) e troca de cor
+  (olho da menina azul → castanho). Recolorir a roda da carroça manchava a carroça amarela: só mexer em áreas isoladas.
+  Carrossel 1080x1350 (fundo amarelo listrado, identidade da Jéssica): 1 original + selo "1", 2 alterada + selo "2", 3
+  resposta com círculos numerados + "É o DIXIT: tem na Sua Vez!"; stories 1080x1920 iguais. `out/erros/conferencia.jpg`
+  mostra cada erro antes/depois. Ideias que sobraram: Taco Gato no carrossel e siga o trilho (peças do Metro já prontas).
+- **TARDE DE JOGOS NO BECA’S ACONTECEU (20/nov/2026): 23 pessoas** (número dado pelo Erik; pode usar em peças).
+  1º evento deles: agora JÁ existe evento feito (antes: "ainda não fizeram evento"). Fotos/vídeos do dia e depoimentos só
+  com o que eles mandarem e com autorização de quem aparece. Próximos passos sugeridos: post/Reels de "obrigado" com
+  fotos reais, lembrete do cupom BECAS5 pra quem foi, nova data com o Beca’s.
+  **OBRIGADO (`becas-reels/obrigado.py`, 20/nov):** material deles subiu na RAIZ do Drive compartilhado (sem link aberto, o
+  gdown falha) → movi pelo conector pra pasta de brutos `1yGgK...` e aí o gdown baixa → `becas-reels/brutos/nov20/`.
+  180822.mp4 (46 s: mesas cheias e jogos no balcão), fotos Dixit/Hot Streak/Marrakech/Cores com Dicas, selfie dos dois na
+  porta do Beca’s (espelhada → flip). O 144913 é repost do story do @becascafe, que agradece ao **@espacofamilyheaven "por
+  nos ceder o espaço"** (o evento foi num espaço cedido; perguntar antes de citar). Reels/Stories 25 s: "FORAM 23 PESSOAS!"
+  contando, cortes na batida com MESAS CHEIAS / GENTE APRENDENDO / MUITA RISADA / E COMPETIÇÃO / CAFÉ + JOGO, "E MUITO JOGO
+  NA MESA!", selfie + OBRIGADO, final guarda-chuvinhas "VAI TER PRÓXIMA? Comenta EU VOU" (Stories: espaço p/ caixinha de
+  pergunta). `--fotos` → carrossel 6 telas (capa selfie, 4 polaroides, final) + stories.
+  **2ª rodada (20/nov, ele):** NÃO falar quantas pessoas foram (tirar o "23"); destaques = **6 horas de diversão, 35 jogos
+  diferentes, muita gente nova**; agradecer **@becascafe e @espacofamilyheaven** (confirmado por ele); SEM o "vai ter
+  próxima?" e SEM carrossel (ele não gostou da dinâmica) → só Reels (`obrigado.py`, final "VALEU DEMAIS!") + **stories
+  PESSOAL dele** (`story_pessoal.py`, 12,8 s, "sem frufru": só as cenas + uma frase por vez em texto branco simples tipo
+  Instagram, sem logo/selo/tela final: "que tarde!" / "6 horas de jogo, 35 jogos diferentes e muita gente nova" / selfie
+  "obrigado @becascafe e @espacofamilyheaven").
+  **3ª rodada (21/nov):** ele mandou pelo chat mais um vídeo (`brutos/nov20/053620.mp4`, 9 s, 720p = repost do story do
+  @becascafe com o adesivo "LET'S PLAY!" e a marcação embutidos: guarda-chuvinhas → salão vazio → mesa com os jogos) →
+  ABERTURA do Reels (6,6 s a 1,3x) com "ANTES DE ABRIR AS PORTAS..." e "TUDO PRONTO PRA JOGAR!", depois o resto igual
+  (`D_INTRO`, `quadro()` desloca o tempo). 31,8 s.
+  **4ª (21/nov, ele): "não é só agradecimento, é sobre o EVENTO, divulgação de como foi legal"** → rótulos da montagem
+  MESAS CHEIAS / GENTE NOVA EM CADA MESA / A GENTE ENSINOU TUDO / MUITA RISADA... / ...E COMPETIÇÃO! / CAFÉ + JOGO, selo com o
+  nome do jogo nas fotos (`NOME_FOTO`), selfie com "FOI DEMAIS!", final = logo da Sua Vez + "QUER UMA TARDE ASSIM NO SEU
+  EVENTO?" + "a gente leva os jogos e ensina todo mundo" + WhatsApp, e o agradecimento (quem veio, @becascafe,
+  @espacofamilyheaven) só no pé. Chat: `out/chat/tarde_de_jogos_reels.mp4`.
+- **DOMINGO DE JOGOS MENSAL NO BECA’S (21/nov, em negociação):** a dona sugeriu um domingo por mês (o café NÃO abre
+  domingo). Ela queria R$ 60 (R$ 45 consumação + R$ 15 deles); o Erik propôs **R$ 40 = R$ 25 de consumação + R$ 15 da Sua
+  Vez** (sem custo pra eles, serve de vitrine) e ela "meio concordou". Dezembro: 6/12 é aniversário da filha deles; opções
+  13/12 ou 20/12. Minha recomendação: **13/12** e fixar o **"2º domingo do mês"** (13/12, 10/1, 14/2 — carnaval 2027 é 6–9/2),
+  pré-venda por Pix com mínimo combinado com o café até a quinta anterior. Esperando a decisão deles.
+  **Regras decididas pelo Erik (22/nov):** diferente da tarde de 20/11 (que aceitava pagar na hora), agora é **ESCASSEZ: no máx.
+  30 vagas** (aqui o "só 30 vagas" VAI na arte, com contador de vagas), **pagamento SÓ antecipado** (Pix) e **mínimo de 15
+  pessoas**, senão cancela e reembolsa. Sugeri: prazo do mínimo na quinta anterior, lista de espera, vaga transferível pra
+  amigo (sem reembolso por desistência depois do prazo) e stories de "restam N vagas" só com números reais.
+  **O mínimo de 15 é INTERNO (ele, 22/nov): NUNCA aparece nas peças nem nas legendas.** Comunicação = vagas contadas.
+  **Kit (`becas-reels/domingo.py`, 22/nov):** peça-chave QUADRO DE VAGAS (painel de madeira com 30 ingressinhos 01–30;
+  vendidos levam carimbo RESERVADA). Reels/Stories 23 s: abre com o 053620 ("LEMBRA DA NOSSA TARDE DE JOGOS?") → 4 cortes
+  do 180822 (mesas cheias, gente nova, risada, 35 jogos) → "E AGORA... VAI SER TODO MÊS!" → DOMINGO DE JOGOS (guarda-
+  chuvinhas) → "SÓ 30 VAGAS!" com os ingressinhos entrando → convite (data, hora, endereço, R$ 40 / R$ 25 consumação,
+  "vaga só com pagamento antecipado"). `--fotos` → `out/domingo/`: post, story, `vagas/restam_NN.png` (30, 25, 20, 15, 10,
+  5, 3, 2, 1, 0 = ESGOTADO + lista de espera; `--vagas N` faz qualquer número) e `confirmacao/vaga_NN.png` (WhatsApp de
+  quem pagou). DATA/HORA/PRECO em constantes no topo: **13/12, 14h–19h e R$ 40 ainda A CONFIRMAR com o café.**
+  **Mais divulgação (`becas-reels/domingo_mais.py`, 22/nov, "usa vídeos e fotos de jogos"):** Reels/Stories 21,5 s "DOMINGO É
+  DIA DE..." (gancho "O QUE FAZER NO DOMINGO EM MAUÁ?" na parede do Beca’s → 9 cortes na batida alternando café e jogo:
+  aprender jogo novo/Art Society, café com doce/vitrine, rir com os amigos e conhecer gente nova/20-11, ganhar (ou não)/Sushi
+  Go, bolo nuvem, desvendar mistério/Unlock (início 2,6 s; antes a mesa preta enchia meia tela), pilotar um avião/Sky Team,
+  pintar um quadro/Canvas → "...JOGO NO BECA’S CAFÉ!" + quadro de vagas → convite do `domingo.cta`) e carrossel "O QUE
+  ROLA NO DOMINGO DE JOGOS?" (6 telas + stories: capa com 3 polaroides, A GENTE ENSINA, 35 JOGOS NA MESA, CAFÉ + JOGO,
+  VEM DO SEU JEITO, SÓ 30 VAGAS). Polaroide paisagem de vídeo em pé: acertar `ay` pra não cortar rosto.
+  **Tema de FIM DE ANO (22/nov, ele: "é dezembro e não tem nada de Natal, Ano Novo, amigo secreto"):** `domingo.NATAL = True`
+  põe pisca-pisca piscando no alto (`_luzes`, 3 barrigas de fio, lâmpadas coloridas com brilho), estrelinhas
+  douradas/vermelhas/verdes no fundo (`_estrelas`) e o selo vermelho "ESPECIAL DE FIM DE ANO" (`selo_fim_de_ano`) em
+  todas as peças do domingo; o "comenta" virou "quem vem na sua confra?". Carrossel novo `becas-reels/domingo_natal.py`
+  (7 telas + stories): A CONFRA DE FIM DE ANO DA SUA TURMA (presentes desenhados só como enfeite) → AMIGO SECRETO? FAZ NA
+  MESA! (papelzinho "você tirou: ???") → JOGO DE FESTA PRO GRUPO TODO (Hitster, Telma, Say my Name, Dixit, Flip 7,
+  Mascarade, Tapalavras) → O LANCHE DA CONFRA (bolo nuvem) → FECHA O ANO JOGANDO (20/11) → VEM COM A TURMA TODA (quadro de
+  vagas) → convite "Marca aqui quem tem que vir na sua confra!". Não prometi juntar o grupo na mesma mesa (confirmar).
+  **DESAFIO HITSTER ENTRE MESAS (22/nov, ele adorou; `becas-reels/desafio_hitster.py` → `out/desafio/`):** às 16h todo
+  mundo para ~20 min, cada MESA é um time; o Erik toca a música pelo app (sem mostrar a carta), a mesa escreve o ANO e
+  levanta a folha no 3-2-1; ano certo 3 / até 2 anos 2 / década certa 1; 10 músicas; desempate = música extra, ganha quem
+  chegar mais perto. Prêmio: **VOUCHER DO BECA’S pra próxima visita** para a mesa campeã (ideia dele; valor e validade a
+  combinar com o café → o voucher sai em branco). Peças: post + story (fundo de Natal, caixa oficial do Hitster, notinhas
+  desenhadas porque as fontes não têm ♪), placar A3 e A4 (mesas 1–8 × músicas 1–10), folha de palpites por mesa (10
+  quadrões), vouchers 9x5 numerados 01–10 (10 por A4), roteiro do apresentador (A4).
+- **Carrossel "QUAL JOGO LEVAR PRO NATAL?" (`feed-sua-vez/natal_familia.py`, 23/nov, pedido da Jéssica: "se sua família tem
+  muita briga, muita fofoca, gosta de festa..."):** conceito MESA DA CEIA vista de cima (toalha xadrez escocês VERMELHO E VERDE-ESCURO (ela amou; pediu o verde mais escuro: 10,74,40) — 1ª versão era vichy vermelho que ficou rosado; ela pediu "tons vermelho e verde" —, pisca-pisca,
+  cartão de lugar com o tipo de família, PRATO com a caixa oficial, talheres, bolinhas de Natal, cartão "LEVA:" com frase e
+  ficha do site). Briga → Passaporte Mundo (cooperativo), fofoca → Spyfall, festa → Happy Salmon, criançada → Uga Buga,
+  quem rouba no jogo → Coup, só pensa na ceia → Sushi Go!; final "ALUGA E LEVA PRA CEIA!" (retire em Mauá ou receba em
+  casa, 5 dias, link na bio, "Marca aqui a sua família!"). 8 telas + stories (o último com "aluga aqui:" + seta).
+- **Vídeo GRAVADO "Qual jogo eu daria de presente pra..." (23/nov, ideia escolhida pela Jéssica; ela grava SOZINHA, fora de
+  casa, SEM as caixas):** pote de papeizinhos com PESSOAS (mãe, sogra, cunhado, criança, amigo competitivo...), ela sorteia,
+  fala o jogo e o porquê; ela fica à ESQUERDA do quadro e a caixa OFICIAL entra à direita na edição quando ela diz o nome.
+  Gancho sugerido: "Eu vou sortear uma pessoa e escolher na hora o jogo de tabuleiro que eu daria de presente pra ela."
+  Esperando a gravação no Drive de brutos.
+- **DOMINGO DE JOGOS APROVADO PELO CAFÉ (24/nov): domingo, 13/12/2026, 13h–19h, R$ 40 (R$ 25 de consumação), máx. 30
+  vagas, pagamento só antecipado.** `domingo.py` já com `HORA = "DAS 13H ÀS 19H"`. Ela pediu o material TODO DO ZERO com
+  tema de Natal/festas (as peças de 22/nov viram rascunho; mostrar conceitos antes de fazer). Mínimo de 15 = INTERNO.
+  **Cronograma** em `becas-reels/cronograma_domingo.md`: rodízio EVENTO → JOGO → SITE a cada 3 dias de 24/11 a 10/12,
+  evento todo dia de 11 a 14/12 (últimas vagas, é amanhã, é hoje, como foi); "restam N" só com número real; prazo interno
+  do mínimo = quinta 10/12. Peças novas NÃO usam prazo progressivo nem assinatura (indefinidos desde 13/nov).
+- **Prêmio do Desafio Hitster TROCADO (24/nov, eles): 1 VOUCHER DE LOCAÇÃO POR PESSOA da mesa campeã** = 1 jogo Pocket ou
+  Família por 5 dias, válido até 31/01/2027, resgate pelo WhatsApp, não acumula (não é mais o voucher do café).
+  `desafio_hitster.voucher(n)` (9x5 cm, faixa vermelha listrada com logo e Nº, picote) e post/story/placar/roteiro atualizados.
+- **KIT FINAL DO DOMINGO 13/12 (24/nov), estilo aprovado = guarda-chuvinhas + pisca-pisca sobre FUNDO VERMELHO natalino
+  com flocos de neve** (`domingo_carrossel.fundo_natal("vermelho")`; `domingo.VERMELHO = True` põe tudo do domingo nele;
+  no vermelho, selo e pílulas que eram vermelhas viram VERDE (24,110,66) e "SÓ 30 VAGAS!" vira AMARELO). Selo = "ESPECIAL
+  DE NATAL" (não "fim de ano"). CTA = "RESERVE PELO LINK NA BIO" (WhatsApp só na lista de espera do ESGOTADO). NUNCA "pagou,
+  garantiu / acabou, acabou / vaga só com pagamento antecipado" nas artes: usar "VAGAS LIMITADAS: FAÇA SUA RESERVA!".
+  - `domingo_festa.py` (Reels/Stories 33 s, ELA AMOU): guarda-chuva rosa segura uma POLAROIDE pendurada que balança e
+    alterna cenas do evento (repost do @becascafe `brutos/nov24/festa.mp4` = nov20/144913, recortado `crop=576:770:72:215`
+    sem a moldura do story) com cenas do café (nov06: guarda-chuvas, bolo nuvem, vitrine, parede) → título → quadro de
+    vagas → convite. A versão "aesthetic" (`domingo_aesthetic.py`, serifada/bokeh) ela achou que "perdeu" o estilo.
+  - `domingo_carrossel.py` "VAI TER MAIS UM!" (7 telas + stories): capa com guarda-chuvas do café + selfie deles "com
+    monitoria!", lembra (mesas), como funciona (jogos expostos 112018 recortado de perto), 35 jogos (Cores com Dicas, Hot
+    Streak, DIXIT DISNEY = 151857; Marrakech = 151926), DESAFIO HITSTER "VALENDO PRÊMIO" (sem dizer o prêmio), 30 vagas,
+    convite. Fundo PARADO próprio (guarda-chuvas retos desenhados 3x e reduzidos; o do vídeo saía torto/serrilhado).
+    O coraçãozinho do story do Beca’s sai com `sem_coracao` (inpaint em ~285,415 do quadro recortado). Fotos boas: sem
+    ninguém olhando pra câmera, nada escondendo o rosto, nada de "dancinha".
+  - Pacote mandado: `out/pacote_domingo/` (1 carrossel, 2 post/story/vagas/confirmações, 3 desafio + PDFs) + vídeos.
+  - Jéssica gravou o "Qual jogo eu daria de presente pra..." (7 vídeos VID_20261123_06/07xxxx → `becas-reels/brutos/nov23/`,
+    fora do git): AINDA NÃO EDITADO (no cronograma: 1/12).
+- **RESTO DO CRONOGRAMA DO DOMINGO FEITO (24/nov, "pode começar a criar todos"), tudo no estilo vermelho:**
+  `domingo_natal.py` (27/11 confra, refeito no fundo parado vermelho), `desafio_reels.py` (30/11 Reels/Stories do Desafio
+  Hitster, 22 s: polaroide → DESAFIO HITSTER + caixa + 3 passos → VALENDO PRÊMIO! com confete → convite),
+  `domingo_mais.py --fotos` (3/12 "o que rola", fundo vermelho), `contagem_domingo.py semana|ultimas|amanha|hoje`
+  (6, 11, 12 e 13/12: calendário DEZEMBRO/13 pendurado no guarda-chuva, título, info; Reels + Stories 11 s + post e
+  story PNG em `out/contagem/`), `vagas_reels.py --vendidas N` (9/12 "as vagas estão acabando": carimbos RESERVADA até o
+  número REAL → RESTAM N; só renderizar quando eles passarem o número). Pacote em `out/pacote_domingo/` (4 a 6 + videos_contagem).
+- **"Qual jogo eu daria de presente pra..." (`becas-reels/presente.py`, 24/nov):** cortes pelas palavras do Whisper
+  (`brutos/nov23/transc.json`), etiqueta kraft "PRA: ..." no alto, caixa OFICIAL com nome em pílula embaixo à direita
+  na palavra do jogo, legenda palavra a palavra agrupada por bloco, pisca-pisca no alto, "E VOCÊ?" + tela final vermelha.
+  Mãe → Art Society, Eric → "TAKTA" (Whisper small/medium; NÃO está no site; esperando o nome certo → `JOGO_ERIK`),
+  irmão → Hitster, sogra/sogro → Flip 7 (caixa da Vingança), sobrinha 6 anos → Tapalavras, cunhada → Root (ela diz
+  "Ruti"). ~131 s.
+
+- **ANÁLISE DO INSTAGRAM (24/nov, prints dele):** Status da conta OK (sem bloqueio). 30 dias: 66 mil visualizações
+  (+1,4%), 25,4 mil contas, 41.959 seguidores (−220), 1.464 visitas ao perfil, 40 toques no link (2,7%). Posts
+  (carrossel) 32,1 mil > Reels 13,4 mil > Stories 12,2 mil. Reels de 300 a 2 mil: os melhores têm GENTE REAL (top 10 do
+  Erik 1.778, casal 1.738, Trolley 1.733, Take Time 1.194) ou o EVENTO local (Bora jogar num café 2.027, gostinho 1.880);
+  os piores são animação/explicação sem rosto (Marvel 294, eventos 314, alerta 339, tarô 373, Arquitetos 417).
+  Diagnóstico: alcance baixo por base de seguidores que não interage (41,9 mil seguidores × ~500 views por Reels), não
+  bloqueio. Recomendado: mais rosto/gravado, Reels de teste (só p/ não seguidores), gancho com gente nos 2 s, fixar posts
+  melhores (tirar o fixado só com o logo laranja), bio com chamada pro link.
+  **Público (print 24/nov):** cidades = São Paulo 13,5%, Rio 6,7%, BH 1,9%, Fortaleza 1,7%, Curitiba 1,6% (Mauá/ABC fora
+  do top 5 → base NACIONAL, quase toda fora da área de entrega); 56% mulheres, 25–34 anos 53%, 35–44 28%; seguidores
+  caindo devagar e sem parar; mais ativos 18h–21h (ter, seg, qui). Recomendado: postar ~18h, localização Mauá/Santo
+  André em todo post, collab com parceiros locais (Beca’s), impulsionar só com público de raio no ABC + SP.
+- **AZUL MINI EM 1 MINUTO (`azul-reels/`, 25–26/nov):** edição Galápagos AZU501 (2–4 jogadores, 8+; NÃO achei no site —
+  avisei). 1ª versão só animada (`azul.py`, estilo ADESIVOS fofos da referência "Cute & Groovy" que ele mandou). Depois
+  ELE GRAVOU a mesa (7 vídeos VID_20261126_07xxxx → `brutos/nov26/`, fora do git) → `azul1min.py`: fala de ~100 s
+  enxugada por frases (`CORTES`) + pausas ≤0,15 s + 1,2x → explicação de 58 s; abertura da Jéssica (075617, câmera da
+  frente → hflip, 1,0x); ASTERISCO pedido por ele na parte do chão/pontos negativos ("o azulejo QUEBRA quando não cabe
+  na linha da esquerda"). **Ele: "os stickers a gente faz em outro tipo de vídeo; coloca na temática do jogo"** →
+  `tema.py`: azulejos portugueses azul e branco, placas creme com moldura azul dupla e pontas em losango (letreiro da
+  caixa), DM Serif Display, relógio = MOSTRUÁRIO (disco terracota com mandala), as 5 peças do jogo nos cantos.
+  Saída `out/azul1min_{legendado,sem_legenda}_final.mp4` (75 s, −15,5 LUFS) + `out/chat/`. **Ambiente novo (26/nov):**
+  instalar gdown, opencv-python-headless, imageio-ffmpeg, faster-whisper, qrcode, scipy no /usr/bin/python3.
+  **2ª rodada ("cortou o S de todos os finais: azuis virou azul"):** o Whisper marca o fim da palavra ANTES do "s"
+  → o fim de cada pedaço agora segue a ENERGIA (total + agudos, `borda()`), até 0,7 s depois da palavra, sem passar da
+  palavra seguinte. **Regra para cortes de fala: nunca usar o fim do Whisper sozinho; conferir o agudo no fim de cada
+  pedaço.** Para caber em 60 s saíram "E a pontuação é o seguinte" e "aí é hora de contar os pontos finais...". 77,7 s.

@@ -3,7 +3,7 @@
 feriado de 20/11, que não atrapalha o sábado do café). 5/nov: FECHADO = sexta, 20/11 (feriado), a partir das 13h,
 Rua Sorocaba, 35, Mauá (DATA e ENDERECO abaixo).
 Decisões dele: ingresso R$ 30 com R$ 15 de consumação no café, ~30 vagas, inscrição pelo WhatsApp da loja ou na hora,
-no café; cupom de 10% no 1º aluguel para quem participar.
+no café; cupom de 5% no 1º aluguel para quem participar.
 
 Conceito novo: os GUARDA-CHUVINHOS COLORIDOS que ficam pendurados no teto do Becas (o detalhe que ele viu no perfil),
 pendurados no alto da arte, nas cores da Sua Vez; fundo creme quente; caixas oficiais do acervo em leque.
@@ -30,8 +30,8 @@ MAR, PET, LAR, AMA, BR = E.MARROM, E.PETROLEO, E.LARANJA, E.AMARELO, E.BRANCO
 ROSA = (219, 39, 119)
 CREME = (255, 247, 233)
 WHATS = "(11) 97793-3910"
-SITE = "https://suavez.acervodejogos.com.br/"
-CUPOM = "BECAS10"  # sugestão: eles precisam criar o cupom no site (10% no 1º aluguel)
+SITE = "https://suavez.rejoy.com.br/"
+CUPOM = "BECAS5"  # 13/nov: ele mudou para 5% (padrão JOGAMAUA5 / JOGAABC5); precisa ser criado no site
 JOGOS = ["hitster", "dixit", "telma", "tapalavras", "say_my_name", "uga_buga"]
 
 
@@ -232,7 +232,7 @@ def flyer():
     q = qr(118)
     img.paste(q, (96, 1379))
     d.text((240, 1408), "Conheça o nosso acervo:", font=E.fig(32, 800), fill=MAR, anchor="lm")
-    d.text((240, 1458), "suavez.acervodejogos.com.br · @suavez_bg", font=E.fig(30, 700), fill=PET, anchor="lm")
+    d.text((240, 1458), "suavez.rejoy.com.br · @suavez_bg", font=E.fig(30, 700), fill=PET, anchor="lm")
     return img
 
 
@@ -281,13 +281,13 @@ def vale(num=None):
 
 
 def cupom():
-    """Cartão que a pessoa LEVA pra casa (5 x 5 cm, igual ao vale): 10% no 1º aluguel + QR do site."""
+    """Cartão que a pessoa LEVA pra casa (5 x 5 cm, igual ao vale): 5% no 1º aluguel + QR do site."""
     img = Image.new("RGBA", (VL, VL), BR + (255,))
     d = ImageDraw.Draw(img)
     d.rectangle((0, 0, VL, 18), fill=PET)
     d.rectangle((0, VL - 18, VL, VL), fill=PET)
     d.rectangle((0, 0, VL - 1, VL - 1), outline=(190, 190, 190), width=2)  # linha de corte
-    d.text((VL / 2, 92), "10% OFF", font=E.lilita(112), fill=LAR, anchor="mm", stroke_width=5, stroke_fill=MAR)
+    d.text((VL / 2, 92), "5% OFF", font=E.lilita(112), fill=LAR, anchor="mm", stroke_width=5, stroke_fill=MAR)
     d.text((VL / 2, 168), "no seu 1º aluguel", font=E.fig(34, 900), fill=MAR, anchor="mm")
     q = qr(250)  # ~2,1 cm impresso
     img.paste(q, (36, 210))

@@ -84,3 +84,15 @@ tikal-reels/narracao_diario/raw/
 tikal-reels/narracao_diario/tmp_*.wav
 videogame-reels/brutos/
 videogame-reels/out/
+mascote/out/
+mascote/assets/folhas/*_x4.png
+banners/out/
+proposta-evento/out/
+metro-reels/out/
+metro-reels/assets/orig/*_x4.png
+metro-reels/narracao/raw/
+metro-reels/narracao/tmp_*.wav
+erros-post/out/
+azul-reels/out/
+azul-reels/assets/orig/
+azul-reels/brutos/
