@@ -76,7 +76,7 @@ def faixa_bf(w=900, s=118):
     return b.rotate(-4, expand=True, resample=Image.BICUBIC)
 
 
-def carimbo(txt="GRÁTIS", s=64, ang=14):
+def carimbo(txt="ALUGUEL R$ 0", s=64, ang=14):
     f = E.lilita(s)
     tw = ImageDraw.Draw(Image.new("L", (1, 1))).textlength(txt, font=f)
     w, h = int(tw + 60), int(s * 1.45)
@@ -136,7 +136,7 @@ def story_promo():
     fb = faixa_bf()
     centro(img, fb, W / 2, y)
     y += fb.height - 10
-    t = E.titulo("ALUGUE 3 JOGOS,\nO MAIS BARATO\nÉ POR NOSSA CONTA!", 92, cor=BRANCO, larg_max=1000)
+    t = E.titulo("ALUGUE 3 JOGOS\nE PAGUE SÓ 2!", 92, cor=BRANCO, larg_max=1000)
     centro(img, t, W / 2, y)
     y += t.height - 10
     cx = tres_caixas(270)
@@ -156,7 +156,7 @@ def story_como():
     centro(img, t, W / 2, y)
     y += t.height + 10
     passos = [("1", "Escolha 3 jogos ou mais no site", E.LARANJA),
-              ("2", "No carrinho, o mais barato sai de graça", E.PETROLEO),
+              ("2", "No carrinho, o aluguel do mais barato fica por nossa conta", E.PETROLEO),
               ("3", "Retire em Mauá ou receba em casa", (120, 70, 160))]
     for n, txt, cor in passos:
         card = E.bloco(900, 170, (255, 248, 232), raio=34, ow=7, sombra=10)
@@ -185,7 +185,7 @@ def story_ultimo():
     t2 = E.titulo("BLACK FRIDAY ACABA HOJE,\nÀS 23:59", 66, cor=BRANCO, larg_max=980)
     centro(img, t2, W / 2, y)
     y += t2.height + 10
-    t3 = E.texto("3 jogos no carrinho = o mais barato sai de graça", 40, cor=BRANCO, peso=800, larg_max=880)
+    t3 = E.texto("3 jogos no carrinho: o aluguel do mais barato fica por nossa conta", 40, cor=BRANCO, peso=800, larg_max=880)
     centro(img, t3, W / 2, y)
     cx = tres_caixas(230)
     centro(img, cx, W / 2, y + t3.height - 20)
@@ -201,7 +201,7 @@ def post():
     img.alpha_composite(lg, (W - lg.width - 36, 36))
     fb = faixa_bf(820, 108)
     centro(img, fb, W / 2 - 40, 60)
-    t = E.titulo("ALUGUE 3 JOGOS,\nO MAIS BARATO\nÉ POR NOSSA CONTA!", 88, cor=BRANCO, larg_max=1000)
+    t = E.titulo("ALUGUE 3 JOGOS\nE PAGUE SÓ 2!", 88, cor=BRANCO, larg_max=1000)
     centro(img, t, W / 2, 60 + fb.height - 10)
     cx = tres_caixas(270)
     centro(img, cx, W / 2, 60 + fb.height + t.height - 60)
@@ -219,7 +219,7 @@ def post_como():
     img.alpha_composite(t, (50, 60))
     y = 60 + t.height + 30
     passos = [("1", "Escolha 3 jogos ou mais no site", E.LARANJA),
-              ("2", "No carrinho, o mais barato sai de graça", E.PETROLEO),
+              ("2", "No carrinho, o aluguel do mais barato fica por nossa conta", E.PETROLEO),
               ("3", "Retire em Mauá ou receba em casa", (120, 70, 160))]
     for n, txt, cor in passos:
         card = E.bloco(900, 170, (255, 248, 232), raio=34, ow=7, sombra=10)
@@ -271,7 +271,7 @@ def quadro_reels(t, stories=False):
         f2 = fb.resize((int(fb.width * s), int(fb.height * s)), Image.BICUBIC)
         centro(img, f2, W / 2, 330 + (fb.height - f2.height) / 2)
     # 0,8: título linha a linha
-    linhas = ["ALUGUE 3 JOGOS,", "O MAIS BARATO", "É POR NOSSA CONTA!"]
+    linhas = ["ALUGUE 3 JOGOS", "E PAGUE SÓ 2!"]
     y = 330 + fb.height
     for i, l in enumerate(linhas):
         kk = ease((t - 0.8 - i * 0.35) / 0.3)
@@ -299,7 +299,7 @@ def quadro_reels(t, stories=False):
     # 5,0: regra e prazo
     if t > 5.0:
         a = ease((t - 5.0) / 0.4)
-        tx = E.texto("3 jogos ou mais no carrinho:\no mais barato sai de graça!", 44, cor=BRANCO, peso=800, larg_max=900)
+        tx = E.texto("3 jogos ou mais no carrinho:\no aluguel do mais barato fica por nossa conta!", 44, cor=BRANCO, peso=800, larg_max=900)
         tx2 = tx.copy()
         tx2.putalpha(tx.getchannel("A").point(lambda v: int(v * a)))
         centro(img, tx2, W / 2, 1340)
